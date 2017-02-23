@@ -1,0 +1,28 @@
+@import "../../style/variable";
+
+.plan-intro {
+  padding-top: 25px;
+  height: ~"calc(100% - 25px)";
+  > .text {
+    font-size: 13px;
+    color: @color_context;
+    &::before {
+      content: '·';
+      margin-right: 2px;
+    }
+  }
+  > .groups {
+    font-size: 20px;
+    color: #55cbcb;
+    line-height: 40px;
+    margin: 25px 0 35px 0;
+    text-align: center;
+  }
+  > .date {
+    font-size: 20px;
+    color: #55cbcb;
+    line-height: 40px;
+    margin: 25px 0 25px 0;
+    text-align: center;
+  }
+}

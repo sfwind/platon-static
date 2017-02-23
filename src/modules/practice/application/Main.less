@@ -1,0 +1,142 @@
+@import "../../../style/variable";
+
+.application {
+  .intro-container {
+    overflow: auto;
+    .application-context {
+      color: @color_context;
+      .section1 {
+        font-size: 12px;
+        line-height: 22px;
+      }
+      .section2 {
+        font-size: 13px;
+        line-height: 24px;
+      }
+    }
+    .application-title {
+      text-align: center;
+      margin: 18px 0;
+      position: relative;
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      > span {
+        font-size: 16px;
+        color: #999999;
+        margin-left: 4px;
+      }
+      &::before {
+        content: " ";
+        position: absolute;
+        left: 15px;
+        margin-top: 12px;
+        width: ~"calc(50% - 70px)";
+        border-bottom: 1px solid #cccccc;
+      }
+      &::after {
+        content: " ";
+        position: absolute;
+        right: 15px;
+        margin-top: 12px;
+        width: ~"calc(50% - 70px)";
+        border-bottom: 1px solid #cccccc;
+      }
+    }
+    > .knowledge-link {
+      color: #55cbcb;
+      font-size: 13px;
+      height: 30px;
+      margin-top: 15px;
+    }
+    > .submit-bar {
+      margin-top: 25px;
+      width: 100%;
+      background-color: #f5f5f5;
+      color: #666666;
+      font-size: 11px;
+      > .padding {
+        margin-left: 15px;
+      }
+    }
+    > .no-comment{
+      font-size: 11px;
+      text-align: center;
+      > .submit{
+        margin: 15px auto 0;
+        width: 70px;
+        background-color: @color_theme;
+        color: #ffffff;
+        border-radius: 2px;
+        height: 22px;
+        line-height: 22px;
+      }
+      > .content{
+        margin-top: 15px;
+        margin-bottom: 20px;
+        > .text{
+          line-height: 20px;
+          color: #666666;
+        }
+      }
+    }
+    > .has-comment{
+      > .submit-cell {
+        margin-top: 15px;
+        > .submit-avatar {
+          display: inline-block;
+          vertical-align: top;
+          height: 30px;
+          width: 30px;
+          > .submit-avatar-img {
+            height: 30px;
+            width: 30px;
+            border-radius: 15px;
+          }
+        }
+        > .submit-area {
+          display: inline-block;
+          margin-left: 5px;
+          width: ~"calc(100% - 30px - 5px)";
+          > .submit-head {
+            height: 30px;
+            > .submit-name {
+              display: inline-block;
+              color: #666666;
+              font-size: 13px;
+            }
+            > .right{
+              float: right;
+              display: inline-block;
+              > .submit-icon {
+                float: left;
+                display: inline-block;
+                margin-right: 5px;
+                margin-top: 2px;
+              }
+              > .submit-button {
+                display: inline-block;
+                color: #55cbcb;
+                font-size: 13px;
+                line-height: 30px;
+              }
+            }
+          }
+          > .submit-content {
+            font-size: 13px;
+            margin-top: 2px;
+            width: 100%;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+          }
+          > .submit-time {
+            font-size: 13px;
+            color: #999999;
+          }
+
+        }
+      }
+    }
+  }
+}
