@@ -32,7 +32,6 @@ const routes = (
     <Route path="practice/challenge" component={Challenge}/>
     <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
     <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
-    <Route path="test" component={Test}/>
   </Route>
 )
 

@@ -18,7 +18,7 @@ export default class ProblemViewer extends React.Component<any, any> {
           },
           {
             label: '想好了',
-            onClick: ()=>this.props.submitProblem(this.props.problem.id)
+            onClick: ()=>{this.setState({showAlert:false});this.props.submitProblem(this.props.problem.id)}
           }
         ]
       }

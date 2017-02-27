@@ -4,6 +4,10 @@ export function loadProblemList() {
   return pget(`/rise/problem/load`)
 }
 
+export function loadUnChooseList(){
+  return pget(`/rise/problem/list/unchoose`)
+}
+
 export function submitProblemList(params) {
   return ppost(`/rise/problem/select`, params)
 }

@@ -4,9 +4,9 @@ import Animate from "rc-animate"
 import QueueAnim from 'rc-queue-anim';
 import AssetImg from "../../components/AssetImg";
 import {remove} from "lodash";
-import {loadProblemList, createPlan} from "./async";
+import {loadUnChooseList, createPlan} from "./async";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
-import {merge, fill, get} from "lodash";
+import {merge, fill, get,isNull} from "lodash";
 import ProblemViewer from "./components/ProblemViewer"
 import {connect} from "react-redux";
 
@@ -34,7 +34,7 @@ export class ProblemPriority extends React.Component<any,any> {
   componentWillMount() {
     const {dispatch} = this.props
     dispatch(startLoad())
-    loadProblemList().then(res => {
+    loadUnChooseList().then(res => {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
@@ -70,8 +70,12 @@ export class ProblemPriority extends React.Component<any,any> {
     createPlan(problemId).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
-      if (code === 200) this.context.router.push({pathname: '/rise/static/plan/intro', query: {id: msg}})
-      else dispatch(alertMsg(msg))
+      if (code === 200) {
+        this.context.router.push({pathname: '/rise/static/plan/intro', query: {id: msg}})
+      } else {
+        dispatch(alertMsg(msg))
+        this.setState({showProblem:false});
+      }
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
@@ -83,7 +87,7 @@ export class ProblemPriority extends React.Component<any,any> {
 
 
     const getCatalogBox = (catalog, seq) => {
-      const {problemList} = catalog;
+      const problemList = isNull(catalog.problemList)?[]:get(catalog,"problemList",[]);
       return (
         <div className="swipe-box"
              style={{backgroundImage:`url(${catalog.pic})`,zIndex:`${seq+200}`,
@@ -91,17 +95,17 @@ export class ProblemPriority extends React.Component<any,any> {
              key={`swipeBox${seq}`}
         >
           <div className="swipe-box-mask" style={{opacity:`${catalogOpen[seq]?'0.18':'0.25'}`}}></div>
-          <div className="swipe-header">
+          <div className="swipe-header" style={{margin:`${catalogOpen[seq]?'30px 15px 0px':'30px 15px 15px'}`}}>
             <div className="catalog-name">{catalog.name}</div>
             <div onClick={(e)=>this.openCatalog(seq,e)} className="catalog-arrow">
               <AssetImg size={this.iconSize}
                         type={`${catalogOpen[seq]?'arrowUp':'arrowDown'}`}/>
             </div>
           </div>
-          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight+10)*problemList.length+10+'px':0+'px'}`}} appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
-            {  translateY: [0, this.problemHeight*problemList.length] },
-            {  translateY: [0, this.problemHeight*problemList.length] }
-          ]} className="swipe-content" component="div"
+          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight+10)*problemList.length+20+'px':0+'px'}`}} appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
+            {  opacity:[1,0],translateY: [0,-(this.problemHeight+10)*problemList.length+30]},
+            {  opacity:[0,1],translateY: [0, (this.problemHeight+10)*problemList.length+30] }
+          ]} className="swipe-content" component={"div"}
           >
             {catalogOpen[seq] ?<div
               key={`catalog${seq}`}
