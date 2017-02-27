@@ -1,55 +1,49 @@
 import * as React from "react";
-import { connect } from "react-redux";
 import "./ProblemPriority.less";
-import { loadMyProblemList } from "./async";
-import { startLoad, endLoad, alertMsg } from "redux/actions";
-import { Toast, Dialog } from "react-weui";
-const { Alert } = Dialog
+import Animate from "rc-animate"
+import QueueAnim from 'rc-queue-anim';
+import AssetImg from "../../components/AssetImg";
+import {remove} from "lodash";
+import {loadProblemList, createPlan} from "./async";
+import {startLoad, endLoad, alertMsg} from "redux/actions";
+import {merge, fill, get} from "lodash";
+import ProblemViewer from "./components/ProblemViewer"
+import {connect} from "react-redux";
 
 @connect(state => state)
-export class ProblemPriority extends React.Component <any, any> {
-  constructor() {
-    super()
-    this.state = {
-      problemList: [],
-      problemSelected: null,
-    }
-    this.state = {
-      showAlert: false,
-      alert: {
-        buttons: [
-          {
-            label: '再看看',
-            onClick: this.close.bind(this)
-          },
-          {
-            label: '想好了',
-            onClick: this.onSubmit.bind(this)
-          }
-        ]
-      },
-    }
-  }
-
+export class ProblemPriority extends React.Component<any,any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
+  constructor() {
+    super();
+    this.state = {
+      catalogOpen: [],
+      scrollTimer: null,
+      showProblem: false,
+      selectProblem: {},
+    }
+    this.catalogHeight = 316 / 750 * window.innerWidth;
+    // this.problemHeight = 180 / 750 * window.innerWidth;
+    this.problemHeight = 77;
+    this.iconSize = 1 / 8 * window.innerWidth;
+  }
+
   componentWillMount() {
-    const { dispatch } = this.props
+    const {dispatch} = this.props
     dispatch(startLoad())
-    loadMyProblemList().then(res => {
+    loadProblemList().then(res => {
       dispatch(endLoad())
-      const { code, msg } = res
+      const {code, msg} = res
       if (code === 200) {
-        if (!msg.problemList.length || msg.problemList.length === 0) {
-          this.context.router.push({ pathname: '/rise/static/problem/list' })
+        if (!msg.catalogList.length && msg.catalogList.length === 0) {
+          // this.context.router.push({ pathname: '/rise/problem/priority' })
+          dispatch(alertMsg('问题列表为空, 请联系管理员'))
         } else {
-          if(msg.problemList.length === 1){
-            this.setState({problemList:msg.problemList,problemSelected:msg.problemList[0].problemId})
-          } else {
-            this.setState(msg)
-          }
+          let catalogOpen = [];
+          msg.catalogList.forEach(item => catalogOpen.push(false));
+          this.setState(merge({}, msg, {catalogOpen: catalogOpen}));
         }
       }
       else dispatch(alertMsg(msg))
@@ -59,65 +53,86 @@ export class ProblemPriority extends React.Component <any, any> {
     })
   }
 
-  onProblemClicked(problemSelected) {
-    this.setState({ problemSelected })
+  openProblemIntro(problem) {
+    this.setState({showProblem: true, selectProblem: problem});
   }
 
 
-  onSubmit() {
-    const { location } = this.props
-    const { id } = location.query
-    this.context.router.push({ pathname: '/rise/static/problem/report', query: { id: this.state.problemSelected } })
+  openCatalog(seq, e) {
+    const {catalogOpen, scrollTimer} = this.state;
+    this.setState({catalogOpen: fill(catalogOpen, !catalogOpen[seq], seq, seq + 1)});
   }
 
-  show() {
-    const { dispatch } = this.props;
-    const { problemSelected } = this.state;
-    if(!problemSelected) {
-      dispatch(alertMsg("请先选择接下来要解决的问题"))
-    } else {
-      this.setState({showAlert: true})
-    }
-  }
-
-  close() {
-    this.setState({ showAlert: false })
+  submitProblem(problemId) {
+    const {dispatch} = this.props
+    dispatch(startLoad())
+    createPlan(problemId).then(res => {
+      dispatch(endLoad())
+      const {code, msg} = res
+      if (code === 200) this.context.router.push({pathname: '/rise/static/plan/intro', query: {id: msg}})
+      else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
   }
 
   render() {
-    const { name, problemList = [], problemSelected } = this.state
+    const {name, catalogList, problemListSelected, catalogOpen, showProblem, selectProblem} = this.state
 
-    const problemListRender = (list) => {
-      return list.map(item => {
-        return (
-          <div key={item.problemId} onClick={this.onProblemClicked.bind(this, item.problemId)}>
-            <div className={`button-circle${problemSelected === item.problemId ? ' selected' : ''}`}>
-              {item.problem}
+
+    const getCatalogBox = (catalog, seq) => {
+      const {problemList} = catalog;
+      return (
+        <div className="swipe-box"
+             style={{backgroundImage:`url(${catalog.pic})`,zIndex:`${seq+200}` }}
+             key={`swipeBox${seq}`}
+        >
+          <div className="swipe-box-mask" style={{opacity:`${catalogOpen[seq]?'0.18':'0.25'}`}}></div>
+          <div className="swipe-header">
+            <div className="catalog-name">{catalog.name}</div>
+            <div onClick={(e)=>this.openCatalog(seq,e)} className="catalog-arrow">
+              <AssetImg size={this.iconSize}
+                        type={`${catalogOpen[seq]?'arrowUp':'arrowDown'}`}/>
             </div>
           </div>
-        )
-      })
+          <QueueAnim appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
+            {  translateY: [0, this.problemHeight*problemList.length] },
+            {  translateY: [0, this.problemHeight*problemList.length] }
+          ]} className="swipe-content">
+            {catalogOpen[seq] ?<div
+              key={`catalog${seq}`}
+            >{problemList ? problemList.map((problem, seq) => {
+              return (
+                <div style={{height:`${this.problemHeight}+'px`}} onClick={()=>this.openProblemIntro(problem)}
+                     className="problem"
+                >
+                  <span className="title">{problem.problem}</span>
+                  <span className="tips">专题介绍</span>
+                </div>
+              )
+            }) : null}
+            </div>: null}
+          </QueueAnim>
+        </div>
+      )
     }
 
     return (
-      <div>
-        <div className="container has-footer">
-          <div className="problem-priority">
-            { problemList && problemList.length > 0 ? <div className="info">
-              <p>不同专题涉及的能力模型不同，每个专题所需的训练时间5~10天不等。</p>
-              <p>我会根据你的选择，定制你的训练任务。 </p>
-              <p>下面，选择第一个你要训练的专题！完成后，我们再安排下一个。</p>
-            </div> : null }
-            <div className="list">
-              {problemListRender(problemList)}
-            </div>
-          </div>
+      <div className="no-space-container"
+           style={{height:`${showProblem?window.innerHeight+'px':'100%'}`,overflow:`${showProblem?'hidden':'auto'}`}}>
+        <div className="header">
+          你好，{window.ENV.userName}，我是你的圈外每日提升教练。<br/>
+          训练开始前，我想更了解你的情况。
         </div>
-        <div className="button-footer" onClick={this.show.bind(this)}>下一步</div>
-        <Alert { ...this.state.alert }
-          show={this.state.showAlert}>
-          <p>提交后不能修改，想好了吗？</p>
-        </Alert>
+        <div  className="swipe-container">
+          {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
+            .concat(<div className="more-box" style>
+              <span>更多专题&nbsp;&nbsp;敬请期待</span>
+            </div>) : null}
+        </div>
+        {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
+                                     submitProblem={(problemId)=>this.submitProblem(problemId)}/>: null}
       </div>
     )
   }
