@@ -110,7 +110,7 @@ router.get("/rise/problem/load", (req, res) => {
               "challengeCount": 1,
               "description": "辩论被碾压，遭受窝囊气？分清事实与观点、识破各种谬误，不再有口难辩、找到反驳的突破口，一举击破对方的套路。<br/><br/>在接下去的训练中，你将学习的知识点如下：<br/>1）事实与观点<br/>2）错误诉诸<br/>3）证据的效力<br/>4）滑坡谬误<br/>5）人身攻击谬误<br/><br/>这些知识点都会以选择题和应用题的方式，来帮助你更好地掌握。"
             }
-          ]},{'pic':'http://www.iquanwai.com/images/fragment/problem3_1.png','name':'测试标题类目','problemList':[
+          ]},{'pic':'http://www.iquanwai.com/images/fragment/problem1.png','name':'测试标题类目','problemList':[
             {
               "id": 1,
               "problem": "与人沟通时条理更清晰",

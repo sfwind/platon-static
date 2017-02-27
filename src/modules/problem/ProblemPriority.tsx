@@ -26,8 +26,9 @@ export class ProblemPriority extends React.Component<any,any> {
     }
     this.catalogHeight = 316 / 750 * window.innerWidth;
     // this.problemHeight = 180 / 750 * window.innerWidth;
-    this.problemHeight = 77;
+    this.problemHeight = 180/(750-30) * window.innerWidth -15;
     this.iconSize = 1 / 8 * window.innerWidth;
+    console.log(this.problemHeight);
   }
 
   componentWillMount() {
@@ -85,7 +86,8 @@ export class ProblemPriority extends React.Component<any,any> {
       const {problemList} = catalog;
       return (
         <div className="swipe-box"
-             style={{backgroundImage:`url(${catalog.pic})`,zIndex:`${seq+200}` }}
+             style={{backgroundImage:`url(${catalog.pic})`,zIndex:`${seq+200}`,
+              marginTop:`${seq!==0?-15:0}px`}}
              key={`swipeBox${seq}`}
         >
           <div className="swipe-box-mask" style={{opacity:`${catalogOpen[seq]?'0.18':'0.25'}`}}></div>
@@ -96,16 +98,17 @@ export class ProblemPriority extends React.Component<any,any> {
                         type={`${catalogOpen[seq]?'arrowUp':'arrowDown'}`}/>
             </div>
           </div>
-          <QueueAnim appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
+          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight+10)*problemList.length+10+'px':0+'px'}`}} appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
             {  translateY: [0, this.problemHeight*problemList.length] },
             {  translateY: [0, this.problemHeight*problemList.length] }
-          ]} className="swipe-content">
+          ]} className="swipe-content" component="div"
+          >
             {catalogOpen[seq] ?<div
               key={`catalog${seq}`}
             >{problemList ? problemList.map((problem, seq) => {
               return (
-                <div style={{height:`${this.problemHeight}+'px`}} onClick={()=>this.openProblemIntro(problem)}
-                     className="problem"
+                <div onClick={()=>this.openProblemIntro(problem)}
+                     className="problem" style={{height:`${this.problemHeight}px`}}
                 >
                   <span className="title">{problem.problem}</span>
                   <span className="tips">专题介绍</span>
@@ -122,12 +125,13 @@ export class ProblemPriority extends React.Component<any,any> {
       <div className="no-space-container"
            style={{height:`${showProblem?window.innerHeight+'px':'100%'}`,overflow:`${showProblem?'hidden':'auto'}`}}>
         <div className="header">
-          你好，{window.ENV.userName}，我是你的圈外每日提升教练。<br/>
+          你好，{window.ENV.userName},我是你的圈外每日提升教练。<br/>
           训练开始前，我想更了解你的情况。
         </div>
-        <div  className="swipe-container">
+        <div className="swipe-container">
           {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
-            .concat(<div className="more-box" style>
+            .concat(<div className="more-box">
+              <div className="swipe-box-mask" style={{opacity:'0.25'}}></div>
               <span>更多专题&nbsp;&nbsp;敬请期待</span>
             </div>) : null}
         </div>
