@@ -15,8 +15,6 @@ import { Main as Application } from "modules/practice/application/Main";
 import { Main as Challenge } from "modules/practice/challenge/Main";
 import { Submit as ApplicationPracticeSubmit } from "modules/practice/application/Submit";
 import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
-import { NewProblemPriority } from "modules/problem/NewProblemPriority"
-import {Test} from "modules/problem/ProblemPriority"
 
 const routes = (
   <Route path="/rise/static" component={Base}>
