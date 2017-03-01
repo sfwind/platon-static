@@ -15,3 +15,29 @@ export function loadWarmUpNext(id) {
 export function submitApplicationPractice(submitId, params) {
   return ppost(`/rise/practice/application/submit/${submitId}`, params)
 }
+
+export function vote(referencedId){
+  return ppost("/rise/practice/vote", {referencedId: referencedId, status: 1,type:CommentType.Application})
+}
+
+export function loadOtherList(applicationId,page){
+  return pget(`/rise/practice/application/list/other/${applicationId}`,{page:page})
+}
+
+export function loadCommentList(submitId,page){
+  return pget(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{page:page})
+}
+
+export function comment(submitId,content){
+  return ppost(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{content:content})
+}
+
+const CommentType = {
+  Challenge:1,
+  Application:2,
+}
+
+const VoteType = {
+  Challenge:1,
+  Application:2,
+}

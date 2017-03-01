@@ -1,0 +1,116 @@
+.work{
+  overflow: hidden;
+  margin-top: 12px;
+  padding-bottom:20px;
+  &-other:not(:nth-last-of-type(1)){
+    border-bottom:1px solid #efefef;
+  }
+  > .submit-cell {
+    > .submit-avatar {
+      display: inline-block;
+      vertical-align: top;
+      height: 30px;
+      width: 30px;
+      margin-top:7px;
+      > .submit-avatar-img {
+        height: 30px;
+        width: 30px;
+        border-radius: 15px;
+      }
+    }
+    > .submit-area {
+      display: inline-block;
+      margin-left: 5px;
+      width: ~"calc(100% - 30px - 5px)";
+      > .submit-head {
+        height: 30px;
+        > .submit-name {
+          display: inline-block;
+          color: #666666;
+          font-size: 13px;
+        }
+        > .submit-time {
+          display: inline-block;
+          margin-left:10px;
+          font-size: 13px;
+          color: #999999;
+        }
+        > .right{
+          float: right;
+          display: inline-block;
+          > .submit-icon {
+            float: left;
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 2px;
+          }
+          > .submit-button {
+            display: inline-block;
+            color: #55cbcb;
+            font-size: 13px;
+            line-height: 30px;
+          }
+        }
+      }
+      > .submit-content {
+        > pre {
+          font-size: 13px;
+          margin-top: 2px;
+          width: 100%;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+        }
+      }
+
+      > .show-all{
+        float:right;
+        font-size:13px;
+        margin-top:-20px;
+        color:#55cbcb;
+      }
+
+      > .operation-area{
+        > .vote{
+          display: inline-block;
+          > span{
+            &:before {
+              content: '';
+              display: inline-block;
+              vertical-align: middle;
+              width: 16px;
+              height: 16px;
+              margin-right:5px;
+              margin-bottom:5px;
+            }
+          }
+          > .disVote{
+            &:before{
+              background: url(http://www.iquanwai.com/images/iconGreyVote.png) no-repeat center center/13px 16px;
+            }
+          }
+          > .voted{
+            &:before{
+              background: url(http://www.iquanwai.com/images/iconGreenVote.png) no-repeat center center/13px 16px;
+            }
+          }
+        }
+        > .comment{
+          display: inline-block;
+          margin-left:20px;
+          > span{
+            &:before {
+              background: url(http://www.iquanwai.com/images/iconComment.png) no-repeat center center/14px 13px;
+              content: '';
+              display: inline-block;
+              vertical-align: middle;
+              width: 16px;
+              height: 16px;
+              margin-right:5px;
+              margin-bottom:3px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

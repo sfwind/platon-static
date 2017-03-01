@@ -250,7 +250,10 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"difficulty": null,
         "content": "评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论", //提交内容
         "submitId": 1, //提交id
-        "submitUpdateTime": "2017-02-15" //最后提交时间
+        "submitUpdateTime": "2017-02-15" ,//最后提交时间
+        "voteCount": 0,
+        "commentCount": 0,
+        "voteStatus": 0
 			}
 		}), Math.random() * 1500)
 });
@@ -327,5 +330,106 @@ router.post("/rise/practice/challenge/submit/*", (req, res) => {
       "msg": "ok"
     }), Math.random() * 1500)
 });
+
+router.post("/rise/practice/vote", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": "ok"
+    }), Math.random() * 1500)
+});
+
+router.get("/rise/practice/application/list/other/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {
+          "msg": [
+            {
+              "title": null,
+              "userName": "nethunder",
+              "submitUpdateTime": "2017-02-27",
+              "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
+              "content": "测试",
+              "voteCount": 0,
+              "commentCount": 0,
+              "submitId": 96,
+              "type": 11,
+              "voteStatus": 0
+            },
+            {
+              "title": null,
+              "userName": "张凯雯",
+              "submitUpdateTime": "2017-02-18",
+              "headImage": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszvxogCNX1yV90K3QEa68sIXjVLuvaapaUUJ8Bs7vzJyHNiat3leIHz5F7m9UbLa6G4V9jvJQduGbQx/0",
+              "content": "为什么戴尔不收购其他信息存储公司\n",
+              "voteCount": 0,
+              "commentCount": 0,
+              "submitId": 80,
+              "type": 11,
+              "voteStatus": 0
+            }
+          ],
+        "code": 200
+      }
+    )
+  },Math.random()*1500);
+});
+
+router.get("/rise/practice/comment/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {
+        "msg": [
+          {
+            "id": 52,
+            "content": "fff ",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-23",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 51,
+            "content": "测试评论",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-23",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 38,
+            "content": "test",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-22",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 37,
+            "content": "fewfwef",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-22",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 36,
+            "content": "comment",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-22",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          }
+        ],
+        "code": 200
+      }
+    );
+  },Math.random()*1500);
+});
+
+
+router.post("/rise/practice/comment/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {"msg":{"id":null,"content":"ccccc","upName":"风之伤","upTime":"2017-03-01","headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg"},"code":200}
+    );
+  },Math.random()*1500);
+});
+
 
 module.exports = router;
