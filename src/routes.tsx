@@ -16,6 +16,7 @@ import { Main as Challenge } from "modules/practice/challenge/Main";
 import { Submit as ApplicationPracticeSubmit } from "modules/practice/application/Submit";
 import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
 import { Comment as ApplicationComment } from "modules/practice/application/Comment";
+import { Comment as ChallengeComment } from "modules/practice/challenge/Comment";
 
 const routes = (
   <Route path="/rise/static" component={Base}>
@@ -34,6 +35,8 @@ const routes = (
     <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
     <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
     <Route path="practice/application/comment" component={ApplicationComment}/>
+    <Route path="practice/challenge/comment" component={ChallengeComment}/>
+
   </Route>
 )
 

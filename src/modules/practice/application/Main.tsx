@@ -44,7 +44,7 @@ export class Main extends React.Component <any, any> {
       onPullUpEnd:(data)=>{
         console.log("开始加载更多");
         dispatch(startLoad());
-        loadOtherList(this.props.location.query.id,this.state.page).then(res=> {
+        loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
           dispatch(endLoad());
           if (res.code === 200) {
             if (res.msg && res.msg.length !== 0) {

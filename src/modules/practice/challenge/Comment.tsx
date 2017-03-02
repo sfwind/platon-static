@@ -42,10 +42,9 @@ export class Comment extends React.Component<any,any>{
   goBack(){
     console.log('goBack');
     this.context.router.push({
-      pathname:'/rise/static/practice/application',
+      pathname:'/rise/static/practice/challenge',
       query: {
         id: this.props.location.query.id,
-        kid: this.props.location.query.kid,
         practicePlanId: this.props.location.query.practicePlanId,
         series: this.props.location.query.series
       }
@@ -71,8 +70,8 @@ export class Comment extends React.Component<any,any>{
           .then(res => {
             dispatch(endLoad());
             if(res.code===200){
-              if(res.msg && res.msg.length !== 0){
-                this.setState({commentList:this.state.commentList.concat(res.msg),page:this.state.page+1})
+              if(res.msg && res.msg.length !== 0) {
+                this.setState({commentList: this.state.commentList.concat(res.msg)})
               } else {
                 dispatch(alertMsg('没有更多了'));
               }
