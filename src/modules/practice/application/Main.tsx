@@ -6,7 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
-import {isNull,isString,truncate,merge,set} from "lodash";
+import {isNull,isString,truncate,merge,set,get} from "lodash";
 import Work from "../components/Work"
 import PullElement from 'pull-element'
 import {findIndex,remove} from "lodash";
@@ -23,6 +23,7 @@ export class Main extends React.Component <any, any> {
       page:1,
       otherList:[]
     }
+    this.pullElement=null;
   }
 
   static contextTypes = {
@@ -31,45 +32,53 @@ export class Main extends React.Component <any, any> {
 
 
   componentDidMount(){
-    const {dispatch} = this.props;
-    this.pullElement = new PullElement({
-      target:'.work-container',
-      scroller:'.container',
-      damping:2,
-      onPullUp: (data) => {
-        if(data.translateY <= -40)
-          this.pullElement.preventDefault()
-      },
-      detectScroll:true,
-      detectScrollOnStart:true,
-      onPullUpEnd:(data)=>{
-        console.log("开始加载更多");
-        dispatch(startLoad());
-        loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
-          dispatch(endLoad());
-          if (res.code === 200) {
-            if (res.msg && res.msg.length !== 0) {
-              remove(res.msg,(item)=>{
-                return findIndex(this.state.otherList,item)!==-1;
-              })
-              this.setState({otherList: this.state.otherList.concat(res.msg), page: this.state.page + 1});
+
+  }
+
+  componentDidUpdate(preProps,preState){
+    const content = get(this.state,'data.content');
+    if(content && !this.pullElement){
+      // 有内容并且米有pullElement
+      const {dispatch} = this.props;
+      this.pullElement = new PullElement({
+        target:'.work-container',
+        scroller:'.container',
+        damping:2,
+        onPullUp: (data) => {
+          if(data.translateY <= -40)
+            this.pullElement.preventDefault()
+        },
+        detectScroll:true,
+        detectScrollOnStart:true,
+        onPullUpEnd:(data)=>{
+          console.log("开始加载更多");
+          dispatch(startLoad());
+          loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
+            dispatch(endLoad());
+            if (res.code === 200) {
+              if (res.msg && res.msg.length !== 0) {
+                remove(res.msg,(item)=>{
+                  return findIndex(this.state.otherList,item)!==-1;
+                })
+                this.setState({otherList: this.state.otherList.concat(res.msg), page: this.state.page + 1});
+              } else {
+                dispatch(alertMsg('没有更多了'));
+              }
             } else {
-              dispatch(alertMsg('没有更多了'));
+              dispatch(alertMsg(res.msg));
             }
-          } else {
-            dispatch(alertMsg(res.msg));
-          }
-        }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
-      }
-    })
-    this.pullElement.init();
+          }).catch(ex => {
+            dispatch(endLoad());
+            dispatch(alertMsg(ex));
+          });
+        }
+      })
+      this.pullElement.init();
+    }
   }
 
   componentWillUnmount(){
-    this.pullElement.destroy();
+    this.pullElement?this.pullElement.destroy():null;
   }
 
   componentWillMount() {
