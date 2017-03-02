@@ -101,7 +101,7 @@ export class Comment extends React.Component<any,any>{
       comment(content)
         .then(res=>{
           dispatch(endLoad());
-          this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false});
+          this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false,editDisable:false});
         }).catch(ex => {
         this.setState({editDisable:false});
         dispatch(endLoad());
@@ -132,7 +132,7 @@ export class Comment extends React.Component<any,any>{
                   <div className="submit-time">{item.upTime}</div>
                 </div>
                 <div className="submit-content">
-                  <pre>  {item.content}</pre>
+                  <pre>{item.content}</pre>
                 </div>
               </div>
             </div>
