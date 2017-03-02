@@ -88,7 +88,7 @@ export default class Audio extends React.Component<any, any> {
             />
           </div>
         </div>
-        <audio ref="sound" src={url}
+          <audio ref="sound" src={url}
                preload="auto"
                onCanPlay={this.onReady.bind(this)}
                onEnded={this.onEnd.bind(this)}/>

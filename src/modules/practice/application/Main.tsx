@@ -9,6 +9,7 @@ import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set} from "lodash";
 import Work from "../components/Work"
 import PullElement from 'pull-element'
+import {findIndex,remove} from "lodash";
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -48,6 +49,9 @@ export class Main extends React.Component <any, any> {
           dispatch(endLoad());
           if (res.code === 200) {
             if (res.msg && res.msg.length !== 0) {
+              remove(res.msg,(item)=>{
+                return findIndex(this.state.otherList,item)!==-1;
+              })
               this.setState({otherList: this.state.otherList.concat(res.msg), page: this.state.page + 1});
             } else {
               dispatch(alertMsg('没有更多了'));

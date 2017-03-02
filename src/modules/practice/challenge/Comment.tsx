@@ -71,6 +71,9 @@ export class Comment extends React.Component<any,any>{
             dispatch(endLoad());
             if(res.code===200){
               if(res.msg && res.msg.length !== 0) {
+                remove(res.msg,(item)=>{
+                  return findIndex(this.state.commentList,item)!==-1;
+                });
                 this.setState({commentList: this.state.commentList.concat(res.msg)})
               } else {
                 dispatch(alertMsg('没有更多了'));
