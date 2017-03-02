@@ -141,27 +141,15 @@ export class Main extends React.Component <any, any> {
   voted(id,voteStatus,voteCount,isMine,seq){
     if(!voteStatus){
       console.log("点赞");
-      const {dispatch} = this.props;
-      dispatch(startLoad());
-      vote(id).then(res=>{
-        dispatch(endLoad());
-        if(res.code===200){
-          if(isMine){
-            this.setState({data:merge({},this.state.data,{voteCount:voteCount+1,voteStatus:true})});
-          } else {
-            console.log('点赞其他人',id,voteStatus,voteCount,isMine,seq,this.state.otherList)
-            let newOtherList = merge([],this.state.otherList);
-            set(newOtherList,`[${seq}].voteCount`,voteCount+1)
-            set(newOtherList,`[${seq}].voteStatus`,1);
-            this.setState({otherList:newOtherList})
-          }
-        } else {
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(err=>{
-        dispatch(endLoad())
-        dispatch(alertMsg(err))
-      })
+      if(isMine){
+        this.setState({data:merge({},this.state.data,{voteCount:voteCount+1,voteStatus:true})});
+      } else {
+        let newOtherList = merge([],this.state.otherList);
+        set(newOtherList,`[${seq}].voteCount`,voteCount+1)
+        set(newOtherList,`[${seq}].voteStatus`,1);
+        this.setState({otherList:newOtherList})
+      }
+      vote(id);
     } else {
       console.log("不能点赞");
     }
