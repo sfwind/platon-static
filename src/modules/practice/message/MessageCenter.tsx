@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import "./MessageCenter.less";
 import {loadMessage, readMessage} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
-import {set} from "lodash"
+import {set, findIndex, remove} from "lodash"
 import PullElement from "pull-element";
 
 @connect(state => state)
@@ -14,14 +14,64 @@ export class MessageCenter extends React.Component <any, any> {
       index:1,
       list:[],
       pull:{},
+      opacity: 0,
     }
-
+    this.pullElement=null
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
+  componentDidUpdate(preProps,preState){
+    const {list} = this.state
+    if(list.length>0 && !this.pullElement){
+      // 有内容并且米有pullElement
+      const {dispatch} = this.props;
+      this.pullElement = new PullElement({
+        target:'.container',
+        scroller:'.container',
+        damping:2,
+        onPullUp: (data) => {
+          if (data.translateY <= -40){
+            this.pullElement.preventDefault()
+          } else {
+            this.setState({opacity:(-data.translateY)/40});
+          }
+        },
+        detectScroll:true,
+        detectScrollOnStart:true,
+        onPullUpEnd:(data)=>{
+          console.log("开始加载更多");
+          this.setState({opacity:0});
+          dispatch(startLoad());
+          loadMessage(this.state.index + 1).then(res=> {
+            dispatch(endLoad());
+            if (res.code === 200) {
+              if (res.msg && res.msg.length !== 0) {
+                remove(res.msg,(item)=>{
+                  return findIndex(this.state.list,item)!==-1;
+                })
+                this.setState({list: this.state.list.concat(res.msg), index: this.state.index + 1});
+              } else {
+                dispatch(alertMsg('没有更多消息了'));
+              }
+            } else {
+              dispatch(alertMsg(res.msg));
+            }
+          }).catch(ex => {
+            dispatch(endLoad());
+            dispatch(alertMsg(ex));
+          });
+        }
+      })
+      this.pullElement.init();
+    }
+  }
+
+  componentWillUnmount(){
+    this.pullElement?this.pullElement.destroy():null;
+  }
 
   componentWillMount(props) {
     const {dispatch} = props || this.props
@@ -109,58 +159,11 @@ export class MessageCenter extends React.Component <any, any> {
         <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
         </div>
-        <ScrollTip/>
+        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
         <div className="button-footer fix" onClick={this.back.bind(this)}>返回</div>
 
       </div>
     )
   }
 
-}
-
-export class ScrollTip extends React.Component<any, any> {
-  state = {
-    damping: 1.6,
-    pullUp: true,
-    pullDown: false,
-    pullLeft: false,
-    pullRight: false,
-    detectScroll: false,
-    detectScrollOnStart: false,
-    detectScrollOnMove: false,
-    drag: false,
-    transitionDuration: '0.3s',
-    transitionTimingFunction: 'ease-out',
-  }
-
-  addPullElement() {
-    if (this.pullElement) {
-      this.pullElement.destroy()
-    }
-    let { target } = this.refs
-    let options = {
-      ...this.state,
-      damping: 3.0,
-    }
-    let pullElement = new PullElement({
-      target: target,
-      ...options,
-    })
-    pullElement.init()
-    this.pullElement = pullElement
-  }
-
-  componentDidMount() {
-    this.addPullElement()
-  }
-
-  componentWillUnmount() {
-    this.pullElement.destroy()
-  }
-
-  render() {
-    return (
-      <div ref="target" style={{height:40, width: "100%", position:"fixed", bottom:49}}></div>
-    )
-  }
 }
