@@ -34,7 +34,7 @@ router.post("/rise/message/read/*", (req, res) => {
     }), Math.random() * 1500)
 });
 
-router.get("/rise/message/load/*", (req, res) => {
+router.get("/rise/message/load", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
       "code": 200,
