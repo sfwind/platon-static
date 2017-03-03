@@ -41,15 +41,14 @@ export class Comment extends React.Component<any,any>{
   }
 
   goBack(){
-    console.log('goBack');
+    const {location} = this.props
     this.context.router.push({
       pathname:'/rise/static/practice/application',
       query: {
         id: this.props.location.query.id,
-        kid: this.props.location.query.kid,
-        practicePlanId: this.props.location.query.practicePlanId,
         series: this.props.location.query.series
-      }
+      },
+      state: location.state
     })
   }
 
@@ -103,7 +102,6 @@ export class Comment extends React.Component<any,any>{
   }
 
   onSubmit(content){
-    console.log("提交",content);
     const {dispatch,location} = this.props;
     if(content){
       dispatch(startLoad());

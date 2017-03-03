@@ -56,7 +56,7 @@ export class MessageCenter extends React.Component <any, any> {
     }
 
     if(url.indexOf('?')===-1){
-      this.context.router.push({ pathname: url })
+      this.context.router.push({ pathname: url, state: {goBackUrl: '/rise/static/message/center'} })
     }else{
       //解析url
       let index = url.indexOf('?')
@@ -73,7 +73,7 @@ export class MessageCenter extends React.Component <any, any> {
 
         set(param, argName, argValue)
       }
-      this.context.router.push({pathname: path, query: param})
+      this.context.router.push({pathname: path, query: param, state: {goBackUrl: '/rise/static/message/center'}})
     }
 
   }
@@ -138,7 +138,6 @@ export class ScrollTip extends React.Component<any, any> {
       this.pullElement.destroy()
     }
     let { target } = this.refs
-    console.log(target)
     let options = {
       ...this.state,
       damping: 3.0,

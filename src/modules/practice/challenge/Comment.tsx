@@ -41,14 +41,14 @@ export class Comment extends React.Component<any,any>{
   }
 
   goBack(){
-    console.log('goBack');
     this.context.router.push({
       pathname:'/rise/static/practice/challenge',
       query: {
         id: this.props.location.query.id,
         practicePlanId: this.props.location.query.practicePlanId,
         series: this.props.location.query.series
-      }
+      },
+      state: this.props.location.state
     })
   }
 

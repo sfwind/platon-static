@@ -46,7 +46,7 @@ router.get("/rise/message/load/*", (req, res) => {
         "isRead": 0,
         "readTime": "2017-2-18",
         "sendTime": "2017-2-18",
-        "url": "/rise/static/message/warmup/reply?commentId=13&warmupPracticeId=13",
+        "url": "/rise/static/practice/challenge?id=3",
         "fromUserName": "小猴几",
         "fromUserAvatar": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
       },{
@@ -57,7 +57,7 @@ router.get("/rise/message/load/*", (req, res) => {
         "isRead": 1,
         "readTime": "2017-2-16",
         "sendTime": "2017-2-16",
-        "url": "/rise/static/message/warmup/reply?commentId=13&warmupPracticeId=13",
+        "url": "/rise/static/practice/application?id=3",
         "fromUserName": "小猴几",
         "fromUserAvatar": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
       }]
