@@ -14,7 +14,8 @@ export class Comment extends React.Component<any,any>{
     super();
     this.state = {
       page:1,
-      editDisable:false
+      editDisable:false,
+      opacity:0
     }
   }
 
@@ -57,15 +58,21 @@ export class Comment extends React.Component<any,any>{
     this.pullElement = new PullElement({
       target: '.pull-target',
       scroller: '.comment',
+      trigger:'.comment-content',
       damping: 2,
       onPullUp: (data) => {
-        if (data.translateY <= -40)
+        if (data.translateY <= -40){
           this.pullElement.preventDefault()
+        } else {
+          console.log(data.translateY);
+          this.setState({opacity:(-data.translateY)/40});
+        }
       },
       detectScroll: true,
       detectScrollOnStart: true,
       onPullUpEnd: (data) => {
         console.log("开始加载更多");
+        this.setState({opacity:0});
         dispatch(startLoad());
         loadCommentList(location.query.submitId, this.state.page+1)
           .then(res => {
@@ -164,6 +171,7 @@ export class Comment extends React.Component<any,any>{
           <AssetImg type="discuss" width={45} height={45}/>
         </div>
         {showDiscuss ?<SubmitBox editDisable={this.state.editDisable} onSubmit={(content)=>this.onSubmit(content)}/> : null}
+        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
         <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
       </div>
     )

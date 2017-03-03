@@ -20,7 +20,8 @@ export class Main extends React.Component <any, any> {
       knowledge: {},
       submitId: 0,
       page:1,
-      otherList:[]
+      otherList:[],
+      opacity:0,
     }
     this.pullElement=null;
   }
@@ -41,13 +42,18 @@ export class Main extends React.Component <any, any> {
         scroller:'.container',
         damping:2,
         onPullUp: (data) => {
-          if(data.translateY <= -40)
+          if (data.translateY <= -40){
             this.pullElement.preventDefault()
+          } else {
+            console.log(data.translateY);
+            this.setState({opacity:(-data.translateY)/40});
+          }
         },
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
           console.log("开始加载更多");
+          this.setState({opacity:0});
           dispatch(startLoad());
           loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
             dispatch(endLoad());
@@ -244,6 +250,7 @@ export class Main extends React.Component <any, any> {
             </div>
           </div>
         </div>
+        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
         <div className="button-footer" onClick={this.onSubmit.bind(this)}>返回</div>
       </div>
     )
