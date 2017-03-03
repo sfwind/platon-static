@@ -18,6 +18,9 @@ import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Su
 import { ReplyDiscussMessage } from "modules/practice/message/ReplyDiscussMessage";
 import { MessageCenter } from "modules/practice/message/MessageCenter";
 import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
+import { Comment as ApplicationComment } from "modules/practice/application/Comment";
+import { Comment as ChallengeComment } from "modules/practice/challenge/Comment";
+
 
 const routes = (
   <Route path="/rise/static" component={Base}>
@@ -38,6 +41,8 @@ const routes = (
     <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
     <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
     <Route path="message/center" component={MessageCenter}/>
+    <Route path="practice/application/comment" component={ApplicationComment}/>
+    <Route path="practice/challenge/comment" component={ChallengeComment}/>
   </Route>
 )
 
