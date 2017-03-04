@@ -2,9 +2,9 @@ import * as React from "react";
 import {connect} from "react-redux";
 import "./ReplyDiscussMessage.less";
 import {loadWarmUp, loadWarmUpDiscussReply} from "./async";
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
-import AssetImg from "../../../components/AssetImg";
-import Discuss from "../components/Discuss";
+import {startLoad, endLoad, alertMsg} from "../../redux/actions";
+import AssetImg from "../../components/AssetImg";
+import Discuss from "../practice/components/Discuss";
 
 @connect(state => state)
 export class ReplyDiscussMessage extends React.Component <any, any> {

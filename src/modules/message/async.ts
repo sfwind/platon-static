@@ -1,7 +1,7 @@
-import { pget, ppost } from "utils/request";
+import { pget, ppost } from "../../utils/request";
 
 export function loadMessage(offset) {
-  return pget(`/rise/message/load?page=${offset}`)
+  return pget('/rise/message/load', {page:offset})
 }
 
 export function loadWarmUp(id) {

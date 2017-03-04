@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import "./MessageCenter.less";
 import {loadMessage, readMessage} from "./async";
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
+import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import {set, findIndex, remove} from "lodash"
 import PullElement from "pull-element";
 
