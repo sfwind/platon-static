@@ -138,18 +138,18 @@ export class MessageCenter extends React.Component <any, any> {
     const messageRender = (msg) => {
       const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg
       return (
-        <div className="message-cell">
-          <div className="message-avatar"><img className="message-avatar-img" src={fromUserAvatar} /></div>
-          <div className="message-area" onClick={() => this.open(url, id, isRead)}>
-            <div className={isRead?"message-ceil read":"message-ceil unread"}>
-              <div className="message-name">
+        <div className="comment-cell">
+          <div className="comment-avatar"><img className="comment-avatar-img" src={fromUserAvatar} /></div>
+          <div className="comment-area" onClick={() => this.open(url, id, isRead)}>
+            <div className={isRead?"comment-head read":"comment-head unread"}>
+              <div className="comment-name">
                 {fromUserName}
               </div>
-              <div className="message-time">{sendTime}</div>
+              <div className="comment-time right">{sendTime}</div>
             </div>
-            <div className={isRead?"message-comment read":"message-comment unread"}>{message}</div>
+            <div className={isRead?"comment-content read":"comment-content unread"}>{message}</div>
           </div>
-          <div className="message-hr"/>
+          <div className="comment-hr"/>
         </div>
       )
     }

@@ -6,67 +6,9 @@
   background-color: red;
 }
 
-.message-cell {
-  margin-top: 15px;
-  > .message-avatar {
-    display: inline-block;
-    vertical-align: top;
-    height: 30px;
-    width: 30px;
-    > .message-avatar-img {
-      height: 30px;
-      width: 30px;
-      border-radius: 15px;
-    }
-  }
-  > .message-area {
-    display: inline-block;
-    margin-left: 5px;
-    width: ~"calc(100% - 30px - 5px)";
-    font-size: 13px;
-    > .message-ceil {
-      &.read{
-        color: #cccccc;
-
-        > .message-time {
-          float: right;
-          margin-top: 5px;
-          display: inline-block;
-        }
-
-        > .message-name {
-          display: inline-block;
-        }
-
-      }
-      &.unread{
-        color: #666666;
-
-        > .message-time {
-          float: right;
-          display: inline-block;
-          color: #999999;
-          margin-top: 5px;
-        }
-
-        > .message-name {
-          display: inline-block;
-        }
-      }
-    }
-    > .message-comment{
-      &.read {
-        color: #cccccc;
-      }
-      &.unread {
-        color: #666666;
-      }
-    }
-
-  }
-
-  > .message-hr{
-    height: 1px;
-    background-color: #f5f5f5;
-  }
+.read{
+  color: #cccccc;
+}
+.unread{
+  color: #666666;
 }

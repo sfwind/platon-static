@@ -57,7 +57,7 @@ export class Comment extends React.Component<any,any>{
     this.pullElement = new PullElement({
       target: '.pull-target',
       scroller: '.comment',
-      trigger:'.comment-content',
+      trigger:'.comment-body',
       damping: 2,
       onPullUp: (data) => {
         if (data.translateY <= -40){
@@ -102,6 +102,7 @@ export class Comment extends React.Component<any,any>{
   }
 
   onSubmit(content){
+
     const {dispatch,location} = this.props;
     if(content){
       dispatch(startLoad());
@@ -134,17 +135,17 @@ export class Comment extends React.Component<any,any>{
       return (
         commentList.map((item,seq)=>{
           return (
-            <div className="submit-cell">
-              <div className="submit-avatar"><img className="submit-avatar-img" src={item.headPic}/>
+            <div className="comment-cell">
+              <div className="comment-avatar"><img className="comment-avatar-img" src={item.headPic}/>
               </div>
-              <div className="submit-area">
-                <div className="submit-head">
-                  <div className="submit-name">
+              <div className="comment-area">
+                <div className="comment-head">
+                  <div className="comment-name">
                     {item.upName}
                   </div>
-                  <div className="submit-time">{item.upTime}</div>
+                  <div className="comment-time right">{item.upTime}</div>
                 </div>
-                <div className="submit-content">
+                <div className="comment-content">
                   <pre>{item.content}</pre>
                 </div>
               </div>
@@ -161,7 +162,7 @@ export class Comment extends React.Component<any,any>{
           <div className="comment-header">
             评论
           </div>
-          <div className="comment-content">
+          <div className="comment-body">
             {renderCommentList()}
           </div>
         </div>

@@ -90,9 +90,9 @@ export class Main extends React.Component <any, any> {
 
   componentWillMount() {
     const { dispatch, location } = this.props;
-    const {goBackUrl} = location.state
     const {state} = location
     if(state){
+      const {goBackUrl} = state
       if(goBackUrl){
         this.setState({goBackUrl})
       }

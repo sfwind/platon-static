@@ -76,7 +76,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
 
   render() {
     const {question, warmupPracticeId, data, commentId, showDiscuss} = this.state
-    const {comment, repliedComment, repliedName, avatar, discussTime} = data
+    const {comment, name, repliedComment, repliedName, avatar, discussTime} = data
 
     return (
       <div>
@@ -85,26 +85,26 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
             <div className="origin-question-tip" onClick={this.onSubmit.bind(this)}>点击查看原题</div>
           </div>
           <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
-          <div className="discuss-cell">
-            <div className="discuss-avatar"><img className="discuss-avatar-img" src={avatar} /></div>
-            <div className="discuss-area">
-              <div className="discuss-ceil">
-                <div className="discuss-name">
+          <div className="comment-cell">
+            <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
+            <div className="comment-area">
+              <div className="comment-head">
+                <div className="comment-name">
                   {name}
                 </div>
-                <div className="discuss-time">{discussTime}</div>
+                <div className="comment-time">{discussTime}</div>
                 <div className="right" onClick={() =>
                 this.setState({showDiscuss: true, warmupPracticeId, repliedId:commentId})}>
-                  <div className="reply-icon">
+                  <div className="function-icon">
                     <AssetImg type="reply" height={17}/>
                   </div>
-                  <div className="discuss-replied-button">
+                  <div className="function-button">
                     回复
                   </div>
                 </div>
               </div>
-              <div className="discuss-comment">{comment}</div>
-              <div className="discuss-replied-comment">{'回复 '}{repliedName}:{repliedComment}</div>
+              <div className="comment-content">{comment}</div>
+              <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div>
             </div>
           </div>
         </div>

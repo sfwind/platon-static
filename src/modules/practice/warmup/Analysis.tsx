@@ -226,28 +226,28 @@ export class Analysis extends React.Component <any, any> {
     const discussRender = (discuss, idx) => {
       const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId} = discuss
       return (
-        <div className="discuss-cell">
-          <div className="discuss-avatar"><img className="discuss-avatar-img" src={avatar} /></div>
-          <div className="discuss-area">
-            <div className="discuss-ceil">
-              <div className="discuss-name">
+        <div className="comment-cell">
+          <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
+          <div className="comment-area">
+            <div className="comment-head">
+              <div className="comment-name">
                 {name}
               </div>
-              <div className="discuss-time">{discussTime}</div>
+              <div className="comment-time">{discussTime}</div>
               <div className="right" onClick={() => this.setState({showDiscuss: true, warmupPracticeId, repliedId:id})}>
-                <div className="reply-icon">
+                <div className="function-icon">
                   <AssetImg type="reply" height={17}/>
                 </div>
-                <div className="discuss-replied-button">
+                <div className="function-button">
                   回复
                 </div>
               </div>
             </div>
-            <div className="discuss-comment">{comment}</div>
+            <div className="comment-content">{comment}</div>
             {repliedComment ?
-              <div className="discuss-replied-comment">{'回复 '}{repliedName}:{repliedComment}</div> : null}
+              <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           </div>
-          <div className="discuss-hr"/>
+          <div className="comment-hr"/>
         </div>
       )
     }
