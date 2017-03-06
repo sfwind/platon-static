@@ -15,7 +15,6 @@ export class MessageCenter extends React.Component <any, any> {
       index:1,
       list:[],
       pull:{},
-      opacity: 0,
       no_message: false,
       end: true,
     }
@@ -35,17 +34,16 @@ export class MessageCenter extends React.Component <any, any> {
         target:'.container',
         scroller:'.container',
         damping:4,
-        onPullUp: (data) => {
-          if (data.translateY <= -40){
-          } else {
-            this.setState({opacity:(-data.translateY)/40});
-          }
-        },
+        // onPullUp: (data) => {
+        //   if (data.translateY <= -40){
+        //   } else {
+        //     this.setState({opacity:(-data.translateY)/40});
+        //   }
+        // },
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
           console.log("开始加载更多");
-          this.setState({opacity:0});
           dispatch(startLoad());
           loadMessage(this.state.index + 1).then(res=> {
             dispatch(endLoad());
@@ -92,7 +90,7 @@ export class MessageCenter extends React.Component <any, any> {
         if(msg.length === 0){
           no_message = true
         }
-        this.setState({index:2, list: msg.notifyMessageList, no_message, end: msg.end})
+        this.setState({list: msg.notifyMessageList, no_message, end: msg.end})
         if(msg.end===true){
           this.pullElement.disable()
         }
@@ -177,10 +175,11 @@ export class MessageCenter extends React.Component <any, any> {
                         还没有消息提醒
           </div>: <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
+          { end ? null :
+             <div className="show-more">上拉加载更多消息</div>
+          }
         </div>}
-        { end ? null :
-          <div className="show-more" style={{opacity:`${this.state.opacity}`}}>上拉加载更多消息</div>
-        }
+
         <div className="button-footer fix" onClick={this.back.bind(this)}>返回</div>
 
       </div>
