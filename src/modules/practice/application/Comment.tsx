@@ -57,11 +57,10 @@ export class Comment extends React.Component<any,any>{
     this.pullElement = new PullElement({
       target: '.pull-target',
       scroller: '.comment',
-      trigger:'.comment-body',
-      damping: 2,
+      trigger:'.comment',
+      damping: 4,
       onPullUp: (data) => {
         if (data.translateY <= -40){
-          this.pullElement.preventDefault()
         } else {
           console.log(data.translateY);
           this.setState({opacity:(-data.translateY)/40});
@@ -170,7 +169,7 @@ export class Comment extends React.Component<any,any>{
           <AssetImg type="discuss" width={45} height={45}/>
         </div>
         {showDiscuss ?<SubmitBox editDisable={this.state.editDisable} onSubmit={(content)=>this.onSubmit(content)}/> : null}
-        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
+        <div className="show-more" style={{opacity:`${this.state.opacity}`,display:`${this.state.opacity===0?'none':'block'}`}} >上拉加载更多消息</div>
         <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
       </div>
     )
