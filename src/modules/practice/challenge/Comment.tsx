@@ -111,6 +111,9 @@ export class Comment extends React.Component<any,any>{
           dispatch(endLoad());
           if(res.code===200){
             this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false,editDisable:false});
+            if(this.pullElement){
+              this.pullElement.enable();
+            }
           } else {
             dispatch(alertMsg(res.msg));
             this.setState({editDisable:false});
@@ -126,32 +129,44 @@ export class Comment extends React.Component<any,any>{
   }
   openWriteBox(){
     this.setState({showDiscuss: true})
+    if(this.pullElement){
+      this.pullElement.disable();
+    }
   }
 
   render(){
     const { commentList=[],showDiscuss } = this.state;
     const renderCommentList = ()=>{
-      return (
-        commentList.map((item,seq)=>{
-          return (
-            <div className="comment-cell">
-              <div className="comment-avatar"><img className="comment-avatar-img" src={item.headPic}/>
-              </div>
-              <div className="comment-area">
-                <div className="comment-head">
-                  <div className="comment-name">
-                    {item.upName}
+      if(commentList && commentList.length !== 0){
+        return (
+          commentList.map((item,seq)=>{
+            return (
+              <div className="comment-cell">
+                <div className="comment-avatar"><img className="comment-avatar-img" src={item.headPic}/>
+                </div>
+                <div className="comment-area">
+                  <div className="comment-head">
+                    <div className="comment-name">
+                      {item.upName}
+                    </div>
+                    <div className="comment-time right">{item.upTime}</div>
                   </div>
-                  <div className="comment-time right">{item.upTime}</div>
-                </div>
-                <div className="comment-content">
-                  <pre>{item.content}</pre>
+                  <div className="comment-content">
+                    <pre>{item.content}</pre>
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-        })
-      )
+            )
+          })
+        )
+      } else {
+        return (<div className="on_message">
+          <div className="no_comment">
+            <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
+          </div>
+          暂时还没有评论，点击左下角提交评论
+        </div>)
+      }
     }
 
 
@@ -163,13 +178,13 @@ export class Comment extends React.Component<any,any>{
           </div>
           <div className="comment-body">
             {renderCommentList()}
+            {commentList && commentList.length !== 0 ?<div className="show-more">上拉加载更多消息</div>: null}
           </div>
         </div>
         <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
           <AssetImg type="discuss" width={45} height={45}/>
         </div>
-        {showDiscuss ?<SubmitBox editDisable={this.state.editDisable} onSubmit={(content)=>this.onSubmit(content)}/> : null}
-        <div className="show-more" style={{opacity:`${this.state.opacity}`,display:`${this.state.opacity===0?'none':'block'}`}} >上拉加载更多消息</div>
+        {showDiscuss ?<SubmitBox placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable} onSubmit={(content)=>this.onSubmit(content)}/> : null}
         <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
       </div>
     )

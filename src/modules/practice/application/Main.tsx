@@ -258,10 +258,10 @@ export class Main extends React.Component <any, any> {
               {renderContent()}
               {content?<div className="submit-bar">群众的智慧</div>:null}
               {renderOtherList()}
+              <div className="show-more">上拉加载更多消息</div>
             </div>
           </div>
         </div>
-        <div className="show-more" style={{opacity:`${this.state.opacity}`,display:`${this.state.opacity===0?'none':'block'}`}} >上拉加载更多消息</div>
         <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
       </div>
