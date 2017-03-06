@@ -167,8 +167,9 @@ export class Main extends React.Component <any, any> {
     if(goBackUrl) {
       this.context.router.push({pathname: goBackUrl})
     }else{
-      this.context.router.push({pathname: '/rise/static/plan/main', series: location.query.series})
+      this.context.router.push({pathname: '/rise/static/plan/main', query: { series: location.query.series}})
     }
+
   }
 
   render() {
