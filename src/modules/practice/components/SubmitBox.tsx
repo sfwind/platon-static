@@ -15,7 +15,7 @@ export default class Discuss extends React.Component <any, any> {
 
   render() {
     return (
-      <div className="discuss-page">
+      <div className="discuss-page" style={{height:`${window.innerHeight}px`}}>
         <div className="submit">
           <textarea className="submit-area" cols="30" rows="10" height="500px" width="100%"
                     value={this.state.comment}
