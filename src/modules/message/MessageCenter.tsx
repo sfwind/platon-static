@@ -17,6 +17,7 @@ export class MessageCenter extends React.Component <any, any> {
       pull:{},
       opacity: 0,
       no_message: false,
+      end: true,
     }
     this.pullElement=null
   }
@@ -48,17 +49,22 @@ export class MessageCenter extends React.Component <any, any> {
           dispatch(startLoad());
           loadMessage(this.state.index + 1).then(res=> {
             dispatch(endLoad());
-            if (res.code === 200) {
-              if (res.msg && res.msg.length !== 0) {
-                remove(res.msg,(item)=>{
-                  return findIndex(this.state.list,item)!==-1;
+            const {code, msg} = res
+            if (code === 200) {
+              if (msg && msg.length !== 0) {
+                remove(msg.notifyMessageList,(item)=>{
+                  return findIndex(this.state.list,item)!==-1
                 })
-                this.setState({list: this.state.list.concat(res.msg), index: this.state.index + 1});
+                this.setState({list: this.state.list.concat(msg.notifyMessageList),
+                  index: this.state.index + 1, end: msg.end})
+                if(msg.end===true){
+                  this.pullElement.disable()
+                }
               } else {
-                dispatch(alertMsg('没有更多消息了'));
+                dispatch(alertMsg(msg));
               }
             } else {
-              dispatch(alertMsg(res.msg));
+              dispatch(alertMsg(msg));
             }
           }).catch(ex => {
             dispatch(endLoad());
@@ -86,7 +92,10 @@ export class MessageCenter extends React.Component <any, any> {
         if(msg.length === 0){
           no_message = true
         }
-        this.setState({index:2, list: msg, no_message})
+        this.setState({index:2, list: msg.notifyMessageList, no_message, end: msg.end})
+        if(msg.end===true){
+          this.pullElement.disable()
+        }
       } else {
         dispatch(alertMsg(msg))
       }
@@ -138,7 +147,7 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   render() {
-    const {list, no_message} = this.state
+    const {list, no_message, end} = this.state
 
     const messageRender = (msg) => {
       const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg
@@ -169,8 +178,9 @@ export class MessageCenter extends React.Component <any, any> {
           </div>: <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
         </div>}
-
-        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
+        { end ? null :
+          <div className="show-more" style={{opacity:`${this.state.opacity}`}}>上拉加载更多消息</div>
+        }
         <div className="button-footer fix" onClick={this.back.bind(this)}>返回</div>
 
       </div>
