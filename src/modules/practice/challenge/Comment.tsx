@@ -80,7 +80,7 @@ export class Comment extends React.Component<any,any>{
                 remove(res.msg,(item)=>{
                   return findIndex(this.state.commentList,item)!==-1;
                 });
-                this.setState({commentList: this.state.commentList.concat(res.msg)})
+                this.setState({commentList: this.state.commentList.concat(res.msg),page:this.state.page+1})
               } else {
                 dispatch(alertMsg('没有更多了'));
               }
