@@ -5,6 +5,7 @@ import {loadMessage, readMessage} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import {set, findIndex, remove} from "lodash"
 import PullElement from "pull-element";
+import AssetImg from "../../components/AssetImg";
 
 @connect(state => state)
 export class MessageCenter extends React.Component <any, any> {
@@ -15,6 +16,7 @@ export class MessageCenter extends React.Component <any, any> {
       list:[],
       pull:{},
       opacity: 0,
+      no_message: false,
     }
     this.pullElement=null
   }
@@ -81,7 +83,11 @@ export class MessageCenter extends React.Component <any, any> {
       const {code, msg} = res
 
       if (code === 200) {
-        this.setState({index:2, list: msg})
+        let no_message = false
+        if(msg.length === 0){
+          no_message = true
+        }
+        this.setState({index:2, list: msg, no_message})
       } else {
         dispatch(alertMsg(msg))
       }
@@ -133,7 +139,7 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   render() {
-    const {list} = this.state
+    const {list, no_message} = this.state
 
     const messageRender = (msg) => {
       const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg
@@ -155,7 +161,13 @@ export class MessageCenter extends React.Component <any, any> {
     }
 
     return (
-      <div>
+      <div className="message_box">
+        { no_message ? <div className="on_message">
+                        <div className="no_comment">
+                          <AssetImg type="no_comment" height={120} width={120}/>
+                        </div>
+                        还没有消息提醒
+          </div>: null}
         <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
         </div>

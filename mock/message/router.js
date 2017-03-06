@@ -38,40 +38,7 @@ router.get("/rise/message/load", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
       "code": 200,
-      "msg": [{
-        "id": 22,
-        "message": "回复了我的热身训练",
-        "fromUser": null,
-        "toUser": null,
-        "isRead": 0,
-        "readTime": "2017-2-18",
-        "sendTime": "2017-2-18",
-        "url": "/rise/static/practice/challenge?id=3",
-        "fromUserName": "小猴几",
-        "fromUserAvatar": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-      },{
-        "id": 23,
-        "message": "回复了我的热身训练",
-        "fromUser": null,
-        "toUser": null,
-        "isRead": 0,
-        "readTime": "2017-2-16",
-        "sendTime": "2017-2-16",
-        "url": "/rise/static/practice/application?id=3",
-        "fromUserName": "小猴几",
-        "fromUserAvatar": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-      },{
-        "id": 24,
-        "message": "回复了我的热身训练",
-        "fromUser": null,
-        "toUser": null,
-        "isRead": 1,
-        "readTime": "2017-2-16",
-        "sendTime": "2017-2-16",
-        "url": "/rise/static/message/warmup/reply?commentId=13&warmupPracticeId=13",
-        "fromUserName": "小猴几",
-        "fromUserAvatar": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-      }]
+      "msg": []
     }), Math.random() * 1500)
 });
 
