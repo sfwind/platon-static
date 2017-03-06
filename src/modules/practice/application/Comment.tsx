@@ -57,7 +57,7 @@ export class Comment extends React.Component<any,any>{
     this.pullElement = new PullElement({
       target: '.pull-target',
       scroller: '.comment',
-      trigger:'.comment-body',
+      trigger:'.comment',
       damping: 4,
       onPullUp: (data) => {
         if (data.translateY <= -40){
