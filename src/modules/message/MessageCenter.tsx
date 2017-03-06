@@ -167,10 +167,10 @@ export class MessageCenter extends React.Component <any, any> {
                           <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
                         </div>
                         还没有消息提醒
-          </div>: null}
-        <div className="container has-footer">
+          </div>: <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
-        </div>
+        </div>}
+
         <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
         <div className="button-footer fix" onClick={this.back.bind(this)}>返回</div>
 
