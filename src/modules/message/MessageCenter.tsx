@@ -33,10 +33,9 @@ export class MessageCenter extends React.Component <any, any> {
       this.pullElement = new PullElement({
         target:'.container',
         scroller:'.container',
-        damping:2,
+        damping:4,
         onPullUp: (data) => {
           if (data.translateY <= -40){
-            this.pullElement.preventDefault()
           } else {
             this.setState({opacity:(-data.translateY)/40});
           }
