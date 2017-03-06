@@ -258,7 +258,7 @@ export class Main extends React.Component <any, any> {
               {renderContent()}
               {content?<div className="submit-bar">群众的智慧</div>:null}
               {renderOtherList()}
-              <div className="show-more">上拉加载更多消息</div>
+              {content?<div className="show-more">上拉加载更多消息</div>:null}
             </div>
           </div>
         </div>

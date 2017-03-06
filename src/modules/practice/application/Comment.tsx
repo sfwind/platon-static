@@ -52,52 +52,59 @@ export class Comment extends React.Component<any,any>{
     })
   }
 
-  componentDidMount() {
+  componentDidUpdate(){
+    const { commentList=[] } = this.state;
     const {dispatch,location} = this.props;
-    this.pullElement = new PullElement({
-      target: '.pull-target',
-      scroller: '.comment',
-      trigger:'.comment',
-      damping: 4,
-      onPullUp: (data) => {
-        if (data.translateY <= -40){
-        } else {
-          console.log(data.translateY);
-          this.setState({opacity:(-data.translateY)/40});
-        }
-      },
-      detectScroll: true,
-      detectScrollOnStart: true,
-      onPullUpEnd: (data) => {
-        console.log("开始加载更多");
-        this.setState({opacity:0});
-        dispatch(startLoad());
-        loadCommentList(location.query.submitId, this.state.page+1)
-          .then(res => {
-            dispatch(endLoad());
-            if(res.code===200){
-              if(res.msg && res.msg.length !== 0){
-                remove(res.msg,(item)=>{
-                  return findIndex(this.state.commentList,item)!==-1;
-                });
-                this.setState({commentList:this.state.commentList.concat(res.msg),page:this.state.page+1})
+    if(commentList&& commentList.length!==0 && !this.pullElement){
+      this.pullElement = new PullElement({
+        target: '.pull-target',
+        scroller: '.comment',
+        trigger:'.comment',
+        damping: 4,
+        onPullUp: (data) => {
+          if (data.translateY <= -40){
+          } else {
+            console.log(data.translateY);
+            this.setState({opacity:(-data.translateY)/40});
+          }
+        },
+        detectScroll: true,
+        detectScrollOnStart: true,
+        onPullUpEnd: (data) => {
+          console.log("开始加载更多");
+          this.setState({opacity:0});
+          dispatch(startLoad());
+          loadCommentList(location.query.submitId, this.state.page+1)
+            .then(res => {
+              dispatch(endLoad());
+              if(res.code===200){
+                if(res.msg && res.msg.length !== 0){
+                  remove(res.msg,(item)=>{
+                    return findIndex(this.state.commentList,item)!==-1;
+                  });
+                  this.setState({commentList:this.state.commentList.concat(res.msg),page:this.state.page+1})
+                } else {
+                  dispatch(alertMsg('没有更多了'));
+                }
               } else {
-                dispatch(alertMsg('没有更多了'));
+                dispatch(alertMsg(res.msg));
               }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
-      }
-    });
-    this.pullElement.init();
+            }).catch(ex => {
+            dispatch(endLoad());
+            dispatch(alertMsg(ex));
+          });
+        }
+      });
+      this.pullElement.init();
+    }
+  }
+
+  componentDidMount() {
+
   }
 
   componentWillUnmount(){
-    this.pullElement.destroy();
+    this.pullElement?this.pullElement.destroy():null;
   }
 
   onSubmit(content){
@@ -163,7 +170,7 @@ export class Comment extends React.Component<any,any>{
           <div className="no_comment">
             <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
           </div>
-          暂时还没有评论，点击左下角提交评论
+          还没有人评论过<br/>点击左下角按钮，发表第一条吧
         </div>)
       }
     }
