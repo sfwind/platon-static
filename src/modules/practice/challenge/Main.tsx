@@ -39,12 +39,11 @@ export class Main extends React.Component <any, any> {
     if(content && !this.pullElement){
       const {dispatch} = this.props;
       this.pullElement = new PullElement({
-        target:'.work-container',
+        target:'.container',
         scroller:'.container',
-        damping:2,
+        damping:4,
         onPullUp: (data) => {
           if (data.translateY <= -40){
-            this.pullElement.preventDefault()
           } else {
             this.setState({opacity:(-data.translateY)/40});
           }
