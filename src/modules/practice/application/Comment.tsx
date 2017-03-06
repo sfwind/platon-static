@@ -58,10 +58,9 @@ export class Comment extends React.Component<any,any>{
       target: '.pull-target',
       scroller: '.comment',
       trigger:'.comment-body',
-      damping: 2,
+      damping: 4,
       onPullUp: (data) => {
         if (data.translateY <= -40){
-          this.pullElement.preventDefault()
         } else {
           console.log(data.translateY);
           this.setState({opacity:(-data.translateY)/40});
