@@ -164,7 +164,7 @@ export class MessageCenter extends React.Component <any, any> {
       <div className="message_box">
         { no_message ? <div className="on_message">
                         <div className="no_comment">
-                          <AssetImg type="no_comment" height={120} width={120}/>
+                          <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
                         </div>
                         还没有消息提醒
           </div>: null}
