@@ -259,7 +259,7 @@ export class Main extends React.Component <any, any> {
             </div>
           </div>
         </div>
-        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
+        <div className="show-more" style={{opacity:`${this.state.opacity}`,display:`${this.state.opacity===0?'none':'block'}`}} >上拉加载更多消息</div>
         <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
       </div>
     )
