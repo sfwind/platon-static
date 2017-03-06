@@ -169,7 +169,7 @@ export class Comment extends React.Component<any,any>{
           <AssetImg type="discuss" width={45} height={45}/>
         </div>
         {showDiscuss ?<SubmitBox editDisable={this.state.editDisable} onSubmit={(content)=>this.onSubmit(content)}/> : null}
-        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
+        <div className="show-more" style={{opacity:`${this.state.opacity}`,display:`${this.state.opacity===0?'none':'block'}`}} >上拉加载更多消息</div>
         <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
       </div>
     )
