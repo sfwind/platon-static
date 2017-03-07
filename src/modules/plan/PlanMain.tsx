@@ -129,12 +129,12 @@ export class PlanMain extends React.Component <any, any> {
     } else if (type === 11) {
       this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], kid: knowledge.id, series, practicePlanId }
+        query: { id: item.practiceIdList[0], series }
       })
     } else if (type === 21) {
       this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[0], series, practicePlanId }
+        query: { id: item.practiceIdList[0], series }
       })
     }
   }
@@ -238,11 +238,15 @@ export class PlanMain extends React.Component <any, any> {
     })
   }
 
+  openMessageBox(){
+    this.context.router.push({ pathname: '/rise/static/message/center' })
+  }
+
   render() {
     const { planData, showCompleteModal, showConfirmModal } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
-      deadline, status, currentSeries, totalSeries, series,openRise
+      deadline, status, currentSeries, totalSeries, series, openRise, newMessage
     } = planData
 
     const practiceRender = (list = []) => {
@@ -346,6 +350,12 @@ export class PlanMain extends React.Component <any, any> {
           : null }
         <div className="header-img">
           <img src={problem.pic} style={{width: this.picWidth, height: this.picHeight}}/>
+          <div className="message-box" onClick={this.openMessageBox.bind(this)}>
+          { newMessage?
+              <AssetImg type="has_message" height={33} width={33}/>
+            : <AssetImg type="no_message" height={33} width={33}/>
+          }
+          </div>
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>
             <div className="section">

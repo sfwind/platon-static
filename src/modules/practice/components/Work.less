@@ -1,7 +1,7 @@
 .work{
   overflow: hidden;
-  margin-top: 12px;
-  padding-bottom:20px;
+  margin-top: 10px;
+  padding-bottom:10px;
   &-other:not(:nth-last-of-type(1)){
     border-bottom:1px solid #efefef;
   }
@@ -9,21 +9,21 @@
     > .submit-avatar {
       display: inline-block;
       vertical-align: top;
-      height: 30px;
-      width: 30px;
-      margin-top:7px;
+      height: 40px;
+      width: 40px;
       > .submit-avatar-img {
-        height: 30px;
-        width: 30px;
-        border-radius: 15px;
+        height: 40px;
+        width: 40px;
+        border-radius: 40px;
       }
     }
     > .submit-area {
       display: inline-block;
-      margin-left: 5px;
-      width: ~"calc(100% - 30px - 5px)";
+      margin-left: 10px;
+      width: ~"calc(100% - 40px - 10px)";
       > .submit-head {
-        height: 30px;
+        line-height:13px;
+        height:13px;
         > .submit-name {
           display: inline-block;
           color: #666666;
@@ -32,7 +32,8 @@
         > .submit-time {
           display: inline-block;
           margin-left:10px;
-          font-size: 13px;
+          font-size: 10px;
+          line-height:10px;
           color: #999999;
         }
         > .right{
@@ -43,19 +44,26 @@
             display: inline-block;
             margin-right: 5px;
             margin-top: 2px;
+            img{
+              height: 12px;
+              width: 15px;
+              display: inline;
+            }
           }
           > .submit-button {
             display: inline-block;
             color: #55cbcb;
             font-size: 13px;
-            line-height: 30px;
+            line-height:13px;
+            margin-top: 3px;
           }
         }
       }
       > .submit-content {
+        line-height:23px;
+        margin-top: 7px;
         > pre {
           font-size: 13px;
-          margin-top: 2px;
           width: 100%;
           white-space: pre-wrap;
           word-wrap: break-word;
@@ -67,11 +75,24 @@
         font-size:13px;
         margin-top:-20px;
         color:#55cbcb;
+        z-index: 1000;
+        position: relative;
+        background: white;
+        padding: 0 1px;
       }
 
       > .operation-area{
+        span{
+          line-height:13px;
+          font-size:13px;
+          color:#999999;
+        }
         > .vote{
-          display: inline;
+          display: block;
+          float: left;
+          height: 25px;
+          width: 35px;
+          margin-right: 20px;
           > span{
             &:before {
               content: '';
@@ -85,28 +106,30 @@
           }
           > .disVote{
             &:before{
-              background: url(http://www.iquanwai.com/images/iconGreyVote.png) no-repeat center center/13px 16px;
+              background: url(http://www.iquanwai.com/images/iconGreyVote.png) no-repeat center center/13px 13px;
             }
           }
           > .voted{
             &:before{
-              background: url(http://www.iquanwai.com/images/iconGreenVote.png) no-repeat center center/13px 16px;
+              background: url(http://www.iquanwai.com/images/iconGreenVote.png) no-repeat center center/13px 13px;
             }
           }
         }
         > .comment{
-          display: inline;
-          margin-left:20px;
+          display: block;
+          width:35px;
+          height:25px;
+
           > span{
             &:before {
-              background: url(http://www.iquanwai.com/images/iconComment.png) no-repeat center center/14px 13px;
+              background: url(http://www.iquanwai.com/images/iconComment.png) no-repeat center center/13px 9px;
               content: '';
               display: inline-block;
               vertical-align: middle;
               width: 16px;
               height: 16px;
               margin-right:5px;
-              margin-bottom:5px;
+              margin-bottom:2px;
             }
           }
         }

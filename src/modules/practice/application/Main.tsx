@@ -22,7 +22,7 @@ export class Main extends React.Component <any, any> {
       submitId: 0,
       page:1,
       otherList:[],
-      opacity:0,
+      goBackUrl: '',
     }
     this.pullElement=null;
   }
@@ -36,37 +36,30 @@ export class Main extends React.Component <any, any> {
 
   }
 
-  componentDidUpdate(preProps,preState){
-    const content = get(this.state,'data.content');
-    if(content && !this.pullElement){
+  componentDidUpdate(preProps, preState) {
+    const content = get(this.state, 'data.content');
+    if (content && !this.pullElement) {
       // 有内容并且米有pullElement
       const {dispatch} = this.props;
       this.pullElement = new PullElement({
-        target:'.work-container',
-        scroller:'.container',
-        damping:2,
-        onPullUp: (data) => {
-          if (data.translateY <= -40){
-            this.pullElement.preventDefault()
-          } else {
-            console.log(data.translateY);
-            this.setState({opacity:(-data.translateY)/40});
-          }
-        },
-        detectScroll:true,
-        detectScrollOnStart:true,
-        onPullUpEnd:(data)=>{
+        target: '.container',
+        scroller: '.container',
+        damping: 4,
+        detectScroll: true,
+        detectScrollOnStart: true,
+        onPullUpEnd: (data) => {
           console.log("开始加载更多");
-          this.setState({opacity:0});
-          dispatch(startLoad());
-          loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
-            dispatch(endLoad());
+          loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
             if (res.code === 200) {
-              if (res.msg && res.msg.length !== 0) {
-                remove(res.msg,(item)=>{
-                  return findIndex(this.state.otherList,item)!==-1;
+              if (res.msg && res.msg.list.length !== 0) {
+                remove(res.msg.list, (item) => {
+                  return findIndex(this.state.otherList, item) !== -1;
                 })
-                this.setState({otherList: this.state.otherList.concat(res.msg), page: this.state.page + 1});
+                this.setState({
+                  otherList: this.state.otherList.concat(res.msg.list),
+                  page: this.state.page + 1,
+                  end: res.msg.end
+                });
               } else {
                 dispatch(alertMsg('没有更多了'));
               }
@@ -74,12 +67,14 @@ export class Main extends React.Component <any, any> {
               dispatch(alertMsg(res.msg));
             }
           }).catch(ex => {
-            dispatch(endLoad());
             dispatch(alertMsg(ex));
           });
         }
       })
       this.pullElement.init();
+    }
+    if(this.pullElement && this.state.end){
+      this.pullElement.disable();
     }
   }
 
@@ -89,22 +84,29 @@ export class Main extends React.Component <any, any> {
 
   componentWillMount() {
     const { dispatch, location } = this.props;
+    const {state} = location
+    if(state){
+      const {goBackUrl} = state
+      if(goBackUrl){
+        this.setState({goBackUrl})
+      }
+    }
+
     dispatch(startLoad());
-    loadKnowledgeIntro(location.query.kid).then(res => {
-      dispatch(endLoad());
-      const { code, msg } = res;
-      if (code === 200)  this.setState({ knowledge: msg });
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
     loadApplicationPractice(location.query.id).then(res => {
-      dispatch(endLoad());
-      const { code, msg } = res;
+      let { code, msg } = res;
       if (code === 200) {
-        const { content } = msg;
+        const { content, knowledgeId } = msg;
         this.setState({data: msg, submitId: msg.submitId})
+        loadKnowledgeIntro(knowledgeId).then(res => {
+          dispatch(endLoad());
+          let { code, msg } = res;
+          if (code === 200)  this.setState({ knowledge: msg });
+          else dispatch(alertMsg(msg))
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        });
         if (content !== null){
           window.location.href = '#submit'
           return true;
@@ -115,16 +117,14 @@ export class Main extends React.Component <any, any> {
     }).then(res=>{
       if (res) {
         // 已提交
-        console.log("已经提交", res);
         return loadOtherList(location.query.id, 1).then(res => {
           if (res.code === 200) {
-            this.setState({otherList: res.msg, page: 1});
+            this.setState({otherList: res.msg.list, page: 1, end:res.msg.end});
           } else {
             dispatch(alertMsg(res.msg));
           }
         });
       } else {
-        console.log("没有提交");
       }
     }).catch(ex => {
       dispatch(endLoad())
@@ -132,19 +132,13 @@ export class Main extends React.Component <any, any> {
     })
   }
 
-  onSubmit() {
-    const { location } = this.props
-    this.context.router.push({
-      pathname: '/rise/static/plan/main',
-      query: { series: location.query.series }
-    })
-  }
-
   onEdit() {
     const { location } = this.props
+    const { goBackUrl } = this.state
     this.context.router.push({
       pathname: '/rise/static/practice/application/submit',
-      query: { id: location.query.id, series: location.query.series, kid: location.query.kid}
+      query: { id: location.query.id, series: location.query.series},
+      state: {goBackUrl}
     })
   }
 
@@ -153,7 +147,11 @@ export class Main extends React.Component <any, any> {
   }
 
   goComment(submitId){
-    this.context.router.push({pathname:"/rise/static/practice/application/comment",query:merge({submitId:submitId},this.props.location.query)})
+    const {goBackUrl} = this.state
+    this.context.router.push({pathname:"/rise/static/practice/application/comment",
+      query:merge({submitId:submitId},this.props.location.query),
+      state:{goBackUrl}
+    })
     console.log("开始评论",submitId);
   }
 
@@ -174,8 +172,18 @@ export class Main extends React.Component <any, any> {
     }
   }
 
+  back(){
+    const {goBackUrl} = this.state
+    const {location} = this.props
+    if(goBackUrl) {
+      this.context.router.push({pathname: goBackUrl})
+    }else{
+      this.context.router.push({pathname: '/rise/static/plan/main', query: { series: location.query.series}})
+    }
+  }
+
   render() {
-    const { data,otherList, knowledge = {}, showKnowledge } = this.state
+    const { data,otherList, knowledge = {}, showKnowledge, end } = this.state
     const { voice, pic, description, content, submitUpdateTime,voteCount,commentCount,submitId,voteStatus } = data
 
 
@@ -215,6 +223,20 @@ export class Main extends React.Component <any, any> {
       }
     }
 
+    const renderTips = ()=>{
+      if(content){
+        if(!end){
+          return (
+            <div className="show-more">上拉加载更多消息</div>
+          )
+        } else {
+          return (
+            <div className="show-more">已经到最底部了</div>
+          )
+        }
+      }
+    }
+
     return (
       <div>
         <div  ref="container" className="container has-footer">
@@ -245,11 +267,11 @@ export class Main extends React.Component <any, any> {
               {renderContent()}
               {content?<div className="submit-bar">群众的智慧</div>:null}
               {renderOtherList()}
+              {renderTips()}
             </div>
           </div>
         </div>
-        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
-        <div className="button-footer" onClick={this.onSubmit.bind(this)}>返回</div>
+        <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
       </div>
     )

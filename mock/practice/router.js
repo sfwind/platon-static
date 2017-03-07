@@ -331,6 +331,102 @@ router.post("/rise/practice/challenge/submit/*", (req, res) => {
     }), Math.random() * 1500)
 });
 
+
+router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "id": 1, //题目id
+        "question": "题干", //问题题干
+        "analysis": "balbal", //问题分析
+        "voice": "http://someurl", //语音分析链接
+        "type": 1, //1-单选题，2-多选题
+        "difficulty": 1, //1-简单，2-普通，3-困难
+        "knowledgeId":2, //知识点
+        "choiceList": [
+          {
+            "id": 1,
+            "questionId": 1, //问题id
+            "subject": "选项1", //选项题干
+            "sequence": 1, //选项顺序
+            "isRight": false,  //是否是正确选项
+            "selected": false //用户是否选择
+          },
+          {
+            "id": 2,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": true
+          },
+          {
+            "id": 3,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": false
+          },
+          {
+            "id": 4,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": false,
+            "selected": true
+          }
+        ],
+        "discussList": [
+          {
+            "id":2,
+            "repliedId": 1,
+            "comment":"回复回复",
+            "repliedName": "风之伤",
+            "repliedComment": "评论评论评论",
+            "warmupPracticeId": 49,
+            "name":"Diane",
+            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+            "discussTime":"10:30"
+          },
+
+          {
+            "id":1,
+            "repliedId": null,
+            "comment":"评论评论评论",
+            "repliedName": null,
+            "repliedComment": null,
+            "warmupPracticeId": 49,
+            "name":"风之伤",
+            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+            "discussTime":"10:38"
+          }
+        ],
+      }, "code": 200
+    }), Math.random() * 1500)
+})
+
+router.get("/rise/practice/warmup/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": {
+        "id": 13,
+        "question": "如何战胜公开发言恐慌症？1、 发言前:准备好讲稿，反复演练提前到场熟悉发言环境上台前深呼吸放松心情2、发言时：眼睛盯住远方一个点避免紧张3、 发言后：收集听众的正面反馈，树立信心这段话符合时间顺序的哪种子结构类型",
+        "type": 1,
+        "analysis": "这段话按照时间顺序，按照发言前、发言时、发言后几个时间点提出了消除恐惧心理的方法。不属于步骤/流程，也没有因果关系",
+        "voice": null,
+        "difficulty": 1,
+        "knowledgeId": 2,
+        "sceneId": 1,
+        "score": null,
+        "choiceList": null,
+        "discussList": null,
+        "choice": null
+      }
+    }), Math.random() * 1500)
+});
+
 router.post("/rise/practice/vote", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
@@ -538,6 +634,5 @@ router.post("/rise/practice/comment/*",(req,res)=>{
     );
   },Math.random()*1500);
 });
-
 
 module.exports = router;

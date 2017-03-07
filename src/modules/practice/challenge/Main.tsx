@@ -22,6 +22,7 @@ export class Main extends React.Component <any, any> {
       page:1,
       otherList:[],
       opacity:0,
+      goBackUrl: '',
     }
     this.pullElement=null;
   }
@@ -38,31 +39,19 @@ export class Main extends React.Component <any, any> {
     if(content && !this.pullElement){
       const {dispatch} = this.props;
       this.pullElement = new PullElement({
-        target:'.work-container',
+        target:'.container',
         scroller:'.container',
-        damping:2,
-        onPullUp: (data) => {
-          if (data.translateY <= -40){
-            this.pullElement.preventDefault()
-          } else {
-            console.log(data.translateY);
-            this.setState({opacity:(-data.translateY)/40});
-          }
-        },
+        damping:4,
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
-          console.log("开始加载更多");
-          this.setState({opacity:0});
-          dispatch(startLoad());
           loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
-            dispatch(endLoad());
             if (res.code === 200) {
-              if (res.msg && res.msg.length !== 0) {
-                remove(res.msg,(item)=>{
+              if (res.msg.list && res.msg.list.length !== 0) {
+                remove(res.msg.list,(item)=>{
                   return findIndex(this.state.otherList,item)!==-1;
                 })
-                this.setState({otherList: this.state.otherList.concat(res.msg), page: this.state.page + 1});
+                this.setState({otherList: this.state.otherList.concat(res.msg.list), page: this.state.page + 1,end:res.msg.end});
               } else {
                 dispatch(alertMsg('没有更多了'));
               }
@@ -70,12 +59,14 @@ export class Main extends React.Component <any, any> {
               dispatch(alertMsg(res.msg));
             }
           }).catch(ex => {
-            dispatch(endLoad());
             dispatch(alertMsg(ex));
           });
         }
       })
       this.pullElement.init();
+    }
+    if(this.pullElement && this.state.end){
+      this.pullElement.disable();
     }
   }
 
@@ -85,6 +76,14 @@ export class Main extends React.Component <any, any> {
 
   componentWillMount() {
     const { dispatch, location } = this.props
+    const {state} = location
+    if(state)
+    {
+      const {goBackUrl} = state
+      if (goBackUrl) {
+        this.setState({goBackUrl})
+      }
+    }
     dispatch(startLoad())
     loadChallengePractice(location.query.id).then(res => {
       dispatch(endLoad())
@@ -102,16 +101,14 @@ export class Main extends React.Component <any, any> {
     }).then(res=>{
       if (res) {
         // 已提交
-        console.log("已经提交", res);
         return loadOtherList(location.query.id, 1).then(res => {
           if (res.code === 200) {
-            this.setState({otherList: res.msg, page: 1});
+            this.setState({otherList: res.msg.list, page: 1,end:res.msg.end});
           } else {
             dispatch(alertMsg(res.msg));
           }
         });
       } else {
-        console.log("没有提交");
       }
     }).catch(ex => {
       dispatch(endLoad())
@@ -119,19 +116,13 @@ export class Main extends React.Component <any, any> {
     })
   }
 
-  onSubmit() {
-    const { location } = this.props
-    this.context.router.push({
-      pathname: '/rise/static/plan/main',
-      query: { series: location.query.series }
-    })
-  }
-
   onEdit() {
     const { location } = this.props
+    const { goBackUrl } = this.state
     this.context.router.push({
       pathname: '/rise/static/practice/challenge/submit',
-      query: { id: location.query.id, series: location.query.series}
+      query: { id: location.query.id, series: location.query.series},
+      state: {goBackUrl}
     })
   }
 
@@ -141,13 +132,14 @@ export class Main extends React.Component <any, any> {
   }
 
   goComment(submitId){
-    this.context.router.push({pathname:"/rise/static/practice/challenge/comment",query:merge({submitId:submitId},this.props.location.query)})
-    console.log("开始评论",submitId);
+    const { goBackUrl } = this.state
+    this.context.router.push({pathname:"/rise/static/practice/challenge/comment",
+      query:merge({submitId:submitId},this.props.location.query),
+      state: {goBackUrl}})
   }
 
   voted(id,voteStatus,voteCount,isMine,seq){
     if(!voteStatus){
-      console.log("点赞");
       if(isMine){
         this.setState({data:merge({},this.state.data,{voteCount:voteCount+1,voteStatus:true})});
       } else {
@@ -158,12 +150,22 @@ export class Main extends React.Component <any, any> {
       }
       vote(id);
     } else {
-      console.log("不能点赞");
     }
   }
 
+  back(){
+    const {goBackUrl} = this.state
+    const {location} = this.props
+    if(goBackUrl) {
+      this.context.router.push({pathname: goBackUrl})
+    }else{
+      this.context.router.push({pathname: '/rise/static/plan/main', query: { series: location.query.series}})
+    }
+
+  }
+
   render() {
-    const { data,otherList=[], knowledge = {} } = this.state
+    const { data,otherList=[], knowledge = {},end } = this.state
     const { voice, pic, description, content, submitUpdateTime,voteCount,
       commentCount,submitId,voteStatus } = data
 
@@ -223,6 +225,21 @@ export class Main extends React.Component <any, any> {
     //     </div>
     //   </div>
     // </div>
+
+    const renderTips = ()=>{
+      if(content){
+        if(!end){
+          return (
+            <div className="show-more">上拉加载更多消息</div>
+          )
+        } else {
+          return (
+            <div className="show-more">已经到最底部了</div>
+          )
+        }
+      }
+    }
+
     return (
       <div>
         <div ref="container" className="container has-footer">
@@ -247,11 +264,11 @@ export class Main extends React.Component <any, any> {
               {renderContent()}
               {content?<div className="submit-bar">群众的智慧</div>:null}
               {renderOtherList()}
+              {renderTips()}
             </div>
           </div>
         </div>
-        <div className="show-more" style={{opacity:`${this.state.opacity}`}} >上拉加载更多消息</div>
-        <div className="button-footer" onClick={this.onSubmit.bind(this)}>返回</div>
+        <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
       </div>
     )
   }

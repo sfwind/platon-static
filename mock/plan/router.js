@@ -43,6 +43,7 @@ router.get("/rise/plan/load", (req, res) => {
 				"keycnt": 2,
 				"status": 1,
 				"summary": true, //是否显示总结弹窗
+        "newMessage":true,
 				"problem": {
 					"id": 2,
 					"problem": "跟老板",
@@ -115,7 +116,7 @@ router.get("/rise/plan/load", (req, res) => {
 				}],
 				"length": 7,
 				"deadline": 11,
-        "openRise":false
+        "openRise":true
 			}, "code": 200
 		}), Math.random() * 1500)
 });
@@ -141,6 +142,7 @@ router.get("/rise/plan/history/load/*", (req, res) => {
 				"keycnt": 2,
 				"status": 1,
 				"summary": true, //是否显示总结弹窗
+        "newMessage": true,
 				"problem": {
 					"id": 2,
 					"problem": "跟老板",

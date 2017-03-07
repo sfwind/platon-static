@@ -1,0 +1,102 @@
+.scroll{
+  height: 40px;
+  width: 92%;
+  position: absolute;
+  bottom: 60px;
+  background-color: red;
+}
+
+.read{
+  color: #cccccc !important;
+}
+.unread{
+  color: #666666 !important;
+}
+
+.on_message{
+  color: #cccccc;
+  font-size: 16px;
+  text-align: center;
+  padding-top: 15px;
+  > .no_comment{
+    margin-top: 125px;
+  }
+}
+
+.message_box {
+  > .container{
+    padding:0 !important;
+  }
+  .message-cell {
+    position: relative;
+    padding: 15px;
+    border-bottom:1px solid #f5f5f5;
+    > .message-avatar {
+      display: inline-block;
+      vertical-align: top;
+      height:40px;
+      width:40px;
+      > .message-avatar-img{
+        height:40px;
+        width:40px;
+        border-radius: 20px;
+      }
+    }
+    > .message-area {
+      float:right;
+      display: block;
+      margin-left: 15px;
+      width: ~"calc(100% - 40px - 15px)";
+      > .message-head{
+        line-height:13px;
+        height:27px;
+        > .message-name {
+          display: inline-block;
+          color: #666666;
+          font-size: 13px;
+        }
+        > .message-time{
+          display: inline-block;
+          font-size: 11px;
+          color: #999999;
+          position: absolute;
+          top: 50%;
+          right: 15px;
+          margin-top: -5px;
+        }
+        > .right {
+          float: right;
+          display: inline-block;
+          > .function-icon {
+            float: left;
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 2px;
+          }
+          > .function-button{
+            display: inline-block;
+            float: right;
+            color: #55cbcb;
+            font-size: 13px;
+          }
+        }
+      }
+      > .message-content{
+        line-height:13px;
+        font-size: 13px;
+        width: 100%;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      > .message-replied-content{
+        font-size: 13px;
+        margin-top:2px;
+        color: #999999;
+        width: 100%;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+    }
+  }
+}

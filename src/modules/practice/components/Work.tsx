@@ -19,14 +19,14 @@ export default class Work extends React.Component<any,any> {
   }
 
   render() {
-    const {headImage, userName, content, submitUpdateTime,onEdit,voteCount,commentCount,voteStatus,onVoted,goComment} = this.props;
+    const {headImage, userName, content, submitUpdateTime,onEdit,voteCount,commentCount,voteStatus,onVoted,goComment,wordsCount=60} = this.props;
     const {showAll} = this.state;
 
     const renderWorkContent = ()=>{
       if(isString(content)){
-          if(content.length>20 && !showAll){
+          if(content.length>wordsCount && !showAll){
           return (
-            <pre>{truncate(content,{length:20,omission:'......'})}</pre>
+            <pre>{truncate(content,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></pre>
           )
         } else {
           return (
@@ -38,7 +38,7 @@ export default class Work extends React.Component<any,any> {
     }
 
     const showOperation = ()=>{
-      if(content && content.length<20){
+      if(content && content.length<wordsCount){
         return true;
       } else
         return showAll;
@@ -57,7 +57,7 @@ export default class Work extends React.Component<any,any> {
               <div className="submit-time">{submitUpdateTime}</div>
               {onEdit?<div className="right" onClick={()=>onEdit()}>
                 <div className="submit-icon">
-                  <AssetImg type="edit" height={17}/>
+                  <AssetImg type="edit" height={12}/>
                 </div>
                 <div className="submit-button">
                   编辑
@@ -65,7 +65,7 @@ export default class Work extends React.Component<any,any> {
               </div>:null}
             </div>
             <div className="submit-content">{renderWorkContent()}</div>
-            {content && content.length>20?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all">{showAll?'收起':'展开'}</div>:null}
+            {content && content.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
             {showOperation()?<div className="operation-area">
               <div onClick={()=>{isFunction(onVoted)?onVoted():null;}} className="vote">
                 <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
