@@ -88,7 +88,7 @@ export class MessageCenter extends React.Component <any, any> {
           no_message = true
         }
         this.setState({list: msg.notifyMessageList, no_message, end: msg.end})
-        if(msg.end===true){
+        if(msg.end===true && this.pullElement){
           this.pullElement.disable()
         }
       } else {
