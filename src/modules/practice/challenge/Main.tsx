@@ -45,9 +45,7 @@ export class Main extends React.Component <any, any> {
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
-          dispatch(startLoad());
           loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
-            dispatch(endLoad());
             if (res.code === 200) {
               if (res.msg.list && res.msg.list.length !== 0) {
                 remove(res.msg.list,(item)=>{
@@ -61,7 +59,6 @@ export class Main extends React.Component <any, any> {
               dispatch(alertMsg(res.msg));
             }
           }).catch(ex => {
-            dispatch(endLoad());
             dispatch(alertMsg(ex));
           });
         }
@@ -237,7 +234,7 @@ export class Main extends React.Component <any, any> {
           )
         } else {
           return (
-            <div className="show-more">没有更多消息</div>
+            <div className="show-more">已经到最底部了</div>
           )
         }
       }

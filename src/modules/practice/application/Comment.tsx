@@ -65,11 +65,8 @@ export class Comment extends React.Component<any,any>{
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
-          console.log("开始加载更多");
-          dispatch(startLoad());
           loadCommentList(location.query.submitId, this.state.page + 1)
             .then(res => {
-              dispatch(endLoad());
               if (res.code === 200) {
                 if (res.msg && res.msg.list.length !== 0) {
                   remove(res.msg.list, (item) => {
@@ -87,7 +84,6 @@ export class Comment extends React.Component<any,any>{
                 dispatch(alertMsg(res.msg));
               }
             }).catch(ex => {
-            dispatch(endLoad());
             dispatch(alertMsg(ex));
           });
         }
@@ -185,7 +181,7 @@ export class Comment extends React.Component<any,any>{
           )
         } else {
           return (
-            <div className="show-more">没有更多消息</div>
+            <div className="show-more">已经到最底部了</div>
           )
         }
       }
