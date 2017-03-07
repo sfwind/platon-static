@@ -52,7 +52,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.setState({data:msg})
+        this.setState({data:msg, commentId})
       } else {
         dispatch(alertMsg(msg))
       }
@@ -77,7 +77,6 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
   render() {
     const {question, warmupPracticeId, data, commentId, showDiscuss} = this.state
     const {comment, name, repliedComment, repliedName, avatar, discussTime} = data
-
     return (
       <div>
         <div className="container has-footer">
