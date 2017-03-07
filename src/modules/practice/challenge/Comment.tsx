@@ -16,6 +16,7 @@ export class Comment extends React.Component<any,any>{
       page:1,
       editDisable:false,
     }
+    this.commentHeight = window.innerHeight;
   }
 
   static contextTypes = {
@@ -201,7 +202,7 @@ export class Comment extends React.Component<any,any>{
         <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
           <AssetImg type="discuss" width={45} height={45}/>
         </div>
-        {showDiscuss ?<SubmitBox placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable} onSubmit={(content)=>this.onSubmit(content)}/> : null}
+        {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable} onSubmit={(content)=>this.onSubmit(content)}/> : null}
         <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
       </div>
     )
