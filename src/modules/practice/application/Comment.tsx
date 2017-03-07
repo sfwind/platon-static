@@ -15,7 +15,6 @@ export class Comment extends React.Component<any,any>{
     this.state = {
       page:1,
       editDisable:false,
-      opacity:0
     }
   }
 
@@ -30,7 +29,7 @@ export class Comment extends React.Component<any,any>{
       .then(res => {
         dispatch(endLoad());
         if(res.code===200){
-          this.setState({commentList:res.msg});
+          this.setState({commentList:res.msg.list,page:1,end:res.msg.end});
         } else {
           dispatch(alertMsg(res.msg));
         }
@@ -53,7 +52,8 @@ export class Comment extends React.Component<any,any>{
   }
 
   componentDidUpdate(){
-    const { commentList=[] } = this.state;
+    const { commentList=[],end } = this.state;
+    console.log(end);
     const {dispatch,location} = this.props;
     if(commentList&& commentList.length!==0 && !this.pullElement){
       this.pullElement = new PullElement({
@@ -61,28 +61,24 @@ export class Comment extends React.Component<any,any>{
         scroller: '.comment',
         trigger:'.comment',
         damping: 4,
-        onPullUp: (data) => {
-          if (data.translateY <= -40){
-          } else {
-            console.log(data.translateY);
-            this.setState({opacity:(-data.translateY)/40});
-          }
-        },
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
           console.log("开始加载更多");
-          this.setState({opacity:0});
           dispatch(startLoad());
-          loadCommentList(location.query.submitId, this.state.page+1)
+          loadCommentList(location.query.submitId, this.state.page + 1)
             .then(res => {
               dispatch(endLoad());
-              if(res.code===200){
-                if(res.msg && res.msg.length !== 0){
-                  remove(res.msg,(item)=>{
-                    return findIndex(this.state.commentList,item)!==-1;
+              if (res.code === 200) {
+                if (res.msg && res.msg.list.length !== 0) {
+                  remove(res.msg.list, (item) => {
+                    return findIndex(this.state.commentList, item) !== -1;
                   });
-                  this.setState({commentList:this.state.commentList.concat(res.msg),page:this.state.page+1})
+                  this.setState({
+                    commentList: this.state.commentList.concat(res.msg.list),
+                    page: this.state.page + 1,
+                    end: end
+                  })
                 } else {
                   dispatch(alertMsg('没有更多了'));
                 }
@@ -96,6 +92,10 @@ export class Comment extends React.Component<any,any>{
         }
       });
       this.pullElement.init();
+    }
+
+    if(this.pullElement && this.state.end){
+      this.pullElement.disable();
     }
   }
 
@@ -117,7 +117,7 @@ export class Comment extends React.Component<any,any>{
           dispatch(endLoad());
           if(res.code===200){
             this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false,editDisable:false});
-            if(this.pullElement){
+            if(!this.state.end && this.pullElement){
               this.pullElement.enable();
             }
           } else {
@@ -141,7 +141,7 @@ export class Comment extends React.Component<any,any>{
   }
 
   render(){
-    const { commentList=[],showDiscuss } = this.state;
+    const { commentList=[],showDiscuss,end } = this.state;
     const renderCommentList = ()=>{
       if(commentList && commentList.length !== 0){
         return (
@@ -175,6 +175,21 @@ export class Comment extends React.Component<any,any>{
       }
     }
 
+    const renderTips = ()=>{
+
+      if(commentList && commentList.length !== 0){
+        if(!end){
+          return (
+            <div className="show-more">上拉加载更多消息</div>
+          )
+        } else {
+          return (
+            <div className="show-more">没有更多消息</div>
+          )
+        }
+      }
+    }
+
 
     return (
       <div className="comment has-footer">
@@ -184,7 +199,7 @@ export class Comment extends React.Component<any,any>{
           </div>
           <div className="comment-body">
             {renderCommentList()}
-            {commentList && commentList.length !== 0 ?<div className="show-more">上拉加载更多消息</div>: null}
+            {renderTips()}
           </div>
         </div>
         <div className="writeDiscuss" onClick={() => this.openWriteBox()}>

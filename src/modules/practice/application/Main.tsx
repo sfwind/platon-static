@@ -22,7 +22,6 @@ export class Main extends React.Component <any, any> {
       submitId: 0,
       page:1,
       otherList:[],
-      opacity:0,
       goBackUrl: '',
     }
     this.pullElement=null;
@@ -37,36 +36,32 @@ export class Main extends React.Component <any, any> {
 
   }
 
-  componentDidUpdate(preProps,preState){
-    const content = get(this.state,'data.content');
-    if(content && !this.pullElement){
+  componentDidUpdate(preProps, preState) {
+    const content = get(this.state, 'data.content');
+    if (content && !this.pullElement) {
       // 有内容并且米有pullElement
       const {dispatch} = this.props;
       this.pullElement = new PullElement({
-        target:'.container',
-        scroller:'.container',
-        damping:4,
-        onPullUp: (data) => {
-          if (data.translateY <= -40){
-          } else {
-            console.log(data.translateY);
-            this.setState({opacity:(-data.translateY)/40});
-          }
-        },
-        detectScroll:true,
-        detectScrollOnStart:true,
-        onPullUpEnd:(data)=>{
+        target: '.container',
+        scroller: '.container',
+        damping: 4,
+        detectScroll: true,
+        detectScrollOnStart: true,
+        onPullUpEnd: (data) => {
           console.log("开始加载更多");
-          this.setState({opacity:0});
           dispatch(startLoad());
-          loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
+          loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
             dispatch(endLoad());
             if (res.code === 200) {
-              if (res.msg && res.msg.length !== 0) {
-                remove(res.msg,(item)=>{
-                  return findIndex(this.state.otherList,item)!==-1;
+              if (res.msg && res.msg.list.length !== 0) {
+                remove(res.msg.list, (item) => {
+                  return findIndex(this.state.otherList, item) !== -1;
                 })
-                this.setState({otherList: this.state.otherList.concat(res.msg), page: this.state.page + 1});
+                this.setState({
+                  otherList: this.state.otherList.concat(res.msg.list),
+                  page: this.state.page + 1,
+                  end: res.msg.end
+                });
               } else {
                 dispatch(alertMsg('没有更多了'));
               }
@@ -80,6 +75,9 @@ export class Main extends React.Component <any, any> {
         }
       })
       this.pullElement.init();
+    }
+    if(this.pullElement && this.state.end){
+      this.pullElement.disable();
     }
   }
 
@@ -124,7 +122,7 @@ export class Main extends React.Component <any, any> {
         // 已提交
         return loadOtherList(location.query.id, 1).then(res => {
           if (res.code === 200) {
-            this.setState({otherList: res.msg, page: 1});
+            this.setState({otherList: res.msg.list, page: 1, end:res.msg.end});
           } else {
             dispatch(alertMsg(res.msg));
           }
@@ -188,7 +186,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { data,otherList, knowledge = {}, showKnowledge } = this.state
+    const { data,otherList, knowledge = {}, showKnowledge, end } = this.state
     const { voice, pic, description, content, submitUpdateTime,voteCount,commentCount,submitId,voteStatus } = data
 
 
@@ -228,6 +226,20 @@ export class Main extends React.Component <any, any> {
       }
     }
 
+    const renderTips = ()=>{
+      if(content){
+        if(!end){
+          return (
+            <div className="show-more">上拉加载更多消息</div>
+          )
+        } else {
+          return (
+            <div className="show-more">没有更多消息</div>
+          )
+        }
+      }
+    }
+
     return (
       <div>
         <div  ref="container" className="container has-footer">
@@ -258,7 +270,7 @@ export class Main extends React.Component <any, any> {
               {renderContent()}
               {content?<div className="submit-bar">群众的智慧</div>:null}
               {renderOtherList()}
-              {content?<div className="show-more">上拉加载更多消息</div>:null}
+              {renderTips()}
             </div>
           </div>
         </div>
