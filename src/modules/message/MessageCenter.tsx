@@ -44,9 +44,7 @@ export class MessageCenter extends React.Component <any, any> {
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
           console.log("开始加载更多");
-          dispatch(startLoad());
           loadMessage(this.state.index + 1).then(res=> {
-            dispatch(endLoad());
             const {code, msg} = res
             if (code === 200) {
               if (msg && msg.length !== 0) {
@@ -65,7 +63,6 @@ export class MessageCenter extends React.Component <any, any> {
               dispatch(alertMsg(msg));
             }
           }).catch(ex => {
-            dispatch(endLoad());
             dispatch(alertMsg(ex));
           });
         }
@@ -87,11 +84,11 @@ export class MessageCenter extends React.Component <any, any> {
 
       if (code === 200) {
         let no_message = false
-        if(msg.length === 0){
+        if(msg.notifyMessageList.length === 0){
           no_message = true
         }
         this.setState({list: msg.notifyMessageList, no_message, end: msg.end})
-        if(msg.end===true){
+        if(msg.end===true && this.pullElement){
           this.pullElement.disable()
         }
       } else {
@@ -175,7 +172,7 @@ export class MessageCenter extends React.Component <any, any> {
                         还没有消息提醒
           </div>: <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
-          { end ? <div className="show-more">没有更多消息</div> :
+          { end && !no_message ? <div className="show-more">已经到最底部了</div> :
              <div className="show-more">上拉加载更多消息</div>
           }
         </div>}
