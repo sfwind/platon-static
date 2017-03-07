@@ -236,7 +236,7 @@ export class Analysis extends React.Component <any, any> {
               <div className="comment-time">{discussTime}</div>
               <div className="right" onClick={() => this.setState({showDiscuss: true, warmupPracticeId, repliedId:id})}>
                 <div className="function-icon">
-                  <AssetImg type="reply" height={17}/>
+                  <AssetImg type="reply" height={12} width={15}/>
                 </div>
                 <div className="function-button">
                   回复
@@ -247,7 +247,6 @@ export class Analysis extends React.Component <any, any> {
             {repliedComment ?
               <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           </div>
-          <div className="comment-hr"/>
         </div>
       )
     }

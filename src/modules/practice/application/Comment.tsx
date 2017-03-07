@@ -152,7 +152,7 @@ export class Comment extends React.Component<any,any>{
                     <div className="comment-name">
                       {item.upName}
                     </div>
-                    <div className="comment-time right">{item.upTime}</div>
+                    <div className="comment-time">{item.upTime}</div>
                   </div>
                   <div className="comment-content">
                     <pre>{item.content}</pre>

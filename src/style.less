@@ -175,13 +175,13 @@
 }
 
 .comment-cell {
-  margin-top: 10px;
+  border-bottom: 1px solid #f5f5f5;
+  padding: 10px;
   > .comment-avatar {
     display: inline-block;
     vertical-align: top;
     height:40px;
     width:40px;
-    margin-top:7px;
     > .comment-avatar-img{
       height:40px;
       width:40px;
@@ -190,10 +190,11 @@
   }
   > .comment-area {
     display: inline-block;
-    margin-left: 5px;
-    width: ~"calc(100% - 40px - 5px)";
-    padding-bottom:15px;
+    margin-left: 10px;
+    width: ~"calc(100% - 40px - 10px)";
     > .comment-head{
+      line-height:13px;
+      height:13px;
       > .comment-name {
         display: inline-block;
         color: #666666;
@@ -201,9 +202,9 @@
       }
       > .comment-time{
         margin-left: 5px;
-        margin-top: 5px;
         display: inline-block;
-        font-size: 13px;
+        font-size: 10px;
+        line-height:10px;
         color: #999999;
       }
       > .right {
@@ -225,10 +226,15 @@
     }
     > .comment-content{
       font-size: 13px;
-      margin-top:-5px;
       width: 100%;
       white-space: pre-wrap;
       word-wrap: break-word;
+      line-height: 23px;
+      margin-top: 7px;
+      pre{
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
     }
     > .comment-replied-content{
       font-size: 13px;
