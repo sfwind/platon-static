@@ -31,6 +31,7 @@
     "fbjs": "^0.8.3",
     "lodash": "^4.14.1",
     "numeral": "^1.5.5",
+    "pull-element": "^1.1.1",
     "qs": "^6.2.1",
     "react": "^15.4.2",
     "react-copy-to-clipboard": "^4.2.3",
