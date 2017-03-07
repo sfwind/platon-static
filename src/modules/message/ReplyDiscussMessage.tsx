@@ -71,7 +71,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
   }
 
   closeModal(){
-    this.setState({showDiscuss:false})
+    this.context.router.push({ pathname: '/rise/static/practice/warmup/new/analysis', query: this.props.location.query })
   }
 
   render() {
