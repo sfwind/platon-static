@@ -40,6 +40,10 @@ export class Intro extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/practice/warmup', query: this.props.location.query })
   }
 
+  example() {
+    this.context.router.push({ pathname: '/rise/static/practice/knowledge/example', query: this.props.location.query })
+  }
+
   render() {
     const { data } = this.state
     const { knowledge, voice, pic, analysis, means, keynote } = data
@@ -71,7 +75,13 @@ export class Intro extends React.Component <any, any> {
             </div>
           </div>
         </div>
-        <div className="button-footer" onClick={this.onSubmit.bind(this)}>开始训练</div>
+        <div className="button-footer">
+          <div className="left" onClick={this.example.bind(this)}>例题
+          </div>
+          <div className="right" onClick={this.onSubmit.bind(this)}>
+              开始训练
+          </div>
+        </div>
       </div>
     )
   }

@@ -267,4 +267,54 @@ router.post('/rise/plan/openrise',(req,res)=>{
     }),Math.random() * 1500)
 });
 
+router.get("/rise/plan/knowledge/example/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": {
+        "id": 1, //题目id
+        "question": "题干", //问题题干
+        "analysis": "balbal", //问题分析
+        "voice": "http://someurl", //语音分析链接
+        "type": 1, //1-单选题，2-多选题
+        "difficulty": 1, //1-简单，2-普通，3-困难
+        "knowledgeId":2, //知识点
+        "choiceList": [
+          {
+            "id": 1,
+            "questionId": 1, //问题id
+            "subject": "选项1", //选项题干
+            "sequence": 1, //选项顺序
+            "isRight": false,  //是否是正确选项
+            "selected": false //用户是否选择
+          },
+          {
+            "id": 2,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": true
+          },
+          {
+            "id": 3,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": false
+          },
+          {
+            "id": 4,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": false,
+            "selected": true
+          }
+        ],
+      }
+    }), Math.random() * 1500)
+});
+
 module.exports = router;
