@@ -26,7 +26,7 @@ export default class Work extends React.Component<any,any> {
       if(isString(content)){
           if(content.length>wordsCount && !showAll){
           return (
-            <pre>{truncate(content,{length:wordsCount,omission:'......'})}</pre>
+            <pre>{truncate(content,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></pre>
           )
         } else {
           return (
