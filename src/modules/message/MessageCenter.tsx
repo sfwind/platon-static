@@ -151,10 +151,10 @@ export class MessageCenter extends React.Component <any, any> {
           <div className="message-avatar"><img className="message-avatar-img" src={fromUserAvatar} /></div>
           <div className="message-area" onClick={() => this.open(url, id, isRead)}>
             <div className={isRead?"message-head read":"message-head unread"}>
-              <div className="message-name">
+              <div className={isRead?"message-name read":"message-name unread"}>
                 {fromUserName}
               </div>
-              <div className="message-time right">{sendTime}</div>
+              <div className={isRead?"message-time right read":"message-time right unread"}>{sendTime}</div>
             </div>
             <div className={isRead?"message-content read":"message-content unread"}>{message}</div>
           </div>

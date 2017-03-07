@@ -7,10 +7,10 @@
 }
 
 .read{
-  color: #cccccc;
+  color: #cccccc !important;
 }
 .unread{
-  color: #666666;
+  color: #666666 !important;
 }
 
 .on_message{
@@ -28,6 +28,7 @@
     padding:0 !important;
   }
   .message-cell {
+    position: relative;
     padding: 15px;
     border-bottom:1px solid #f5f5f5;
     > .message-avatar {
@@ -55,11 +56,13 @@
           font-size: 13px;
         }
         > .message-time{
-          margin-left: 5px;
-          margin-top: 5px;
           display: inline-block;
-          font-size: 13px;
+          font-size: 10px;
           color: #999999;
+          position: absolute;
+          top: 50%;
+          right: 15px;
+          margin-top: -5px;
         }
         > .right {
           float: right;
