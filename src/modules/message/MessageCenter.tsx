@@ -175,7 +175,7 @@ export class MessageCenter extends React.Component <any, any> {
                         还没有消息提醒
           </div>: <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
-          { end ? <div className="no-more">没有更多消息</div> :
+          { end ? <div className="show-more">没有更多消息</div> :
              <div className="show-more">上拉加载更多消息</div>
           }
         </div>}
