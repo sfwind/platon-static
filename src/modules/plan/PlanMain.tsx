@@ -26,6 +26,7 @@ export class PlanMain extends React.Component <any, any> {
       showCompleteModal: false,
       showConfirmModal: false,
       showDoneAll: false,
+      currentIndex: 0,
     }
   }
 
@@ -77,7 +78,7 @@ export class PlanMain extends React.Component <any, any> {
         const { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg})
+            this.setState({ planData: msg, currentIndex:msg.series})
             // if (msg.summary) {
             //   dispatch(alertMsg(<div>
             //     <p>很好！你已完成这组训练。</p>
@@ -172,10 +173,10 @@ export class PlanMain extends React.Component <any, any> {
 
   next() {
     const {dispatch} = this.props
-    const {showDoneAll , planData} = this.state
+    const {showDoneAll , planData, currentIndex} = this.state
     const {doneAllPractice, series, totalSeries} = planData
     if(!showDoneAll){
-      if(!doneAllPractice){
+      if(!doneAllPractice && currentIndex===planData.series){
         this.setState({showDoneAll:true})
         dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
       }
