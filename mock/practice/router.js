@@ -248,7 +248,7 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"knowledgeId": 1,
 				"sceneId": 1,
 				"difficulty": null,
-        "content": "评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论", //提交内容
+        "content": null, //提交内容
         "submitId": 1, //提交id
         "submitUpdateTime": "2017-02-15" ,//最后提交时间
         "voteCount": 0,
@@ -631,6 +631,14 @@ router.post("/rise/practice/comment/*",(req,res)=>{
   setTimeout(()=>{
     res.status(200).json(
       {"msg":{"id":null,"content":"ccccc","upName":"风之伤","upTime":"2017-03-01","headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg"},"code":200}
+    );
+  },Math.random()*1500);
+});
+
+router.post("/rise/practice/check/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {"msg":"完成之前的理解训练，才能解锁该训练","code":221}
     );
   },Math.random()*1500);
 });

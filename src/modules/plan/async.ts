@@ -31,3 +31,7 @@ export function closePlan() {
 export function updateOpenRise(){
   return ppost(`/rise/plan/openrise`)
 }
+
+export function checkPractice(series){
+  return ppost(`/rise/practice/check/${series}`)
+}

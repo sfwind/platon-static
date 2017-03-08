@@ -48,7 +48,6 @@ export class Main extends React.Component <any, any> {
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
-          console.log("开始加载更多");
           loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
             if (res.code === 200) {
               if (res.msg && res.msg.list.length !== 0) {
@@ -152,12 +151,10 @@ export class Main extends React.Component <any, any> {
       query:merge({submitId:submitId},this.props.location.query),
       state:{goBackUrl}
     })
-    console.log("开始评论",submitId);
   }
 
   voted(id,voteStatus,voteCount,isMine,seq){
     if(!voteStatus){
-      console.log("点赞");
       if(isMine){
         this.setState({data:merge({},this.state.data,{voteCount:voteCount+1,voteStatus:true})});
       } else {
@@ -168,7 +165,6 @@ export class Main extends React.Component <any, any> {
       }
       vote(id);
     } else {
-      console.log("不能点赞");
     }
   }
 

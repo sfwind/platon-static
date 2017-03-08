@@ -36,7 +36,7 @@ export class Example extends React.Component <any, any> {
   componentWillMount() {
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    loadExample(location.query.id).then(res => {
+    loadExample(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200)  this.setState({ data: msg })
@@ -45,7 +45,7 @@ export class Example extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    loadKnowledgeIntro(location.query.id).then(res => {
+    loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200)  this.setState({ knowledge: msg })
@@ -86,7 +86,8 @@ export class Example extends React.Component <any, any> {
     }
     this.context.router.push({
       pathname: '/rise/static/practice/knowledge/example/analysis',
-      query: {"warmupPracticeId": data.id, "practicePlanId": location.query.practicePlanId},
+      query: {"warmupPracticeId": data.id, "practicePlanId": location.query.practicePlanId,
+        "kid": location.query.kid, "series": location.query.series},
       state: {selected}
     })
   }
@@ -103,9 +104,9 @@ export class Example extends React.Component <any, any> {
       return (
         <div className="intro-container">
           <div className="intro-index">
-              <span className="index">第1/1题</span>
+            <span className="index">第1/1题</span>
             <span className="type">本题为例题，答案不计分</span>
-            </div>
+          </div>
           { voice ? <div className="context-audio">
               <Audio url={voice}/>
             </div> : null }

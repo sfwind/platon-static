@@ -33,7 +33,7 @@ router.get("/rise/plan/load", (req, res) => {
 				"endDate": "2016-12-31",
 				"closeDate": "2017-01-07",
 				"currentSeries": 2, //当前题组
-				"series": 7, //当前题组
+				"series": 2, //当前题组
 				"totalSeries": 7,  //总题组
 				"warmupComplete": 3, //结束的热身训练
 				"applicationComplete": 2, //结束的应用训练
@@ -44,6 +44,7 @@ router.get("/rise/plan/load", (req, res) => {
 				"status": 1,
 				"summary": true, //是否显示总结弹窗
         "newMessage":true,
+        "doneAllPractice": false,
 				"problem": {
 					"id": 2,
 					"problem": "跟老板",
@@ -131,7 +132,8 @@ router.get("/rise/plan/history/load/*", (req, res) => {
 				"startDate": "2016-12-24",
 				"endDate": "2016-12-31",
 				"closeDate": "2017-01-07",
-				"series": 7, //当前题组
+        "doneAllPractice": false,
+				"series": 3, //当前题组
 				"currentSeries": 2, //当前题组
 				"totalSeries": 7,  //总题组
 				"warmupComplete": 3, //结束的热身训练

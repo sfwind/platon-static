@@ -54,7 +54,6 @@ export class Comment extends React.Component<any,any>{
 
   componentDidUpdate(){
     const { commentList=[],end } = this.state;
-    console.log(end);
     const {dispatch,location} = this.props;
     if(commentList&& commentList.length!==0 && !this.pullElement){
       this.pullElement = new PullElement({

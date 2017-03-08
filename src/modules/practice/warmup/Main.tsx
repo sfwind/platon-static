@@ -39,7 +39,7 @@ export class Main extends React.Component <any, any> {
     const { dispatch, location } = this.props
     const { practicePlanId } = location.query
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.id).then(res => {
+    loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200)  this.setState({ knowledge: msg })
@@ -100,9 +100,7 @@ export class Main extends React.Component <any, any> {
       this.setChoice()
     } else {
       this.setChoice(p => {
-        dispatch(startLoad())
         answer({ practice: p }, practicePlanId).then(res => {
-          dispatch(endLoad())
           const { code, msg } = res
           if (code === 200)  this.context.router.push({
             pathname: '/rise/static/practice/warmup/result',

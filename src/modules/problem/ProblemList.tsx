@@ -58,14 +58,11 @@ export class ProblemList extends React.Component <any, any> {
       dispatch(alertMsg('你还没有选择想要解决的问题'))
       return
     }
-    dispatch(startLoad())
     submitProblemList({ problemIdList: problemListSelected }).then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200)  this.context.router.push({ pathname: '/rise/static/problem/priority' })
       else dispatch(alertMsg(msg))
     }).catch(ex => {
-      dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
   }

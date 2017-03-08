@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan,updateOpenRise } from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
@@ -25,6 +25,7 @@ export class PlanMain extends React.Component <any, any> {
       knowledge: {},
       showCompleteModal: false,
       showConfirmModal: false,
+      showDoneAll: false,
     }
   }
 
@@ -76,7 +77,7 @@ export class PlanMain extends React.Component <any, any> {
         const { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg })
+            this.setState({ planData: msg})
             // if (msg.summary) {
             //   dispatch(alertMsg(<div>
             //     <p>很好！你已完成这组训练。</p>
@@ -101,49 +102,54 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch } = this.props
     const { planData } = this.state
     const { series } = planData
-    const { type, practicePlanId, knowledge, unlocked } = item
-    if (!unlocked) {
-      dispatch(alertMsg("该训练尚未解锁"))
-      return
-    }
-    // 已完成
-    if (type === 1 || type === 2) {
-      if (item.status === 1) {
-        this.context.router.push({
-          pathname: '/rise/static/practice/warmup/analysis',
-          query: { practicePlanId, id: knowledge.id, series }
-        })
-      } else {
-        if (!knowledge.appear) {
+    const { type, practicePlanId, knowledge } = item
+    // if (!unlocked) {
+    //   dispatch(alertMsg("该训练尚未解锁"))
+    //   return
+    // }
+    checkPractice(series).then(res =>{
+      const { code, msg } = res
+      if (code === 200) {
+        // 已完成
+        if (type === 1 || type === 2) {
+          if (item.status === 1) {
+            this.context.router.push({
+              pathname: '/rise/static/practice/warmup/analysis',
+              query: { practicePlanId, kid: knowledge.id, series }
+            })
+          } else {
+            if (!knowledge.appear) {
+              this.context.router.push({
+                pathname: '/rise/static/practice/warmup/intro',
+                query: { practicePlanId, kid: knowledge.id, series }
+              })
+            } else {
+              this.context.router.push({
+                pathname: '/rise/static/practice/warmup/ready',
+                query: { practicePlanId, kid: knowledge.id, series }
+              })
+            }
+          }
+        } else if (type === 11) {
           this.context.router.push({
-            pathname: '/rise/static/practice/warmup/intro',
-            query: { practicePlanId, id: knowledge.id, series }
+            pathname: '/rise/static/practice/application',
+            query: { id: item.practiceIdList[0], series }
           })
-        } else {
+        } else if (type === 21) {
           this.context.router.push({
-            pathname: '/rise/static/practice/warmup/ready',
-            query: { practicePlanId, id: knowledge.id, series }
+            pathname: '/rise/static/practice/challenge',
+            query: { id: item.practiceIdList[0], series }
           })
         }
-      }
-    } else if (type === 11) {
-      this.context.router.push({
-        pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], series }
-      })
-    } else if (type === 21) {
-      this.context.router.push({
-        pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[0], series }
-      })
-    }
+      }else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(alertMsg(ex))
+    })
   }
 
   nextTask() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     loadWarmUpNext().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.onPracticeSelected(msg)
@@ -165,8 +171,15 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   next() {
-    const { planData } = this.state
-    const { series, totalSeries } = planData
+    const {dispatch} = this.props
+    const {showDoneAll , planData} = this.state
+    const {doneAllPractice, series, totalSeries} = planData
+    if(!showDoneAll){
+      if(!doneAllPractice){
+        this.setState({showDoneAll:true})
+        dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
+      }
+    }
     if (series === totalSeries) {
 
     } else {
@@ -176,9 +189,7 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     completePlan().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         if(msg === true)
@@ -211,9 +222,7 @@ export class PlanMain extends React.Component <any, any> {
 
   nextPlan() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     closePlan().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.context.router.push("/rise/static/problem/priority")
@@ -224,16 +233,14 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   tutorialEnd(){
-    const {dispatch} = this.props;
-    const {planData} = this.state;
-    dispatch(startLoad());
+    const {dispatch} = this.props
+    const {planData} = this.state
     updateOpenRise().then(res => {
-      dispatch(endLoad());
-      const {code,msg} = res;
+      const {code,msg} = res
       if(code === 200){
-        this.setState({planData:merge({},planData,{openRise:true})});
+        this.setState({planData:merge({},planData,{openRise:true})})
       } else {
-        dispatch(alertMsg(msg));
+        dispatch(alertMsg(msg))
       }
     })
   }

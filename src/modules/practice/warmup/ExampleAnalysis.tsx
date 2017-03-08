@@ -106,6 +106,10 @@ export class ExampleAnalysis extends React.Component <any, any> {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div className="intro-container">
+          <div className="intro-index">
+            <span className="index">第1/1题</span>
+            <span className="type">本题为例题，答案不计分</span>
+          </div>
           { voice ? <div className="context-audio">
               <Audio url={voice}/>
             </div> : null }

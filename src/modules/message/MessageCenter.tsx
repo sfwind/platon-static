@@ -43,7 +43,6 @@ export class MessageCenter extends React.Component <any, any> {
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
-          console.log("开始加载更多");
           loadMessage(this.state.index + 1).then(res=> {
             const {code, msg} = res
             if (code === 200) {

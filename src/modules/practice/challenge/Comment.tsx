@@ -64,7 +64,6 @@ export class Comment extends React.Component<any,any>{
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
-          console.log("开始加载更多");
           loadCommentList(location.query.submitId, this.state.page+1)
             .then(res => {
               if(res.code===200){
@@ -101,7 +100,6 @@ export class Comment extends React.Component<any,any>{
   }
 
   onSubmit(content){
-    console.log("提交",content);
     const {dispatch,location} = this.props;
     if(content){
       dispatch(startLoad());
