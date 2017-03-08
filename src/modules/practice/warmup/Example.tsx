@@ -86,7 +86,7 @@ export class Example extends React.Component <any, any> {
     }
     this.context.router.push({
       pathname: '/rise/static/practice/knowledge/example/analysis',
-      query: {"warmupPracticeId": data.id},
+      query: {"warmupPracticeId": data.id, "practicePlanId": location.query.practicePlanId},
       state: {selected}
     })
   }
@@ -104,7 +104,7 @@ export class Example extends React.Component <any, any> {
         <div className="intro-container">
           <div className="intro-index">
               <span className="index">第1/1题</span>
-              <span className="type"><span className="number">{score}</span>分</span>
+            <span className="type">本题为例题，答案不计分</span>
             </div>
           { voice ? <div className="context-audio">
               <Audio url={voice}/>

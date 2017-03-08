@@ -91,9 +91,11 @@ export class ExampleAnalysis extends React.Component <any, any> {
     window.location.href = '#discuss'
   }
 
-  back(){
+  onSubmit(){
     const {knowledge} = this.state
-    this.context.router.push({ pathname: '/rise/static/practice/knowledge/example', query: {id: knowledge.id}})
+    const {location} = this.props
+    this.context.router.push({ pathname: '/rise/static/practice/warmup',
+      query: {id: knowledge.id, practicePlanId: location.query.practicePlanId}})
   }
 
   render() {
@@ -194,7 +196,7 @@ export class ExampleAnalysis extends React.Component <any, any> {
             {questionRender(data)}
           </div>
         </div>
-        <div className="button-footer" onClick={this.back.bind(this)}>关闭</div>
+        <div className="button-footer" onClick={this.onSubmit.bind(this)}>开始训练</div>
 
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
         {showDiscuss ?<Discuss repliedId={repliedId} warmupPracticeId={this.state.warmupPracticeId}
