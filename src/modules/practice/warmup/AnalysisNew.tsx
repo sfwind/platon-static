@@ -129,7 +129,7 @@ export class AnalysisNew extends React.Component <any, any> {
               :
               <div className="discuss-end">
                 <div className="discuss-end-img">
-                  <AssetImg url="http://www.iquanwai.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                  <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
                 </div>
                 <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
 

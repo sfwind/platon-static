@@ -249,7 +249,7 @@ export class Main extends React.Component <any, any> {
                 <Audio url={voice}/>
               </div> : null }
               <div className="context-img">
-                <img src="http://www.iquanwai.com/images/fragment/challenge_practice.png" alt=""/>
+                <img src="http://www.iqycamp.com/images/fragment/challenge_practice.png" alt=""/>
               </div>
               {/*<div className="context" dangerouslySetInnerHTML={{__html: description}}></div>*/}
               <div className="context">
