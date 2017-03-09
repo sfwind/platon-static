@@ -213,7 +213,44 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if (code === 200) {
         console.log(res.msg);
-        this.setState({showDiscuss:false,editDisable:false});
+        if(submitId){
+          // 是更新
+          let newPerfect = merge([],this.state.perfectList);
+          let newNormal = merge([],this.state.normalList);
+          let flag = false;
+          for(let i = 0;i<newPerfect.length; i++){
+            if(flag){
+              break;
+            }
+            if(newPerfect[i].submitId === submitId){
+              flag = true;
+              newPerfect[i].title = msg.title;
+              newPerfect[i].content = msg.content;
+              newPerfect[i].submitUpdateTime = msg.submitUpdateTime;
+            }
+          }
+          for(let i=0;i<newNormal.length; i++){
+            if(flag){
+              break;
+            }
+            if(newNormal[i].submitId===submitId){
+              flag=true;
+              newNormal[i].title = msg.title;
+              newNormal[i].content = msg.content;
+              newNormal[i].submitUpdateTime = msg.submitUpdateTime;
+            }
+          }
+
+          this.setState({showDiscuss:false,editDisable:false,submitId:null,perfectList:newPerfect,normalList:newNormal});
+        } else {
+          // 是新增
+          if(msg.perfect){
+            // 优秀
+            this.setState({showDiscuss:false,editDisable:false,submitId:null,perfectList:[msg].concat(this.state.perfectList)});
+          } else {
+            this.setState({showDiscuss:false,editDisable:false,submitId:null,normalList:[msg].concat(this.state.normalList)});
+          }
+        }
         if(!this.state.end && this.pullElement){
           this.pullElement.enable();
         }
