@@ -36,6 +36,23 @@
   }
 }
 
+.container-no-pd{
+  background-color: #ffffff;
+  height: 100%;
+  overflow: auto;
+  &.has-footer {
+    height: ~"calc(100% - 49px)";
+  }
+}
+
+.writeDiscuss {
+  position: fixed;
+  height:55px;
+  width:55px;
+  left:15px;
+  bottom: 68px;
+}
+
 .show-more {
   height:50px;
   width:100%;
@@ -142,6 +159,8 @@
 }
 
 .submit {
+  background-color:#ffffff;
+  padding-bottom:20px;
   > .description {
     margin: 15px 10px;
     font-size: 13px;
@@ -157,14 +176,14 @@
     border-radius: 4px;
     width: 130px;
     height: 34px;
-    margin: 25px auto 50px;
+    margin: 25px auto 20px;
     &.disabled {
       background-color: #999999;
     }
   }
   > .submit-area {
     padding: 10px;
-    width: ~"calc(100% - 20px)";
+    width: ~"calc(100% - 22px)";
     resize: none;
     border: 1px solid #d0d0d0;
     height:325px;

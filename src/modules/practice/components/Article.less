@@ -1,0 +1,147 @@
+.article{
+  overflow: hidden;
+  margin-top: 10px;
+  padding-bottom:10px;
+  &-other:not(:nth-last-of-type(1)){
+    border-bottom:1px solid #efefef;
+  }
+  > .submit-cell {
+    > .submit-area {
+      display: inline-block;
+      width:100%;
+      > .submit-head {
+        line-height:13px;
+        height:30px;
+        padding:10px auto;
+        > .submit-avatar {
+          display: inline-block;
+          height: 30px;
+          width: 30px;
+          vertical-align: middle;
+          > .submit-avatar-img {
+            height: 30px;
+            width: 30px;
+            border-radius: 40px;
+          }
+        }
+        > .submit-name {
+          display: inline-block;
+          color: #666666;
+          font-size: 13px;
+          margin-left:10px;
+        }
+        > .submit-time {
+          display: inline-block;
+          margin-left:10px;
+          font-size: 10px;
+          line-height:10px;
+          color: #999999;
+        }
+        > .right{
+          float: right;
+          display: inline-block;
+          margin-top:5px;
+          > .submit-icon {
+            float: left;
+            display: inline-block;
+            margin-right: 5px;
+            margin-top: 2px;
+            img{
+              height: 12px;
+              width: 15px;
+              display: inline;
+            }
+          }
+          > .submit-button {
+            display: inline-block;
+            color: #55cbcb;
+            font-size: 13px;
+            line-height:13px;
+            margin-top: 3px;
+          }
+        }
+      }
+      > .submit-title{
+        color:#333333;
+        font-size:16px;
+        line-height: 29px;
+        margin-top:5px;
+      }
+      > .submit-content {
+        line-height:23px;
+        > pre {
+          font-size: 13px;
+          width: 100%;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          color:#666666;
+        }
+      }
+
+      > .show-all{
+        float:right;
+        font-size:13px;
+        margin-top:-20px;
+        color:#55cbcb;
+        z-index: 1000;
+        position: relative;
+        background: white;
+        padding: 0 1px;
+      }
+
+      > .operation-area{
+        span{
+          line-height:13px;
+          font-size:13px;
+          color:#999999;
+        }
+        > .vote{
+          display: block;
+          float: left;
+          height: 25px;
+          min-width: 35px;
+          margin-right: 20px;
+          > span{
+            &:before {
+              content: '';
+              display: inline-block;
+              vertical-align: middle;
+              width: 16px;
+              height: 16px;
+              margin-right:5px;
+              margin-bottom:5px;
+            }
+          }
+          > .disVote{
+            &:before{
+              background: url(http://www.iquanwai.com/images/iconGreyVote.png) no-repeat center center/13px 13px;
+            }
+          }
+          > .voted{
+            &:before{
+              background: url(http://www.iquanwai.com/images/iconGreenVote.png) no-repeat center center/13px 13px;
+            }
+          }
+        }
+        > .comment{
+          display: block;
+          min-width:35px;
+          height:25px;
+
+          > span{
+            &:before {
+              background: url(http://www.iquanwai.com/images/iconComment.png) no-repeat center center/13px 9px;
+              content: '';
+              display: inline-block;
+              vertical-align: middle;
+              width: 16px;
+              height: 16px;
+              margin-right:5px;
+              margin-bottom:2px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
