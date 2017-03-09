@@ -300,7 +300,7 @@ export class Main extends React.Component <any, any> {
     const renderArticles = () => {
       return (
         <div ref="workContainer" className="content">
-          <div className="submit-bar">精彩分享</div>
+          {perfectList && perfectList.length !== 0 ?<div className="submit-bar">精彩分享</div>:null}
           {renderArticle(perfectList,true)}
           {normalList && normalList.length !== 0 ?<div className="submit-bar">最新分享</div>: null}
           {renderArticle(normalList,false)}
