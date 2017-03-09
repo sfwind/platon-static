@@ -197,9 +197,8 @@ export class Main extends React.Component <any, any> {
         </div>)
       } else {
         return (
-        <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
-              headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}
-              goComment={()=>this.goComment(submitId)} />
+        <Work onEdit={()=>this.onEdit()} hide="true"
+              headImage={window.ENV.headImage} userName={window.ENV.userName} {...data} />
         )
       }
     }
@@ -253,7 +252,7 @@ export class Main extends React.Component <any, any> {
               </div>
               {/*<div className="context" dangerouslySetInnerHTML={{__html: description}}></div>*/}
               <div className="context">
-                <p>好的开始是成功的一半！让我们来完成今天最后一个任务--专题训练。</p>
+                <p>好的开始是成功的一半！让我们来完成今天最后一个任务--小目标。</p>
                 <p>选择这个专题，你是想实现什么目标呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
                 <p>建议在未来几天的学习中，也在这个任务里记录下通过学习实现目标的情况。</p>
               </div>
@@ -262,9 +261,9 @@ export class Main extends React.Component <any, any> {
             <div ref="workContainer" className="work-container">
               <div className="submit-bar"><span className="padding"></span>{ content === null?'提交方式':'我的作业'}</div>
               {renderContent()}
-              {content?<div className="submit-bar">群众的智慧</div>:null}
-              {renderOtherList()}
-              {renderTips()}
+              {/*{content?<div className="submit-bar">群众的智慧</div>:null}*/}
+              {/*{renderOtherList()}*/}
+              {/*{renderTips()}*/}
             </div>
           </div>
         </div>

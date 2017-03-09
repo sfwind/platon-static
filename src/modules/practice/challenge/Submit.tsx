@@ -66,7 +66,7 @@ export class Submit extends React.Component<any, any> {
     return (
       <div className="submit">
         <div className="description">
-          <p>好的开始是成功的一半！让我们来完成今天最后一个任务--专题训练。</p>
+          <p>好的开始是成功的一半！让我们来完成今天最后一个任务--小目标。</p>
           <p>选择这个专题，你是想实现什么目标呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
           <p>建议在未来几天的学习中，也在这个任务里记录下通过学习实现目标的情况。</p>
         </div>

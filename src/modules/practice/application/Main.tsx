@@ -50,7 +50,7 @@ export class Main extends React.Component <any, any> {
         onPullUpEnd: (data) => {
           loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
             if (res.code === 200) {
-              if (res.msg && res.msg.list.length !== 0) {
+              if (res.msg && res.msg.list && res.msg.list.length !== 0) {
                 remove(res.msg.list, (item) => {
                   return findIndex(this.state.otherList, item) !== -1;
                 })

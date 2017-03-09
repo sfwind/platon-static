@@ -8,10 +8,10 @@ import Tutorial from "../../components/Tutorial"
 import {merge,isBoolean} from "lodash"
 
 const typeMap = {
-  1: '热身训练',
-  2: '热身训练',
+  1: '理解训练',
+  2: '理解训练',
   11: '应用训练',
-  21: '专题训练'
+  21: '小目标'
 }
 
 @connect(state => state)
@@ -50,12 +50,6 @@ export class PlanMain extends React.Component <any, any> {
         if (code === 200) {
           if (msg !== null) {
             this.setState({ planData: msg })
-            // if (msg.summary) {
-            //   dispatch(alertMsg(<div>
-            //     <p>很好！你已完成这组训练。</p>
-            //     <p>对实践应用或解决问题有心得？及时记录在挑战任务中。</p>
-            //   </div>))
-            // }
           } else {
             this.context.router.push({ pathname: location.pathname })
             dispatch(alertMsg("下一组任务明早6点解锁"))
@@ -79,12 +73,6 @@ export class PlanMain extends React.Component <any, any> {
         if (code === 200) {
           if (msg !== null) {
             this.setState({ planData: msg, currentIndex:msg.series})
-            // if (msg.summary) {
-            //   dispatch(alertMsg(<div>
-            //     <p>很好！你已完成这组训练。</p>
-            //     <p>对实践应用或解决问题有心得？及时记录在挑战任务中。</p>
-            //   </div>))
-            // }
           } else {
             this.context.router.push({
               pathname: '/rise/static/problem/priority'
@@ -315,7 +303,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="modal_context">
                 <div className="content">
                   <div className="text">确定开始新专题吗</div>
-                  <div className="text">当前专题的热身训练将无法查看</div>
+                  <div className="text">当前专题的理解训练将无法查看</div>
                 </div>
                 <div className="content2">
                   <div className="text">（PC端应用训练仍然开放）</div>

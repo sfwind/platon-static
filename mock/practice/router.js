@@ -227,7 +227,7 @@ router.get("/rise/practice/next/*", (req, res) => {
 					"knowledge": "知识点描述", //知识点描述
 					"appear": 0, //是否出现过,0-未出现，1-出现过
 				},
-				"type": 21, // 1-单选题，2-多选题，11-应用题，21-挑战题
+				"type": 21, // 1-单选题，2-多选题，11-应用题，21-小目标
 				"status": 1, // 0-未完成，1-已完成
 				"unlocked": true, //是否解锁
 				"practiceIdList": [1, 2, 3], //训练id
@@ -248,7 +248,7 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"knowledgeId": 1,
 				"sceneId": 1,
 				"difficulty": null,
-        "content": null, //提交内容
+        "content": "评论评论", //提交内容
         "submitId": 1, //提交id
         "submitUpdateTime": "2017-02-15" ,//最后提交时间
         "voteCount": 0,
@@ -638,7 +638,7 @@ router.post("/rise/practice/comment/*",(req,res)=>{
 router.post("/rise/practice/check/*",(req,res)=>{
   setTimeout(()=>{
     res.status(200).json(
-      {"msg":"完成之前的理解训练，才能解锁该训练","code":221}
+      {"msg":"ok","code":200}
     );
   },Math.random()*1500);
 });
