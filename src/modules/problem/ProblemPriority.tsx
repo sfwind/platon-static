@@ -55,7 +55,9 @@ export class ProblemPriority extends React.Component<any,any> {
   }
 
   openProblemIntro(problem) {
-    this.setState({showProblem: true, selectProblem: problem});
+    if(!problem.done){
+      this.setState({showProblem: true, selectProblem: problem});
+    }
   }
 
 
@@ -114,8 +116,8 @@ export class ProblemPriority extends React.Component<any,any> {
                 <div onClick={()=>this.openProblemIntro(problem)}
                      className="problem" style={{height:`${this.problemHeight}px`}}
                 >
-                  <span className="title">{problem.problem}</span>
-                  <span className="tips">专题介绍</span>
+                  <span className={`title ${problem.done?'done':''}`}>{problem.problem}</span>
+                  <span className={`tips ${problem.done?'done':''}`}>{problem.done?'已完成':'专题介绍'}</span>
                 </div>
               )
             }) : null}
