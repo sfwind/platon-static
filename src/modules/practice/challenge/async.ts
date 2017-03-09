@@ -15,3 +15,30 @@ export function loadWarmUpNext(id) {
 export function submitChallengePractice(submitId, params) {
   return ppost(`/rise/practice/challenge/submit/${submitId}`, params)
 }
+
+export function vote(referencedId){
+  return ppost("/rise/practice/vote", {referencedId: referencedId, status: 1,type:CommentType.Challenge})
+}
+
+export function loadOtherList(challengeId,page){
+  return pget(`/rise/practice/challenge/list/other/${challengeId}`,{page:page})
+}
+
+export function loadCommentList(submitId,page,searchTime){
+  return pget(`/rise/practice/comment/${CommentType.Challenge}/${submitId}`,{page:page,searchType:searchTime})
+}
+
+export function comment(submitId,content){
+  return ppost(`/rise/practice/comment/${CommentType.Challenge}/${submitId}`,{content:content})
+}
+
+const CommentType = {
+  Challenge:1,
+  Application:2,
+}
+
+const VoteType = {
+  Challenge:1,
+  Application:2,
+}
+

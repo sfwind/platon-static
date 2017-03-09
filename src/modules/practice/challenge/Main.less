@@ -4,7 +4,7 @@
   padding-top: 15px;
   height: 100%;
   .intro-container {
-    height: ~"calc(100% - 49px)";
+    //height: ~"calc(100% - 49px)";
     overflow: auto;
     .pc-homework {
       position: relative;
@@ -38,15 +38,16 @@
       font-size: 12px;
       color: #f7a466;
     }
+  }
+  .work-container{
+    margin-top: 25px;
     > .submit-bar {
-      margin-top: 25px;
       width: 100%;
       background-color: #f5f5f5;
       color: #666666;
       font-size: 11px;
-      > .padding {
-        margin-left: 15px;
-      }
+      padding:0 15px;
+      margin-left:-15px;
     }
     > .no-comment{
       font-size: 11px;
@@ -56,9 +57,9 @@
         width: 70px;
         background-color: @color_theme;
         color: #ffffff;
+        border-radius: 2px;
         height: 22px;
         line-height: 22px;
-        border-radius: 2px;
       }
       > .content{
         margin-top: 15px;
@@ -66,63 +67,6 @@
         > .text{
           line-height: 20px;
           color: #666666;
-        }
-      }
-    }
-    > .has-comment{
-      > .submit-cell {
-        margin-top: 15px;
-        > .submit-avatar {
-          display: inline-block;
-          vertical-align: top;
-          height: 30px;
-          width: 30px;
-          > .submit-avatar-img {
-            height: 30px;
-            width: 30px;
-            border-radius: 15px;
-          }
-        }
-        > .submit-area {
-          display: inline-block;
-          margin-left: 5px;
-          width: ~"calc(100% - 30px - 5px)";
-          > .submit-head {
-            height: 30px;
-            > .submit-name {
-              display: inline-block;
-              color: #666666;
-              font-size: 13px;
-            }
-            > .right{
-              float: right;
-              display: inline-block;
-              > .submit-icon {
-                float: left;
-                display: inline-block;
-                margin-right: 5px;
-                margin-top: 2px;
-              }
-              > .submit-button {
-                display: inline-block;
-                color: #55cbcb;
-                font-size: 13px;
-                line-height: 30px;
-              }
-            }
-          }
-          > .submit-content {
-            font-size: 13px;
-            margin-top: 2px;
-            width: 100%;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-          }
-          > .submit-time {
-            font-size: 13px;
-            color: #999999;
-          }
-
         }
       }
     }

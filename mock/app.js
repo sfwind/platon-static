@@ -22,5 +22,6 @@ app.use(require('./common/router'))
 app.use(require('./plan/router'))
 app.use(require('./problem/router'))
 app.use(require('./practice/router'))
+app.use(require('./message/router'))
 
 module.exports = app

@@ -8,7 +8,13 @@
       height: 100%;
     }
   }
+  > div {
+    > .weui_dialog_alert {
+      height: auto !important;
+    }
+  }
 }
+
 
 .page-header {
   width: 100%;
@@ -28,6 +34,15 @@
   &.has-footer {
     height: ~"calc(100% - 49px)";
   }
+}
+
+.show-more {
+  height:50px;
+  width:100%;
+  color:#cccccc;
+  font-size:13px;
+  text-align:center;
+  line-height:50px;
 }
 
 .button-circle {
@@ -156,5 +171,83 @@
     font-size: 14px;
     box-shadow:0px 0px 0px rgba(0,0,0,0);
     -webkit-appearance:none;
+  }
+}
+
+.comment-cell {
+  border-bottom: 1px solid #f5f5f5;
+  padding: 10px;
+  > .comment-avatar {
+    display: inline-block;
+    vertical-align: top;
+    height:40px;
+    width:40px;
+    > .comment-avatar-img{
+      height:40px;
+      width:40px;
+      border-radius: 20px;
+    }
+  }
+  > .comment-area {
+    display: inline-block;
+    margin-left: 10px;
+    width: ~"calc(100% - 40px - 10px)";
+    > .comment-head{
+      line-height:13px;
+      height:13px;
+      > .comment-name {
+        display: inline-block;
+        color: #666666;
+        font-size: 13px;
+      }
+      > .comment-time{
+        margin-left: 5px;
+        display: inline-block;
+        font-size: 10px;
+        line-height:10px;
+        color: #999999;
+      }
+      > .right {
+        float: right;
+        display: inline-block;
+        > .function-icon {
+          float: left;
+          display: inline-block;
+          margin-right: 5px;
+          margin-top: 2px;
+        }
+        > .function-button{
+          display: inline-block;
+          float: right;
+          color: #55cbcb;
+          font-size: 13px;
+        }
+      }
+    }
+    > .comment-content{
+      font-size: 13px;
+      width: 100%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      line-height: 23px;
+      margin-top: 7px;
+      pre{
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    }
+    > .comment-replied-content{
+      font-size: 13px;
+      margin-top:2px;
+      color: #999999;
+      width: 100%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+  }
+  > .comment-hr{
+    height: 1px;
+    background-color: #f5f5f5;
   }
 }

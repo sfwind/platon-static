@@ -250,7 +250,10 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"difficulty": null,
         "content": "评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论评论", //提交内容
         "submitId": 1, //提交id
-        "submitUpdateTime": "2017-02-15" //最后提交时间
+        "submitUpdateTime": "2017-02-15" ,//最后提交时间
+        "voteCount": 0,
+        "commentCount": 0,
+        "voteStatus": 0
 			}
 		}), Math.random() * 1500)
 });
@@ -326,6 +329,310 @@ router.post("/rise/practice/challenge/submit/*", (req, res) => {
       "code": 200,
       "msg": "ok"
     }), Math.random() * 1500)
+});
+
+
+router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "id": 1, //题目id
+        "question": "题干", //问题题干
+        "analysis": "balbal", //问题分析
+        "voice": "http://someurl", //语音分析链接
+        "type": 1, //1-单选题，2-多选题
+        "difficulty": 1, //1-简单，2-普通，3-困难
+        "knowledgeId":2, //知识点
+        "choiceList": [
+          {
+            "id": 1,
+            "questionId": 1, //问题id
+            "subject": "选项1", //选项题干
+            "sequence": 1, //选项顺序
+            "isRight": false,  //是否是正确选项
+            "selected": false //用户是否选择
+          },
+          {
+            "id": 2,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": true
+          },
+          {
+            "id": 3,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": false
+          },
+          {
+            "id": 4,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": false,
+            "selected": true
+          }
+        ],
+        "discussList": [
+          {
+            "id":2,
+            "repliedId": 1,
+            "comment":"回复回复",
+            "repliedName": "风之伤",
+            "repliedComment": "评论评论评论",
+            "warmupPracticeId": 49,
+            "name":"Diane",
+            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+            "discussTime":"10:30"
+          },
+
+          {
+            "id":1,
+            "repliedId": null,
+            "comment":"评论评论评论",
+            "repliedName": null,
+            "repliedComment": null,
+            "warmupPracticeId": 49,
+            "name":"风之伤",
+            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+            "discussTime":"10:38"
+          }
+        ],
+      }, "code": 200
+    }), Math.random() * 1500)
+})
+
+router.get("/rise/practice/warmup/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": {
+        "id": 13,
+        "question": "如何战胜公开发言恐慌症？1、 发言前:准备好讲稿，反复演练提前到场熟悉发言环境上台前深呼吸放松心情2、发言时：眼睛盯住远方一个点避免紧张3、 发言后：收集听众的正面反馈，树立信心这段话符合时间顺序的哪种子结构类型",
+        "type": 1,
+        "analysis": "这段话按照时间顺序，按照发言前、发言时、发言后几个时间点提出了消除恐惧心理的方法。不属于步骤/流程，也没有因果关系",
+        "voice": null,
+        "difficulty": 1,
+        "knowledgeId": 2,
+        "sceneId": 1,
+        "score": null,
+        "choiceList": null,
+        "discussList": null,
+        "choice": null
+      }
+    }), Math.random() * 1500)
+});
+
+router.post("/rise/practice/vote", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": "ok"
+    }), Math.random() * 1500)
+});
+
+router.get("/rise/practice/application/list/other/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {
+        "msg": [
+          {
+            "title": null,
+            "userName": "nethunder",
+            "submitUpdateTime": "2017-02-27",
+            "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
+            "content": "测试",
+            "voteCount": 0,
+            "commentCount": 0,
+            "submitId": 96,
+            "type": 11,
+            "voteStatus": 0
+          },
+          {
+            "title": null,
+            "userName": "张凯雯",
+            "submitUpdateTime": "2017-02-18",
+            "headImage": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszvxogCNX1yV90K3QEa68sIXjVLuvaapaUUJ8Bs7vzJyHNiat3leIHz5F7m9UbLa6G4V9jvJQduGbQx/0",
+            "content": "为什么戴尔不收购其他信息存储公司\n",
+            "voteCount": 0,
+            "commentCount": 0,
+            "submitId": 80,
+            "type": 11,
+            "voteStatus": 0
+          }
+        ],
+        "code": 200
+      }
+    )
+  },Math.random()*1500);
+});
+
+router.get("/rise/practice/challenge/list/other/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {
+        "msg": [
+          {
+            "title": null,
+            "userName": "薛定谔的猫",
+            "submitUpdateTime": "2017-01-24",
+            "headImage": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
+            "content": "ffefrgergerghthhthfewfewffewffwefwef",
+            "voteCount": 1,
+            "commentCount": 29,
+            "submitId": 71,
+            "type": 21,
+            "voteStatus": null
+          },
+          {
+            "title": null,
+            "userName": "张凯雯",
+            "submitUpdateTime": "2017-01-21",
+            "headImage": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszvxogCNX1yV90K3QEa68sIXjVLuvaapaUUJOXw9P8qYcWlu3CuSsTEjdPuIoHhFWnIypmX6W84XzX/0",
+            "content": "今天跟所有人说话前，都先停30先想逻辑",
+            "voteCount": 1,
+            "commentCount": 8,
+            "submitId": 73,
+            "type": 21,
+            "voteStatus": null
+          },
+          {
+            "title": null,
+            "userName": "薛定谔的猫",
+            "submitUpdateTime": "2017-02-04",
+            "headImage": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
+            "content": "提交圈外\n\n首页\n\nRISE\n薛定谔的猫\n专题\n与人沟通时条理更清晰\n跟老板/家人提要求时更有说服力\n面对前所未有的新问题时撬开脑洞\n临场发言也能掷地有声\n与人撕逼时找到对方漏洞\n我的心得\nHi，欢迎来到圈外社区。\n请按照手机端挑战任务的页面提示，在这里记录下你学习的小目标、感悟或经历吧！\n小提示\n完成小目标，获得相应的积分。\n训练期间的每日收获，以及最后的......",
+            "voteCount": 1,
+            "commentCount": 5,
+            "submitId": 83,
+            "type": 21,
+            "voteStatus": null
+          },
+          {
+            "title": null,
+            "userName": "朱林源Juliet",
+            "submitUpdateTime": "2017-01-23",
+            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvW6lHtaHXaPO6w1U0cgicWyPMZBY35VByWwApxkvQrJXOX74DnLDicoias5uJMBryPcuNRAJULL7NCj96FPrAeQUKo/0",
+            "content": "完成训练后能更加条理清晰的与人沟通",
+            "voteCount": 1,
+            "commentCount": 4,
+            "submitId": 75,
+            "type": 21,
+            "voteStatus": null
+          },
+          {
+            "title": null,
+            "userName": "(*¯︶¯*)微笑、淡然",
+            "submitUpdateTime": "2017-01-26",
+            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvW6lHtaHXaPO5OpnUfXTwdgg2CYadWIbKia0JKe5GcAtZTbbk3jFMZag5Db0SkmWVUYbjaGeKgVOWpQm5HQ7kd5e/0",
+            "content": "测试",
+            "voteCount": 1,
+            "commentCount": 3,
+            "submitId": 76,
+            "type": 21,
+            "voteStatus": null
+          },
+          {
+            "title": null,
+            "userName": "圈外助手",
+            "submitUpdateTime": "2017-01-26",
+            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvVx3HW1ha4UP24Grs1Pfwu2Rm7mYEOofNQKibosic8O0A1DMMkpAHH2cxagMO5moGgeMDTxk6cU4h7mYwtMzFJ5Xm/0",
+            "content": "tewtwe",
+            "voteCount": 1,
+            "commentCount": 2,
+            "submitId": 77,
+            "type": 21,
+            "voteStatus": null
+          },
+          {
+            "title": null,
+            "userName": "圈外助手",
+            "submitUpdateTime": "2017-01-26",
+            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvVx3HW1ha4UP24Grs1Pfwu2Rm7mYEOofNQKibosic8O0A1DMMkpAHH2cxagMO5moGgeMDTxk6cU4h7mYwtMzFJ5Xm/0",
+            "content": "est",
+            "voteCount": 0,
+            "commentCount": 2,
+            "submitId": 78,
+            "type": 21,
+            "voteStatus": null
+          },
+          {
+            "title": null,
+            "userName": "张凯雯",
+            "submitUpdateTime": "2017-02-19",
+            "headImage": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszvxogCNX1yV90K3QEa68sIXjVLuvaapaUUJOXw9P8qYcWlu3CuSsTEjdPuIoHhFWnIypmX6W84XzX/0",
+            "content": "表达更清晰",
+            "voteCount": 0,
+            "commentCount": 0,
+            "submitId": 93,
+            "type": 21,
+            "voteStatus": null
+          }
+        ],
+        "code": 200
+      }
+    )
+  },Math.random()*1500);
+});
+
+router.get("/rise/practice/comment/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {
+        "msg": [
+          {
+            "id": 52,
+            "content": "fff ",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-23",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 51,
+            "content": "测试评论",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-23",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 38,
+            "content": "test",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-22",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 37,
+            "content": "fewfwef",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-22",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          },
+          {
+            "id": 36,
+            "content": "comment",
+            "upName": "薛定谔的猫",
+            "upTime": "2017-01-22",
+            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
+          }
+        ],
+        "code": 200
+      }
+    );
+  },Math.random()*1500);
+});
+
+
+router.post("/rise/practice/comment/*",(req,res)=>{
+  setTimeout(()=>{
+    res.status(200).json(
+      {"msg":{"id":null,"content":"ccccc","upName":"风之伤","upTime":"2017-03-01","headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg"},"code":200}
+    );
+  },Math.random()*1500);
 });
 
 module.exports = router;

@@ -38,51 +38,55 @@ export class Result extends React.Component <any, any> {
   nextTask() {
     const { dispatch } = this.props
     const { series, practicePlanId } = this.props.location.query
-    dispatch(startLoad())
-    loadWarmUpNext(practicePlanId).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if (code === 200) {
-        const item = msg
-        const { type, practicePlanId, knowledge, unlocked } = item
-        if (!unlocked) {
-          dispatch(alertMsg("该训练尚未解锁"))
-          return
-        }
-        if (type === 1 || type === 2) {
-          if (item.status === 1) {
-            this.context.router.push({
-              pathname: '/rise/static/practice/warmup/analysis',
-              query: { practicePlanId, id: knowledge.id, series }
-            })
-          } else {
-            if (!knowledge.appear) {
-              this.context.router.push({
-                pathname: '/rise/static/practice/warmup/intro',
-                query: { practicePlanId, id: knowledge.id, series }
-              })
-            } else {
-              this.context.router.push({
-                pathname: '/rise/static/practice/warmup/ready',
-                query: { practicePlanId, id: knowledge.id, series }
-              })
-            }
-          }
-        } else if (type === 11) {
-          this.context.router.push({
-            pathname: '/rise/static/practice/application',
-            query: { id: item.practiceIdList[0], kid: knowledge.id, series, practicePlanId }
-          })
-        } else if (type === 21) {
-          this.context.router.push({
-            pathname: '/rise/static/practice/challenge',
-            query: { id: item.practiceIdList[0], series, practicePlanId }
-          })
-        }
-      } else {
-        dispatch(alertMsg(msg))
-      }
+    this.context.router.push({
+      pathname: '/rise/static/plan/main',
+      query: {series}
     })
+    // dispatch(startLoad())
+    // loadWarmUpNext(practicePlanId).then(res => {
+    //   dispatch(endLoad())
+    //   const { code, msg } = res
+    //   if (code === 200) {
+    //     const item = msg
+    //     const { type, practicePlanId, knowledge, unlocked } = item
+    //     if (!unlocked) {
+    //       dispatch(alertMsg("该训练尚未解锁"))
+    //       return
+    //     }
+    //     if (type === 1 || type === 2) {
+    //       if (item.status === 1) {
+    //         this.context.router.push({
+    //           pathname: '/rise/static/practice/warmup/analysis',
+    //           query: { practicePlanId, id: knowledge.id, series }
+    //         })
+    //       } else {
+    //         if (!knowledge.appear) {
+    //           this.context.router.push({
+    //             pathname: '/rise/static/practice/warmup/intro',
+    //             query: { practicePlanId, id: knowledge.id, series }
+    //           })
+    //         } else {
+    //           this.context.router.push({
+    //             pathname: '/rise/static/practice/warmup/ready',
+    //             query: { practicePlanId, id: knowledge.id, series }
+    //           })
+    //         }
+    //       }
+    //     } else if (type === 11) {
+    //       this.context.router.push({
+    //         pathname: '/rise/static/practice/application',
+    //         query: { id: item.practiceIdList[0], series }
+    //       })
+    //     } else if (type === 21) {
+    //       this.context.router.push({
+    //         pathname: '/rise/static/practice/challenge',
+    //         query: { id: item.practiceIdList[0], series }
+    //       })
+    //     }
+    //   } else {
+    //     dispatch(alertMsg(msg))
+    //   }
+    // })
   }
 
   render() {
@@ -116,7 +120,7 @@ export class Result extends React.Component <any, any> {
         </div>
         <div className="button-footer">
           <div className="left" onClick={this.onSubmit.bind(this)}>答题解析</div>
-          <div className="right" onClick={this.nextTask.bind(this)}>继续训练</div>
+          <div className="right" onClick={this.nextTask.bind(this)}>返回</div>
         </div>
       </div>
     )

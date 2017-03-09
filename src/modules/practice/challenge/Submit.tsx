@@ -47,7 +47,8 @@ export class Submit extends React.Component<any, any> {
       const { code, msg } = res
       if (code === 200) {
         this.context.router.push({ pathname: '/rise/static/practice/challenge',
-          query: {id: location.query.id, series: location.query.series}})
+          query: {id: location.query.id, series: location.query.series},
+          state: this.props.location.state})
       }
       else {
         dispatch(alertMsg(msg))
