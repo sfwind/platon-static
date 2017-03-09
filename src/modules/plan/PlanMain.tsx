@@ -260,10 +260,11 @@ export class PlanMain extends React.Component <any, any> {
               <div className="sub-title">{item.knowledge ? item.knowledge.knowledge : ''}</div>
             </div>
             <div className="footer">
-              {item.status === 1 ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}
-              {item.status === 0 ? <AssetImg type="go4" width={27} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 2 ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 3 ? <AssetImg type="alter" width={32} height={17} marginTop={(75-17)/2}/> : null}
+              {item.unlocked === false ? <AssetImg type="lock" width={32} height={32} marginTop={(75-28)/2}/> : null}
+              {item.status === 1 && item.unlocked === true ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}
+              {item.status === 0 && item.unlocked === true ? <AssetImg type="go4" width={27} height={17} marginTop={(75-17)/2}/> : null}
+              {item.status === 2 && item.unlocked === true ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}
+              {item.status === 3 && item.unlocked === true ? <AssetImg type="alter" width={32} height={17} marginTop={(75-17)/2}/> : null}
             </div>
           </div>
         )
