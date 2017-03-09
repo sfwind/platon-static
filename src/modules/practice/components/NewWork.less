@@ -1,8 +1,8 @@
-.article{
+.new-work{
   overflow: hidden;
   margin-top: 10px;
   padding-bottom:10px;
-  &-other:not(:nth-last-of-type(1)){
+  &:not(:nth-last-of-type(1)){
     border-bottom:1px solid #efefef;
   }
   > .submit-cell {
@@ -11,17 +11,26 @@
       width:100%;
       > .submit-head {
         line-height:13px;
-        height:30px;
         padding:10px auto;
+        position: relative;
+        &.top{
+          height:30px;
+        }
+        &.left{
+          height:13px;
+        }
         > .submit-avatar {
           display: inline-block;
-          height: 30px;
-          width: 30px;
-          vertical-align: middle;
-          > .submit-avatar-img {
+          border-radius: 40px;
+          &.top{
             height: 30px;
             width: 30px;
-            border-radius: 40px;
+            vertical-align: middle;
+          }
+          &.left{
+            height:40px;
+            width:40px;
+            vertical-align: top;
           }
         }
         > .submit-name {
@@ -38,9 +47,10 @@
           color: #999999;
         }
         > .right{
-          float: right;
           display: inline-block;
-          margin-top:5px;
+          position: absolute;
+          top:0;
+          right:0;
           > .submit-icon {
             float: left;
             display: inline-block;
@@ -71,10 +81,18 @@
         line-height:23px;
         > pre {
           font-size: 13px;
-          width: 100%;
           white-space: pre-wrap;
           word-wrap: break-word;
-          color:#666666;
+          &.top{
+            width: 100%;
+            color:#666666;
+          }
+          &.left{
+            width: ~"calc(100% - 50px)";
+            margin-left:50px;
+            margin-top:7px;
+            color:#333333;
+          }
         }
       }
 
@@ -90,6 +108,13 @@
       }
 
       > .operation-area{
+        &.top{
+          width: 100%;
+        }
+        &.left{
+          width: ~"calc(100% - 50px)";
+          margin-left:50px;
+        }
         span{
           line-height:13px;
           font-size:13px;

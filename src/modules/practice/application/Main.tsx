@@ -7,7 +7,7 @@ import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
-import Work from "../components/Work"
+import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import {findIndex,remove} from "lodash";
 

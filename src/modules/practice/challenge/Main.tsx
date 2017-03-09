@@ -6,7 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import {isNull,isString,truncate,merge,set} from "lodash";
-import Work from "../components/Work"
+import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import {findIndex,remove,get} from "lodash";
 

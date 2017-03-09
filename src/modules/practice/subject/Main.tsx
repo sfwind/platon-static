@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./Main.less";
 import { loadSubjects,submitSubject,vote,loadSubjectDesc } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import Work from "../components/Article"
+import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import SubmitBox from "../components/SubmitBox"
@@ -288,7 +288,9 @@ export class Main extends React.Component <any, any> {
         return list.map((item,seq)=>{
           return (
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,perfect,seq)}  {...item}
-                  goComment={()=>this.goComment(item.submitId)} onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content):null}
+                  goComment={()=>this.goComment(item.submitId)}
+                  onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content):null}
+                  avatarStyle={"top"}
             />
           )
         })
