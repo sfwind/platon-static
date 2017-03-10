@@ -24,6 +24,7 @@ export default class Discuss extends React.Component <any, any> {
                                          placeholder="请输入标题"
                                          onChange={(e)=>this.setState({title:e.currentTarget.value})}>
           </input>:null}
+          {}
           <textarea className="submit-area" cols="30" rows="10" height="500px" width="100%"
                     value={this.state.comment}
                     placeholder={this.props.placeholder}

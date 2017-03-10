@@ -185,7 +185,7 @@ export class PlanMain extends React.Component <any, any> {
         {
           this.setState({showCompleteModal: true})
         }else{
-          dispatch(alertMsg('请先完成今日的必做训练'))
+          dispatch(alertMsg('请先完成所有的必做训练'))
         }
       } else {
         dispatch(alertMsg(msg))
