@@ -59,7 +59,8 @@ router.get("/rise/problem/get/*", (req, res) => {
 				"id": 1,
 				"problem":"问题描述", //问题
 				"pic":"http://www.iquanwai.com/images/cintro1.png", //问题头图
-				"description":"问题详情" //html
+				"description":"问题详情", //html
+        "length":5,
 			}
 		}), Math.random() * 1500)
 });
