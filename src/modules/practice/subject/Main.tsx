@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadSubjects,submitSubject,vote,loadSubjectDesc } from "./async";
+import { loadSubjects,submitSubject,vote,loadSubjectDesc,loadLabels } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
@@ -140,10 +140,23 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    loadLabels(location.query.id).then(res=>{
+      let {code,msg} = res;
+      if(code===200){
+        console.log(msg);
+        this.setState({labels:msg});
+      } else {
+        dispatch(alterMsg("获取标签失败"));
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+
   }
 
-  onEdit(submitId,title,content) {
-    this.setState({showDiscuss: true,submitId:submitId,defaultTitle:title,defaultContent:content});
+  onEdit(submitId,title,content,labels) {
+    this.setState({showDiscuss: true,submitId:submitId,defaultTitle:title,defaultContent:content,defaultLabels:labels});
     if(this.pullElement){
       this.pullElement.disable();
     }
@@ -196,7 +209,7 @@ export class Main extends React.Component <any, any> {
     }
   }
 
-  onSubmit(content,title){
+  onSubmit(content,title,labels){
     const {submitId} = this.state;
     const { dispatch, location} = this.props
     if(content == null || content.length === 0){
@@ -208,7 +221,7 @@ export class Main extends React.Component <any, any> {
       return
     }
     this.setState({editDisable: true})
-    submitSubject(location.query.id,title, content,submitId).then(res => {
+    submitSubject(location.query.id,title, content,submitId,labels).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
@@ -227,6 +240,7 @@ export class Main extends React.Component <any, any> {
               newPerfect[i].title = msg.title;
               newPerfect[i].content = msg.content;
               newPerfect[i].submitUpdateTime = msg.submitUpdateTime;
+              newPerfect[i].labelList = msg.labelList;
             }
           }
           for(let i=0;i<newNormal.length; i++){
@@ -238,6 +252,7 @@ export class Main extends React.Component <any, any> {
               newNormal[i].title = msg.title;
               newNormal[i].content = msg.content;
               newNormal[i].submitUpdateTime = msg.submitUpdateTime;
+              newNormal[i].labelList = msg.labelList;
             }
           }
 
@@ -289,7 +304,7 @@ export class Main extends React.Component <any, any> {
           return (
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,perfect,seq)}  {...item}
                   goComment={()=>this.goComment(item.submitId)}
-                  onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content):null}
+                  onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content,item.labelList):null}
                   avatarStyle={"top"}
             />
           )
@@ -328,8 +343,9 @@ export class Main extends React.Component <any, any> {
         </div>
         <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
         {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}
-                                 onSubmit={(content,title)=>this.onSubmit(content,title)} desc={this.state.desc}
+                                 onSubmit={(content,title,labels)=>this.onSubmit(content,title,labels)} desc={this.state.desc}
                                  defaultTitle={this.state.defaultTitle} defaultContent={this.state.defaultContent}
+                                 labels={this.state.labels} defaultLabels={this.state.defaultLabels}
                                  titleEnable={true} /> : null}
       </div>
     )

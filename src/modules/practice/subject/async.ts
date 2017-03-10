@@ -8,9 +8,9 @@ export function loadSubjects(problemId,page){
   return pget(`/rise/practice/subject/list/${problemId}`,{page:page});
 }
 
-export function submitSubject(problemId,title,content,id){
-  console.log(problemId,title,content,id)
-  return ppost(`/rise/practice/subject/submit/${problemId}`,{submitId:id,title:title,content:content});
+export function submitSubject(problemId,title,content,id,labels){
+  console.log('paran',problemId,title,content,id,labels)
+  return ppost(`/rise/practice/subject/submit/${problemId}`,{submitId:id,title:title,content:content,labelList:labels});
 }
 
 export function loadCommentList(submitId,page){
@@ -27,6 +27,10 @@ export function vote(referencedId){
 
 export function loadSubjectDesc(subjectId){
   return pget(`/rise/practice/subject/desc/${subjectId}`);
+}
+
+export function loadLabels(problemId){
+  return pget(`/rise/practice/label/${problemId}`);
 }
 
 const CommentType = {

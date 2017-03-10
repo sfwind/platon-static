@@ -10,6 +10,28 @@
   left: 0;
   background-color: #ffffff;
   > .submit{
+    > .label-container{
+      border-left:1px solid #d0d0d0;
+      border-right:1px solid #d0d0d0;
+      padding-top:10px;
+      padding-bottom:10px;
+      > .label-item{
+        margin-top:2px;
+        margin-bottom:2px;
+        &.selected{
+          background-color:#55cbcb;
+          border-radius:5px;
+        }
+        background-color:#cccccc;
+        border-radius:5px;
+        text-align: center;
+        display: inline-block;
+        width:~"calc(30%)";
+      }
+      & + .submit-area{
+        border-top:1px  #d0d0d0 dashed;
+      }
+    }
     > .title-area{
       padding: 15px;
       font-size:16px;

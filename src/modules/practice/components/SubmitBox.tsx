@@ -1,20 +1,57 @@
 import * as React from "react";
 import "./SubmitBox.less";
+import { merge,findIndex,set } from "lodash";
 
 export default class Discuss extends React.Component <any, any> {
   constructor(props) {
     super()
+    let labels = labels = merge([],props.labels);
+    console.log('p',props.defaultLabels);
+    labels.forEach(item=>{
+      console.log('l',findIndex(props.defaultLabels,(o)=>o.labelId===item.id)>-1);
+      item.selected = findIndex(props.defaultLabels,(o)=>o.labelId===item.id)>-1;
+    });
+    console.log(labels);
+
     this.state = {
       comment: props.defaultContent?props.defaultContent:"",
       title:props.defaultTitle?props.defaultTitle:"",
+      labels:labels,
     }
+    this.labelMargin = (window.innerWidth-2) * 0.1 / 6;
   }
 
   onSubmit() {
-    this.props.onSubmit(this.state.comment,this.state.title);
+    let choseList = [];
+    this.state.labels.forEach(item=>{
+      console.log(item);
+      if(item.selected){
+        choseList.push({labelId:item.id});
+      }
+    });
+    console.log(choseList);
+    this.props.onSubmit(this.state.comment,this.state.title,choseList);
+  }
+
+  clickLabel(selected,seq){
+    this.setState({labels:set(merge([],this.state.labels),`[${seq}].selected`,!selected)})
   }
 
   render() {
+    const renderLabels = ()=>{
+      return (
+        <div className="label-container">
+          {
+            this.state.labels.map((item,seq)=>{
+              return (
+                <div className={`label-item ${item.selected?"selected":''}`} style={{marginLeft:`${this.labelMargin}px`,marginRight:`${this.labelMargin}px`}} onClick={()=>this.clickLabel(item.selected,seq)}>{item.name}</div>
+              )
+            })
+          }
+        </div>
+      )
+    }
+
     return (
       <div className="discuss-page">
         <div className="submit" style={{minHeight:`${this.props.height}px`}}>
@@ -24,7 +61,7 @@ export default class Discuss extends React.Component <any, any> {
                                          placeholder="请输入标题"
                                          onChange={(e)=>this.setState({title:e.currentTarget.value})}>
           </input>:null}
-          {}
+          {this.props.labels?renderLabels():null}
           <textarea className="submit-area" cols="30" rows="10" height="500px" width="100%"
                     value={this.state.comment}
                     placeholder={this.props.placeholder}
