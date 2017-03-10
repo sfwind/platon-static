@@ -24,10 +24,14 @@ export class ProblemPriority extends React.Component<any,any> {
       showProblem: false,
       selectProblem: {},
     }
-    this.catalogHeight = 316 / 750 * window.innerWidth;
-    // this.problemHeight = 180 / 750 * window.innerWidth;
-    this.problemHeight = 180/(750-30) * window.innerWidth -15;
-    this.iconSize = 1 / 8 * window.innerWidth;
+    this.catalogHeight = 304 / 750 * window.innerWidth;
+    this.problemMargin = 20/750 * window.innerWidth;
+    this.problemHeight = 180/(750-40) * window.innerWidth;
+    this.iconSize = 70 / 750 * window.innerWidth;
+    this.catalogName = 60 / 750 * window.innerWidth;
+    this.catalogMargin = (this.catalogHeight - this.iconSize)/2;
+    this.catalogOpenMargin = 40/750 * window.innerWidth;
+    this.tipMargin = (this.problemHeight - 44) / 2;
     console.log(this.problemHeight);
   }
 
@@ -96,15 +100,15 @@ export class ProblemPriority extends React.Component<any,any> {
               marginTop:`${seq!==0?-15:0}px`}}
              key={`swipeBox${seq}`}
         >
-          <div className="swipe-box-mask" style={{opacity:`${catalogOpen[seq]?'0.18':'0.25'}`}}></div>
-          <div className="swipe-header" style={{margin:`${catalogOpen[seq]?'30px 15px 0px':'30px 15px 15px'}`}}>
-            <div className="catalog-name">{catalog.name}</div>
-            <div onClick={(e)=>this.openCatalog(seq,e)} className="catalog-arrow">
+          {/*<div className="swipe-box-mask" style={{opacity:`${catalogOpen[seq]?'0.18':'0.25'}`}}></div>*/}
+          <div className="swipe-header" style={{margin:`${catalogOpen[seq]?this.catalogMargin+'px 20px '+ (this.catalogOpenMargin + 'px'):this.catalogMargin+'px 20px '+(this.catalogMargin+ 'px')}`}}>
+            <div className="catalog-name" style={{fontSize:`${this.catalogName}px`,lineHeight:`${this.iconSize}px`}}>{catalog.name}</div>
+            <div onClick={(e)=>this.openCatalog(seq,e)} className="catalog-arrow" style={{height:`${this.iconSize}px`,width:`${this.iconSize}px`}}>
               <AssetImg size={this.iconSize}
                         type={`${catalogOpen[seq]?'arrowUp':'arrowDown'}`}/>
             </div>
           </div>
-          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight+10)*problemList.length+20+'px':0+'px'}`}} appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
+          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight-this.problemMargin)*problemList.length+30+'px':0+'px'}`}} appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
             {  opacity:[1,0],translateY: [0,-(this.problemHeight+10)*problemList.length+30]},
             {  opacity:[0,1],translateY: [0, (this.problemHeight+10)*problemList.length+30] }
           ]} className="swipe-content" component={"div"}
@@ -114,10 +118,10 @@ export class ProblemPriority extends React.Component<any,any> {
             >{problemList ? problemList.map((problem, seq) => {
               return (
                 <div onClick={()=>this.openProblemIntro(problem)}
-                     className="problem" style={{height:`${this.problemHeight}px`}}
+                     className="problem" style={{color:`${catalog.color}`,height:`${this.problemHeight}px`,marginTop:`${-this.problemMargin}px`}}
                 >
-                  <span className={`title ${problem.done?'done':''}`}>{problem.problem}</span>
-                  <span className={`tips ${problem.done?'done':''}`}>{problem.done?'已完成':'专题介绍'}</span>
+                  <span className={`title ${problem.done?'done':''}`} style={{marginTop:`${this.tipMargin}px`}}>{problem.problem}</span>
+                  <span className={`tips ${problem.done?'done':''}`} style={{borderColor:`${catalog.color}`}}>{problem.done?'已完成':'专题介绍'}</span>
                 </div>
               )
             }) : null}
@@ -130,15 +134,15 @@ export class ProblemPriority extends React.Component<any,any> {
     return (
       <div className="no-space-container"
            style={{height:`${showProblem?window.innerHeight+'px':'100%'}`,overflow:`${showProblem?'hidden':'auto'}`}}>
-        <div className="header">
-          你好，{window.ENV.userName},我是你的圈外每日提升教练。<br/>
-          训练开始前，我想更了解你的情况。
-        </div>
+        {/*<div className="header">*/}
+          {/*你好，{window.ENV.userName},我是你的圈外每日提升教练。<br/>*/}
+          {/*训练开始前，我想更了解你的情况。*/}
+        {/*</div>*/}
         <div className="swipe-container">
           {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
-            .concat(<div className="more-box">
-              <div className="swipe-box-mask" style={{opacity:'0.25'}}></div>
-              <span>更多专题&nbsp;&nbsp;敬请期待</span>
+            .concat(<div className="more-box" style={{height:`${this.catalogHeight}px`,lineHeight:`${this.catalogHeight}px`}}>
+              {/*<div className="swipe-box-mask" style={{opacity:'0.25'}}></div>*/}
+              <span style={{fontSize:`${this.catalogName}px`}}>更多专题</span>
             </div>) : null}
         </div>
         {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
