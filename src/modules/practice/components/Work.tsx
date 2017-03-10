@@ -9,8 +9,10 @@ export default class Work extends React.Component<any,any> {
 
   constructor(props) {
     super(props);
+    const {hide} = this.props
     this.state = {
       showAll: false,
+      hide: hide,
     }
   }
 
@@ -20,7 +22,7 @@ export default class Work extends React.Component<any,any> {
 
   render() {
     const {headImage, userName, content, submitUpdateTime,onEdit,voteCount,commentCount,voteStatus,onVoted,goComment,wordsCount=60} = this.props;
-    const {showAll} = this.state;
+    const {showAll, hide} = this.state;
 
     const renderWorkContent = ()=>{
       if(isString(content)){
@@ -38,6 +40,9 @@ export default class Work extends React.Component<any,any> {
     }
 
     const showOperation = ()=>{
+      if(hide){
+        return false
+      }
       if(content && content.length<wordsCount){
         return true;
       } else

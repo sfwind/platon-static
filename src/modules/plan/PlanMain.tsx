@@ -1,17 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan,updateOpenRise } from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
 import {merge,isBoolean} from "lodash"
 
 const typeMap = {
-  1: '热身训练',
-  2: '热身训练',
+  1: '理解训练',
+  2: '理解训练',
   11: '应用训练',
-  21: '专题训练'
+  21: '小目标'
 }
 
 @connect(state => state)
@@ -25,6 +25,8 @@ export class PlanMain extends React.Component <any, any> {
       knowledge: {},
       showCompleteModal: false,
       showConfirmModal: false,
+      showDoneAll: false,
+      currentIndex: 0,
     }
   }
 
@@ -48,12 +50,6 @@ export class PlanMain extends React.Component <any, any> {
         if (code === 200) {
           if (msg !== null) {
             this.setState({ planData: msg })
-            // if (msg.summary) {
-            //   dispatch(alertMsg(<div>
-            //     <p>很好！你已完成这组训练。</p>
-            //     <p>对实践应用或解决问题有心得？及时记录在挑战任务中。</p>
-            //   </div>))
-            // }
           } else {
             this.context.router.push({ pathname: location.pathname })
             dispatch(alertMsg("下一组任务明早6点解锁"))
@@ -76,13 +72,7 @@ export class PlanMain extends React.Component <any, any> {
         const { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg })
-            // if (msg.summary) {
-            //   dispatch(alertMsg(<div>
-            //     <p>很好！你已完成这组训练。</p>
-            //     <p>对实践应用或解决问题有心得？及时记录在挑战任务中。</p>
-            //   </div>))
-            // }
+            this.setState({ planData: msg, currentIndex:msg.series})
           } else {
             this.context.router.push({
               pathname: '/rise/static/problem/priority'
@@ -101,49 +91,54 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch } = this.props
     const { planData } = this.state
     const { series } = planData
-    const { type, practicePlanId, knowledge, unlocked } = item
-    if (!unlocked) {
-      dispatch(alertMsg("该训练尚未解锁"))
-      return
-    }
-    // 已完成
-    if (type === 1 || type === 2) {
-      if (item.status === 1) {
-        this.context.router.push({
-          pathname: '/rise/static/practice/warmup/analysis',
-          query: { practicePlanId, id: knowledge.id, series }
-        })
-      } else {
-        if (!knowledge.appear) {
+    const { type, practicePlanId, knowledge } = item
+    // if (!unlocked) {
+    //   dispatch(alertMsg("该训练尚未解锁"))
+    //   return
+    // }
+    checkPractice(series).then(res =>{
+      const { code, msg } = res
+      if (code === 200) {
+        // 已完成
+        if (type === 1 || type === 2) {
+          if (item.status === 1) {
+            this.context.router.push({
+              pathname: '/rise/static/practice/warmup/analysis',
+              query: { practicePlanId, kid: knowledge.id, series }
+            })
+          } else {
+            if (!knowledge.appear) {
+              this.context.router.push({
+                pathname: '/rise/static/practice/warmup/intro',
+                query: { practicePlanId, kid: knowledge.id, series }
+              })
+            } else {
+              this.context.router.push({
+                pathname: '/rise/static/practice/warmup/ready',
+                query: { practicePlanId, kid: knowledge.id, series }
+              })
+            }
+          }
+        } else if (type === 11) {
           this.context.router.push({
-            pathname: '/rise/static/practice/warmup/intro',
-            query: { practicePlanId, id: knowledge.id, series }
+            pathname: '/rise/static/practice/application',
+            query: { id: item.practiceIdList[0], series }
           })
-        } else {
+        } else if (type === 21) {
           this.context.router.push({
-            pathname: '/rise/static/practice/warmup/ready',
-            query: { practicePlanId, id: knowledge.id, series }
+            pathname: '/rise/static/practice/challenge',
+            query: { id: item.practiceIdList[0], series }
           })
         }
-      }
-    } else if (type === 11) {
-      this.context.router.push({
-        pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], series }
-      })
-    } else if (type === 21) {
-      this.context.router.push({
-        pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[0], series }
-      })
-    }
+      }else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(alertMsg(ex))
+    })
   }
 
   nextTask() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     loadWarmUpNext().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.onPracticeSelected(msg)
@@ -165,8 +160,15 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   next() {
-    const { planData } = this.state
-    const { series, totalSeries } = planData
+    const {dispatch} = this.props
+    const {showDoneAll , planData, currentIndex} = this.state
+    const {doneAllPractice, series, totalSeries} = planData
+    if(!showDoneAll){
+      if(!doneAllPractice && currentIndex===planData.series){
+        this.setState({showDoneAll:true})
+        dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
+      }
+    }
     if (series === totalSeries) {
 
     } else {
@@ -176,9 +178,7 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     completePlan().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         if(msg === true)
@@ -211,9 +211,7 @@ export class PlanMain extends React.Component <any, any> {
 
   nextPlan() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     closePlan().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.context.router.push("/rise/static/problem/priority")
@@ -224,16 +222,14 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   tutorialEnd(){
-    const {dispatch} = this.props;
-    const {planData} = this.state;
-    dispatch(startLoad());
+    const {dispatch} = this.props
+    const {planData} = this.state
     updateOpenRise().then(res => {
-      dispatch(endLoad());
-      const {code,msg} = res;
+      const {code,msg} = res
       if(code === 200){
-        this.setState({planData:merge({},planData,{openRise:true})});
+        this.setState({planData:merge({},planData,{openRise:true})})
       } else {
-        dispatch(alertMsg(msg));
+        dispatch(alertMsg(msg))
       }
     })
   }
@@ -264,10 +260,11 @@ export class PlanMain extends React.Component <any, any> {
               <div className="sub-title">{item.knowledge ? item.knowledge.knowledge : ''}</div>
             </div>
             <div className="footer">
-              {item.status === 1 ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}
-              {item.status === 0 ? <AssetImg type="go4" width={27} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 2 ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 3 ? <AssetImg type="alter" width={32} height={17} marginTop={(75-17)/2}/> : null}
+              {item.unlocked === false ? <AssetImg type="lock" width={32} height={32} marginTop={(75-28)/2}/> : null}
+              {item.status === 1 && item.unlocked === true ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}
+              {item.status === 0 && item.unlocked === true ? <AssetImg type="go4" width={27} height={17} marginTop={(75-17)/2}/> : null}
+              {item.status === 2 && item.unlocked === true ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}
+              {item.status === 3 && item.unlocked === true ? <AssetImg type="alter" width={32} height={17} marginTop={(75-17)/2}/> : null}
             </div>
           </div>
         )
@@ -279,7 +276,7 @@ export class PlanMain extends React.Component <any, any> {
         { showCompleteModal ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iquanwai.com/images/fragment/finish_modal2.png"/>
+              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/finish_modal2.png"/>
               <div className="modal_context">
                 <div className="content">
                   <div className="text2">太棒了!</div>
@@ -303,11 +300,11 @@ export class PlanMain extends React.Component <any, any> {
         { showConfirmModal ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iquanwai.com/images/fragment/finish_modal2.png"/>
+              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/finish_modal2.png"/>
               <div className="modal_context">
                 <div className="content">
                   <div className="text">确定开始新专题吗</div>
-                  <div className="text">当前专题的热身训练将无法查看</div>
+                  <div className="text">当前专题的理解训练将无法查看</div>
                 </div>
                 <div className="content2">
                   <div className="text">（PC端应用训练仍然开放）</div>
@@ -331,7 +328,7 @@ export class PlanMain extends React.Component <any, any> {
         { status === 3 ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iquanwai.com/images/fragment/expire_modal2.png"/>
+              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/expire_modal2.png"/>
               <div className="modal_context">
                 <div className="content"><div className="text">本专题已到期</div></div>
                 <div className="content2">

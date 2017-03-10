@@ -33,7 +33,7 @@ router.get("/rise/plan/load", (req, res) => {
 				"endDate": "2016-12-31",
 				"closeDate": "2017-01-07",
 				"currentSeries": 2, //当前题组
-				"series": 7, //当前题组
+				"series": 2, //当前题组
 				"totalSeries": 7,  //总题组
 				"warmupComplete": 3, //结束的热身训练
 				"applicationComplete": 2, //结束的应用训练
@@ -44,6 +44,7 @@ router.get("/rise/plan/load", (req, res) => {
 				"status": 1,
 				"summary": true, //是否显示总结弹窗
         "newMessage":true,
+        "doneAllPractice": false,
 				"problem": {
 					"id": 2,
 					"problem": "跟老板",
@@ -131,7 +132,8 @@ router.get("/rise/plan/history/load/*", (req, res) => {
 				"startDate": "2016-12-24",
 				"endDate": "2016-12-31",
 				"closeDate": "2017-01-07",
-				"series": 7, //当前题组
+        "doneAllPractice": false,
+				"series": 3, //当前题组
 				"currentSeries": 2, //当前题组
 				"totalSeries": 7,  //总题组
 				"warmupComplete": 3, //结束的热身训练
@@ -265,6 +267,56 @@ router.post('/rise/plan/openrise',(req,res)=>{
       "code":200,
       "msg":"ok"
     }),Math.random() * 1500)
+});
+
+router.get("/rise/plan/knowledge/example/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": {
+        "id": 1, //题目id
+        "question": "题干", //问题题干
+        "analysis": "balbal", //问题分析
+        "voice": "http://someurl", //语音分析链接
+        "type": 1, //1-单选题，2-多选题
+        "difficulty": 1, //1-简单，2-普通，3-困难
+        "knowledgeId":2, //知识点
+        "choiceList": [
+          {
+            "id": 1,
+            "questionId": 1, //问题id
+            "subject": "选项1", //选项题干
+            "sequence": 1, //选项顺序
+            "isRight": false,  //是否是正确选项
+            "selected": false //用户是否选择
+          },
+          {
+            "id": 2,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": true
+          },
+          {
+            "id": 3,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": true,
+            "selected": false
+          },
+          {
+            "id": 4,
+            "questionId": 1,
+            "subject": "选项2",
+            "sequence": 2,
+            "isRight": false,
+            "selected": true
+          }
+        ],
+      }
+    }), Math.random() * 1500)
 });
 
 module.exports = router;

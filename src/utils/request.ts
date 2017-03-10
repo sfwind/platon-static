@@ -29,7 +29,7 @@ export function ppost(url:string, body:Object) {
 }
 
 function log(msg) {
-  ppost('/b/log', { result: msg, cookie: document.cookie })
+  ppost('/rise/b/log', { result: msg, cookie: document.cookie })
 }
 
 function getQueryString(name) {

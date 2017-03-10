@@ -54,7 +54,6 @@ export class Comment extends React.Component<any,any>{
 
   componentDidUpdate(){
     const { commentList=[],end } = this.state;
-    console.log(end);
     const {dispatch,location} = this.props;
     if(commentList&& commentList.length!==0 && !this.pullElement){
       this.pullElement = new PullElement({
@@ -165,7 +164,7 @@ export class Comment extends React.Component<any,any>{
       }  else {
         return (<div className="on_message">
           <div className="no_comment">
-            <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
+            <AssetImg url="http://www.iqycamp.com/images/no_comment.png" height={120} width={120}/>
           </div>
           还没有人评论过<br/>点击左下角按钮，发表第一条吧
         </div>)

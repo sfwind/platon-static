@@ -35,3 +35,7 @@ export function loadWarmUpDiscuss(id, offset) {
 export function loadWarmUpAnalysisNew(warmupPracticeId) {
   return pget(`/rise/practice/warmup/new/analysis/${warmupPracticeId}`)
 }
+
+export function loadExample(knowledgeId) {
+  return pget(`/rise/plan/knowledge/example/${knowledgeId}`)
+}

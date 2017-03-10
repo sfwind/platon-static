@@ -20,7 +20,7 @@ const sequenceMap = {
 }
 
 @connect(state => state)
-export class AnalysisNew extends React.Component <any, any> {
+export class ExampleAnalysis extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {
@@ -30,6 +30,7 @@ export class AnalysisNew extends React.Component <any, any> {
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
+      selected:[],
     }
   }
 
@@ -40,6 +41,8 @@ export class AnalysisNew extends React.Component <any, any> {
   componentWillMount(props) {
     const {dispatch, location} = props || this.props
     const {warmupPracticeId} = location.query
+    const {selected} = location.state
+    this.setState({selected})
     dispatch(startLoad())
     loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
       let {code, msg} = res
@@ -88,8 +91,11 @@ export class AnalysisNew extends React.Component <any, any> {
     window.location.href = '#discuss'
   }
 
-  back(){
-    this.context.router.push({ pathname: '/rise/static/message/center'})
+  onSubmit(){
+    const {knowledge} = this.state
+    const {location} = this.props
+    this.context.router.push({ pathname: '/rise/static/practice/warmup',
+      query: {id: knowledge.id, practicePlanId: location.query.practicePlanId}})
   }
 
   render() {
@@ -100,6 +106,10 @@ export class AnalysisNew extends React.Component <any, any> {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div className="intro-container">
+          <div className="intro-index">
+            <span className="index">第1/1题</span>
+            <span className="type">本题为例题，答案不计分</span>
+          </div>
           { voice ? <div className="context-audio">
               <Audio url={voice}/>
             </div> : null }
@@ -190,7 +200,7 @@ export class AnalysisNew extends React.Component <any, any> {
             {questionRender(data)}
           </div>
         </div>
-        <div className="button-footer" onClick={this.back.bind(this)}>关闭</div>
+        <div className="button-footer" onClick={this.onSubmit.bind(this)}>开始训练</div>
 
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
         {showDiscuss ?<Discuss repliedId={repliedId} warmupPracticeId={this.state.warmupPracticeId}

@@ -22,12 +22,12 @@ export class Intro extends React.Component <any, any> {
   componentWillMount() {
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.id).then(res => {
+    loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.setState({ data: msg })
-        learnKnowledge(location.query.id)
+        learnKnowledge(location.query.kid)
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -38,6 +38,10 @@ export class Intro extends React.Component <any, any> {
 
   onSubmit() {
     this.context.router.push({ pathname: '/rise/static/practice/warmup', query: this.props.location.query })
+  }
+
+  example() {
+    this.context.router.push({ pathname: '/rise/static/practice/knowledge/example', query: this.props.location.query })
   }
 
   render() {
@@ -71,7 +75,13 @@ export class Intro extends React.Component <any, any> {
             </div>
           </div>
         </div>
-        <div className="button-footer" onClick={this.onSubmit.bind(this)}>开始训练</div>
+        <div className="button-footer">
+          <div className="left" onClick={this.example.bind(this)}>例题
+          </div>
+          <div className="right" onClick={this.onSubmit.bind(this)}>
+              开始训练
+          </div>
+        </div>
       </div>
     )
   }

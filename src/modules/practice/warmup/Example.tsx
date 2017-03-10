@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { remove, set, merge } from "lodash";
-import "./Main.less";
-import { loadWarmUpPractice, loadKnowledgeIntro, answer } from "./async";
+import "./Example.less";
+import { loadExample, answer, loadKnowledgeIntro } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -18,16 +18,14 @@ const sequenceMap = {
 }
 
 @connect(state => state)
-export class Main extends React.Component <any, any> {
+export class Example extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {
-      list: [],
-      currentIndex: 0,
-      practiceCount: 0,
-      selected: [],
-      knowledge: {},
+      data:{},
+      knowledge:{},
       showKnowledge: false,
+      selected: [],
     }
   }
 
@@ -37,8 +35,16 @@ export class Main extends React.Component <any, any> {
 
   componentWillMount() {
     const { dispatch, location } = this.props
-    const { practicePlanId } = location.query
     dispatch(startLoad())
+    loadExample(location.query.kid).then(res => {
+      dispatch(endLoad())
+      const { code, msg } = res
+      if (code === 200)  this.setState({ data: msg })
+      else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
     loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
@@ -48,25 +54,10 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    loadWarmUpPractice(practicePlanId).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if (code === 200)  this.setState({ list: msg, practiceCount: msg.practice.length })
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
   }
 
   onChoiceSelected(choiceId) {
-    const { list, currentIndex, selected } = this.state
-    const curPractice = list.practice[currentIndex]
-    // 暂时没有单选了
-    // if (curPractice.type === 1) {
-    //   // 单选
-    //   this.setState({ selected: [choiceId] })
-    // } else if (curPractice.type === 2) {
+    const { selected } = this.state
     let _list = selected
     if (_list.indexOf(choiceId) > -1) {
       remove(_list, n => n === choiceId)
@@ -78,38 +69,27 @@ export class Main extends React.Component <any, any> {
   }
 
   setChoice(cb) {
-    let { list, currentIndex, selected } = this.state
-    set(list, `practice.${currentIndex}.choice`, selected)
-    this.setState({ list }, () => {
-      this.setState({ selected: [], currentIndex: currentIndex + 1 })
-    })
+    let { data, selected } = this.state
+    set(data, "choice", selected)
+    this.setState({ data })
     if (cb) {
-      cb(list.practice)
+      cb(data)
     }
   }
 
   onSubmit() {
-    const { dispatch } = this.props
-    const { selected, practice, currentIndex, practiceCount } = this.state
-    const { practicePlanId } = this.props.location.query
+    const { dispatch,location } = this.props
+    const { selected, data } = this.state
     if (selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"))
       return
     }
-    if (currentIndex < practiceCount - 1) {
-      this.setChoice()
-    } else {
-      this.setChoice(p => {
-        answer({ practice: p }, practicePlanId).then(res => {
-          const { code, msg } = res
-          if (code === 200)  this.context.router.push({
-            pathname: '/rise/static/practice/warmup/result',
-            query: merge(msg, this.props.location.query)
-          })
-          else dispatch(alertMsg(msg))
-        })
-      })
-    }
+    this.context.router.push({
+      pathname: '/rise/static/practice/knowledge/example/analysis',
+      query: {"warmupPracticeId": data.id, "practicePlanId": location.query.practicePlanId,
+        "kid": location.query.kid, "series": location.query.series},
+      state: {selected}
+    })
   }
 
   closeModal() {
@@ -117,20 +97,19 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, knowledge, practiceCount, showKnowledge } = this.state
-    const { practice = [] } = list
+    const { data,knowledge,showKnowledge,selected } = this.state
 
     const questionRender = (practice) => {
       const { question, voice, analysis, choiceList = [], score = 0 } = practice
       return (
         <div className="intro-container">
-          { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
-            <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
-            <span className="type"><span className="number">{score}</span>分</span>
-          </div> : null}
+          <div className="intro-index">
+            <span className="index">第1/1题</span>
+            <span className="type">本题为例题，答案不计分</span>
+          </div>
           { voice ? <div className="context-audio">
-            <Audio url={voice}/>
-          </div> : null }
+              <Audio url={voice}/>
+            </div> : null }
           <div className="question">
             <div dangerouslySetInnerHTML={{__html: question}}></div>
           </div>
@@ -158,7 +137,7 @@ export class Main extends React.Component <any, any> {
         <div className="container" style={{height: window.innerHeight - 75}}>
           <div className="warm-up">
             <div className="page-header">{knowledge.knowledge}</div>
-            {questionRender(practice[currentIndex] || {})}
+            {questionRender(data)}
           </div>
         </div>
         <div className="button-submit" onClick={this.onSubmit.bind(this)}>提交</div>

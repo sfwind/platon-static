@@ -64,7 +64,6 @@ export class Comment extends React.Component<any,any>{
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
-          console.log("开始加载更多");
           loadCommentList(location.query.submitId, this.state.page+1)
             .then(res => {
               if(res.code===200){
@@ -101,7 +100,6 @@ export class Comment extends React.Component<any,any>{
   }
 
   onSubmit(content){
-    console.log("提交",content);
     const {dispatch,location} = this.props;
     if(content){
       dispatch(startLoad());
@@ -162,7 +160,7 @@ export class Comment extends React.Component<any,any>{
       } else {
         return (<div className="on_message">
           <div className="no_comment">
-            <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
+            <AssetImg url="http://www.iqycamp.com/images/no_comment.png" height={120} width={120}/>
           </div>
           还没有人评论过<br/>点击左下角按钮，发表第一条吧
         </div>)
