@@ -7,7 +7,7 @@ import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
-import Work from "../components/Work"
+import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import {findIndex,remove} from "lodash";
 
@@ -203,7 +203,7 @@ export class Main extends React.Component <any, any> {
         return (
           <div className="no-comment">
             <AssetImg type="mobile" height={65} marginTop={15}/>
-            <div className="submit" onClick={this.onEdit.bind(this)}>手机提交</div>
+            <div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>
             <div className="content">
               <div className="text">windows微信客户端也适用</div>
             </div>

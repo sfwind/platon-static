@@ -6,7 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import {isNull,isString,truncate,merge,set} from "lodash";
-import Work from "../components/Work"
+import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import {findIndex,remove,get} from "lodash";
 
@@ -185,7 +185,7 @@ export class Main extends React.Component <any, any> {
       if(isNull(content)) {
         return (<div className="no-comment">
           <AssetImg type="mobile" height={65} marginTop={15}/>
-          <div className="submit" onClick={this.onEdit.bind(this)}>手机提交</div>
+          <div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>
           <div className="content">
             <div className="text">windows微信客户端也适用</div>
           </div>

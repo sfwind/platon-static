@@ -9,4 +9,26 @@
   top: 0;
   left: 0;
   background-color: #ffffff;
+  > .submit{
+    > .title-area{
+      padding: 15px;
+      font-size:16px;
+      color:#333333;
+      border:  1px  #d0d0d0;;
+      border-style:solid solid dashed solid;
+      width: ~"calc(100% - 32px)";
+      &:-moz-placeholder{
+        color:#999999;
+      }
+      &:-ms-input-placeholder{
+        color:#999999;
+      }
+      &::-webkit-input-placeholder{
+        color:#999999;
+      }
+    }
+    > .title-area + .submit-area{
+      border-top:none;
+    }
+  }
 }
