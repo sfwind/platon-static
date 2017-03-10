@@ -46,7 +46,7 @@ export class Intro extends React.Component <any, any> {
 
   render() {
     const { data } = this.state
-    const { knowledge, voice, pic, analysis, means, keynote } = data
+    const { knowledge, audio, pic, analysis, means, keynote } = data
 
     return (
       <div>
@@ -54,8 +54,8 @@ export class Intro extends React.Component <any, any> {
           <div className="warm-up-intro">
             <div className="page-header">{knowledge}</div>
             <div className="intro-container">
-              { voice ? <div className="context-audio">
-                <Audio url={voice}/>
+              { audio ? <div className="context-audio">
+                <Audio url={audio}/>
               </div> : null }
               <div className="context-title-img">
                 <AssetImg width={48} height={18} type="analysis"/>

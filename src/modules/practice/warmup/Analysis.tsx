@@ -128,7 +128,7 @@ export class Analysis extends React.Component <any, any> {
     const {list, currentIndex, selected, knowledge, practiceCount,
       showKnowledge, showDiscuss, repliedId} = this.state
     const {practice = []} = list
-    const {analysis, means, keynote, voice} = knowledge
+    const {analysis, means, keynote, audio} = knowledge
 
     const questionRender = (practice) => {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
@@ -138,8 +138,8 @@ export class Analysis extends React.Component <any, any> {
               <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
               <span className="type"><span className="number">{score}</span>分</span>
             </div> : null}
-          { voice ? <div className="context-audio">
-              <Audio url={voice}/>
+          { audio ? <div className="context-audio">
+              <Audio url={audio}/>
             </div> : null }
           <div className="question">
             <div dangerouslySetInnerHTML={{__html: question}}></div>
