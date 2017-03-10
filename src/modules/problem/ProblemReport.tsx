@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./ProblemReport.less";
+import Audio from "../../components/Audio";
 import { loadProblem, createPlan } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 
@@ -44,14 +45,16 @@ export class ProblemReport extends React.Component <any, any> {
   }
 
   render() {
-    const { problem, pic, description, length } = this.state
+    const { problem, pic, description, length, audio } = this.state
 
     return (
       <div>
         <div className="container has-footer">
           <div className="problem-report">
             <div className="context">
-
+              { audio ? <div className="context-audio">
+                  <Audio url={audio}/>
+                </div> : null }
               <div className="context" dangerouslySetInnerHTML={{__html: description}}></div>
               <div className="context-img">
                 <img src={pic} alt=""/>

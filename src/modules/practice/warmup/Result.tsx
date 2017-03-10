@@ -47,7 +47,7 @@ export class Result extends React.Component <any, any> {
   render() {
     const { rightNumber, point } = this.props.location.query
     const { data } = this.state
-    const { knowledge, voice, pic, analysis } = data
+    const { knowledge } = data
 
     return (
       <div>
