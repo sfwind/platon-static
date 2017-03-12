@@ -95,7 +95,7 @@ export class ExampleAnalysis extends React.Component <any, any> {
     const {knowledge} = this.state
     const {location} = this.props
     this.context.router.push({ pathname: '/rise/static/practice/warmup',
-      query: {id: knowledge.id, practicePlanId: location.query.practicePlanId}})
+      query: {kid: knowledge.id, practicePlanId: location.query.practicePlanId}})
   }
 
   render() {
