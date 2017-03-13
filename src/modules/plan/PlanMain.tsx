@@ -50,10 +50,16 @@ export class PlanMain extends React.Component <any, any> {
     if (id !== undefined || location.query.series !== undefined) {
       loadPlanHistory(id || location.query.series).then(res => {
         dispatch(endLoad())
-        const { code, msg } = res
+        let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg })
+            this.setState({ planData: msg, currentIndex:msg.currentSeries })
+            loadProblem(msg.problemId).then(res => {
+              let { code, msg } = res
+              if (code === 200) {
+                this.setState({selectProblem:msg})
+              }
+            })
           } else {
             this.context.router.push({ pathname: location.pathname })
             dispatch(alertMsg("下一组任务明早6点解锁"))
@@ -76,7 +82,7 @@ export class PlanMain extends React.Component <any, any> {
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg, currentIndex:msg.series})
+            this.setState({ planData: msg, currentIndex:msg.currentSeries})
             loadProblem(msg.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
