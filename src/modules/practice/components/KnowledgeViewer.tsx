@@ -6,7 +6,7 @@ import Audio from "../../../components/Audio";
 export default class KnowledgeViewer extends React.Component<any, any> {
   render() {
     const { knowledge, closeModal } = this.props
-    const { analysis, means, keynote, voice } = knowledge
+    const { analysis, means, keynote, audio } = knowledge
 
     return (
       <div className="knowledge-page">
@@ -14,8 +14,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           <div className="warm-up-intro">
             <div className="page-header">{knowledge.knowledge}</div>
             <div className="intro-container">
-              { voice ? <div className="context-audio">
-                <Audio url={voice}/>
+              { audio ? <div className="context-audio">
+                <Audio url={audio}/>
               </div> : null }
               <div className="context-title-img">
                 <AssetImg width={48} height={18} type="analysis"/>
