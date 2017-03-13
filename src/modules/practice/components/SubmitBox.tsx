@@ -41,6 +41,7 @@ export default class Discuss extends React.Component <any, any> {
     const renderLabels = ()=>{
       return (
         <div className="label-container">
+          <span className="tips">选择标签:</span>
           {
             this.state.labels.map((item,seq)=>{
               return (
