@@ -108,7 +108,7 @@ export class ProblemPriority extends React.Component<any,any> {
                         type={`${catalogOpen[seq]?'arrowUp':'arrowDown'}`}/>
             </div>
           </div>
-          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight-this.problemMargin)*problemList.length+(seq===0?45:60)+'px':0+'px'}`}} appear={false} duration={[0,0]} ease={["easeInQuart","easeInQuart"]} animConfig={[
+          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight-this.problemMargin)*problemList.length+(seq===0?45:55)+'px':0+'px'}`}} appear={false} duration={[0,0]} ease={["easeInQuart","easeInQuart"]} animConfig={[
             {  opacity:[1,0],translateY: [0,-(this.problemHeight+10)*problemList.length+30]},
             {  opacity:[0,1],translateY: [0, (this.problemHeight+10)*problemList.length+30]}
           ]} className="swipe-content" component={"div"}
