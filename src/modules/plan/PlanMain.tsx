@@ -2,9 +2,11 @@ import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
 import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice } from "./async";
+import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
+import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge,isBoolean} from "lodash"
 
 const typeMap = {
@@ -27,6 +29,8 @@ export class PlanMain extends React.Component <any, any> {
       showConfirmModal: false,
       showDoneAll: false,
       currentIndex: 0,
+      showProblem: false,
+      selectProblem: {},
     }
   }
 
@@ -69,10 +73,16 @@ export class PlanMain extends React.Component <any, any> {
     } else {
       loadPlan().then(res => {
         dispatch(endLoad())
-        const { code, msg } = res
+        let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
             this.setState({ planData: msg, currentIndex:msg.series})
+            loadProblem(msg.problemId).then(res => {
+              let { code, msg } = res
+              if (code === 200) {
+                this.setState({selectProblem:msg})
+              }
+            })
           } else {
             this.context.router.push({
               pathname: '/rise/static/problem/priority'
@@ -210,7 +220,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   problemReview(problemId){
-    this.context.router.push({ pathname: '/rise/static/problem/report', query: { id: problemId } })
+    this.setState({showProblem: true})
   }
 
   nextPlan() {
@@ -243,7 +253,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   render() {
-    const { planData, showCompleteModal, showConfirmModal } = this.state
+    const { planData, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
       deadline, status, currentSeries, totalSeries, series, openRise, newMessage
@@ -360,7 +370,7 @@ export class PlanMain extends React.Component <any, any> {
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>
             <div className="section">
-              <label>进行中:</label> {series}/{totalSeries}组训练
+              <label>已解锁:</label> {currentIndex}/{totalSeries}组训练
             </div>
             <div className="section">
               <label>距关闭:</label> {deadline}天
@@ -373,7 +383,7 @@ export class PlanMain extends React.Component <any, any> {
         <div className="function-area">
           <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
             <span className="essence"><AssetImg type="essence" height={14} width={19}/></span>
-            <span>精华奉献</span>
+            <span>精华分享</span>
           </div>
           <div className="right" onClick={() => this.problemReview(problem.id)}>
             <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
@@ -387,9 +397,11 @@ export class PlanMain extends React.Component <any, any> {
             <div className="list">
               {practiceRender(practice)}
             </div>
+            <div className="padding-footer"></div>
           </div>
         </div>
         {/**<div className="button-footer" onClick={this.nextTask.bind(this)}>开始</div>**/}
+        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>: null}
         <div className="button-footer">
           <div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一组
           </div>

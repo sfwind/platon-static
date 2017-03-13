@@ -17,6 +17,7 @@ router.get("/rise/plan/play/*", (req, res) => {
 			"msg": {
 				"length": 14, //持续天数
 				"endDate": "12月18日", //结束日期
+        "totalSeries":7, //题目总数
 				"pic": "http://www.iquanwai.com/images/cintro1.png" //问题头图
 			}
 		}), Math.random() * 1500)

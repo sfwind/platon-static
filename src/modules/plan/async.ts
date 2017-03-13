@@ -12,10 +12,6 @@ export function loadPlanIntro(planId) {
   return pget(`/rise/plan/play/${planId}`)
 }
 
-export function submitProblemList(params) {
-  return ppost(`/rise/problem/select`, params)
-}
-
 export function loadWarmUpNext(id) {
   return pget(`/rise/practice/next/${id}`)
 }

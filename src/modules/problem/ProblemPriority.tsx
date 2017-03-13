@@ -145,6 +145,7 @@ export class ProblemPriority extends React.Component<any,any> {
               <span style={{fontSize:`${this.catalogName}px`}}>更多专题</span>
             </div>) : null}
         </div>
+        <div className="padding-footer"></div>
         {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
                                      submitProblem={(problemId)=>this.submitProblem(problemId)}/>: null}
       </div>
