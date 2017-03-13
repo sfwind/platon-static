@@ -39,13 +39,20 @@ export default class ProblemViewer extends React.Component<any, any> {
 
   render() {
     const {closeModel, submitProblem, problem} = this.props;
-    console.log(problem);
     return (
       <div className="problem-page">
         <div className="container has-footer">
           <div className="problem-intro">
             <div className="page-header">{problem.problem}</div>
-            <div className="page-content" dangerouslySetInnerHTML={{__html: problem.description}}>
+            <div className="page-content">
+              { problem.audio ? <div className="context-audio">
+                <Audio url={problem.audio}/>
+              </div> : null }
+              <div className="context" dangerouslySetInnerHTML={{__html: problem.description}}></div>
+              <div className="context-img">
+                <img src={problem.descPic} alt=""/>
+              </div>
+              <div className="context">上图中，带数字编号的是你接下来{problem.length}天要学习的知识点。你每天会练习到其中的两个。这些知识点会以选择题和应用题的方式，来帮助你更好地掌握。</div>
             </div>
           </div>
           <div className="button-footer">

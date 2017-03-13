@@ -205,6 +205,10 @@ export class PlanMain extends React.Component <any, any> {
     this.setState({ showConfirmModal: false })
   }
 
+  essenceShare(problemId, series){
+    this.context.router.push({ pathname: '/rise/static/practice/subject', query: { id: problemId, series } })
+  }
+
   problemReview(problemId){
     this.context.router.push({ pathname: '/rise/static/problem/report', query: { id: problemId } })
   }
@@ -365,12 +369,20 @@ export class PlanMain extends React.Component <any, any> {
               <label>总得分:</label> {point} 分
             </div>
           </div>
-          <div className="problem-review" onClick={() => this.problemReview(problem.id)}>
-            专题详情
+        </div>
+        <div className="function-area">
+          <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
+            <span className="essence"><AssetImg type="essence" height={14} width={19}/></span>
+            <span>精华奉献</span>
+          </div>
+          <div className="right" onClick={() => this.problemReview(problem.id)}>
+            <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
+            <span>专题详情</span>
           </div>
         </div>
         <div className="container has-footer"
              style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f9f6f6'}}>
+          <div className="plan-progress"><div className="bar"></div><span>第{series}组</span><div className="bar"></div></div>
           <div className="plan-main">
             <div className="list">
               {practiceRender(practice)}

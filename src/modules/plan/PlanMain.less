@@ -7,7 +7,6 @@
 }
 
 .plan-main {
-  padding-top: 10px;
   height: ~"calc(100% - 10px)";
   > .list {
     margin-bottom: 10px;
@@ -220,5 +219,52 @@
         }
       }
     }
+  }
+}
+
+.function-area{
+  background-color: #ffffff;
+  color: @color_theme;
+  height: 50px;
+  text-align: center;
+  font-size: 16px;
+  > .left{
+    height: 50px;
+    line-height: 50px;
+    display: inline-block;
+    width: ~"calc(50% - 1px)";
+    border-right: 1px solid white;
+    > .essence{
+      height: 18px;
+      margin-right: 5px;
+    }
+  }
+
+  > .right{
+    height: 50px;
+    line-height: 50px;
+    display: inline-block;
+    width: 50%;
+    > .problem_detail{
+      height: 18px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.plan-progress{
+  color: #999999;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+  .bar{
+    display: inline-block;
+    height: 1px;
+    width: 84px;
+    background-color: #cccccc;
+    margin-left: 13px;
+    margin-right: 13px;
+    vertical-align: middle;
   }
 }
