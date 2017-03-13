@@ -29,7 +29,7 @@ export function discuss(params) {
 }
 
 export function loadWarmUpDiscuss(id, offset) {
-  return pget(`/rise/practice/load/discuss/${id}/${offset}`)
+  return pget(`/rise/practice/warmup/load/discuss/${id}/${offset}`)
 }
 
 export function loadWarmUpAnalysisNew(warmupPracticeId) {
