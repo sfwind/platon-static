@@ -27,7 +27,20 @@ router.get("/rise/problem/list/unchoose", (req, res) => {
                   "applicationCount": 5,
                   "challengeCount": 1,
                   "description": "以情动人和以理服人是说服别人的两种方式，通过本训练，你将掌握<br/>1）提出明确的诉求<br/>2）讲好故事<br/>3）有效使用证据<br/>结合运用理性和感性，能更好说服他人。<br/><br/>对应这三个目标，你未来将要学习的知识点如下：<br/>1）明确提出诉求——概括主题<br/>2）讲好故事——SCQA<br/>3）有效使用证据——证据的效力<br/><br/>这些知识点都会以选择题和应用题的方式，来帮助你更好地掌握。",
-                  "catalogId": "1"
+                  "catalogId": "1",
+                  "status": 2,
+                },
+                {
+                  "id": 1,
+                  "problem": "与人沟通时条理更清晰",
+                  "pic": "http://www.iquanwai.com/images/fragment/problem1.png",
+                  "length": 5,
+                  "warmupCount": 10,
+                  "applicationCount": 5,
+                  "challengeCount": 1,
+                  "description": "以情动人和以理服人是说服别人的两种方式，通过本训练，你将掌握<br/>1）提出明确的诉求<br/>2）讲好故事<br/>3）有效使用证据<br/>结合运用理性和感性，能更好说服他人。<br/><br/>对应这三个目标，你未来将要学习的知识点如下：<br/>1）明确提出诉求——概括主题<br/>2）讲好故事——SCQA<br/>3）有效使用证据——证据的效力<br/><br/>这些知识点都会以选择题和应用题的方式，来帮助你更好地掌握。",
+                  "catalogId": "1",
+                  "status": 0,
                 }
               ]
             }

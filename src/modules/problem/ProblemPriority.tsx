@@ -59,7 +59,7 @@ export class ProblemPriority extends React.Component<any,any> {
   }
 
   openProblemIntro(problem) {
-    if(!problem.done){
+    if(problem.status===0){
       this.setState({showProblem: true, selectProblem: problem});
     }
   }
@@ -120,8 +120,9 @@ export class ProblemPriority extends React.Component<any,any> {
                 <div onClick={()=>this.openProblemIntro(problem)}
                      className="problem" style={{color:`${catalog.color}`,border:`1px solid ${catalog.color}`,height:`${this.problemHeight}px`,marginTop:`${-this.problemMargin}px`}}
                 >
-                  <span className={`title ${problem.done?'done':''}`} style={{marginTop:`${this.tipMargin}px`}}>{problem.problem}</span>
-                  <span className={`tips ${problem.done?'done':''}`} style={{borderColor:`${catalog.color}`}}>{problem.done?'已完成':'专题介绍'}</span>
+                  <span className={`title ${problem.status!==0?'done':''}`} style={{marginTop:`${this.tipMargin}px`}}>{problem.problem}</span>
+                  <span className={`tips ${problem.status!==0?'done':''}`} style={{borderColor:`${catalog.color}`}}>
+                    {problem.status === 0 ? '专题介绍' : problem.status === 1 ? '进行中' : '已完成'}</span>
                 </div>
               )
             }) : null}
@@ -145,7 +146,6 @@ export class ProblemPriority extends React.Component<any,any> {
               <span style={{fontSize:`${this.catalogName}px`}}>更多专题</span>
             </div>) : null}
         </div>
-        <div className="padding-footer"></div>
         {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
                                      submitProblem={(problemId)=>this.submitProblem(problemId)}/>: null}
       </div>
