@@ -118,7 +118,7 @@ export class ProblemPriority extends React.Component<any,any> {
             >{problemList ? problemList.map((problem, seq) => {
               return (
                 <div onClick={()=>this.openProblemIntro(problem)}
-                     className="problem" style={{color:`${catalog.color}`,height:`${this.problemHeight}px`,marginTop:`${-this.problemMargin}px`}}
+                     className="problem" style={{color:`${catalog.color}`,border:`2px solid ${catalog.color}`,height:`${this.problemHeight}px`,marginTop:`${-this.problemMargin}px`}}
                 >
                   <span className={`title ${problem.done?'done':''}`} style={{marginTop:`${this.tipMargin}px`}}>{problem.problem}</span>
                   <span className={`tips ${problem.done?'done':''}`} style={{borderColor:`${catalog.color}`}}>{problem.done?'已完成':'专题介绍'}</span>
