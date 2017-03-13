@@ -34,41 +34,41 @@ export class Main extends React.Component <any, any> {
   componentDidMount(){
   }
 
-  componentDidUpdate(preProps,preState){
-    const content = get(this.state,'data.content');
-    if(content && !this.pullElement){
-      const {dispatch} = this.props;
-      this.pullElement = new PullElement({
-        target:'.container',
-        scroller:'.container',
-        damping:4,
-        detectScroll:true,
-        detectScrollOnStart:true,
-        onPullUpEnd:(data)=>{
-          loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
-            if (res.code === 200) {
-              if (res.msg.list && res.msg.list.length !== 0) {
-                remove(res.msg.list,(item)=>{
-                  return findIndex(this.state.otherList,item)!==-1;
-                })
-                this.setState({otherList: this.state.otherList.concat(res.msg.list), page: this.state.page + 1,end:res.msg.end});
-              } else {
-                dispatch(alertMsg('没有更多了'));
-              }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      })
-      this.pullElement.init();
-    }
-    if(this.pullElement && this.state.end){
-      this.pullElement.disable();
-    }
-  }
+  // componentDidUpdate(preProps,preState){
+  //   const content = get(this.state,'data.content');
+  //   if(content && !this.pullElement){
+  //     const {dispatch} = this.props;
+  //     this.pullElement = new PullElement({
+  //       target:'.container',
+  //       scroller:'.container',
+  //       damping:4,
+  //       detectScroll:true,
+  //       detectScrollOnStart:true,
+  //       onPullUpEnd:(data)=>{
+  //         loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
+  //           if (res.code === 200) {
+  //             if (res.msg.list && res.msg.list.length !== 0) {
+  //               remove(res.msg.list,(item)=>{
+  //                 return findIndex(this.state.otherList,item)!==-1;
+  //               })
+  //               this.setState({otherList: this.state.otherList.concat(res.msg.list), page: this.state.page + 1,end:res.msg.end});
+  //             } else {
+  //               dispatch(alertMsg('没有更多了'));
+  //             }
+  //           } else {
+  //             dispatch(alertMsg(res.msg));
+  //           }
+  //         }).catch(ex => {
+  //           dispatch(alertMsg(ex));
+  //         });
+  //       }
+  //     })
+  //     this.pullElement.init();
+  //   }
+  //   if(this.pullElement && this.state.end){
+  //     this.pullElement.disable();
+  //   }
+  // }
 
   componentWillUnmount(){
     this.pullElement?this.pullElement.destroy():null;
@@ -101,13 +101,13 @@ export class Main extends React.Component <any, any> {
     }).then(res=>{
       if (res) {
         // 已提交
-        return loadOtherList(location.query.id, 1).then(res => {
-          if (res.code === 200) {
-            this.setState({otherList: res.msg.list, page: 1,end:res.msg.end});
-          } else {
-            dispatch(alertMsg(res.msg));
-          }
-        });
+        // return loadOtherList(location.query.id, 1).then(res => {
+        //   if (res.code === 200) {
+        //     this.setState({otherList: res.msg.list, page: 1,end:res.msg.end});
+        //   } else {
+        //     dispatch(alertMsg(res.msg));
+        //   }
+        // });
       } else {
       }
     }).catch(ex => {
@@ -197,7 +197,7 @@ export class Main extends React.Component <any, any> {
         </div>)
       } else {
         return (
-        <Work onEdit={()=>this.onEdit()} hide="true"
+        <Work onEdit={()=>this.onEdit()} hide="true" operation={false}
               headImage={window.ENV.headImage} userName={window.ENV.userName} {...data} />
         )
       }
