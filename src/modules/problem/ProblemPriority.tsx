@@ -145,7 +145,7 @@ export class ProblemPriority extends React.Component<any,any> {
             .concat(<a href={`http://www.confucius.mobi/survey/wjx?activity=12602894`} className="more-box" style={{display:'block',height:`${this.catalogHeight}px`,lineHeight:`${this.catalogHeight}px`}}>
               {/*<div className="swipe-box-mask" style={{opacity:'0.25'}}></div>*/}
               <span style={{fontSize:`${this.catalogName}px`}}>更多专题</span>
-            </a>) : nzull}
+            </a>) : null}
         </div>
         {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
                                      submitProblem={(problemId)=>this.submitProblem(problemId)}/>: null}
