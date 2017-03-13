@@ -100,9 +100,6 @@ export class AnalysisNew extends React.Component <any, any> {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div className="intro-container">
-          { voice ? <div className="context-audio">
-              <Audio url={voice}/>
-            </div> : null }
           <div className="question">
             <div dangerouslySetInnerHTML={{__html: question}}></div>
           </div>
