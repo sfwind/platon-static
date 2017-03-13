@@ -108,9 +108,9 @@ export class ProblemPriority extends React.Component<any,any> {
                         type={`${catalogOpen[seq]?'arrowUp':'arrowDown'}`}/>
             </div>
           </div>
-          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight-this.problemMargin)*problemList.length+30+'px':0+'px'}`}} appear={false} duration={[300,300]} ease={["easeInQuart","easeInQuart"]} animConfig={[
+          <QueueAnim style={{height:`${catalogOpen[seq]?(this.problemHeight-this.problemMargin)*problemList.length+(seq===0?45:60)+'px':0+'px'}`}} appear={false} duration={[0,0]} ease={["easeInQuart","easeInQuart"]} animConfig={[
             {  opacity:[1,0],translateY: [0,-(this.problemHeight+10)*problemList.length+30]},
-            {  opacity:[0,1],translateY: [0, (this.problemHeight+10)*problemList.length+30] }
+            {  opacity:[0,1],translateY: [0, (this.problemHeight+10)*problemList.length+30]}
           ]} className="swipe-content" component={"div"}
           >
             {catalogOpen[seq] ?<div
@@ -118,7 +118,7 @@ export class ProblemPriority extends React.Component<any,any> {
             >{problemList ? problemList.map((problem, seq) => {
               return (
                 <div onClick={()=>this.openProblemIntro(problem)}
-                     className="problem" style={{color:`${catalog.color}`,border:`2px solid ${catalog.color}`,height:`${this.problemHeight}px`,marginTop:`${-this.problemMargin}px`}}
+                     className="problem" style={{color:`${catalog.color}`,border:`1px solid ${catalog.color}`,height:`${this.problemHeight}px`,marginTop:`${-this.problemMargin}px`}}
                 >
                   <span className={`title ${problem.done?'done':''}`} style={{marginTop:`${this.tipMargin}px`}}>{problem.problem}</span>
                   <span className={`tips ${problem.done?'done':''}`} style={{borderColor:`${catalog.color}`}}>{problem.done?'已完成':'专题介绍'}</span>

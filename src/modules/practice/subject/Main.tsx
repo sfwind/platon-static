@@ -213,11 +213,11 @@ export class Main extends React.Component <any, any> {
     const {submitId} = this.state;
     const { dispatch, location} = this.props
     if(content == null || content.length === 0){
-      dispatch(alertMsg('请填写作业'))
+      dispatch(alertMsg('还没有输入正文'))
       return
     }
     if(title == null || title.length === 0){
-      dispatch(alertMsg('请填写标题'))
+      dispatch(alertMsg('还没有输入标题'))
       return
     }
     this.setState({editDisable: true})
