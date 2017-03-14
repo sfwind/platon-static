@@ -2,6 +2,7 @@ import * as React from "react";
 import "./NewWork.less"
 import {isString,truncate,isFunction} from "lodash";
 import AssetImg from "../../../components/AssetImg";
+import { preview } from "../../helpers/JsConfig"
 
 
 export default class Work extends React.Component<any,any> {
@@ -23,7 +24,7 @@ export default class Work extends React.Component<any,any> {
       submitUpdateTime,onEdit,voteCount,commentCount,
       voteStatus,onVoted,goComment,wordsCount=60,
       title,avatarStyle = 'left',
-      operation=true} = this.props;
+      operation=true,picList=[]} = this.props;
     const {showAll} = this.state;
 
     const renderWorkContent = ()=>{
@@ -80,6 +81,11 @@ export default class Work extends React.Component<any,any> {
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content">{renderWorkContent()}</div>
             {content && content.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
+            <div className="pic-list">{picList && !(content.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
+              return (
+                <img className="pic" src={`${item}`}  onClick={() => preview(item, [item])} />
+              )
+            }):null}</div>
             {showOperation()?<div className={`operation-area ${avatarStyle}`}>
               <div onClick={()=>{isFunction(onVoted)?onVoted():null;}} className="vote">
                 <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>

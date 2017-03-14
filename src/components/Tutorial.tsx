@@ -73,17 +73,14 @@ export default class Tutorial extends React.Component<any,any> {
             </div>)
           })}
         </SwipeableViews>
-        {index!==0?<div className="sequence-dot">
+        {<div className="sequence-dot">
           {this.state.bgList.map((item, seq) => {
-            if (seq == 0) {
-              return null;
-            }
             return (<button className="dot-box">
               <div className="dot"
                    style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>
             </button>)
           })}
-        </div>:null}
+        </div>}
       </div>
     )
   }
