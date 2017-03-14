@@ -77,8 +77,22 @@ export class MessageCenter extends React.Component <any, any> {
   componentWillMount(props) {
     const {dispatch} = props || this.props
     dispatch(startLoad())
-    loadMessage(1).then(()=>{
+    loadMessage(1).then((res)=>{
+      dispatch(endLoad())
+      const {code, msg} = res
 
+      if (code === 200) {
+        let no_message = false
+        if(msg.notifyMessageList.length === 0){
+          no_message = true
+        }
+        this.setState({list: msg.notifyMessageList, no_message, end: msg.end})
+        if(msg.end===true && this.pullElement){
+          this.pullElement.disable()
+        }
+      } else {
+        dispatch(alertMsg(msg))
+      }
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))

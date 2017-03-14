@@ -271,20 +271,32 @@ export class PlanMain extends React.Component <any, any> {
           <div key={index} className="practice-card"
                onClick={() => this.onPracticeSelected(item)}>
             <div className="header">
-              {item.type === 1 || item.type === 2 ? <AssetImg type="warmup" size={50}/> : null }
-              {item.type === 11 ? <AssetImg type="application" size={50}/> : null }
-              {item.type === 21 ? <AssetImg type="challenge" size={50}/> : null }
+              {item.type === 1 ? item.status !== 1 ?
+                  <AssetImg type="warmup" size={50}/>:
+                  <AssetImg type="warmup_complete" size={50}/>: null
+              }
+              {item.type === 11 ? item.status !== 1 ?
+                  <AssetImg type="application" size={50}/>:
+                  <AssetImg type="application_complete" size={50}/>: null
+              }
+              {item.type === 21 ? item.status !== 1 ?
+                  <AssetImg type="challenge" size={50}/>:
+                  <AssetImg type="challenge_complete" size={50}/>: null
+              }
             </div>
+            {item.unlocked === false ?
+                <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
+            }
+
             <div className="body">
               <div className="title">{typeMap[item.type]}</div>
               <div className="sub-title">{item.knowledge ? item.knowledge.knowledge : ''}</div>
             </div>
             <div className="footer">
-              {item.unlocked === false ? <AssetImg type="lock" width={32} height={32} marginTop={(75-28)/2}/> : null}
-              {item.status === 1 && item.unlocked === true ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}
-              {item.status === 0 && item.unlocked === true ? <AssetImg type="go4" width={27} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 2 && item.unlocked === true ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 3 && item.unlocked === true ? <AssetImg type="alter" width={32} height={17} marginTop={(75-17)/2}/> : null}
+              {/*{item.unlocked === false ? <AssetImg type="lock" width={32} height={32} marginTop={(75-28)/2}/> : null}*/}
+              {/*{item.status === 1 && item.unlocked === true ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}*/}
+              {/*{item.status === 2 && item.unlocked === true ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}*/}
+              {item.status === 3 ? <AssetImg type="optional" width={25} height={12}/> : null}
             </div>
           </div>
         )

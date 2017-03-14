@@ -12,20 +12,39 @@
     margin-bottom: 10px;
   }
   .practice-card {
+    position: relative;
     background-color: white;
     height: 75px;
     border-radius: 5px;
     > .header {
-      display: inline-block;
-      vertical-align: middle;
-      height: 100%;
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      top:12px;
+      border-radius: 50px;
       margin: 0 5px 0 10px;
       img {
         display: block;
-        margin-top: 12px;
       }
+      z-index: 1;
+    }
+    > .locked {
+      top:12px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      position: absolute;
+      margin: 0 5px 0 10px;
+      background-color: rgba(0, 0, 0, 0.4);
+      img {
+        display: block;
+        margin: 12px 15px;
+      }
+      z-index: 2;
     }
     > .body {
+      position: absolute;
+      left: 75px;
       display: inline-block;
       width: ~"calc(100% - 65px - 42px)";
       vertical-align: middle;
@@ -44,15 +63,14 @@
       }
     }
     > .footer {
+      position: absolute;
       display: inline-block;
-      vertical-align: middle;
-      width: 32px;
+      vertical-align: top;
+      right: 0;
       height: 100%;
-      margin-right: 10px;
       img {
         display: block;
-        margin-top: 12px;
-        float: right;
+        margin-top: 10px;
       }
     }
   }
@@ -224,7 +242,7 @@
 
 .function-area{
   background-color: #ffffff;
-  color: @color_theme;
+  color: @color_context;
   height: 50px;
   text-align: center;
   font-size: 16px;

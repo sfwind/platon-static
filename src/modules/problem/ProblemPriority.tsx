@@ -32,7 +32,6 @@ export class ProblemPriority extends React.Component<any,any> {
     this.catalogMargin = (this.catalogHeight - this.iconSize)/2;
     this.catalogOpenMargin = 40/750 * window.innerWidth;
     this.tipMargin = (this.problemHeight - 44) / 2;
-    console.log(this.problemHeight);
   }
 
   componentWillMount() {
