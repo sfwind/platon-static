@@ -67,8 +67,8 @@ router.get("/rise/plan/load", (req, res) => {
 						"appear": true
 					},
 					"type": 1,
-					"status": 1,
-					"unlocked": true,
+					"status": 0,
+					"unlocked": false,
 					"practiceIdList": [49, 45, 47],
 					"series": 1,
 					"sequence": 1,
@@ -101,7 +101,7 @@ router.get("/rise/plan/load", (req, res) => {
 						"appear": true
 					},
 					"type": 11,
-					"status": 0,
+					"status": 1,
 					"unlocked": true,
 					"practiceIdList": [27],
 					"series": 1,
@@ -110,7 +110,7 @@ router.get("/rise/plan/load", (req, res) => {
 				}, {
 					"knowledge": null,
 					"type": 21,
-					"status": 3,
+					"status": 1,
 					"unlocked": true,
 					"practiceIdList": [2],
 					"series": 0,
