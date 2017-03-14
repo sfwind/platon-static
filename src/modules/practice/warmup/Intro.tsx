@@ -60,18 +60,26 @@ export class Intro extends React.Component <any, any> {
               <div className="context-title-img">
                 <AssetImg width={48} height={18} type="analysis"/>
               </div>
-              <div className="context" dangerouslySetInnerHTML={{__html: analysis}}>
+              <div className="context">
+                <pre>{analysis}</pre>
               </div>
               <div className="context-title-img">
                 <AssetImg width={50} height={16} type="means"/>
               </div>
-              <div className="context" dangerouslySetInnerHTML={{__html: means}}>
+              <div className="context">
+                <pre>{means}</pre>
               </div>
-              <div className="context-title-img">
-                <AssetImg width={50} height={18} type="keynotes"/>
-              </div>
-              <div className="context" dangerouslySetInnerHTML={{__html: keynote}}>
-              </div>
+
+              {keynote ?
+                <div>
+                  <div className="context-title-img">
+                    <AssetImg width={50} height={18} type="keynotes"/>
+                  </div>
+                  <div className="context">
+                    <pre>{keynote}</pre>
+                  </div>
+                </div>
+                : null}
             </div>
           </div>
         </div>

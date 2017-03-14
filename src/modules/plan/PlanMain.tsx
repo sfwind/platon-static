@@ -91,7 +91,7 @@ export class PlanMain extends React.Component <any, any> {
             })
           } else {
             this.context.router.push({
-              pathname: '/rise/static/problem/priority'
+              pathname: '/rise/static/problem/list'
             })
           }
         }
