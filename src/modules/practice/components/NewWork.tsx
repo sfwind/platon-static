@@ -83,7 +83,7 @@ export default class Work extends React.Component<any,any> {
             {content && content.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
             <div className="pic-list">{picList &&  !(content && content.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
               return (
-                <img className="pic" src={`${item}`}  onClick={() => preview(item, [item])} />
+                <img className="pic" src={`${item}`}  onClick={() => preview(item, picList)} />
               )
             }):null}</div>
             {showOperation()?<div className={`operation-area ${avatarStyle}`}>
