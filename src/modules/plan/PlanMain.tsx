@@ -408,8 +408,10 @@ export class PlanMain extends React.Component <any, any> {
             <span>专题详情</span>
           </div>
         </div>
-        <div className="container has-footer"
-             style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f9f6f6'}}>
+        {/**<div className="button-footer" onClick={this.nextTask.bind(this)}>开始</div>**/}
+        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>
+          : <div className="container has-footer"
+                 style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f9f6f6'}}>
           <div className="plan-progress"><div className="bar"></div><span>第{series}组</span><div className="bar"></div></div>
           <div className="plan-main">
             <div className="list">
@@ -417,9 +419,7 @@ export class PlanMain extends React.Component <any, any> {
             </div>
             <div className="padding-footer"></div>
           </div>
-        </div>
-        {/**<div className="button-footer" onClick={this.nextTask.bind(this)}>开始</div>**/}
-        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>: null}
+        </div>}
         <div className="button-footer">
           <div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一组
           </div>

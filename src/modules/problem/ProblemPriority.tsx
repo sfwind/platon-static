@@ -139,15 +139,16 @@ export class ProblemPriority extends React.Component<any,any> {
           {/*你好，{window.ENV.userName},我是你的圈外每日提升教练。<br/>*/}
           {/*训练开始前，我想更了解你的情况。*/}
         {/*</div>*/}
-        <div className="swipe-container">
+        {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
+                                     submitProblem={(problemId)=>this.submitProblem(problemId)}/>
+          : <div className="swipe-container">
           {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
             .concat(<a href={`http://www.confucius.mobi/survey/wjx?activity=12602894`} className="more-box" style={{display:'block',height:`${this.catalogHeight}px`,lineHeight:`${this.catalogHeight}px`}}>
               {/*<div className="swipe-box-mask" style={{opacity:'0.25'}}></div>*/}
               <span style={{fontSize:`${this.catalogName}px`}}>更多专题</span>
             </a>) : null}
         </div>
-        {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
-                                     submitProblem={(problemId)=>this.submitProblem(problemId)}/>: null}
+        }
       </div>
     )
   }
