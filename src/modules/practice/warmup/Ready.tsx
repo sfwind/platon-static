@@ -46,7 +46,7 @@ export class Ready extends React.Component <any, any> {
           <div className="header">{knowledge}</div>
           <div className="intro-container">
             <div className="context-img">
-              <AssetImg url="http://www.iqycamp.com/images/fragment/practice_start.png" width={'100%'}/>
+              <AssetImg url="https://www.iqycamp.com/images/fragment/practice_start.png" width={'100%'}/>
               <div className="tips"><AssetImg type="hoshi" width={9}
                                               height={11}/><span>共三道不定项选择题, 做完后统一看解析</span></div>
             </div>

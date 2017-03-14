@@ -57,6 +57,9 @@ export class Intro extends React.Component <any, any> {
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
+              { pic ? <div className="context-img">
+                  <img src={pic}/>
+                </div> : null }
               <div className="context-title-img">
                 <AssetImg width={48} height={18} type="analysis"/>
               </div>
