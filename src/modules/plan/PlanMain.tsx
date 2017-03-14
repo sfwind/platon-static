@@ -340,7 +340,7 @@ export class PlanMain extends React.Component <any, any> {
             </div>
           </div>
           : null }
-        { isBoolean(openRise) && !true?
+        { isBoolean(openRise) && !openRise?
           <div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.8)',position:'fixed'}}>
             <Tutorial onShowEnd={()=>this.tutorialEnd()}/>
           </div>

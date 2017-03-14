@@ -8,8 +8,7 @@ export default class Tutorial extends React.Component<any,any> {
     this.state = {
       bgList: ["http://www.iqycamp.com/images/riseTutorial0.png", "http://www.iqycamp.com/images/riseTutorial1.png",
         "http://www.iqycamp.com/images/riseTutorial2.png", "http://www.iqycamp.com/images/riseTutorial3.png",
-        "http://www.iqycamp.com/images/riseTutorial4.png", "http://www.iqycamp.com/images/riseTutorial5.png",
-        "http://www.iqycamp.com/images/riseTutorial6.png", "http://www.iqycamp.com/images/riseTutorial7.png"],
+        "http://www.iqycamp.com/images/riseTutorial4.png", "http://www.iqycamp.com/images/riseTutorial5.png"],
       index: 0,
       onShowEnd: props.onShowEnd || function () {
         console.log('显示完成')
