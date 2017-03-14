@@ -243,11 +243,12 @@ export class Main extends React.Component <any, any> {
                 <Audio url={voice}/>
               </div> : null }
               <div className="context-img">
-                <img src="http://www.iqycamp.com/images/fragment/application_practice.png" alt=""/>
+                <img src="https://www.iqycamp.com/images/fragment/application_practice.png" alt=""/>
               </div>
               <div className="application-context">
                 <div className="section1">
-                  <p>好了，学以致用一下吧！结合相关知识点，思考并实践下面的任务。记录下你的经历，还会收获积分。</p>
+                  <p>输入是为了更好地输出！结合相关知识点，思考下面的问题，并提交你的答案吧</p>
+                  <p>优质答案有机会入选精华作业，并获得更多积分；占坑贴会被删除，并扣除更多积分</p>
                 </div>
                 <div className="application-title">
                   <AssetImg type="app" size={15}/><span>今日应用</span>
