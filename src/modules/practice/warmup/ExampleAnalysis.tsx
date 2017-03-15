@@ -7,7 +7,7 @@ import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import Discuss from "../components/Discuss";
-import {set} from "lodash"
+import {merge} from "lodash"
 
 const sequenceMap = {
   0: 'A',
@@ -41,8 +41,10 @@ export class ExampleAnalysis extends React.Component <any, any> {
   componentWillMount(props) {
     const {dispatch, location} = props || this.props
     const {warmupPracticeId} = location.query
-    const {selected} = location.state
-    this.setState({selected})
+    if(location.state && location.state.selected){
+      this.setState({selected:location.state.selected});
+    }
+
     dispatch(startLoad())
     loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
       let {code, msg} = res
@@ -79,8 +81,7 @@ export class ExampleAnalysis extends React.Component <any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        set(data, data.discussList, msg)
-        this.setState({showDiscuss: false, data})
+        this.setState({showDiscuss: false, data:merge({},data,{discussList:msg.discussList})})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -101,7 +102,7 @@ export class ExampleAnalysis extends React.Component <any, any> {
   render() {
     const {data, selected, knowledge,
       showKnowledge, showDiscuss, repliedId} = this.state
-
+    console.log(selected);
     const questionRender = (practice) => {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
       return (
@@ -174,7 +175,6 @@ export class ExampleAnalysis extends React.Component <any, any> {
             {repliedComment ?
               <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           </div>
-          <div className="comment-hr"/>
         </div>
       )
     }
@@ -182,10 +182,10 @@ export class ExampleAnalysis extends React.Component <any, any> {
     const choiceRender = (choice, idx) => {
       const {id, subject} = choice
       return (
-        <div key={id} className={`choice${choice.selected ? ' selected' : ''}`}>
+        <div key={id} className={`choice${selected && selected.indexOf(id)!==-1 ? ' selected' : ''}`}>
           <span className={`index${choice.isRight ? ' right' : ' wrong'}`}>
             {choice.isRight ? <AssetImg type="right" width={13} height={8}/> :
-              ( choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx])}
+              ( selected && selected.indexOf(id)!==-1 ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx])}
           </span>
           <span className={`text${choice.isRight ? ' right' : ' wrong'}`}>{subject}</span>
         </div>
