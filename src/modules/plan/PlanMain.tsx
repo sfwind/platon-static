@@ -407,7 +407,7 @@ export class PlanMain extends React.Component <any, any> {
         {/**<div className="button-footer" onClick={this.nextTask.bind(this)}>开始</div>**/}
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>
           : <div className="container has-footer"
-                 style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f9f6f6'}}>
+                 style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress"><div className="bar"></div><span>第{series}组</span><div className="bar"></div></div>
           <div className="plan-main">
             <div className="list">
