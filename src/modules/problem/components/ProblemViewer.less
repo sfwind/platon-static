@@ -1,3 +1,5 @@
+@import "../../../style/variable";
+
 .problem-page {
   position: absolute;
   width: 100%;
@@ -14,6 +16,12 @@
     }
     > .page-content{
       padding-top: 47px;
+      > .context{
+        > .problem-length{
+          font-size: 15px;
+          color: @color_theme;
+        }
+      }
     }
   }
   .button-footer{

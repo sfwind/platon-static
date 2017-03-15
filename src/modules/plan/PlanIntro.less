@@ -6,21 +6,26 @@
   > .text {
     font-size: 13px;
     color: @color_context;
+    margin-bottom: 20px;
     &::before {
       content: '·';
       margin-right: 2px;
     }
+    > .number{
+      font-size: 15px;
+      color: @color_theme;
+    }
   }
   > .groups {
     font-size: 20px;
-    color: #55cbcb;
+    color: @color_theme;
     line-height: 40px;
-    margin: 25px 0 35px 0;
+    margin: 25px 0 25px 0;
     text-align: center;
   }
   > .date {
     font-size: 20px;
-    color: #55cbcb;
+    color: @color_theme;
     line-height: 40px;
     margin: 25px 0 25px 0;
     text-align: center;

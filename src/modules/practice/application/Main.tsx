@@ -248,7 +248,7 @@ export class Main extends React.Component <any, any> {
               <div className="application-context">
                 <div className="section1">
                   <p>输入是为了更好地输出！结合相关知识点，思考下面的问题，并提交你的答案吧</p>
-                  <p>优质答案有机会入选精华作业，并获得更多积分；占坑贴会被删除，并扣除更多积分</p>
+                  <p>优质答案有机会入选精华作业，并获得更多积分；占坑帖会被删除，并扣除更多积分</p>
                 </div>
                 <div className="application-title">
                   <AssetImg type="app" size={15}/><span>今日应用</span>
