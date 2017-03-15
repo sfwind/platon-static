@@ -72,7 +72,8 @@ router.get("/rise/plan/load", (req, res) => {
 					"practiceIdList": [49, 45, 47],
 					"series": 1,
 					"sequence": 1,
-					"practicePlanId": 1
+					"practicePlanId": 1,
+          "optional":true
 				}, {
 					"knowledge": {
 						"id": 7,
@@ -114,7 +115,8 @@ router.get("/rise/plan/load", (req, res) => {
 					"unlocked": true,
 					"practiceIdList": [2],
 					"series": 0,
-					"sequence": 4
+					"sequence": 4,
+          "optional":true
 				}],
 				"length": 7,
 				"deadline": 11,

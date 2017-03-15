@@ -11,7 +11,6 @@ import {merge,isBoolean} from "lodash"
 
 const typeMap = {
   1: '理解训练',
-  2: '理解训练',
   11: '应用训练',
   21: '小目标'
 }
@@ -293,10 +292,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="sub-title">{item.knowledge ? item.knowledge.knowledge : ''}</div>
             </div>
             <div className="footer">
-              {/*{item.unlocked === false ? <AssetImg type="lock" width={32} height={32} marginTop={(75-28)/2}/> : null}*/}
-              {/*{item.status === 1 && item.unlocked === true ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}*/}
-              {/*{item.status === 2 && item.unlocked === true ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}*/}
-              {item.status === 3 ? <AssetImg type="optional" width={25} height={12}/> : null}
+              {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
             </div>
           </div>
         )
