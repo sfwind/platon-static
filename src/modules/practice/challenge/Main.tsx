@@ -252,8 +252,11 @@ export class Main extends React.Component <any, any> {
               </div>
               {/*<div className="context" dangerouslySetInnerHTML={{__html: description}}></div>*/}
               <div className="context">
-                <p>好的开始是成功的一半！让我们来完成今天最后一个任务--小目标。</p>
-                <p>选择这个专题，你是想实现什么目标呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
+                <p>你有什么目标，可以利用本专题的训练实现呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
+                <p><span className="tip">小提示</span></p>
+                <p>本题答案仅自己可见</p>
+                <p>目标最好是某个具体问题或场景</p>
+                <p>制定目标之前，可以先回顾该专题的知识体系</p>
               </div>
               <a name="submit"/>
             </div>
