@@ -6,10 +6,10 @@ export default class Tutorial extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      bgList: ["http://www.iquanwai.com/images/riseTutorial0.png", "http://www.iquanwai.com/images/riseTutorial1.png",
-        "http://www.iquanwai.com/images/riseTutorial2.png", "http://www.iquanwai.com/images/riseTutorial3.png",
-        "http://www.iquanwai.com/images/riseTutorial4.png", "http://www.iquanwai.com/images/riseTutorial5.png",
-        "http://www.iquanwai.com/images/riseTutorial6.png", "http://www.iquanwai.com/images/riseTutorial7.png"],
+      bgList: ["https://www.iqycamp.com/images/riseTutorialNew0.png", "https://www.iqycamp.com/images/riseTutorialNew1.png",
+        "https://www.iqycamp.com/images/riseTutorialNew2.png", "https://www.iqycamp.com/images/riseTutorialNew3.png",
+        "https://www.iqycamp.com/images/riseTutorialNew4.png", "https://www.iqycamp.com/images/riseTutorialNew5.png",
+        "https://www.iqycamp.com/images/riseTutorialNew6.png"],
       index: 0,
       onShowEnd: props.onShowEnd || function () {
         console.log('显示完成')
@@ -73,17 +73,14 @@ export default class Tutorial extends React.Component<any,any> {
             </div>)
           })}
         </SwipeableViews>
-        {index!==0?<div className="sequence-dot">
+        {<div className="sequence-dot">
           {this.state.bgList.map((item, seq) => {
-            if (seq == 0) {
-              return null;
-            }
             return (<button className="dot-box">
               <div className="dot"
                    style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>
             </button>)
           })}
-        </div>:null}
+        </div>}
       </div>
     )
   }

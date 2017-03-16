@@ -1,17 +1,18 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan,updateOpenRise } from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice } from "./async";
+import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
+import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge,isBoolean} from "lodash"
 
 const typeMap = {
-  1: '热身训练',
-  2: '热身训练',
+  1: '理解训练',
   11: '应用训练',
-  21: '专题训练'
+  21: '小目标'
 }
 
 @connect(state => state)
@@ -25,6 +26,10 @@ export class PlanMain extends React.Component <any, any> {
       knowledge: {},
       showCompleteModal: false,
       showConfirmModal: false,
+      showDoneAll: false,
+      currentIndex: 0,
+      showProblem: false,
+      selectProblem: {},
     }
   }
 
@@ -44,16 +49,16 @@ export class PlanMain extends React.Component <any, any> {
     if (id !== undefined || location.query.series !== undefined) {
       loadPlanHistory(id || location.query.series).then(res => {
         dispatch(endLoad())
-        const { code, msg } = res
+        let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg })
-            // if (msg.summary) {
-            //   dispatch(alertMsg(<div>
-            //     <p>很好！你已完成这组训练。</p>
-            //     <p>对实践应用或解决问题有心得？及时记录在挑战任务中。</p>
-            //   </div>))
-            // }
+            this.setState({ planData: msg, currentIndex:msg.currentSeries })
+            loadProblem(msg.problemId).then(res => {
+              let { code, msg } = res
+              if (code === 200) {
+                this.setState({selectProblem:msg})
+              }
+            })
           } else {
             this.context.router.push({ pathname: location.pathname })
             dispatch(alertMsg("下一组任务明早6点解锁"))
@@ -73,19 +78,19 @@ export class PlanMain extends React.Component <any, any> {
     } else {
       loadPlan().then(res => {
         dispatch(endLoad())
-        const { code, msg } = res
+        let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg })
-            // if (msg.summary) {
-            //   dispatch(alertMsg(<div>
-            //     <p>很好！你已完成这组训练。</p>
-            //     <p>对实践应用或解决问题有心得？及时记录在挑战任务中。</p>
-            //   </div>))
-            // }
+            this.setState({ planData: msg, currentIndex:msg.currentSeries})
+            loadProblem(msg.problemId).then(res => {
+              let { code, msg } = res
+              if (code === 200) {
+                this.setState({selectProblem:msg})
+              }
+            })
           } else {
             this.context.router.push({
-              pathname: '/rise/static/problem/priority'
+              pathname: '/rise/static/problem/list'
             })
           }
         }
@@ -101,49 +106,54 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch } = this.props
     const { planData } = this.state
     const { series } = planData
-    const { type, practicePlanId, knowledge, unlocked } = item
-    if (!unlocked) {
-      dispatch(alertMsg("该训练尚未解锁"))
-      return
-    }
-    // 已完成
-    if (type === 1 || type === 2) {
-      if (item.status === 1) {
-        this.context.router.push({
-          pathname: '/rise/static/practice/warmup/analysis',
-          query: { practicePlanId, id: knowledge.id, series }
-        })
-      } else {
-        if (!knowledge.appear) {
+    const { type, practicePlanId, knowledge } = item
+    // if (!unlocked) {
+    //   dispatch(alertMsg("该训练尚未解锁"))
+    //   return
+    // }
+    checkPractice(series).then(res =>{
+      const { code, msg } = res
+      if (code === 200) {
+        // 已完成
+        if (type === 1 || type === 2) {
+          if (item.status === 1) {
+            this.context.router.push({
+              pathname: '/rise/static/practice/warmup/analysis',
+              query: { practicePlanId, kid: knowledge.id, series }
+            })
+          } else {
+            if (!knowledge.appear) {
+              this.context.router.push({
+                pathname: '/rise/static/practice/warmup/intro',
+                query: { practicePlanId, kid: knowledge.id, series }
+              })
+            } else {
+              this.context.router.push({
+                pathname: '/rise/static/practice/warmup/ready',
+                query: { practicePlanId, kid: knowledge.id, series }
+              })
+            }
+          }
+        } else if (type === 11) {
           this.context.router.push({
-            pathname: '/rise/static/practice/warmup/intro',
-            query: { practicePlanId, id: knowledge.id, series }
+            pathname: '/rise/static/practice/application',
+            query: { id: item.practiceIdList[0], series }
           })
-        } else {
+        } else if (type === 21) {
           this.context.router.push({
-            pathname: '/rise/static/practice/warmup/ready',
-            query: { practicePlanId, id: knowledge.id, series }
+            pathname: '/rise/static/practice/challenge',
+            query: { id: item.practiceIdList[0], series }
           })
         }
-      }
-    } else if (type === 11) {
-      this.context.router.push({
-        pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], series }
-      })
-    } else if (type === 21) {
-      this.context.router.push({
-        pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[0], series }
-      })
-    }
+      }else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(alertMsg(ex))
+    })
   }
 
   nextTask() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     loadWarmUpNext().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.onPracticeSelected(msg)
@@ -165,8 +175,15 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   next() {
-    const { planData } = this.state
-    const { series, totalSeries } = planData
+    const {dispatch} = this.props
+    const {showDoneAll , planData, currentIndex} = this.state
+    const {doneAllPractice, series, totalSeries} = planData
+    if(!showDoneAll){
+      if(!doneAllPractice && currentIndex===planData.series){
+        this.setState({showDoneAll:true})
+        dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
+      }
+    }
     if (series === totalSeries) {
 
     } else {
@@ -176,16 +193,14 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     completePlan().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         if(msg === true)
         {
           this.setState({showCompleteModal: true})
         }else{
-          dispatch(alertMsg('请先完成今日的必做训练'))
+          dispatch(alertMsg('至少要完成所有的理解训练哦'))
         }
       } else {
         dispatch(alertMsg(msg))
@@ -205,15 +220,17 @@ export class PlanMain extends React.Component <any, any> {
     this.setState({ showConfirmModal: false })
   }
 
+  essenceShare(problemId, series){
+    this.context.router.push({ pathname: '/rise/static/practice/subject', query: { id: problemId, series } })
+  }
+
   problemReview(problemId){
-    this.context.router.push({ pathname: '/rise/static/problem/report', query: { id: problemId } })
+    this.setState({showProblem: true})
   }
 
   nextPlan() {
     const { dispatch } = this.props
-    dispatch(startLoad())
     closePlan().then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.context.router.push("/rise/static/problem/priority")
@@ -224,16 +241,14 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   tutorialEnd(){
-    const {dispatch} = this.props;
-    const {planData} = this.state;
-    dispatch(startLoad());
+    const {dispatch} = this.props
+    const {planData} = this.state
     updateOpenRise().then(res => {
-      dispatch(endLoad());
-      const {code,msg} = res;
+      const {code,msg} = res
       if(code === 200){
-        this.setState({planData:merge({},planData,{openRise:true})});
+        this.setState({planData:merge({},planData,{openRise:true})})
       } else {
-        dispatch(alertMsg(msg));
+        dispatch(alertMsg(msg))
       }
     })
   }
@@ -243,7 +258,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   render() {
-    const { planData, showCompleteModal, showConfirmModal } = this.state
+    const { planData, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
       deadline, status, currentSeries, totalSeries, series, openRise, newMessage
@@ -255,19 +270,29 @@ export class PlanMain extends React.Component <any, any> {
           <div key={index} className="practice-card"
                onClick={() => this.onPracticeSelected(item)}>
             <div className="header">
-              {item.type === 1 || item.type === 2 ? <AssetImg type="warmup" size={50}/> : null }
-              {item.type === 11 ? <AssetImg type="application" size={50}/> : null }
-              {item.type === 21 ? <AssetImg type="challenge" size={50}/> : null }
+              {item.type === 1 ? item.status !== 1 ?
+                  <AssetImg type="warmup" size={50}/>:
+                  <AssetImg type="warmup_complete" size={50}/>: null
+              }
+              {item.type === 11 ? item.status !== 1 ?
+                  <AssetImg type="application" size={50}/>:
+                  <AssetImg type="application_complete" size={50}/>: null
+              }
+              {item.type === 21 ? item.status !== 1 ?
+                  <AssetImg type="challenge" size={50}/>:
+                  <AssetImg type="challenge_complete" size={50}/>: null
+              }
             </div>
+            {item.unlocked === false ?
+                <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
+            }
+
             <div className="body">
               <div className="title">{typeMap[item.type]}</div>
               <div className="sub-title">{item.knowledge ? item.knowledge.knowledge : ''}</div>
             </div>
             <div className="footer">
-              {item.status === 1 ? <AssetImg type="finished" width={32} height={28} marginTop={(75-28)/2}/> : null}
-              {item.status === 0 ? <AssetImg type="go4" width={27} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 2 ? <AssetImg type="improve" width={42} height={17} marginTop={(75-17)/2}/> : null}
-              {item.status === 3 ? <AssetImg type="alter" width={32} height={17} marginTop={(75-17)/2}/> : null}
+              {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
             </div>
           </div>
         )
@@ -279,7 +304,7 @@ export class PlanMain extends React.Component <any, any> {
         { showCompleteModal ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iquanwai.com/images/fragment/finish_modal2.png"/>
+              <AssetImg width={290} height={410} url="https://www.iqycamp.com/images/fragment/finish_modal2.png"/>
               <div className="modal_context">
                 <div className="content">
                   <div className="text2">太棒了!</div>
@@ -303,11 +328,11 @@ export class PlanMain extends React.Component <any, any> {
         { showConfirmModal ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iquanwai.com/images/fragment/finish_modal2.png"/>
+              <AssetImg width={290} height={410} url="https://www.iqycamp.com/images/fragment/finish_modal2.png"/>
               <div className="modal_context">
                 <div className="content">
                   <div className="text">确定开始新专题吗</div>
-                  <div className="text">当前专题的热身训练将无法查看</div>
+                  <div className="text">当前专题的理解训练将无法查看</div>
                 </div>
                 <div className="content2">
                   <div className="text">（PC端应用训练仍然开放）</div>
@@ -323,7 +348,7 @@ export class PlanMain extends React.Component <any, any> {
             </div>
           </div>
           : null }
-        { isBoolean(openRise) && !true?
+        { isBoolean(openRise) && !openRise?
           <div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.8)',position:'fixed'}}>
             <Tutorial onShowEnd={()=>this.tutorialEnd()}/>
           </div>
@@ -331,7 +356,7 @@ export class PlanMain extends React.Component <any, any> {
         { status === 3 ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iquanwai.com/images/fragment/expire_modal2.png"/>
+              <AssetImg width={290} height={410} url="https://www.iqycamp.com/images/fragment/expire_modal2.png"/>
               <div className="modal_context">
                 <div className="content"><div className="text">本专题已到期</div></div>
                 <div className="content2">
@@ -359,7 +384,7 @@ export class PlanMain extends React.Component <any, any> {
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>
             <div className="section">
-              <label>进行中:</label> {series}/{totalSeries}组训练
+              <label>已解锁:</label> {currentIndex}/{totalSeries}组训练
             </div>
             <div className="section">
               <label>距关闭:</label> {deadline}天
@@ -368,19 +393,29 @@ export class PlanMain extends React.Component <any, any> {
               <label>总得分:</label> {point} 分
             </div>
           </div>
-          <div className="problem-review" onClick={() => this.problemReview(problem.id)}>
-            专题详情
+        </div>
+        <div className="function-area">
+          <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
+            <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
+            <span>精华分享</span>
+          </div>
+          <div className="right" onClick={() => this.problemReview(problem.id)}>
+            <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
+            <span>专题详情</span>
           </div>
         </div>
-        <div className="container has-footer"
-             style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f9f6f6'}}>
+        {/**<div className="button-footer" onClick={this.nextTask.bind(this)}>开始</div>**/}
+        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>
+          : <div className="container has-footer"
+                 style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f5f5f5'}}>
+          <div className="plan-progress"><div className="bar"></div><span>第{series}组</span><div className="bar"></div></div>
           <div className="plan-main">
             <div className="list">
               {practiceRender(practice)}
             </div>
+            <div className="padding-footer"></div>
           </div>
-        </div>
-        {/**<div className="button-footer" onClick={this.nextTask.bind(this)}>开始</div>**/}
+        </div>}
         <div className="button-footer">
           <div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一组
           </div>

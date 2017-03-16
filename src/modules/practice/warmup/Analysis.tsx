@@ -51,7 +51,7 @@ export class Analysis extends React.Component <any, any> {
     this.setState({currentIndex: 0})
     const {practicePlanId} = location.query
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.id).then(res => {
+    loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) this.setState({knowledge: msg})
@@ -94,51 +94,6 @@ export class Analysis extends React.Component <any, any> {
       pathname: '/rise/static/plan/main',
       query: {series}
     })
-    // dispatch(startLoad())
-    // loadWarmUpNext(practicePlanId).then(res => {
-    //   dispatch(endLoad())
-    //   const {code, msg} = res
-    //   if (code === 200) {
-    //     const item = msg
-    //     const {type, practicePlanId, knowledge, unlocked} = item
-    //     if (!unlocked) {
-    //       dispatch(alertMsg("该训练尚未解锁"))
-    //       return
-    //     }
-    //     if (type === 1 || type === 2) {
-    //       if (item.status === 1) {
-    //         this.context.router.push({
-    //           pathname: '/rise/static/practice/warmup/analysis',
-    //           query: {practicePlanId, id: knowledge.id, series}
-    //         })
-    //       } else {
-    //         if (!knowledge.appear) {
-    //           this.context.router.push({
-    //             pathname: '/rise/static/practice/warmup/intro',
-    //             query: {practicePlanId, id: knowledge.id, series}
-    //           })
-    //         } else {
-    //           this.context.router.push({
-    //             pathname: '/rise/static/practice/warmup/ready',
-    //             query: {practicePlanId, id: knowledge.id, series}
-    //           })
-    //         }
-    //       }
-    //     } else if (type === 11) {
-    //       this.context.router.push({
-    //         pathname: '/rise/static/practice/application',
-    //         query: {id: item.practiceIdList[0], kid: knowledge.id, series, practicePlanId}
-    //       })
-    //     } else if (type === 21) {
-    //       this.context.router.push({
-    //         pathname: '/rise/static/practice/challenge',
-    //         query: {id: item.practiceIdList[0], series, practicePlanId}
-    //       })
-    //     }
-    //   } else {
-    //     dispatch(alertMsg(msg))
-    //   }
-    // })
   }
 
   closeModal() {
@@ -173,7 +128,7 @@ export class Analysis extends React.Component <any, any> {
     const {list, currentIndex, selected, knowledge, practiceCount,
       showKnowledge, showDiscuss, repliedId} = this.state
     const {practice = []} = list
-    const {analysis, means, keynote, voice} = knowledge
+    const {analysis, means, keynote, audio} = knowledge
 
     const questionRender = (practice) => {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
@@ -183,9 +138,6 @@ export class Analysis extends React.Component <any, any> {
               <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
               <span className="type"><span className="number">{score}</span>分</span>
             </div> : null}
-          { voice ? <div className="context-audio">
-              <Audio url={voice}/>
-            </div> : null }
           <div className="question">
             <div dangerouslySetInnerHTML={{__html: question}}></div>
           </div>
@@ -199,7 +151,7 @@ export class Analysis extends React.Component <any, any> {
             <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
           </div>
           <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, warmupPracticeId: id, repliedId:0})}>
-            <AssetImg type="discuss" width={45} height={45}></AssetImg>
+            <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
           </div>
           <div className="discuss">
             <a name="discuss"/>
@@ -212,7 +164,7 @@ export class Analysis extends React.Component <any, any> {
               :
               <div className="discuss-end">
                 <div className="discuss-end-img">
-                  <AssetImg url="http://www.iquanwai.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                  <AssetImg url="https://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
                 </div>
                 <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
 

@@ -6,7 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import {isNull,isString,truncate,merge,set} from "lodash";
-import Work from "../components/Work"
+import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import {findIndex,remove,get} from "lodash";
 
@@ -34,41 +34,41 @@ export class Main extends React.Component <any, any> {
   componentDidMount(){
   }
 
-  componentDidUpdate(preProps,preState){
-    const content = get(this.state,'data.content');
-    if(content && !this.pullElement){
-      const {dispatch} = this.props;
-      this.pullElement = new PullElement({
-        target:'.container',
-        scroller:'.container',
-        damping:4,
-        detectScroll:true,
-        detectScrollOnStart:true,
-        onPullUpEnd:(data)=>{
-          loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
-            if (res.code === 200) {
-              if (res.msg.list && res.msg.list.length !== 0) {
-                remove(res.msg.list,(item)=>{
-                  return findIndex(this.state.otherList,item)!==-1;
-                })
-                this.setState({otherList: this.state.otherList.concat(res.msg.list), page: this.state.page + 1,end:res.msg.end});
-              } else {
-                dispatch(alertMsg('没有更多了'));
-              }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      })
-      this.pullElement.init();
-    }
-    if(this.pullElement && this.state.end){
-      this.pullElement.disable();
-    }
-  }
+  // componentDidUpdate(preProps,preState){
+  //   const content = get(this.state,'data.content');
+  //   if(content && !this.pullElement){
+  //     const {dispatch} = this.props;
+  //     this.pullElement = new PullElement({
+  //       target:'.container',
+  //       scroller:'.container',
+  //       damping:4,
+  //       detectScroll:true,
+  //       detectScrollOnStart:true,
+  //       onPullUpEnd:(data)=>{
+  //         loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
+  //           if (res.code === 200) {
+  //             if (res.msg.list && res.msg.list.length !== 0) {
+  //               remove(res.msg.list,(item)=>{
+  //                 return findIndex(this.state.otherList,item)!==-1;
+  //               })
+  //               this.setState({otherList: this.state.otherList.concat(res.msg.list), page: this.state.page + 1,end:res.msg.end});
+  //             } else {
+  //               dispatch(alertMsg('没有更多了'));
+  //             }
+  //           } else {
+  //             dispatch(alertMsg(res.msg));
+  //           }
+  //         }).catch(ex => {
+  //           dispatch(alertMsg(ex));
+  //         });
+  //       }
+  //     })
+  //     this.pullElement.init();
+  //   }
+  //   if(this.pullElement && this.state.end){
+  //     this.pullElement.disable();
+  //   }
+  // }
 
   componentWillUnmount(){
     this.pullElement?this.pullElement.destroy():null;
@@ -101,13 +101,13 @@ export class Main extends React.Component <any, any> {
     }).then(res=>{
       if (res) {
         // 已提交
-        return loadOtherList(location.query.id, 1).then(res => {
-          if (res.code === 200) {
-            this.setState({otherList: res.msg.list, page: 1,end:res.msg.end});
-          } else {
-            dispatch(alertMsg(res.msg));
-          }
-        });
+        // return loadOtherList(location.query.id, 1).then(res => {
+        //   if (res.code === 200) {
+        //     this.setState({otherList: res.msg.list, page: 1,end:res.msg.end});
+        //   } else {
+        //     dispatch(alertMsg(res.msg));
+        //   }
+        // });
       } else {
       }
     }).catch(ex => {
@@ -185,7 +185,7 @@ export class Main extends React.Component <any, any> {
       if(isNull(content)) {
         return (<div className="no-comment">
           <AssetImg type="mobile" height={65} marginTop={15}/>
-          <div className="submit" onClick={this.onEdit.bind(this)}>手机提交</div>
+          <div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>
           <div className="content">
             <div className="text">windows微信客户端也适用</div>
           </div>
@@ -197,9 +197,8 @@ export class Main extends React.Component <any, any> {
         </div>)
       } else {
         return (
-        <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
-              headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}
-              goComment={()=>this.goComment(submitId)} />
+        <Work onEdit={()=>this.onEdit()} hide="true" operation={false}
+              headImage={window.ENV.headImage} userName={window.ENV.userName} {...data} />
         )
       }
     }
@@ -249,22 +248,24 @@ export class Main extends React.Component <any, any> {
                 <Audio url={voice}/>
               </div> : null }
               <div className="context-img">
-                <img src="http://www.iquanwai.com/images/fragment/challenge_practice.png" alt=""/>
+                <img src="https://www.iqycamp.com/images/fragment/challenge_practice.png" alt=""/>
               </div>
               {/*<div className="context" dangerouslySetInnerHTML={{__html: description}}></div>*/}
               <div className="context">
-                <p>好的开始是成功的一半！让我们来完成今天最后一个任务--专题训练。</p>
-                <p>选择这个专题，你是想实现什么目标呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
-                <p>建议在未来几天的学习中，也在这个任务里记录下通过学习实现目标的情况。</p>
+                <p>你有什么目标，可以利用本专题的训练实现呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
+                <p><span className="tip">小提示</span></p>
+                <p>本题答案仅自己可见</p>
+                <p>目标最好是某个具体问题或场景</p>
+                <p>制定目标之前，可以先回顾该专题的知识体系</p>
               </div>
               <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">
               <div className="submit-bar"><span className="padding"></span>{ content === null?'提交方式':'我的作业'}</div>
               {renderContent()}
-              {content?<div className="submit-bar">群众的智慧</div>:null}
-              {renderOtherList()}
-              {renderTips()}
+              {/*{content?<div className="submit-bar">群众的智慧</div>:null}*/}
+              {/*{renderOtherList()}*/}
+              {/*{renderTips()}*/}
             </div>
           </div>
         </div>

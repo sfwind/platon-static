@@ -43,7 +43,6 @@ export class MessageCenter extends React.Component <any, any> {
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
-          console.log("开始加载更多");
           loadMessage(this.state.index + 1).then(res=> {
             const {code, msg} = res
             if (code === 200) {
@@ -78,7 +77,7 @@ export class MessageCenter extends React.Component <any, any> {
   componentWillMount(props) {
     const {dispatch} = props || this.props
     dispatch(startLoad())
-    loadMessage(1).then(res => {
+    loadMessage(1).then((res)=>{
       dispatch(endLoad())
       const {code, msg} = res
 
@@ -166,7 +165,7 @@ export class MessageCenter extends React.Component <any, any> {
       <div className="message_box">
         { no_message ? <div className="on_message">
                         <div className="no_comment">
-                          <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
+                          <AssetImg url="https://www.iqycamp.com/images/no_comment.png" height={120} width={120}/>
                         </div>
                         还没有消息提醒
           </div>: <div className="container has-footer">

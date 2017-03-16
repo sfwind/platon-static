@@ -38,7 +38,7 @@ export class PlanIntro extends React.Component <any, any> {
   }
 
   render() {
-    const { length, endDate, pic, totalSeries } = this.state
+    const { length, endDate, totalSeries } = this.state
 
     return (
       <div>
@@ -46,15 +46,14 @@ export class PlanIntro extends React.Component <any, any> {
           <div className="plan-intro">
             <div className="text">从了解到运用这些知识，你会训练的任务共有：</div>
             <div className="groups">{totalSeries}组</div>
-            <div className="text">你需要每天完成一组（1组含4个训练任务）</div>
             <div className="context-img">
-              <img src={"http://www.iquanwai.com/images/fragment/play.png"} alt=""/>
+              <img src={"https://www.iqycamp.com/images/fragment/play3.png"} alt=""/>
             </div>
-            <div className="context">完成后第二天早上6点会解锁下一组</div>
-            <div className="text" style={{marginTop: 35}}>你共有{length}天完成所有的训练，截止日期如下：</div>
+            <div className="text">你需要每天完成<span className="number">1</span>组，完成后第二天早上<span className="number">6</span>点会解锁下一组</div>
+            <div className="text">你共有<span className="number">{length}</span>天完成所有的训练，截止日期如下：</div>
             <div className="date">{endDate}</div>
-            <div className="context">训练到期并自动关闭。完成该专题的训练后，可以继续选择下一个专题训练。</div>
-            <div className="text" style={{marginTop: 35}}>点击下方按钮，开始第一天的训练吧</div>
+            <div className="text">训练到期后会自动关闭。完成该专题的训练后，可以继续选择下一个专题训练</div>
+            <div className="text">点击下方按钮，开始第一天的训练吧</div>
           </div>
         </div>
         <div className="button-footer" onClick={this.onSubmit.bind(this)}>开始</div>

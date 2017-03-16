@@ -20,7 +20,7 @@ export class Result extends React.Component <any, any> {
   componentWillMount() {
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.id).then(res => {
+    loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200)  this.setState({ data: msg })
@@ -42,57 +42,12 @@ export class Result extends React.Component <any, any> {
       pathname: '/rise/static/plan/main',
       query: {series}
     })
-    // dispatch(startLoad())
-    // loadWarmUpNext(practicePlanId).then(res => {
-    //   dispatch(endLoad())
-    //   const { code, msg } = res
-    //   if (code === 200) {
-    //     const item = msg
-    //     const { type, practicePlanId, knowledge, unlocked } = item
-    //     if (!unlocked) {
-    //       dispatch(alertMsg("该训练尚未解锁"))
-    //       return
-    //     }
-    //     if (type === 1 || type === 2) {
-    //       if (item.status === 1) {
-    //         this.context.router.push({
-    //           pathname: '/rise/static/practice/warmup/analysis',
-    //           query: { practicePlanId, id: knowledge.id, series }
-    //         })
-    //       } else {
-    //         if (!knowledge.appear) {
-    //           this.context.router.push({
-    //             pathname: '/rise/static/practice/warmup/intro',
-    //             query: { practicePlanId, id: knowledge.id, series }
-    //           })
-    //         } else {
-    //           this.context.router.push({
-    //             pathname: '/rise/static/practice/warmup/ready',
-    //             query: { practicePlanId, id: knowledge.id, series }
-    //           })
-    //         }
-    //       }
-    //     } else if (type === 11) {
-    //       this.context.router.push({
-    //         pathname: '/rise/static/practice/application',
-    //         query: { id: item.practiceIdList[0], series }
-    //       })
-    //     } else if (type === 21) {
-    //       this.context.router.push({
-    //         pathname: '/rise/static/practice/challenge',
-    //         query: { id: item.practiceIdList[0], series }
-    //       })
-    //     }
-    //   } else {
-    //     dispatch(alertMsg(msg))
-    //   }
-    // })
   }
 
   render() {
     const { rightNumber, point } = this.props.location.query
     const { data } = this.state
-    const { knowledge, voice, pic, analysis } = data
+    const { knowledge } = data
 
     return (
       <div>
@@ -101,7 +56,7 @@ export class Result extends React.Component <any, any> {
             <div className="page-header">{knowledge}</div>
             <div className="intro-container">
               <div className="context-img">
-                <img src="http://www.iquanwai.com/images/fragment/practice_start.png" alt=""/>
+                <img src="https://www.iqycamp.com/images/fragment/practice_start.png" alt=""/>
               </div>
               <div className="section">
                 <div className="section-title">答对题数</div>

@@ -22,12 +22,12 @@ export class Intro extends React.Component <any, any> {
   componentWillMount() {
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.id).then(res => {
+    loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         this.setState({ data: msg })
-        learnKnowledge(location.query.id)
+        learnKnowledge(location.query.kid)
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -40,9 +40,13 @@ export class Intro extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/practice/warmup', query: this.props.location.query })
   }
 
+  example() {
+    this.context.router.push({ pathname: '/rise/static/practice/knowledge/example', query: this.props.location.query })
+  }
+
   render() {
     const { data } = this.state
-    const { knowledge, voice, pic, analysis, means, keynote } = data
+    const { knowledge, audio, pic, analysis, means, keynote } = data
 
     return (
       <div>
@@ -50,28 +54,45 @@ export class Intro extends React.Component <any, any> {
           <div className="warm-up-intro">
             <div className="page-header">{knowledge}</div>
             <div className="intro-container">
-              { voice ? <div className="context-audio">
-                <Audio url={voice}/>
+              { audio ? <div className="context-audio">
+                <Audio url={audio}/>
               </div> : null }
+              { pic ? <div className="context-img">
+                  <img src={pic}/>
+                </div> : null }
               <div className="context-title-img">
-                <AssetImg width={48} height={18} type="analysis"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis.png"/>
               </div>
-              <div className="context" dangerouslySetInnerHTML={{__html: analysis}}>
-              </div>
-              <div className="context-title-img">
-                <AssetImg width={50} height={16} type="means"/>
-              </div>
-              <div className="context" dangerouslySetInnerHTML={{__html: means}}>
+              <div className="context">
+                <pre>{analysis}</pre>
               </div>
               <div className="context-title-img">
-                <AssetImg width={50} height={18} type="keynotes"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means.png"/>
               </div>
-              <div className="context" dangerouslySetInnerHTML={{__html: keynote}}>
+              <div className="context">
+                <pre>{means}</pre>
               </div>
+
+              {keynote ?
+                <div>
+                  <div className="context-title-img">
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote.png"/>
+                  </div>
+                  <div className="context">
+                    <pre>{keynote}</pre>
+                  </div>
+                </div>
+                : null}
             </div>
           </div>
         </div>
-        <div className="button-footer" onClick={this.onSubmit.bind(this)}>开始训练</div>
+        <div className="button-footer">
+          <div className="left" onClick={this.example.bind(this)}>例题
+          </div>
+          <div className="right" onClick={this.onSubmit.bind(this)}>
+              开始训练
+          </div>
+        </div>
       </div>
     )
   }

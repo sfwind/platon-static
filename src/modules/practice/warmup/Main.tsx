@@ -39,7 +39,7 @@ export class Main extends React.Component <any, any> {
     const { dispatch, location } = this.props
     const { practicePlanId } = location.query
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.id).then(res => {
+    loadKnowledgeIntro(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200)  this.setState({ knowledge: msg })
@@ -100,9 +100,7 @@ export class Main extends React.Component <any, any> {
       this.setChoice()
     } else {
       this.setChoice(p => {
-        dispatch(startLoad())
         answer({ practice: p }, practicePlanId).then(res => {
-          dispatch(endLoad())
           const { code, msg } = res
           if (code === 200)  this.context.router.push({
             pathname: '/rise/static/practice/warmup/result',
@@ -157,14 +155,17 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container" style={{height: window.innerHeight - 75}}>
-          <div className="warm-up">
-            <div className="page-header">{knowledge.knowledge}</div>
-            {questionRender(practice[currentIndex] || {})}
+        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> :
+          <div>
+            <div className="container" style={{height: window.innerHeight - 75}}>
+              <div className="warm-up">
+                <div className="page-header">{knowledge.knowledge}</div>
+                {questionRender(practice[currentIndex] || {})}
+              </div>
+            </div>
+            <div className="button-submit" onClick={this.onSubmit.bind(this)}>提交</div>
           </div>
-        </div>
-        <div className="button-submit" onClick={this.onSubmit.bind(this)}>提交</div>
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+        }
       </div>
     )
   }

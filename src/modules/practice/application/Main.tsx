@@ -7,7 +7,7 @@ import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
-import Work from "../components/Work"
+import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import {findIndex,remove} from "lodash";
 
@@ -48,10 +48,9 @@ export class Main extends React.Component <any, any> {
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
-          console.log("开始加载更多");
           loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
             if (res.code === 200) {
-              if (res.msg && res.msg.list.length !== 0) {
+              if (res.msg && res.msg.list && res.msg.list.length !== 0) {
                 remove(res.msg.list, (item) => {
                   return findIndex(this.state.otherList, item) !== -1;
                 })
@@ -152,12 +151,10 @@ export class Main extends React.Component <any, any> {
       query:merge({submitId:submitId},this.props.location.query),
       state:{goBackUrl}
     })
-    console.log("开始评论",submitId);
   }
 
   voted(id,voteStatus,voteCount,isMine,seq){
     if(!voteStatus){
-      console.log("点赞");
       if(isMine){
         this.setState({data:merge({},this.state.data,{voteCount:voteCount+1,voteStatus:true})});
       } else {
@@ -168,7 +165,6 @@ export class Main extends React.Component <any, any> {
       }
       vote(id);
     } else {
-      console.log("不能点赞");
     }
   }
 
@@ -203,7 +199,7 @@ export class Main extends React.Component <any, any> {
         return (
           <div className="no-comment">
             <AssetImg type="mobile" height={65} marginTop={15}/>
-            <div className="submit" onClick={this.onEdit.bind(this)}>手机提交</div>
+            <div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>
             <div className="content">
               <div className="text">windows微信客户端也适用</div>
             </div>
@@ -247,11 +243,12 @@ export class Main extends React.Component <any, any> {
                 <Audio url={voice}/>
               </div> : null }
               <div className="context-img">
-                <img src="http://www.iquanwai.com/images/fragment/application_practice.png" alt=""/>
+                <img src="https://www.iqycamp.com/images/fragment/application_practice.png" alt=""/>
               </div>
               <div className="application-context">
                 <div className="section1">
-                  <p>好了，学以致用一下吧！结合相关知识点，思考并实践下面的任务。记录下你的经历，还会收获积分。</p>
+                  <p>输入是为了更好地输出！结合相关知识点，思考下面的问题，并提交你的答案吧</p>
+                  <p>优质答案有机会入选精华作业，并获得更多积分；占坑帖会被删除，并扣除更多积分</p>
                 </div>
                 <div className="application-title">
                   <AssetImg type="app" size={15}/><span>今日应用</span>
