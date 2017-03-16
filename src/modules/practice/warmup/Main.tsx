@@ -155,14 +155,17 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container" style={{height: window.innerHeight - 75}}>
-          <div className="warm-up">
-            <div className="page-header">{knowledge.knowledge}</div>
-            {questionRender(practice[currentIndex] || {})}
+        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> :
+          <div>
+            <div className="container" style={{height: window.innerHeight - 75}}>
+              <div className="warm-up">
+                <div className="page-header">{knowledge.knowledge}</div>
+                {questionRender(practice[currentIndex] || {})}
+              </div>
+            </div>
+            <div className="button-submit" onClick={this.onSubmit.bind(this)}>提交</div>
           </div>
-        </div>
-        <div className="button-submit" onClick={this.onSubmit.bind(this)}>提交</div>
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+        }
       </div>
     )
   }
