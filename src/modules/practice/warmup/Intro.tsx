@@ -61,13 +61,13 @@ export class Intro extends React.Component <any, any> {
                   <img src={pic}/>
                 </div> : null }
               <div className="context-title-img">
-                <AssetImg width={48} height={18} type="analysis"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis.png"/>
               </div>
               <div className="context">
                 <pre>{analysis}</pre>
               </div>
               <div className="context-title-img">
-                <AssetImg width={50} height={16} type="means"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means.png"/>
               </div>
               <div className="context">
                 <pre>{means}</pre>
@@ -76,7 +76,7 @@ export class Intro extends React.Component <any, any> {
               {keynote ?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={50} height={18} type="keynotes"/>
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote.png"/>
                   </div>
                   <div className="context">
                     <pre>{keynote}</pre>
