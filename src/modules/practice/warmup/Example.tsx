@@ -39,7 +39,13 @@ export class Example extends React.Component <any, any> {
     loadExample(location.query.kid).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
-      if (code === 200)  this.setState({ data: msg })
+      if (code === 200)  {
+        if(msg === null){
+          dispatch(alertMsg('该知识点没有例题'))
+          this.context.router.push({ pathname: '/rise/static/practice/warmup/intro', query: this.props.location.query })
+        }
+        this.setState({ data: msg })
+      }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
       dispatch(endLoad())

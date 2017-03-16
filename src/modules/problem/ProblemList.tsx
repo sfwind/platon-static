@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import "./ProblemList.less";
 import { remove } from "lodash";
-import { loadProblemList, submitProblemList } from "./async";
+import { welcome } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 
 @connect(state => state)
@@ -21,6 +21,7 @@ export class ProblemList extends React.Component <any, any> {
 
 
   componentDidMount(){
+    welcome()
     setTimeout(() => {
       this.setState({show:true})
     }, 100)

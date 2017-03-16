@@ -23,3 +23,7 @@ export function loadProblem(id) {
 export function createPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
+
+export function welcome() {
+  return pget(`/rise/plan/welcome`)
+}

@@ -200,7 +200,7 @@ export class Comment extends React.Component<any,any>{
           </div>
         </div>
         <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-          <AssetImg type="discuss" width={45} height={45}/>
+          <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
         {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
                                  onSubmit={(content)=>this.onSubmit(content)}/> : null}
