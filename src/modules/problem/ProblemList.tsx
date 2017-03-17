@@ -40,9 +40,9 @@ export class ProblemList extends React.Component <any, any> {
       <div>
         <div className="problem-list">
           <div className="info">
-            <img className={show?"show first":"hide first"} src="https://www.iqycamp.com/images/fragment/rise_welcome_1_1.png"></img>
-            <img className={show?"show second":"hide second"} src="https://www.iqycamp.com/images/fragment/rise_welcome_2.png"></img>
-            <img className={show?"show third":"hide third"} src="https://www.iqycamp.com/images/fragment/rise_welcome_3.png"></img>
+            <img className={show?"show first":"hide first"} src="http://www.iqycamp.com/images/fragment/rise_welcome_1_1.png"></img>
+            <img className={show?"show second":"hide second"} src="http://www.iqycamp.com/images/fragment/rise_welcome_2.png"></img>
+            <img className={show?"show third":"hide third"} src="http://www.iqycamp.com/images/fragment/rise_welcome_3.png"></img>
           </div>
         </div>
         <div className="button-footer white-button" onClick={this.onSubmit.bind(this)}>下一步</div>
