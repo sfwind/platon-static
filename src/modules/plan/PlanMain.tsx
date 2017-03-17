@@ -178,12 +178,12 @@ export class PlanMain extends React.Component <any, any> {
     const {dispatch} = this.props
     const {showDoneAll , planData, currentIndex} = this.state
     const {doneAllPractice, series, totalSeries} = planData
-    if(!showDoneAll){
-      if(!doneAllPractice && currentIndex===planData.series){
-        this.setState({showDoneAll:true})
-        dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
-      }
-    }
+    // if(!showDoneAll){
+    //   if(!doneAllPractice && currentIndex===planData.series){
+    //     this.setState({showDoneAll:true})
+    //     dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
+    //   }
+    // }
     if (series === totalSeries) {
 
     } else {
