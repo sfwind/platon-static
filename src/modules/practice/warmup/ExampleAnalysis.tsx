@@ -40,26 +40,25 @@ export class ExampleAnalysis extends React.Component <any, any> {
 
   componentWillMount(props) {
     const {dispatch, location} = props || this.props
-    const {warmupPracticeId} = location.query
+    const {warmupPracticeId, kid} = location.query
     if(location.state && location.state.selected){
       this.setState({selected:location.state.selected});
     }
 
     dispatch(startLoad())
+    loadKnowledgeIntro(kid).then(res => {
+      const {code, msg} = res
+      if (code === 200) this.setState({knowledge: msg})
+      else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
     loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
-      let {code, msg} = res
-      const data = msg
+      dispatch(endLoad())
+      const {code, msg} = res
       if (code === 200){
-        const {knowledgeId} = msg
-        loadKnowledgeIntro(knowledgeId).then(res => {
-          dispatch(endLoad())
-          const {code, msg} = res
-          if (code === 200) this.setState({knowledge: msg, data, warmupPracticeId})
-          else dispatch(alertMsg(msg))
-        }).catch(ex => {
-          dispatch(endLoad())
-          dispatch(alertMsg(ex))
-        })
+        this.setState({data:msg, warmupPracticeId})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -127,7 +126,7 @@ export class ExampleAnalysis extends React.Component <any, any> {
             <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
           </div>
           <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, warmupPracticeId: id, repliedId:0})}>
-            <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+            <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
           </div>
           <div className="discuss">
             <a name="discuss"/>
@@ -140,7 +139,7 @@ export class ExampleAnalysis extends React.Component <any, any> {
               :
               <div className="discuss-end">
                 <div className="discuss-end-img">
-                  <AssetImg url="https://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                  <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
                 </div>
                 <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
 

@@ -32,8 +32,18 @@ export class Ready extends React.Component <any, any> {
     })
   }
 
-  onSubmit() {
+  knowledge() {
+    this.context.router.push({
+      pathname: '/rise/static/practice/warmup/intro',
+      query: this.props.location.query
+    })
+  }
 
+  onSubmit() {
+    this.context.router.push({
+      pathname: '/rise/static/practice/warmup',
+      query: this.props.location.query
+    })
   }
 
   render() {
@@ -46,23 +56,17 @@ export class Ready extends React.Component <any, any> {
           <div className="header">{knowledge}</div>
           <div className="intro-container">
             <div className="context-img">
-              <AssetImg url="https://www.iqycamp.com/images/fragment/practice_start.png" width={'100%'}/>
+              <AssetImg url="http://www.iqycamp.com/images/fragment/practice_start.png" width={'100%'}/>
               <div className="tips"><AssetImg type="hoshi" width={9}
                                               height={11}/><span>共三道不定项选择题, 做完后统一看解析</span></div>
             </div>
             <div className="choice-list">
               <div className="choice review"
-                   onClick={() => this.context.router.push({
-                     pathname: '/rise/static/practice/warmup/intro',
-                     query: this.props.location.query
-                   })}>
+                   onClick={this.knowledge.bind(this)}>
                 知识点
               </div>
               <div className="choice start"
-                   onClick={() => this.context.router.push({
-                     pathname: '/rise/static/practice/warmup',
-                     query: this.props.location.query
-                   })}>
+                   onClick={this.onSubmit.bind(this)}>
                 开始训练
               </div>
             </div>

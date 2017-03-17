@@ -304,7 +304,7 @@ export class PlanMain extends React.Component <any, any> {
         { showCompleteModal ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="https://www.iqycamp.com/images/fragment/finish_modal2.png"/>
+              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/finish_modal2.png"/>
               <div className="modal_context">
                 <div className="content">
                   <div className="text2">太棒了!</div>
@@ -328,7 +328,7 @@ export class PlanMain extends React.Component <any, any> {
         { showConfirmModal ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="https://www.iqycamp.com/images/fragment/finish_modal2.png"/>
+              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/finish_modal2.png"/>
               <div className="modal_context">
                 <div className="content">
                   <div className="text">确定开始新专题吗</div>
@@ -356,7 +356,7 @@ export class PlanMain extends React.Component <any, any> {
         { status === 3 ?
           <div className="mask">
             <div className="finished_modal">
-              <AssetImg width={290} height={410} url="https://www.iqycamp.com/images/fragment/expire_modal2.png"/>
+              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/expire_modal2.png"/>
               <div className="modal_context">
                 <div className="content"><div className="text">本专题已到期</div></div>
                 <div className="content2">
