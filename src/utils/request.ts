@@ -4,27 +4,36 @@ import { get, post } from "axios";
 
 const debug = getQueryString('debug')
 
+const config = {
+  timeout: 5000,
+}
+
 export function appendQs(query:Object):string {
   return !query ? "" : `?${qs.stringify(merge(query, { debug: debug }))}`
 }
 
 export function pget(url:string, query?:Object) {
-  return get(`${url}${appendQs(merge(query, { debug: debug }))}`).then((res) => res.data).catch(error => {
+  return get(`${url}${appendQs(merge(query, { debug: debug }))}`,config).then((res) => {
+      return res.data
+    }
+  ).catch(error => {
     if (error.response) {
       log(url, JSON.stringify(error.response))
     } else {
       log(url, error.message)
     }
+    throw "网络不给力";
   })
 }
 
 export function ppost(url:string, body:Object) {
-  return post(url, body).then((res) => res.data).catch(error => {
+  return post(url, body, config).then((res) => res.data).catch(error => {
     if (error.response) {
       log(url, JSON.stringify(error.response))
     } else {
       log(url, error.message)
     }
+    throw "网络不给力";
   })
 }
 
