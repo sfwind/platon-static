@@ -5,7 +5,7 @@ import { get, post } from "axios";
 const debug = getQueryString('debug')
 
 const config = {
-  timeout: 5000,
+  timeout: 10000,
 }
 
 export function appendQs(query:Object):string {
