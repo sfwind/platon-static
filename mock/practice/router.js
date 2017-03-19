@@ -275,7 +275,7 @@ router.get("/rise/practice/challenge/start/*", (req, res) => {
 		}), Math.random() * 1500)
 });
 
-router.post("/rise/practice/discuss", (req, res) => {
+router.post("/rise/practice/warmup/discuss", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
       "code": 200,

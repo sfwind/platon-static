@@ -80,11 +80,35 @@ export class Main extends React.Component <any, any> {
   setChoice(cb) {
     let { list, currentIndex, selected } = this.state
     set(list, `practice.${currentIndex}.choice`, selected)
-    this.setState({ list }, () => {
-      this.setState({ selected: [], currentIndex: currentIndex + 1 })
-    })
+    this.setState({ list })
     if (cb) {
       cb(list.practice)
+    }
+  }
+
+  prev(){
+    const { currentIndex, list } = this.state
+    if(currentIndex>0){
+      this.setChoice()
+      const selected = list.practice[`${currentIndex-1}`].choice
+      this.setState({currentIndex:currentIndex-1, selected})
+    }
+  }
+
+  next(){
+    const { dispatch } = this.props
+    const { selected, list, currentIndex, practiceCount } = this.state
+    if (selected.length === 0) {
+      dispatch(alertMsg("你还没有选择答案哦"))
+      return
+    }
+    if(currentIndex < practiceCount - 1){
+      this.setChoice()
+      let selected = list.practice[`${currentIndex+1}`].choice
+      if(!selected){
+        selected = []
+      }
+      this.setState({currentIndex:currentIndex+1, selected})
     }
   }
 
@@ -96,9 +120,7 @@ export class Main extends React.Component <any, any> {
       dispatch(alertMsg("你还没有选择答案哦"))
       return
     }
-    if (currentIndex < practiceCount - 1) {
-      this.setChoice()
-    } else {
+    if (currentIndex === practiceCount - 1) {
       this.setChoice(p => {
         answer({ practice: p }, practicePlanId).then(res => {
           const { code, msg } = res
@@ -157,13 +179,19 @@ export class Main extends React.Component <any, any> {
       <div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
-            <div className="container" style={{height: window.innerHeight - 75}}>
+            <div className="container has-footer" style={{height: window.innerHeight - 75}}>
               <div className="warm-up">
                 <div className="page-header">{knowledge.knowledge}</div>
                 {questionRender(practice[currentIndex] || {})}
               </div>
             </div>
-            <div className="button-submit" onClick={this.onSubmit.bind(this)}>提交</div>
+            <div className="button-footer">
+              <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
+              </div>
+              { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
+              }
+            </div>
           </div>
         }
       </div>

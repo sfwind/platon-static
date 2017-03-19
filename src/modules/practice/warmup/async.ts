@@ -25,7 +25,7 @@ export function answer(params, practicePlanId) {
 }
 
 export function discuss(params) {
-  return ppost(`/rise/practice/discuss`, params)
+  return ppost(`/rise/practice/warmup/discuss`, params)
 }
 
 export function loadWarmUpDiscuss(id, offset) {
