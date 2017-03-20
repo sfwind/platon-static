@@ -13,7 +13,7 @@ export function appendQs(query:Object):string {
 }
 
 export function pget(url:string, query?:Object) {
-  return get(`${url}${appendQs(merge(query, { debug: debug }))}`,config).then((res) => {
+  return get(`${url}${appendQs(merge(query, { debug: debug }))}`).then((res) => {
       return res.data
     }
   ).catch(error => {
@@ -27,7 +27,7 @@ export function pget(url:string, query?:Object) {
 }
 
 export function ppost(url:string, body:Object) {
-  return post(url, body, config).then((res) => res.data).catch(error => {
+  return post(url, body).then((res) => res.data).catch(error => {
     if (error.response) {
       log(url, JSON.stringify(error.response))
     } else {
