@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { remove, set, merge } from "lodash";
+import { remove, set, merge,get,findIndex } from "lodash";
 import "./Main.less";
-import { loadWarmUpPractice, loadKnowledgeIntro, answer } from "./async";
+import { loadWarmUpPractice, loadKnowledgeIntro, answer,loadWarmUpAnalysis } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -48,10 +48,31 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    loadWarmUpPractice(practicePlanId).then(res => {
+    loadWarmUpAnalysis(practicePlanId).then(res=>{
       dispatch(endLoad())
       const { code, msg } = res
-      if (code === 200)  this.setState({ list: msg, practiceCount: msg.practice.length })
+      if (code === 200){
+        const { practice } = msg;
+        if(practice){
+          let idx = findIndex(practice,(item)=>{
+            const {choiceList} = item;
+            if(choiceList){
+              console.log('choiceSize:',choiceList.filter(choice=>choice.selected));
+              return choiceList.filter(choice=>choice.selected).length>0;
+            } else {
+              return false;
+            }
+          })
+          if(idx !== -1){
+            this.context.router.push({
+              pathname: '/rise/static/practice/warmup/analysis',
+              query: { practicePlanId, kid: location.query.kid, series:location.query.series }
+            })
+          } else {
+            this.setState({ list: msg, practiceCount: msg.practice.length })
+          }
+        }
+      }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
       dispatch(endLoad())
@@ -165,6 +186,7 @@ export class Main extends React.Component <any, any> {
     }
 
     const choiceRender = (choice, idx) => {
+      console.log(choice);
       const { id, subject } = choice
       return (
         <div key={id} className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}

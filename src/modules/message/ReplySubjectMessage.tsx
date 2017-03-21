@@ -7,7 +7,7 @@ import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import AssetImg from "../../components/AssetImg";
 import SubmitBox from "../practice/components/SubmitBox"
 import PullElement from "pull-element"
-import {findIndex,remove,merge} from "lodash";
+import {findIndex,remove,merge,set} from "lodash";
 import Work from "../practice/components/NewWork"
 
 
@@ -184,7 +184,7 @@ export class ReplySubjectMessage extends React.Component<any,any>{
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
-        this.setState({showWorkEdit:false,editDisable: false,work:merge({},work,{title:title,content:content,submitUpdateTime:res.msg.submitUpdateTime,labelList:msg.labelList})});
+        this.setState({showWorkEdit:false,editDisable: false,work:set(merge({},work,{title:title,content:content,submitUpdateTime:res.msg.submitUpdateTime}),'labelList',msg.labelList)});
         if(!this.state.end && this.pullElement){
           this.pullElement.enable();
         }
