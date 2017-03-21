@@ -57,8 +57,7 @@ export class Main extends React.Component <any, any> {
           let idx = findIndex(practice,(item)=>{
             const {choiceList} = item;
             if(choiceList){
-              console.log('choiceSize:',choiceList.filter(choice=>choice.selected));
-              return choiceList.filter(choice=>choice.selected).length>0;
+              return choiceList.filter(choice=>choice.selected).length > 0;
             } else {
               return false;
             }
@@ -143,13 +142,18 @@ export class Main extends React.Component <any, any> {
     }
     if (currentIndex === practiceCount - 1) {
       this.setChoice(p => {
+        dispatch(startLoad());
         answer({ practice: p }, practicePlanId).then(res => {
+          dispatch(endLoad());
           const { code, msg } = res
           if (code === 200)  this.context.router.push({
             pathname: '/rise/static/practice/warmup/result',
             query: merge(msg, this.props.location.query)
           })
           else dispatch(alertMsg(msg))
+        }).catch(ex => {
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
         })
       })
     }
@@ -186,7 +190,6 @@ export class Main extends React.Component <any, any> {
     }
 
     const choiceRender = (choice, idx) => {
-      console.log(choice);
       const { id, subject } = choice
       return (
         <div key={id} className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}
