@@ -204,7 +204,7 @@ export class Main extends React.Component <any, any> {
       <div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
-            <div className="container has-footer" style={{height: window.innerHeight - 75}}>
+            <div className="container has-footer" style={{height: window.innerHeight - 49}}>
               <div className="warm-up">
                 <div className="page-header">{knowledge.knowledge}</div>
                 {questionRender(practice[currentIndex] || {})}
