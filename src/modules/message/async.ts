@@ -28,9 +28,9 @@ export function loadSubject(submitId){
   return pget(`/rise/practice/subject/${submitId}`)
 }
 
-export function submitSubject(problemId,title,content,id){
-  console.log(problemId,title,content,id)
-  return ppost(`/rise/practice/subject/submit/${problemId}`,{submitId:id,title:title,content:content});
+export function submitSubject(problemId,title,content,id,labels){
+  console.log(problemId,title,content,id,labels)
+  return ppost(`/rise/practice/subject/submit/${problemId}`,{submitId:id,title:title,content:content,labelList:labels});
 }
 
 
