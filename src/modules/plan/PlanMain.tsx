@@ -306,6 +306,7 @@ export class PlanMain extends React.Component <any, any> {
 
   submitScore(questionList){
     console.log("提交:",questionList);
+    this.setState({ showCompleteModal: true, showScoreModal: false });
   }
 
   render() {

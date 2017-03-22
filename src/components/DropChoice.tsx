@@ -93,7 +93,7 @@ export default class DropChoice extends React.Component<any,any>{
             }):null}
           </div>
           <div className="bottom-btn" onClick={()=>this.next()} style={{height:`${this.choiceLRPD}px`,lineHeight:`${this.choiceLRPD}px`}}>
-            {questionList && (questionList.length - 1) === this.state.idx ? "完成":<span className={`${!this.state.next?'next':''}`}>下一步</span>}
+            <span className={`${!this.state.next?'next':''}`}>{questionList && (questionList.length - 1) === this.state.idx ? "完成":'下一步'}</span>
           </div>
         </TweenOne>
 
