@@ -6,6 +6,7 @@ import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
+import DropChoice from "../../components/DropChoice"
 import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge,isBoolean} from "lodash"
 
@@ -30,6 +31,51 @@ export class PlanMain extends React.Component <any, any> {
       currentIndex: 0,
       showProblem: false,
       selectProblem: {},
+      questionList:[
+
+        {
+          subject:"你已完成了本专题的训练，感受如何呢",
+          choiceList:[
+            {
+              id:1,
+              subject:"非常难"
+            },{
+              id:2,
+              subject:"比较难"
+            },{
+              id:3,
+              subject:"适中"
+            },{
+              id:4,
+              subject:"较简单"
+            },{
+              id:5,
+              subject:"很简单"
+            }
+          ]
+        },
+        {
+          subject:"本专题的锻炼，对于工作/生活有用吗",
+          choiceList:[
+            {
+              id:1,
+              subject:"没有用"
+            },{
+              id:2,
+              subject:"有点用"
+            },{
+              id:3,
+              subject:"不清楚"
+            },{
+              id:4,
+              subject:"较有用"
+            },{
+              id:5,
+              subject:"很有用"
+            }
+          ]
+        }
+      ]
     }
   }
 
@@ -353,6 +399,7 @@ export class PlanMain extends React.Component <any, any> {
             <Tutorial onShowEnd={()=>this.tutorialEnd()}/>
           </div>
           :null}
+        {true?<DropChoice questionList={this.state.questionList}/>:null}
         { status === 3 ?
           <div className="mask">
             <div className="finished_modal">

@@ -10,6 +10,23 @@ export class Demo extends React.Component <any, any> {
     super();
     this.state = {
       show:false,
+      questionList:[
+        {
+          subject:"题干",
+          choiceList:[
+            {
+              id:1,
+              subject:"简单"
+            },{
+              id:2,
+              subject:"普通"
+            },{
+              id:3,
+              subject:"超难"
+            }
+          ]
+        }
+      ]
     }
   }
 
@@ -21,7 +38,7 @@ export class Demo extends React.Component <any, any> {
     const {show} = this.state
     return (
       <div className="demo" onClick={()=>this.setState({show:!this.state.show})}>
-        {true?<DropChoice/>:null}
+        {true?<DropChoice questionList={this.state.questionList}/>:null}
       </div>
     )
   }

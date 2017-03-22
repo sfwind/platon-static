@@ -2,18 +2,66 @@
   width:100%;
   height:100%;
   position: fixed;
+  z-index:300;
   > .screen-mask{
     position: absolute;
-    z-index: 100;
+    z-index: 400;
     width:100%;
     height:100%;
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.5);
   }
   > .content-container{
+    position:relative;
+    z-index:500;
     margin:0 auto;
      > .top{
        background: url('https://www.iqycamp.com/images/dropChoiceTop.png') center center/100% 100%;
        width:100%;
+       position: relative;
+       > .top-tips {
+         position: absolute;
+         width:100%;
+         bottom:0;
+         text-align: center;;
+         color:#FFF;
+       }
+       > .top-dots{
+         position: absolute;
+         width:100%;
+         bottom:0;
+         text-align: center;
+         > .dot{
+           display: inline-block;
+           margin:0 10px;
+           border-radius:10px;
+           border:1px solid #FFF;
+
+           &.cur{
+             background-color: #FFF;
+           }
+
+         }
+       }
      }
+    > .choice-list{
+      background:#FFF;
+      text-align: center;
+      font-weight:bolder;
+      > .choice{
+        color:#666666;
+        &:not(:last-of-type){
+          border-bottom:1px solid #e8ebf6;
+        }
+        &.selected{
+          color:#9bb0ff;
+        }
+      }
+    }
+    > .bottom-btn{
+      background: url('https://www.iqycamp.com/images/dropChoiceButton.png') center center/100% 100%;
+      width:100%;
+      text-align: center;
+      color:#fff;
+    }
   }
 }
