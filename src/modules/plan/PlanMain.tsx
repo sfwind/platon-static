@@ -25,6 +25,7 @@ export class PlanMain extends React.Component <any, any> {
     this.state = {
       planData: {},
       knowledge: {},
+      showScoreModal:false,
       showCompleteModal: false,
       showConfirmModal: false,
       showDoneAll: false,
@@ -244,7 +245,7 @@ export class PlanMain extends React.Component <any, any> {
       if (code === 200) {
         if(msg === true)
         {
-          this.setState({showCompleteModal: true})
+          this.setState({showScoreModal: true})
         }else{
           dispatch(alertMsg('至少要完成所有的理解训练哦'))
         }
@@ -303,8 +304,12 @@ export class PlanMain extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/message/center' })
   }
 
+  submitScore(questionList){
+    console.log("提交:",questionList);
+  }
+
   render() {
-    const { planData, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
       deadline, status, currentSeries, totalSeries, series, openRise, newMessage
@@ -347,6 +352,7 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div>
+        { showScoreModal?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)} onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })} questionList={this.state.questionList}/>:null}
         { showCompleteModal ?
           <div className="mask">
             <div className="finished_modal">
@@ -399,7 +405,6 @@ export class PlanMain extends React.Component <any, any> {
             <Tutorial onShowEnd={()=>this.tutorialEnd()}/>
           </div>
           :null}
-        {true?<DropChoice questionList={this.state.questionList}/>:null}
         { status === 3 ?
           <div className="mask">
             <div className="finished_modal">

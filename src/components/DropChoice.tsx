@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./DropChoice.less"
 import TweenOne,{TweenOneGroup} from 'rc-tween-one';
-import {get,set,merge} from "lodash";
+import {get,set,merge,findIndex} from "lodash";
 
 export default class DropChoice extends React.Component<any,any>{
   constructor(props){
@@ -26,19 +26,27 @@ export default class DropChoice extends React.Component<any,any>{
 
     this.state = {
       idx:0,
-      selectedList:[],
       curChoice:null,
-      questionList:this.props.questionList?this.props.questionList:[]
+      questionList:this.props.questionList?this.props.questionList:[],
+      next:false
     }
   }
 
   next(){
-    const {selectedList,curChoice,questionList} = this.state;
-
+    const {questionList,idx} = this.state;
+    // 检查是否能下一个
+    if(questionList && findIndex(questionList[idx].choiceList,(o)=>o.selected) !== -1){
+      if(idx === (questionList.length - 1)){
+        // 最后一个
+        this.props.onSubmit(questionList);
+      } else {
+        this.setState({idx:idx+1,next:false})
+      }
+    }
   }
 
   selected(choice,seq){
-    const {selectedList,curChoice,questionList,idx} = this.state;
+    const {questionList,idx} = this.state;
     let newList = merge([],questionList);
 
     // 如果多选，注释掉下面即可
@@ -49,7 +57,8 @@ export default class DropChoice extends React.Component<any,any>{
     this.setState({questionList:
       set(newList,
       `[${idx}].choiceList[${seq}].selected`,
-      !get(questionList,`[${idx}].choiceList[${seq}].selected`))})
+      !get(questionList,`[${idx}].choiceList[${seq}].selected`)),
+    next:!get(questionList,`[${idx}].choiceList[${seq}].selected`)})
   }
 
   render(){
@@ -62,12 +71,13 @@ export default class DropChoice extends React.Component<any,any>{
         <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`}} animation={{ y:this.contentHeight }} component="div" className="content-container">
           <div className="top" style={{height:`${this.topHeight}px`}}>
             <div className="top-tips" style={{lineHeight:`${this.topHeight/2}px`,fontSize:`${this.topFontSize}px`}}>
-              {subject}
+              <span>{subject}</span>
             </div>
             <div className="top-dots" style={{height:`${this.topTipBM}px`}}>
-              {questionList?questionList.map((item,seq)=>{
-                return (<div className={`dot ${this.state.idx === seq?"cur":""}`} style={{width:`${this.topDotSize}`,height:`${this.topDotSize}`}} ></div>)
-              }):null}
+              {`${this.state.idx+1}/${questionList?questionList.length:0}`}
+              {/*{questionList?questionList.map((item,seq)=>{*/}
+                {/*return (<div className={`dot ${this.state.idx === seq?"cur":""}`} style={{width:`${this.topDotSize}`,height:`${this.topDotSize}`}} ></div>)*/}
+              {/*}):null}*/}
             </div>
           </div>
           <div className="choice-list" style={{padding:`0 ${this.choiceLRPD}px`}}>
@@ -83,7 +93,7 @@ export default class DropChoice extends React.Component<any,any>{
             }):null}
           </div>
           <div className="bottom-btn" onClick={()=>this.next()} style={{height:`${this.choiceLRPD}px`,lineHeight:`${this.choiceLRPD}px`}}>
-            {questionList && (questionList.length - 1) === this.state.idx ? "完成":"下一步"}
+            {questionList && (questionList.length - 1) === this.state.idx ? "完成":<span className={`${!this.state.next?'next':''}`}>下一步</span>}
           </div>
         </TweenOne>
 
