@@ -12,10 +12,16 @@ export default class DropChoice extends React.Component<any,any>{
     this.topHeight = 385/560 * this.contentWidth;
     this.contentHeight = this.topHeight;
     console.log(this.contentWidth,this.topHeight,this.fontSize)
+    this.state = {
+      idx:0,
+      currentQuestion:this.props.question,
+    }
   }
 
   render(){
-    const { choice } = this
+    const { questionList=[] } = this.props;
+    const { choicList}
+
 
 
     return (
