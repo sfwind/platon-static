@@ -330,7 +330,7 @@ export class Main extends React.Component <any, any> {
         <div  ref="container" className="container-no-pd has-footer">
           <div className="subject">
             <div className="header" style={{height:`${this.picHeight}px`}}>
-              <div className="main-tip" style={{paddingTop:`${this.paddingTop}px`}}>专题输出</div>
+              <div className="main-tip" style={{paddingTop:`${this.paddingTop}px`}}>专题分享</div>
               <div className="sec-tip">深度好文•遇见大咖•分享心得</div>
             </div>
             <div className="intro" dangerouslySetInnerHTML={{__html:desc}}>

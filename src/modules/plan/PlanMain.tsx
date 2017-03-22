@@ -397,7 +397,7 @@ export class PlanMain extends React.Component <any, any> {
         <div className="function-area">
           <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
             <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
-            <span>专题输出</span>
+            <span>专题分享</span>
           </div>
           <div className="right" onClick={() => this.problemReview(problem.id)}>
             <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
