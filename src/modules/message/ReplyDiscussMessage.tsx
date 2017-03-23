@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import "./ReplyDiscussMessage.less";
 import {loadWarmUp, loadWarmUpDiscussReply} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
-import AssetImg from "../../components/AssetImg";
 import Discuss from "../practice/components/Discuss";
+import DiscussShow from "../practice/components/DiscussShow";
 
 @connect(state => state)
 export class ReplyDiscussMessage extends React.Component <any, any> {
@@ -29,6 +29,19 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
     const {warmupPracticeId} = location.query
     const {commentId} = location.query
     dispatch(startLoad())
+    loadWarmUpDiscussReply(commentId).then(res => {
+      dispatch(endLoad())
+      const {code, msg} = res
+      if (code === 200) {
+        this.setState({data:msg, commentId})
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+
     loadWarmUp(warmupPracticeId).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
@@ -40,19 +53,6 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
         }
         this.setState({question, warmupPracticeId})
 
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-
-    loadWarmUpDiscussReply(commentId).then(res => {
-      dispatch(endLoad())
-      const {code, msg} = res
-      if (code === 200) {
-        this.setState({data:msg, commentId})
       } else {
         dispatch(alertMsg(msg))
       }
@@ -74,9 +74,18 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/practice/warmup/new/analysis', query: this.props.location.query })
   }
 
+  reply(warmupPracticeId, repliedId){
+    this.setState({showDiscuss:true, warmupPracticeId, repliedId})
+  }
+
   render() {
     const {question, warmupPracticeId, data, commentId, showDiscuss} = this.state
-    const {comment, name, repliedComment, repliedName, avatar, discussTime} = data
+
+    const renderDiscuss = (discuss) => {
+        return (
+            <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
+        )
+    }
     return (
       <div>
         <div className="container has-footer">
@@ -84,28 +93,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
             <div className="origin-question-tip" onClick={this.onSubmit.bind(this)}>点击查看原题</div>
           </div>
           <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
-          <div className="comment-cell">
-            <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
-            <div className="comment-area">
-              <div className="comment-head">
-                <div className="comment-name">
-                  {name}
-                </div>
-                <div className="comment-time">{discussTime}</div>
-                <div className="right" onClick={() =>
-                this.setState({showDiscuss: true, warmupPracticeId, repliedId:commentId})}>
-                  <div className="function-icon">
-                    <AssetImg type="reply" height={17}/>
-                  </div>
-                  <div className="function-button">
-                    回复
-                  </div>
-                </div>
-              </div>
-              <div className="comment-content">{comment}</div>
-              <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div>
-            </div>
-          </div>
+          {renderDiscuss(data)}
         </div>
         <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
         {showDiscuss ?<Discuss repliedId={commentId} warmupPracticeId={warmupPracticeId}
