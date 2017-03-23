@@ -26,13 +26,13 @@ export default class DropChoice extends React.Component<any,any>{
     this.closeSize = 70/560 * this.contentWidth;
     this.contentHeight = this.topHeight;
 
-
-
     this.state = {
       idx:0,
       curChoice:null,
       questionList:this.props.questionList?this.props.questionList:[],
-      next:false
+      next:false,
+      close:false,
+      submit:false,
     }
   }
 
@@ -42,7 +42,7 @@ export default class DropChoice extends React.Component<any,any>{
     if(questionList && findIndex(questionList[idx].choiceList,(o)=>o.selected) !== -1){
       if(idx === (questionList.length - 1)){
         // 最后一个
-        this.props.onSubmit(questionList);
+        this.setState({submit:true});
       } else {
         this.setState({idx:idx+1,next:false})
       }
@@ -65,6 +65,24 @@ export default class DropChoice extends React.Component<any,any>{
     next:!get(questionList,`[${idx}].choiceList[${seq}].selected`)})
   }
 
+
+  onEnd(e){
+    const {questionList,idx} = this.state;
+    if(e.mode === "onComplete"){
+      if(this.state.close){
+        // 关闭
+        console.log("关闭");
+        this.props.onClose();
+      } else if(this.state.submit) {
+        // 提交
+        console.log("提交");
+        this.props.onSubmit(questionList);
+      } else {
+        console.log("打开");
+      }
+    }
+  }
+
   render(){
     const { questionList=[] } = this.state;
     const curQuestion = questionList && questionList.length > 0 ?questionList[this.state.idx]:{};
@@ -72,7 +90,7 @@ export default class DropChoice extends React.Component<any,any>{
     return (
       <div className="screen-mask-container">
         <div className="screen-mask"/>
-        <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`}} animation={{ y:this.contentHeight }} component="div" className="content-container">
+        <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`}} onChange={(e)=>this.onEnd(e)} animation={{ y:this.state.close || this.state.submit? - window.innerWidth:this.contentHeight }} component="div" className="content-container">
           <div className="top" style={{height:`${this.topHeight}px`}}>
             <div className="top-tips" style={{height:`${this.topHeight/2}px`,lineHeight:`${this.topLineHeight}px`,fontSize:`${this.topFontSize}px`}}>
               <span dangerouslySetInnerHTML={{__html: subject}}/>
@@ -96,11 +114,11 @@ export default class DropChoice extends React.Component<any,any>{
               )
             }):null}
           </div>
-          <div className="bottom-btn" onClick={()=>this.next()} style={{height:`${this.choiceLRPD}px`,lineHeight:`${this.choiceLRPD}px`}}>
-            <span className={`${!this.state.next?'next':''}`}>{questionList && (questionList.length - 1) === this.state.idx ? "完成":'下一步'}</span>
+          <div className={`bottom-btn ${this.state.next?'can':''}`} onClick={()=>this.next()} style={{height:`${this.choiceLRPD}px`,lineHeight:`${this.choiceLRPD}px`}}>
+            <span>{questionList && (questionList.length - 1) === this.state.idx ? "完成":'下一步'}</span>
           </div>
           <div className="close-container" style={{marginTop:`${this.closeTMB}px`}}>
-            <span onClick={()=>this.props.onClose()}><AssetImg type="white_close_btn" size={this.closeSize}/></span>
+            <span onClick={()=>this.setState({close:true})}><AssetImg type="white_close_btn" size={this.closeSize}/></span>
           </div>
         </TweenOne>
 
