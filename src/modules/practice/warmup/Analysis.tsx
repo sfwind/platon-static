@@ -3,10 +3,10 @@ import {connect} from "react-redux";
 import "./Analysis.less";
 import {loadWarmUpAnalysis, loadKnowledgeIntro, loadWarmUpNext, loadWarmUpDiscuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
-import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import Discuss from "../components/Discuss";
+import DiscussShow from "../components/DiscussShow";
 import {set} from "lodash"
 
 const sequenceMap = {
@@ -106,7 +106,6 @@ export class Analysis extends React.Component <any, any> {
     const {practice = []} = list
     const {id} = practice[currentIndex]
 
-    let discussList = []
     loadWarmUpDiscuss(id, 1).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
@@ -124,11 +123,14 @@ export class Analysis extends React.Component <any, any> {
 
   }
 
+  reply(warmupPracticeId, repliedId){
+    this.setState({showDiscuss:true, warmupPracticeId, repliedId})
+  }
+
   render() {
     const {list, currentIndex, selected, knowledge, practiceCount,
       showKnowledge, showDiscuss, repliedId} = this.state
     const {practice = []} = list
-    const {analysis, means, keynote, audio} = knowledge
 
     const questionRender = (practice) => {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
@@ -176,30 +178,8 @@ export class Analysis extends React.Component <any, any> {
     }
 
     const discussRender = (discuss, idx) => {
-      const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId} = discuss
       return (
-        <div className="comment-cell">
-          <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
-          <div className="comment-area">
-            <div className="comment-head">
-              <div className="comment-name">
-                {name}
-              </div>
-              <div className="comment-time">{discussTime}</div>
-              <div className="right" onClick={() => this.setState({showDiscuss: true, warmupPracticeId, repliedId:id})}>
-                <div className="function-icon">
-                  <AssetImg type="reply" height={12} width={15}/>
-                </div>
-                <div className="function-button">
-                  回复
-                </div>
-              </div>
-            </div>
-            <div className="comment-content">{comment}</div>
-            {repliedComment ?
-              <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
-          </div>
-        </div>
+        <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
       )
     }
 
@@ -225,7 +205,7 @@ export class Analysis extends React.Component <any, any> {
           </div>
         </div>
         <div className="button-footer">
-          <div className={`left ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题</div>
+          <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>上一题</div>
           {currentIndex + 1 < practiceCount ?
             <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}

@@ -2,11 +2,12 @@ import * as React from "react";
 import "./ReplySubjectMessage.less";
 import {connect} from "react-redux"
 import {loadSubjectCommentList,commentSubject,loadSubject, submitSubject} from "./async"
+import {loadLabels} from "../practice/subject/async"
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import AssetImg from "../../components/AssetImg";
 import SubmitBox from "../practice/components/SubmitBox"
 import PullElement from "pull-element"
-import {findIndex,remove,merge} from "lodash";
+import {findIndex,remove,merge,set} from "lodash";
 import Work from "../practice/components/NewWork"
 
 
@@ -44,14 +45,26 @@ export class ReplySubjectMessage extends React.Component<any,any>{
       .then(res => {
         dispatch(endLoad());
         if (res.code === 200) {
-          this.setState({work:res.msg});
+          return res.msg;
         } else {
           dispatch(alertMsg(res.msg));
+          throw "加载失败，请联系管理员";
         }
-      }).catch(ex => {
+      }).then((work)=>{
+      return loadLabels(work.problemId).then(res=>{
+        let {code,msg} = res;
+        if(code===200){
+          console.log(msg);
+          this.setState({labels:msg,work:work});
+        } else {
+          dispatch(alterMsg("获取标签失败"));
+        }
+      })
+    }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
+
   }
 
   goBack(){
@@ -152,7 +165,7 @@ export class ReplySubjectMessage extends React.Component<any,any>{
     }
   }
 
-  onSubmitWork(content,title){
+  onSubmitWork(content,title,labels){
     const {work} = this.state;
     const { dispatch, location} = this.props
     if(!work){
@@ -167,11 +180,11 @@ export class ReplySubjectMessage extends React.Component<any,any>{
       return
     }
     this.setState({editDisable: true})
-    submitSubject(work.problemId,title, content,work.submitId).then(res => {
+    submitSubject(work.problemId,title, content,work.submitId,labels).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
-        this.setState({showWorkEdit:false,editDisable: false,work:merge({},work,{title:title,content:content,submitUpdateTime:res.msg.submitUpdateTime})});
+        this.setState({showWorkEdit:false,editDisable: false,work:set(merge({},work,{title:title,content:content,submitUpdateTime:res.msg.submitUpdateTime}),'labelList',msg.labelList)});
         if(!this.state.end && this.pullElement){
           this.pullElement.enable();
         }
@@ -259,9 +272,10 @@ export class ReplySubjectMessage extends React.Component<any,any>{
                                  onSubmit={(content)=>this.onSubmitComment(content)}/> : null}
         <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
         {showWorkEdit ?<SubmitBox height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}
-                                 onSubmit={(content,title)=>this.onSubmitWork(content,title)} desc={this.state.desc}
+                                 onSubmit={(content,title,labels)=>this.onSubmitWork(content,title,labels)} desc={this.state.desc}
                                  defaultTitle={this.state.defaultTitle} defaultContent={this.state.defaultContent}
-                                 titleEnable={true} /> : null}
+                                  labels={this.state.labels} defaultLabels={work.labelList}
+                                  titleEnable={true} /> : null}
       </div>
     );
   }

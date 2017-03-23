@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { remove, set, merge } from "lodash";
+import { remove, set, merge,get,findIndex } from "lodash";
 import "./Main.less";
-import { loadWarmUpPractice, loadKnowledgeIntro, answer } from "./async";
+import { loadWarmUpPractice, loadKnowledgeIntro, answer,loadWarmUpAnalysis } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -48,10 +48,30 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    loadWarmUpPractice(practicePlanId).then(res => {
+    loadWarmUpAnalysis(practicePlanId).then(res=>{
       dispatch(endLoad())
       const { code, msg } = res
-      if (code === 200)  this.setState({ list: msg, practiceCount: msg.practice.length })
+      if (code === 200){
+        const { practice } = msg;
+        if(practice){
+          let idx = findIndex(practice,(item)=>{
+            const {choiceList} = item;
+            if(choiceList){
+              return choiceList.filter(choice=>choice.selected).length > 0;
+            } else {
+              return false;
+            }
+          })
+          if(idx !== -1){
+            this.context.router.push({
+              pathname: '/rise/static/practice/warmup/analysis',
+              query: { practicePlanId, kid: location.query.kid, series:location.query.series }
+            })
+          } else {
+            this.setState({ list: msg, practiceCount: msg.practice.length })
+          }
+        }
+      }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
       dispatch(endLoad())
@@ -122,13 +142,18 @@ export class Main extends React.Component <any, any> {
     }
     if (currentIndex === practiceCount - 1) {
       this.setChoice(p => {
+        dispatch(startLoad());
         answer({ practice: p }, practicePlanId).then(res => {
+          dispatch(endLoad());
           const { code, msg } = res
           if (code === 200)  this.context.router.push({
             pathname: '/rise/static/practice/warmup/result',
             query: merge(msg, this.props.location.query)
           })
           else dispatch(alertMsg(msg))
+        }).catch(ex => {
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
         })
       })
     }
@@ -179,7 +204,7 @@ export class Main extends React.Component <any, any> {
       <div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
-            <div className="container has-footer" style={{height: window.innerHeight - 75}}>
+            <div className="container has-footer" style={{height: window.innerHeight - 49}}>
               <div className="warm-up">
                 <div className="page-header">{knowledge.knowledge}</div>
                 {questionRender(practice[currentIndex] || {})}

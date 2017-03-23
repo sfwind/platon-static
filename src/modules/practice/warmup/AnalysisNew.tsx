@@ -8,6 +8,7 @@ import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import Discuss from "../components/Discuss";
 import {set} from "lodash"
+import DiscussShow from "../components/DiscussShow";
 
 const sequenceMap = {
   0: 'A',
@@ -92,6 +93,10 @@ export class AnalysisNew extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/message/center'})
   }
 
+  reply(warmupPracticeId, repliedId){
+    this.setState({showDiscuss:true, warmupPracticeId, repliedId})
+  }
+
   render() {
     const {data, selected, knowledge,
       showKnowledge, showDiscuss, repliedId} = this.state
@@ -138,31 +143,8 @@ export class AnalysisNew extends React.Component <any, any> {
     }
 
     const discussRender = (discuss, idx) => {
-      const {id, name, avatar, comment, discussTime, repliedName, repliedComment, warmupPracticeId} = discuss
       return (
-        <div className="comment-cell">
-          <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
-          <div className="comment-area">
-            <div className="comment-head">
-              <div className="comment-name">
-                {name}
-              </div>
-              <div className="comment-time">{discussTime}</div>
-              <div className="right" onClick={() => this.setState({showDiscuss: true, warmupPracticeId, repliedId:id})}>
-                <div className="function-icon">
-                  <AssetImg type="reply" height={17}/>
-                </div>
-                <div className="function-button">
-                  回复
-                </div>
-              </div>
-            </div>
-            <div className="comment-content">{comment}</div>
-            {repliedComment ?
-              <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
-          </div>
-          <div className="comment-hr"/>
-        </div>
+          <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
       )
     }
 
