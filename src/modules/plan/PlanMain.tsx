@@ -60,20 +60,20 @@ export class PlanMain extends React.Component <any, any> {
           subject:"本专题的训练<br/>对工作/生活有用吗？",
           choiceList:[
             {
-              id:1,
-              subject:"没有用"
-            },{
-              id:2,
-              subject:"有点用"
-            },{
-              id:3,
-              subject:"不清楚"
+              id:5,
+              subject:"5分 非常实用，大部分能马上应用"
             },{
               id:4,
-              subject:"较有用"
+              subject:"4分 较为实用，不少能实际应用"
             },{
-              id:5,
-              subject:"很有用"
+              id:3,
+              subject:"3分 实用性一般，要找找应用场景"
+            },{
+              id:2,
+              subject:"2分 不太实用，偶尔能用上"
+            },{
+              id:1,
+              subject:"1分 大部分不能应用"
             }
           ]
         }

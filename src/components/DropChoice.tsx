@@ -102,7 +102,7 @@ export default class DropChoice extends React.Component<any,any>{
               {/*}):null}*/}
             </div>
           </div>
-          <div className="choice-list" style={{padding:`0 ${this.choiceLRPD}px`}}>
+          <div className="choice-list" style={{padding:`0 ${this.choiceLRPD/2}px`}}>
             {choiceList ? choiceList.map((item,seq)=>{
               return (
                 <div className={`choice ${item.selected?"selected":""}`} onClick={()=>this.selected(item,seq)}
