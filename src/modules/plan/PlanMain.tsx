@@ -57,7 +57,7 @@ export class PlanMain extends React.Component <any, any> {
         },
         {
           id:2,
-          subject:"你已完成了本专题的训练<br/>对于工作/生活有用吗",
+          subject:"本专题的训练<br/>对工作/生活有用吗？",
           choiceList:[
             {
               id:1,

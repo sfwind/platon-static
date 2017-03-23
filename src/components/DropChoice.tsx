@@ -10,16 +10,16 @@ export default class DropChoice extends React.Component<any,any>{
     this.contentWidth = 560/750 * window.innerWidth;
     this.problemFontSize = 30/750 * window.innerWidth;
     this.topFontSize = 28/750 * window.innerWidth;
-    this.topLineHeight = 38/750 * window.innerWidth;
-    this.topHeight = 385/560 * this.contentWidth;
+    this.topLineHeight = 40/750 * window.innerWidth;
+    this.topHeight = 384/560 * this.contentWidth;
 
-    this.topDotBM = 20/560 * this.contentWidth;
+    this.topDotBM = 20 /560 * this.contentWidth;
     this.topDotSize = 14/560 * this.contentWidth;
-    this.topDotTM = 26/560 * this.contentWidth;
+    this.dotFontSize = 24/560 * this.contentWidth;
+    this.topDotTM = 15/560 * this.contentWidth;
     this.topTipBM =  this.topDotBM +  this.topDotSize +  this.topDotTM;
 
     this.choiceFontSize = 30/560 * this.contentWidth;
-    this.choiceSpecialMargin = 40/560 * this.contentWidth;
     this.choiceLRPD = 80/560 * this.contentWidth;
 
     this.closeTMB = 30/560 * this.contentWidth;
@@ -92,10 +92,10 @@ export default class DropChoice extends React.Component<any,any>{
         <div className="screen-mask"/>
         <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`}} onChange={(e)=>this.onEnd(e)} animation={{ y:this.state.close || this.state.submit? - window.innerWidth:this.contentHeight }} component="div" className="content-container">
           <div className="top" style={{height:`${this.topHeight}px`}}>
-            <div className="top-tips" style={{height:`${this.topHeight/2}px`,lineHeight:`${this.topLineHeight}px`,fontSize:`${this.topFontSize}px`}}>
+            <div className="top-tips" style={{height:`${this.topHeight/2.1}px`,lineHeight:`${this.topLineHeight}px`,fontSize:`${this.topFontSize}px`}}>
               <span dangerouslySetInnerHTML={{__html: subject}}/>
             </div>
-            <div className="top-dots" style={{height:`${this.topTipBM}px`}}>
+            <div className="top-dots" style={{height:`${this.topTipBM}px`,lineHeight:`${this.topTipBM}px`,fontSize:`${this.dotFontSize}px`}}>
               {`${this.state.idx+1}/${questionList?questionList.length:0}`}
               {/*{questionList?questionList.map((item,seq)=>{*/}
                 {/*return (<div className={`dot ${this.state.idx === seq?"cur":""}`} style={{width:`${this.topDotSize}`,height:`${this.topDotSize}`}} ></div>)*/}
@@ -104,11 +104,9 @@ export default class DropChoice extends React.Component<any,any>{
           </div>
           <div className="choice-list" style={{padding:`0 ${this.choiceLRPD}px`}}>
             {choiceList ? choiceList.map((item,seq)=>{
-              const marginTop = seq === 0?this.choiceSpecialMargin:this.choiceFontSize;
-              const marginBottom = questionList && (questionList.length -1) === seq?this.choiceSpecialMargin:this.choiceFontSize;
               return (
                 <div className={`choice ${item.selected?"selected":""}`} onClick={()=>this.selected(item,seq)}
-                     style={{paddingTop:`${marginTop}px`,paddingBottom:`${marginBottom}px`,fontSize:`${this.choiceFontSize}px`,lineHeight:`${this.choiceFontSize}px`}}>
+                     style={{paddingTop:`${this.choiceFontSize}px`,paddingBottom:`${this.choiceFontSize}px`,fontSize:`${this.choiceFontSize}px`,lineHeight:`${this.choiceFontSize}px`}}>
                   {item.subject}
                 </div>
               )
