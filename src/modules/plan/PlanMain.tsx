@@ -57,6 +57,7 @@ export class PlanMain extends React.Component <any, any> {
               let { code, msg } = res
               if (code === 200) {
                 this.setState({selectProblem:msg})
+                window.location.href ="#series"
               }
             })
           } else {
@@ -382,6 +383,7 @@ export class PlanMain extends React.Component <any, any> {
           }
           </div>
           <div className="plan-guide">
+            <a name="series"/>
             <div className="section-title">{problem.problem}</div>
             <div className="section">
               <label>已解锁:</label> {currentIndex}/{totalSeries}组训练
