@@ -25,7 +25,6 @@ import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
 import { Comment as ApplicationComment } from "modules/practice/application/Comment";
 import { Comment as ChallengeComment } from "modules/practice/challenge/Comment";
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
-import { Demo } from "modules/problem/Demo"
 
 
 const routes = (
@@ -54,7 +53,6 @@ const routes = (
     <Route path="practice/challenge/comment" component={ChallengeComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
-    <Route path="test" component={Demo}/>
   </Route>
 )
 
