@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice } from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem } from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -33,8 +33,8 @@ export class PlanMain extends React.Component <any, any> {
       showProblem: false,
       selectProblem: {},
       questionList:[
-
         {
+          id:1,
           subject:"你已完成了本专题的训练，感受如何呢",
           choiceList:[
             {
@@ -56,6 +56,7 @@ export class PlanMain extends React.Component <any, any> {
           ]
         },
         {
+          id:2,
           subject:"本专题的锻炼，对于工作/生活有用吗",
           choiceList:[
             {
@@ -240,12 +241,19 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch } = this.props
+    const { selectProblem } = this.state;
     completePlan().then(res => {
       const { code, msg } = res
       if (code === 200) {
         if(msg === true)
         {
-          this.setState({showScoreModal: true})
+          if(selectProblem.hasProblemScore){
+            // 已经评分
+            this.setState({showCompleteModal: true})
+          } else {
+            // 未评分
+            this.setState({showScoreModal: true})
+          }
         }else{
           dispatch(alertMsg('至少要完成所有的理解训练哦'))
         }
@@ -306,7 +314,26 @@ export class PlanMain extends React.Component <any, any> {
 
   submitScore(questionList){
     console.log("提交:",questionList);
-    this.setState({ showCompleteModal: true, showScoreModal: false });
+    const { selectProblem } = this.state;
+    const { dispatch } = this.props;
+    let problemScores = questionList.map(item=>{
+      let selectedChoice;
+      item.choiceList.forEach(choice=>{
+        if(choice.selected){
+          selectedChoice = choice.id;
+        }
+      });
+      return {question:item.id,choice:selectedChoice};
+    });
+    dispatch(startLoad());
+    gradeProblem(problemScores,selectProblem.id).then(res=>{
+      dispatch(endLoad());
+      this.setState({ showCompleteModal: true, showScoreModal: false,selectProblem:merge({},selectProblem,{hasProblemScore:true})});
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(msg))
+    })
+
   }
 
   render() {
