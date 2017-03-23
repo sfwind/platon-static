@@ -35,7 +35,7 @@ export class PlanMain extends React.Component <any, any> {
       questionList:[
         {
           id:1,
-          subject:"你已完成了本专题的训练，感受如何呢",
+          subject:"你已完成了本专题的训练<br/>对本专题的学习难度打个分吧",
           choiceList:[
             {
               id:1,
@@ -57,7 +57,7 @@ export class PlanMain extends React.Component <any, any> {
         },
         {
           id:2,
-          subject:"本专题的锻炼，对于工作/生活有用吗",
+          subject:"你已完成了本专题的训练<br/>对于工作/生活有用吗",
           choiceList:[
             {
               id:1,

@@ -2,6 +2,7 @@ import * as React from "react";
 import "./DropChoice.less"
 import TweenOne,{TweenOneGroup} from 'rc-tween-one';
 import {get,set,merge,findIndex} from "lodash";
+import AssetImg from "./AssetImg";
 
 export default class DropChoice extends React.Component<any,any>{
   constructor(props){
@@ -9,6 +10,7 @@ export default class DropChoice extends React.Component<any,any>{
     this.contentWidth = 560/750 * window.innerWidth;
     this.problemFontSize = 30/750 * window.innerWidth;
     this.topFontSize = 28/750 * window.innerWidth;
+    this.topLineHeight = 38/750 * window.innerWidth;
     this.topHeight = 385/560 * this.contentWidth;
 
     this.topDotBM = 20/560 * this.contentWidth;
@@ -20,6 +22,8 @@ export default class DropChoice extends React.Component<any,any>{
     this.choiceSpecialMargin = 40/560 * this.contentWidth;
     this.choiceLRPD = 80/560 * this.contentWidth;
 
+    this.closeTMB = 30/560 * this.contentWidth;
+    this.closeSize = 70/560 * this.contentWidth;
     this.contentHeight = this.topHeight;
 
 
@@ -70,8 +74,8 @@ export default class DropChoice extends React.Component<any,any>{
         <div className="screen-mask"/>
         <TweenOne style={{width:`${this.contentWidth}px`,marginTop:`${-this.contentHeight}px`}} animation={{ y:this.contentHeight }} component="div" className="content-container">
           <div className="top" style={{height:`${this.topHeight}px`}}>
-            <div className="top-tips" style={{lineHeight:`${this.topHeight/2}px`,fontSize:`${this.topFontSize}px`}}>
-              <span>{subject}</span>
+            <div className="top-tips" style={{height:`${this.topHeight/2}px`,lineHeight:`${this.topLineHeight}px`,fontSize:`${this.topFontSize}px`}}>
+              <span dangerouslySetInnerHTML={{__html: subject}}/>
             </div>
             <div className="top-dots" style={{height:`${this.topTipBM}px`}}>
               {`${this.state.idx+1}/${questionList?questionList.length:0}`}
@@ -94,6 +98,9 @@ export default class DropChoice extends React.Component<any,any>{
           </div>
           <div className="bottom-btn" onClick={()=>this.next()} style={{height:`${this.choiceLRPD}px`,lineHeight:`${this.choiceLRPD}px`}}>
             <span className={`${!this.state.next?'next':''}`}>{questionList && (questionList.length - 1) === this.state.idx ? "完成":'下一步'}</span>
+          </div>
+          <div className="close-container" style={{marginTop:`${this.closeTMB}px`}}>
+            <span onClick={()=>this.props.onClose()}><AssetImg type="white_close_btn" size={this.closeSize}/></span>
           </div>
         </TweenOne>
 
