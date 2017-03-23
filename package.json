@@ -32,11 +32,12 @@
     "gulp": "^3.9.1",
     "lodash": "^4.14.1",
     "numeral": "^1.5.5",
-    "pull-element": "^1.1.1",
+    "pull-element": "^1.1.0",
     "qs": "^6.2.1",
     "rc-animate": "^2.3.1",
     "rc-collapse": "^1.6.12",
     "rc-queue-anim": "^0.13.0",
+    "rc-tween-one": "^1.1.2",
     "react": "^15.4.2",
     "react-copy-to-clipboard": "^4.2.3",
     "react-document-meta": "^2.0.3",
@@ -56,8 +57,7 @@
     "redux-thunk": "^2.1.0",
     "shelljs": "^0.7.3",
     "weui": "^0.4.3",
-    "whatwg-fetch": "^1.0.0",
-    "pull-element": "^1.1.0"
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",

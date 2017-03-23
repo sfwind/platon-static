@@ -27,7 +27,6 @@ import { Comment as ChallengeComment } from "modules/practice/challenge/Comment"
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
 
 
-
 const routes = (
   <Route path="/rise/static" component={Base}>
     <Route path="problem/list" component={ProblemList}/>

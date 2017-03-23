@@ -31,3 +31,8 @@ export function updateOpenRise(){
 export function checkPractice(series){
   return ppost(`/rise/practice/check/${series}`)
 }
+
+export function gradeProblem(problemScores,problemId){
+  return ppost(`/rise/problem/grade/${problemId}`,problemScores);
+}
+

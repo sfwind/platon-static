@@ -1,11 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice } from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem } from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
+import DropChoice from "../../components/DropChoice"
 import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge,isBoolean} from "lodash"
 
@@ -24,12 +25,59 @@ export class PlanMain extends React.Component <any, any> {
     this.state = {
       planData: {},
       knowledge: {},
+      showScoreModal:false,
       showCompleteModal: false,
       showConfirmModal: false,
       showDoneAll: false,
       currentIndex: 0,
       showProblem: false,
       selectProblem: {},
+      questionList:[
+        {
+          id:1,
+          subject:"你已完成了本专题的训练<br/>对本专题的学习难度打个分吧",
+          choiceList:[
+            {
+              id:1,
+              subject:"非常难"
+            },{
+              id:2,
+              subject:"比较难"
+            },{
+              id:3,
+              subject:"适中"
+            },{
+              id:4,
+              subject:"较简单"
+            },{
+              id:5,
+              subject:"很简单"
+            }
+          ]
+        },
+        {
+          id:2,
+          subject:"你已完成了本专题的训练<br/>对于工作/生活有用吗",
+          choiceList:[
+            {
+              id:1,
+              subject:"没有用"
+            },{
+              id:2,
+              subject:"有点用"
+            },{
+              id:3,
+              subject:"不清楚"
+            },{
+              id:4,
+              subject:"较有用"
+            },{
+              id:5,
+              subject:"很有用"
+            }
+          ]
+        }
+      ]
     }
   }
 
@@ -194,12 +242,19 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch } = this.props
+    const { selectProblem } = this.state;
     completePlan().then(res => {
       const { code, msg } = res
       if (code === 200) {
         if(msg === true)
         {
-          this.setState({showCompleteModal: true})
+          if(selectProblem.hasProblemScore){
+            // 已经评分
+            this.setState({showCompleteModal: true})
+          } else {
+            // 未评分
+            this.setState({showScoreModal: true})
+          }
         }else{
           dispatch(alertMsg('至少要完成所有的理解训练哦'))
         }
@@ -258,8 +313,32 @@ export class PlanMain extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/message/center' })
   }
 
+  submitScore(questionList){
+    console.log("提交:",questionList);
+    const { selectProblem } = this.state;
+    const { dispatch } = this.props;
+    let problemScores = questionList.map(item=>{
+      let selectedChoice;
+      item.choiceList.forEach(choice=>{
+        if(choice.selected){
+          selectedChoice = choice.id;
+        }
+      });
+      return {question:item.id,choice:selectedChoice};
+    });
+    dispatch(startLoad());
+    gradeProblem(problemScores,selectProblem.id).then(res=>{
+      dispatch(endLoad());
+      this.setState({ showCompleteModal: true, showScoreModal: false,selectProblem:merge({},selectProblem,{hasProblemScore:true})});
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(msg))
+    })
+
+  }
+
   render() {
-    const { planData, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
       deadline, status, currentSeries, totalSeries, series, openRise, newMessage
@@ -302,6 +381,7 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div>
+        { showScoreModal?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)} onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })} questionList={this.state.questionList}/>:null}
         { showCompleteModal ?
           <div className="mask">
             <div className="finished_modal">
