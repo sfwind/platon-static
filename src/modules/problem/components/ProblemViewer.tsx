@@ -54,17 +54,18 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="context">上图中，带数字编号的是你接下来<span className="problem-length">{problem.length}</span>天要学习的知识点。你每天会练习到其中的两个。这些知识点会以选择题和应用题的方式，来帮助你更好地掌握。</div>
             </div>
           </div>
-          { readonly ? <div className="button-footer" onClick={()=>closeModel()}>返回</div> :
-            <div className="button-footer">
-              <div className="left-footer" onClick={()=>closeModel()}>
-                返回
-              </div>
-              <div className="right-footer" onClick={()=>this.show()}>
-                选择
-              </div>
-            </div>
-          }
+
         </div>
+        { readonly ? <div className="button-footer" onClick={()=>closeModel()}>返回</div> :
+        <div className="button-footer">
+          <div className="left-footer" onClick={()=>closeModel()}>
+            返回
+          </div>
+          <div className="right-footer" onClick={()=>this.show()}>
+            选择
+          </div>
+        </div>
+          }
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
           <p>选择后，需要完成该专题，才能开启下一专题，想好了吗？</p>
