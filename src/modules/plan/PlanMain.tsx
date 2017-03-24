@@ -94,8 +94,15 @@ export class PlanMain extends React.Component <any, any> {
   componentWillMount(id) {
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    if (id !== undefined || location.query.series !== undefined) {
-      loadPlanHistory(id || location.query.series).then(res => {
+    let series;
+    if(id !== undefined && !isNaN(id)){
+      series =id
+    }else if(location.query.series !== undefined && !isNaN(location.query.series)){
+      series =location.query.series
+    }
+
+    if (series) {
+      loadPlanHistory(series).then(res => {
         dispatch(endLoad())
         let { code, msg } = res
         if (code === 200) {
@@ -105,7 +112,6 @@ export class PlanMain extends React.Component <any, any> {
               let { code, msg } = res
               if (code === 200) {
                 this.setState({selectProblem:msg})
-                window.location.href ="#series"
               }
             })
           } else {
@@ -463,7 +469,6 @@ export class PlanMain extends React.Component <any, any> {
           }
           </div>
           <div className="plan-guide">
-            <a name="series"/>
             <div className="section-title">{problem.problem}</div>
             <div className="section">
               <label>已解锁:</label> {currentIndex}/{totalSeries}组训练
@@ -476,7 +481,7 @@ export class PlanMain extends React.Component <any, any> {
             </div>
           </div>
         </div>
-        <div className="function-area">
+        <div className="function-menu">
           <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
             <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
             <span>专题分享</span>
