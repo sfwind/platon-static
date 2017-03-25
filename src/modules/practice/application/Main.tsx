@@ -22,6 +22,7 @@ export class Main extends React.Component <any, any> {
       submitId: 0,
       page:1,
       otherList:[],
+      otherHighlightList:[],
       goBackUrl: '',
     }
     this.pullElement=null;
@@ -118,7 +119,7 @@ export class Main extends React.Component <any, any> {
         // 已提交
         return loadOtherList(location.query.id, 1).then(res => {
           if (res.code === 200) {
-            this.setState({otherList: res.msg.list, page: 1, end:res.msg.end});
+            this.setState({otherList: res.msg.list, otherHighlightList:res.msg.highlightList, page: 1, end:res.msg.end});
           } else {
             dispatch(alertMsg(res.msg));
           }
@@ -179,13 +180,12 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { data,otherList, knowledge = {}, showKnowledge, end } = this.state
-    const { voice, pic, description, content, submitUpdateTime,voteCount,commentCount,submitId,voteStatus } = data
+    const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end } = this.state
+    const { voice, description, content,voteCount,submitId,voteStatus } = data
 
-
-    const renderOtherList = ()=>{
-      if(content && otherList){
-        return otherList.map((item,seq)=>{
+    const renderList = (list)=>{
+      if(content && list){
+        return list.map((item,seq)=>{
           return (
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,false,seq)}  {...item}
                   goComment={()=>this.goComment(item.submitId)}/>
@@ -262,8 +262,8 @@ export class Main extends React.Component <any, any> {
             <div ref="workContainer" className="work-container">
               <div className="submit-bar">{ content === null?'提交方式':'我的作业'}</div>
               {renderContent()}
-              {content?<div className="submit-bar">群众的智慧</div>:null}
-              {renderOtherList()}
+              {content && otherHighlightList?<div><div className="submit-bar">{'管理员推荐'}</div>{renderList(otherHighlightList)}</div>:null}
+              {content && otherList?<div><div className="submit-bar">{'最新文章'}</div>{renderList(otherList)}</div>:null}
               {renderTips()}
             </div>
           </div>
