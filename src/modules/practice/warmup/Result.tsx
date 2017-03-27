@@ -63,10 +63,12 @@ export class Result extends React.Component <any, any> {
                 <div className="section-title">答对题数</div>
                 <div className="count-circle">
                   <div className="context-img">
-                    {rightNumber==='3' ? <AssetImg url="http://www.iqycamp.com/images/answer3_3.png" />: null}
-                    {rightNumber==='2' ? <AssetImg url="http://www.iqycamp.com/images/answer2_3.png" />: null}
-                    {rightNumber==='1' ? <AssetImg url="http://www.iqycamp.com/images/answer1_3.png" />: null}
-                    {rightNumber==='0' ? <AssetImg url="http://www.iqycamp.com/images/answer0_3.png" />: null}
+                    <div style={{marginLeft:'-15px'}}>
+                    {rightNumber==='3' ? <AssetImg width={375} height={210} url="http://www.iqycamp.com/images/answer3_3.png" />: null}
+                    {rightNumber==='2' ? <AssetImg width={375} height={210} url="http://www.iqycamp.com/images/answer2_3.png" />: null}
+                    {rightNumber==='1' ? <AssetImg width={375} height={210} url="http://www.iqycamp.com/images/answer1_3.png" />: null}
+                    {rightNumber==='0' ? <AssetImg width={375} height={210} url="http://www.iqycamp.com/images/answer0_3.png" />: null}
+                    </div>
                   </div>
                 </div>
               </div>
