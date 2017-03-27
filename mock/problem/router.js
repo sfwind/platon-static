@@ -95,4 +95,12 @@ router.get("/rise/problem/get/*", (req, res) => {
 		}), Math.random() * 1500)
 });
 
+router.post("/rise/problem/grade/*", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg":"ok"
+        }), Math.random() * 1500)
+});
+
 module.exports = router;

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import "./Result.less";
 import { loadKnowledgeIntro, loadWarmUpNext } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import AssetImg from "../../../components/AssetImg";
 
 @connect(state => state)
 export class Result extends React.Component <any, any> {
@@ -55,13 +56,18 @@ export class Result extends React.Component <any, any> {
           <div className="warm-up-result">
             <div className="page-header">{knowledge}</div>
             <div className="intro-container">
-              <div className="context-img">
-                <img src="http://www.iqycamp.com/images/fragment/practice_start.png" alt=""/>
-              </div>
+              {/*<div className="context-img">*/}
+                {/*<img src="http://www.iqycamp.com/images/fragment/practice_start.png" alt=""/>*/}
+              {/*</div>*/}
               <div className="section">
                 <div className="section-title">答对题数</div>
                 <div className="count-circle">
-                  <span className="count-main">{rightNumber}</span><span className="count-sub">/ 3</span>
+                  <div className="context-img">
+                    {rightNumber==='3' ? <AssetImg url="http://www.iqycamp.com/images/answer3_3.png" />: null}
+                    {rightNumber==='2' ? <AssetImg url="http://www.iqycamp.com/images/answer2_3.png" />: null}
+                    {rightNumber==='1' ? <AssetImg url="http://www.iqycamp.com/images/answer1_3.png" />: null}
+                    {rightNumber==='0' ? <AssetImg url="http://www.iqycamp.com/images/answer0_3.png" />: null}
+                  </div>
                 </div>
               </div>
               <div className="section">

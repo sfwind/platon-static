@@ -34,7 +34,7 @@ router.get("/rise/plan/load", (req, res) => {
 				"endDate": "2016-12-31",
 				"closeDate": "2017-01-07",
 				"currentSeries": 2, //当前题组
-				"series": 2, //当前题组
+				"series": 7, //当前题组
 				"totalSeries": 7,  //总题组
 				"warmupComplete": 3, //结束的热身训练
 				"applicationComplete": 2, //结束的应用训练

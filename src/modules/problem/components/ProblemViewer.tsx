@@ -24,10 +24,6 @@ export default class ProblemViewer extends React.Component<any, any> {
     }
   }
 
-  componentWillMount() {
-    console.log('mount');
-  }
-
   show() {
     this.setState({showAlert: true})
   }
@@ -58,10 +54,10 @@ export default class ProblemViewer extends React.Component<any, any> {
         </div>
         { readonly ? <div className="button-footer" onClick={()=>closeModel()}>返回</div> :
         <div className="button-footer">
-          <div className="left-footer" onClick={()=>closeModel()}>
+          <div className="left" onClick={()=>closeModel()}>
             返回
           </div>
-          <div className="right-footer" onClick={()=>this.show()}>
+          <div className="right" onClick={()=>this.show()}>
             选择
           </div>
         </div>
