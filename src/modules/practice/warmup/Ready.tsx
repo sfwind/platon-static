@@ -67,7 +67,6 @@ export class Ready extends React.Component <any, any> {
               </div>
               <div className="choice start"
                    onClick={this.onSubmit.bind(this)}>
-                开始训练
               </div>
             </div>
           </div>

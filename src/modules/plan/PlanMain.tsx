@@ -390,23 +390,22 @@ export class PlanMain extends React.Component <any, any> {
         { showScoreModal?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)} onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })} questionList={this.state.questionList}/>:null}
         { showCompleteModal ?
           <div className="mask">
-            <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/finish_modal2.png"/>
-              <div className="modal_context">
-                <div className="content">
-                  <div className="text2">太棒了!</div>
-                  <div className="text">你完成了本专题全部必做训练</div>
-                </div>
-                <div className="content2">
-                  已得<span className="number">{point}</span>积分
-                </div>
-                {/**<div className="button">分享一下</div>**/}
-                <div className="modal-button-footer complete">
-                  <div className="left" onClick={this.confirm.bind(this)}>
-                    下一专题
+            <div className="finished-modal">
+              <AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>
+              <div className="modal-context">
+                  <div className="content">
+                    <div className="text2">太棒了!</div>
+                    <div className="text">你完成了本专题全部必做训练</div>
                   </div>
-                  <div className="right" onClick={this.closeCompleteModal.bind(this)}>取消
+                  <div className="content2">
+                    已得<span className="number">{point}</span>积分
                   </div>
+              </div>
+              <div className="modal-button-footer">
+                <div className="left" onClick={this.confirm.bind(this)}>
+                  下一专题
+                </div>
+                <div className="right" onClick={this.closeCompleteModal.bind(this)}>取消
                 </div>
               </div>
             </div>
@@ -414,9 +413,9 @@ export class PlanMain extends React.Component <any, any> {
           : null }
         { showConfirmModal ?
           <div className="mask">
-            <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/finish_modal2.png"/>
-              <div className="modal_context">
+            <div className="finished-modal">
+              <div className="modal-header"/>
+              <div className="modal-context">
                 <div className="content">
                   <div className="text">确定开始新专题吗</div>
                   <div className="text">当前专题的理解训练将无法查看</div>
@@ -424,13 +423,12 @@ export class PlanMain extends React.Component <any, any> {
                 <div className="content2">
                   <div className="text">（PC端应用训练仍然开放）</div>
                 </div>
-                {/**<div className="button">分享一下</div>**/}
-                <div className="modal-button-footer confirm">
-                  <div className="left" onClick={this.nextPlan.bind(this)}>
-                    确定
-                  </div>
-                  <div className="right" onClick={this.closeConfirmModal.bind(this)}>取消</div>
+              </div>
+              <div className="modal-button-footer">
+                <div className="left" onClick={this.nextPlan.bind(this)}>
+                  确定
                 </div>
+                <div className="right" onClick={this.closeConfirmModal.bind(this)}>取消</div>
               </div>
             </div>
           </div>
@@ -442,19 +440,18 @@ export class PlanMain extends React.Component <any, any> {
           :null}
         { status === 3 ?
           <div className="mask">
-            <div className="finished_modal">
-              <AssetImg width={290} height={410} url="http://www.iqycamp.com/images/fragment/expire_modal2.png"/>
-              <div className="modal_context">
+            <div className="finished-modal">
+              <div className="modal-header"/>
+              <div className="modal-context">
                 <div className="content"><div className="text">本专题已到期</div></div>
                 <div className="content2">
                   <div className="text">登录</div>
                   <div className="text">www.iquanwai.com/community</div>
                   <div className="text">可继续完成专题/应用训练</div>
                 </div>
-                {/**<div className="button">分享一下</div>**/}
-                <div className="modal-button-footer complete">
-                  <div className="button" onClick={this.nextPlan.bind(this)}>开始新专题
-                  </div>
+              </div>
+              <div className="modal-button-footer">
+                <div className="button" onClick={this.nextPlan.bind(this)}>开始新专题
                 </div>
               </div>
             </div>
@@ -491,7 +488,6 @@ export class PlanMain extends React.Component <any, any> {
             <span>专题详情</span>
           </div>
         </div>
-        {/**<div className="button-footer" onClick={this.nextTask.bind(this)}>开始</div>**/}
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>
           : <div className="container has-footer"
                  style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f5f5f5'}}>

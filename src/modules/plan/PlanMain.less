@@ -118,19 +118,12 @@
 
 .modal-button-footer {
   display: block;
-  position: inherit;
   font-size: 20px;
   width: 100%;
   height: @button_footer_height;
   text-align: center;
   line-height: @button_footer_height;
   color: white;
-  &.complete {
-    margin-top: 52px;
-  }
-  &.confirm {
-    margin-top: 42px;
-  }
   > .left {
     display: inline-block;
     width: ~"calc(50% - 1px)";
@@ -139,7 +132,7 @@
     background-image:url('http://www.iqycamp.com/images/left_button_bg.png');
     border-radius: 0 0 0 5px;
     &.disabled {
-      background-color: #cccccc;
+      background: #cccccc;
     }
   }
   > .right {
@@ -149,17 +142,17 @@
     background-image:url('http://www.iqycamp.com/images/right_button_bg.png');
     border-radius: 0 0 5px 0;
     &.disabled {
-      background-color: #cccccc;
+      background: #cccccc;
     }
   }
 
   > .button {
     width: 100%;
     background-size:100% 100%;
-    background-image:url('http://www.iqycamp.com/images/bottom_button_bg.png');
+    background-image:url('http://www.iqycamp.com/images/bottom_button_bg2.png');
     border-radius: 0 0 5px 5px;
     &.disabled {
-      background-color: #cccccc;
+      background: #cccccc;
     }
   }
 }
@@ -170,22 +163,24 @@
   z-index: 100;
   width: 100%;
   height: 100%;
-  > .finished_modal {
-    > img {
-      position: absolute;
-      left: 50%;
-      margin-left: -145px;
-      top: 50%;
-      margin-top: -205px;
+  > .finished-modal {
+    background-color: #ffffff;
+    position: fixed;
+    top:20%;
+    width: 280px;
+    height: 308px;
+    left: 50%;
+    margin-left: -140px;
+    text-align: center;
+    border-radius: 5px;
+    > img{
+      margin-top: -53px;
     }
-    > .modal_context {
-      width: 290px;
-      position: absolute;
-      left: 50%;
-      margin-left: -145px;
-      top: 50%;
-      margin-top: -55px;
-      text-align: center;
+    > .modal-header{
+      height: 30px;
+    }
+    > .modal-context {
+      height: 198px;
       > .title {
         font-size: 13px;
         color: @color_context;

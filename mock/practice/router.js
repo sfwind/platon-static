@@ -249,7 +249,7 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"knowledgeId": 1,
 				"sceneId": 1,
 				"difficulty": null,
-        "content": "评论评论", //提交内容
+        "content": null,
         "submitId": 1, //提交id
         "submitUpdateTime": "2017-02-15" ,//最后提交时间
         "voteCount": 0,
@@ -269,7 +269,7 @@ router.get("/rise/practice/challenge/start/*", (req, res) => {
 				"pic": "http://www.iquanwai.com/images/cintro1.png",  //图片url
 				"problemId": 1, //问题id
 				"pcurl": "http://someurl", //pc端url
-				"content": "balbal", //提交内容
+				"content": null, //提交内容
         "submitId": 1, //提交id
         "submitUpdateTime": "2017-02-15" //最后提交时间
 			}

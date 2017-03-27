@@ -13,7 +13,6 @@ export default class DiscussShow extends React.Component <any, any> {
   render() {
     const { discuss, reply } = this.props
     const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,warmupPracticeId } = discuss
-    console.log(warmupPracticeId)
     return (
         <div key={id} className="comment-cell">
           <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>

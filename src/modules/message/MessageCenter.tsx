@@ -175,7 +175,7 @@ export class MessageCenter extends React.Component <any, any> {
           }
         </div>}
 
-        <div className="button-footer fix" onClick={this.back.bind(this)}>返回</div>
+        <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
 
       </div>
     )

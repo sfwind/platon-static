@@ -140,13 +140,13 @@ export class Example extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container" style={{height: window.innerHeight - 75}}>
+        <div className="container has-footer" style={{height: window.innerHeight - 75}}>
           <div className="warm-up">
             <div className="page-header">{knowledge.knowledge}</div>
             {questionRender(data)}
           </div>
         </div>
-        <div className="button-submit" onClick={this.onSubmit.bind(this)}>提交</div>
+        <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
       </div>
     )
