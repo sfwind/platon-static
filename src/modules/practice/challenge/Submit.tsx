@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import {loadChallengePractice, submitChallengePractice, loadChallengePractice} from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import Editor from "../../../components/Editor/Editor"
 
 @connect(state => state)
 export class Submit extends React.Component<any, any> {
@@ -35,7 +36,8 @@ export class Submit extends React.Component<any, any> {
 
   onSubmit(){
     const { dispatch, location} = this.props
-    const { data, answer } = this.state
+    const { data } = this.state
+    const answer = this.refs.editor.getValue();
     const { submitId } = data
     if(answer == null || answer.length === 0){
       dispatch(alertMsg('请填写作业'))
@@ -70,10 +72,12 @@ export class Submit extends React.Component<any, any> {
           <p>选择这个专题，你是想实现什么目标呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
           <p>建议在未来几天的学习中，也在这个任务里记录下通过学习实现目标的情况。</p>
         </div>
-        <textarea className="submit-area" cols="30" rows="10" height="500px"
-                    value={this.state.answer}
-                    placeholder="离开页面前请提交，以免内容丢失。"
-                    onChange={(e) => this.setState({answer: e.currentTarget.value})}></textarea>
+        <Editor ref="editor" defaultValue={this.state.answer} placeholder="离开页面前请提交，以免内容丢失。"/>
+
+        {/*<textarea className="submit-area" cols="30" rows="10" height="500px"*/}
+                    {/*value={this.state.answer}*/}
+                    {/*placeholder="离开页面前请提交，以免内容丢失。"*/}
+                    {/*onChange={(e) => this.setState({answer: e.currentTarget.value})}></textarea>*/}
         { showDisable ?
           <div className="submit-button disabled">提交中</div>
           :
