@@ -402,7 +402,7 @@ export class PlanMain extends React.Component <any, any> {
                   已得<span className="number">{point}</span>积分
                 </div>
                 <div className="content2">
-                  打败了<span className="number">{defeatPercent}%</span>学习本专题的Riser
+                  打败了<span className="number">{defeatPercent}%</span>的Riser
                 </div>
               </div>
               <div className="modal-button-footer">
