@@ -32,6 +32,7 @@ export class PlanMain extends React.Component <any, any> {
       currentIndex: 0,
       showProblem: false,
       selectProblem: {},
+      defeatPercent:0,
       questionList:[
         {
           id:1,
@@ -252,14 +253,14 @@ export class PlanMain extends React.Component <any, any> {
     completePlan().then(res => {
       const { code, msg } = res
       if (code === 200) {
-        if(msg === true)
+        if(msg.iscomplete === true)
         {
           if(selectProblem.hasProblemScore){
             // 已经评分
-            this.setState({showCompleteModal: true})
+            this.setState({showCompleteModal: true, defeatPercent:msg.percent})
           } else {
             // 未评分
-            this.setState({showScoreModal: true})
+            this.setState({showScoreModal: true, defeatPercent:msg.percent})
           }
         }else{
           dispatch(alertMsg('至少要完成所有的理解训练哦'))
@@ -338,13 +339,13 @@ export class PlanMain extends React.Component <any, any> {
       this.setState({ showCompleteModal: true, showScoreModal: false,selectProblem:merge({},selectProblem,{hasProblemScore:true})});
     }).catch(ex=>{
       dispatch(endLoad());
-      dispatch(alertMsg(msg))
+      dispatch(alertMsg(ex))
     })
 
   }
 
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem, defeatPercent } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
       deadline, status, currentSeries, totalSeries, series, openRise, newMessage
@@ -393,13 +394,16 @@ export class PlanMain extends React.Component <any, any> {
             <div className="finished-modal">
               <AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>
               <div className="modal-context">
-                  <div className="content">
-                    <div className="text2">太棒了!</div>
-                    <div className="text">你完成了本专题全部必做训练</div>
-                  </div>
-                  <div className="content2">
-                    已得<span className="number">{point}</span>积分
-                  </div>
+                <div className="content">
+                  <div className="text2">太棒了!</div>
+                </div>
+                <div className="content2">你完成了本专题</div>
+                <div className="content2">
+                  已得<span className="number">{point}</span>积分
+                </div>
+                <div className="content2">
+                  打败了<span className="number">{defeatPercent}%</span>的Riser
+                </div>
               </div>
               <div className="modal-button-footer">
                 <div className="left" onClick={this.confirm.bind(this)}>
