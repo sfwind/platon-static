@@ -3,6 +3,7 @@ import "./Editor.less"
 import $ from "jquery"
 import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
+import {isFunction} from "lodash";
 
 export default class Editor extends React.Component<any,any>{
   constructor(props){
@@ -20,12 +21,11 @@ export default class Editor extends React.Component<any,any>{
       limitSize: 5,   // 兆
       showServer: true,
       uploadUrl: '/rise/file/editor/image/upload/2',
-      data: { },
       formInputId:'target',
       uploadField: 'file',
       placeholader: '<p>离开页面前请提交，以免内容丢失。</p>',
       validHtml: [],
-      uploadSuccess: function(res) {
+      uploadSuccess: (res)=> {
         // 这里是处理返回数据业务逻辑的地方
         // `res`为服务器返回`status==200`的`response`
         // 如果这里`return <path>`将会以`<img src='path'>`的形式插入到页面
@@ -34,13 +34,30 @@ export default class Editor extends React.Component<any,any>{
         // 麻烦返回 `false`
         // 当然如果`showServer==false`
         // 无所谓咯
-        console.log(res);
-        return res.path;
+        try {
+          console.log(res);
+          if (res.code === 200) {
+            console.log('200');
+            return res.msg.picUrl;
+          } else {
+            console.log('not',res.code);
+            return false;
+          }
+        } catch (e){
+          console.log(e);
+          if(isFunction(this.props.onUploadError)){
+            this.props.onUploadError(e);
+          }
+          return false
+        }
       },
       uploadError: function(res) {
         //这里做上传失败的操作
         //也就是http返回码非200的时候
         console.log(res);
+        if(isFunction(this.props.onUploadError)){
+          this.props.onUploadError(e);
+        }
       }
     });
     this.setState({editor:editor});

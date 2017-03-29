@@ -23,6 +23,7 @@ export class Submit extends React.Component<any, any> {
 
   componentWillMount() {
     const {dispatch, location } = this.props
+    dispatch(startLoad());
     loadChallengePractice(location.query.id).then(res => {
       dispatch(endLoad())
       const { code, msg } = res

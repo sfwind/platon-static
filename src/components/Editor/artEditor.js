@@ -3,7 +3,7 @@
  * @author ganzw@gmail.com
  * @url    https://github.com/baixuexiyang/artEditor
  */
-module.exports = function init($){
+module.exports = function init($) {
   $.fn.extend({
     _opt: {
       placeholader: '<p>请输入文章正文内容</p>',
@@ -37,12 +37,14 @@ module.exports = function init($){
             var data = f.target.result,
               img = new Image();
             img.src = f.target.result;
-            if(_this._opt.compressSize && Math.ceil(file.size / 1024 / 1024) > _this._opt.compressSize) {
+            if (_this._opt.compressSize && Math.ceil(file.size / 1024 / 1024) > _this._opt.compressSize) {
               console.log("压缩");
               data = _this.compressHandler(img);
             }
             if (_this._opt.showServer) {
-              _this.upload(data);
+              console.log(file);
+              _this.upload(file);
+              // _this.upload(data);
               return;
             }
             var image = '<img src="' + data + '" style="width:90%;" />';
@@ -60,7 +62,7 @@ module.exports = function init($){
         });
       }
     },
-    compressHandler: function(img) {
+    compressHandler: function (img) {
       var canvas = document.createElement("canvas");
       var ctx = canvas.getContext('2d');
       var tCanvas = document.createElement("canvas");
@@ -103,23 +105,35 @@ module.exports = function init($){
     upload: function (data) {
       var _this = this, filed = _this._opt.uploadField;
       var formData = new FormData();
-      formData.append(filed,data);
+      formData.append(filed, data);
+      if (_this._opt.data) {
+        for (key in _this._opt.data) {
+          if (_this._opt.data.hasOwnProperty(key)) {
+            console.log(key, _this._opt.data[key]);
+            formData.append(key, _this._opt.data[key]);
+          }
+        }
+      }
       $.ajax({
         url: _this._opt.uploadUrl,
         type: 'post',
         data: formData,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
         cache: false,
       }).then(function (res) {
-          var src = _this._opt.uploadSuccess(res);
-          if (src) {
-            var img = '<img src="' + src + '" style="width:90%;" />';
-            _this.insertImage(img);
-          } else {
-            console.log('地址为空啊!大兄弟', src)
-          }
-        }, function (error) {
-          _this._opt.uploadError(error.status,error);
-        })
+        var src = _this._opt.uploadSuccess(res);
+        console.log('src', src);
+        if (src) {
+          var img = '<img src="' + src + '" style="width:90%;" />';
+          _this.insertImage(img);
+        } else {
+          console.log('地址为空啊!大兄弟', src)
+        }
+      }, function (error) {
+        _this._opt.uploadError(error.status, error);
+      })
 
     },
     insertImage: function (src) {
@@ -155,7 +169,7 @@ module.exports = function init($){
     pasteHandler: function () {
       var _this = this;
       $(this).on("paste", function (e) {
-        console.log(e.clipboardData.items);
+        console.log(e);
         var content = $(this).html();
         console.log(content);
         valiHTML = _this._opt.validHtml;

@@ -10,13 +10,23 @@ export default class Work extends React.Component<any,any> {
 
   constructor(props) {
     super(props);
+
     this.state = {
       showAll: false,
+      filterContent:isString(props.content)?props.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
     }
   }
 
   componentDidUpdate(){
 
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.content && !this.props.content){
+      this.setState({
+        filterContent:isString(nextProps.content)?nextProps.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
+      })
+    }
   }
 
   render() {
@@ -25,17 +35,17 @@ export default class Work extends React.Component<any,any> {
       voteStatus,onVoted,goComment,wordsCount=60,
       title,avatarStyle = 'left',
       operation=true,picList=[]} = this.props;
-    const {showAll} = this.state;
+    const {showAll,filterContent} = this.state;
 
     const renderWorkContent = ()=>{
       if(isString(content)){
-        if(content.length>wordsCount && !showAll){
+        if(filterContent.length>wordsCount && !showAll){
           return (
-            <pre className={`${avatarStyle}`}>{truncate(content,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></pre>
+            <pre className={`${avatarStyle}`}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></pre>
           )
         } else {
           return (
-            <pre className={`${avatarStyle}`}>{content}</pre>
+            <div className={`${avatarStyle}`} dangerouslySetInnerHTML={{__html:content}}/>
           )
         }
       }
@@ -44,7 +54,7 @@ export default class Work extends React.Component<any,any> {
 
     const showOperation = ()=>{
       if(operation){
-        if(content && content.length<wordsCount){
+        if(filterContent && filterContent.length<wordsCount){
           return true;
         } else
           return showAll;
@@ -80,8 +90,8 @@ export default class Work extends React.Component<any,any> {
             {renderHeader()}
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content">{renderWorkContent()}</div>
-            {content && content.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
-            <div className="pic-list">{picList &&  !(content && content.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
+            {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
+            <div className="pic-list">{picList &&  !(filterContent && filterContent.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
               return (
                 <img className="pic" src={`${item}`}  onClick={() => preview(item, picList)} />
               )
