@@ -6,7 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
-import SubmitBox from "../components/SubmitBox"
+import SubmitBox from "../components/RichSubmitBox"
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
 
 @connect(state => state)

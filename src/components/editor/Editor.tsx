@@ -25,6 +25,11 @@ export default class Editor extends React.Component<any,any>{
       uploadField: 'file',
       placeholader: '<p>离开页面前请提交，以免内容丢失。</p>',
       validHtml: [],
+      uploadStart:()=>{
+        if(this.props.uploadStart){
+          this.props.uploadStart();
+        }
+      },
       uploadSuccess: (res)=> {
         // 这里是处理返回数据业务逻辑的地方
         // `res`为服务器返回`status==200`的`response`
@@ -35,16 +40,15 @@ export default class Editor extends React.Component<any,any>{
         // 当然如果`showServer==false`
         // 无所谓咯
         try {
-          console.log(res);
+          if(isFunction(this.props.uploadEnd)){
+            this.props.uploadEnd();
+          }
           if (res.code === 200) {
-            console.log('200');
             return res.msg.picUrl;
           } else {
-            console.log('not',res.code);
             return false;
           }
         } catch (e){
-          console.log(e);
           if(isFunction(this.props.onUploadError)){
             this.props.onUploadError(e);
           }
@@ -58,8 +62,14 @@ export default class Editor extends React.Component<any,any>{
         if(isFunction(this.props.onUploadError)){
           this.props.onUploadError(e);
         }
+        if(isFunction(this.props.uploadEnd)){
+          this.props.uploadEnd();
+        }
       }
     });
+    if(this.props.defaultValue){
+      editor.setValue(this.props.defaultValue);
+    }
     this.setState({editor:editor});
   }
 

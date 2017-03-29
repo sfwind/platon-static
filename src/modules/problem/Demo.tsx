@@ -1,5 +1,5 @@
 import * as React from "react";
-import Editor from "../../components/Editor/Editor"
+import Editor from "../../components/editor/Editor"
 
 export default class Demo extends React.Component<any,any>{
   constructor(){

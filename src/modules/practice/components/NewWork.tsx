@@ -38,6 +38,7 @@ export default class Work extends React.Component<any,any> {
     const {showAll,filterContent} = this.state;
 
     const renderWorkContent = ()=>{
+      console.log(filterContent.length,wordsCount);
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
           return (

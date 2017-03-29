@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import {loadChallengePractice, submitChallengePractice, loadChallengePractice} from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import Editor from "../../../components/Editor/Editor"
+import Editor from "../../../components/editor/Editor"
 
 @connect(state => state)
 export class Submit extends React.Component<any, any> {
