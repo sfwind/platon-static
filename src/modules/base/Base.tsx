@@ -34,7 +34,7 @@ export default class Main extends React.Component<any, any> {
 
 	render() {
 		return (
-			<div>
+			<div className={`${isPending(this.props, LOAD_KEY)?'over-hidden':''}`}>
 				{this.props.children}
 				<Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
 					加载中...

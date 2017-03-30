@@ -70,7 +70,7 @@ export class Submit extends React.Component<any, any> {
       <div className="submit">
         <div className="description" dangerouslySetInnerHTML={{__html: description}}>
         </div>
-        <Editor ref="editor" defaultValue={this.state.answer} placeholder="离开页面前请提交，以免内容丢失。"/>
+        <Editor ref="editor" uploadStart={()=>{this.props.dispatch(startLoad())}} uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={this.state.answer} placeholder="离开页面前请提交，以免内容丢失。"/>
 
         {/*<textarea className="submit-area" cols="30" rows="10" height="500px"*/}
                     {/*value={this.state.answer}*/}
