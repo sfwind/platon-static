@@ -18,12 +18,12 @@ export default class Editor extends React.Component<any,any>{
     let editor = $('#content');
     editor.artEditor({
       imgTar: '#imageUpload',
-      limitSize: 5,   // 兆
+      limitSize: 10,   // 兆
       showServer: true,
       uploadUrl: '/rise/file/editor/image/upload/2',
       formInputId:'target',
       uploadField: 'file',
-      placeholader: '<p>离开页面前请提交，以免内容丢失。</p>',
+      placeholader: '<p style="font-size:13px;color:#cccccc; ">离开页面前请提交，以免内容丢失。</p>',
       validHtml: [],
       uploadStart:()=>{
         if(this.props.uploadStart){
