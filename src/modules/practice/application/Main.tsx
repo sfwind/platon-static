@@ -9,7 +9,7 @@ import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
-import {findIndex,remove} from "lodash";
+import {findIndex,remove, isEmpty} from "lodash";
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -262,8 +262,8 @@ export class Main extends React.Component <any, any> {
             <div ref="workContainer" className="work-container">
               <div className="submit-bar">{ content === null?'提交方式':'我的作业'}</div>
               {renderContent()}
-              {content && !_.isEmpty(otherHighlightList)?<div><div className="submit-bar">{'管理员推荐'}</div>{renderList(otherHighlightList)}</div>:null}
-              {content && !_.isEmpty(otherList)?<div><div className="submit-bar">{'最新文章'}</div>{renderList(otherList)}</div>:null}
+              {content && !isEmpty(otherHighlightList)?<div><div className="submit-bar">{'管理员推荐'}</div>{renderList(otherHighlightList)}</div>:null}
+              {content && !isEmpty(otherList)?<div><div className="submit-bar">{'最新文章'}</div>{renderList(otherList)}</div>:null}
               {renderTips()}
             </div>
           </div>
