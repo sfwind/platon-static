@@ -27,7 +27,7 @@ export class Submit extends React.Component<any, any> {
     loadChallengePractice(location.query.id).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
-      if (code === 200)  this.setState({ data: msg, submitId: msg.submitId, answer: msg.content })
+      if (code === 200)  this.setState({ data: msg, submitId: msg.submitId, answer: msg.content,planId:msg.planId })
       else dispatch(alertMsg(msg))
     }).catch(ex => {
       dispatch(endLoad())
@@ -37,7 +37,7 @@ export class Submit extends React.Component<any, any> {
 
   onSubmit(){
     const { dispatch, location} = this.props
-    const { data } = this.state
+    const { data,planId } = this.state
     const answer = this.refs.editor.getValue();
     const { submitId } = data
     if(answer == null || answer.length === 0){
@@ -45,7 +45,7 @@ export class Submit extends React.Component<any, any> {
       return
     }
     this.setState({showDisable: true})
-    submitChallengePractice(submitId, {answer}).then(res => {
+    submitChallengePractice(planId,location.query.id, {answer}).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
@@ -73,7 +73,7 @@ export class Submit extends React.Component<any, any> {
           <p>选择这个专题，你是想实现什么目标呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
           <p>建议在未来几天的学习中，也在这个任务里记录下通过学习实现目标的情况。</p>
         </div>
-        <Editor ref="editor" onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}} uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={this.state.answer} placeholder="离开页面前请提交，以免内容丢失。"/>
+        <Editor ref="editor" moduleId={2} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}} uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={this.state.answer} placeholder="离开页面前请提交，以免内容丢失。"/>
 
         {/*<textarea className="submit-area" cols="30" rows="10" height="500px"*/}
                     {/*value={this.state.answer}*/}

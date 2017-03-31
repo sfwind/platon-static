@@ -12,8 +12,8 @@ export function loadWarmUpNext(id) {
   return pget(`/rise/practice/next/${id}`)
 }
 
-export function submitApplicationPractice(submitId, params) {
-  return ppost(`/rise/practice/application/submit/${submitId}`, params)
+export function submitApplicationPractice(planId,applicationId, params) {
+  return ppost(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
 }
 
 export function vote(referencedId){

@@ -342,7 +342,7 @@ export class Main extends React.Component <any, any> {
           <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
         <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
-        {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}
+        {showDiscuss ?<SubmitBox moduleId={4} height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}
                                  onSubmit={(content,title,labels)=>this.onSubmit(content,title,labels)} desc={this.state.desc}
                                  defaultTitle={this.state.defaultTitle} defaultContent={this.state.defaultContent}
                                  labels={this.state.labels} defaultLabels={this.state.defaultLabels}

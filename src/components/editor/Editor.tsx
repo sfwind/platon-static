@@ -20,7 +20,7 @@ export default class Editor extends React.Component<any,any>{
       imgTar: '#imageUpload',
       limitSize: 10,   // 兆
       showServer: true,
-      uploadUrl: '/rise/file/editor/image/upload/2',
+      uploadUrl: `/rise/file/editor/image/upload/${this.props.moduleId || 2}`,
       formInputId:'target',
       uploadField: 'file',
       placeholader: '<p style="font-size:13px;color:#cccccc; ">离开页面前请提交，以免内容丢失。</p>',
