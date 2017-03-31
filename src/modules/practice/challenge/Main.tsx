@@ -182,7 +182,7 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderContent = ()=>{
-      if(isNull(content)) {
+      if(!content) {
         return (<div className="no-comment">
           <AssetImg type="mobile" height={65} marginTop={15}/>
           <div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>
