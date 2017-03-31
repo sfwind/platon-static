@@ -92,11 +92,11 @@ export default class Work extends React.Component<any,any> {
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content">{renderWorkContent()}</div>
             {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
-            <div className="pic-list">{picList &&  !(filterContent && filterContent.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
+            {/*<div className="pic-list">{picList &&  !(filterContent && filterContent.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
               return (
                 <img className="pic" src={`${item}`}  onClick={() => preview(item, picList)} />
               )
-            }):null}</div>
+            }):null}</div>*/}
             {showOperation()?<div className={`operation-area ${avatarStyle}`}>
               <div onClick={()=>{isFunction(onVoted)?onVoted():null;}} className="vote">
                 <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
