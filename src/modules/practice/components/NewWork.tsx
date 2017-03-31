@@ -17,15 +17,45 @@ export default class Work extends React.Component<any,any> {
     }
   }
 
-  componentDidUpdate(){
-
+  disOpen(filterContent,showAll){
+    const { wordsCount=60 } = this.props;
+    return filterContent.length>wordsCount && !showAll;
   }
+
+  componentDidUpdate(preProps,preState){
+    const {showAll,filterContent} = this.state;
+    // 当前打开，但是之前未打开
+    if(!this.disOpen(filterContent,showAll) && this.disOpen(preState.filterContent,preState.showAll)){
+      console.log('didUpadte',this.refs.submitContent);
+    }
+  }
+  componentDidMount(){
+    console.log('mount',);
+    const images = this.refs.submitContent.querySelectorAll('img')
+    this.imgPreview(images);
+  }
+
+  imgPreview(imgs=[]){
+    imgs.forEach(item=>{
+      item.addEventListener('click',(e)=>{console.log(e);console.log('ok')})
+      console.log(item);
+    })
+  }
+
 
   componentWillReceiveProps(nextProps){
     if(nextProps.content && !this.props.content){
       this.setState({
         filterContent:isString(nextProps.content)?nextProps.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
       })
+    }
+  }
+
+  contentClick(e){
+    if(e.target.tagName === 'IMG'){
+      let item = [e.target.src]
+      let picList = Array.from(this.refs.submitContent.querySelectorAll('img')).map(item=>item.src);
+      preview(item, picList)
     }
   }
 
@@ -36,9 +66,7 @@ export default class Work extends React.Component<any,any> {
       title,avatarStyle = 'left',
       operation=true,picList=[]} = this.props;
     const {showAll,filterContent} = this.state;
-
     const renderWorkContent = ()=>{
-      console.log(filterContent.length,wordsCount);
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
           return (
@@ -84,13 +112,15 @@ export default class Work extends React.Component<any,any> {
       )
     }
 
+
+
     return (
       <div className={`new-work`} >
         <div className="submit-cell">
           <div className="submit-area">
             {renderHeader()}
             {title?<div className="submit-title">{title}</div>:null}
-            <div className="submit-content">{renderWorkContent()}</div>
+            <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
             {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
             {/*<div className="pic-list">{picList &&  !(filterContent && filterContent.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
               return (
