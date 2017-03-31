@@ -228,6 +228,8 @@ export class PlanMain extends React.Component <any, any> {
       return
     }
     this.context.router.push({ pathname: this.props.location.pathname, query: { series: series - 1 } })
+
+    this.refs.plan.scrollTop = 0
   }
 
   next() {
@@ -245,6 +247,8 @@ export class PlanMain extends React.Component <any, any> {
     } else {
       this.context.router.push({ pathname: this.props.location.pathname, query: { series: series + 1 } })
     }
+
+    this.refs.plan.scrollTop = 0
   }
 
   complete() {
@@ -493,7 +497,7 @@ export class PlanMain extends React.Component <any, any> {
           </div>
         </div>
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>
-          : <div className="container has-footer"
+          : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress"><div className="bar"></div><span>第{series}组</span><div className="bar"></div></div>
           <div className="plan-main">
