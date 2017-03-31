@@ -144,7 +144,7 @@ export class Comment extends React.Component<any,any>{
         return (
           commentList.map((item,seq)=>{
             return (
-              <div className="comment-cell">
+              <div className="comment-cell subject">
                 <div className="comment-avatar"><img className="comment-avatar-img" src={item.headPic}/>
                 </div>
                 <div className="comment-area">

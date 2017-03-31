@@ -812,7 +812,7 @@ router.get("/rise/practice/comment/*",(req,res)=>{
   setTimeout(()=>{
     res.status(200).json(
       {
-        "msg": [
+        "msg": {"list":[
           {
             "id": 52,
             "content": "fff ",
@@ -849,6 +849,8 @@ router.get("/rise/practice/comment/*",(req,res)=>{
             "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
           }
         ],
+        "end": true,
+        },
         "code": 200
       }
     );

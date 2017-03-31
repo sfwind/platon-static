@@ -15,6 +15,7 @@ export class Comment extends React.Component<any,any>{
     this.state = {
       page:1,
       editDisable:false,
+      commentList:[],
     }
     this.commentHeight = window.innerHeight;
   }
@@ -30,6 +31,7 @@ export class Comment extends React.Component<any,any>{
       .then(res => {
         dispatch(endLoad());
         if(res.code===200){
+          console.log(res.msg.list)
           this.setState({commentList:res.msg.list,page:1,end:res.msg.end});
         } else {
           dispatch(alertMsg(res.msg));
@@ -143,7 +145,7 @@ export class Comment extends React.Component<any,any>{
         return (
           commentList.map((item,seq)=>{
             return (
-              <div className="comment-cell">
+              <div className="comment-cell subject">
                 <div className="comment-avatar"><img className="comment-avatar-img" src={item.headPic}/>
                 </div>
                 <div className="comment-area">
@@ -185,7 +187,7 @@ export class Comment extends React.Component<any,any>{
         }
       }
     }
-
+    console.log(commentList)
 
     return (
       <div className="comment has-footer">
