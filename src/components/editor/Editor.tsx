@@ -44,8 +44,18 @@ export default class Editor extends React.Component<any,any>{
             this.props.uploadEnd();
           }
           if (res.code === 200) {
-            return res.msg.picUrl;
+            if(res.msg.picUrl){
+              return res.msg.picUrl;
+            } else {
+              if(isFunction(this.props.onUploadError)){
+                this.props.onUploadError(res);
+              }
+              return false;
+            }
           } else {
+            if(isFunction(this.props.onUploadError)){
+              this.props.onUploadError(res);
+            }
             return false;
           }
         } catch (e){
@@ -60,7 +70,7 @@ export default class Editor extends React.Component<any,any>{
         //也就是http返回码非200的时候
         console.log(res);
         if(isFunction(this.props.onUploadError)){
-          this.props.onUploadError(e);
+          this.props.onUploadError(res);
         }
         if(isFunction(this.props.uploadEnd)){
           this.props.uploadEnd();
