@@ -129,7 +129,7 @@ module.exports = function init($) {
         var src = _this._opt.uploadSuccess(res);
         console.log('src', src);
         if (src) {
-          var img = '<img src="' + src + '" width="90%" />';
+          var img = '<img src="' + src + '" style="max-width:90%" />';
           _this.insertImage(img);
         } else {
           console.log('地址为空啊!大兄弟', src)
