@@ -6,12 +6,9 @@ export default class Discuss extends React.Component <any, any> {
   constructor(props) {
     super()
     let labels = labels = merge([],props.labels);
-    console.log('p',props.defaultLabels);
     labels.forEach(item=>{
-      console.log('l',findIndex(props.defaultLabels,(o)=>o.labelId===item.id)>-1);
       item.selected = findIndex(props.defaultLabels,(o)=>o.labelId===item.id)>-1;
     });
-    console.log(labels);
 
     this.state = {
       comment: props.defaultContent?props.defaultContent:"",
@@ -24,12 +21,10 @@ export default class Discuss extends React.Component <any, any> {
   onSubmit() {
     let choseList = [];
     this.state.labels.forEach(item=>{
-      console.log(item);
       if(item.selected){
         choseList.push({labelId:item.id});
       }
     });
-    console.log(choseList);
     this.props.onSubmit(this.state.comment,this.state.title,choseList);
   }
 
