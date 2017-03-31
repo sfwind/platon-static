@@ -22,26 +22,6 @@ export default class Work extends React.Component<any,any> {
     return filterContent.length>wordsCount && !showAll;
   }
 
-  componentDidUpdate(preProps,preState){
-    const {showAll,filterContent} = this.state;
-    // 当前打开，但是之前未打开
-    if(!this.disOpen(filterContent,showAll) && this.disOpen(preState.filterContent,preState.showAll)){
-      console.log('didUpadte',this.refs.submitContent);
-    }
-  }
-  componentDidMount(){
-    console.log('mount',);
-    const images = this.refs.submitContent.querySelectorAll('img')
-    this.imgPreview(images);
-  }
-
-  imgPreview(imgs=[]){
-    imgs.forEach(item=>{
-      item.addEventListener('click',(e)=>{console.log(e);console.log('ok')})
-      console.log(item);
-    })
-  }
-
 
   componentWillReceiveProps(nextProps){
     if(nextProps.content && !this.props.content){
