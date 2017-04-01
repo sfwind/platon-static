@@ -106,7 +106,7 @@ export class PlanMain extends React.Component <any, any> {
       loadPlanHistory(series).then(res => {
         dispatch(endLoad())
         let { code, msg } = res
-        if (code === 200) {
+        if (code === 200 || code === 213) {
           if (msg !== null) {
             this.setState({ planData: msg, currentIndex:msg.currentSeries })
             loadProblem(msg.problemId).then(res => {
@@ -118,6 +118,9 @@ export class PlanMain extends React.Component <any, any> {
           } else {
             this.context.router.push({ pathname: location.pathname })
             dispatch(alertMsg("下一组任务明早6点解锁"))
+          }
+          if(code === 213){
+            dispatch(alertMsg("第三组之后的内容需要付费才能查看"))
           }
         } else if (code === 211) {
           this.context.router.push({ pathname: location.pathname })
@@ -261,10 +264,10 @@ export class PlanMain extends React.Component <any, any> {
         {
           if(selectProblem.hasProblemScore){
             // 已经评分
-            this.setState({showCompleteModal: true, defeatPercent:msg.percent})
+            this.setState({showCompleteModal: true, defeatPercent:msg.percent, mustStudyDays:msg.mustStudyDays})
           } else {
             // 未评分
-            this.setState({showScoreModal: true, defeatPercent:msg.percent})
+            this.setState({showScoreModal: true, defeatPercent:msg.percent, mustStudyDays:msg.mustStudyDays})
           }
         }else{
           dispatch(alertMsg('至少要完成所有的理解训练哦'))
@@ -276,7 +279,14 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   confirm() {
-    this.setState({ showCompleteModal: false, showConfirmModal: true })
+    const {dispatch} = this.props;
+    console.log(this.state.mustStudyDays);
+    if(!this.state.mustStudyDays){
+      this.setState({ showCompleteModal: false, showConfirmModal: true })
+    } else {
+      this.setState({ showCompleteModal: false})
+      dispatch(alertMsg(`进度太快啦<br/>先留下来复习${this.state.mustStudyDays}天，再学习下一专题吧`))
+    }
   }
 
   closeCompleteModal() {
@@ -303,9 +313,11 @@ export class PlanMain extends React.Component <any, any> {
         this.context.router.push("/rise/static/problem/priority")
       } else {
         dispatch(alertMsg(msg))
+        this.setState({showConfirmModal:false})
       }
     })
   }
+
 
   tutorialEnd(){
     const {dispatch} = this.props
