@@ -250,7 +250,7 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"knowledgeId": 1,
 				"sceneId": 1,
 				"difficulty": null,
-        "content": null,
+        "content": "babal",
         "submitId": 1, //提交id
         "submitUpdateTime": "2017-02-15" ,//最后提交时间
         "voteCount": 0,
@@ -873,6 +873,46 @@ router.post("/rise/practice/check/*",(req,res)=>{
       {"msg":"ok","code":200}
     );
   },Math.random()*1500);
+});
+
+router.get("/rise/practice/subject/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json(
+            {"msg":{
+                "title": null,
+                "userName": "nethunder",
+                "submitUpdateTime": "2017-03-24",
+                "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
+                "content": "微博 [cp]今天难得和老爸下馆子聊天，他有些小抱怨。能立即进入移情倾听模式吗？能意识到情绪背后的诉求吗？能试着不去判断他的想法对错吗？回到聊天的目的是什么，是加强理解和沟通而非判断是非，即使是解释了也未必能改变想法。然而通常我们是害怕不解释不纠正，对方会继续错下去。先判断，再强加，这完全是和沟通的目的南辕北辙。[/cp]\n感觉对倾听的要素没有很清晰的分类，写的时候一直在想要按照逻辑去分，但有点难。现在思考，首先是明确和老爸吃饭聊天的目的是加强沟通增进感情，然后在意识到老爸这么说是在发泄情绪，接着开启移情倾听模式，然后时刻保持意识自己是否在判断老爸的对错，回到倾听和理解而非去解释和纠正。\n修改后的微博：\n今天难得和老爸吃饭聊天，快一年没见面真的要和老爸好好联络感情呢。老爸谈起一些家庭琐事的小抱怨，我又忍不住开始解释：其实也不是那样的。。。这是个很好的机会练习移情聆听呀。首先记得和老爸聊天的目的是增加沟通，尽量让老爸多说说他的想法；意识到小抱怨其实是在发泄情绪了，马上进去移情聆听的状态，控制自己不去判断和解释，耐心等老爸说完。嗯，下次应该能做得更好。",
+                "voteCount": 0,
+                "commentCount": 0,
+                "submitId": 5,
+                "type": 11,
+                "voteStatus": 0,
+                "priority": 0,
+                "perfect": null,
+                "problemId": null,
+                "authorType": null,
+                "isMine": null,
+                "labelList": [],
+                "picList": []
+
+            },"code":200}
+        );
+    },Math.random()*1500);
+});
+
+router.get("/rise/practice/label/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json(
+            {"msg":[{
+                "id":1,
+                "problemId":1,
+                "name":"标签1",
+                "del":false,
+            }],"code":200}
+        );
+    },Math.random()*1500);
 });
 
 module.exports = router;

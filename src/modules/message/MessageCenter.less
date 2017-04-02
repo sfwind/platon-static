@@ -1,3 +1,5 @@
+@import "../../style/variable";
+
 .scroll{
   height: 40px;
   width: 92%;
@@ -13,9 +15,9 @@
   color: #666666 !important;
 }
 
-.on_message{
+.no_message{
   color: #cccccc;
-  font-size: 16px;
+  font-size: @font_context;
   text-align: center;
   padding-top: 15px;
   > .no_comment{
@@ -52,11 +54,11 @@
         > .message-name {
           display: inline-block;
           color: #666666;
-          font-size: 13px;
+          font-size: 1.3em;
         }
         > .message-time{
           display: inline-block;
-          font-size: 11px;
+          font-size: @font_help;
           color: #999999;
           position: absolute;
           top: 15px;
@@ -75,13 +77,13 @@
             display: inline-block;
             float: right;
             color: #55cbcb;
-            font-size: 13px;
+            font-size: @font_click;
           }
         }
       }
       > .message-content{
-        line-height:13px;
-        font-size: 13px;
+        line-height:1.3em;
+        font-size: 1.3em;
         width: 100%;
         white-space: pre-wrap;
         word-wrap: break-word;

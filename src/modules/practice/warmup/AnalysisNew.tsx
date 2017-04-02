@@ -1,9 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import "./AnalysisNew.less";
+import "./Analysis.less";
 import {loadWarmUpAnalysisNew, loadKnowledgeIntro} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
-import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import Discuss from "../components/Discuss";

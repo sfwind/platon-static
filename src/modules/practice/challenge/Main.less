@@ -6,44 +6,14 @@
   .intro-container {
     //height: ~"calc(100% - 49px)";
     overflow: auto;
-    > .context{
-      >p{
-        >span{
-          color: @color_theme;
+    > .challenge-context{
+      .text{
+        font-size: 1.3em;
+        .tip{
+          color: @color_normal;
         }
       }
-    }
-    .pc-homework {
-      position: relative;
-      left: 50%;
-      margin-left: -135px;
-      width: 270px;
-      height: 190px;
-      margin-top: 30px;
-      text-align: center;
-      > .guide {
-        font-size: 12px;
-        line-height: 12px;
-        color: @color_context;
-      }
-      > .sub-guide {
-        font-size: 10px;
-        line-height: 10px;
-        color: #666666;
-        margin-top: 4px;
-      }
-      > .url {
-        height: 105px;
-        margin-top: 10px;
-        font-size: 13px;
-        line-height: 105px;
-        border: 1px dashed #cccccc;
-        color: @color_context;
-      }
-    }
-    .score {
-      font-size: 12px;
-      color: #f7a466;
+
     }
   }
   .work-container{
@@ -52,12 +22,12 @@
       width: 100%;
       background-color: #f5f5f5;
       color: #666666;
-      font-size: 11px;
+      font-size: @font_index;
       padding:0 15px;
       margin-left:-15px;
     }
     > .no-comment{
-      font-size: 11px;
+      font-size: @font_help;
       text-align: center;
       > .submit-btn{
         margin: 15px auto 0;

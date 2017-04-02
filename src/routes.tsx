@@ -6,7 +6,7 @@ import { ProblemPriority } from "modules/problem/ProblemPriority";
 import { ProblemReport } from "modules/problem/ProblemReport";
 import { PlanIntro } from "modules/plan/PlanIntro";
 import { PlanMain } from "modules/plan/PlanMain";
-import { Intro as WarmUpIntro } from "modules/practice/warmup/Intro";
+import { Intro as WarmUpIntro } from "modules/practice/knowledge/Intro";
 import { Example } from "modules/practice/warmup/Example";
 import { ExampleAnalysis } from "modules/practice/warmup/ExampleAnalysis";
 import { Main as WarmUp } from "modules/practice/warmup/Main";
@@ -23,9 +23,7 @@ import { ReplySubjectMessage  } from "modules/message/ReplySubjectMessage"
 import { MessageCenter } from "modules/message/MessageCenter";
 import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
 import { Comment as ApplicationComment } from "modules/practice/application/Comment";
-import { Comment as ChallengeComment } from "modules/practice/challenge/Comment";
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
-import Demo from "modules/problem/Demo"
 
 
 const routes = (
@@ -51,10 +49,8 @@ const routes = (
     <Route path="message/subject/reply" component={ReplySubjectMessage}/>
     <Route path="message/center" component={MessageCenter}/>
     <Route path="practice/application/comment" component={ApplicationComment}/>
-    <Route path="practice/challenge/comment" component={ChallengeComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
-    <Route path="demo" component={Demo}/>
   </Route>
 )
 

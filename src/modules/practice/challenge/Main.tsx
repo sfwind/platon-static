@@ -126,11 +126,6 @@ export class Main extends React.Component <any, any> {
     })
   }
 
-  onCopy() {
-    const { dispatch } = this.props
-    dispatch(alertMsg('已复制到剪贴板'))
-  }
-
   goComment(submitId){
     const { goBackUrl } = this.state
     this.context.router.push({pathname:"/rise/static/practice/challenge/comment",
@@ -169,18 +164,6 @@ export class Main extends React.Component <any, any> {
     const { voice, pic, description, content, submitUpdateTime,voteCount,
       commentCount,submitId,voteStatus } = data
 
-
-    const renderOtherList = ()=>{
-      if(content && otherList){
-        return otherList.map((item,seq)=>{
-          return (
-            <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,false,seq)}  {...item}
-                  goComment={()=>this.goComment(item.submitId)}/>
-          )
-        })
-      }
-    }
-
     const renderContent = ()=>{
       if(!content) {
         return (<div className="no-comment">
@@ -202,61 +185,23 @@ export class Main extends React.Component <any, any> {
         )
       }
     }
-    {/*<div className="has-comment">*/}
-    {/*<div className="submit-cell">*/}
-    {/*<div className="submit-avatar"><img className="submit-avatar-img" src={window.ENV.headImage}/></div>*/}
-    {/*<div className="submit-area">*/}
-    {/*<div className="submit-head">*/}
-    {/*<div className="submit-name">*/}
-    {/*{window.ENV.userName}*/}
-    //         </div>
-    //         <div className="right" onClick={this.onEdit.bind(this)}>
-    //           <div className="submit-icon">
-    //             <AssetImg type="edit" height={17}/>
-    //           </div>
-    //           <div className="submit-button">
-    //             编辑
-    //           </div>
-    //         </div>
-    //       </div>
-    //       <pre className="submit-content">{content}</pre>
-    //       <div className="submit-time">{submitUpdateTime}</div>
-    //     </div>
-    //   </div>
-    // </div>
-
-    const renderTips = ()=>{
-      if(content){
-        if(!end){
-          return (
-            <div className="show-more">上拉加载更多消息</div>
-          )
-        } else {
-          return (
-            <div className="show-more">已经到最底部了</div>
-          )
-        }
-      }
-    }
 
     return (
       <div>
         <div ref="container" className="container has-footer">
           <div className="challenge">
             <div className="intro-container">
-              { voice ? <div className="context-audio">
-                <Audio url={voice}/>
-              </div> : null }
               <div className="context-img">
                 <img src="http://www.iqycamp.com/images/fragment/challenge_practice.png" alt=""/>
               </div>
-              {/*<div className="context" dangerouslySetInnerHTML={{__html: description}}></div>*/}
-              <div className="context">
-                <p>你有什么目标，可以利用本专题的训练实现呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
-                <p><span className="tip">小提示</span></p>
-                <p>本题答案仅自己可见</p>
-                <p>目标最好是某个具体问题或场景</p>
-                <p>制定目标之前，可以先回顾该专题的知识体系</p>
+              <div className="challenge-context">
+                <div className="text">
+                  <p>你有什么目标，可以利用本专题的训练实现呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
+                  <p><span className="tip">小提示</span></p>
+                  <p>本题答案仅自己可见</p>
+                  <p>目标最好是某个具体问题或场景</p>
+                  <p>制定目标之前，可以先回顾该专题的知识体系</p>
+                </div>
               </div>
               <a name="submit"/>
             </div>

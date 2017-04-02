@@ -6,11 +6,11 @@
     .application-context {
       color: @color_context;
       .section1 {
-        font-size: 12px;
+        font-size: 1.3em;
         line-height: 22px;
       }
       .section2 {
-        font-size: 13px;
+        font-size: @font_context;
         line-height: 24px;
       }
     }
@@ -23,7 +23,7 @@
         vertical-align: middle;
       }
       > span {
-        font-size: 16px;
+        font-size: @font_title;
         color: #999999;
         margin-left: 4px;
       }
@@ -46,7 +46,7 @@
     }
     > .knowledge-link {
       color: #55cbcb;
-      font-size: 13px;
+      font-size: @font_click;
       height: 30px;
       margin-top: 15px;
     }
@@ -57,12 +57,12 @@
       width: 100%;
       background-color: #f5f5f5;
       color: #666666;
-      font-size: 11px;
+      font-size: @font_index;
       padding:0 15px;
       margin-left:-15px;
     }
     > .no-comment{
-      font-size: 11px;
+      font-size: @font_help;
       text-align: center;
       > .submit-btn{
         margin: 15px auto 0;

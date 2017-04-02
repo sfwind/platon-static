@@ -12,8 +12,12 @@ import {merge,isBoolean} from "lodash"
 
 const typeMap = {
   1: '理解训练',
+  2: '理解训练',
   11: '应用训练',
-  21: '小目标'
+  12: '综合训练',
+  21: '小目标',
+  31: '知识点',
+  32: '知识回顾',
 }
 
 @connect(state => state)
@@ -380,7 +384,6 @@ export class PlanMain extends React.Component <any, any> {
 
             <div className="body">
               <div className="title">{typeMap[item.type]}</div>
-              <div className="sub-title">{item.knowledge ? item.knowledge.knowledge : ''}</div>
             </div>
             <div className="footer">
               {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}

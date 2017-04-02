@@ -1,3 +1,5 @@
+@import "../../style/variable";
+
 .reply-subject{
   overflow: auto;
   &.has-footer {
@@ -7,20 +9,19 @@
     width: 100%;
     background-color: #f5f5f5;
     color: #666666;
-    font-size: 11px;
+    font-size: @font_index;
     padding:0 15px;
   }
   .reply-header{
-    font-size:13px;
-    line-height:13px;
     color:#666;
     padding:5px 15px 15px 15px;
   }
   .comment-body{
     margin-bottom:49px;
+    padding: 0 10px;
     .on_message{
       color: #cccccc;
-      font-size: 16px;
+      font-size: @font_index;
       text-align: center;
       margin-top: 15px;
       > .no_comment{

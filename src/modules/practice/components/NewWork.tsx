@@ -51,7 +51,7 @@ export default class Work extends React.Component<any,any> {
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
           return (
-            <pre className={`${avatarStyle}`}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></pre>
+            <div className={`${avatarStyle}`}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></div>
           )
         } else {
           return (

@@ -1,3 +1,5 @@
+@import "../../../style/variable";
+
 .new-work{
   overflow: hidden;
   margin-top: 10px;
@@ -51,14 +53,14 @@
         > .submit-name {
           display: inline-block;
           color: #666666;
-          font-size: 13px;
+          font-size: 1.3em;
           margin-left:10px;
         }
         > .submit-time {
           display: inline-block;
           margin-left:10px;
-          font-size: 10px;
-          line-height:10px;
+          font-size: @font_help;
+          line-height:@font_help;
           color: #999999;
         }
         > .right{
@@ -80,26 +82,26 @@
           > .submit-button {
             display: inline-block;
             color: #55cbcb;
-            font-size: 13px;
-            line-height:13px;
+            font-size: @font_click;
+            line-height:@font_click;
             margin-top: 3px;
           }
         }
       }
       > .submit-title{
         color:#333333;
-        font-size:16px;
-        line-height: 29px;
+        font-size:@font_title;
+        line-height: @font_title;
         margin-top:5px;
       }
       > .submit-content {
         line-height:23px;
+        font-size: @font_context;
         > pre,> div {
-          font-size: 13px;
           white-space: pre-wrap;
           word-wrap: break-word;
           &.top{
-            width: 100%;
+            margin-right:32px;
             color:#666666;
           }
           &.left{
@@ -116,7 +118,7 @@
 
       > .show-all{
         float:right;
-        font-size:13px;
+        font-size:@font_click;
         margin-top:-20px;
         color:#55cbcb;
         z-index: 5;
@@ -126,6 +128,7 @@
       }
 
       > .operation-area{
+        margin-top: 5px;
         &.top{
           width: 100%;
         }
@@ -134,8 +137,8 @@
           margin-left:50px;
         }
         span{
-          line-height:13px;
-          font-size:13px;
+          line-height:@font_click;
+          font-size:@font_click;
           color:#999999;
         }
         > .vote{
@@ -180,7 +183,7 @@
               width: 16px;
               height: 16px;
               margin-right:5px;
-              margin-bottom:2px;
+              margin-bottom:5px;
             }
           }
         }

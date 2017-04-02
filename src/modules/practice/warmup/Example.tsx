@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { remove, set, merge } from "lodash";
-import "./Example.less";
+import "./Main.less";
 import { loadExample, answer, loadKnowledgeIntro } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";

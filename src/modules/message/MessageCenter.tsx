@@ -163,7 +163,7 @@ export class MessageCenter extends React.Component <any, any> {
 
     return (
       <div className="message_box">
-        { no_message ? <div className="on_message">
+        { no_message ? <div className="no_message">
                         <div className="no_comment">
                           <AssetImg url="http://www.iqycamp.com/images/no_comment.png" height={120} width={120}/>
                         </div>

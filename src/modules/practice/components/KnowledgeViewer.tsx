@@ -23,13 +23,13 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/analysis.png"/>
               </div>
-              <div className="context">
+              <div className="text">
                 <pre>{analysis}</pre>
               </div>
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/means.png"/>
               </div>
-              <div className="context">
+              <div className="text">
                 <pre>{means}</pre>
               </div>
 
@@ -38,7 +38,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   <div className="context-title-img">
                     <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote.png"/>
                   </div>
-                  <div className="context">
+                  <div className="text">
                     <pre>{keynote}</pre>
                   </div>
                 </div>
@@ -47,7 +47,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        <div className="button-footer" onClick={closeModal}>关闭</div>
+        <div className="button-footer" onClick={closeModal}>返回</div>
       </div>
     )
   }
