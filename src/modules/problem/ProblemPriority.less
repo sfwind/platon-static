@@ -1,5 +1,7 @@
+@import "../../style/variable";
+
 .no-space-container{
-  background-color: #ffffff;
+  background-color: #fff;
   height: 100%;
   width:100%;
   overflow: auto;
@@ -61,7 +63,7 @@
             line-height:1.4em;
             font-weight:500;
             &.done{
-              color:#999999 !important;
+              color:@color_help !important;
             }
           }
           > .tips{
@@ -74,8 +76,8 @@
             border-radius:5px;
             border:1px solid #55cbcb;
             &.done{
-              color:#999999 !important;
-              border-color:#999999 !important;
+              color:@color_help !important;
+              border-color:@color_help !important;
             }
           }
         }

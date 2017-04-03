@@ -9,14 +9,14 @@
 }
 
 .read{
-  color: #cccccc !important;
+  color: @color_weak !important;
 }
 .unread{
-  color: #666666 !important;
+  color: @color_title !important;
 }
 
 .no_message{
-  color: #cccccc;
+  color: @color_weak_background;
   font-size: @font_context;
   text-align: center;
   padding-top: 15px;
@@ -53,13 +53,13 @@
         height:27px;
         > .message-name {
           display: inline-block;
-          color: #666666;
+          color: @color_title;
           font-size: 1.3em;
         }
         > .message-time{
           display: inline-block;
           font-size: @font_help;
-          color: #999999;
+          color: @color_help;
           position: absolute;
           top: 15px;
           right: 15px;
@@ -76,7 +76,7 @@
           > .function-button{
             display: inline-block;
             float: right;
-            color: #55cbcb;
+            color: @color_strong;
             font-size: @font_click;
           }
         }

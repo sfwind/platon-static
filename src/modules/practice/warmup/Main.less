@@ -19,7 +19,7 @@
       color: #f7a466;
       font-size: @font_index;
       > .index {
-        color: #999999;
+        color: @color_title;
       }
       > .type {
         margin-left: 14px;
@@ -35,7 +35,7 @@
       white-space: normal;
       word-break: break-all;
       font-size: @font_context;
-      color: #666666;
+      color: @color_title;
     }
     > .choice-list {
       margin-left: 50px;
@@ -44,7 +44,7 @@
       > .choice {
         width: 100%;
         display: table;
-        color: #cccccc;
+        color: @color_weak;
         min-height: 50px;
         font-size: @font_context;
         > .index {
@@ -53,9 +53,7 @@
           width: 25px;
           height: 100%;
           min-height: 50px;
-          border-left: 1px solid #cccccc;
-          border-top: 1px solid #cccccc;
-          border-bottom: 1px solid #cccccc;
+          border: 1px solid #ccc;
           text-align: center;
           border-top-left-radius: 5px;
           border-bottom-left-radius: 5px;
@@ -63,6 +61,7 @@
         > .text {
           display: table-cell;
           color: @color_context;
+          background-color: #fff;
           width: ~"calc(100% - 30px)";
           height: 100%;
           min-height: 50px;
@@ -70,19 +69,18 @@
           padding-left: 5px;
           border-top-right-radius: 5px;
           border-bottom-right-radius: 5px;
-          border: 1px solid #cccccc;
+          border: 1px solid #ccc;
         }
         &.selected {
+          background-color: #f0f0f0;
+          border-color: @color_weak;
           > .index {
-            color: white;
-            border-color: @color_strong;
+            color: #fff;
             text-align: center;
-            background-color: @color_strong;
           }
           > .text {
-            color: white;
+            color: #33a9fe;
             padding-left: 5px;
-            background-color: #cccccc;
           }
         }
       }
@@ -91,7 +89,7 @@
       }
     }
     > .knowledge-link {
-      color: #55cbcb;
+      color: @color_strong;
       font-size: @font_click;
       height: 30px;
       margin-top: 15px;

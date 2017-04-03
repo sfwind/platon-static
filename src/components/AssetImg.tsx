@@ -7,12 +7,13 @@ export default class AssetImg extends React.Component<any, any> {
   }
 
   render() {
-    const { size, type, url, width, height, marginTop, style } = this.props
+    const { size, type, url, width, height, marginTop, style, marginRight } = this.props
 
     const _style = {
       width: size || width,
       height: size || height,
       marginTop: marginTop,
+      marginRight: marginRight,
     }
 
     return (

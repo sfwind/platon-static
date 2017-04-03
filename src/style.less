@@ -28,12 +28,12 @@
   font-size: @font_title;
   border-bottom: 2px solid @color_strong;
   text-align: center;
-  color: @color_context
+  color: @color_title;
 }
 
 .container {
   padding: 0 15px 0 15px;
-  background-color: #ffffff;
+  background-color: #fff;
   height: 100%;
   overflow: auto;
   &.has-footer {
@@ -42,7 +42,7 @@
 }
 
 .container-no-pd{
-  background-color: #ffffff;
+  background-color: #fff;
   height: 100%;
   overflow: auto;
   &.has-footer {
@@ -61,10 +61,10 @@
 .show-more {
   height:50px;
   width:100%;
-  color:#cccccc;
+  color: @color_weak;
   font-size:@font_click;
   text-align:center;
-  line-height:5.0em;
+  line-height:3.0em;
 }
 
 .button-circle {
@@ -78,7 +78,7 @@
   font-size: @font_context;
   &.selected {
     background-color: @color_strong;
-    color: white;
+    color: #fff;
   }
 }
 
@@ -93,7 +93,7 @@
   line-height: @button_footer_height;
   background-size:100% 100%;
   background-image:url('http://www.iqycamp.com/images/bottom_button_bg3.png');
-  color: white;
+  color: #fff;
   z-index: 10;
   > .left {
     display: inline-block;
@@ -155,7 +155,7 @@
 }
 
 .header-img {
-  background-color: #f9f6f6;
+  background-color: @color_weak_background;
   img {
     display: block;
   }
@@ -170,13 +170,13 @@
 }
 
 .submit {
-  background-color:#ffffff;
+  background-color:#fff;
   padding-bottom:20px;
   > .description {
     padding-top:15px;
     margin: 0 10px 15px;
     font-size: @font_context;
-    line-height: 2.4em;
+    line-height: 2.0em;
     color: @color_context;
   }
   > .submit-button {
@@ -184,7 +184,7 @@
     text-align: center;
     background-image:url('http://www.iqycamp.com/images/bottom_button_bg3.png');
     background-size:100% 100%;
-    color: #ffffff;
+    color: #fff;
     font-size: @font_click;
     border-radius: 4px;
     width: 130px;
@@ -202,14 +202,14 @@
     height:325px;
     font-size: @font_context;
     line-height: 2.0em;
-    box-shadow:0px 0px 0px rgba(0,0,0,0);
+    box-shadow:0 0 0 rgba(0,0,0,0);
     -webkit-appearance:none;
   }
 }
 
 .comment-cell {
   border-bottom: 1px solid #f5f5f5;
-  padding: 20px 10px 0 0px;
+  padding: 20px 10px 0 0;
   &.subject{
     padding: 10px;
   }
@@ -233,7 +233,7 @@
       height:13px;
       > .comment-name {
         display: inline-block;
-        color: #666666;
+        color: @color_title;
         font-size: 1.3em;
       }
       > .comment-time{
@@ -241,7 +241,7 @@
         display: inline-block;
         font-size: @font_help;
         line-height:1.1em;
-        color: #999999;
+        color: @color_help;
       }
       > .right {
         float: right;
@@ -255,7 +255,7 @@
         > .function-button{
           display: inline-block;
           float: right;
-          color: #55cbcb;
+          color: @color_strong;
           font-size: @font_click;
         }
       }
@@ -267,6 +267,7 @@
       word-wrap: break-word;
       line-height: 2.3em;
       margin-top: 7px;
+      color: @color_context;
       pre{
         white-space: pre-wrap;
         word-wrap: break-word;
@@ -275,7 +276,7 @@
     > .comment-replied-content{
       font-size: 1.3em;
       margin-top:2px;
-      color: #999999;
+      color: @color_help;
       width: 100%;
       white-space: pre-wrap;
       word-wrap: break-word;
@@ -290,14 +291,14 @@
       }
       > .function-button{
         display: inline-block;
-        color: #55cbcb;
+        color: @color_strong;
         font-size: @font_click;
       }
     }
   }
   > .comment-hr{
     height: 1px;
-    background-color: #f5f5f5;
+    background-color: @color_weak_background;
   }
 }
 

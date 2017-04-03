@@ -1,14 +1,12 @@
 import * as React from "react";
 import { Route } from "react-router";
 import Base from "modules/base/Base";
-import { ProblemList } from "modules/problem/ProblemList";
+import { Welcome } from "modules/problem/Welcome";
 import { ProblemPriority } from "modules/problem/ProblemPriority";
 import { ProblemReport } from "modules/problem/ProblemReport";
 import { PlanIntro } from "modules/plan/PlanIntro";
 import { PlanMain } from "modules/plan/PlanMain";
 import { Intro as WarmUpIntro } from "modules/practice/knowledge/Intro";
-import { Example } from "modules/practice/warmup/Example";
-import { ExampleAnalysis } from "modules/practice/warmup/ExampleAnalysis";
 import { Main as WarmUp } from "modules/practice/warmup/Main";
 import { Analysis as WarmUpAnalysis } from "modules/practice/warmup/Analysis";
 import { Result as WarmUpResult } from "modules/practice/warmup/Result";
@@ -28,7 +26,7 @@ import { Comment as SubjectComment } from "modules/practice/subject/Comment"
 
 const routes = (
   <Route path="/rise/static" component={Base}>
-    <Route path="problem/list" component={ProblemList}/>
+    <Route path="problem/list" component={Welcome}/>
     <Route path="problem/priority" component={ProblemPriority}/>
     <Route path="problem/report" component={ProblemReport}/>
     <Route path="plan/intro" component={PlanIntro}/>
@@ -39,8 +37,6 @@ const routes = (
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
     <Route path="practice/warmup/result" component={WarmUpResult}/>
     <Route path="practice/warmup/ready" component={WarmUpReady}/>
-    <Route path="practice/knowledge/example" component={Example}/>
-    <Route path="practice/knowledge/example/analysis" component={ExampleAnalysis}/>
     <Route path="practice/application" component={Application}/>
     <Route path="practice/challenge" component={Challenge}/>
     <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>

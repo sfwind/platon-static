@@ -143,10 +143,9 @@ export class Main extends React.Component <any, any> {
     loadLabels(location.query.id).then(res=>{
       let {code,msg} = res;
       if(code===200){
-        console.log(msg);
         this.setState({labels:msg});
       } else {
-        dispatch(alterMsg("获取标签失败"));
+        dispatch(alertMsg("获取标签失败"));
       }
     }).catch(ex => {
       dispatch(endLoad())

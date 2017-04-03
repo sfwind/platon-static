@@ -11,15 +11,41 @@
     text-align: center;
     color: @color_context
   }
+  .discuss-container{
+    > .discuss {
+      margin-top: 25px;
+      > .discuss-title-bar {
+        width: 100%;
+        color: @color_title;
+        background-color: @color_weak_background;
+        padding: 0 15px;
+        margin-left: -15px;
+        font-size: @font_index;
+      }
+      > .discuss-end {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: @color_weak;
+        font-size: @font_index;
+        > .discuss-end-span{
+          margin-top: 13px;
+        }
+        > .discuss-end-img{
+          text-align: center;
+        }
+      }
+    }
+  }
+
   .intro-container {
-    height: ~"calc(100% - 49px)";
     overflow: auto;
     > .intro-index {
       margin: 15px 0 10px 0;
       color: #f7a466;
       font-size: @font_context;
       > .index {
-        color: #999999;
+        color: @color_title;
       }
       > .type {
         margin-left: 14px;
@@ -49,27 +75,21 @@
       margin-right: 50px;
       margin-bottom: 10px;
       > .choice {
-        font-size: @font_context;
         width: 100%;
         display: table;
-        color: #cccccc;
+        color: @color_weak;
         min-height: 50px;
+        font-size: @font_context;
         > .index {
           display: table-cell;
           vertical-align: middle;
           width: 25px;
           height: 100%;
           min-height: 50px;
-          border-left: 1px solid #cccccc;
-          border-top: 1px solid #cccccc;
-          border-bottom: 1px solid #cccccc;
+          border: 1px solid #ccc;
           text-align: center;
           border-top-left-radius: 5px;
           border-bottom-left-radius: 5px;
-          &.right {
-            border-color: #4dc6f5;
-            background-color: #4dc6f5;
-          }
         }
         > .text {
           display: table-cell;
@@ -81,27 +101,27 @@
           padding-left: 5px;
           border-top-right-radius: 5px;
           border-bottom-right-radius: 5px;
-          border: 1px solid #cccccc;
-          &.right {
-            border-left-color: #4dc6f5;
-          }
+          border: 1px solid #ccc;
         }
         &.selected {
+          background-color: #f0f0f0;
+          border-color: @color_weak;
           > .index {
-            color: white;
+            background-color: #fff;
             text-align: center;
-            &.wrong {
-              border-color: #f7a466;
-              background-color: #f7a466;
-            }
           }
           > .text {
-            color: white;
+            color: #33a9fe;
             padding-left: 5px;
-            background-color: #cccccc;
-            &.wrong {
-              border-left-color: #f7a466;
-            }
+          }
+        }
+        &.right {
+          > .index {
+            border-color: @color_strong !important;
+            background-color: @color_strong !important;
+          }
+          > .text {
+            border-color: @color_strong !important;
           }
         }
       }
@@ -114,37 +134,14 @@
       border-top: 1px solid #d0d0d0;
       > .analysis-title {
         font-size: @font_index;
-        color: @color_normal;
+        color: @color_title;
         margin: 10px 0 10px -0.5rem;
       }
       > .knowledge-link {
-        color: #55cbcb;
+        color: @color_strong;
         font-size: @font_click;
         height: 30px;
         margin-top: 15px;
-      }
-    }
-    > .discuss {
-      margin-top: 25px;
-      > .discuss-title-bar {
-        color: #666666;
-        background-color: #f5f5f5;
-        > .discuss-title {
-          font-size: @font_index;
-        }
-      }
-      > .discuss-end {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        text-align: center;
-        color: #cccccc;
-        font-size: @font_index;
-        > .discuss-end-span{
-          margin-top: 13px;
-        }
-        > .discuss-end-img{
-          text-align: center;
-        }
       }
     }
   }

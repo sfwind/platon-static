@@ -52,7 +52,7 @@
         }
         > .submit-name {
           display: inline-block;
-          color: #666666;
+          color: @color_title;
           font-size: 1.3em;
           margin-left:10px;
         }
@@ -61,7 +61,7 @@
           margin-left:10px;
           font-size: @font_help;
           line-height:@font_help;
-          color: #999999;
+          color: @color_help;
         }
         > .right{
           display: inline-block;
@@ -81,7 +81,7 @@
           }
           > .submit-button {
             display: inline-block;
-            color: #55cbcb;
+            color: @color_strong;
             font-size: @font_click;
             line-height:@font_click;
             margin-top: 3px;
@@ -89,7 +89,7 @@
         }
       }
       > .submit-title{
-        color:#333333;
+        color:@color_title;
         font-size:@font_title;
         line-height: @font_title;
         margin-top:5px;
@@ -102,13 +102,13 @@
           word-wrap: break-word;
           &.top{
             margin-right:32px;
-            color:#666666;
+            color:@color_context;
           }
           &.left{
             width: ~"calc(100% - 80px)";
             margin-left:50px;
             margin-top:7px;
-            color:#333333;
+            color:@color_context;
           }
         }
         ol,ul{
@@ -120,7 +120,7 @@
         float:right;
         font-size:@font_click;
         margin-top:-20px;
-        color:#55cbcb;
+        color:@color_strong;
         z-index: 5;
         position: relative;
         background: white;
@@ -139,7 +139,7 @@
         span{
           line-height:@font_click;
           font-size:@font_click;
-          color:#999999;
+          color: @color_help;
         }
         > .vote{
           display: block;

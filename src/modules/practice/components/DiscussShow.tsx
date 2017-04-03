@@ -24,7 +24,7 @@ export default class DiscussShow extends React.Component <any, any> {
               <div className="comment-time">{discussTime}</div>
               {priority === 1 ?
                   <div className="right">
-                    <AssetImg type="excellent_answer" height={31} width={32} marginTop={-15}/>
+                    <AssetImg type="excellent_answer" height={31} width={32} marginTop={-15} marginRight={-10}/>
                   </div> : null
               }
             </div>
