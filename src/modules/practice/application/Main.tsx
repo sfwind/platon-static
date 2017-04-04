@@ -181,7 +181,7 @@ export class Main extends React.Component <any, any> {
 
   render() {
     const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end } = this.state
-    const { voice, description, content,voteCount,submitId,voteStatus } = data
+    const { topic, description, content,voteCount,submitId,voteStatus } = data
 
     const renderList = (list)=>{
       if(content && list){
@@ -237,11 +237,8 @@ export class Main extends React.Component <any, any> {
       <div>
         <div  ref="container" className="container has-footer">
           <div className="application">
-            <div className="page-header">{knowledge.knowledge}</div>
+            <div className="page-header">{topic}</div>
             <div className="intro-container">
-              { voice ? <div className="context-audio">
-                <Audio url={voice}/>
-              </div> : null }
               <div className="context-img">
                 <img src="http://www.iqycamp.com/images/fragment/application_practice.png" alt=""/>
               </div>
@@ -256,7 +253,7 @@ export class Main extends React.Component <any, any> {
                 <div className="section2" dangerouslySetInnerHTML={{__html: description}}>
                 </div>
               </div>
-              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
+              {/*<div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>*/}
               <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">

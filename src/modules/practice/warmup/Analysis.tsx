@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import "./Analysis.less";
+import "./Main.less";
 import {loadWarmUpAnalysis, loadKnowledgeIntro, loadWarmUpNext, loadWarmUpDiscuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
@@ -203,7 +203,7 @@ export class Analysis extends React.Component <any, any> {
     return (
       <div>
         <div className="container has-footer">
-          <div className="warm-up-analysis">
+          <div className="warm-up">
             <div className="page-header">{knowledge.knowledge}</div>
             {questionRender(practice[currentIndex] || {})}
           </div>

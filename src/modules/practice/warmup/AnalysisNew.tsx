@@ -163,7 +163,7 @@ export class AnalysisNew extends React.Component <any, any> {
     return (
       <div>
         <div className="container has-footer">
-          <div className="warm-up-analysis">
+          <div className="warm-up">
             <div className="page-header">{knowledge.knowledge}</div>
             {questionRender(data)}
           </div>
