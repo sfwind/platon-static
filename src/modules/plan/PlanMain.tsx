@@ -9,6 +9,9 @@ import Tutorial from "../../components/Tutorial"
 import DropChoice from "../../components/DropChoice"
 import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge,isBoolean,get} from "lodash"
+import { Toast, Dialog } from "react-weui"
+const { Alert } = Dialog
+
 
 const typeMap = {
   1: '理解训练',
@@ -79,7 +82,21 @@ export class PlanMain extends React.Component <any, any> {
           ]
         }
       ],
-      showedPayTip:false
+      showedPayTip:false,
+      nextSerialModal:{
+        buttons:[
+          {label:'我不听',onClick:()=>this.next(true)},
+          {label:'好的',onClick:()=>this.setState({showNextSerialModal:false})}
+        ],
+        content:'从了解知识和能够运用，还差一个内化的距离<br/>确定不做应用训练了吗？'
+      },
+      nextModal:{
+        buttons:[
+          {label:'我不听',onClick:()=>this.confirm(true)},
+          {label:'好的',onClick:()=>this.setState({showNextModal:false})}
+        ],
+        content:'提升能力和解决问题，需要你的刻意练习<br/>我们推荐你至少完成所有综合案例'
+      }
     }
   }
 
@@ -457,23 +474,35 @@ export class PlanMain extends React.Component <any, any> {
           </div>
         </Modal>
 
-        <Modal show={showNextSerialModal}
-               buttons={[{click:()=>this.next(true),content:"我不听"},{click:()=>this.setState({showNextSerialModal:false}),content:"好的"}]}
-        >
-          <div className="content">
-            <div className="text" >从了解知识和能够运用，还差一个内化的距离</div>
-            <div className="text">确定不做应用训练了吗？</div>
-          </div>
-        </Modal>
+        {/*<Modal show={showNextSerialModal}*/}
+               {/*buttons={[{click:()=>this.next(true),content:"我不听"},{click:()=>this.setState({showNextSerialModal:false}),content:"好的"}]}*/}
+        {/*>*/}
+          {/*<div className="content">*/}
+            {/*<div className="text" >从了解知识和能够运用，还差一个内化的距离</div>*/}
+            {/*<div className="text">确定不做应用训练了吗？</div>*/}
+          {/*</div>*/}
+        {/*</Modal>*/}
 
-        <Modal show={showNextModal}
-               buttons={[{click:()=>this.confirm(true),content:"我不听"},{click:()=>this.setState({showNextModal:false}),content:"好的"}]}
-        >
-          <div className="content">
-            <div className="text" >提升能力和解决问题，需要你的刻意练习</div>
-            <div className="text">我们推荐你至少完成所有综合案例</div>
-          </div>
-        </Modal>
+
+        <Alert { ...this.state.nextSerialModal }
+          show={showNextSerialModal}>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.nextSerialModal.content}}/>
+        </Alert>
+
+
+        {/*<Modal show={showNextModal}*/}
+               {/*buttons={[{click:()=>this.confirm(true),content:"我不听"},{click:()=>this.setState({showNextModal:false}),content:"好的"}]}*/}
+        {/*>*/}
+          {/*<div className="content">*/}
+            {/*<div className="text" >提升能力和解决问题，需要你的刻意练习</div>*/}
+            {/*<div className="text">我们推荐你至少完成所有综合案例</div>*/}
+          {/*</div>*/}
+        {/*</Modal>*/}
+
+        <Alert { ...this.state.nextModal }
+          show={showNextModal}>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.nextModal.content}}/>
+        </Alert>
 
         <div className="header-img">
           <img src={problem.pic} style={{width: this.picWidth, height: this.picHeight}}/>
