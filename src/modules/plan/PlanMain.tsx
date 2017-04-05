@@ -176,33 +176,33 @@ export class PlanMain extends React.Component <any, any> {
         // 已完成
         if (type === 1 || type === 2) {
           if (item.status === 1) {
-            this.context.router.push({
+            this.context?this.context.router.push({
               pathname: '/rise/static/practice/warmup/analysis',
               query: { practicePlanId, kid: knowledge.id, series }
-            })
+            }):null;
           } else {
             if (!knowledge.appear) {
-              this.context.router.push({
+              this.context?this.context.router.push({
                 pathname: '/rise/static/practice/warmup/intro',
                 query: { practicePlanId, kid: knowledge.id, series }
-              })
+              }):null;
             } else {
-              this.context.router.push({
+              this.context?this.context.router.push({
                 pathname: '/rise/static/practice/warmup/ready',
                 query: { practicePlanId, kid: knowledge.id, series }
-              })
+              }):null;
             }
           }
         } else if (type === 11) {
-          this.context.router.push({
+          this.context?this.context.router.push({
             pathname: '/rise/static/practice/application',
             query: { id: item.practiceIdList[0], series }
-          })
+          }):null;
         } else if (type === 21) {
-          this.context.router.push({
+          this.context?this.context.router.push({
             pathname: '/rise/static/practice/challenge',
             query: { id: item.practiceIdList[0], series }
-          })
+          }):null;
         }
       }else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -238,7 +238,7 @@ export class PlanMain extends React.Component <any, any> {
   next() {
     const {dispatch} = this.props
     const {showDoneAll , planData, currentIndex} = this.state
-    const {doneAllPractice, series, totalSeries} = planData
+    const {doneAllPractice,doneAllApplication, series, totalSeries} = planData
     // if(!showDoneAll){
     //   if(!doneAllPractice && currentIndex===planData.series){
     //     this.setState({showDoneAll:true})
@@ -280,7 +280,6 @@ export class PlanMain extends React.Component <any, any> {
 
   confirm() {
     const {dispatch} = this.props;
-    console.log(this.state.mustStudyDays);
     if(!this.state.mustStudyDays){
       this.setState({ showCompleteModal: false, showConfirmModal: true })
     } else {
@@ -337,7 +336,6 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   submitScore(questionList){
-    console.log("提交:",questionList);
     const { selectProblem } = this.state;
     const { dispatch } = this.props;
     let problemScores = questionList.map(item=>{
@@ -404,79 +402,46 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div>
-        { showScoreModal?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)} onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })} questionList={this.state.questionList}/>:null}
-        { showCompleteModal ?
-          <div className="mask">
-            <div className="finished-modal">
-              <AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>
-              <div className="modal-context">
-                <div className="content">
-                  <div className="text2">太棒了!</div>
-                </div>
-                <div className="content2">你完成了本专题</div>
-                <div className="content2">
-                  已得<span className="number">{point}</span>积分
-                </div>
-                <div className="content2">
-                  打败了<span className="number">{defeatPercent}%</span>的Riser
-                </div>
-              </div>
-              <div className="modal-button-footer">
-                <div className="left" onClick={this.confirm.bind(this)}>
-                  下一专题
-                </div>
-                <div className="right" onClick={this.closeCompleteModal.bind(this)}>取消
-                </div>
-              </div>
-            </div>
+        {showScoreModal?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)} onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })} questionList={this.state.questionList}/>:null}
+        <Modal header={{replace:true,children:<AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
+            buttons={[{click:()=>this.confirm(),content:"下一专题"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
+            show={showCompleteModal}>
+          <div className="content">
+            <div className="text2">太棒了!</div>
           </div>
-          : null }
-        { showConfirmModal ?
-          <div className="mask">
-            <div className="finished-modal">
-              <div className="modal-header"/>
-              <div className="modal-context">
-                <div className="content">
-                  <div className="text">确定开始新专题吗</div>
-                  <div className="text">当前专题的理解训练将无法查看</div>
-                </div>
-                <div className="content2">
-                  <div className="text">（PC端应用训练仍然开放）</div>
-                </div>
-              </div>
-              <div className="modal-button-footer">
-                <div className="left" onClick={this.nextPlan.bind(this)}>
-                  确定
-                </div>
-                <div className="right" onClick={this.closeConfirmModal.bind(this)}>取消</div>
-              </div>
-            </div>
+          <div className="content2">你完成了本专题</div>
+          <div className="content2">
+            已得<span className="number">{point}</span>积分
           </div>
-          : null }
-        { isBoolean(openRise) && !openRise?
-          <div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.8)',position:'fixed'}}>
-            <Tutorial onShowEnd={()=>this.tutorialEnd()}/>
+          <div className="content2">
+            打败了<span className="number">{defeatPercent}%</span>的Riser
           </div>
-          :null}
-        { status === 3 ?
-          <div className="mask">
-            <div className="finished-modal">
-              <div className="modal-header"/>
-              <div className="modal-context">
-                <div className="content"><div className="text">本专题已到期</div></div>
-                <div className="content2">
-                  <div className="text">登录</div>
-                  <div className="text">www.iquanwai.com/community</div>
-                  <div className="text">可继续完成专题/应用训练</div>
-                </div>
-              </div>
-              <div className="modal-button-footer">
-                <div className="button" onClick={this.nextPlan.bind(this)}>开始新专题
-                </div>
-              </div>
-            </div>
+        </Modal>
+
+        <Modal show={showConfirmModal}
+               buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
+          <div className="content">
+            <div className="text">确定开始新专题吗</div>
+            <div className="text">当前专题的理解训练将无法查看</div>
           </div>
-          : null }
+          <div className="content2">
+            <div className="text">（PC端应用训练仍然开放）</div>
+          </div>
+        </Modal>
+
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
+
+        <Modal show={status===3}
+               buttons={[{click:()=>this.nextPlan(),content:"开始新专题"}]}
+               >
+          <div className="content"><div className="text">本专题已到期</div></div>
+          <div className="content2">
+            <div className="text">登录</div>
+            <div className="text">www.iquanwai.com/community</div>
+            <div className="text">可继续完成专题/应用训练</div>
+          </div>
+        </Modal>
+
         <div className="header-img">
           <img src={problem.pic} style={{width: this.picWidth, height: this.picHeight}}/>
           <div className="message-box" onClick={this.openMessageBox.bind(this)}>
@@ -519,6 +484,7 @@ export class PlanMain extends React.Component <any, any> {
             <div className="padding-footer"></div>
           </div>
         </div>}
+
         <div className="button-footer">
           <div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一组
           </div>
@@ -527,6 +493,47 @@ export class PlanMain extends React.Component <any, any> {
             完成训练</div> : null }
         </div>
       </div>
+    )
+  }
+}
+
+
+class Modal extends React.Component<any,any>{
+  constructor(props){
+    super(props);
+  }
+
+
+  render(){
+    const renderButton = (buttons=[])=>{
+      if(!buttons || buttons.length > 2){
+        return null;
+      }
+      if(buttons.length == 2){
+        return (
+          buttons.map((item,key)=>{
+            return <div className={`${key==0?'left':'right'}`} onClick={()=>item.click()}>{item.content}</div>
+            })
+        )
+      } else {
+        return (
+          <div className="button" onClick={()=>buttons[0].click()}>{buttons[0].content}</div>
+        )
+      }
+    }
+
+    return (
+      this.props.show?<div className="mask">
+        <div className="finished-modal">
+          {this.props.header && this.props.header.replace?this.props.header.children:<div className="modal-header">{this.props.header?this.props.header.children:null}</div>}
+          <div className="modal-context">
+            {this.props.children}
+          </div>
+          <div className="modal-button-footer">
+            {renderButton(this.props.buttons)}
+          </div>
+        </div>
+      </div>:null
     )
   }
 }
