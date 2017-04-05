@@ -119,7 +119,6 @@ export default class DropChoice extends React.Component<any,any>{
             <span onClick={()=>this.setState({close:true})}><AssetImg type="white_close_btn" size={this.closeSize}/></span>
           </div>
         </TweenOne>
-
       </div>
     )
   }
