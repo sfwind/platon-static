@@ -108,6 +108,7 @@ export class Main extends React.Component <any, any> {
       if (res) {
         // 已提交
         return loadOtherList(location.query.id, 1).then(res => {
+          dispatch(endLoad())
           if (res.code === 200) {
             this.setState({otherList: res.msg.list, otherHighlightList:res.msg.highlightList, page: 1, end:res.msg.end});
           } else {
@@ -115,6 +116,7 @@ export class Main extends React.Component <any, any> {
           }
         });
       } else {
+        dispatch(endLoad())
       }
     }).catch(ex => {
       dispatch(endLoad())

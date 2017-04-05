@@ -104,6 +104,7 @@ export class Main extends React.Component <any, any> {
       const selected = list.practice[`${currentIndex-1}`].choice
       this.setState({currentIndex:currentIndex-1, selected})
     }
+    this.refs.warmup.scrollTop = 0
   }
 
   next(){
@@ -121,6 +122,7 @@ export class Main extends React.Component <any, any> {
       }
       this.setState({currentIndex:currentIndex+1, selected})
     }
+    this.refs.warmup.scrollTop = 0
   }
 
   onSubmit() {
@@ -161,7 +163,7 @@ export class Main extends React.Component <any, any> {
     const questionRender = (practice) => {
       const { question, voice, analysis, choiceList = [], score = 0 } = practice
       return (
-        <div className="intro-container">
+        <div className="intro-container" ref="warmup">
           { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
             <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
             <span className="type"><span className="number">{score}</span>分</span>

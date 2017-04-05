@@ -207,12 +207,12 @@ export class PlanMain extends React.Component <any, any> {
           } else {
             if (!knowledge.appear) {
               this.context?this.context.router.push({
-                pathname: '/rise/static/practice/warmup/intro',
+                pathname: '/rise/static/practice/warmup',
                 query: { practicePlanId, kid: knowledge.id, series }
               }):null;
             } else {
               this.context?this.context.router.push({
-                pathname: '/rise/static/practice/warmup/ready',
+                pathname: '/rise/static/practice/warmup',
                 query: { practicePlanId, kid: knowledge.id, series }
               }):null;
             }

@@ -67,6 +67,7 @@ export class Analysis extends React.Component <any, any> {
     if (currentIndex < practiceCount - 1) {
       this.setState({currentIndex: currentIndex + 1})
     }
+    this.refs.warmup.scrollTop = 0
   }
 
   prev() {
@@ -75,6 +76,7 @@ export class Analysis extends React.Component <any, any> {
     if (currentIndex > 0) {
       this.setState({currentIndex: currentIndex - 1})
     }
+    this.refs.warmup.scrollTop = 0
   }
 
   nextTask() {
@@ -126,7 +128,7 @@ export class Analysis extends React.Component <any, any> {
       const {id, question, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div>
-          <div className="intro-container">
+          <div className="intro-container" ref="warmup">
             { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
                 <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
                 <span className="type"><span className="number">{score}</span>分</span>
