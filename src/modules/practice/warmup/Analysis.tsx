@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./Main.less";
-import {loadWarmUpAnalysis, loadKnowledgeIntro, loadWarmUpDiscuss} from "./async";
+import {loadWarmUpAnalysis, loadWarmUpDiscuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -27,7 +27,6 @@ export class Analysis extends React.Component <any, any> {
       list: [],
       currentIndex: 0,
       practiceCount: 0,
-      knowledge: {},
       showKnowledge: false,
       showDiscuss: false,
       repliedId: 0,
@@ -51,15 +50,6 @@ export class Analysis extends React.Component <any, any> {
     this.setState({currentIndex: 0})
     const {practicePlanId} = location.query
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.kid).then(res => {
-      dispatch(endLoad())
-      const {code, msg} = res
-      if (code === 200) this.setState({knowledge: msg})
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
     loadWarmUpAnalysis(practicePlanId).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
@@ -221,7 +211,7 @@ export class Analysis extends React.Component <any, any> {
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-            <div className="page-header">{knowledge.knowledge}</div>
+            {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
             {questionRender(practice[currentIndex] || {})}
           </div>
         </div>
@@ -232,7 +222,7 @@ export class Analysis extends React.Component <any, any> {
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
         </div>
 
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+        {showKnowledge ? <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
         {showDiscuss ?<Discuss repliedId={repliedId} warmupPracticeId={this.state.warmupPracticeId}
                                closeModal={this.closeDiscussModal.bind(this)}/> : null}
       </div>

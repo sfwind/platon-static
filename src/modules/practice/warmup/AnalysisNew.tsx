@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./Main.less";
-import {loadWarmUpAnalysisNew, loadKnowledgeIntro} from "./async";
+import {loadWarmUpAnalysisNew} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -25,7 +25,6 @@ export class AnalysisNew extends React.Component <any, any> {
     super()
     this.state = {
       data: {},
-      knowledge: {},
       showKnowledge: false,
       showDiscuss: false,
       repliedId: 0,
@@ -42,19 +41,10 @@ export class AnalysisNew extends React.Component <any, any> {
     const {warmupPracticeId} = location.query
     dispatch(startLoad())
     loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
-      let {code, msg} = res
-      const data = msg
+      dispatch(endLoad())
+      const {code, msg} = res
       if (code === 200){
-        const {knowledgeId} = msg
-        loadKnowledgeIntro(knowledgeId).then(res => {
-          dispatch(endLoad())
-          const {code, msg} = res
-          if (code === 200) this.setState({knowledge: msg, data, warmupPracticeId})
-          else dispatch(alertMsg(msg))
-        }).catch(ex => {
-          dispatch(endLoad())
-          dispatch(alertMsg(ex))
-        })
+        this.setState({data: msg, warmupPracticeId})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -97,8 +87,8 @@ export class AnalysisNew extends React.Component <any, any> {
   }
 
   render() {
-    const {data, selected, knowledge,
-      showKnowledge, showDiscuss, repliedId} = this.state
+    const {data, selected, showKnowledge, showDiscuss, repliedId} = this.state
+    const {knowledge} = data
 
     const questionRender = (practice) => {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
@@ -185,7 +175,8 @@ export class AnalysisNew extends React.Component <any, any> {
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-            <div className="page-header">{knowledge.knowledge}</div>
+
+            {knowledge?<div className="page-header">{knowledge.knowledge}</div>:null}
             {questionRender(data)}
           </div>
         </div>

@@ -4,10 +4,6 @@ export function loadKnowledgeIntro(knowledgeId) {
   return pget(`/rise/plan/knowledge/load/${knowledgeId}`)
 }
 
-export function loadWarmUpPractice(practicePlanId) {
-  return pget(`/rise/practice/warmup/start/${practicePlanId}`)
-}
-
 export function loadWarmUpAnalysis(practicePlanId) {
   return pget(`/rise/practice/warmup/analysis/${practicePlanId}`)
 }

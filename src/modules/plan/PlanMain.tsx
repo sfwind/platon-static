@@ -375,17 +375,21 @@ export class PlanMain extends React.Component <any, any> {
           <div key={index} className="practice-card"
                onClick={() => this.onPracticeSelected(item)}>
             <div className="header">
-              {item.type === 1 ? item.status !== 1 ?
+              {item.type === 1 || item.type == 2 ? item.status !== 1 ?
                   <AssetImg type="warmup" size={50}/>:
                   <AssetImg type="warmup_complete" size={50}/>: null
               }
-              {item.type === 11 ? item.status !== 1 ?
+              {item.type === 11 || item.type == 12 ? item.status !== 1 ?
                   <AssetImg type="application" size={50}/>:
                   <AssetImg type="application_complete" size={50}/>: null
               }
               {item.type === 21 ? item.status !== 1 ?
                   <AssetImg type="challenge" size={50}/>:
                   <AssetImg type="challenge_complete" size={50}/>: null
+              }
+              {item.type === 31 || item.type == 32 ? item.status !== 1 ?
+                  <AssetImg type="knowledge" size={50}/>:
+                  <AssetImg type="knowledge_complete" size={50}/>: null
               }
             </div>
             {item.unlocked === false ?
@@ -479,7 +483,9 @@ export class PlanMain extends React.Component <any, any> {
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>
           : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f5f5f5'}}>
-          <div className="plan-progress"><div className="bar"></div><span>第{series}组</span><div className="bar"></div></div>
+          <div className="plan-progress">
+            <div className="bar"></div><span>第{series}组</span><div className="bar"></div>
+          </div>
           <div className="plan-main">
             <div className="list">
               {practiceRender(practice)}

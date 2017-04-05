@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { remove, set, merge,get,findIndex } from "lodash";
 import "./Main.less";
-import { loadWarmUpPractice, loadKnowledgeIntro, answer,loadWarmUpAnalysis } from "./async";
+import { answer,loadWarmUpAnalysis } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -39,15 +39,6 @@ export class Main extends React.Component <any, any> {
     const { dispatch, location } = this.props
     const { practicePlanId } = location.query
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.kid).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if (code === 200)  this.setState({ knowledge: msg })
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
     loadWarmUpAnalysis(practicePlanId).then(res=>{
       dispatch(endLoad())
       const { code, msg } = res
@@ -202,11 +193,11 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> :
+        {showKnowledge ? <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
             <div className="container has-footer" style={{height: window.innerHeight - 49}}>
               <div className="warm-up">
-                <div className="page-header">{knowledge.knowledge}</div>
+                {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
                 {questionRender(practice[currentIndex] || {})}
               </div>
             </div>

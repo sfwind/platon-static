@@ -30,7 +30,18 @@ router.get("/rise/practice/warmup/start/*", (req, res) => {
 						"isRight": false,
 						"selected": null
 					}],
-					"choice": null
+					"choice": null,
+                    "knowledge": {
+                        "id": 5,
+                        "knowledge": "逻辑顺序",
+                        "step": null,
+                        "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                        "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                        "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                        "pic": null,
+                        "audio": null,
+                        "appear": null
+                    }
 				}, {
 					"id": 45,
 					"question": "请判断下面这段话作为主题是否适度？\n当今世界已进入信息网络化时代，信息网络化对编辑工作既提出了新的挑战，也带来了难得的发展机遇。当下，互联网在民众的生活中产生着越来越大的影响，“互联网+编辑出版业”也为编辑出版产业提供了广阔的发展空间。如何利用好互联网平台，使其与编辑出版业进行深度融合，为编辑出版工作打造新的局面，是值得编辑出版人深思的话题。目前以网络为代表的新媒体无疑给信息的传播带来了便捷，让编辑编发的成果受众面更为广阔。而同时，“互联网+”带给编辑工作者的冲击也是不小的，对此，编辑工作者就需积极应对。我认为进入网络化社会，编辑要不断学习新知识和技能，创新工作方式。\n ……\n",
@@ -48,7 +59,18 @@ router.get("/rise/practice/warmup/start/*", (req, res) => {
 						"isRight": false,
 						"selected": null
 					}, { "id": 137, "questionId": 45, "subject": "不适度", "sequence": 2, "isRight": true, "selected": null }],
-					"choice": null
+					"choice": null,
+                    "knowledge": {
+                        "id": 5,
+                        "knowledge": "逻辑顺序",
+                        "step": null,
+                        "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                        "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                        "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                        "pic": null,
+                        "audio": null,
+                        "appear": null
+                    }
 				}, {
 					"id": 47,
 					"question": "请为下面这段话概括一个最合适的主题：\n为了改善公司目前新入职员工的培训状况：\n 应向管理层强调，对新入职员工的培训十分影响员工的工作质量和忠诚度\n 应在年末给予优秀讲师奖励和表彰，提高讲师的积极性\n 应搜集新入职员工对培训的反馈，调整培训内容，使之更贴合新员工需要\n",
@@ -80,7 +102,18 @@ router.get("/rise/practice/warmup/start/*", (req, res) => {
 						"isRight": false,
 						"selected": null
 					}],
-					"choice": null
+					"choice": null,
+                    "knowledge": {
+                        "id": 5,
+                        "knowledge": "逻辑顺序",
+                        "step": null,
+                        "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                        "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                        "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                        "pic": null,
+                        "audio": null,
+                        "appear": null
+                    }
 				}]
 			}, "code": 200
 		}), Math.random() * 1500)
@@ -133,32 +166,43 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
 								"selected": true
 							}
 						],
-            "discussList": [
-              {
-                "id":2,
-                "repliedId": 1,
-                "comment":"回复回复",
-                "repliedName": "风之伤",
-                "repliedComment": "评论评论评论",
-                "warmupPracticeId": 49,
-                "name":"Diane",
-                "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-                "discussTime":"10:30",
-                "priority":1,
-              },
+                        "knowledge": {
+                            "id": 5,
+                            "knowledge": "逻辑顺序",
+                            "step": null,
+                            "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                            "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                            "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                            "pic": null,
+                            "audio": null,
+                            "appear": null
+                        },
+                        "discussList": [
+                          {
+                            "id":2,
+                            "repliedId": 1,
+                            "comment":"回复回复",
+                            "repliedName": "风之伤",
+                            "repliedComment": "评论评论评论",
+                            "warmupPracticeId": 49,
+                            "name":"Diane",
+                            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                            "discussTime":"10:30",
+                            "priority":1,
+                          },
 
-              {
-                "id":1,
-                "repliedId": null,
-                "comment":"评论评论评论",
-                "repliedName": null,
-                "repliedComment": null,
-                "warmupPracticeId": 49,
-                "name":"风之伤",
-                "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-                "discussTime":"10:38"
-              }
-            ],
+                          {
+                            "id":1,
+                            "repliedId": null,
+                            "comment":"评论评论评论",
+                            "repliedName": null,
+                            "repliedComment": null,
+                            "warmupPracticeId": 49,
+                            "name":"风之伤",
+                            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                            "discussTime":"10:38"
+                          }
+                        ],
 					},
 					{
 						"id": 2, //题目id
@@ -200,7 +244,18 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
 								"isRight": false,
 								"selected": true
 							}
-						]
+						],
+                        "knowledge": {
+                            "id": 5,
+                            "knowledge": "逻辑顺序",
+                            "step": null,
+                            "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                            "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                            "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                            "pic": null,
+                            "audio": null,
+                            "appear": null
+                        }
 					}
 				]
 			}
@@ -379,6 +434,17 @@ router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
             "selected": true
           }
         ],
+          "knowledge": {
+              "id": 5,
+              "knowledge": "逻辑顺序",
+              "step": null,
+              "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+              "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+              "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+              "pic": null,
+              "audio": null,
+              "appear": null
+          },
         "discussList": [
           {
             "id":2,
@@ -424,7 +490,18 @@ router.get("/rise/practice/warmup/*", (req, res) => {
         "score": null,
         "choiceList": null,
         "discussList": null,
-        "choice": null
+        "choice": null,
+          "knowledge": {
+              "id": 5,
+              "knowledge": "逻辑顺序",
+              "step": null,
+              "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+              "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+              "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+              "pic": null,
+              "audio": null,
+              "appear": null
+          }
       }
     }), Math.random() * 1500)
 });
