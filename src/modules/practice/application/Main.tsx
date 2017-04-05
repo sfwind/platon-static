@@ -1,9 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadKnowledgeIntro, loadApplicationPractice,vote,loadOtherList } from "./async";
+import { loadApplicationPractice,vote,loadOtherList } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
@@ -98,15 +97,6 @@ export class Main extends React.Component <any, any> {
       if (code === 200) {
         const { content, knowledgeId } = msg;
         this.setState({data: msg, submitId: msg.submitId})
-        loadKnowledgeIntro(knowledgeId).then(res => {
-          dispatch(endLoad());
-          let { code, msg } = res;
-          if (code === 200)  this.setState({ knowledge: msg });
-          else dispatch(alertMsg(msg))
-        }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
         if (content !== null){
           window.location.href = '#submit'
           return true;

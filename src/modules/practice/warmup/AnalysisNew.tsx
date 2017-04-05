@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import "./Analysis.less";
+import "./Main.less";
 import {loadWarmUpAnalysisNew, loadKnowledgeIntro} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
@@ -103,39 +103,52 @@ export class AnalysisNew extends React.Component <any, any> {
     const questionRender = (practice) => {
       const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
       return (
-        <div className="intro-container">
-          <div className="question">
-            <div dangerouslySetInnerHTML={{__html: question}}></div>
-          </div>
-          <div className="choice-list">
-            {choiceList.map((choice, idx) => choiceRender(choice, idx))}
-          </div>
-          <div className="analysis">
-            <div className="analysis-title">【解析】</div>
-            <div className="context"
-                 dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-            <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
-          </div>
-          <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, warmupPracticeId: id, repliedId:0})}>
-            <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-          </div>
-          <div className="discuss">
-            <a name="discuss"/>
-            <div className="discuss-title-bar"><span className="discuss-title">问答</span></div>
-            {discussList.map((discuss, idx) => discussRender(discuss, idx))}
-            { discussList.length > 0 ?
-              <div className="discuss-end">
-                你已经浏览完所有的讨论啦
+        <div>
+          <div className="intro-container">
+            <div className="question">
+              <div dangerouslySetInnerHTML={{__html: question}}></div>
+            </div>
+            <div className="choice-list">
+              {choiceList.map((choice, idx) => choiceRender(choice, idx))}
+            </div>
+            <div className="answer">
+              <div className="answer-title">【答案】</div>
+              <div className="context">
+                正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
-              :
-              <div className="discuss-end">
-                <div className="discuss-end-img">
-                  <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
+              <div className="context">
+                已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
+              </div>
+            </div>
+            <div className="analysis">
+              <div className="analysis-title">【解析】</div>
+              <div className="context"
+                   dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
+              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
+            </div>
+            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, warmupPracticeId: id, repliedId:0})}>
+              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+            </div>
+          </div>
+          <div className="discuss-container">
+            <div className="discuss">
+              <a name="discuss"/>
+              <div className="discuss-title-bar"><span className="discuss-title">问答</span></div>
+              {discussList.map((discuss, idx) => discussRender(discuss, idx))}
+              { discussList.length > 0 ?
+                <div className="discuss-end">
+                  你已经浏览完所有的讨论啦
                 </div>
-                <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
+                :
+                <div className="discuss-end">
+                  <div className="discuss-end-img">
+                    <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                  </div>
+                  <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
 
-              </div>
-            }
+                </div>
+              }
+            </div>
           </div>
         </div>
       )
@@ -150,14 +163,22 @@ export class AnalysisNew extends React.Component <any, any> {
     const choiceRender = (choice, idx) => {
       const {id, subject} = choice
       return (
-        <div key={id} className={`choice${choice.selected ? ' selected' : ''}`}>
-          <span className={`index${choice.isRight ? ' right' : ' wrong'}`}>
-            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> :
-              ( choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx])}
+          <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
+          <span className={`index`}>
+            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
+            {/*( choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx])}*/}
           </span>
-          <span className={`text${choice.isRight ? ' right' : ' wrong'}`}>{subject}</span>
-        </div>
+            <span className={`text`}>{subject}</span>
+          </div>
       )
+    }
+
+    const rightAnswerRender = (choice, idx) => {
+      return (choice.isRight? sequenceMap[idx]+' ' :'')
+    }
+
+    const myAnswerRender = (choice, idx) => {
+      return (choice.selected? sequenceMap[idx]+' ' :'')
     }
 
     return (

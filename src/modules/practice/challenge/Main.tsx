@@ -1,14 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadChallengePractice,vote,loadOtherList } from "./async";
+import { loadChallengePractice } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
-import {isNull,isString,truncate,merge,set} from "lodash";
 import Work from "../components/NewWork"
-import PullElement from 'pull-element'
-import {findIndex,remove,get} from "lodash";
+import {merge} from 'lodash'
 
 
 @connect(state => state)
@@ -33,42 +30,6 @@ export class Main extends React.Component <any, any> {
 
   componentDidMount(){
   }
-
-  // componentDidUpdate(preProps,preState){
-  //   const content = get(this.state,'data.content');
-  //   if(content && !this.pullElement){
-  //     const {dispatch} = this.props;
-  //     this.pullElement = new PullElement({
-  //       target:'.container',
-  //       scroller:'.container',
-  //       damping:4,
-  //       detectScroll:true,
-  //       detectScrollOnStart:true,
-  //       onPullUpEnd:(data)=>{
-  //         loadOtherList(this.props.location.query.id,this.state.page+1).then(res=> {
-  //           if (res.code === 200) {
-  //             if (res.msg.list && res.msg.list.length !== 0) {
-  //               remove(res.msg.list,(item)=>{
-  //                 return findIndex(this.state.otherList,item)!==-1;
-  //               })
-  //               this.setState({otherList: this.state.otherList.concat(res.msg.list), page: this.state.page + 1,end:res.msg.end});
-  //             } else {
-  //               dispatch(alertMsg('没有更多了'));
-  //             }
-  //           } else {
-  //             dispatch(alertMsg(res.msg));
-  //           }
-  //         }).catch(ex => {
-  //           dispatch(alertMsg(ex));
-  //         });
-  //       }
-  //     })
-  //     this.pullElement.init();
-  //   }
-  //   if(this.pullElement && this.state.end){
-  //     this.pullElement.disable();
-  //   }
-  // }
 
   componentWillUnmount(){
     this.pullElement?this.pullElement.destroy():null;
@@ -133,21 +94,6 @@ export class Main extends React.Component <any, any> {
       state: {goBackUrl}})
   }
 
-  voted(id,voteStatus,voteCount,isMine,seq){
-    if(!voteStatus){
-      if(isMine){
-        this.setState({data:merge({},this.state.data,{voteCount:voteCount+1,voteStatus:true})});
-      } else {
-        let newOtherList = merge([],this.state.otherList);
-        set(newOtherList,`[${seq}].voteCount`,voteCount+1)
-        set(newOtherList,`[${seq}].voteStatus`,1);
-        this.setState({otherList:newOtherList})
-      }
-      vote(id);
-    } else {
-    }
-  }
-
   back(){
     const {goBackUrl} = this.state
     const {location} = this.props
@@ -160,9 +106,8 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { data,otherList=[], knowledge = {},end } = this.state
-    const { voice, pic, description, content, submitUpdateTime,voteCount,
-      commentCount,submitId,voteStatus } = data
+    const { data} = this.state
+    const {content} = data
 
     const renderContent = ()=>{
       if(!content) {
@@ -190,6 +135,7 @@ export class Main extends React.Component <any, any> {
       <div>
         <div ref="container" className="container has-footer">
           <div className="challenge">
+            <div className="page-header">{'小目标'}</div>
             <div className="intro-container">
               <div className="context-img">
                 <img src="http://www.iqycamp.com/images/fragment/challenge_practice.png" alt=""/>
@@ -208,9 +154,6 @@ export class Main extends React.Component <any, any> {
             <div ref="workContainer" className="work-container">
               <div className="submit-bar"><span className="padding"></span>{ content === null?'提交方式':'我的作业'}</div>
               {renderContent()}
-              {/*{content?<div className="submit-bar">群众的智慧</div>:null}*/}
-              {/*{renderOtherList()}*/}
-              {/*{renderTips()}*/}
             </div>
           </div>
         </div>

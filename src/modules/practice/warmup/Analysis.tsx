@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./Main.less";
-import {loadWarmUpAnalysis, loadKnowledgeIntro, loadWarmUpNext, loadWarmUpDiscuss} from "./async";
+import {loadWarmUpAnalysis, loadKnowledgeIntro, loadWarmUpDiscuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -133,7 +133,7 @@ export class Analysis extends React.Component <any, any> {
     const {practice = []} = list
 
     const questionRender = (practice) => {
-      const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
+      const {id, question, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div>
           <div className="intro-container">
@@ -146,6 +146,15 @@ export class Analysis extends React.Component <any, any> {
             </div>
             <div className="choice-list">
               {choiceList.map((choice, idx) => choiceRender(choice, idx))}
+            </div>
+            <div className="answer">
+              <div className="answer-title">【答案】</div>
+              <div className="context">
+                正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
+              </div>
+              <div className="context">
+                已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
+              </div>
             </div>
             <div className="analysis">
               <div className="analysis-title">【解析】</div>
@@ -198,6 +207,14 @@ export class Analysis extends React.Component <any, any> {
           <span className={`text`}>{subject}</span>
         </div>
       )
+    }
+
+    const rightAnswerRender = (choice, idx) => {
+      return (choice.isRight? sequenceMap[idx]+' ' :'')
+    }
+
+    const myAnswerRender = (choice, idx) => {
+      return (choice.selected? sequenceMap[idx]+' ' :'')
     }
 
     return (
