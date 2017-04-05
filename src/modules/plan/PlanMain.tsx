@@ -317,7 +317,7 @@ export class PlanMain extends React.Component <any, any> {
       this.setState({ showCompleteModal: false, showConfirmModal: true,showNextModal:false })
     } else {
       this.setState({ showCompleteModal: false,showNextModal:false})
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本专题推荐学习天数至少为${this.state.mustStudyDays}天 之后就可以开启下一专题了`))
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本专题推荐学习天数至少为${this.state.mustStudyDays}天<br/>之后就可以开启下一专题了`))
     }
   }
 
