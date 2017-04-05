@@ -1,5 +1,5 @@
 import qs from "qs";
-import { merge } from "lodash";
+import { merge,isUndefined,isNull,values } from "lodash";
 import { get, post } from "axios";
 
 const debug = getQueryString('debug')
@@ -9,7 +9,8 @@ const config = {
 }
 
 export function appendQs(query:Object):string {
-  return !query ? "" : `?${qs.stringify(merge(query, { debug: debug }))}`
+  let queryCount = values(query).filter(item=> !isNull(item) && !(isUndefined(item))).length;
+  return queryCount === 0 ? "" : `?${qs.stringify(merge(query, { debug: debug }))}`
 }
 
 export function pget(url:string, query?:Object) {
