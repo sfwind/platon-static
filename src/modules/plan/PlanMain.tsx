@@ -8,7 +8,7 @@ import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
 import DropChoice from "../../components/DropChoice"
 import ProblemViewer from "../problem/components/ProblemViewer"
-import {merge,isBoolean} from "lodash"
+import {merge,isBoolean,get} from "lodash"
 
 const typeMap = {
   1: '理解训练',
@@ -78,7 +78,8 @@ export class PlanMain extends React.Component <any, any> {
             }
           ]
         }
-      ]
+      ],
+      showedPayTip:false
     }
   }
 
@@ -94,6 +95,7 @@ export class PlanMain extends React.Component <any, any> {
 
   componentWillMount(id) {
     const { dispatch, location } = this.props
+    const { showedPayTip } = this.state;
     dispatch(startLoad())
     let series;
     if(id !== undefined && !isNaN(id)){
@@ -119,7 +121,8 @@ export class PlanMain extends React.Component <any, any> {
             this.context.router.push({ pathname: location.pathname })
             dispatch(alertMsg("下一组任务明早6点解锁"))
           }
-          if(code === 213){
+          if(code === 213 && !showedPayTip){
+            this.setState({showedPayTip:true});
             dispatch(alertMsg("第三组之后的内容需要付费才能查看"))
           }
         } else if (code === 211) {
@@ -235,10 +238,11 @@ export class PlanMain extends React.Component <any, any> {
     this.refs.plan.scrollTop = 0
   }
 
-  next() {
+  next(force) {
     const {dispatch} = this.props
     const {showDoneAll , planData, currentIndex} = this.state
-    const {doneAllPractice,doneAllApplication, series, totalSeries} = planData
+    const {doneAllPractice, series,doneCurSerialApplication, totalSeries} = planData
+    const unlocked = get(planData,'practice[0].unlocked');
     // if(!showDoneAll){
     //   if(!doneAllPractice && currentIndex===planData.series){
     //     this.setState({showDoneAll:true})
@@ -246,8 +250,13 @@ export class PlanMain extends React.Component <any, any> {
     //   }
     // }
     if (series === totalSeries) {
-
+      this.setState({showNextSerialModal:false});
     } else {
+      if(unlocked && !doneCurSerialApplication && !force){
+        this.setState({showNextSerialModal:true});
+        return;
+      }
+      this.setState({showNextSerialModal:false});
       this.context.router.push({ pathname: this.props.location.pathname, query: { series: series + 1 } })
     }
 
@@ -278,13 +287,20 @@ export class PlanMain extends React.Component <any, any> {
     })
   }
 
-  confirm() {
+  confirm(force) {
     const {dispatch} = this.props;
+    const {planData} = this.state
+    const {doneAllApplication} = planData
+    const unlocked = get(planData,'practice[0].unlocked');
+    if(unlocked && !doneAllApplication && !force){
+      this.setState({showNextModal:true,showCompleteModal: false});
+      return;
+    }
     if(!this.state.mustStudyDays){
-      this.setState({ showCompleteModal: false, showConfirmModal: true })
+      this.setState({ showCompleteModal: false, showConfirmModal: true,showNextModal:false })
     } else {
-      this.setState({ showCompleteModal: false})
-      dispatch(alertMsg(`进度太快啦<br/>先留下来复习${this.state.mustStudyDays}天，再学习下一专题吧`))
+      this.setState({ showCompleteModal: false,showNextModal:false})
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本专题推荐学习天数至少为${this.state.mustStudyDays}天 之后就可以开启下一专题了`))
     }
   }
 
@@ -359,12 +375,11 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem, defeatPercent } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem, defeatPercent,showNextModal,showNextSerialModal } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
-      deadline, status, currentSeries, totalSeries, series, openRise, newMessage
+      deadline, status, currentSeries, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
-
     const practiceRender = (list = []) => {
       return list.map((item, index) => {
         return (
@@ -442,6 +457,24 @@ export class PlanMain extends React.Component <any, any> {
           </div>
         </Modal>
 
+        <Modal show={showNextSerialModal}
+               buttons={[{click:()=>this.next(true),content:"我不听"},{click:()=>this.setState({showNextSerialModal:false}),content:"好的"}]}
+        >
+          <div className="content">
+            <div className="text" >从了解知识和能够运用，还差一个内化的距离</div>
+            <div className="text">确定不做应用训练了吗？</div>
+          </div>
+        </Modal>
+
+        <Modal show={showNextModal}
+               buttons={[{click:()=>this.confirm(true),content:"我不听"},{click:()=>this.setState({showNextModal:false}),content:"好的"}]}
+        >
+          <div className="content">
+            <div className="text" >提升能力和解决问题，需要你的刻意练习</div>
+            <div className="text">我们推荐你至少完成所有综合案例</div>
+          </div>
+        </Modal>
+
         <div className="header-img">
           <img src={problem.pic} style={{width: this.picWidth, height: this.picHeight}}/>
           <div className="message-box" onClick={this.openMessageBox.bind(this)}>
@@ -453,7 +486,7 @@ export class PlanMain extends React.Component <any, any> {
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>
             <div className="section">
-              <label>已解锁:</label> {currentIndex}/{totalSeries}组训练
+              <label>已完成:</label> {completeSeries}/{totalSeries}组训练
             </div>
             <div className="section">
               <label>距关闭:</label> {deadline}天
@@ -488,8 +521,8 @@ export class PlanMain extends React.Component <any, any> {
         <div className="button-footer">
           <div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一组
           </div>
-          { series !== totalSeries ? <div className={`right`} onClick={this.next.bind(this)}>下一组</div> : null }
-          { series === totalSeries ? <div className={`right`} onClick={this.complete.bind(this)}>
+          { series !== totalSeries ? <div className={`right`} onClick={()=>this.next()}>下一组</div> : null }
+          { series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>
             完成训练</div> : null }
         </div>
       </div>
