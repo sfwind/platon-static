@@ -213,7 +213,8 @@ router.post("/rise/practice/warmup/answer/*", (req, res) => {
 			"code": 200,
 			"msg": {
 				"rightNumber": 3, //正确题数
-				"point": 2000 //积分
+				"point": 2000, //积分
+                "total":3 //题目总数
 			}
 		}), Math.random() * 1500)
 });
