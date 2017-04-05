@@ -41,7 +41,7 @@ export default class Main extends React.Component<any, any> {
 				</Toast>
 				<Alert { ...this.state.alert }
 					show={this.props.base.showModal}>
-					{this.props.base.alertMsg}
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.props.base.alertMsg}}/>
 				</Alert>
 			</div>
 		)

@@ -61,9 +61,10 @@ export default class Tutorial extends React.Component<any,any> {
 
   render() {
     const {index, bgList} = this.state;
-    console.log(bgList[index]);
 
     return (
+      this.props.show?<div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.8)',position:'fixed'}}>
+
       <div className="tutorial" onClick={()=>this.next()}>
         <SwipeableViews style={{height:'100%',width:'100%'}} containerStyle={{height:'100%',width:'100%'}}
                         index={index} onSwitching={(index,type)=>this.onSwitching(index,type)} resistance={true}>
@@ -82,6 +83,7 @@ export default class Tutorial extends React.Component<any,any> {
           })}
         </div>}
       </div>
+      </div>:null
     )
   }
 }
