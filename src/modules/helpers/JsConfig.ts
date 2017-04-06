@@ -2,6 +2,7 @@ import { pget } from "utils/request"
 import * as _ from "lodash"
 
 export function config(apiList) {
+  console.log('change,config');
 	pget(`/rise/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
 		if (res.code === 200) {
 			wx.config(_.merge({

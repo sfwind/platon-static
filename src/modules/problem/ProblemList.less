@@ -36,4 +36,12 @@
 .white-button{
   //color: #65c4f9;
   background-color: #ffffff;
+  .button{
+    width: calc(50%);
+    display: inline-block;
+    &:first-of-type{
+      width: calc(50% - 1px);
+      border-right:1px solid #EFEFEF;
+    }
+  }
 }

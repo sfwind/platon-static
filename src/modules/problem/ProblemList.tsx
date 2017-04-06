@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import "./ProblemList.less";
 import { remove } from "lodash";
-import { welcome } from "./async";
+import { welcome,trial,becomRiser } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 
 @connect(state => state)
@@ -19,13 +19,28 @@ export class ProblemList extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
+  componentWillMount(){
+    // 查看是否试用版
+    const {dispatch} = this.props;
+    dispatch(startLoad());
+    welcome().then((res)=>{
+      dispatch(endLoad());
+      if(res.code === 200){
+        this.setState({riseMember:res.msg});
+      }
+    }).catch(ex=>{
+      dispatch(endLoad());
+    })
+  }
+
 
   componentDidMount(){
-    welcome()
     setTimeout(() => {
       this.setState({show:true})
     }, 100)
   }
+
+
 
 
   onSubmit(){
@@ -34,8 +49,28 @@ export class ProblemList extends React.Component <any, any> {
     })
   }
 
+  goTrial(){
+    trial();
+    this.context.router.push({
+      pathname: '/rise/static/problem/priority'
+    })
+  }
+
+  becomeRiser(){
+    becomRiser();
+    this.context.router.push({
+      pathname:'/rise/static/plan/member/explain'
+    })
+  }
+
   render() {
-    const {show} = this.state
+    const {show,riseMember} = this.state
+
+
+    const renderButton = (buttons)=>{
+      return buttons;
+    }
+
     return (
       <div>
         <div className="problem-list">
@@ -45,7 +80,13 @@ export class ProblemList extends React.Component <any, any> {
             <img className={show?"show third":"hide third"} src="http://www.iqycamp.com/images/fragment/rise_welcome_3.png"></img>
           </div>
         </div>
-        <div className="button-footer white-button" onClick={this.onSubmit.bind(this)}>下一步</div>
+        <div className="button-footer white-button">
+          {riseMember?<div onClick={()=>this.onSubmit()}>下一步</div>:
+            renderButton([<div className="button" onClick={()=>this.goTrial()}>试用版</div>,
+                        <div className="button" onClick={()=>this.becomeRiser()}>成为RISEER</div>])
+          }
+
+        </div>
       </div>
     )
   }

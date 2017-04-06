@@ -108,11 +108,11 @@ export class PlanMain extends React.Component <any, any> {
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg, currentIndex:msg.currentSeries })
+            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries })
             loadProblem(msg.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
-                this.setState({selectProblem:msg})
+                this.setState({selectProblem:msg.improvementPlan})
               }
             })
           } else {
@@ -137,11 +137,12 @@ export class PlanMain extends React.Component <any, any> {
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg, currentIndex:msg.currentSeries})
+            console.log(msg);
+            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries})
             loadProblem(msg.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
-                this.setState({selectProblem:msg})
+                this.setState({selectProblem:msg.improvementPlan})
               }
             })
           } else {

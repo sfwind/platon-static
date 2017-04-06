@@ -325,4 +325,20 @@ router.get("/rise/plan/knowledge/example/*", (req, res) => {
     }), Math.random() * 1500)
 });
 
+router.post("/rise/plan/welcome", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg":true
+    }), Math.random() * 1500)
+});
+
+router.post("/rise/plan/mark/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg":"ok"
+    }), Math.random() * 1500)
+});
+
 module.exports = router;
