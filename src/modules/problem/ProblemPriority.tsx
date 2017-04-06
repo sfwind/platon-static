@@ -102,7 +102,7 @@ export class ProblemPriority extends React.Component<any,any> {
         >
           {/*<div className="swipe-box-mask" style={{opacity:`${catalogOpen[seq]?'0.18':'0.25'}`}}></div>*/}
           <div className="swipe-header" onClick={(e)=>this.openCatalog(seq,e)} style={{margin:`${catalogOpen[seq]?this.catalogMargin+'px 20px '+ (this.catalogOpenMargin + 'px'):this.catalogMargin+'px 20px '+(this.catalogMargin+ 'px')}`}}>
-            <div className="catalog-name" style={{fontSize:`${this.catalogName}px`,lineHeight:`${this.iconSize}px`}}>{catalog.name}</div>
+            <div className="catalog-name" style={{fontSize:`${this.catalogName}px`,lineHeight:`${this.iconSize}px`}}>{catalog.name + `${this.state.riseMember?'':'|试用版'}`}</div>
             <div className="catalog-arrow" style={{height:`${this.iconSize}px`,width:`${this.iconSize}px`}}>
               <AssetImg size={this.iconSize}
                         type={`${catalogOpen[seq]?'arrowUp':'arrowDown'}`}/>

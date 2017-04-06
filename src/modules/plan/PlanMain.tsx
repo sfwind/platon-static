@@ -86,6 +86,9 @@ export class PlanMain extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
+  componentDidUpdate(){
+  }
+
   componentWillReceiveProps(newProps) {
     if (this.props.location.query.series !== newProps.location.query.series && newProps.location.query.series !== undefined) {
       this.componentWillMount(newProps.location.query.series)
@@ -108,8 +111,9 @@ export class PlanMain extends React.Component <any, any> {
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries })
-            loadProblem(msg.problemId).then(res => {
+            console.log(msg);
+            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries ,riseMember:msg.riseMember})
+            loadProblem(msg.improvementPlan.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
                 this.setState({selectProblem:msg.improvementPlan})
@@ -138,8 +142,8 @@ export class PlanMain extends React.Component <any, any> {
         if (code === 200) {
           if (msg !== null) {
             console.log(msg);
-            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries})
-            loadProblem(msg.problemId).then(res => {
+            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries,riseMember:msg.riseMember})
+            loadProblem(msg.improvementPlan.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
                 this.setState({selectProblem:msg.improvementPlan})
@@ -326,7 +330,6 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   submitScore(questionList){
-    console.log("提交:",questionList);
     const { selectProblem } = this.state;
     const { dispatch } = this.props;
     let problemScores = questionList.map(item=>{
@@ -347,6 +350,14 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(alertMsg(ex))
     })
 
+  }
+
+  goRiseMemberTips(){
+    // 跳转到会员说明页面
+    this.context.router.push({
+      pathname:'/rise/static/member/explain',
+      query:this.props.location.query
+    })
   }
 
   render() {
@@ -473,6 +484,9 @@ export class PlanMain extends React.Component <any, any> {
               <AssetImg type="has_message" height={33} width={33}/>
             : <AssetImg type="no_message" height={33} width={33}/>
           }
+          </div>
+          <div className="trial-tip" onClick={()=>this.goRiseMemberTips()}>
+            试用版
           </div>
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>

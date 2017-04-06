@@ -54,7 +54,7 @@ const routes = (
     <Route path="practice/challenge/comment" component={ChallengeComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
-    <Route path="plan/member/explain" component={RiseMemberExplain}/>
+    <Route path="member/explain" component={RiseMemberExplain}/>
   </Route>
 )
 
