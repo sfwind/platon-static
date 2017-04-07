@@ -240,13 +240,6 @@ router.get("/rise/plan/knowledge/load/*", (req, res) => {
 		}), Math.random() * 1500)
 });
 
-router.post("/rise/plan/knowledge/learn/*", (req, res) => {
-	setTimeout(() =>
-		res.status(200).json({
-			"code": 200,
-			"msg": "ok"
-		}), Math.random() * 1500)
-});
 
 router.post("/rise/plan/complete", (req, res) => {
 	setTimeout(() =>
@@ -323,6 +316,39 @@ router.get("/rise/plan/knowledge/example/*", (req, res) => {
         ],
       }
     }), Math.random() * 1500)
+});
+
+router.post('/rise/plan/roadmap',(req,res)=>{
+    setTimeout(()=>
+        res.status(200).json({
+            "msg": [
+                {
+                    "intro": "故事的三种作用",
+                    "series": 1
+                },
+                {
+                    "intro": "故事的套路:故事的基本要素 & 故事的附加要素",
+                    "series": 2
+                },
+                {
+                    "intro": "故事的套路:故事的附加要素",
+                    "series": 3
+                },
+                {
+                    "intro": "商业故事的要点",
+                    "series": 4
+                },
+                {
+                    "intro": "综合训练1",
+                    "series": 5
+                },
+                {
+                    "intro": "综合训练2",
+                    "series": 6
+                }
+            ],
+            "code": 200
+        }),Math.random() * 1500)
 });
 
 module.exports = router;

@@ -11,17 +11,20 @@
     text-align: center;
     color: @color_context
   }
+
+  .title-bar {
+    width: 100%;
+    color: @color_title;
+    background-color: @color_weak_background;
+    padding: 0 15px;
+    margin-left: -15px;
+    margin-bottom: 10px;
+    font-size: @font_index;
+  }
+
   .discuss-container{
     > .discuss {
       margin-top: 25px;
-      > .discuss-title-bar {
-        width: 100%;
-        color: @color_title;
-        background-color: @color_weak_background;
-        padding: 0 15px;
-        margin-left: -15px;
-        font-size: @font_index;
-      }
       > .discuss-end {
         margin-top: 20px;
         margin-bottom: 20px;
@@ -39,7 +42,6 @@
   }
 
   .intro-container {
-    overflow: auto;
     > .intro-index {
       margin: 15px 0 10px 0;
       color: #f7a466;
@@ -144,12 +146,6 @@
 
     > .analysis {
       margin-top: 25px;
-      border-top: 1px solid #d0d0d0;
-      > .analysis-title {
-        font-size: @font_index;
-        color: @color_title;
-        margin: 10px 0 10px -0.5rem;
-      }
     }
 
     .knowledge-link {

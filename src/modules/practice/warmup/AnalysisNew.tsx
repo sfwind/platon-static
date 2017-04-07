@@ -98,20 +98,14 @@ export class AnalysisNew extends React.Component <any, any> {
             <div className="question">
               <div dangerouslySetInnerHTML={{__html: question}}></div>
             </div>
-            <div className="choice-list">
-              {choiceList.map((choice, idx) => choiceRender(choice, idx))}
-            </div>
-            <div className="answer">
-              <div className="answer-title">【答案】</div>
+            <div className="analysis">
+              <div className="title-bar">解析</div>
               <div className="context">
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
               <div className="context">
                 已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
               </div>
-            </div>
-            <div className="analysis">
-              <div className="analysis-title">【解析】</div>
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
               <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
@@ -123,7 +117,7 @@ export class AnalysisNew extends React.Component <any, any> {
           <div className="discuss-container">
             <div className="discuss">
               <a name="discuss"/>
-              <div className="discuss-title-bar"><span className="discuss-title">问答</span></div>
+              <div className="title-bar"><span className="discuss-title">问答</span></div>
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
                 <div className="discuss-end">

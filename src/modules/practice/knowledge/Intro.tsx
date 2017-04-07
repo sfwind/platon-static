@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { loadKnowledgeIntro, learnKnowledge } from "./async";
+import { loadKnowledges, learnKnowledge } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 
@@ -9,7 +9,10 @@ export class Intro extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {
-      data: {}
+      data: {},
+      knowledge: {},
+      currentIndex: 1,
+      total_knowledge: 1,
     }
   }
 
@@ -20,12 +23,11 @@ export class Intro extends React.Component <any, any> {
   componentWillMount() {
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.kid).then(res => {
+    loadKnowledges(location.query.practicePlanId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
-        this.setState({ data: msg })
-        learnKnowledge(location.query.kid)
+        this.setState({ data: msg, knowledge: msg[0], total_knowledge: msg.length})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -34,16 +36,47 @@ export class Intro extends React.Component <any, any> {
     })
   }
 
-  onBack() {
-    this.context.router.push({ pathname: '/rise/static/practice/warmup/ready', query: this.props.location.query })
+  prev() {
+    const { data, currentIndex } = this.state
+    const { location } = this.props
+    if(currentIndex===1){
+      this.context.router.push({
+        pathname: '/rise/static/practice/roadmap',
+        query: location.query
+      })
+    }else{
+      this.setState({knowledge: data[currentIndex-2], currentIndex: currentIndex-1 })
+    }
+  }
+
+  next() {
+    const { data, currentIndex } = this.state
+    this.setState({knowledge: data[currentIndex], currentIndex: currentIndex+1 })
+  }
+
+
+  onSubmit(){
+    const { dispatch, location } = this.props
+    learnKnowledge(location.query.practicePlanId)
+    this.context.router.push({ pathname: '/rise/static/plan/main', query: this.props.location.query })
   }
 
 
   render() {
-    const { data } = this.state
-
+    const { knowledge, currentIndex, total_knowledge } = this.state
     return (
-        <KnowledgeViewer knowledge={data} closeModal={this.onBack.bind(this)}/>
+        <div>
+          <div className="container has-footer">
+            {knowledge? <KnowledgeViewer knowledge={knowledge} />:null}
+          </div>
+          <div className="button-footer">
+            <div className={`left`} onClick={this.prev.bind(this)}>上一步
+            </div>
+            { currentIndex !== total_knowledge ? <div className={`right`} onClick={this.next.bind(this)}>下一步</div> :
+                <div className={`right`} onClick={this.onSubmit.bind(this)}>返回</div>
+            }
+          </div>
+        </div>
     )
   }
 }

@@ -120,7 +120,7 @@ export class Analysis extends React.Component <any, any> {
   }
 
   render() {
-    const {list, currentIndex, selected, knowledge, practiceCount,
+    const {list, currentIndex, selected, practiceCount,
       showKnowledge, showDiscuss, repliedId} = this.state
     const {practice = []} = list
 
@@ -128,7 +128,7 @@ export class Analysis extends React.Component <any, any> {
       const {id, question, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div>
-          <div className="intro-container" ref="warmup">
+          <div className="intro-container">
             { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
                 <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
                 <span className="type"><span className="number">{score}</span>分</span>
@@ -139,17 +139,14 @@ export class Analysis extends React.Component <any, any> {
             <div className="choice-list">
               {choiceList.map((choice, idx) => choiceRender(choice, idx))}
             </div>
-            <div className="answer">
-              <div className="answer-title">【答案】</div>
+            <div className="analysis">
+              <div className="title-bar">解析</div>
               <div className="context">
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
               <div className="context">
                 已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
               </div>
-            </div>
-            <div className="analysis">
-              <div className="analysis-title">【解析】</div>
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
               <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
@@ -161,7 +158,7 @@ export class Analysis extends React.Component <any, any> {
           <div className="discuss-container">
             <div className="discuss">
               <a name="discuss"/>
-              <div className="discuss-title-bar">问答</div>
+              <div className="title-bar">问答</div>
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
                 <div className="discuss-end">
@@ -211,7 +208,7 @@ export class Analysis extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container has-footer">
+        <div className="container has-footer" ref={'warmup'}>
           <div className="warm-up">
             {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
             {questionRender(practice[currentIndex] || {})}

@@ -157,13 +157,13 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, knowledge, practiceCount, showKnowledge } = this.state
+    const { list, currentIndex, selected, practiceCount, showKnowledge } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
       const { question, voice, analysis, choiceList = [], score = 0 } = practice
       return (
-        <div className="intro-container" ref="warmup">
+        <div className="intro-container">
           { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
             <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
             <span className="type"><span className="number">{score}</span>分</span>
@@ -197,7 +197,7 @@ export class Main extends React.Component <any, any> {
       <div>
         {showKnowledge ? <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
-            <div className="container has-footer" style={{height: window.innerHeight - 49}}>
+            <div className="container has-footer" style={{height: window.innerHeight - 49}} ref={'warmup'}>
               <div className="warm-up">
                 {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
                 {questionRender(practice[currentIndex] || {})}

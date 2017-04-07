@@ -3,8 +3,6 @@ import { Route } from "react-router";
 import Base from "modules/base/Base";
 import { Welcome } from "modules/problem/Welcome";
 import { ProblemPriority } from "modules/problem/ProblemPriority";
-import { ProblemReport } from "modules/problem/ProblemReport";
-import { PlanIntro } from "modules/plan/PlanIntro";
 import { PlanMain } from "modules/plan/PlanMain";
 import { Intro as WarmUpIntro } from "modules/practice/knowledge/Intro";
 import { Main as WarmUp } from "modules/practice/warmup/Main";
@@ -22,14 +20,14 @@ import { MessageCenter } from "modules/message/MessageCenter";
 import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
 import { Comment as ApplicationComment } from "modules/practice/application/Comment";
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
+import { Intro as KnowledgeIntro } from "modules/practice/knowledge/Intro"
+import { RoadMap } from "modules/practice/knowledge/RoadMap"
 
 
 const routes = (
   <Route path="/rise/static" component={Base}>
     <Route path="problem/list" component={Welcome}/>
     <Route path="problem/priority" component={ProblemPriority}/>
-    <Route path="problem/report" component={ProblemReport}/>
-    <Route path="plan/intro" component={PlanIntro}/>
     <Route path="plan/main" component={PlanMain}/>
     <Route path="practice/warmup/intro" component={WarmUpIntro}/>
     <Route path="practice/warmup" component={WarmUp}/>
@@ -47,6 +45,8 @@ const routes = (
     <Route path="practice/application/comment" component={ApplicationComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
+    <Route path="practice/knowledge" component={KnowledgeIntro}/>
+    <Route path="practice/roadmap" component={RoadMap}/>
   </Route>
 )
 

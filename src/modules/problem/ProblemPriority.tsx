@@ -1,9 +1,7 @@
 import * as React from "react";
 import "./ProblemPriority.less";
-import Animate from "rc-animate"
 import QueueAnim from 'rc-queue-anim';
 import AssetImg from "../../components/AssetImg";
-import {remove} from "lodash";
 import {loadUnChooseList, createPlan} from "./async";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {merge, fill, get,isNull} from "lodash";
@@ -76,7 +74,7 @@ export class ProblemPriority extends React.Component<any,any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/plan/intro', query: {id: msg}})
+        this.context.router.push({pathname: '/rise/static/plan/main'})
       } else {
         dispatch(alertMsg(msg))
         this.setState({showProblem:false});
