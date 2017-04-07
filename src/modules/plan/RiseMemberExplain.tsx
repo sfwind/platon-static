@@ -59,7 +59,7 @@ export class RiseMemberExplain extends React.Component <any, any> {
     createOrder(memberTypeId).then(res=>{
       dispatch(endLoad());
       if(res.code === 200){
-        window.location.href = `http://${window.location.hostname}:4000/pay/pay?productId=${res.msg.orderId}`;
+        window.location.href = `http://${window.location.hostname}/pay/pay?productId=${res.msg.orderId}`;
       } else {
         dispatch(alertMsg(res.msg));
       }
