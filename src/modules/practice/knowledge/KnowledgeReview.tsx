@@ -76,6 +76,16 @@ export class KnowledgeReview extends React.Component<any,any>{
             <div className="detail-container">
               {roadMapList ? roadMapList.map((item, index) => {
                     return (
+                    item.integrated?
+                        <div key={index} className="item">
+                          <div className="label">
+                            第{item.series}节{' '}{item.step}
+                          </div>
+                          <div className="integrated">
+                            {item.knowledgeList[0].knowledge}
+                          </div>
+                        </div>
+                        :
                         <div key={index} className="item">
                           <div className="label">
                             第{item.series}节{' '}{item.step}

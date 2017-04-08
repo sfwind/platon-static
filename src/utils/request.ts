@@ -27,7 +27,8 @@ export function pget(url:string, query?:Object) {
 }
 
 export function ppost(url:string, body:Object) {
-  return post(url, body).then((res) => res.data).catch(error => {
+  return post(url, body).then((res) => res.data)
+  .catch(error => {
     if (error.response) {
       log(url, JSON.stringify(error.response))
     } else {

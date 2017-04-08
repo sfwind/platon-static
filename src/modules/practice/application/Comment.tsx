@@ -31,7 +31,6 @@ export class Comment extends React.Component<any,any>{
       .then(res => {
         dispatch(endLoad());
         if(res.code===200){
-          console.log(res.msg.list)
           this.setState({commentList:res.msg.list,page:1,end:res.msg.end});
         } else {
           dispatch(alertMsg(res.msg));
@@ -187,7 +186,6 @@ export class Comment extends React.Component<any,any>{
         }
       }
     }
-    console.log(commentList)
 
     return (
       <div className="comment has-footer">

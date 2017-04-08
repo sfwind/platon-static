@@ -26,12 +26,10 @@ export default class Discuss extends React.Component <any, any> {
   onSubmit() {
     let choseList = [];
     this.state.labels.forEach(item=>{
-      console.log(item);
       if(item.selected){
         choseList.push({labelId:item.id});
       }
     });
-    console.log(choseList);
     const comment = this.refs.editor.getValue();
     this.props.onSubmit(comment,this.state.title,choseList);
   }

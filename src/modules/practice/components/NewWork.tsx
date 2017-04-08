@@ -35,7 +35,6 @@ export default class Work extends React.Component<any,any> {
     if(e.target.tagName === 'IMG'){
       let item = e.target.src
       let picList = Array.from(this.refs.submitContent.querySelectorAll('img')).map(item=>item.src);
-      console.log(item,picList);
       preview(item, picList)
     }
   }

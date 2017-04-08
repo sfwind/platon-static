@@ -12,7 +12,6 @@ export default class Tutorial extends React.Component<any,any> {
         "http://www.iqycamp.com/images/fragment/rise_tutorial_7.png"],
       index: 0,
       onShowEnd: props.onShowEnd || function () {
-        console.log('显示完成')
       },
       close:false
     }
@@ -26,10 +25,8 @@ export default class Tutorial extends React.Component<any,any> {
   next() {
     const {index, bgList} = this.state;
     if (index >= bgList.length - 1) {
-      console.log('over');
       this.state.onShowEnd();
     } else {
-      console.log(index + 1)
       this.setState({index: index + 1});
     }
 
@@ -37,7 +34,6 @@ export default class Tutorial extends React.Component<any,any> {
 
 
   onSwitching(index,type){
-    console.log("switching",index,type);
     const {bgList,onShowEnd,close} = this.state;
     switch(type){
       case 'end':{

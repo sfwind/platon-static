@@ -31,11 +31,12 @@
       background-color:#FFFFFF;
       overflow: hidden;
       > .label{
-        font-size:@font_title;
+        margin-top:5px;
+        font-size:@font_click;
         color:@color_title;
       }
       .content{
-        font-size: @font_context;
+        font-size: @font_click;
         color: @color_context;
         height: 40px;
         line-height: 40px;
@@ -50,6 +51,14 @@
           margin-right: 15px;
           float: right;
         }
+      }
+
+      .integrated{
+        font-size: @font_click;
+        color: @color_context;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 30px;
       }
       > .content-no-cut{
         float: right;

@@ -51,7 +51,6 @@ export class Main extends React.Component <any, any> {
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
-          console.log("开始加载更多");
           loadSubjects(this.props.location.query.id, this.state.page + 1).then(res => {
             if (res.code === 200) {
               if (res.msg && res.msg.list.length !== 0) {
@@ -168,12 +167,10 @@ export class Main extends React.Component <any, any> {
       query:merge({submitId:submitId},this.props.location.query),
       state:{goBackUrl}
     })
-    console.log("开始评论",submitId);
   }
 
   voted(id,voteStatus,voteCount,perfect,seq){
     if(!voteStatus){
-      console.log("点赞");
       if(perfect){
         let newOtherList = merge([],this.state.perfectList);
         set(newOtherList,`[${seq}].voteCount`,voteCount+1)
@@ -187,7 +184,6 @@ export class Main extends React.Component <any, any> {
       }
       vote(id);
     } else {
-      console.log("不能点赞");
     }
   }
 
@@ -224,7 +220,6 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
-        console.log(res.msg);
         if(submitId){
           // 是更新
           let newPerfect = merge([],this.state.perfectList);
