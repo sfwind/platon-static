@@ -45,7 +45,7 @@ export class RoadMap extends React.Component <any, any> {
     const renderRoadMap = (roadMap, idx) => {
         return (
             <div key={idx}>
-              <div className={series==roadMap.series?'chosen':'not-chosen'}>[第{roadMap.series}组]{'  '}{roadMap.intro}</div>
+              <div className={series==roadMap.series?'chosen':'not-chosen'}>[第{roadMap.series}节]{'  '}{roadMap.intro}</div>
             </div>
         )
     }

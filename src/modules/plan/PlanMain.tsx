@@ -221,7 +221,10 @@ export class PlanMain extends React.Component <any, any> {
           learnKnowledge(practicePlanId).then(res=>{
               const {code, msg} = res
               if(code === 200){
-                window.location.href = '/personal/static/rise/problem/detail?problemId='+problemId;
+                this.context?this.context.router.push({
+                      pathname: '/rise/static/practice/knowledge/review',
+                      query: { problemId}
+                    }):null;
               }
           })
         }
@@ -522,12 +525,12 @@ export class PlanMain extends React.Component <any, any> {
             <span>专题详情</span>
           </div>
         </div>
-        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}/>
+        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}/>
           : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress">
             <div className="bar"></div><span>第{series}节</span><div className="bar"></div>
-            <div>{introMsg}</div>
+            <div className="introMsg">{introMsg}</div>
           </div>
           <div className="plan-main">
             <div className="list">

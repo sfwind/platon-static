@@ -22,6 +22,7 @@ import { Comment as ApplicationComment } from "modules/practice/application/Comm
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
 import { Intro as KnowledgeIntro } from "modules/practice/knowledge/Intro"
 import { RoadMap } from "modules/practice/knowledge/RoadMap"
+import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
 
 
 const routes = (
@@ -47,6 +48,7 @@ const routes = (
     <Route path="practice/subject/comment" component={SubjectComment}/>
     <Route path="practice/knowledge" component={KnowledgeIntro}/>
     <Route path="practice/roadmap" component={RoadMap}/>
+    <Route path="practice/knowledge/review" component={KnowledgeReview}/>
   </Route>
 )
 

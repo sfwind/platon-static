@@ -137,7 +137,7 @@ export class ProblemPriority extends React.Component<any,any> {
           {/*你好，{window.ENV.userName},我是你的圈外每日提升教练。<br/>*/}
           {/*训练开始前，我想更了解你的情况。*/}
         {/*</div>*/}
-        {showProblem ?<ProblemViewer problem={selectProblem} closeModel={()=>this.setState({showProblem:false})}
+        {showProblem ?<ProblemViewer problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}
                                      submitProblem={(problemId)=>this.submitProblem(problemId)}/>
           : <div className="swipe-container">
           {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
