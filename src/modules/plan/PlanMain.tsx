@@ -111,12 +111,11 @@ export class PlanMain extends React.Component <any, any> {
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            console.log(msg);
             this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries ,riseMember:msg.riseMember})
             loadProblem(msg.improvementPlan.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
-                this.setState({selectProblem:msg.improvementPlan})
+                this.setState({selectProblem:msg})
               }
             })
           } else {
@@ -141,12 +140,11 @@ export class PlanMain extends React.Component <any, any> {
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            console.log(msg);
             this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries,riseMember:msg.riseMember})
             loadProblem(msg.improvementPlan.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
-                this.setState({selectProblem:msg.improvementPlan})
+                this.setState({selectProblem:msg})
               }
             })
           } else {
@@ -168,10 +166,6 @@ export class PlanMain extends React.Component <any, any> {
     const { planData } = this.state
     const { series } = planData
     const { type, practicePlanId, knowledge } = item
-    // if (!unlocked) {
-    //   dispatch(alertMsg("该训练尚未解锁"))
-    //   return
-    // }
     checkPractice(series).then(res =>{
       const { code, msg } = res
       if (code === 200) {
@@ -241,12 +235,6 @@ export class PlanMain extends React.Component <any, any> {
     const {dispatch} = this.props
     const {showDoneAll , planData, currentIndex} = this.state
     const {doneAllPractice, series, totalSeries} = planData
-    // if(!showDoneAll){
-    //   if(!doneAllPractice && currentIndex===planData.series){
-    //     this.setState({showDoneAll:true})
-    //     dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
-    //   }
-    // }
     if (series === totalSeries) {
 
     } else {
@@ -296,7 +284,7 @@ export class PlanMain extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/practice/subject', query: { id: problemId, series } })
   }
 
-  problemReview(problemId){
+  problemReview(){
     this.setState({showProblem: true})
   }
 
