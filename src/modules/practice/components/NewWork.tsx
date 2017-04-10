@@ -81,9 +81,7 @@ export default class Work extends React.Component<any,any> {
           </div>
           <div className="submit-time">{submitUpdateTime}</div>
           {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}} onClick={()=>onEdit()}>
-            <div className="submit-icon">
               <AssetImg type="edit" height={12}/>
-            </div>
             <div className="submit-button">
               编辑
             </div>

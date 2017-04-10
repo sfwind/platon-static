@@ -32,9 +32,7 @@ export default class DiscussShow extends React.Component <any, any> {
             {repliedComment ?
                 <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
             <div className="function-area" onClick={()=>{reply(warmupPracticeId, id)}}>
-              <div className="function-icon">
-                <AssetImg type="reply" height={12} width={15}/>
-              </div>
+              <AssetImg type="reply" height={12} width={15}/>
               <div className="function-button">
                 回复
               </div>
