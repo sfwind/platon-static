@@ -204,9 +204,11 @@ export class Main extends React.Component <any, any> {
         )
       } else {
         return (
-          <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
+          <div>
+            <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
                 headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}
                 goComment={()=>this.goComment(submitId)} />
+          </div>
         )
       }
     }
