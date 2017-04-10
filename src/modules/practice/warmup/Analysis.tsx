@@ -161,7 +161,7 @@ export class Analysis extends React.Component <any, any> {
               <div className="title-bar">问答</div>
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
-                <div className="discuss-end">
+                <div className="show-more">
                   你已经浏览完所有的讨论啦
                 </div>
                 :

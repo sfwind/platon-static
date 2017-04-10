@@ -120,7 +120,7 @@ export class AnalysisNew extends React.Component <any, any> {
               <div className="title-bar"><span className="discuss-title">问答</span></div>
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
-                <div className="discuss-end">
+                <div className="show-more">
                   你已经浏览完所有的讨论啦
                 </div>
                 :

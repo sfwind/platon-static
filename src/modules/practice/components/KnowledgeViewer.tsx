@@ -53,7 +53,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             { analysis?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/analysis.png"/>
+                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
                   <div className="text">
                     <pre>{analysis}</pre>
@@ -63,7 +63,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             { means?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/means.png"/>
+                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/means2.png"/>
                   </div>
                   <div className="text">
                     <pre>{means}</pre>
@@ -71,7 +71,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                 </div>
                 : null }
             {keynote ?<div><div className="context-title-img">
-                  <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote.png"/>
+                  <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote2.png"/>
                 </div><div className="text">
                   <pre>{keynote}</pre>
                 </div></div>: null}
@@ -96,7 +96,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                     <div className="context"
                          dangerouslySetInnerHTML={{__html: example.analysis}}></div>
                   </div>
-                      :<div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div>}
+                      :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
                 </div>
             : null}
 

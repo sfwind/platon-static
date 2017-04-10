@@ -81,7 +81,7 @@ export class Intro extends React.Component <any, any> {
             <div className={`left`} onClick={this.prev.bind(this)}>上一步
             </div>
             { currentIndex !== total_knowledge ? <div className={`right`} onClick={this.next.bind(this)}>下一步</div> :
-                <div className={`right`} onClick={this.onSubmit.bind(this)}>返回</div>
+                <div className={`right`} onClick={this.onSubmit.bind(this)}>完成</div>
             }
           </div>
         </div>
