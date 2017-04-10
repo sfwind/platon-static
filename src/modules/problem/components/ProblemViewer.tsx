@@ -89,7 +89,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <div className="time-tip-content">推荐进度：每天学习1节，尽量完成其中的应用训练<br/><br/>
 
                   开放时长：至少需要学习{Math.round(length/2)}天，最长可学习30天
-                  {showTip?<div><br/>
+                  {showTip?<div className="tip"><br/>
                         说明：<br/>
                         如果选择快进，在{Math.round(length/2)}天内学完，那再复习一下吧，多做做应用题<br/>
                         专题最多开放30天，过期会自动关闭。是不是一下子有了学习的紧迫感？<br/>
@@ -102,16 +102,15 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where.png"/>
               </div>
               <div className="text">
-                <div>手机：圈外训练营-RISE<br/><br/>
+                <div>手机微信：圈外训练营-RISE<br/><br/>
 
-                  浏览器：www.iquanwai.com，点击RISE<br/>
-                  (专题长期开放，仅理解训练不支持）<br/><br/>
+                  网站：www.iquanwai.com，点击RISE<br/>
+                  (学过的专题永久开放，暂不支持理解训练）<br/><br/>
 
-                  windows电脑微信客户端：圈外训练营-RISE</div>
+                  电脑微信（仅windows客户端）：圈外训练营-RISE</div>
               </div>
             </div>
           </div>
-
         </div>
         { readonly ? <div className="button-footer" onClick={()=>closeModal()}>返回</div> :
         <div className="button-footer">

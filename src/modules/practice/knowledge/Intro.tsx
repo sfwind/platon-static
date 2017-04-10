@@ -57,8 +57,16 @@ export class Intro extends React.Component <any, any> {
 
   onSubmit(){
     const { dispatch, location } = this.props
-    learnKnowledge(location.query.practicePlanId)
-    this.context.router.push({ pathname: '/rise/static/plan/main', query: this.props.location.query })
+    learnKnowledge(location.query.practicePlanId).then(res=>{
+      const { code, msg } = res
+      if (code === 200) {
+        this.context.router.push({ pathname: '/rise/static/plan/main', query: this.props.location.query })
+      }
+      else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
   }
 
 

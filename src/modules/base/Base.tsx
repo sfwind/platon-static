@@ -37,7 +37,7 @@ export default class Main extends React.Component<any, any> {
 			<div className={`${isPending(this.props, LOAD_KEY)?'over-hidden':''}`}>
 				{this.props.children}
 				<Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
-					<div style={{fontSize:13}}>加载中...</div>
+					<div style={{fontSize:13, paddingTop:10}}>加载中...</div>
 				</Toast>
 				<Alert { ...this.state.alert }
 					show={this.props.base.showModal}>

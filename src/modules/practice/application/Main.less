@@ -4,13 +4,14 @@
   .intro-container {
     overflow: auto;
     .application-context {
-      color: @color_context;
       .section1 {
-        font-size: 1.3em;
+        font-size: @font_help;
         line-height: 22px;
+        color: @color_help;
       }
       .section2 {
         font-size: @font_context;
+        color: @color_context;
         line-height: 24px;
       }
     }
@@ -79,7 +80,7 @@
         margin-bottom: 20px;
         > .text{
           line-height: 20px;
-          color: @color_title;
+          color: @color_help;
         }
       }
     }

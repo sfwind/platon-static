@@ -6,11 +6,14 @@
     //height: ~"calc(100% - 49px)";
     overflow: auto;
     > .challenge-context{
-      .text{
-        font-size: 1.3em;
-        .tip{
-          color: @color_weak;
-        }
+      .tip{
+        font-size: @font_help;
+        color: @color_help;
+      }
+      .tip-title{
+        color: @color_title;
+        font-size: 1.2em;
+        margin-top: 12px;
       }
 
     }
@@ -20,13 +23,14 @@
     > .submit-bar {
       width: 100%;
       background-color: @color_weak_background;
-      color: @color_title;
+      color: @color_help;
       font-size: @font_index;
       padding:0 15px;
       margin-left:-15px;
     }
     > .no-comment{
       font-size: @font_help;
+      color: @color_help;
       text-align: center;
       > .submit-btn{
         margin: 15px auto 0;
@@ -43,7 +47,7 @@
         margin-bottom: 20px;
         > .text{
           line-height: 20px;
-          color: @color_context;
+          color: @color_help;
         }
       }
     }

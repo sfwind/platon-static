@@ -52,7 +52,7 @@
       > .title {
         margin-top: 24px;
         font-size: @font_title;
-        color: @color_context;
+        color: @color_title;
         line-height: @font_title;
       }
     }
@@ -79,7 +79,7 @@
   left: 20px;
   > .section-title {
     font-size: @font_title;
-    color: @color_context;
+    color: @color_title;
     margin-bottom: 25px;
     line-height: @font_title;
   }
@@ -182,7 +182,7 @@
       > .sub-title {
         font-size: @font_index;
         line-height: @font_index;
-        color: @color_context;
+        color: @color_title;
       }
       > .content {
         margin-top: 31px;
@@ -232,7 +232,7 @@
 
 .function-menu{
   background-color: #fff;
-  color: @color_context;
+  color: @color_title;
   height: 50px;
   text-align: center;
   font-size: @font_title;
@@ -264,23 +264,23 @@
 }
 
 .plan-progress{
-  color: @color_help;
   text-align: center;
   margin-top: 15px;
   margin-bottom: 15px;
-  font-size: 1.4em;
-
+  font-size: 1.3em;
+  color: @color_help;
   .bar{
     display: inline-block;
     height: 1px;
     width: 84px;
-    background-color: @color_weak_background;
+    background-color: #ccc;
     margin-left: 13px;
     margin-right: 13px;
     vertical-align: middle;
   }
 
   .introMsg{
-    margin-top: 3px;
+    margin-top: 5px;
+    color: @color_title;
   }
 }

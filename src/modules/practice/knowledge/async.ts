@@ -4,8 +4,8 @@ export function loadKnowledges(practicePlanId) {
   return pget(`/rise/practice/knowledge/start/${practicePlanId}`)
 }
 
-export function learnKnowledge(knowledgeId) {
-  return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
+export function learnKnowledge(practicePlanId) {
+  return ppost(`/rise/practice/knowledge/learn/${practicePlanId}`)
 }
 
 export function loadRoadMap() {
