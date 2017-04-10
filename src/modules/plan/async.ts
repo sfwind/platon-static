@@ -36,10 +36,14 @@ export function gradeProblem(problemScores,problemId){
   return ppost(`/rise/problem/grade/${problemId}`,problemScores);
 }
 
-export function loadRiseMembers(){
-  return pget('/rise/plan/member/types');
+export function markRiseMemberTips(){
+  return pget('/rise/plan/risemember/tips');
 }
 
 export function createOrder(memberTypeId){
   return pget(`/rise/plan/member/${memberTypeId}`)
+}
+
+export function isRiseMember(){
+  return pget('/rise/plan/risemember');
 }

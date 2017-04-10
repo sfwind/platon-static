@@ -33,15 +33,11 @@ export class ProblemList extends React.Component <any, any> {
     })
   }
 
-
   componentDidMount(){
     setTimeout(() => {
       this.setState({show:true})
     }, 100)
   }
-
-
-
 
   onSubmit(){
     this.context.router.push({
@@ -58,9 +54,7 @@ export class ProblemList extends React.Component <any, any> {
 
   becomeRiser(){
     becomRiser();
-    this.context.router.push({
-      pathname:'/rise/static/plan/member/explain'
-    })
+    window.location.href = `http://${window.location.hostname}/pay/pay`
   }
 
   render() {
@@ -75,9 +69,12 @@ export class ProblemList extends React.Component <any, any> {
       <div>
         <div className="problem-list">
           <div className="info">
-            <img className={show?"show first":"hide first"} src="http://www.iqycamp.com/images/fragment/rise_welcome_1_1.png"></img>
-            <img className={show?"show second":"hide second"} src="http://www.iqycamp.com/images/fragment/rise_welcome_2.png"></img>
-            <img className={show?"show third":"hide third"} src="http://www.iqycamp.com/images/fragment/rise_welcome_3.png"></img>
+            <img className={show?"show first":"hide first"} src="http://www.iqycamp.com/images/fragment/rise_welcome_1_1.png"/>
+            <img className={show?"show second":"hide second"} src="http://www.iqycamp.com/images/fragment/rise_welcome_2.png"/>
+            <img className={show?"show third":"hide third"} src="http://www.iqycamp.com/images/fragment/rise_welcome_3.png"/>
+          </div>
+          <div className="tips" onClick={()=>this.context.router.push("/rise/static/member/explain")}>
+            什么是专业版／试用版？
           </div>
         </div>
         <div className="button-footer white-button">

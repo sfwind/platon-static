@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem } from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem , isRiseMember} from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -86,9 +86,6 @@ export class PlanMain extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentDidUpdate(){
-  }
-
   componentWillReceiveProps(newProps) {
     if (this.props.location.query.series !== newProps.location.query.series && newProps.location.query.series !== undefined) {
       this.componentWillMount(newProps.location.query.series)
@@ -105,14 +102,25 @@ export class PlanMain extends React.Component <any, any> {
       series =location.query.series
     }
 
+    isRiseMember().then(res=>{
+      if(res.code === 200){
+        console.log('rise',res.msg);
+        this.setState({riseMember:res.msg});
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex=>{
+      dispatch(alertMsg(ex));
+    })
+
     if (series) {
       loadPlanHistory(series).then(res => {
         dispatch(endLoad())
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries ,riseMember:msg.riseMember})
-            loadProblem(msg.improvementPlan.problemId).then(res => {
+            this.setState({ planData: msg, currentIndex:msg.currentSeries })
+            loadProblem(msg.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
                 this.setState({selectProblem:msg})
@@ -140,8 +148,8 @@ export class PlanMain extends React.Component <any, any> {
         let { code, msg } = res
         if (code === 200) {
           if (msg !== null) {
-            this.setState({ planData: msg.improvementPlan, currentIndex:msg.improvementPlan.currentSeries,riseMember:msg.riseMember})
-            loadProblem(msg.improvementPlan.problemId).then(res => {
+            this.setState({ planData: msg, currentIndex:msg.currentSeries})
+            loadProblem(msg.problemId).then(res => {
               let { code, msg } = res
               if (code === 200) {
                 this.setState({selectProblem:msg})
@@ -166,6 +174,10 @@ export class PlanMain extends React.Component <any, any> {
     const { planData } = this.state
     const { series } = planData
     const { type, practicePlanId, knowledge } = item
+    // if (!unlocked) {
+    //   dispatch(alertMsg("该训练尚未解锁"))
+    //   return
+    // }
     checkPractice(series).then(res =>{
       const { code, msg } = res
       if (code === 200) {
@@ -235,6 +247,12 @@ export class PlanMain extends React.Component <any, any> {
     const {dispatch} = this.props
     const {showDoneAll , planData, currentIndex} = this.state
     const {doneAllPractice, series, totalSeries} = planData
+    // if(!showDoneAll){
+    //   if(!doneAllPractice && currentIndex===planData.series){
+    //     this.setState({showDoneAll:true})
+    //     dispatch(alertMsg('当前组还有任务未完成，后续任务会保持锁定'))
+    //   }
+    // }
     if (series === totalSeries) {
 
     } else {
@@ -284,7 +302,7 @@ export class PlanMain extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/practice/subject', query: { id: problemId, series } })
   }
 
-  problemReview(){
+  problemReview(problemId){
     this.setState({showProblem: true})
   }
 
@@ -318,6 +336,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   submitScore(questionList){
+    console.log("提交:",questionList);
     const { selectProblem } = this.state;
     const { dispatch } = this.props;
     let problemScores = questionList.map(item=>{
@@ -341,15 +360,11 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips(){
-    // 跳转到会员说明页面
-    this.context.router.push({
-      pathname:'/rise/static/member/explain',
-      query:this.props.location.query
-    })
+    window.location.href = `http://${window.location.hostname}/pay/pay`
   }
 
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem, defeatPercent } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem, defeatPercent,riseMember } = this.state
     const {
       problem = {}, practice, warmupComplete, applicationComplete, point, total,
       deadline, status, currentSeries, totalSeries, series, openRise, newMessage
@@ -377,7 +392,6 @@ export class PlanMain extends React.Component <any, any> {
             {item.unlocked === false ?
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
             }
-
             <div className="body">
               <div className="title">{typeMap[item.type]}</div>
               <div className="sub-title">{item.knowledge ? item.knowledge.knowledge : ''}</div>
@@ -389,6 +403,8 @@ export class PlanMain extends React.Component <any, any> {
         )
       })
     }
+
+
 
     return (
       <div>
@@ -473,9 +489,9 @@ export class PlanMain extends React.Component <any, any> {
             : <AssetImg type="no_message" height={33} width={33}/>
           }
           </div>
-          <div className="trial-tip" onClick={()=>this.goRiseMemberTips()}>
+          {isBoolean(riseMember) && !riseMember?<div className="trial-tip" onClick={()=>this.goRiseMemberTips()}>
             试用版
-          </div>
+          </div>:null}
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>
             <div className="section">
