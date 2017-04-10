@@ -76,11 +76,13 @@ export class Submit extends React.Component<any, any> {
                     {/*value={this.state.answer}*/}
                     {/*placeholder="离开页面前请提交，以免内容丢失。"*/}
                     {/*onChange={(e) => this.setState({answer: e.currentTarget.value})}></textarea>*/}
-        { showDisable ?
+        <div className="btn-container">
+          { showDisable ?
           <div className="submit-button disabled">提交中</div>
             :
           <div className="submit-button" onClick={this.onSubmit.bind(this)}>提交</div>
         }
+        </div>
       </div>
     )
   }

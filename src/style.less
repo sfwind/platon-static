@@ -190,19 +190,22 @@
     line-height: 2.0em;
     color: @color_context;
   }
-  > .submit-button {
-    line-height: 2.4em;
-    text-align: center;
-    background-image:url('http://www.iqycamp.com/images/bottom_button_bg3.png');
-    background-size:100% 100%;
-    color: #fff;
-    font-size: @font_click;
-    border-radius: @border-radius;
-    width: 130px;
-    height: 34px;
-    margin: 25px auto 20px;
-    &.disabled {
-      background: #999999;
+  > .btn-container{
+    padding: 25px 0 20px;
+    > .submit-button {
+      line-height: 2.4em;
+      text-align: center;
+      background-image:url('http://www.iqycamp.com/images/bottom_button_bg3.png');
+      background-size:100% 100%;
+      color: #fff;
+      font-size: @font_click;
+      border-radius: @border-radius;
+      width: 130px;
+      height: 34px;
+      margin:0 auto;
+      &.disabled {
+        background: #999999;
+      }
     }
   }
   > .submit-area {
@@ -296,10 +299,11 @@
     > .function-area {
       display: inline-block;
       margin-bottom: 8px;
-      > .function-icon {
+      > img {
         display: inline-block;
         margin-right: 5px;
-        margin-top: 2px;
+        vertical-align: middle;
+        margin-top:-2px;
       }
       > .function-button{
         display: inline-block;

@@ -69,11 +69,13 @@ export default class Discuss extends React.Component <any, any> {
                     {/*value={this.state.comment}*/}
                     {/*placeholder={this.props.placeholder}*/}
                     {/*onChange={(e) => this.setState({comment: e.currentTarget.value})}/>*/}
-          { this.props.editDisable ?
-            <div className="submit-button disabled">提交中</div>
-            :
-            <div className="submit-button" onClick={this.onSubmit.bind(this)}>提交</div>
-          }
+          <div className="btn-container">
+            { this.props.editDisable ?
+              <div className="submit-button disabled">提交中</div>
+              :
+              <div className="submit-button" onClick={this.onSubmit.bind(this)}>提交</div>
+            }
+          </div>
         </div>
 
       </div>
