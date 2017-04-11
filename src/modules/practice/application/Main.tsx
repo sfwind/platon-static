@@ -217,11 +217,11 @@ export class Main extends React.Component <any, any> {
       if(content){
         if(!end){
           return (
-            <div className="show-more">上拉加载更多消息</div>
+            <div className="show-more" style={{borderTop:'1px solid #efefef'}}>上拉加载更多消息</div>
           )
         } else {
           return (
-            <div className="show-more">已经到最底部了</div>
+            <div className="show-more" style={{borderTop:'1px solid #efefef'}}>已经到最底部了</div>
           )
         }
       }
