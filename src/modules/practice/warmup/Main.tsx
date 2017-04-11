@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { remove, set, merge,get,findIndex } from "lodash";
 import "./Main.less";
-import { loadWarmUpPractice, loadKnowledgeIntro, answer,loadWarmUpAnalysis } from "./async";
+import { answer,loadWarmUpAnalysis } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -39,15 +39,6 @@ export class Main extends React.Component <any, any> {
     const { dispatch, location } = this.props
     const { practicePlanId } = location.query
     dispatch(startLoad())
-    loadKnowledgeIntro(location.query.kid).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if (code === 200)  this.setState({ knowledge: msg })
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
     loadWarmUpAnalysis(practicePlanId).then(res=>{
       dispatch(endLoad())
       const { code, msg } = res
@@ -113,6 +104,7 @@ export class Main extends React.Component <any, any> {
       const selected = list.practice[`${currentIndex-1}`].choice
       this.setState({currentIndex:currentIndex-1, selected})
     }
+    this.refs.warmup.scrollTop = 0
   }
 
   next(){
@@ -130,6 +122,7 @@ export class Main extends React.Component <any, any> {
       }
       this.setState({currentIndex:currentIndex+1, selected})
     }
+    this.refs.warmup.scrollTop = 0
   }
 
   onSubmit() {
@@ -164,7 +157,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, knowledge, practiceCount, showKnowledge } = this.state
+    const { list, currentIndex, selected, practiceCount, showKnowledge } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -202,11 +195,11 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> :
+        {showKnowledge ? <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
-            <div className="container has-footer" style={{height: window.innerHeight - 49}}>
+            <div className="container has-footer" style={{height: window.innerHeight - 49}} ref={'warmup'}>
               <div className="warm-up">
-                <div className="page-header">{knowledge.knowledge}</div>
+                {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
                 {questionRender(practice[currentIndex] || {})}
               </div>
             </div>

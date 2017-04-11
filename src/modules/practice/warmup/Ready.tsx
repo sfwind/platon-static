@@ -53,7 +53,7 @@ export class Ready extends React.Component <any, any> {
     return (
       <div className="warm-up-ready">
         <div className="container">
-          <div className="header">{knowledge}</div>
+          <div className="page-header">{knowledge}</div>
           <div className="intro-container">
             <div className="context-img">
               <AssetImg url="http://www.iqycamp.com/images/fragment/practice_start.png" width={'100%'}/>

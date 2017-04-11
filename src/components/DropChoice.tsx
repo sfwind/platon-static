@@ -71,14 +71,11 @@ export default class DropChoice extends React.Component<any,any>{
     if(e.mode === "onComplete"){
       if(this.state.close){
         // 关闭
-        console.log("关闭");
         this.props.onClose();
       } else if(this.state.submit) {
         // 提交
-        console.log("提交");
         this.props.onSubmit(questionList);
       } else {
-        console.log("打开");
       }
     }
   }
@@ -119,7 +116,6 @@ export default class DropChoice extends React.Component<any,any>{
             <span onClick={()=>this.setState({close:true})}><AssetImg type="white_close_btn" size={this.closeSize}/></span>
           </div>
         </TweenOne>
-
       </div>
     )
   }

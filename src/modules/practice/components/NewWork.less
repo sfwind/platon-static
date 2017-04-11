@@ -1,3 +1,5 @@
+@import "../../../style/variable";
+
 .new-work{
   overflow: hidden;
   margin-top: 10px;
@@ -50,75 +52,74 @@
         }
         > .submit-name {
           display: inline-block;
-          color: #666666;
-          font-size: 13px;
+          color: @color_title;
+          font-size: 1.3em;
           margin-left:10px;
         }
         > .submit-time {
           display: inline-block;
           margin-left:10px;
-          font-size: 10px;
-          line-height:10px;
-          color: #999999;
+          font-size: @font_help;
+          line-height:@font_help;
+          color: @color_help;
         }
         > .right{
           display: inline-block;
           position: absolute;
           top:0;
           right:0;
-          > .submit-icon {
-            float: left;
-            display: inline-block;
-            margin-right: 5px;
-            margin-top: 2px;
-            img{
+          img{
+              vertical-align: top;
+              margin-right: 5px;
+              margin-top: 2px;
               height: 12px;
               width: 15px;
               display: inline;
-            }
           }
           > .submit-button {
             display: inline-block;
-            color: #55cbcb;
-            font-size: 13px;
-            line-height:13px;
-            margin-top: 3px;
+            color: @color_strong;
+            font-size: @font_click;
+            line-height:@font_click;
           }
         }
       }
       > .submit-title{
-        color:#333333;
-        font-size:16px;
-        line-height: 29px;
+        color:@color_title;
+        font-size:@font_title;
+        line-height: @font_title;
         margin-top:5px;
+        margin-bottom: 10px;
       }
       > .submit-content {
-        line-height:23px;
-        > pre,> div {
-          font-size: 13px;
+        line-height: 23px;
+        font-size: @font_context;
+        > div,pre {
           white-space: pre-wrap;
           word-wrap: break-word;
-          &.top{
-            width: 100%;
-            color:#666666;
+          &.top {
+            color: @color_context;
           }
-          &.left{
+          &.left {
             width: ~"calc(100% - 80px)";
-            margin-left:50px;
-            margin-top:7px;
-            color:#333333;
+            margin-left: 50px;
+            margin-top: 7px;
+            color: @color_context;
           }
         }
-        ol,ul{
-          padding:0 15px;
+        > pre {
+          font-size: @font_index;
+        }
+        ol, ul {
+          padding: 0 15px;
         }
       }
 
       > .show-all{
         float:right;
-        font-size:13px;
+        font-size:@font_click;
         margin-top:-20px;
-        color:#55cbcb;
+        color:@color_strong;
         z-index: 5;
         position: relative;
         background: white;
@@ -126,6 +127,7 @@
       }
 
       > .operation-area{
+        margin-top: 3px;
         &.top{
           width: 100%;
         }
@@ -134,9 +136,9 @@
           margin-left:50px;
         }
         span{
-          line-height:13px;
-          font-size:13px;
-          color:#999999;
+          line-height:@font_click;
+          font-size:@font_click;
+          color: @color_help;
         }
         > .vote{
           display: block;
@@ -148,7 +150,7 @@
             &:before {
               content: '';
               display: inline-block;
-              vertical-align: middle;
+              vertical-align: bottom;
               width: 16px;
               height: 16px;
               margin-right:5px;
@@ -157,12 +159,12 @@
           }
           > .disVote{
             &:before{
-              background: url(http://www.iquanwai.com/images/iconGreyVote.png) no-repeat center center/13px 13px;
+              background: url(http://www.iquanwai.com/images/iconGreyVote.png) no-repeat bottom center/13px 13px;
             }
           }
           > .voted{
             &:before{
-              background: url(http://www.iquanwai.com/images/iconGreenVote.png) no-repeat center center/13px 13px;
+              background: url(http://www.iquanwai.com/images/iconGreenVote.png) no-repeat bottom center/13px 13px;
             }
           }
         }
@@ -173,14 +175,14 @@
 
           > span{
             &:before {
-              background: url(http://www.iquanwai.com/images/iconComment.png) no-repeat center center/13px 9px;
+              background: url(http://www.iquanwai.com/images/iconComment.png) no-repeat bottom center/13px 10px;
               content: '';
               display: inline-block;
-              vertical-align: middle;
+              vertical-align: bottom;
               width: 16px;
               height: 16px;
               margin-right:5px;
-              margin-bottom:2px;
+              margin-bottom:5px;
             }
           }
         }

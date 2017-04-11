@@ -36,3 +36,6 @@ export function gradeProblem(problemScores,problemId){
   return ppost(`/rise/problem/grade/${problemId}`,problemScores);
 }
 
+export function learnKnowledge(knowledgeId) {
+  return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
+}

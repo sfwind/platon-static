@@ -8,10 +8,6 @@ export function loadApplicationPractice(id) {
   return pget(`/rise/practice/application/start/${id}`)
 }
 
-export function loadWarmUpNext(id) {
-  return pget(`/rise/practice/next/${id}`)
-}
-
 export function submitApplicationPractice(planId,applicationId, params) {
   return ppost(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
 }

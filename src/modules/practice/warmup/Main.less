@@ -5,29 +5,54 @@
   .header {
     width: 100%;
     height: 45px;
-    font-size: 16px;
+    font-size: @font_title;
     padding: 10px 0;
-    border-bottom: 2px solid @color_theme;
+    border-bottom: 2px solid @color_strong;
     text-align: center;
     color: @color_context
   }
+
+  .title-bar {
+    width: 100%;
+    color: @color_title;
+    background-color: @color_weak_background;
+    padding: 0 15px;
+    margin-left: -15px;
+    margin-bottom: 20px;
+    font-size: @font_index;
+  }
+
+  .discuss-container{
+    > .discuss {
+      margin-top: 20px;
+      > .discuss-end {
+        padding: 20px 0;
+        text-align: center;
+        color: @color_weak;
+        font-size: @font_index;
+        > .discuss-end-span{
+          margin-top: 13px;
+        }
+        > .discuss-end-img{
+          text-align: center;
+        }
+      }
+    }
+  }
+
   .intro-container {
-    height: ~"calc(100% - 49px)";
-    overflow: auto;
     > .intro-index {
       margin: 15px 0 10px 0;
-      color: #f7a466;
-      font-size: 13px;
       > .index {
-        color: #999999;
-        font-size: 13px;
+        font-size: @font_index;
+        color: @color_title;
       }
       > .type {
         margin-left: 14px;
-        color: #f7a466;
-        font-size: 13px;
+        color: @color_strong;
+        font-size: @font_index;
         > .number {
-          font-size: 18px;
+          font-size: 1.7em;
         }
       }
     }
@@ -36,8 +61,15 @@
       margin-bottom: 37.5px;
       white-space: normal;
       word-break: break-all;
-      font-size: 13px;
-      color: #666666;
+      font-size: @font_context;
+    }
+
+    .writeDiscuss {
+      position: absolute;
+      height:55px;
+      width:55px;
+      left:15px;
+      bottom: 68px;
     }
     > .choice-list {
       margin-left: 50px;
@@ -46,20 +78,19 @@
       > .choice {
         width: 100%;
         display: table;
-        color: #cccccc;
+        color: @color_weak;
         min-height: 50px;
+        font-size: @font_context;
         > .index {
           display: table-cell;
           vertical-align: middle;
           width: 25px;
           height: 100%;
           min-height: 50px;
-          border-left: 1px solid #cccccc;
-          border-top: 1px solid #cccccc;
-          border-bottom: 1px solid #cccccc;
+          border: 1px solid @color_weak;
           text-align: center;
-          border-top-left-radius: 5px;
-          border-bottom-left-radius: 5px;
+          border-top-left-radius: @border-radius;
+          border-bottom-left-radius: @border-radius;
         }
         > .text {
           display: table-cell;
@@ -68,24 +99,33 @@
           height: 100%;
           min-height: 50px;
           vertical-align: middle;
-          font-size: 13px;
           padding-left: 5px;
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-          border: 1px solid #cccccc;
+          border-top-right-radius: @border-radius;
+          border-bottom-right-radius: @border-radius;
+          border-right: 1px solid @color_weak;
+          border-top: 1px solid @color_weak;
+          border-bottom: 1px solid @color_weak;
         }
         &.selected {
+          background-color: #f0f0f0;
+          border-color: @color_weak;
           > .index {
-            color: white;
-            border-color: @color_theme;
+            background-color: #fff;
+            color: #33a9fe;
             text-align: center;
-            background-color: @color_theme;
           }
           > .text {
-            color: white;
-            font-size: 13px;
+            color: #33a9fe;
             padding-left: 5px;
-            background-color: #cccccc;
+          }
+        }
+        &.right {
+          > .index {
+            border-color: @color_strong !important;
+            background-color: @color_strong !important;
+          }
+          > .text {
+            border-color: @color_strong !important;
           }
         }
       }
@@ -93,25 +133,24 @@
         margin-top: 15px;
       }
     }
-    > .knowledge-link {
-      color: #55cbcb;
-      font-size: 13px;
-      height: 30px;
-      margin-top: 15px;
+    > .answer {
+      margin-top: 25px;
+      border-top: 1px solid #d0d0d0;
+      > .answer-title {
+        font-size: @font_index;
+        color: @color_title;
+        margin: 10px 0 10px -0.5rem;
+      }
+    }
+
+    > .analysis {
+      margin-top: 25px;
+    }
+
+    .knowledge-link {
+      color: @color_strong;
+      font-size: @font_click;
+      margin-top: 20px;
     }
   }
-}
-
-.button-submit {
-  position: absolute;
-  left: 50%;
-  margin-left: -84.5px;
-  width: 169px;
-  height: 50px;
-  background-color: @color_theme;
-  color: white;
-  border-radius: 5px;
-  text-align: center;
-  line-height: 50px;
-  font-size: 18px;
 }

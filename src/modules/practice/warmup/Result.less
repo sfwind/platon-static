@@ -8,7 +8,7 @@
     .section {
       position: relative;
       .section-title {
-        font-size: 16px;
+        font-size: @font_title;
         margin-top: 25px;
         color: @color_context;
       }
@@ -19,29 +19,25 @@
         .answer-word{
           margin-top: -155px;
           .answer-right{
-            font-size: 83px;
-            color: @color_theme;
+            font-size: 8.3em;
+            color: @color_strong;
           }
           .answer-total{
-            font-size: 15px;
+            font-size: 1.5em;
           }
         }
       }
       .count {
-        position: relative;
-        left: 50%;
-        margin-left: -150px;
-        width: 300px;
         text-align: center;
         line-height: 50px;
         margin-top: 40px;
         > .count-main {
-          font-size: 50px;
-          color: @color_theme;
+          font-size: 5.0em;
+          color: @color_strong;
         }
         > .count-sub {
-          font-size: 13px;
-          color: #333333;
+          font-size: 1.3em;
+          color: @color_context;
         }
       }
     }
