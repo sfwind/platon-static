@@ -98,6 +98,9 @@ export class AnalysisNew extends React.Component <any, any> {
             <div className="question">
               <div dangerouslySetInnerHTML={{__html: question}}></div>
             </div>
+            <div className="choice-list">
+              {choiceList.map((choice, idx) => choiceRender(choice, idx))}
+            </div>
             <div className="analysis">
               <div className="title-bar">解析</div>
               <div className="context">
