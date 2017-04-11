@@ -84,7 +84,8 @@ export default class Editor extends React.Component<any,any>{
   }
 
   getValue(){
-    return this.state.editor.getValue();
+    let value = this.state.editor.getValue();
+    return value==='<p style="font-size:13px;color:#cccccc; ">离开页面前请提交，以免内容丢失。</p>'?'':value;
   }
 
   componentWillReceiveProps(nextProps){
@@ -104,7 +105,7 @@ export default class Editor extends React.Component<any,any>{
           <div className="upload">
             <i className="upload-img"><AssetImg type="uploadImgIcon" width="25" height="20"/></i>上传图片
           </div>
-          <input type="file" name="file" capture="camera" accept="image/jpg,image/jpeg,image/png" style={{position:"absolute",left:0,top:0,marginTop:"5px",opacity:0,width:"100%",height:"100%"}} id="imageUpload" />
+          <input type="file" name="file" accept="image/*" style={{position:"absolute",left:0,top:0,marginTop:"5px",opacity:0,width:"100%",height:"100%"}} id="imageUpload" />
         </div>
       </div>
     )
