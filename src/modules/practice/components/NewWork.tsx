@@ -54,7 +54,7 @@ export default class Work extends React.Component<any,any> {
           )
         } else {
           return (
-            <div className={`${avatarStyle}`} dangerouslySetInnerHTML={{__html:content}}/>
+            <pre className={`${avatarStyle}`} dangerouslySetInnerHTML={{__html:content}}/>
           )
         }
       }
