@@ -74,9 +74,7 @@ export class Intro extends React.Component <any, any> {
     const { knowledge, currentIndex, total_knowledge } = this.state
     return (
         <div>
-          <div className="container has-footer">
-            {knowledge? <KnowledgeViewer knowledge={knowledge} />:null}
-          </div>
+          {knowledge? <KnowledgeViewer knowledge={knowledge} />:null}
           <div className="button-footer">
             <div className={`left`} onClick={this.prev.bind(this)}>上一步
             </div>
