@@ -94,7 +94,9 @@
       > .submit-content {
         line-height: 23px;
         font-size: @font_context;
-        > div {
+        > div,pre {
+          white-space: pre-wrap;
+          word-wrap: break-word;
           &.top {
             color: @color_context;
           }
@@ -107,8 +109,6 @@
         }
         > pre {
           font-size: @font_index;
-          white-space: pre-wrap;
-          word-wrap: break-word;
         }
         ol, ul {
           padding: 0 15px;
