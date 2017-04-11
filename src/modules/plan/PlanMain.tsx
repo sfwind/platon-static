@@ -27,8 +27,6 @@ const typeMap = {
 export class PlanMain extends React.Component <any, any> {
   constructor() {
     super()
-    this.picWidth = window.innerWidth
-    this.picHeight = window.innerWidth / (750 / 350)
     this.state = {
       planData: {},
       knowledge: {},
@@ -106,13 +104,29 @@ export class PlanMain extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
+  resize(){
+    this.setState({style:{
+      picWidth:window.innerWidth,
+      picHeight:(window.innerWidth / (750 / 350)) > 175?175:(window.innerWidth / (750 / 350))
+    }})
+  }
+
   componentWillReceiveProps(newProps) {
     if (this.props.location.query.series !== newProps.location.query.series && newProps.location.query.series !== undefined) {
       this.componentWillMount(newProps.location.query.series)
     }
   }
 
+  componentDidMount(){
+    window.addEventListener('resize', this.resize.bind(this));
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('resize', this.resize);
+  }
+
   componentWillMount(id) {
+    this.resize();
     const { dispatch, location } = this.props
     const { showedPayTip } = this.state;
     dispatch(startLoad())
@@ -495,7 +509,7 @@ export class PlanMain extends React.Component <any, any> {
         </Alert>
 
         <div className="header-img">
-          <img src={problem.pic} style={{width: this.picWidth, height: this.picHeight}}/>
+          <AssetImg url={problem.pic} style={{width: this.state.style.picWidth, height: this.state.style.picHeight}}/>
           <div className="message-box" onClick={this.openMessageBox.bind(this)}>
           { newMessage?
               <AssetImg type="has_message" height={33} width={33}/>
@@ -527,7 +541,7 @@ export class PlanMain extends React.Component <any, any> {
         </div>
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}/>
           : <div className="container has-footer" ref={'plan'}
-                 style={{height: window.innerHeight - this.picHeight - 49, backgroundColor: '#f5f5f5'}}>
+                 style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress">
             <div className="bar"></div><span>第{series}节</span><div className="bar"></div>
             <div className="introMsg">{introMsg}</div>
