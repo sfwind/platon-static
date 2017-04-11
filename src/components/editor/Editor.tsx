@@ -5,6 +5,7 @@ import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import {isFunction} from "lodash";
 
+const placeHolder = '<p style="color:#cccccc; ">离开页面前请提交，以免内容丢失。</p>';
 export default class Editor extends React.Component<any,any>{
   constructor(props){
     super(props);
@@ -23,7 +24,7 @@ export default class Editor extends React.Component<any,any>{
       uploadUrl: `/rise/file/editor/image/upload/${this.props.moduleId || 2}`,
       formInputId:'target',
       uploadField: 'file',
-      placeholader: '<p style="color:#cccccc; ">离开页面前请提交，以免内容丢失。</p>',
+      placeholader: placeHolder,
       validHtml: [],
       uploadStart:()=>{
         if(this.props.uploadStart){
@@ -85,7 +86,7 @@ export default class Editor extends React.Component<any,any>{
 
   getValue(){
     let value = this.state.editor.getValue();
-    return value==='<p style="font-size:13px;color:#cccccc; ">离开页面前请提交，以免内容丢失。</p>'?'':value;
+    return value === placeHolder?'':value;
   }
 
   componentWillReceiveProps(nextProps){
