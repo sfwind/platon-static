@@ -14,12 +14,12 @@ const { Alert } = Dialog
 
 
 const typeMap = {
-  1: '理解训练',
-  2: '理解训练',
+  1: '巩固训练',
+  2: '巩固训练',
   11: '应用训练',
   12: '综合训练',
   21: '小目标',
-  31: '知识点',
+  31: '理解训练',
   32: '知识回顾',
 }
 
@@ -411,7 +411,7 @@ export class PlanMain extends React.Component <any, any> {
   render() {
     const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, selectProblem, defeatPercent,showNextModal,showNextSeriesModal } = this.state
     const {
-      problem = {}, practice, point, introMsg, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
+      problem = {}, practice, point, section, chapter, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
     const practiceRender = (list = []) => {
       return list.map((item, index) => {
@@ -543,8 +543,8 @@ export class PlanMain extends React.Component <any, any> {
           : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress">
-            <div className="bar"></div><span>第{series}节</span><div className="bar"></div>
-            <div className="introMsg">{introMsg}</div>
+            <div className="intro"><div className="intro-chapter">{chapter}</div><div className="bar"/></div>
+            <div className="intro-section">{section}</div>
           </div>
           <div className="plan-main">
             <div className="list">
