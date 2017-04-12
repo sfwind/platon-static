@@ -108,7 +108,7 @@ export class AnalysisNew extends React.Component <any, any> {
               </div>
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
+              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>
             </div>
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, warmupPracticeId: id, repliedId:0})}>
               <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>

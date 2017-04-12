@@ -66,10 +66,7 @@ export default class ProblemViewer extends React.Component<any, any> {
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
-              <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/why.png"/>
-              </div>
-              <div className="text">
+              <div className="text" style={{marginTop:30}}>
                 <pre>{why}</pre>
               </div>
               <div className="context-title-img">
@@ -115,7 +112,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <div>手机微信：圈外训练营-RISE<br/><br/>
 
                   网站：www.iquanwai.com，点击RISE<br/>
-                  (学过的专题永久开放，暂不支持理解训练）<br/><br/>
+                  (学过的专题永久开放，暂不支持巩固训练）<br/><br/>
 
                   电脑微信（仅windows客户端）：圈外训练营-RISE</div>
               </div>

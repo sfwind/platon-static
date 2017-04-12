@@ -48,13 +48,12 @@ export class Result extends React.Component <any, any> {
   render() {
     const { rightNumber, point, total } = this.props.location.query
     const { data } = this.state
-    const { knowledge } = data
 
     return (
       <div>
         <div className="container has-footer">
           <div className="warm-up-result">
-            <div className="page-header">{'理解训练'}</div>
+            <div className="page-header">{'巩固训练'}</div>
             <div className="intro-container">
               <div className="section">
                 <div className="section-title">答对题数</div>

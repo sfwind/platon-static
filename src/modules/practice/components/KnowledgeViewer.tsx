@@ -46,7 +46,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     return (
       <div className={`knowledge-page${closeModal? '': ' no-footer'}`}>
         <div className={`container${closeModal? ' has-footer': ''}`}>
-          <div className="page-header">{'知识点：'}{knowledge.knowledge}</div>
+          <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
             { pic ? <div className="context-img"><img src={pic}/></div> : null }

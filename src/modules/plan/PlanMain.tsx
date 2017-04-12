@@ -309,7 +309,7 @@ export class PlanMain extends React.Component <any, any> {
             this.setState({showScoreModal: true, defeatPercent:msg.percent, mustStudyDays:msg.mustStudyDays})
           }
         }else{
-          dispatch(alertMsg('至少要完成所有知识点学习和理解训练哦'))
+          dispatch(alertMsg('至少要完成所有理解训练和巩固训练哦'))
         }
       } else {
         dispatch(alertMsg(msg))
@@ -478,7 +478,7 @@ export class PlanMain extends React.Component <any, any> {
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
           <div className="content">
             <div className="text">确定开始新专题吗</div>
-            <div className="text">当前专题的理解训练将无法查看</div>
+            <div className="text">当前专题的巩固训练将无法查看</div>
           </div>
           <div className="content2">
             <div className="text">（PC端应用训练仍然开放）</div>

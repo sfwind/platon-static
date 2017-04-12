@@ -81,7 +81,7 @@ export class RoadMap extends React.Component <any, any> {
             <div className="context" style={{marginTop:15, marginBottom:15}}>Hi，欢迎回来！本节的训练主题为：</div>
             {data?data.map((roadMap, idx) => renderRoadMap(roadMap, idx)):null}
           </div>
-          <div className="button-footer" onClick={this.onSubmit.bind(this)}>{'查看知识点'}</div>
+          <div className="button-footer" onClick={this.onSubmit.bind(this)}>{'查看内容'}</div>
         </div>
     )
   }
