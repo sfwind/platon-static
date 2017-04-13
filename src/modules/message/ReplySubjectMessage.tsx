@@ -54,10 +54,9 @@ export class ReplySubjectMessage extends React.Component<any,any>{
       return loadLabels(work.problemId).then(res=>{
         let {code,msg} = res;
         if(code===200){
-          console.log(msg);
           this.setState({labels:msg,work:work});
         } else {
-          dispatch(alterMsg("获取标签失败"));
+          dispatch(alertMsg("获取标签失败"));
         }
       })
     }).catch(ex => {
@@ -74,7 +73,6 @@ export class ReplySubjectMessage extends React.Component<any,any>{
 
   componentDidUpdate(){
     const { commentList=[],end } = this.state;
-    console.log(end);
     const {dispatch,location} = this.props;
     if(commentList&& commentList.length!==0 && !this.pullElement){
       this.pullElement = new PullElement({

@@ -89,9 +89,8 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
     return (
       <div>
         <div className="container has-footer">
-          <div className="question">{question}
-            <div className="origin-question-tip" onClick={this.onSubmit.bind(this)}>点击查看原题</div>
-          </div>
+          <div className="question">{question}</div>
+          <div className="origin-question-tip" onClick={this.onSubmit.bind(this)}>点击查看原题</div>
           <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
           {renderDiscuss(data)}
         </div>

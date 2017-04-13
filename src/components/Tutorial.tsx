@@ -12,7 +12,6 @@ export default class Tutorial extends React.Component<any,any> {
         "http://www.iqycamp.com/images/fragment/rise_tutorial_7.png"],
       index: 0,
       onShowEnd: props.onShowEnd || function () {
-        console.log('显示完成')
       },
       close:false
     }
@@ -26,10 +25,8 @@ export default class Tutorial extends React.Component<any,any> {
   next() {
     const {index, bgList} = this.state;
     if (index >= bgList.length - 1) {
-      console.log('over');
       this.state.onShowEnd();
     } else {
-      console.log(index + 1)
       this.setState({index: index + 1});
     }
 
@@ -37,7 +34,6 @@ export default class Tutorial extends React.Component<any,any> {
 
 
   onSwitching(index,type){
-    console.log("switching",index,type);
     const {bgList,onShowEnd,close} = this.state;
     switch(type){
       case 'end':{
@@ -61,9 +57,10 @@ export default class Tutorial extends React.Component<any,any> {
 
   render() {
     const {index, bgList} = this.state;
-    console.log(bgList[index]);
 
     return (
+      this.props.show?<div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.8)',position:'fixed'}}>
+
       <div className="tutorial" onClick={()=>this.next()}>
         <SwipeableViews style={{height:'100%',width:'100%'}} containerStyle={{height:'100%',width:'100%'}}
                         index={index} onSwitching={(index,type)=>this.onSwitching(index,type)} resistance={true}>
@@ -82,6 +79,7 @@ export default class Tutorial extends React.Component<any,any> {
           })}
         </div>}
       </div>
+      </div>:null
     )
   }
 }

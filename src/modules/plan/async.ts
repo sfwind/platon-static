@@ -47,3 +47,7 @@ export function createOrder(memberTypeId){
 export function isRiseMember(){
   return pget('/rise/plan/risemember');
 }
+
+export function learnKnowledge(knowledgeId) {
+  return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
+}

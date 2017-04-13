@@ -1,12 +1,13 @@
+@import "../style/variable";
 .audio {
   margin: 10px 0;
   width: 99%;
   height: 36px;
   border: 1px solid #e7e7e7;
-  background-color: white;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  background-color: #fff;
+  -webkit-border-radius: @border-radius;
+  -moz-border-radius: @border-radius;
+  border-radius: @border-radius;
   .audio-container {
     padding: 0 5px;
   }
@@ -24,7 +25,7 @@
   }
   .audio-duration {
     display: inline-block;
-    font-size: 12px;
+    font-size: @font_help;
     height: 36px;
     line-height: 36px;
     width: 30%;

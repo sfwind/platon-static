@@ -30,7 +30,18 @@ router.get("/rise/practice/warmup/start/*", (req, res) => {
 						"isRight": false,
 						"selected": null
 					}],
-					"choice": null
+					"choice": null,
+                    "knowledge": {
+                        "id": 5,
+                        "knowledge": "逻辑顺序",
+                        "step": null,
+                        "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                        "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                        "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                        "pic": null,
+                        "audio": null,
+                        "appear": null
+                    }
 				}, {
 					"id": 45,
 					"question": "请判断下面这段话作为主题是否适度？\n当今世界已进入信息网络化时代，信息网络化对编辑工作既提出了新的挑战，也带来了难得的发展机遇。当下，互联网在民众的生活中产生着越来越大的影响，“互联网+编辑出版业”也为编辑出版产业提供了广阔的发展空间。如何利用好互联网平台，使其与编辑出版业进行深度融合，为编辑出版工作打造新的局面，是值得编辑出版人深思的话题。目前以网络为代表的新媒体无疑给信息的传播带来了便捷，让编辑编发的成果受众面更为广阔。而同时，“互联网+”带给编辑工作者的冲击也是不小的，对此，编辑工作者就需积极应对。我认为进入网络化社会，编辑要不断学习新知识和技能，创新工作方式。\n ……\n",
@@ -48,7 +59,18 @@ router.get("/rise/practice/warmup/start/*", (req, res) => {
 						"isRight": false,
 						"selected": null
 					}, { "id": 137, "questionId": 45, "subject": "不适度", "sequence": 2, "isRight": true, "selected": null }],
-					"choice": null
+					"choice": null,
+                    "knowledge": {
+                        "id": 5,
+                        "knowledge": "逻辑顺序",
+                        "step": null,
+                        "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                        "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                        "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                        "pic": null,
+                        "audio": null,
+                        "appear": null
+                    }
 				}, {
 					"id": 47,
 					"question": "请为下面这段话概括一个最合适的主题：\n为了改善公司目前新入职员工的培训状况：\n 应向管理层强调，对新入职员工的培训十分影响员工的工作质量和忠诚度\n 应在年末给予优秀讲师奖励和表彰，提高讲师的积极性\n 应搜集新入职员工对培训的反馈，调整培训内容，使之更贴合新员工需要\n",
@@ -80,7 +102,18 @@ router.get("/rise/practice/warmup/start/*", (req, res) => {
 						"isRight": false,
 						"selected": null
 					}],
-					"choice": null
+					"choice": null,
+                    "knowledge": {
+                        "id": 5,
+                        "knowledge": "逻辑顺序",
+                        "step": null,
+                        "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                        "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                        "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                        "pic": null,
+                        "audio": null,
+                        "appear": null
+                    }
 				}]
 			}, "code": 200
 		}), Math.random() * 1500)
@@ -133,32 +166,43 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
 								"selected": true
 							}
 						],
-            "discussList": [
-              {
-                "id":2,
-                "repliedId": 1,
-                "comment":"回复回复",
-                "repliedName": "风之伤",
-                "repliedComment": "评论评论评论",
-                "warmupPracticeId": 49,
-                "name":"Diane",
-                "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-                "discussTime":"10:30",
-                "priority":1,
-              },
+                        "knowledge": {
+                            "id": 5,
+                            "knowledge": "逻辑顺序",
+                            "step": null,
+                            "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                            "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                            "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                            "pic": null,
+                            "audio": null,
+                            "appear": null
+                        },
+                        "discussList": [
+                          {
+                            "id":2,
+                            "repliedId": 1,
+                            "comment":"回复回复",
+                            "repliedName": "风之伤",
+                            "repliedComment": "评论评论评论",
+                            "warmupPracticeId": 49,
+                            "name":"Diane",
+                            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                            "discussTime":"10:30",
+                            "priority":1,
+                          },
 
-              {
-                "id":1,
-                "repliedId": null,
-                "comment":"评论评论评论",
-                "repliedName": null,
-                "repliedComment": null,
-                "warmupPracticeId": 49,
-                "name":"风之伤",
-                "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-                "discussTime":"10:38"
-              }
-            ],
+                          {
+                            "id":1,
+                            "repliedId": null,
+                            "comment":"评论评论评论",
+                            "repliedName": null,
+                            "repliedComment": null,
+                            "warmupPracticeId": 49,
+                            "name":"风之伤",
+                            "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                            "discussTime":"10:38"
+                          }
+                        ],
 					},
 					{
 						"id": 2, //题目id
@@ -200,7 +244,18 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
 								"isRight": false,
 								"selected": true
 							}
-						]
+						],
+                        "knowledge": {
+                            "id": 5,
+                            "knowledge": "逻辑顺序",
+                            "step": null,
+                            "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+                            "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+                            "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+                            "pic": null,
+                            "audio": null,
+                            "appear": null
+                        }
 					}
 				]
 			}
@@ -250,7 +305,7 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"knowledgeId": 1,
 				"sceneId": 1,
 				"difficulty": null,
-        "content": null,
+        "content": "babal",
         "submitId": 1, //提交id
         "submitUpdateTime": "2017-02-15" ,//最后提交时间
         "voteCount": 0,
@@ -379,6 +434,17 @@ router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
             "selected": true
           }
         ],
+          "knowledge": {
+              "id": 5,
+              "knowledge": "逻辑顺序",
+              "step": null,
+              "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+              "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+              "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+              "pic": null,
+              "audio": null,
+              "appear": null
+          },
         "discussList": [
           {
             "id":2,
@@ -424,7 +490,18 @@ router.get("/rise/practice/warmup/*", (req, res) => {
         "score": null,
         "choiceList": null,
         "discussList": null,
-        "choice": null
+        "choice": null,
+          "knowledge": {
+              "id": 5,
+              "knowledge": "逻辑顺序",
+              "step": null,
+              "analysis": "用时间、空间、程度三种逻辑顺序进行沟通表达，能让你的表达更加清晰、缜密、有条理，更有吸引力，让别人容易记住。",
+              "means": "逻辑顺序是时间、空间、程度三种顺序的统称。在思考和表达时，逻辑顺序可以有两种使用方式：\n\n1）自上而下：根据主题，设定合适的逻辑顺序框架，去组织内容；\n2）自下而上：先头脑风暴出很多信息/观点，然后寻找他们之间的逻辑顺序，重新组织。",
+              "keynote": "这三种逻辑顺序，只是代表类型，具体在表达和解决问题时，如果想要更高效，还需要积累更多具体的结构，比如，时间顺序下的产品价值链。",
+              "pic": null,
+              "audio": null,
+              "appear": null
+          }
       }
     }), Math.random() * 1500)
 });
@@ -874,5 +951,130 @@ router.post("/rise/practice/check/*",(req,res)=>{
     );
   },Math.random()*1500);
 });
+
+router.get("/rise/practice/subject/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json(
+            {"msg":{
+                "title": null,
+                "userName": "nethunder",
+                "submitUpdateTime": "2017-03-24",
+                "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
+                "content": "微博 [cp]今天难得和老爸下馆子聊天，他有些小抱怨。能立即进入移情倾听模式吗？能意识到情绪背后的诉求吗？能试着不去判断他的想法对错吗？回到聊天的目的是什么，是加强理解和沟通而非判断是非，即使是解释了也未必能改变想法。然而通常我们是害怕不解释不纠正，对方会继续错下去。先判断，再强加，这完全是和沟通的目的南辕北辙。[/cp]\n感觉对倾听的要素没有很清晰的分类，写的时候一直在想要按照逻辑去分，但有点难。现在思考，首先是明确和老爸吃饭聊天的目的是加强沟通增进感情，然后在意识到老爸这么说是在发泄情绪，接着开启移情倾听模式，然后时刻保持意识自己是否在判断老爸的对错，回到倾听和理解而非去解释和纠正。\n修改后的微博：\n今天难得和老爸吃饭聊天，快一年没见面真的要和老爸好好联络感情呢。老爸谈起一些家庭琐事的小抱怨，我又忍不住开始解释：其实也不是那样的。。。这是个很好的机会练习移情聆听呀。首先记得和老爸聊天的目的是增加沟通，尽量让老爸多说说他的想法；意识到小抱怨其实是在发泄情绪了，马上进去移情聆听的状态，控制自己不去判断和解释，耐心等老爸说完。嗯，下次应该能做得更好。",
+                "voteCount": 0,
+                "commentCount": 0,
+                "submitId": 5,
+                "type": 11,
+                "voteStatus": 0,
+                "priority": 0,
+                "perfect": null,
+                "problemId": null,
+                "authorType": null,
+                "isMine": null,
+                "labelList": [],
+                "picList": []
+
+            },"code":200}
+        );
+    },Math.random()*1500);
+});
+
+router.get("/rise/practice/label/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json(
+            {"msg":[{
+                "id":1,
+                "problemId":1,
+                "name":"标签1",
+                "del":false,
+            }],"code":200}
+        );
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/knowledge/learn/*", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": "ok"
+        }), Math.random() * 1500)
+});
+
+router.get("/rise/practice/knowledge/start/*", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "msg": [
+                {
+                    "id": 57,
+                    "knowledge": "故事的三种作用",
+                    "step": "",
+                    "analysis": "只有故事，才能达到共情、建立人与人之间的链接、塑造深层次的认同感。\n\n故事是一种有别于逻辑和数据的思维模式，可以被广泛运用与职场管理、市场营销、市场社交的领域。\n",
+                    "means": "在以说服为目的的情景中，有三种代表性的故事：\n\n第一种：故事化包装，主要起到吸引受众的作用\n\n第二种：类比类故事，主要起到帮助受众理解的作用\n\n第三种：典型事例类故事，主要起到使受众对概念的理解更具象的作用\n",
+                    "keynote": "\n\n",
+                    "pic": null,
+                    "audio": null,
+                    "appear": 0,
+                    "example": {
+                        "id": 679,
+                        "question": "初中语文课本上有一篇古文《邹忌讽齐王纳谏》。齐国的相邹忌，身高八尺多，容貌光艳美丽。有一天邹忌上朝拜见齐威王，说：“城北的徐公，是齐国的美男子。我不相信自己会比徐公美丽。有一天早晨我穿戴好衣帽，照着镜子，问妻子：‘我与城北的徐公相比，谁更美丽呢？’我妻子说：‘您美极了，徐公怎么能比得上您呢！’。我又问小妾，妾说：‘徐公怎么能比得上您呢？’。第二天，有客人从外面来拜访，我问客人，客人说：“徐公不如您美丽啊。”又过了一天，徐公前来拜访，我仔细地端详他，觉得远远比不上人家。晚上，我躺在床上想这件事：我的妻子说我美，是偏爱我；我的小妾说我美，是惧怕我；客人说我美，是想要有求于我。如今的齐国，土地方圆千里，有一百二十座城池，宫中的姬妾和身边的近臣，没有不偏爱大王的；朝廷中的大臣，没有不惧怕大王的；国内的百姓，没有不对大王有所求的：由此看来，大王受蒙蔽一定很厉害了。”请问，邹忌对齐威王讲的这个故事，属于以说服为目的的情景下，三种代表性故事类型的哪一种？起到了什么作用？",
+                        "type": 1,
+                        "analysis": "明显属于类比类故事，将君王身边的姬妾、大臣、百姓和自己的妻子、小妾、朋友做类比，帮助齐王理解：你面对的不同的人，会因为各自的私心而蒙蔽你，需要有清醒的认识",
+                        "pic": null,
+                        "difficulty": 2,
+                        "knowledgeId": 57,
+                        "sceneId": 1,
+                        "del": false,
+                        "problemId": 13,
+                        "sequence": 1,
+                        "example": true,
+                        "practiceUid": "T014A015B001Y01001",
+                        "score": 0,
+                        "choiceList": [
+                            {
+                                "id": 2057,
+                                "questionId": 679,
+                                "subject": "典型事例类故事，主要起到使受众对概念的理解更具象的作用",
+                                "sequence": 1,
+                                "isRight": false,
+                                "selected": false
+                            },
+                            {
+                                "id": 2058,
+                                "questionId": 679,
+                                "subject": "类比类故事，主要起到帮助受众理解的作用",
+                                "sequence": 2,
+                                "isRight": true,
+                                "selected": false
+                            },
+                            {
+                                "id": 2059,
+                                "questionId": 679,
+                                "subject": "故事化包装，主要起到吸引受众的作用",
+                                "sequence": 3,
+                                "isRight": false,
+                                "selected": false
+                            }
+                        ],
+                        "discussList": null,
+                        "choice": null,
+                        "knowledge": {
+                            "id": 57,
+                            "knowledge": "故事的三种作用",
+                            "step": "",
+                            "analysis": "只有故事，才能达到共情、建立人与人之间的链接、塑造深层次的认同感。\n\n故事是一种有别于逻辑和数据的思维模式，可以被广泛运用与职场管理、市场营销、市场社交的领域。\n",
+                            "means": "在以说服为目的的情景中，有三种代表性的故事：\n\n第一种：故事化包装，主要起到吸引受众的作用\n\n第二种：类比类故事，主要起到帮助受众理解的作用\n\n第三种：典型事例类故事，主要起到使受众对概念的理解更具象的作用\n",
+                            "keynote": "\n\n",
+                            "pic": null,
+                            "audio": null,
+                            "appear": null,
+                            "example": null
+                        }
+                    }
+                },
+            ],
+            "code": 200
+        }), Math.random() * 1500)
+});
+
 
 module.exports = router;

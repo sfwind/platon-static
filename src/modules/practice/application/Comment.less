@@ -1,20 +1,22 @@
+@import "../../../style/variable";
+
 .comment{
   overflow: auto;
   &.has-footer {
     height: ~"calc(100% - 49px)";
   }
   .comment-header{
-    font-size:13px;
-    line-height:13px;
-    color:#666;
+    font-size:1.3em;
+    line-height:1.3em;
+    color:@color_title;
     padding:15px 0 15px 15px;
     border-bottom:1px solid #d0d0d0;
   }
   .comment-body{
     margin-bottom:49px;
     .on_message{
-      color: #cccccc;
-      font-size: 16px;
+      color: @color_weak;
+      font-size: @font_index;
       text-align: center;
       margin-top: 15px;
       > .no_comment{

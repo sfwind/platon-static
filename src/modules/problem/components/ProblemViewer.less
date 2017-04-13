@@ -4,7 +4,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 999999;
+  z-index: 100;
   top: 0;
   left: 0;
   .problem-intro{
@@ -16,12 +16,43 @@
     }
     > .page-content{
       padding-top: 47px;
+      padding-bottom: 20px;
       > .context{
         > .problem-length{
-          font-size: 15px;
-          color: @color_theme;
+          font-size: @font_context;
+          color: @color_strong;
         }
       }
+      > .context-title-img {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+      }
+      pre{
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word;
+        font-size: 1.2em;
+      }
+
+      .roadmap{
+        margin-top:15px;
+        color: @color_context;
+        padding-left: 20px;
+      }
+      > .text{
+        font-size: @font_context;
+        color: @color_context;
+        > .time-tip-content{
+          display: inline-block;
+          > .tip{
+            font-size: 0.7em;
+            color: @color_help;
+          }
+        }
+      }
+
     }
   }
 }

@@ -1,12 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import "./ProblemList.less";
 import { remove } from "lodash";
 import { welcome,trial,becomRiser } from "./async";
+import "./Welcome.less";
+import { welcome } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 
 @connect(state => state)
-export class ProblemList extends React.Component <any, any> {
+export class Welcome extends React.Component <any, any> {
 
   constructor(){
     super();
@@ -34,6 +35,7 @@ export class ProblemList extends React.Component <any, any> {
   }
 
   componentDidMount(){
+    welcome()
     setTimeout(() => {
       this.setState({show:true})
     }, 100)

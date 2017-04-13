@@ -1,9 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadKnowledgeIntro, loadApplicationPractice,vote,loadOtherList } from "./async";
+import { loadApplicationPractice,vote,loadOtherList } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import Audio from "../../../components/Audio";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
@@ -98,15 +97,6 @@ export class Main extends React.Component <any, any> {
       if (code === 200) {
         const { content, knowledgeId } = msg;
         this.setState({data: msg, submitId: msg.submitId})
-        loadKnowledgeIntro(knowledgeId).then(res => {
-          dispatch(endLoad());
-          let { code, msg } = res;
-          if (code === 200)  this.setState({ knowledge: msg });
-          else dispatch(alertMsg(msg))
-        }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
         if (content !== null){
           window.location.href = '#submit'
           return true;
@@ -118,6 +108,7 @@ export class Main extends React.Component <any, any> {
       if (res) {
         // 已提交
         return loadOtherList(location.query.id, 1).then(res => {
+          dispatch(endLoad())
           if (res.code === 200) {
             this.setState({otherList: res.msg.list, otherHighlightList:res.msg.highlightList, page: 1, end:res.msg.end});
           } else {
@@ -125,6 +116,7 @@ export class Main extends React.Component <any, any> {
           }
         });
       } else {
+        dispatch(endLoad())
       }
     }).catch(ex => {
       dispatch(endLoad())
@@ -181,7 +173,7 @@ export class Main extends React.Component <any, any> {
 
   render() {
     const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end } = this.state
-    const { voice, description, content,voteCount,submitId,voteStatus } = data
+    const { topic, description, content,voteCount,submitId,voteStatus } = data
 
     const renderList = (list)=>{
       if(content && list){
@@ -212,9 +204,11 @@ export class Main extends React.Component <any, any> {
         )
       } else {
         return (
-          <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
+          <div>
+            <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
                 headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}
                 goComment={()=>this.goComment(submitId)} />
+          </div>
         )
       }
     }
@@ -223,11 +217,11 @@ export class Main extends React.Component <any, any> {
       if(content){
         if(!end){
           return (
-            <div className="show-more">上拉加载更多消息</div>
+            <div className="show-more" style={{borderTop:'1px solid #efefef'}}>上拉加载更多消息</div>
           )
         } else {
           return (
-            <div className="show-more">已经到最底部了</div>
+            <div className="show-more" style={{borderTop:'1px solid #efefef'}}>已经到最底部了</div>
           )
         }
       }
@@ -237,11 +231,8 @@ export class Main extends React.Component <any, any> {
       <div>
         <div  ref="container" className="container has-footer">
           <div className="application">
-            <div className="page-header">{knowledge.knowledge}</div>
+            <div className="page-header">{topic}</div>
             <div className="intro-container">
-              { voice ? <div className="context-audio">
-                <Audio url={voice}/>
-              </div> : null }
               <div className="context-img">
                 <img src="http://www.iqycamp.com/images/fragment/application_practice.png" alt=""/>
               </div>
@@ -256,7 +247,7 @@ export class Main extends React.Component <any, any> {
                 <div className="section2" dangerouslySetInnerHTML={{__html: description}}>
                 </div>
               </div>
-              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
+              {/*<div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>*/}
               <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">

@@ -50,11 +50,11 @@ export default class Work extends React.Component<any,any> {
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
           return (
-            <pre className={`${avatarStyle}`}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></pre>
+            <div className={`${avatarStyle}`}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></div>
           )
         } else {
           return (
-            <div className={`${avatarStyle}`} dangerouslySetInnerHTML={{__html:content}}/>
+            <pre className={`${avatarStyle}`} dangerouslySetInnerHTML={{__html:content}}/>
           )
         }
       }
@@ -81,9 +81,7 @@ export default class Work extends React.Component<any,any> {
           </div>
           <div className="submit-time">{submitUpdateTime}</div>
           {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}} onClick={()=>onEdit()}>
-            <div className="submit-icon">
               <AssetImg type="edit" height={12}/>
-            </div>
             <div className="submit-button">
               编辑
             </div>
@@ -101,7 +99,7 @@ export default class Work extends React.Component<any,any> {
             {renderHeader()}
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
-            {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:`${showAll?'5px':'-20px'}`}}>{showAll?'收起':'展开'}</div>:null}
+            {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
             {/*<div className="pic-list">{picList &&  !(filterContent && filterContent.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
               return (
                 <img className="pic" src={`${item}`}  onClick={() => preview(item, picList)} />

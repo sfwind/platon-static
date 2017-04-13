@@ -24,7 +24,7 @@ export default class DiscussShow extends React.Component <any, any> {
               <div className="comment-time">{discussTime}</div>
               {priority === 1 ?
                   <div className="right">
-                    <AssetImg type="excellent_answer" height={31} width={32} marginTop={-15}/>
+                    <AssetImg type="excellent_answer" height={31} width={32} marginTop={-15} marginRight={-10}/>
                   </div> : null
               }
             </div>
@@ -32,9 +32,7 @@ export default class DiscussShow extends React.Component <any, any> {
             {repliedComment ?
                 <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
             <div className="function-area" onClick={()=>{reply(warmupPracticeId, id)}}>
-              <div className="function-icon">
-                <AssetImg type="reply" height={12} width={15}/>
-              </div>
+              <AssetImg type="reply" height={12} width={15}/>
               <div className="function-button">
                 回复
               </div>
