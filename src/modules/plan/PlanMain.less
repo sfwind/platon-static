@@ -7,10 +7,17 @@
 }
 
 .trial-tip{
+  background:url('http://www.iquanwai.com/images/riseMemberUpButton.png') no-repeat center center/100% 100%;
   position: absolute;
-  right: 10px;
+  z-index:500;
+  right: 0;
   bottom: 10px;;
-  background: #FFF;
+  width:88px;
+  height:34px;
+  transform:translateX(88px);
+  &.open{
+    animation:riseMember-left-show 1s alternate forwards;
+  }
 }
 
 .plan-main {
@@ -303,4 +310,9 @@
     margin-top: 5px;
     color: @color_title;
   }
+}
+
+@keyframes riseMember-left-show {
+  0%{ transform: translateX(88px) }
+  100% {transform: translateX(0px)}
 }

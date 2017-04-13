@@ -125,6 +125,21 @@ export class PlanMain extends React.Component <any, any> {
     window.removeEventListener('resize', this.resize);
   }
 
+  riseMemberCheck(){
+    return isRiseMember().then(res=>{
+      if(res.code === 200){
+        console.log('rise',res.msg);
+        this.setState({riseMember:res.msg});
+        if(!res.msg){
+          setTimeout(()=>{this.setState({riseMemberTips:true});},10)
+
+        }
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    });
+  }
+
   componentWillMount(id) {
     this.resize();
     const { dispatch, location } = this.props
@@ -137,16 +152,6 @@ export class PlanMain extends React.Component <any, any> {
       series =location.query.series
     }
 
-    isRiseMember().then(res=>{
-      if(res.code === 200){
-        console.log('rise',res.msg);
-        this.setState({riseMember:res.msg});
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(ex=>{
-      dispatch(alertMsg(ex));
-    })
 
     if (series) {
       loadPlanHistory(series).then(res => {
@@ -171,7 +176,7 @@ export class PlanMain extends React.Component <any, any> {
           dispatch(alertMsg("先完成这一节的必修任务吧"))
         }
         else dispatch(alertMsg(msg))
-      }).catch(ex => {
+      }).then(()=>this.riseMemberCheck()).catch(ex => {
         dispatch(endLoad())
         dispatch(alertMsg(ex))
       })
@@ -195,7 +200,7 @@ export class PlanMain extends React.Component <any, any> {
           }
         }
         else dispatch(alertMsg(msg))
-      }).catch(ex => {
+      }).then(()=>this.riseMemberCheck()).catch(ex => {
         dispatch(endLoad())
         dispatch(alertMsg(ex))
       })
@@ -424,7 +429,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem,riseMember,defeatPercent,showNextModal,showNextSeriesModal } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal } = this.state
     const {
       problem = {}, practice, point, section, chapter, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
@@ -532,8 +537,7 @@ export class PlanMain extends React.Component <any, any> {
             : <AssetImg type="no_message" height={33} width={33}/>
           }
           </div>
-          {isBoolean(riseMember) && !riseMember?<div className="trial-tip" onClick={()=>this.goRiseMemberTips()}>
-            试用版
+          {isBoolean(riseMember) && !riseMember?<div className={`trial-tip ${riseMemberTips?'open':''}`} onClick={()=>this.goRiseMemberTips()}>
           </div>:null}
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>
