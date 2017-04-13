@@ -123,6 +123,7 @@ router.get("/rise/plan/load", (req, res) => {
         		"openRise":true,
         		"section":"1.1 分组归类",
         		"chapter":"第1章 分组归类",
+				"alertMsg":"警告警告\n警告警告",
 			}, "code": 200
 		}), Math.random() * 1500)
 });
@@ -225,6 +226,7 @@ router.get("/rise/plan/history/load/*", (req, res) => {
                 "openRise":true,
                 "section":"1.2 MECE",
                 "chapter":"第1章 分组归类",
+                "alertMsg":"警告警告\n警告警告",
 			}, "code": 200
 		}), Math.random() * 1500)
 });
