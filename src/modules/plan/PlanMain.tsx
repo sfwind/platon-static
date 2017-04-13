@@ -424,7 +424,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem,selectProblem, currentIndex, selectProblem, defeatPercent,riseMember,defeatPercent,showNextModal,showNextSeriesModal } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem,riseMember,defeatPercent,showNextModal,showNextSeriesModal } = this.state
     const {
       problem = {}, practice, point, introMsg, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
