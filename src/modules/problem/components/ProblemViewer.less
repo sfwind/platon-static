@@ -17,6 +17,39 @@
     > .page-content{
       padding-top: 47px;
       padding-bottom: 20px;
+      .roadmap{
+        margin-top: 20px;
+        .chapter{
+          font-size: @font_context;
+          color: @color_context;
+          margin-bottom: 5px;
+          &:before{
+            content: '';
+            background: url(http://www.iquanwai.com/images/fragment/chapter.png) no-repeat center center/ 1.1em 1.0em;
+            vertical-align: middle;
+            display: inline-block;
+            width: 1.1em;
+            height: 1.0em;
+            margin-right: 5px;
+          }
+        }
+        .section{
+          font-size: @font_context;
+          color: @color_context;
+          margin-bottom: 5px;
+          padding-left: 14px;
+          &:before {
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 4px;
+            height: 1.0em;
+            background-color: @color_strong;
+            margin-right: 5px;
+            border-radius: @border-radius;
+          }
+        }
+      }
       > .context{
         > .problem-length{
           font-size: @font_context;
@@ -36,11 +69,6 @@
         font-size: 1.2em;
       }
 
-      .roadmap{
-        margin-top:15px;
-        color: @color_context;
-        padding-left: 20px;
-      }
       > .text{
         font-size: @font_context;
         color: @color_context;

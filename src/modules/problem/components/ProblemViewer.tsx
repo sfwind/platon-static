@@ -43,7 +43,7 @@ export default class ProblemViewer extends React.Component<any, any> {
       const {sections} = chapter
       return (
           <div key={idx}>
-            <div className={'chosen-chapter'}>{'第'+chapter.chapter+'章 '}{chapter.name}</div>
+            <div className={'chapter'}>{'第'+chapter.chapter+'章 '}{chapter.name}</div>
             {sections?sections.map((section, idx) => renderSection(section, idx, chapter.chapter)):null}
           </div>
       )
@@ -52,7 +52,7 @@ export default class ProblemViewer extends React.Component<any, any> {
     const renderSection = (section, idx, chapter) => {
       return (
           <div key={idx}>
-            <div className={'chosen-section'}>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
+            <div className={'section'}>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>
       )
     }
@@ -82,7 +82,7 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="text">
                 <pre>{what}</pre>
               </div>
-              {chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}
+              <div className="roadmap">{chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}</div>
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who.png"/>
               </div>
