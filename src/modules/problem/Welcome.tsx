@@ -82,7 +82,7 @@ export class Welcome extends React.Component <any, any> {
         <div className="button-footer white-button">
           {riseMember?<div onClick={()=>this.onSubmit()}>下一步</div>:
             renderButton([<div className="button" onClick={()=>this.goTrial()}>试用版</div>,
-                        <div className="button" onClick={()=>this.becomeRiser()}>成为RISEER</div>])
+                        <div className="button" onClick={()=>this.becomeRiser()}>专业版</div>])
           }
 
         </div>
