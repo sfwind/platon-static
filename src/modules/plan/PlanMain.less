@@ -276,17 +276,30 @@
   margin-bottom: 15px;
   font-size: 1.3em;
   color: @color_help;
-  .bar{
-    display: inline-block;
-    height: 1px;
-    width: 84px;
-    background-color: #ccc;
-    margin-left: 13px;
-    margin-right: 13px;
-    vertical-align: middle;
+
+
+  .intro{
+    position: relative;
+    margin-top: 5px;
+    .intro-chapter{
+      position: relative;
+      color: @color_title;
+      z-index: 1;
+      background-color: @color_weak_background;
+      padding: 0 13px;
+      display: inline-block;
+    }
+    .bar{
+      height: 1px;
+      width: 100%;
+      position:absolute;
+      top: 50%;
+      background-color: @color_weak;
+    }
   }
 
-  .introMsg{
+
+  .intro-section{
     margin-top: 5px;
     color: @color_title;
   }

@@ -14,12 +14,12 @@ const { Alert } = Dialog
 
 
 const typeMap = {
-  1: '理解训练',
-  2: '理解训练',
+  1: '巩固训练',
+  2: '巩固训练',
   11: '应用训练',
   12: '综合训练',
   21: '小目标',
-  31: '知识点',
+  31: '理解训练',
   32: '知识回顾',
 }
 
@@ -320,7 +320,7 @@ export class PlanMain extends React.Component <any, any> {
             this.setState({showScoreModal: true, defeatPercent:msg.percent, mustStudyDays:msg.mustStudyDays})
           }
         }else{
-          dispatch(alertMsg('至少要完成所有知识点学习和理解训练哦'))
+          dispatch(alertMsg('至少要完成所有理解训练和巩固训练哦'))
         }
       } else {
         dispatch(alertMsg(msg))
@@ -426,7 +426,7 @@ export class PlanMain extends React.Component <any, any> {
   render() {
     const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem,riseMember,defeatPercent,showNextModal,showNextSeriesModal } = this.state
     const {
-      problem = {}, practice, point, introMsg, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
+      problem = {}, practice, point, section, chapter, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
     const practiceRender = (list = []) => {
       return list.map((item, index) => {
@@ -494,7 +494,7 @@ export class PlanMain extends React.Component <any, any> {
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
           <div className="content">
             <div className="text">确定开始新专题吗</div>
-            <div className="text">当前专题的理解训练将无法查看</div>
+            <div className="text">当前专题的巩固训练将无法查看</div>
           </div>
           <div className="content2">
             <div className="text">（PC端应用训练仍然开放）</div>
@@ -562,8 +562,8 @@ export class PlanMain extends React.Component <any, any> {
           : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress">
-            <div className="bar"></div><span>第{series}节</span><div className="bar"></div>
-            <div className="introMsg">{introMsg}</div>
+            <div className="intro"><div className="intro-chapter">{chapter}</div><div className="bar"/></div>
+            <div className="intro-section">{section}</div>
           </div>
           <div className="plan-main">
             <div className="list">

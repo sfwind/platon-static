@@ -1,15 +1,66 @@
 @import "../../../style/variable";
 
-.chosen{
+.chosen-chapter{
+  margin-top:15px;
+  font-size: @font_title;
+  color: @color_context;
+  &:before{
+    content: '';
+    background: url(http://www.iquanwai.com/images/fragment/chapter.png) no-repeat center center/ 1.1em 1.0em;
+    vertical-align: middle;
+    display: inline-block;
+    height:1.0em;
+    width:1.1em;
+    margin-right: 5px;
+  }
+}
+
+.not-chosen-chapter{
+  margin-top:15px;
+  font-size: @font_title;
+  color: @color_weak;
+  &:before{
+    content: '';
+    background: url(http://www.iquanwai.com/images/fragment/grey_chapter.png) no-repeat center center/ 1.1em 1.0em;
+    height:1.0em;
+    width:1.1em;
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+
+.chosen-section{
   margin-top:15px;
   font-size: @font_context;
   color: @color_context;
-  padding-left: 20px;
+  margin-left: 14px;
+  &:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 4px;
+    height: 1.0em;
+    background-color: @color_strong;
+    margin-right: 5px;
+    border-radius: @border-radius;
+  }
 }
 
-.not-chosen{
+.not-chosen-section{
   margin-top:15px;
-  font-size: 1.5em;
+  font-size: @font_context;
   color: @color_weak;
-  padding-left: 20px;
+  margin-left: 14px;
+  &:before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 4px;
+    height: 1.0em;
+    background-color: #cacaca;
+    margin-right: 5px;
+    border-radius: @border-radius;
+  }
 }

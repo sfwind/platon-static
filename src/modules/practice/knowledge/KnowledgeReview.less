@@ -12,7 +12,7 @@
     color:@color_title;
     padding-left:15px;
     font-size:@font_title;
-    border-bottom:1px solid #f5f5f5;
+    border-bottom:10px;
     &.click:after {
       content: ' ';
       display: inline-block;
@@ -25,46 +25,51 @@
     }
   }
   > .detail-container{
-    > .item{
+    background-color:#ffffff;
+    .chapter{
+      height: 50px;
+      line-height: 50px;
+      font-size: @font_title;
+      color: @color_context;
       padding-left: 15px;
-      border-bottom: 1px solid #f5f5f5;
-      background-color:#FFFFFF;
-      overflow: hidden;
-      > .label{
-        margin-top:5px;
-        font-size:@font_click;
-        color:@color_title;
+      border-top:1px solid @color_weak_background;
+      &:before{
+        content: '';
+        background: url(http://www.iquanwai.com/images/fragment/chapter.png) no-repeat center center/ 1.1em 1.0em;
+        vertical-align: middle;
+        display: inline-block;
+        width: 1.1em;
+        height: 1.0em;
+        margin-right: 5px;
       }
-      .content{
-        font-size: @font_click;
-        color: @color_context;
-        height: 40px;
-        line-height: 40px;
-        padding-left: 30px;
-        &:after {
-          content: ' ';
-          display: inline-block;
-          background: url("http://www.iqycamp.com/images/mobilePersonalEnter.png") no-repeat right center/  6px 11.5px;
-          width: 6px;
-          height: 11.5px;
-          margin-top: 16.75px;
-          margin-right: 15px;
-          float: right;
-        }
-      }
+    }
 
-      .integrated{
-        font-size: @font_click;
-        color: @color_context;
-        height: 40px;
-        line-height: 40px;
-        padding-left: 30px;
+    .section{
+      height: 50px;
+      line-height: 50px;
+      font-size: @font_context;
+      color: @color_context;
+      padding-left: 29px;
+      border-top:1px solid @color_weak_background;
+      &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        width: 4px;
+        height: 1.0em;
+        background-color: @color_strong;
+        margin-right: 5px;
+        border-radius: @border-radius;
       }
-      > .content-no-cut{
+      &.click:after {
+        content: ' ';
+        display: inline-block;
+        background: url("http://www.iqycamp.com/images/mobilePersonalEnter.png") no-repeat right center/ 6px 11.5px;
+        width: 6px;
+        height: 11.5px;
         float: right;
-        position: relative;
-        padding-right: 20px;
-        font-size: 13px;
+        margin-top: 16.75px;
+        margin-right: 15px;
       }
     }
   }

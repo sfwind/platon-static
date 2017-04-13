@@ -36,13 +36,23 @@ export default class ProblemViewer extends React.Component<any, any> {
 
   render() {
     const {closeModal, problem, readonly} = this.props;
-    const {length, why, how, what, who, descPic, audio, roadMapList} = problem;
+    const {length, why, how, what, who, descPic, audio, chapterList} = problem;
     const {showTip} = this.state
 
-    const renderRoadMap = (roadMap, idx) => {
+    const renderRoadMap = (chapter, idx) => {
+      const {sections} = chapter
       return (
           <div key={idx}>
-            <div className="roadmap">[第{roadMap.series}节]{'  '}{roadMap.intro}</div>
+            <div className={'chosen-chapter'}>{'第'+chapter.chapter+'章 '}{chapter.name}</div>
+            {sections?sections.map((section, idx) => renderSection(section, idx, chapter.chapter)):null}
+          </div>
+      )
+    }
+
+    const renderSection = (section, idx, chapter) => {
+      return (
+          <div key={idx}>
+            <div className={'chosen-section'}>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>
       )
     }
@@ -56,10 +66,7 @@ export default class ProblemViewer extends React.Component<any, any> {
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
-              <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/why.png"/>
-              </div>
-              <div className="text">
+              <div className="text" style={{marginTop:30}}>
                 <pre>{why}</pre>
               </div>
               <div className="context-title-img">
@@ -74,8 +81,8 @@ export default class ProblemViewer extends React.Component<any, any> {
               </div>
               <div className="text">
                 <pre>{what}</pre>
-                {roadMapList?roadMapList.map((roadMap, idx) => renderRoadMap(roadMap, idx)):null}
               </div>
+              {chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who.png"/>
               </div>
@@ -105,7 +112,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <div>手机微信：圈外训练营-RISE<br/><br/>
 
                   网站：www.iquanwai.com，点击RISE<br/>
-                  (学过的专题永久开放，暂不支持理解训练）<br/><br/>
+                  (学过的专题永久开放，暂不支持巩固训练）<br/><br/>
 
                   电脑微信（仅windows客户端）：圈外训练营-RISE</div>
               </div>
