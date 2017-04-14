@@ -1,34 +1,82 @@
 @import "../../style/variable";
 
 .problem-list {
-  height: 100%;
-  background: url("http://www.iqycamp.com/images/fragment/rise_welcome_bg_2.png");
-  background-size:100% auto;
+  min-height: 100%;
+  background: url("http://www.iqycamp.com/images/fragment/rise_welcome_bg_3.png");
+  background-size:100% 100%;
   .tips {
-    position: fixed;
+    position: relative;
     bottom: 50px;
     left: 10px;
     font-size: 13px;
     color: #efefef;
   }
-  .info {
-    text-align: center;
 
-    > img {
-      width: 80%;
-      margin-left: -30px;
+  .little-bg {
+    position: relative;
+    left: 55%;
+    margin-top: 30px;
+  }
+  .info {
+
+    .button-div{
+      text-align: center;
+    }
+    .right-div{
+      float: right;
+    }
+    img {
       margin-top: 30px;
       &.first{
+        width: 80%;
+        margin-left: 10px;
         transition:opacity 1s ease-in;
         -webkit-transition:opacity 1s ease-in;
       }
       &.second{
-        transition:opacity 1s ease-in 1.8s;
-        -webkit-transition:opacity 1s ease-in 1.8s;
+        width: 80%;
+        margin-left: 10px;
+        transition:opacity 1s ease-in 1s;
+        -webkit-transition:opacity 1s ease-in 1s;
       }
       &.third{
-        transition:opacity 1s ease-in 4s;
-        -webkit-transition:opacity 1s ease-in 4s;
+        margin-right: 10px;
+        width: 71px;
+        height: 46px;
+        transition:opacity 1s ease-in;
+        -webkit-transition:opacity 1s ease-in;
+      }
+      &.head{
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
+        transition:opacity 1s ease-in;
+        -webkit-transition:opacity 1s ease-in;
+      }
+      &.fourth{
+        width: 80%;
+        margin-left: 10px;
+        transition:opacity 1s ease-in 1s;
+        -webkit-transition:opacity 1s ease-in 1s;
+      }
+      &.button1{
+        width: 176px;
+        margin-top: 70px;
+        transition:opacity 1s ease-in 2s;
+        -webkit-transition:opacity 1s ease-in 2s;
+      }
+      &.button2{
+        width: 176px;
+        margin-top: 50px;
+        transition:opacity 1s ease-in 2s;
+        -webkit-transition:opacity 1s ease-in 2s;
+      }
+      &.button3{
+        width: 176px;
+        margin-top: 25px;
+        transition:opacity 1s ease-in 2s;
+        -webkit-transition:opacity 1s ease-in 2s;
       }
       &.hide {
         opacity: 0;
