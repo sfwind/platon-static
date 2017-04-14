@@ -544,9 +544,9 @@ export class PlanMain extends React.Component <any, any> {
             <div className="section">
               <label>已完成:</label> {completeSeries}/{totalSeries}节训练
             </div>
-            <div className="section">
+            {riseMember?<div className="section">
               <label>距关闭:</label> {deadline}天
-            </div>
+            </div>:null}
             <div className="section">
               <label>总得分:</label> {point} 分
             </div>
