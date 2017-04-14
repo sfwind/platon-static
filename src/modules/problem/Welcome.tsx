@@ -70,6 +70,10 @@ export class Welcome extends React.Component <any, any> {
     setTimeout(() => {
       this.setState({show2:true, confirm:true})
     }, 300)
+
+    setTimeout(() => {
+      window.location.href ='#welcome4'
+    }, 2300)
   }
 
   closeModal(){
@@ -103,6 +107,7 @@ export class Welcome extends React.Component <any, any> {
                   <img className={show2?"show third":"hide third"} src="http://www.iqycamp.com/images/fragment/rise_welcome_3_2.png"/>
                   <img className={show2?"show head":"hide head"} src={window.ENV.headImage}/>
                 </div>
+                <a name="welcome4"/>
                 <div>
                   <img className={show2?"show fourth":"hide fourth"} src="http://www.iqycamp.com/images/fragment/rise_welcome_4_2.png"/>
                 </div>
