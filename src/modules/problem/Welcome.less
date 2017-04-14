@@ -2,11 +2,13 @@
 
 .problem-list {
   min-height: 100%;
+  width: 100%;
+  overflow: hidden;
   background: url("http://www.iqycamp.com/images/fragment/rise_welcome_bg_3.png");
   background-size:100% 100%;
   .tips {
     position: relative;
-    bottom: 50px;
+    bottom: 60px;
     left: 10px;
     font-size: 13px;
     color: #efefef;
@@ -21,82 +23,53 @@
 
     .button-div{
       text-align: center;
+      height: 56px;
     }
     .right-div{
-      float: right;
+      text-align: right;
+    }
+
+    .description-logo{
+      vertical-align: bottom;
+      margin-left: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+    }
+
+    .guide-msg{
+      display: inline-block;
+      width: 70%;
+      border-radius: 10px 10px 10px 0;
+      background-color: #fff;
+      line-height: 31px;
+      font-size: @font_context;
+      padding: 10px;
+      margin-left: 10px;
+      margin-top: 30px;
+    }
+    .reply-msg{
+      display: inline-block;
+      border-radius: 10px 10px 0 10px;
+      background-color: #dcf1fc;
+      line-height: 31px;
+      font-size: @font_context;
+      padding: 10px;
+      margin-right: 10px;
+      margin-top: 30px;
     }
     img {
       margin-top: 30px;
-      &.first{
-        width: 80%;
-        margin-left: 10px;
-        transition:opacity 1s ease-in;
-        -webkit-transition:opacity 1s ease-in;
-      }
-      &.second{
-        width: 80%;
-        margin-left: 10px;
-        transition:opacity 1s ease-in 1s;
-        -webkit-transition:opacity 1s ease-in 1s;
-      }
-      &.third{
-        margin-right: 10px;
-        width: 71px;
-        height: 46px;
-        transition:opacity 1s ease-in;
-        -webkit-transition:opacity 1s ease-in;
-      }
       &.head{
+        vertical-align: bottom;
         margin-right: 10px;
         width: 30px;
         height: 30px;
         border-radius: 30px;
-        transition:opacity 1s ease-in;
-        -webkit-transition:opacity 1s ease-in;
       }
-      &.fourth{
-        width: 80%;
-        margin-left: 10px;
-        transition:opacity 1s ease-in 1s;
-        -webkit-transition:opacity 1s ease-in 1s;
-      }
-      &.button1{
+      &.button{
         width: 176px;
-        margin-top: 70px;
-        transition:opacity 1s ease-in 2s;
-        -webkit-transition:opacity 1s ease-in 2s;
       }
-      &.button2{
-        width: 176px;
-        margin-top: 50px;
-        transition:opacity 1s ease-in 2s;
-        -webkit-transition:opacity 1s ease-in 2s;
-      }
-      &.button3{
-        width: 176px;
-        margin-top: 25px;
-        transition:opacity 1s ease-in 2s;
-        -webkit-transition:opacity 1s ease-in 2s;
-      }
-      &.hide {
-        opacity: 0;
-      }
-      &.show{
-        opacity: 1;
-      }
-    }
-  }
-}
-
-.white-button{
-  //color: #65c4f9;
-  background-color: #ffffff;
-  .button{
-    width: calc(50%);
-    display: inline-block;
-    &:first-of-type{
-      width: calc(50% - 1px);
-      border-right:1px solid #EFEFEF;
     }
   }
 }

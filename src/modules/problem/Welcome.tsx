@@ -5,6 +5,7 @@ import "./Welcome.less";
 import { welcome } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import Description from "./components/Description"
+import Scroll from "react-scroll";
 
 @connect(state => state)
 export class Welcome extends React.Component <any, any> {
@@ -12,8 +13,14 @@ export class Welcome extends React.Component <any, any> {
   constructor(){
     super();
     this.state = {
+      scroll:Scroll.animateScroll,
       show:false,
       show2:false,
+      show3:false,
+      show4:false,
+      show5:false,
+      show6:false,
+      show7:false,
       confirm:false,
       description:false,
     }
@@ -46,6 +53,13 @@ export class Welcome extends React.Component <any, any> {
     setTimeout(() => {
       this.setState({show:true})
     }, 100)
+    setTimeout(() => {
+      this.setState({show2:true})
+    }, 2100)
+
+    setTimeout(() => {
+      this.setState({show3:true})
+    }, 4100)
   }
 
   onSubmit(){
@@ -67,9 +81,36 @@ export class Welcome extends React.Component <any, any> {
   }
 
   got(){
+    const {scroll} = this.state
+
     setTimeout(() => {
-      this.setState({show2:true, confirm:true})
+      this.setState({show4:true, confirm:true})
     }, 300)
+
+    setTimeout(() => {
+      this.setState({show5:true})
+    }, 2300)
+
+    setTimeout(() => {
+      scroll.scrollTo(this.refs.welcome.offsetHeight)
+    }, 2300)
+
+    setTimeout(() => {
+      this.setState({show6:true})
+    }, 4300)
+
+
+    setTimeout(() => {
+      scroll.scrollMore(this.refs.welcome2.offsetHeight)
+    }, 4300)
+
+    setTimeout(() => {
+      this.setState({show7:true})
+    }, 6300)
+
+    setTimeout(() => {
+      scroll.scrollTo(400)
+    }, 6300)
   }
 
   closeModal(){
@@ -77,7 +118,7 @@ export class Welcome extends React.Component <any, any> {
   }
 
   render() {
-    const {show,show2,confirm,description} = this.state
+    const {show,show2,show3,show4,show5,show6,show7,confirm,description} = this.state
 
 
     return (
@@ -89,39 +130,79 @@ export class Welcome extends React.Component <any, any> {
             <div className="problem-list">
               <div className="info">
                 <div>
-                  <img className={show?"show first":"hide first"} src="http://www.iqycamp.com/images/fragment/rise_welcome_1_2.png"/>
+                  {show?
+                      <div>
+                        <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                        <div className="guide-msg">
+                          Hi，你来啦！我是你的移动端RISE教练
+                        </div>
+                      </div>:null}
                 </div>
                 <div>
-                  <img className={show?"show second":"hide second"} src="http://www.iqycamp.com/images/fragment/rise_welcome_2_2.png"/>
+                  {show2?
+                      <div>
+                        <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                        <div className="guide-msg">
+                          你知道吗？从你了解一个知识概念，到能够真正运用，解决实际问题，中间还差一个可以练习的距离
+                        </div>
+                      </div>:null}
                 </div>
-                {!confirm?
-                    <div className="button-div">
-                      <img className={show?"show button1":"hide button1"} src="http://www.iqycamp.com/images/fragment/rise_welcome_confirm.png"
-                           onClick={this.got.bind(this)}/></div>:null
+                {!confirm && show3?
+                    <div className="button-div" style={{marginTop:70}}>
+                      <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_confirm.png"
+                           onClick={this.got.bind(this)}/>
+
+                    </div>:null}
+                {show4?
+                  <div className="right-div">
+                    <div className="reply-msg" ref="welcome">
+                      赞同
+                    </div>
+                    <img className={"head"} src={window.ENV.headImage}/>
+                  </div>
+                :null}
+                {show5 ?
+                    <div>
+                      <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                      <div className="guide-msg" ref="welcome2">
+                        在RISE，你可以根据需要选择专题，我会据此制定你的每日训练计划，来帮助你学习知识、实践应用、解决问题
+                      </div>
+                    </div>:null
                 }
-                <div className="right-div">
-                  <img className={show2?"show third":"hide third"} src="http://www.iqycamp.com/images/fragment/rise_welcome_3_2.png"/>
-                  <img className={show2?"show head":"hide head"} src={window.ENV.headImage}/>
-                </div>
+
+                {show6 ?
+                    <div>
+                      <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                      <div className="guide-msg" ref="welcome3">
+                        现在，选择你感兴趣的版本，我们开始吧
+                      </div>
+                    </div>:null
+                }
+
                 <div>
-                  <img className={show2?"show fourth":"hide fourth"} src="http://www.iqycamp.com/images/fragment/rise_welcome_4_2.png"/>
+                  <div className="button-div" style={{marginTop:50}}>
+                    {show7 ?
+                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_pay.png"
+                         onClick={()=>this.becomeRiser()}/>:null}
+                  </div>
+                  <div className="button-div" style={{marginTop:25}}>
+                    {show7 ?
+                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_try.png"
+                         onClick={()=>this.goTrial()}/>:null}
+                  </div>
                 </div>
-                <div className="button-div">
-                  <img className={`${show2?"show button2":"hide button2"}`} src="http://www.iqycamp.com/images/fragment/rise_welcome_pay.png"
-                       onClick={()=>this.becomeRiser()}/>
-                </div>
-                <div className="button-div">
-                  <img className={`${show2?"show button3":"hide button3"}`} src="http://www.iqycamp.com/images/fragment/rise_welcome_try.png"
-                       onClick={()=>this.goTrial()}/>
-                </div>
+
               </div>
-              <div className="little-bg">
-                <img width={110} height={113} src="http://www.iqycamp.com/images/fragment/rise_welcome_little_bg.png"/>
-              </div>
-              {show2?
-                  <div className="tips">
-                    <span>什么是专业版／试用版</span><img height={12} width={12} src="http://www.iqycamp.com/images/fragment/question_rise.png"
-                                                onClick={()=>this.setState({description:true})}/>
+              {show7 ?
+                  <div className="little-bg">
+                    <img width={110} height={113}
+                         src="http://www.iqycamp.com/images/fragment/rise_welcome_little_bg.png"/>
+                  </div>: null
+              }
+              {show7?
+                  <div className="tips" onClick={()=>this.setState({description:true})}>
+                    <span>什么是专业版／试用版</span>
+                    <img height={12} width={12} src="http://www.iqycamp.com/images/fragment/question_rise.png"/>
                   </div>:null
               }
             </div>

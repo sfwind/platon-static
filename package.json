@@ -56,6 +56,7 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
+    "react-scroll": "^1.4.8",
     "shelljs": "^0.7.3",
     "weui": "^0.4.3",
     "whatwg-fetch": "^1.0.0"
