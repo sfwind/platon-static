@@ -149,7 +149,7 @@ export class Welcome extends React.Component <any, any> {
                 </div>
                 {!confirm && show3?
                     <div className="button-div" style={{marginTop:70}}>
-                      <img className={"show button1"} src="http://www.iqycamp.com/images/fragment/rise_welcome_confirm.png"
+                      <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_confirm.png"
                            onClick={this.got.bind(this)}/>
 
                     </div>:null}
@@ -158,7 +158,7 @@ export class Welcome extends React.Component <any, any> {
                     <div className="reply-msg" ref="welcome">
                       赞同
                     </div>
-                    <img className={"show head"} src={window.ENV.headImage}/>
+                    <img className={"head"} src={window.ENV.headImage}/>
                   </div>
                 :null}
                 {show5 ?
@@ -182,12 +182,12 @@ export class Welcome extends React.Component <any, any> {
                 <div>
                   <div className="button-div" style={{marginTop:50}}>
                     {show7 ?
-                    <img className={"show button2"} src="http://www.iqycamp.com/images/fragment/rise_welcome_pay.png"
+                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_pay.png"
                          onClick={()=>this.becomeRiser()}/>:null}
                   </div>
                   <div className="button-div" style={{marginTop:25}}>
                     {show7 ?
-                    <img className={"show button3"} src="http://www.iqycamp.com/images/fragment/rise_welcome_try.png"
+                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_try.png"
                          onClick={()=>this.goTrial()}/>:null}
                   </div>
                 </div>
