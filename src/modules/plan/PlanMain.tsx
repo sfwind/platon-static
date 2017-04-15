@@ -126,6 +126,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   riseMemberCheck(){
+    const { dispatch, location } = this.props
     return isRiseMember().then(res=>{
       if(res.code === 200){
         console.log('rise',res.msg);
