@@ -70,27 +70,27 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <pre>{why}</pre>
               </div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/how.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/how_2.png"/>
               </div>
               <div className="text">
                 <pre>{how}</pre>
                 <AssetImg width={'100%'} url={descPic}/>
               </div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/what.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/what_2.png"/>
               </div>
               <div className="text">
                 <pre>{what}</pre>
               </div>
               <div className="roadmap">{chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}</div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who_2.png"/>
               </div>
               <div className="text">
                 <pre>{who}</pre>
               </div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when_2.png"/>
               </div>
               <div className="text">
                 <div className="time-tip-content">推荐进度：每天学习1节，尽量完成其中的应用训练<br/><br/>
@@ -106,7 +106,7 @@ export default class ProblemViewer extends React.Component<any, any> {
 
               </div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where_2.png"/>
               </div>
               <div className="text">
                 <div>手机微信：圈外训练营-RISE<br/><br/>
