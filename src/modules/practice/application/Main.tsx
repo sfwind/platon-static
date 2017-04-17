@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadApplicationPractice,vote,loadOtherList,loadKnowledgeIntro, openApplication } from "./async";
+import { loadApplicationPractice,vote,loadOtherList,loadKnowledgeIntro, openApplication,getOpenStatus } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -140,6 +140,11 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    getOpenStatus().then(res=>{
+      if(res.code===200){
+        this.setState({openStatus:res.msg});
+      }
+    })
   }
 
   onEdit() {
@@ -203,7 +208,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end } = this.state
+    const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus={} } = this.state
     const { topic, description, content,voteCount,submitId,voteStatus } = data
 
     const renderList = (list)=>{

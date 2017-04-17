@@ -1,8 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { loadRoadMap,getOpenStatus } from "./async";
+import { loadRoadMap } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import "./RoadMap.less";
+import _ from 'lodash'
 
 @connect(state => state)
 export class RoadMap extends React.Component <any, any> {

@@ -33,6 +33,10 @@ export function openApplication(){
 }
 
 
+export function getOpenStatus(){
+  return pget('/rise/plan/open/status');
+}
+
 const CommentType = {
   Challenge:1,
   Application:2,
