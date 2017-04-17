@@ -6,10 +6,9 @@ export default class Tutorial extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      bgList: ["http://www.iqycamp.com/images/fragment/rise_tutorial_1.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_2.png",
-        "http://www.iqycamp.com/images/fragment/rise_tutorial_3.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_4.png",
-        "http://www.iqycamp.com/images/fragment/rise_tutorial_5.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_6.png",
-        "http://www.iqycamp.com/images/fragment/rise_tutorial_7.png"],
+      bgList: props.bgList || ["http://www.iqycamp.com/images/fragment/rise_tutorial_1_0414.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_2_0414.png",
+        "http://www.iqycamp.com/images/fragment/rise_tutorial_3_0414.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_4_0414.png",
+        "http://www.iqycamp.com/images/fragment/rise_tutorial_5_0414.png"],
       index: 0,
       onShowEnd: props.onShowEnd || function () {
       },
@@ -59,7 +58,7 @@ export default class Tutorial extends React.Component<any,any> {
     const {index, bgList} = this.state;
 
     return (
-      this.props.show?<div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.8)',position:'fixed'}}>
+      this.props.show?<div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
 
       <div className="tutorial" onClick={()=>this.next()}>
         <SwipeableViews style={{height:'100%',width:'100%'}} containerStyle={{height:'100%',width:'100%'}}
@@ -70,8 +69,8 @@ export default class Tutorial extends React.Component<any,any> {
             </div>)
           })}
         </SwipeableViews>
-        {<div className="sequence-dot">
-          {this.state.bgList.map((item, seq) => {
+        {<div className="sequence-dot" style={{marginLeft:`-${this.state.bgList.length * 18 / 2}px`}}>
+          {this.state.bgList.length > 1 && this.state.bgList.map((item, seq) => {
             return (<button className="dot-box">
               <div className="dot"
                    style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>

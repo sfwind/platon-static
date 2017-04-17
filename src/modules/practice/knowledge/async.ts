@@ -15,3 +15,13 @@ export function loadRoadMap() {
 export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }
+
+
+export function getOpenStatus(){
+  return pget('/rise/plan/open/status');
+}
+
+
+export function openComprehension(){
+  return ppost('/rise/plan/open/comprehension');
+}

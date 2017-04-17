@@ -1,7 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { loadRoadMap } from "./async";
+import { loadRoadMap,getOpenStatus,openComprehension } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import Tutorial from "../../../components/Tutorial"
 import "./RoadMap.less";
 import _ from 'lodash'
 
@@ -46,15 +47,33 @@ export class RoadMap extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    getOpenStatus().then(res=>{
+      if(res.code===200){
+        this.setState({openStatus:res.msg});
+      }
+    })
   }
 
   onSubmit() {
     this.context.router.push({ pathname: '/rise/static/practice/knowledge', query: this.props.location.query })
   }
 
+  tutorialEnd(){
+    const {dispatch} = this.props
+    const {openStatus} = this.state
+    openComprehension().then(res => {
+      const {code,msg} = res
+      if(code === 200){
+        this.setState({openStatus:_.merge({},openStatus,{openComprehension:true})})
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    })
+  }
+
 
   render() {
-    const { data } = this.state
+    const { data,openStatus={} } = this.state
 
     const renderRoadMap = (chapter, idx) => {
       const {sections} = chapter
@@ -80,6 +99,7 @@ export class RoadMap extends React.Component <any, any> {
             <div className="page-header">{'课程表'}</div>
             <div className="context" style={{marginTop:15, marginBottom:15}}>Hi，欢迎回来！本节的训练主题为：</div>
             {data?data.map((roadMap, idx) => renderRoadMap(roadMap, idx)):null}
+            <Tutorial bgList={['http://www.iqycamp.com/images/fragment/rise_tutorial_ljxl_0414.png']} show={_.isBoolean(openStatus.openComprehension) && !openStatus.openComprehension} onShowEnd={()=>this.tutorialEnd()}/>
           </div>
           <div className="button-footer" onClick={this.onSubmit.bind(this)}>{'查看内容'}</div>
         </div>

@@ -23,3 +23,11 @@ export function loadWarmUpDiscuss(id, offset) {
 export function loadWarmUpAnalysisNew(warmupPracticeId) {
   return pget(`/rise/practice/warmup/new/analysis/${warmupPracticeId}`)
 }
+
+export function getOpenStatus(){
+  return pget('/rise/plan/open/status');
+}
+
+export function openConsolidation(){
+  return ppost('/rise/plan/open/consolidation')
+}

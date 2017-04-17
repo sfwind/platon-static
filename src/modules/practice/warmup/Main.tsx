@@ -1,11 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { remove, set, merge,get,findIndex } from "lodash";
+import { remove, set, merge,get,findIndex,isBoolean } from "lodash";
 import "./Main.less";
-import { answer,loadWarmUpAnalysis } from "./async";
+import { answer,loadWarmUpAnalysis,getOpenStatus,openConsolidation } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeViewer";
+import Tutorial from "../../../components/Tutorial"
 
 const sequenceMap = {
   0: 'A',
@@ -68,6 +69,13 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+
+    getOpenStatus().then(res=>{
+      if(res.code === 200){
+        this.setState({openStatus:res.msg});
+      }
+    })
+
   }
 
   onChoiceSelected(choiceId) {
@@ -156,8 +164,21 @@ export class Main extends React.Component <any, any> {
     this.setState({ showKnowledge: false })
   }
 
+  tutorialEnd(){
+    const {dispatch} = this.props
+    const {openStatus} = this.state
+    openConsolidation().then(res => {
+      const {code,msg} = res
+      if(code === 200){
+        this.setState({openStatus:merge({},openStatus,{openConsolidation:true})})
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    })
+  }
+
   render() {
-    const { list, currentIndex, selected, practiceCount, showKnowledge } = this.state
+    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus={} } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -212,6 +233,7 @@ export class Main extends React.Component <any, any> {
             </div>
           </div>
         }
+        <Tutorial bgList={['http://www.iqycamp.com/images/fragment/rise_tutorial_ggxl_0414.png']} show={isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation} onShowEnd={()=>this.tutorialEnd()}/>
       </div>
     )
   }

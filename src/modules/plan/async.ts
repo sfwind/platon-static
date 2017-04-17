@@ -51,3 +51,4 @@ export function isRiseMember(){
 export function learnKnowledge(knowledgeId) {
   return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
 }
+
