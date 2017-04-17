@@ -95,6 +95,18 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res;
       if (code === 200) {
         const { content } = msg;
+        const {integrated}  = this.props.location.query
+        if(!integrated){
+          loadKnowledgeIntro(msg.knowledgeId).then(res =>{
+            const { code, msg } = res;
+            if(code === 200){
+              this.setState({knowledge:msg})
+            }else{
+              dispatch(alertMsg(msg))
+            }
+          })
+        }
+
         this.setState({data: msg, submitId: msg.submitId})
         if (content !== null){
           window.location.href = '#submit'
@@ -103,25 +115,6 @@ export class Main extends React.Component <any, any> {
       }
       else dispatch(alertMsg(msg))
       return false;
-    }).then(res=>{
-      if(res){
-        const {integrated}  = this.props.location.query
-        if(integrated){
-          const {data}  = this.state
-          loadKnowledgeIntro(data.knowledgeId).then(res =>{
-            const { code, msg } = res;
-            if(code===200){
-              this.setState({knowledge:msg})
-            }else{
-              dispatch(alertMsg(msg))
-              return false
-            }
-          })
-        }
-        return true;
-      }else{
-        return false;
-      }
     }).then(res=>{
       if (res) {
         // 已提交
@@ -283,7 +276,9 @@ export class Main extends React.Component <any, any> {
                 <div className="section2" dangerouslySetInnerHTML={{__html: description}}>
                 </div>
               </div>
-              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
+              {!isEmpty(knowledge)?
+                <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>:null
+              }
               <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">
