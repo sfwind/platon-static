@@ -301,6 +301,7 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 			"msg": {
 				"id": 1,
 				"description": "balbal",
+                "topic":"应用训练题1",
 				"pic": "http://www.iquanwai.com/images/cintro1.png",
 				"knowledgeId": 1,
 				"sceneId": 1,

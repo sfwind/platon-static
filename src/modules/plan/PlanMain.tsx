@@ -233,11 +233,16 @@ export class PlanMain extends React.Component <any, any> {
                   query: { practicePlanId, series }
             }):null;
           }
-        } else if (type === 11 || type === 12) {
+        } else if (type === 11) {
           this.context?this.context.router.push({
             pathname: '/rise/static/practice/application',
-            query: { id: item.practiceIdList[0], series }
+            query: { id: item.practiceIdList[0], series, integrated:false }
           }):null;
+        } else if (type === 12) {
+          this.context?this.context.router.push({
+                pathname: '/rise/static/practice/application',
+                query: { id: item.practiceIdList[0], series, integrated:true }
+              }):null;
         } else if (type === 21) {
           this.context?this.context.router.push({
             pathname: '/rise/static/practice/challenge',

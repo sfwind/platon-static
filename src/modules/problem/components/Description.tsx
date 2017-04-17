@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./Description.less";
+import {memberDescription} from "../async"
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 
 export default class Description extends React.Component <any, any> {
@@ -8,6 +9,9 @@ export default class Description extends React.Component <any, any> {
         router: React.PropTypes.object.isRequired
     }
 
+    componentWillMount() {
+        memberDescription()
+    }
 
     render() {
         const {closeModal} = this.props
