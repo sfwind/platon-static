@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadApplicationPractice,vote,loadOtherList } from "./async";
+import { loadApplicationPractice,vote,loadOtherList,loadKnowledgeIntro } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -23,6 +23,7 @@ export class Main extends React.Component <any, any> {
       otherList:[],
       otherHighlightList:[],
       goBackUrl: '',
+      integrated: true,
     }
     this.pullElement=null;
   }
@@ -31,10 +32,6 @@ export class Main extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-
-  componentDidMount(){
-
-  }
 
   componentDidUpdate(preProps, preState) {
     const content = get(this.state, 'data.content');
@@ -93,9 +90,9 @@ export class Main extends React.Component <any, any> {
 
     dispatch(startLoad());
     loadApplicationPractice(location.query.id).then(res => {
-      let { code, msg } = res;
+      const { code, msg } = res;
       if (code === 200) {
-        const { content, knowledgeId } = msg;
+        const { content } = msg;
         this.setState({data: msg, submitId: msg.submitId})
         if (content !== null){
           window.location.href = '#submit'
@@ -104,6 +101,25 @@ export class Main extends React.Component <any, any> {
       }
       else dispatch(alertMsg(msg))
       return false;
+    }).then(res=>{
+      if(res){
+        const {integrated}  = this.props.location.query
+        if(integrated){
+          const {data}  = this.state
+          loadKnowledgeIntro(data.knowledgeId).then(res =>{
+            const { code, msg } = res;
+            if(code===200){
+              this.setState({knowledge:msg})
+            }else{
+              dispatch(alertMsg(msg))
+              return false
+            }
+          })
+        }
+        return true;
+      }else{
+        return false;
+      }
     }).then(res=>{
       if (res) {
         // 已提交
@@ -247,7 +263,7 @@ export class Main extends React.Component <any, any> {
                 <div className="section2" dangerouslySetInnerHTML={{__html: description}}>
                 </div>
               </div>
-              {/*<div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>*/}
+              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>
               <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">
