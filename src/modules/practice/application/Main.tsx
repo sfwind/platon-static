@@ -1,14 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadApplicationPractice,vote,loadOtherList } from "./async";
+import { loadApplicationPractice,vote,loadOtherList ,openApplication} from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
-import {findIndex,remove, isEmpty} from "lodash";
+import {findIndex,remove, isEmpty,isBoolean} from "lodash";
+import Tutorial from "../../../components/Tutorial"
+
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -171,6 +173,19 @@ export class Main extends React.Component <any, any> {
     }
   }
 
+  tutorialEnd(){
+    const {dispatch} = this.props
+    const {openStatus} = this.state
+    openApplication().then(res => {
+      const {code,msg} = res
+      if(code === 200){
+        this.setState({openStatus:merge({},openStatus,{openApplication:true})})
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    })
+  }
+
   render() {
     const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end } = this.state
     const { topic, description, content,voteCount,submitId,voteStatus } = data
@@ -258,6 +273,7 @@ export class Main extends React.Component <any, any> {
               {renderTips()}
             </div>
           </div>
+          <Tutorial bgList={['http://www.iqycamp.com/images/fragment/rise_tutorial_ljxl_0414.png']} show={isBoolean(openStatus.openApplication) && !openStatus.openApplication} onShowEnd={()=>this.tutorialEnd()}/>
         </div>
         <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}

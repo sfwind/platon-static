@@ -22,6 +22,3 @@ export function getOpenStatus(){
 }
 
 
-export function openComprehension(){
-  return ppost('/rise/plan/open/comprehension');
-}
