@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadApplicationPractice,vote,loadOtherList,loadKnowledgeIntro, openApplication,getOpenStatus } from "./async";
+import { loadApplicationPractice,vote,loadOtherList,loadKnowledgeIntro, openApplication,getOpenStatus, submitApplicationPractice } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -10,6 +10,7 @@ import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import {findIndex,remove, isEmpty,isBoolean} from "lodash";
 import Tutorial from "../../../components/Tutorial"
+import Editor from "../../../components/editor/Editor"
 
 
 @connect(state => state)
@@ -26,6 +27,8 @@ export class Main extends React.Component <any, any> {
       otherHighlightList:[],
       goBackUrl: '',
       integrated: true,
+      showOthers: false,
+      edit:true,
     }
     this.pullElement=null;
   }
@@ -93,6 +96,7 @@ export class Main extends React.Component <any, any> {
     dispatch(startLoad());
     loadApplicationPractice(location.query.id).then(res => {
       const { code, msg } = res;
+      dispatch(endLoad())
       if (code === 200) {
         const { content } = msg;
         const {integrated}  = this.props.location.query
@@ -110,25 +114,10 @@ export class Main extends React.Component <any, any> {
         this.setState({data: msg, submitId: msg.submitId})
         if (content !== null){
           window.location.href = '#submit'
-          return true;
+          this.setState({edit:false})
         }
       }
       else dispatch(alertMsg(msg))
-      return false;
-    }).then(res=>{
-      if (res) {
-        // 已提交
-        return loadOtherList(location.query.id, 1).then(res => {
-          dispatch(endLoad())
-          if (res.code === 200) {
-            this.setState({otherList: res.msg.list, otherHighlightList:res.msg.highlightList, page: 1, end:res.msg.end});
-          } else {
-            dispatch(alertMsg(res.msg));
-          }
-        });
-      } else {
-        dispatch(endLoad())
-      }
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
@@ -141,13 +130,14 @@ export class Main extends React.Component <any, any> {
   }
 
   onEdit() {
-    const { location } = this.props
-    const { goBackUrl } = this.state
-    this.context.router.push({
-      pathname: '/rise/static/practice/application/submit',
-      query: { id: location.query.id, series: location.query.series},
-      state: {goBackUrl}
-    })
+    // const { location } = this.props
+    // const { goBackUrl } = this.state
+    // this.context.router.push({
+    //   pathname: '/rise/static/practice/application/submit',
+    //   query: { id: location.query.id, series: location.query.series},
+    //   state: {goBackUrl}
+    // })
+    this.setState({edit:true})
   }
 
   closeModal() {
@@ -200,12 +190,54 @@ export class Main extends React.Component <any, any> {
     })
   }
 
+  others(){
+    const {dispatch,location} = this.props
+    dispatch(startLoad());
+    loadOtherList(location.query.id, 1).then(res => {
+      dispatch(endLoad())
+      if (res.code === 200) {
+        this.setState({otherList: res.msg.list, otherHighlightList:res.msg.highlightList,
+          page: 1, end:res.msg.end, showOthers:true});
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    })
+  }
+
+  onSubmit(){
+    const { dispatch, location} = this.props
+    const { data,planId } = this.state
+    const answer = this.refs.editor.getValue();
+    const { submitId } = data
+    if(answer == null || answer.length === 0){
+      dispatch(alertMsg('请填写作业'))
+      return
+    }
+    this.setState({showDisable: true})
+    submitApplicationPractice(planId,location.query.id, {answer}).then(res => {
+      dispatch(endLoad())
+      const { code, msg } = res
+      if (code === 200) {
+        this.context.router.push({ pathname: '/rise/static/plan/main',
+          query: location.query})
+      }
+      else {
+        dispatch(alertMsg(msg))
+        this.setState({showDisable: false})
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+      this.setState({showDisable: false})
+    })
+  }
+
   render() {
-    const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus={} } = this.state
+    const { data,otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus={}, showOthers, edit, showDisable } = this.state
     const { topic, description, content,voteCount,submitId,voteStatus } = data
 
     const renderList = (list)=>{
-      if(content && list){
+      if(list){
         return list.map((item,seq)=>{
           return (
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,false,seq)}  {...item}
@@ -215,16 +247,16 @@ export class Main extends React.Component <any, any> {
       }
     }
 
-    const renderContent = ()=>{
-      if(!content){
+    const renderTip = ()=>{
+      if(edit){
         return (
           <div className="no-comment">
-            <AssetImg type="mobile" height={65} marginTop={15}/>
-            <div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>
-            <div className="content">
-              <div className="text">windows微信客户端也适用</div>
-            </div>
-            <AssetImg type="pc" height={65} marginTop={15}/>
+            {/*<AssetImg type="mobile" height={65} marginTop={15}/>*/}
+            {/*<div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>*/}
+            {/*<div className="content">*/}
+              {/*<div className="text">windows微信客户端也适用</div>*/}
+            {/*</div>*/}
+            {/*<AssetImg type="pc" height={65} marginTop={15}/>*/}
             <div className="content">
               <div className="text">更喜欢电脑上提交?</div>
               <div className="text">登录www.iquanwai.com/community</div>
@@ -242,8 +274,8 @@ export class Main extends React.Component <any, any> {
       }
     }
 
-    const renderTips = ()=>{
-      if(content){
+    const renderEnd = ()=>{
+      if(showOthers){
         if(!end){
           return (
             <div className="show-more" style={{borderTop:'1px solid #efefef'}}>上拉加载更多消息</div>
@@ -283,16 +315,28 @@ export class Main extends React.Component <any, any> {
             </div>
             <div ref="workContainer" className="work-container">
               <div className="submit-bar">{ content === null?'提交方式':'我的作业'}</div>
-              {renderContent()}
-              {content && !isEmpty(otherHighlightList)?<div><div className="submit-bar">{'管理员推荐'}</div>{renderList(otherHighlightList)}</div>:null}
-              {content && !isEmpty(otherList)?<div><div className="submit-bar">{'最新文章'}</div>{renderList(otherList)}</div>:null}
-              {renderTips()}
+              {renderTip()}
+
+              {edit?
+                <div className="editor">
+                  <Editor ref="editor" moduleId={3} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}}
+                        uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={content} placeholder="离开页面前请提交，以免内容丢失。"/>
+                </div>: null}
+              {showOthers && !isEmpty(otherHighlightList)?<div><div className="submit-bar">{'管理员推荐'}</div>{renderList(otherHighlightList)}</div>:null}
+              {showOthers && !isEmpty(otherList)?<div><div className="submit-bar">{'最新文章'}</div>{renderList(otherList)}</div>:null}
+              {!showOthers? <div className="show-others-tip" onClick={this.others.bind(this)}>没思路? 瞄一眼其他人的作业</div>: null}
+              {renderEnd()}
             </div>
           </div>
           <Tutorial bgList={['http://www.iqycamp.com/images/fragment/rise_tutorial_ljxl_0414.png']} show={isBoolean(openStatus.openApplication) && !openStatus.openApplication} onShowEnd={()=>this.tutorialEnd()}/>
         </div>
-        <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+
+        { showDisable ?
+            <div className="button-footer disabled">提交中</div>
+            :
+            <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>}
+
       </div>
     )
   }

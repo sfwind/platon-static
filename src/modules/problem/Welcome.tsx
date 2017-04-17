@@ -52,10 +52,10 @@ export class Welcome extends React.Component <any, any> {
     welcome()
     setTimeout(() => {
       this.setState({show:true})
-    }, 100)
+    }, 1100)
     setTimeout(() => {
       this.setState({show2:true})
-    }, 2100)
+    }, 3100)
 
     setTimeout(() => {
       this.setState({show3:true})
@@ -106,11 +106,11 @@ export class Welcome extends React.Component <any, any> {
 
     setTimeout(() => {
       this.setState({show7:true})
-    }, 6300)
+    }, 5300)
 
     setTimeout(() => {
       scroll.scrollTo(400)
-    }, 6300)
+    }, 5300)
   }
 
   closeModal(){
@@ -143,7 +143,7 @@ export class Welcome extends React.Component <any, any> {
                       <div>
                         <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
                         <div className="guide-msg">
-                          你知道吗？从你了解一个知识概念，到能够真正运用，解决实际问题，中间还差一个可以练习的距离
+                          你知道吗？从你了解一个知识概念，到能够真正运用，解决实际问题，中间还差一个刻意练习的距离
                         </div>
                       </div>:null}
                 </div>

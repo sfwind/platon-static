@@ -306,7 +306,7 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"knowledgeId": 1,
 				"sceneId": 1,
 				"difficulty": null,
-        "content": "babal",
+        "content": null,
         "submitId": 1, //提交id
         "submitUpdateTime": "2017-02-15" ,//最后提交时间
         "voteCount": 0,
