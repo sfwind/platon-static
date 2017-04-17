@@ -46,11 +46,6 @@ export class RoadMap extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    getOpenStatus().then(res=>{
-      if(res.code===200){
-        this.setState({openStatus:res.msg});
-      }
-    })
   }
 
   onSubmit() {
