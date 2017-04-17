@@ -96,6 +96,7 @@ export class Main extends React.Component <any, any> {
     dispatch(startLoad());
     loadApplicationPractice(location.query.id).then(res => {
       const { code, msg } = res;
+      this.setState({data: msg, submitId: msg.submitId, planId:msg.planId})
       dispatch(endLoad())
       if (code === 200) {
         const { content } = msg;
@@ -111,7 +112,6 @@ export class Main extends React.Component <any, any> {
           })
         }
 
-        this.setState({data: msg, submitId: msg.submitId})
         if (content !== null){
           window.location.href = '#submit'
           this.setState({edit:false})
