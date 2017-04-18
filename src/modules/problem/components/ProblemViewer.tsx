@@ -93,8 +93,8 @@ export default class ProblemViewer extends React.Component<any, any> {
                         说明：<br/>
                         如果选择快进，在{Math.round(length/2)}天内学完，那再复习一下吧，多做做应用题<br/>
                         专题最多开放30天，过期会自动关闭。是不是一下子有了学习的紧迫感？<br/>
-                      </div>:<span onClick={()=>this.setState({showTip:true})}>
-                        <AssetImg width={16} height={16} type="question-mark"/></span>}
+                      </div>:<div className="tip-img" onClick={()=>this.setState({showTip:true})}>
+                        <AssetImg width={16} height={16} type="question-mark"/></div>}
               </div></div>
 
 

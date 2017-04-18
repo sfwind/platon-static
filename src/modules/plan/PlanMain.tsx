@@ -565,7 +565,7 @@ export class PlanMain extends React.Component <any, any> {
           </div>
           <div className="right" onClick={() => this.problemReview(problem.id)}>
             <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
-            <span>专题详情</span>
+            <span>专题介绍</span>
           </div>
         </div>
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}/>

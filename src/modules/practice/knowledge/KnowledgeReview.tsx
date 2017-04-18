@@ -77,7 +77,7 @@ export class KnowledgeReview extends React.Component<any,any>{
           <div className="problem-detail">
             <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={()=>this.setState({showProblem:true})}>
               <div className="header-label" style={{float:"left"}}>
-                专题详情
+                专题介绍
               </div>
             </div>
             <div className="detail-header">
