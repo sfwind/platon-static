@@ -19,7 +19,7 @@ export default class Description extends React.Component <any, any> {
             <div className="description-page">
                 <div className="container has-footer">
                     <div className="context">
-                        选择专业版，你可以学习RISE所有的专题，并收获：
+                        选择专业版，你可以学习RISE所有的小课，并收获：
                         <ul>
                             <li>系统学习所有知识</li>
                             <li>将知识内化为能力</li>
@@ -30,7 +30,7 @@ export default class Description extends React.Component <any, any> {
                         </ul>
                     </div>
                     <div className="context">
-                        选择试用版，可以试学其中一个专题前3组的内容
+                        选择试用版，可以试学其中一个小课前3组的内容
                     </div>
                 </div>
                 <div className="button-footer" onClick={()=>closeModal()}>返回</div>

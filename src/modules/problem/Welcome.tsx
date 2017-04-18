@@ -165,7 +165,7 @@ export class Welcome extends React.Component <any, any> {
                     <div>
                       <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
                       <div className="guide-msg" ref="welcome2">
-                        在RISE，你可以根据需要选择专题，我会据此制定你的每日训练计划，来帮助你学习知识、实践应用、解决问题
+                        在RISE，你可以根据需要选择小课，我会据此制定你的每日训练计划，来帮助你学习知识、实践应用、解决问题
                       </div>
                     </div>:null
                 }

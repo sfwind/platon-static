@@ -92,7 +92,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                   {showTip?<div className="tip"><br/>
                         说明：<br/>
                         如果选择快进，在{Math.round(length/2)}天内学完，那再复习一下吧，多做做应用题<br/>
-                        专题最多开放30天，过期会自动关闭。是不是一下子有了学习的紧迫感？<br/>
+                        小课最多开放30天，过期会自动关闭。是不是一下子有了学习的紧迫感？<br/>
                       </div>:<div className="tip-img" onClick={()=>this.setState({showTip:true})}>
                         <AssetImg width={16} height={16} type="question-mark"/></div>}
               </div></div>
@@ -104,7 +104,7 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="text">随时随地，多客户端。</div>
               <div className="text"><b>手机微信：</b>圈外训练营-RISE</div>
               <div className="text"><b>网站：</b>www.iquanwai.com，点击RISE
-                  (学过的专题永久开放，暂不支持巩固练习）</div>
+                  (学过的小课永久开放，暂不支持巩固练习）</div>
               <div className="text"><b>电脑微信（仅windows客户端）：</b>圈外训练营-RISE</div>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default class ProblemViewer extends React.Component<any, any> {
           }
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
-          <p>选择后，需要完成该专题，才能开启下一专题，想好了吗？</p>
+          <p>选择后，需要完成该小课，才能开启下一小课，想好了吗？</p>
         </Alert>
       </div>
     )

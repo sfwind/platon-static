@@ -120,7 +120,7 @@ export class ProblemPriority extends React.Component<any,any> {
                 >
                   <span className={`title ${problem.status!==0?'done':''}`} style={{marginTop:`${this.tipMargin}px`}}>{problem.problem}</span>
                   <span className={`tips ${problem.status!==0?'done':''}`} style={{borderColor:`${catalog.color}`}}>
-                    {problem.status === 0 ? '专题介绍' : problem.status === 1 ? '进行中' : '已完成'}</span>
+                    {problem.status === 0 ? '小课介绍' : problem.status === 1 ? '进行中' : '已完成'}</span>
                 </div>
               )
             }) : null}
@@ -143,7 +143,7 @@ export class ProblemPriority extends React.Component<any,any> {
           {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
             .concat(<a href={`http://${window.location.hostname}/survey/wjx?activity=12602894`} className="more-box" style={{display:'block',height:`${this.catalogHeight}px`,lineHeight:`${this.catalogHeight}px`}}>
               {/*<div className="swipe-box-mask" style={{opacity:'0.25'}}></div>*/}
-              <span style={{fontSize:`${this.catalogName}px`}}>更多专题</span>
+              <span style={{fontSize:`${this.catalogName}px`}}>更多小课</span>
             </a>) : null}
         </div>
         }

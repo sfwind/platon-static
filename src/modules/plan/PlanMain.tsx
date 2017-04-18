@@ -41,7 +41,7 @@ export class PlanMain extends React.Component <any, any> {
       questionList:[
         {
           id:1,
-          subject:"你已完成了本专题的训练<br/>对本专题的学习难度打个分吧",
+          subject:"你已完成了本小课的训练<br/>对本小课的学习难度打个分吧",
           choiceList:[
             {
               id:5,
@@ -63,7 +63,7 @@ export class PlanMain extends React.Component <any, any> {
         },
         {
           id:2,
-          subject:"本专题的训练对工作/生活有用吗？",
+          subject:"本小课的训练对工作/生活有用吗？",
           choiceList:[
             {
               id:5,
@@ -351,7 +351,7 @@ export class PlanMain extends React.Component <any, any> {
       this.setState({showCompleteModal: true, showNextModal: false})
     } else {
       this.setState({showCompleteModal: false, showNextModal: false})
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本专题推荐学习天数至少为${this.state.mustStudyDays}天<br/>之后就可以开启下一专题了`))
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${this.state.mustStudyDays}天<br/>之后就可以开启下一小课了`))
     }
   }
 
@@ -487,12 +487,12 @@ export class PlanMain extends React.Component <any, any> {
       <div>
         {showScoreModal?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)} onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })} questionList={this.state.questionList}/>:null}
         <Modal header={{replace:true,children:<AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
-            buttons={[{click:()=>this.confirmNextPlan(),content:"下一专题"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
+            buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
             show={showCompleteModal}>
           <div className="content">
             <div className="text2">太棒了!</div>
           </div>
-          <div className="content2">你完成了本专题</div>
+          <div className="content2">你完成了本小课</div>
           <div className="content2">
             已得<span className="number">{point}</span>积分
           </div>
@@ -504,8 +504,8 @@ export class PlanMain extends React.Component <any, any> {
         <Modal show={showConfirmModal}
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
           <div className="content">
-            <div className="text">确定开始新专题吗</div>
-            <div className="text">当前专题的巩固练习将无法查看</div>
+            <div className="text">确定开始新小课吗</div>
+            <div className="text">当前小课的巩固练习将无法查看</div>
           </div>
           <div className="content2">
             <div className="text">（PC端应用练习仍然开放）</div>
@@ -515,13 +515,13 @@ export class PlanMain extends React.Component <any, any> {
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
 
         <Modal show={status===3}
-               buttons={[{click:()=>this.nextPlan(),content:"开始新专题"}]}
+               buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
                >
-          <div className="content"><div className="text">本专题已到期</div></div>
+          <div className="content"><div className="text">本小课已到期</div></div>
           <div className="content2">
             <div className="text">登录</div>
             <div className="text">www.iquanwai.com/community</div>
-            <div className="text">可继续完成专题/应用练习</div>
+            <div className="text">可继续完成小课/应用练习</div>
           </div>
         </Modal>
 
@@ -561,7 +561,7 @@ export class PlanMain extends React.Component <any, any> {
         <div className="function-menu">
           <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
             <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
-            <span>专题分享</span>
+            <span>小课论坛</span>
           </div>
           <div className="right" onClick={() => this.problemReview(problem.id)}>
             <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
