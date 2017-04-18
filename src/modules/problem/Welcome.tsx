@@ -55,7 +55,7 @@ export class Welcome extends React.Component <any, any> {
     }, 1100)
     setTimeout(() => {
       this.setState({show2:true})
-    }, 3100)
+    }, 2100)
 
     setTimeout(() => {
       this.setState({show3:true})

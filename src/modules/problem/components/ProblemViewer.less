@@ -15,8 +15,7 @@
       z-index: 100;
     }
     > .page-content{
-      padding-top: 47px;
-      padding-bottom: 20px;
+      padding: 47px 15px 20px 15px;
       .roadmap{
         margin-top: 20px;
         .chapter{
@@ -35,7 +34,7 @@
         }
         .section{
           font-size: 1.5em;
-          color: @color_context;
+          color: @color_title;
           margin-bottom: 5px;
           padding-left: 14px;
           &:before {
@@ -58,27 +57,42 @@
       }
       > .context-title-img {
         text-align: center;
-        margin-top: 30px;
-        margin-bottom: 30px;
+        margin-top: 40px;
+        margin-bottom: 40px;
       }
       pre{
         white-space: pre-wrap;
         white-space: -moz-pre-wrap;
         white-space: -o-pre-wrap;
         word-wrap: break-word;
-        font-size: 1.2em;
+        font-size: 2.0em;
+        line-height: 2.4em;
+        letter-spacing:2px;
+        color: @color_title;
       }
 
       > .text{
         font-size: @font_context;
         color: @color_context;
+        margin-top: 40px;
+        line-height: 2.0em;
+        letter-spacing:2px;
         > .time-tip-content{
           display: inline-block;
           > .tip{
             font-size: 0.7em;
             color: @color_help;
+            line-height: 1.4em;
+          }
+          > .tip-img{
+            display: inline-block;
+            vertical-align: middle;
           }
         }
+      }
+
+      b{
+        color:@color_context;
       }
 
     }
