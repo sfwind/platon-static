@@ -23,6 +23,8 @@ router.get("/rise/plan/play/*", (req, res) => {
 		}), Math.random() * 1500)
 });
 
+
+
 router.get("/rise/plan/load", (req, res) => {
 	setTimeout(() =>
 		res.status(200).json({
@@ -378,7 +380,7 @@ router.get("/rise/plan/risemember", (req, res) => {
     setTimeout(() =>
         res.status(200).json({
             "code": 200,
-            "msg": true
+            "msg": false
         }), Math.random() * 1500)
 });
 
