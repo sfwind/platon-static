@@ -120,7 +120,7 @@ export default class ProblemViewer extends React.Component<any, any> {
           }
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
-          <p>选择后，需要完成该小课，才能开启下一小课，想好了吗？</p>
+          <p className="global-pre">选择后，需要完成该小课，才能开启下一小课，想好了吗？</p>
         </Alert>
       </div>
     )
