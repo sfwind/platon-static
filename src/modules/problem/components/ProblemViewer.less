@@ -21,7 +21,7 @@
         margin-top: 20px;
         .chapter{
           font-size: @font_context;
-          color: @color_context;
+          color: @color_title;
           margin-bottom: 5px;
           &:before{
             content: '';
@@ -58,8 +58,8 @@
       }
       > .context-title-img {
         text-align: center;
-        margin-top: 30px;
-        margin-bottom: 30px;
+        margin-top: 40px;
+        margin-bottom: 40px;
       }
       pre{
         white-space: pre-wrap;
@@ -67,11 +67,16 @@
         white-space: -o-pre-wrap;
         word-wrap: break-word;
         font-size: 1.2em;
+        line-height: 2.0em;
+        letter-spacing:2px;
       }
 
       > .text{
         font-size: @font_context;
         color: @color_context;
+        margin-top: 40px;
+        line-height: 2.0em;
+        letter-spacing:2px;
         > .time-tip-content{
           display: inline-block;
           > .tip{

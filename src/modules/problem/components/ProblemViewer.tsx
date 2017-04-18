@@ -66,57 +66,46 @@ export default class ProblemViewer extends React.Component<any, any> {
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
-              <div className="text" style={{marginTop:30}}>
+              <div style={{marginTop:30}}>
                 <pre>{why}</pre>
               </div>
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/how_2.png"/>
               </div>
-              <div className="text">
-                <pre>{how}</pre>
-                <AssetImg width={'100%'} url={descPic}/>
-              </div>
+              <pre>{how}</pre>
+              <AssetImg width={'100%'} url={descPic}/>
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/what_2.png"/>
               </div>
-              <div className="text">
-                <pre>{what}</pre>
-              </div>
+              <pre>{what}</pre>
               <div className="roadmap">{chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}</div>
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who_2.png"/>
               </div>
-              <div className="text">
-                <pre><b>{who}</b></pre>
-              </div>
+              <pre><b>{who}</b></pre>
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when_2.png"/>
               </div>
-              <div className="text">
-                <div className="time-tip-content"><b>推荐进度：</b>每天学习1节，尽量完成其中的应用训练<br/><br/>
+              <div className="text"><b>推荐进度：</b>每天学习1节，尽量完成其中的应用训练</div>
 
-                  <b>开放时长：</b>至少需要学习{Math.round(length/2)}天，最长可学习30天
+              <div className="text"><div className="time-tip-content"><b>开放时长：</b>至少需要学习{Math.round(length/2)}天，最长可学习30天
                   {showTip?<div className="tip"><br/>
                         说明：<br/>
                         如果选择快进，在{Math.round(length/2)}天内学完，那再复习一下吧，多做做应用题<br/>
                         专题最多开放30天，过期会自动关闭。是不是一下子有了学习的紧迫感？<br/>
                       </div>:<span onClick={()=>this.setState({showTip:true})}>
                         <AssetImg width={16} height={16} type="question-mark"/></span>}
-                </div>
+              </div></div>
 
-              </div>
+
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where_2.png"/>
               </div>
-              <div className="text">
-                <div>随时随地，多客户端。<br/><br/>
-                  <b>手机微信：</b>圈外训练营-RISE<br/><br/>
-
-                  <b>网站：</b>www.iquanwai.com，点击RISE<br/>
-                  (学过的专题永久开放，暂不支持巩固训练）<br/><br/>
-
-                  <b>电脑微信（仅windows客户端）：</b>圈外训练营-RISE</div>
-              </div>
+              <div className="text">随时随地，多客户端。</div>
+              <div className="text"><b>手机微信：</b>圈外训练营-RISE</div>
+              <div className="text"><b>网站：</b>www.iquanwai.com，点击RISE
+                  (学过的专题永久开放，暂不支持巩固训练）</div>
+              <div className="text"><b>电脑微信（仅windows客户端）：</b>圈外训练营-RISE</div>
             </div>
           </div>
         </div>
