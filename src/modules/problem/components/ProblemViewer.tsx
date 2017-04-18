@@ -109,7 +109,8 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where_2.png"/>
               </div>
               <div className="text">
-                <div><b>手机微信：</b>圈外训练营-RISE<br/><br/>
+                <div>随时随地，多客户端。<br/><br/>
+                  <b>手机微信：</b>圈外训练营-RISE<br/><br/>
 
                   <b>网站：</b>www.iquanwai.com，点击RISE<br/>
                   (学过的专题永久开放，暂不支持巩固训练）<br/><br/>
