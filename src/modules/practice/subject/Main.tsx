@@ -76,7 +76,8 @@ export class Main extends React.Component <any, any> {
                   end: res.msg.end
                 });
               } else {
-                dispatch(alertMsg('没有更多了'));
+                this.setState({end:res.msg.end});
+                // dispatch(alertMsg('没有更多了'));
               }
             } else {
               dispatch(alertMsg(res.msg));
