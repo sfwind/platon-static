@@ -53,7 +53,7 @@ export class Result extends React.Component <any, any> {
       <div>
         <div className="container has-footer">
           <div className="warm-up-result">
-            <div className="page-header">{'巩固训练'}</div>
+            <div className="page-header">{'巩固练习'}</div>
             <div className="intro-container">
               <div className="section">
                 <div className="section-title">答对题数</div>

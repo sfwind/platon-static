@@ -93,7 +93,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when_2.png"/>
               </div>
               <div className="text">
-                <div className="time-tip-content"><b>推荐进度：</b>每天学习1节，尽量完成其中的应用训练<br/><br/>
+                <div className="time-tip-content"><b>推荐进度：</b>每天学习1节，尽量完成其中的应用练习<br/><br/>
 
                   <b>开放时长：</b>至少需要学习{Math.round(length/2)}天，最长可学习30天
                   {showTip?<div className="tip"><br/>
@@ -112,7 +112,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <div><b>手机微信：</b>圈外训练营-RISE<br/><br/>
 
                   <b>网站：</b>www.iquanwai.com，点击RISE<br/>
-                  (学过的专题永久开放，暂不支持巩固训练）<br/><br/>
+                  (学过的专题永久开放，暂不支持巩固练习）<br/><br/>
 
                   <b>电脑微信（仅windows客户端）：</b>圈外训练营-RISE</div>
               </div>

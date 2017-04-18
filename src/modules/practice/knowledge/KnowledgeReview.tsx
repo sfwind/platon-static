@@ -77,11 +77,11 @@ export class KnowledgeReview extends React.Component<any,any>{
           <div className="problem-detail">
             <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={()=>this.setState({showProblem:true})}>
               <div className="header-label" style={{float:"left"}}>
-                专题详情
+                小课介绍
               </div>
             </div>
             <div className="detail-header">
-              专题知识点
+              小课知识点
             </div>
             <div className="detail-container">
               {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}

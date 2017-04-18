@@ -346,11 +346,11 @@ router.post('/rise/plan/roadmap',(req,res)=>{
                     "series": 4
                 },
                 {
-                    "intro": "综合训练1",
+                    "intro": "综合练习1",
                     "series": 5
                 },
                 {
-                    "intro": "综合训练2",
+                    "intro": "综合练习2",
                     "series": 6
                 }
             ],

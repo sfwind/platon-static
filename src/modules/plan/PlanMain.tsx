@@ -14,12 +14,12 @@ const { Alert } = Dialog
 
 
 const typeMap = {
-  1: '巩固训练',
-  2: '巩固训练',
-  11: '应用训练',
-  12: '综合训练',
+  1: '巩固练习',
+  2: '巩固练习',
+  11: '应用练习',
+  12: '综合练习',
   21: '小目标',
-  31: '理解训练',
+  31: '知识理解',
   32: '知识回顾',
 }
 
@@ -331,7 +331,7 @@ export class PlanMain extends React.Component <any, any> {
             this.setState({showScoreModal: true, defeatPercent:msg.percent, mustStudyDays:msg.mustStudyDays})
           }
         }else{
-          dispatch(alertMsg('至少要完成所有理解训练和巩固训练哦'))
+          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
         }
       } else {
         dispatch(alertMsg(msg))
@@ -505,10 +505,10 @@ export class PlanMain extends React.Component <any, any> {
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
           <div className="content">
             <div className="text">确定开始新专题吗</div>
-            <div className="text">当前专题的巩固训练将无法查看</div>
+            <div className="text">当前专题的巩固练习将无法查看</div>
           </div>
           <div className="content2">
-            <div className="text">（PC端应用训练仍然开放）</div>
+            <div className="text">（PC端应用练习仍然开放）</div>
           </div>
         </Modal>
 
@@ -521,7 +521,7 @@ export class PlanMain extends React.Component <any, any> {
           <div className="content2">
             <div className="text">登录</div>
             <div className="text">www.iquanwai.com/community</div>
-            <div className="text">可继续完成专题/应用训练</div>
+            <div className="text">可继续完成专题/应用练习</div>
           </div>
         </Modal>
 
@@ -565,7 +565,7 @@ export class PlanMain extends React.Component <any, any> {
           </div>
           <div className="right" onClick={() => this.problemReview(problem.id)}>
             <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
-            <span>专题详情</span>
+            <span>小课介绍</span>
           </div>
         </div>
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}/>
