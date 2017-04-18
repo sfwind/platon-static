@@ -105,11 +105,18 @@ export class Main extends React.Component <any, any> {
     }
     this.setState({showDisable: true})
     submitChallengePractice(planId,location.query.id, {answer}).then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
-        this.context.router.push({ pathname: '/rise/static/plan/main',
-          query: location.query})
+        dispatch(startLoad());
+        loadChallengePractice(location.query.id).then(res => {
+          dispatch(endLoad());
+          const {code, msg} = res
+          if (code === 200) {
+            this.setState({data: msg, submitId: msg.submitId, planId: msg.planId, edit: false})
+          }
+          else dispatch(alertMsg(msg))
+        })
+        this.setState({showDisable: false})
       }
       else {
         dispatch(alertMsg(msg))

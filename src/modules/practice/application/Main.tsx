@@ -220,9 +220,21 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
-        this.context.router.push({ pathname: '/rise/static/plan/main',
-          query: location.query})
+          dispatch(startLoad());
+          loadApplicationPractice(location.query.id).then(res => {
+              dispatch(endLoad())
+              const { code, msg } = res;
+              if(code === 200){
+                this.setState({data: msg, submitId: msg.submitId, planId:msg.planId, edit:false})
+              }
+              else dispatch(alertMsg(msg))
+          }).catch(ex => {
+              dispatch(endLoad())
+              dispatch(alertMsg(ex))
+          })
+          this.setState({showDisable: false})
       }
+
       else {
         dispatch(alertMsg(msg))
         this.setState({showDisable: false})
@@ -326,7 +338,7 @@ export class Main extends React.Component <any, any> {
                 </div>: null}
               {showOthers && !isEmpty(otherHighlightList)?<div><div className="submit-bar">{'管理员推荐'}</div>{renderList(otherHighlightList)}</div>:null}
               {showOthers && !isEmpty(otherList)?<div><div className="submit-bar">{'最新文章'}</div>{renderList(otherList)}</div>:null}
-              {!showOthers? <div className="show-others-tip" onClick={this.others.bind(this)}>没思路? 瞄一眼其他人的作业</div>: null}
+              {!showOthers? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div>: null}
               {renderEnd()}
             </div>
           </div>

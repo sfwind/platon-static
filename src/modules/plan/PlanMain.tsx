@@ -438,6 +438,10 @@ export class PlanMain extends React.Component <any, any> {
     window.location.href = `http://${window.location.hostname}/pay/pay`
   }
 
+  goOthers(){
+    this.context.router.push({ pathname: '/rise/static/problem/priority' })
+  }
+
   render() {
     const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal } = this.state
     const {
@@ -572,7 +576,8 @@ export class PlanMain extends React.Component <any, any> {
             <span>小课介绍</span>
           </div>
         </div>
-        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}/>
+        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}
+            viewOtherProblem={this.goOthers.bind(this)}/>
           : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress">

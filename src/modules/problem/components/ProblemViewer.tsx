@@ -35,7 +35,7 @@ export default class ProblemViewer extends React.Component<any, any> {
   }
 
   render() {
-    const {closeModal, problem, readonly} = this.props;
+    const {closeModal, problem, readonly, viewOtherProblem} = this.props;
     const {length, why, how, what, who, descPic, audio, chapterList} = problem;
     const {showTip} = this.state
 
@@ -108,7 +108,16 @@ export default class ProblemViewer extends React.Component<any, any> {
             </div>
           </div>
         </div>
-        { readonly ? <div className="button-footer" onClick={()=>closeModal()}>返回</div> :
+        { readonly ?
+            <div className="button-footer">
+                <div className="left" onClick={()=>viewOtherProblem()}>
+                    其他小课
+                </div>
+                <div className="right" onClick={()=>closeModal()}>
+                    返回
+                </div>
+            </div>
+            :
         <div className="button-footer">
           <div className="left" onClick={()=>closeModal()}>
             返回
