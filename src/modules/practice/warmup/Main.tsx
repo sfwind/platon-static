@@ -29,6 +29,7 @@ export class Main extends React.Component <any, any> {
       selected: [],
       knowledge: {},
       showKnowledge: false,
+      integrated: false,
     }
   }
 
@@ -38,7 +39,8 @@ export class Main extends React.Component <any, any> {
 
   componentWillMount() {
     const { dispatch, location } = this.props
-    const { practicePlanId } = location.query
+    const { practicePlanId, integrated } = location.query
+    this.setState({integrated})
     dispatch(startLoad())
     loadWarmUpAnalysis(practicePlanId).then(res=>{
       dispatch(endLoad())
@@ -57,7 +59,7 @@ export class Main extends React.Component <any, any> {
           if(idx !== -1){
             this.context.router.push({
               pathname: '/rise/static/practice/warmup/analysis',
-              query: { practicePlanId, kid: location.query.kid, series:location.query.series }
+              query: location.query,
             })
           } else {
             this.setState({ list: msg, practiceCount: msg.practice.length })
@@ -178,7 +180,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus={} } = this.state
+    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus={},integrated } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -198,7 +200,8 @@ export class Main extends React.Component <any, any> {
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>不确定? 瞄一眼知识点</div>
+          {integrated === 'false'?
+          <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>不确定? 瞄一眼知识点</div>:null}
         </div>
       )
     }

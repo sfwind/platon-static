@@ -222,15 +222,19 @@ export class PlanMain extends React.Component <any, any> {
       if (code === 200) {
         // 已完成
         if (type === 1 || type === 2) {
+          let integrated = true
+          if(type === 1){
+            integrated = false
+          }
           if (item.status === 1) {
             this.context?this.context.router.push({
               pathname: '/rise/static/practice/warmup/analysis',
-              query: { practicePlanId, series }
+              query: { practicePlanId, series, integrated }
             }):null;
           } else {
             this.context?this.context.router.push({
                   pathname: '/rise/static/practice/warmup',
-                  query: { practicePlanId, series }
+                  query: { practicePlanId, series, integrated }
             }):null;
           }
         } else if (type === 11) {

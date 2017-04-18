@@ -32,6 +32,7 @@ export class Analysis extends React.Component <any, any> {
       repliedId: 0,
       warmupPracticeId: 0,
       pageIndex:1,
+      integrated:false,
     }
   }
 
@@ -48,7 +49,8 @@ export class Analysis extends React.Component <any, any> {
   componentWillMount(props) {
     const {dispatch, location} = props || this.props
     this.setState({currentIndex: 0})
-    const {practicePlanId} = location.query
+    const {practicePlanId, integrated} = location.query
+    this.setState({integrated})
     dispatch(startLoad())
     loadWarmUpAnalysis(practicePlanId).then(res => {
       dispatch(endLoad())
@@ -121,7 +123,7 @@ export class Analysis extends React.Component <any, any> {
 
   render() {
     const {list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, repliedId} = this.state
+      showKnowledge, showDiscuss, repliedId, integrated} = this.state
     const {practice = []} = list
 
     const questionRender = (practice) => {
@@ -149,7 +151,9 @@ export class Analysis extends React.Component <any, any> {
               </div>
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>
+              {integrated === 'false' ?
+                  <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null
+              }
             </div>
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, warmupPracticeId: id, repliedId:0})}>
               <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
