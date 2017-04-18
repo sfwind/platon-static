@@ -60,7 +60,10 @@ export class RoadMap extends React.Component <any, any> {
       const {sections} = chapter
         return (
             <div key={idx}>
-              <div className={chapter.chosen?'chosen-chapter':'not-chosen-chapter'}>{'第'+chapter.chapter+'章 '}{chapter.name}</div>
+              {chapter.chosen?
+                <div className='chosen-chapter' onClick={this.onSubmit.bind(this)}>{'第'+chapter.chapter+'章 '}{chapter.name}</div>:
+                <div className='not-chosen-chapter'>{'第'+chapter.chapter+'章 '}{chapter.name}</div>
+              }
               {sections?sections.map((section, idx) => renderSection(section, idx, chapter.chapter)):null}
             </div>
         )
@@ -69,7 +72,8 @@ export class RoadMap extends React.Component <any, any> {
     const renderSection = (section, idx, chapter) => {
       return (
           <div key={idx}>
-            <div className={section.chosen?'chosen-section':'not-chosen-section'}>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
+            {section.chosen?<div className='chosen-section' onClick={this.onSubmit.bind(this)}>{chapter}{'.'}{section.section+'节 '}{section.name}</div>:
+                <div className='not-chosen-section'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>}
           </div>
       )
     }
@@ -77,13 +81,14 @@ export class RoadMap extends React.Component <any, any> {
     return (
         <div>
           <div className="container has-footer">
-            <div className="page-header">{'课程表'}</div>
-            <div className="context" style={{marginTop:15, marginBottom:30}}>Hi，欢迎回来！本节的训练主题为：
+            <div className="page-header">{'学习大纲'}</div>
+            <div className="context" style={{marginTop:15, marginBottom:30}}>
+              以下黑字部分是本节的主题，点击查看相关知识吧
               {data?data.map((roadMap, idx) => renderRoadMap(roadMap, idx)):null}
             </div>
 
           </div>
-          <div className="button-footer" onClick={this.onSubmit.bind(this)}>{'查看内容'}</div>
+          <div className="button-footer" onClick={this.onSubmit.bind(this)}>{'查看相关知识'}</div>
         </div>
     )
   }

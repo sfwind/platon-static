@@ -103,7 +103,7 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       if (code === 200) {
         const { content } = msg;
-        if(!integrated){
+        if(integrated=='false'){
           loadKnowledgeIntro(msg.knowledgeId).then(res =>{
             const { code, msg } = res;
             if(code === 200){
