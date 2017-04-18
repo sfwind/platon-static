@@ -159,7 +159,7 @@ export class Main extends React.Component <any, any> {
             <div className="page-header">{'小目标'}</div>
             <div className="intro-container">
               <div className="context-img">
-                <img src="http://www.iqycamp.com/images/fragment/challenge_practice.png" alt=""/>
+                <img src="http://www.iqycamp.com/images/fragment/challenge_practice_2.png" alt=""/>
               </div>
               <div className="challenge-context">
                 <div>

@@ -106,11 +106,11 @@ export class Welcome extends React.Component <any, any> {
 
     setTimeout(() => {
       this.setState({show7:true})
-    }, 5300)
+    }, 6300)
 
     setTimeout(() => {
-      scroll.scrollTo(400)
-    }, 5300)
+      scroll.scrollTo(500)
+    }, 6300)
   }
 
   closeModal(){
@@ -143,29 +143,30 @@ export class Welcome extends React.Component <any, any> {
                       <div>
                         <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
                         <div className="guide-msg">
-                          你知道吗？从你了解一个知识概念，到能够真正运用，解决实际问题，中间还差一个刻意练习的距离
+                          你知道吗？我们从了解知识概念、到用它来解决问题，中间还差一个刻意练习的距离。RISE就提供这样的刻意练习
                         </div>
                       </div>:null}
                 </div>
                 {!confirm && show3?
                     <div className="button-div" style={{marginTop:70}}>
-                      <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_confirm.png"
+                      <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_confirm_2.png"
                            onClick={this.got.bind(this)}/>
 
                     </div>:null}
                 {show4?
-                  <div className="right-div">
-                    <div className="reply-msg" ref="welcome">
-                      赞同
+                    <div className="right-div">
+                      <div className="reply-msg" ref="welcome">
+                        怎样练习呢
+                      </div>
+                      <img className={"head"} src={window.ENV.headImage}/>
                     </div>
-                    <img className={"head"} src={window.ENV.headImage}/>
-                  </div>
-                :null}
+                    :null}
+
                 {show5 ?
                     <div>
                       <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
                       <div className="guide-msg" ref="welcome2">
-                        在RISE，你可以根据需要选择小课，我会据此制定你的每日训练计划，来帮助你学习知识、实践应用、解决问题
+                        你可以根据需要，选择要学习的RISE小课，我会据此制定你的每日练习计划，来帮助你学习知识、实践应用、解决问题
                       </div>
                     </div>:null
                 }
@@ -174,7 +175,7 @@ export class Welcome extends React.Component <any, any> {
                     <div>
                       <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
                       <div className="guide-msg" ref="welcome3">
-                        现在，选择你感兴趣的版本，我们开始吧
+                        选择正式版，开始学习所有小课吧！如果你不确定，也可以点击试用版，选择体验一个小课的前3节内容
                       </div>
                     </div>:null
                 }

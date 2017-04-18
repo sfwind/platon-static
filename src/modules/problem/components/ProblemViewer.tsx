@@ -86,13 +86,13 @@ export default class ProblemViewer extends React.Component<any, any> {
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when_2.png"/>
               </div>
-              <div className="text"><b>推荐进度：</b>每天学习1节，尽量完成其中的应用练习</div>
+              <div className="text">随开随学，进度自控。</div>
+              <div className="text">教研团队的推荐进度：每天1节，保证学习效果</div>
 
-              <div className="text"><div className="time-tip-content"><b>开放时长：</b>至少需要学习{Math.round(length/2)}天，最长可学习30天
+              <div className="text"><div className="time-tip-content"><b>开放时长：</b>30天
                   {showTip?<div className="tip"><br/>
                         说明：<br/>
-                        如果选择快进，在{Math.round(length/2)}天内学完，那再复习一下吧，多做做应用题<br/>
-                        小课最多开放30天，过期会自动关闭。是不是一下子有了学习的紧迫感？<br/>
+                        本小课最少开放{Math.round(length/2)}天，最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
                       </div>:<div className="tip-img" onClick={()=>this.setState({showTip:true})}>
                         <AssetImg width={16} height={16} type="question-mark"/></div>}
               </div></div>
@@ -103,8 +103,7 @@ export default class ProblemViewer extends React.Component<any, any> {
               </div>
               <div className="text">随时随地，多客户端。</div>
               <div className="text"><b>手机微信：</b>圈外训练营-RISE</div>
-              <div className="text"><b>网站：</b>www.iquanwai.com，点击RISE
-                  (学过的小课永久开放，暂不支持巩固练习）</div>
+              <div className="text"><b>网站：</b>www.iquanwai.com，点击RISE</div>
               <div className="text"><b>电脑微信（仅windows客户端）：</b>圈外训练营-RISE</div>
             </div>
           </div>

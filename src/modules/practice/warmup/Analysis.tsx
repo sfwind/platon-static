@@ -151,7 +151,7 @@ export class Analysis extends React.Component <any, any> {
               </div>
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-              {integrated === 'false' ?
+              {integrated=='false' ?
                   <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null
               }
             </div>
