@@ -182,7 +182,7 @@ export class Welcome extends React.Component <any, any> {
                 <div>
                   <div className="button-div" style={{marginTop:50}}>
                     {show7 ?
-                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_pay.png"
+                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_pay_2.png"
                          onClick={()=>this.becomeRiser()}/>:null}
                   </div>
                   <div className="button-div" style={{marginTop:25}}>
