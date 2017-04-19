@@ -169,7 +169,7 @@ export class PlanMain extends React.Component <any, any> {
           }
           if(code === 213 && !showedPayTip){
             this.setState({showedPayTip:true});
-            dispatch(alertMsg("第三节之后的内容需要付费才能查看"))
+            dispatch(alertMsg("试用版仅能体验前三节内容哦"))
           }
         } else if (code === 212) {
           this.context.router.push({ pathname: location.pathname })
