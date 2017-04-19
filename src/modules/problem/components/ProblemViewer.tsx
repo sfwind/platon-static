@@ -73,7 +73,7 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/how_2.png"/>
               </div>
               <pre>{how}</pre>
-              <AssetImg width={'100%'} url={descPic}/>
+              <AssetImg width={'100%'} style={{marginTop:25}} url={descPic}/>
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/what_2.png"/>
               </div>
@@ -102,9 +102,9 @@ export default class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where_2.png"/>
               </div>
               <div className="text">随时随地，多客户端</div>
-              <div className="text"><b>手机微信：</b>圈外训练营-RISE</div>
+              <div className="text"><b>手机微信：</b>圈外学习号-RISE</div>
               <div className="text"><b>网站：</b>www.iquanwai.com，点击RISE</div>
-              <div className="text"><b>电脑微信（仅windows客户端）：</b>圈外训练营-RISE</div>
+              <div className="text"><b>电脑微信（仅windows客户端）：</b>圈外学习号-RISE</div>
             </div>
           </div>
         </div>
