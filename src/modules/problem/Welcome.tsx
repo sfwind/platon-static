@@ -52,14 +52,14 @@ export class Welcome extends React.Component <any, any> {
     welcome()
     setTimeout(() => {
       this.setState({show:true})
-    }, 1100)
+    }, 500)
     setTimeout(() => {
       this.setState({show2:true})
-    }, 2100)
+    }, 1500)
 
     setTimeout(() => {
       this.setState({show3:true})
-    }, 4100)
+    }, 2500)
   }
 
   onSubmit(){
@@ -89,28 +89,28 @@ export class Welcome extends React.Component <any, any> {
 
     setTimeout(() => {
       this.setState({show5:true})
-    }, 2300)
+    }, 800)
 
     setTimeout(() => {
       scroll.scrollTo(this.refs.welcome.offsetHeight)
-    }, 2300)
+    }, 800)
 
     setTimeout(() => {
       this.setState({show6:true})
-    }, 4300)
+    }, 2800)
 
 
     setTimeout(() => {
       scroll.scrollMore(this.refs.welcome2.offsetHeight)
-    }, 4300)
+    }, 2800)
 
     setTimeout(() => {
       this.setState({show7:true})
-    }, 6300)
+    }, 4800)
 
     setTimeout(() => {
       scroll.scrollTo(500)
-    }, 6300)
+    }, 4800)
   }
 
   closeModal(){
@@ -156,7 +156,7 @@ export class Welcome extends React.Component <any, any> {
                 {show4?
                     <div className="right-div">
                       <div className="reply-msg" ref="welcome">
-                        怎样练习呢
+                        怎样练习呢？
                       </div>
                       <img className={"head"} src={window.ENV.headImage}/>
                     </div>
@@ -202,7 +202,7 @@ export class Welcome extends React.Component <any, any> {
               }
               {show7?
                   <div className="tips" onClick={()=>this.setState({description:true})}>
-                    <span>什么是专业版／试用版</span>
+                    <span>什么是正式版／试用版</span>
                     <img height={12} width={12} src="http://www.iqycamp.com/images/fragment/question_rise.png"/>
                   </div>:null
               }
