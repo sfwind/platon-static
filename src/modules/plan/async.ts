@@ -52,3 +52,7 @@ export function learnKnowledge(knowledgeId) {
   return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
 }
 
+export function promote() {
+  return pget(`/rise/plan/promote`)
+}
+

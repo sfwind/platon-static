@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem , isRiseMember, learnKnowledge} from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem , isRiseMember, learnKnowledge, promote} from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -129,7 +129,6 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch, location } = this.props
     return isRiseMember().then(res=>{
       if(res.code === 200){
-        console.log('rise',res.msg);
         this.setState({riseMember:res.msg});
         if(!res.msg){
           setTimeout(()=>{this.setState({riseMemberTips:true});},10)
@@ -435,7 +434,9 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips(){
-    window.location.href = `http://${window.location.hostname}/pay/pay`
+    promote().then(res =>{
+      window.location.href = `http://${window.location.hostname}/pay/pay`
+    })
   }
 
   goOthers(){

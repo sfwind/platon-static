@@ -396,4 +396,12 @@ router.get("/rise/plan/member/description", (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.get("/rise/plan/promote", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": 'ok'
+        }), Math.random() * 1500)
+});
+
 module.exports = router;
