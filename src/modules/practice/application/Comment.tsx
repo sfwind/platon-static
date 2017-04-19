@@ -45,10 +45,7 @@ export class Comment extends React.Component<any,any>{
     const {location} = this.props
     this.context.router.push({
       pathname:'/rise/static/practice/application',
-      query: {
-        id: this.props.location.query.id,
-        series: this.props.location.query.series
-      },
+      query: location.query,
       state: location.state
     })
   }
