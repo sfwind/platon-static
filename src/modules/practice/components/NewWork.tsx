@@ -75,11 +75,14 @@ export default class Work extends React.Component<any,any> {
     const renderHeader = ()=>{
       return (
         <div className={`submit-head ${avatarStyle}`}>
-          <img className={`submit-avatar ${avatarStyle}`} src={headImage}/>
-          <div className="submit-name">
-            {userName}
+          <div className="submit-img"><img className={`submit-avatar ${avatarStyle}`} src={headImage}/></div>
+          <div className="submit-memo">
+            <div className="submit-name">
+              {userName}
+            </div>
+            <div className="submit-time">{submitUpdateTime}</div>
           </div>
-          <div className="submit-time">{submitUpdateTime}</div>
+
           {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}} onClick={()=>onEdit()}>
               <AssetImg type="edit" height={12}/>
             <div className="submit-button">

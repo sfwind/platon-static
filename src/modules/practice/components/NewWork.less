@@ -28,40 +28,40 @@
       }
       > .submit-head {
         line-height:13px;
-        padding:10px auto;
         position: relative;
-        &.top{
-          height:30px;
-        }
-        &.left{
-          height:13px;
-        }
-        > .submit-avatar {
+        > .submit-img{
+          width: 30px;
           display: inline-block;
-          border-radius: 40px;
-          &.top{
-            height: 30px;
-            width: 30px;
-            vertical-align: middle;
-          }
-          &.left{
-            height:40px;
-            width:40px;
-            vertical-align: top;
+          > .submit-avatar {
+            display: inline-block;
+            border-radius: 40px;
+            &.top{
+              height: 30px;
+              width: 30px;
+            }
+            &.left{
+              height:30px;
+              width:30px;
+              vertical-align: top;
+            }
           }
         }
-        > .submit-name {
-          display: inline-block;
-          color: @color_title;
-          font-size: 1.3em;
-          margin-left:10px;
-        }
-        > .submit-time {
+
+        > .submit-memo{
           display: inline-block;
           margin-left:10px;
-          font-size: @font_help;
-          line-height:@font_help;
-          color: @color_help;
+          width: ~"calc(100% - 60px)";
+          vertical-align: top;
+          > .submit-name {
+            color: @color_title;
+            font-size: 1.3em;
+          }
+          > .submit-time {
+            font-size: @font_help;
+            line-height:@font_help;
+            color: @color_help;
+            margin-top: 3px;
+          }
         }
         > .right{
           display: inline-block;
@@ -93,18 +93,15 @@
       }
       > .submit-content {
         line-height: 23px;
-        font-size: @font_context;
+        font-size: @font_context !important;
+        color: @color_context !important;
         > div,pre {
           white-space: pre-wrap;
           word-wrap: break-word;
-          &.top {
-            color: @color_context;
-          }
           &.left {
-            width: ~"calc(100% - 80px)";
-            margin-left: 50px;
+            width: ~"calc(100% - 40px)";
+            margin-left: 20px;
             margin-top: 7px;
-            color: @color_context;
           }
         }
         > pre {
@@ -132,8 +129,8 @@
           width: 100%;
         }
         &.left{
-          width: ~"calc(100% - 50px)";
-          margin-left:50px;
+          width: ~"calc(100% - 20px)";
+          margin-left:20px;
         }
         span{
           line-height:@font_click;
@@ -159,12 +156,12 @@
           }
           > .disVote{
             &:before{
-              background: url(http://www.iquanwai.com/images/iconGreyVote.png) no-repeat bottom center/13px 13px;
+              background: url(http://www.iqycamp.com/images/iconGreyVote.png) no-repeat bottom center/13px 13px;
             }
           }
           > .voted{
             &:before{
-              background: url(http://www.iquanwai.com/images/iconGreenVote.png) no-repeat bottom center/13px 13px;
+              background: url(http://www.iqycamp.com/images/iconGreenVote.png) no-repeat bottom center/13px 13px;
             }
           }
         }
@@ -175,7 +172,7 @@
 
           > span{
             &:before {
-              background: url(http://www.iquanwai.com/images/iconComment.png) no-repeat bottom center/13px 10px;
+              background: url(http://www.iqycamp.com/images/iconComment.png) no-repeat bottom center/13px 10px;
               content: '';
               display: inline-block;
               vertical-align: bottom;

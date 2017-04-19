@@ -6,6 +6,20 @@
   top: 10px;
 }
 
+.trial-tip{
+  background:url('http://www.iquanwai.com/images/riseMemberUpButtonV2.png') no-repeat center center/100% 100%;
+  position: absolute;
+  z-index:20;
+  right: 0;
+  bottom: 10px;;
+  width:88px;
+  height:34px;
+  transform:translateX(88px);
+  &.open{
+    animation:riseMember-left-show 1s alternate forwards;
+  }
+}
+
 .plan-main {
   height: ~"calc(100% - 10px)";
   > .list {
@@ -269,18 +283,36 @@
   margin-bottom: 15px;
   font-size: 1.3em;
   color: @color_help;
-  .bar{
-    display: inline-block;
-    height: 1px;
-    width: 84px;
-    background-color: #ccc;
-    margin-left: 13px;
-    margin-right: 13px;
-    vertical-align: middle;
+
+
+  .intro{
+    position: relative;
+    margin-top: 5px;
+    .intro-chapter{
+      position: relative;
+      color: @color_title;
+      z-index: 1;
+      background-color: @color_weak_background;
+      padding: 0 13px;
+      display: inline-block;
+    }
+    .bar{
+      height: 1px;
+      width: 100%;
+      position:absolute;
+      top: 50%;
+      background-color: @color_weak;
+    }
   }
 
-  .introMsg{
+
+  .intro-section{
     margin-top: 5px;
     color: @color_title;
   }
+}
+
+@keyframes riseMember-left-show {
+  0%{ transform: translateX(88px) }
+  100% {transform: translateX(0px)}
 }

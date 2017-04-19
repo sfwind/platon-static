@@ -28,6 +28,15 @@ export function comment(submitId,content){
   return ppost(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{content:content})
 }
 
+export function openApplication(){
+  return ppost('/rise/plan/open/application');
+}
+
+
+export function getOpenStatus(){
+  return pget('/rise/plan/open/status');
+}
+
 const CommentType = {
   Challenge:1,
   Application:2,

@@ -35,14 +35,24 @@ export default class ProblemViewer extends React.Component<any, any> {
   }
 
   render() {
-    const {closeModal, problem, readonly} = this.props;
-    const {length, why, how, what, who, descPic, audio, roadMapList} = problem;
+    const {closeModal, problem, readonly, viewOtherProblem} = this.props;
+    const {length, why, how, what, who, descPic, audio, chapterList} = problem;
     const {showTip} = this.state
 
-    const renderRoadMap = (roadMap, idx) => {
+    const renderRoadMap = (chapter, idx) => {
+      const {sections} = chapter
       return (
           <div key={idx}>
-            <div className="roadmap">[第{roadMap.series}节]{'  '}{roadMap.intro}</div>
+            <div className={'chapter'}><b>{'第'+chapter.chapter+'章 '}{chapter.name}</b></div>
+            {sections?sections.map((section, idx) => renderSection(section, idx, chapter.chapter)):null}
+          </div>
+      )
+    }
+
+    const renderSection = (section, idx, chapter) => {
+      return (
+          <div key={idx}>
+            <div className={'section'}>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>
       )
     }
@@ -56,63 +66,58 @@ export default class ProblemViewer extends React.Component<any, any> {
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
-              <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/why.png"/>
-              </div>
-              <div className="text">
+              <div style={{marginTop:30}}>
                 <pre>{why}</pre>
               </div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/how.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/how_2.png"/>
               </div>
-              <div className="text">
-                <pre>{how}</pre>
-                <AssetImg width={'100%'} url={descPic}/>
-              </div>
+              <pre>{how}</pre>
+              <AssetImg width={'100%'} style={{marginTop:25}} url={descPic}/>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/what.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/what_2.png"/>
               </div>
-              <div className="text">
-                <pre>{what}</pre>
-                {roadMapList?roadMapList.map((roadMap, idx) => renderRoadMap(roadMap, idx)):null}
-              </div>
+              <pre>{what}</pre>
+              <div className="roadmap">{chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}</div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who_2.png"/>
               </div>
-              <div className="text">
-                <pre>{who}</pre>
-              </div>
+              <pre><b>{who}</b></pre>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when_2.png"/>
               </div>
-              <div className="text">
-                <div className="time-tip-content">推荐进度：每天学习1节，尽量完成其中的应用训练<br/><br/>
+              <div className="text">随开随学，进度自控</div>
+              <div className="text">教研团队的推荐进度：每天1节，保证学习效果</div>
 
-                  开放时长：至少需要学习{Math.round(length/2)}天，最长可学习30天
+              <div className="text"><div className="time-tip-content"><b>开放时长：</b>30天
                   {showTip?<div className="tip"><br/>
                         说明：<br/>
-                        如果选择快进，在{Math.round(length/2)}天内学完，那再复习一下吧，多做做应用题<br/>
-                        专题最多开放30天，过期会自动关闭。是不是一下子有了学习的紧迫感？<br/>
-                      </div>:<span onClick={()=>this.setState({showTip:true})}>
-                        <AssetImg width={16} height={16} type="question-mark"/></span>}
-                </div>
+                        本小课最少开放{Math.round(length/2)}天，最多开放30天，过期会自动关闭。是不是一下子有学习的紧迫感了？<br/>
+                      </div>:<div className="tip-img" onClick={()=>this.setState({showTip:true})}>
+                        <AssetImg width={16} height={16} type="question-mark"/></div>}
+              </div></div>
 
-              </div>
+
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where.png"/>
+                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where_2.png"/>
               </div>
-              <div className="text">
-                <div>手机微信：圈外训练营-RISE<br/><br/>
-
-                  网站：www.iquanwai.com，点击RISE<br/>
-                  (学过的专题永久开放，暂不支持理解训练）<br/><br/>
-
-                  电脑微信（仅windows客户端）：圈外训练营-RISE</div>
-              </div>
+              <div className="text">随时随地，多客户端</div>
+              <div className="text"><b>手机微信：</b>圈外学习号-RISE</div>
+              <div className="text"><b>网站：</b>www.iquanwai.com，点击RISE</div>
+              <div className="text"><b>电脑微信（仅windows客户端）：</b>圈外学习号-RISE</div>
             </div>
           </div>
         </div>
-        { readonly ? <div className="button-footer" onClick={()=>closeModal()}>返回</div> :
+        { readonly ?
+            <div className="button-footer">
+                <div className="left" onClick={()=>viewOtherProblem()}>
+                    其他小课
+                </div>
+                <div className="right" onClick={()=>closeModal()}>
+                    返回
+                </div>
+            </div>
+            :
         <div className="button-footer">
           <div className="left" onClick={()=>closeModal()}>
             返回
@@ -124,7 +129,7 @@ export default class ProblemViewer extends React.Component<any, any> {
           }
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
-          <p>选择后，需要完成该专题，才能开启下一专题，想好了吗？</p>
+          <p className="global-pre">选择后，需要完成该小课，才能开启下一小课，想好了吗？</p>
         </Alert>
       </div>
     )

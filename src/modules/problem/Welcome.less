@@ -1,38 +1,75 @@
 @import "../../style/variable";
 
 .problem-list {
-  height: 100%;
-  background: url("http://www.iqycamp.com/images/fragment/rise_welcome_bg_2.png");
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: url("http://www.iqycamp.com/images/rise_welcome_bg_5.png");
   background-size:100% auto;
-  .info {
-    text-align: center;
+  .tips {
+    position: relative;
+    bottom: 60px;
+    left: 10px;
+    font-size: 13px;
+    color: #efefef;
+  }
 
-    > img {
-      width: 80%;
-      margin-left: -30px;
+  .little-bg {
+    position: relative;
+    left: 55%;
+    margin-top: 30px;
+  }
+  .info {
+
+    .button-div{
+      text-align: center;
+      height: 56px;
+    }
+    .right-div{
+      text-align: right;
+    }
+
+    .description-logo{
+      vertical-align: bottom;
+      margin-left: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+    }
+
+    .guide-msg{
+      display: inline-block;
+      width: 70%;
+      border-radius: 10px 10px 10px 0;
+      background-color: #fff;
+      line-height: 31px;
+      font-size: @font_context;
+      padding: 10px;
+      margin-left: 10px;
       margin-top: 30px;
-      &.first{
-        transition:opacity 1s ease-in;
-        -webkit-transition:opacity 1s ease-in;
+    }
+    .reply-msg{
+      display: inline-block;
+      border-radius: 10px 10px 0 10px;
+      background-color: #dcf1fc;
+      line-height: 31px;
+      font-size: @font_context;
+      padding: 10px;
+      margin-right: 10px;
+      margin-top: 30px;
+    }
+    img {
+      margin-top: 30px;
+      &.head{
+        vertical-align: bottom;
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 30px;
       }
-      &.second{
-        transition:opacity 1s ease-in 1.8s;
-        -webkit-transition:opacity 1s ease-in 1.8s;
-      }
-      &.third{
-        transition:opacity 1s ease-in 4s;
-        -webkit-transition:opacity 1s ease-in 4s;
-      }
-      &.hide {
-        opacity: 0;
-      }
-      &.show{
-        opacity: 1;
+      &.button{
+        width: 176px;
       }
     }
   }
-}
-
-.white-button{
-  background-color: #fff;
 }

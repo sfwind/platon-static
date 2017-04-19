@@ -23,6 +23,8 @@ router.get("/rise/plan/play/*", (req, res) => {
 		}), Math.random() * 1500)
 });
 
+
+
 router.get("/rise/plan/load", (req, res) => {
 	setTimeout(() =>
 		res.status(200).json({
@@ -121,7 +123,9 @@ router.get("/rise/plan/load", (req, res) => {
 				"length": 7,
 				"deadline": 11,
         		"openRise":true,
-                "roadMapList":[{"intro":"逻辑谬误:错误诉诸","series":1},{"intro":"逻辑谬误:人身攻击谬误","series":2},{"intro":"逻辑谬误:滑坡谬误","series":3},{"intro":"逻辑谬误:稻草人谬误","series":4},{"intro":"逻辑谬误:虚假的两难选择谬误","series":5},{"intro":"逻辑谬误:循环论证谬误","series":6}]
+        		"section":"1.1 分组归类",
+        		"chapter":"第1章 分组归类",
+				"alertMsg":"警告警告\n警告警告",
 			}, "code": 200
 		}), Math.random() * 1500)
 });
@@ -222,7 +226,9 @@ router.get("/rise/plan/history/load/*", (req, res) => {
 				"length": 7,
 				"deadline": 11,
                 "openRise":true,
-                "roadMapList":[{"intro":"逻辑谬误:错误诉诸","series":1},{"intro":"逻辑谬误:人身攻击谬误","series":2},{"intro":"逻辑谬误:滑坡谬误","series":3},{"intro":"逻辑谬误:稻草人谬误","series":4},{"intro":"逻辑谬误:虚假的两难选择谬误","series":5},{"intro":"逻辑谬误:循环论证谬误","series":6}]
+                "section":"1.2 MECE",
+                "chapter":"第1章 分组归类",
+                "alertMsg":"警告警告\n警告警告",
 			}, "code": 200
 		}), Math.random() * 1500)
 });
@@ -342,16 +348,48 @@ router.post('/rise/plan/roadmap',(req,res)=>{
                     "series": 4
                 },
                 {
-                    "intro": "综合训练1",
+                    "intro": "综合练习1",
                     "series": 5
                 },
                 {
-                    "intro": "综合训练2",
+                    "intro": "综合练习2",
                     "series": 6
                 }
             ],
             "code": 200
         }),Math.random() * 1500)
+});
+
+router.post("/rise/plan/welcome", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg":true
+    }), Math.random() * 1500)
+});
+
+router.post("/rise/plan/mark/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg":"ok"
+    }), Math.random() * 1500)
+});
+
+router.get("/rise/plan/risemember", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": false
+        }), Math.random() * 1500)
+});
+
+router.get("/rise/plan/member/description", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": true
+        }), Math.random() * 1500)
 });
 
 module.exports = router;

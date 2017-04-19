@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem,learnKnowledge } from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem , isRiseMember, learnKnowledge} from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -14,12 +14,12 @@ const { Alert } = Dialog
 
 
 const typeMap = {
-  1: '理解训练',
-  2: '理解训练',
-  11: '应用训练',
-  12: '综合训练',
+  1: '巩固练习',
+  2: '巩固练习',
+  11: '应用练习',
+  12: '综合练习',
   21: '小目标',
-  31: '知识点',
+  31: '知识理解',
   32: '知识回顾',
 }
 
@@ -41,7 +41,7 @@ export class PlanMain extends React.Component <any, any> {
       questionList:[
         {
           id:1,
-          subject:"你已完成了本专题的训练<br/>对本专题的学习难度打个分吧",
+          subject:"你已完成了本小课的训练<br/>对本小课的学习难度打个分吧",
           choiceList:[
             {
               id:5,
@@ -63,7 +63,7 @@ export class PlanMain extends React.Component <any, any> {
         },
         {
           id:2,
-          subject:"本专题的训练对工作/生活有用吗？",
+          subject:"本小课的训练对工作/生活有用吗？",
           choiceList:[
             {
               id:5,
@@ -125,6 +125,22 @@ export class PlanMain extends React.Component <any, any> {
     window.removeEventListener('resize', this.resize);
   }
 
+  riseMemberCheck(){
+    const { dispatch, location } = this.props
+    return isRiseMember().then(res=>{
+      if(res.code === 200){
+        console.log('rise',res.msg);
+        this.setState({riseMember:res.msg});
+        if(!res.msg){
+          setTimeout(()=>{this.setState({riseMemberTips:true});},10)
+
+        }
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    });
+  }
+
   componentWillMount(id) {
     this.resize();
     const { dispatch, location } = this.props
@@ -136,6 +152,7 @@ export class PlanMain extends React.Component <any, any> {
     }else if(location.query.series !== undefined && !isNaN(location.query.series)){
       series =location.query.series
     }
+
 
     if (series) {
       loadPlanHistory(series).then(res => {
@@ -160,7 +177,7 @@ export class PlanMain extends React.Component <any, any> {
           dispatch(alertMsg("先完成这一节的必修任务吧"))
         }
         else dispatch(alertMsg(msg))
-      }).catch(ex => {
+      }).then(()=>this.riseMemberCheck()).catch(ex => {
         dispatch(endLoad())
         dispatch(alertMsg(ex))
       })
@@ -184,7 +201,7 @@ export class PlanMain extends React.Component <any, any> {
           }
         }
         else dispatch(alertMsg(msg))
-      }).catch(ex => {
+      }).then(()=>this.riseMemberCheck()).catch(ex => {
         dispatch(endLoad())
         dispatch(alertMsg(ex))
       })
@@ -205,22 +222,31 @@ export class PlanMain extends React.Component <any, any> {
       if (code === 200) {
         // 已完成
         if (type === 1 || type === 2) {
+          let integrated = true
+          if(type === 1){
+            integrated = false
+          }
           if (item.status === 1) {
             this.context?this.context.router.push({
               pathname: '/rise/static/practice/warmup/analysis',
-              query: { practicePlanId, series }
+              query: { practicePlanId, series, integrated }
             }):null;
           } else {
             this.context?this.context.router.push({
                   pathname: '/rise/static/practice/warmup',
-                  query: { practicePlanId, series }
+                  query: { practicePlanId, series, integrated }
             }):null;
           }
-        } else if (type === 11 || type === 12) {
+        } else if (type === 11) {
           this.context?this.context.router.push({
             pathname: '/rise/static/practice/application',
-            query: { id: item.practiceIdList[0], series }
+            query: { id: item.practiceIdList[0], series, integrated:false }
           }):null;
+        } else if (type === 12) {
+          this.context?this.context.router.push({
+                pathname: '/rise/static/practice/application',
+                query: { id: item.practiceIdList[0], series, integrated:true }
+              }):null;
         } else if (type === 21) {
           this.context?this.context.router.push({
             pathname: '/rise/static/practice/challenge',
@@ -309,7 +335,7 @@ export class PlanMain extends React.Component <any, any> {
             this.setState({showScoreModal: true, defeatPercent:msg.percent, mustStudyDays:msg.mustStudyDays})
           }
         }else{
-          dispatch(alertMsg('至少要完成所有知识点学习和理解训练哦'))
+          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
         }
       } else {
         dispatch(alertMsg(msg))
@@ -329,7 +355,7 @@ export class PlanMain extends React.Component <any, any> {
       this.setState({showCompleteModal: true, showNextModal: false})
     } else {
       this.setState({showCompleteModal: false, showNextModal: false})
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本专题推荐学习天数至少为${this.state.mustStudyDays}天<br/>之后就可以开启下一专题了`))
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${this.state.mustStudyDays}天<br/>之后就可以开启下一小课了`))
     }
   }
 
@@ -408,10 +434,18 @@ export class PlanMain extends React.Component <any, any> {
 
   }
 
+  goRiseMemberTips(){
+    window.location.href = `http://${window.location.hostname}/pay/pay`
+  }
+
+  goOthers(){
+    this.context.router.push({ pathname: '/rise/static/problem/priority' })
+  }
+
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, selectProblem, defeatPercent,showNextModal,showNextSeriesModal } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal } = this.state
     const {
-      problem = {}, practice, point, introMsg, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
+      problem = {}, practice, point, section, chapter, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
     const practiceRender = (list = []) => {
       return list.map((item, index) => {
@@ -443,7 +477,6 @@ export class PlanMain extends React.Component <any, any> {
             {item.unlocked === false ?
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
             }
-
             <div className="body">
               <div className="title">{typeMap[item.type]}</div>
             </div>
@@ -456,16 +489,18 @@ export class PlanMain extends React.Component <any, any> {
       })
     }
 
+
+
     return (
       <div>
         {showScoreModal?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)} onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })} questionList={this.state.questionList}/>:null}
         <Modal header={{replace:true,children:<AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
-            buttons={[{click:()=>this.confirmNextPlan(),content:"下一专题"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
+            buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
             show={showCompleteModal}>
           <div className="content">
             <div className="text2">太棒了!</div>
           </div>
-          <div className="content2">你完成了本专题</div>
+          <div className="content2">你完成了本小课</div>
           <div className="content2">
             已得<span className="number">{point}</span>积分
           </div>
@@ -477,24 +512,24 @@ export class PlanMain extends React.Component <any, any> {
         <Modal show={showConfirmModal}
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
           <div className="content">
-            <div className="text">确定开始新专题吗</div>
-            <div className="text">当前专题的理解训练将无法查看</div>
+            <div className="text">确定开始新小课吗</div>
+            <div className="text">当前小课的巩固练习将无法查看</div>
           </div>
           <div className="content2">
-            <div className="text">（PC端应用训练仍然开放）</div>
+            <div className="text">（PC端应用练习仍然开放）</div>
           </div>
         </Modal>
 
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
 
         <Modal show={status===3}
-               buttons={[{click:()=>this.nextPlan(),content:"开始新专题"}]}
+               buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
                >
-          <div className="content"><div className="text">本专题已到期</div></div>
+          <div className="content"><div className="text">本小课已到期</div></div>
           <div className="content2">
             <div className="text">登录</div>
             <div className="text">www.iquanwai.com/community</div>
-            <div className="text">可继续完成专题/应用训练</div>
+            <div className="text">可继续完成小课/应用练习</div>
           </div>
         </Modal>
 
@@ -516,14 +551,16 @@ export class PlanMain extends React.Component <any, any> {
             : <AssetImg type="no_message" height={33} width={33}/>
           }
           </div>
+          {isBoolean(riseMember) && !riseMember?<div className={`trial-tip ${riseMemberTips?'open':''}`} onClick={()=>this.goRiseMemberTips()}>
+          </div>:null}
           <div className="plan-guide">
             <div className="section-title">{problem.problem}</div>
             <div className="section">
               <label>已完成:</label> {completeSeries}/{totalSeries}节训练
             </div>
-            <div className="section">
+            {riseMember?<div className="section">
               <label>距关闭:</label> {deadline}天
-            </div>
+            </div>:null}
             <div className="section">
               <label>总得分:</label> {point} 分
             </div>
@@ -532,19 +569,20 @@ export class PlanMain extends React.Component <any, any> {
         <div className="function-menu">
           <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
             <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
-            <span>专题分享</span>
+            <span>小课论坛</span>
           </div>
           <div className="right" onClick={() => this.problemReview(problem.id)}>
             <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
-            <span>专题详情</span>
+            <span>小课介绍</span>
           </div>
         </div>
-        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}/>
+        {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}
+            viewOtherProblem={this.goOthers.bind(this)}/>
           : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress">
-            <div className="bar"></div><span>第{series}节</span><div className="bar"></div>
-            <div className="introMsg">{introMsg}</div>
+            <div className="intro"><div className="intro-chapter">{chapter}</div><div className="bar"/></div>
+            <div className="intro-section">{section}</div>
           </div>
           <div className="plan-main">
             <div className="list">

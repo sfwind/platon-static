@@ -113,6 +113,9 @@
       background: #cccccc;
     }
   }
+  &.disabled {
+    background: #cccccc;
+  }
 }
 
 .context {
@@ -154,10 +157,12 @@
 }
 
 .header-img {
+  position: relative;
   background-color: @color_weak_background;
   img {
     display: block;
   }
+  overflow: hidden;
 }
 
 .weui_dialog {
@@ -176,7 +181,9 @@
   white-space: -moz-pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
-  padding: 15px 0;
+  padding: 10px 0;
+  line-height: 2.0em;
+  color: #333;
 }
 
 .submit {

@@ -27,3 +27,15 @@ export function createPlan(problemId) {
 export function welcome() {
   return pget(`/rise/plan/welcome`)
 }
+
+export function memberDescription() {
+  return pget(`/rise/problem/member/description`)
+}
+
+export function trial() {
+  return pget(`/rise/plan/mark/trial`)
+}
+
+export function becomRiser() {
+  return pget(`/rise/plan/mark/becomerise`)
+}

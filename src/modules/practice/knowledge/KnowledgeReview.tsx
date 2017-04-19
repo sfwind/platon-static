@@ -45,17 +45,28 @@ export class KnowledgeReview extends React.Component<any,any>{
 
   render(){
     const {showProblem,data,showKnowledge,knowledge} = this.state;
-    const {roadMapList=[]} = data;
+    const {chapterList=[]} = data;
 
-    const renderKnowledge = (knowledgeList) => {
+    const renderRoadMap = (chapter, idx) => {
+      const {sections} = chapter
+      return (
+          <div key={idx}>
+            <div className='chapter'>{'第'+chapter.chapter+'章 '}{chapter.name}</div>
+            {sections?sections.map((section, idx) => renderSection(section, idx, chapter.chapter)):null}
+          </div>
+      )
+    }
 
-      return knowledgeList.map((knowledge, idx)=> {
-        return (
-            <div key={idx} className="content" onClick={this.goKnowledgeIntro.bind(this, knowledge)}>
-              {knowledge.knowledge}
-            </div>
-        )
-      })
+    const renderSection = (section, idx, chapter) => {
+      return (
+      section.integrated?
+          <div key={idx}>
+            <div className='section'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
+          </div>:
+          <div key={idx} onClick={this.goKnowledgeIntro.bind(this, section.knowledge)}>
+            <div className='section click'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
+          </div>
+      )
     }
 
     return(
@@ -64,36 +75,16 @@ export class KnowledgeReview extends React.Component<any,any>{
           showKnowledge?
           <KnowledgeViewer knowledge={knowledge} closeModal={()=>this.setState({showKnowledge:false})}/> :
           <div className="problem-detail">
-            <div className="detail-header click" onClick={()=>this.setState({showProblem:true})}
-                 style={{marginBottom:'10px',borderBottom:"none"}}>
+            <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={()=>this.setState({showProblem:true})}>
               <div className="header-label" style={{float:"left"}}>
-                专题详情
+                小课介绍
               </div>
             </div>
             <div className="detail-header">
-              专题知识点
+              小课知识点
             </div>
             <div className="detail-container">
-              {roadMapList ? roadMapList.map((item, index) => {
-                    return (
-                    item.integrated?
-                        <div key={index} className="item">
-                          <div className="label">
-                            第{item.series}节{' '}{item.step}
-                          </div>
-                          <div className="integrated">
-                            {item.knowledgeList[0].knowledge}
-                          </div>
-                        </div>
-                        :
-                        <div key={index} className="item">
-                          <div className="label">
-                            第{item.series}节{' '}{item.step}
-                          </div>
-                          {renderKnowledge(item.knowledgeList)}
-                        </div>
-                    )
-                  }) : null}
+              {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}
             </div>
           </div>
     )

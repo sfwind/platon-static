@@ -52,7 +52,7 @@ export class PlanIntro extends React.Component <any, any> {
             <div className="text">你需要每天完成<span className="number">1</span>组，完成后第二天早上<span className="number">6</span>点会解锁下一组</div>
             <div className="text">你共有<span className="number">{length}</span>天完成所有的训练，截止日期如下：</div>
             <div className="date">{endDate}</div>
-            <div className="text">训练到期后会自动关闭。完成该专题的训练后，可以继续选择下一个专题训练</div>
+            <div className="text">训练到期后会自动关闭。完成该小课的训练后，可以继续选择下一个小课</div>
             <div className="text">点击下方按钮，开始第一天的训练吧</div>
           </div>
         </div>
