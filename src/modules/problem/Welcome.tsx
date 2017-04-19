@@ -143,7 +143,7 @@ export class Welcome extends React.Component <any, any> {
                       <div>
                         <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
                         <div className="guide-msg">
-                          你知道吗？我们从了解知识概念、到用它来解决问题，中间还差一个刻意练习的距离。RISE就提供这样的刻意练习
+                          相信你也知道，我们从了解知识概念、到用它来解决问题，中间还差一个刻意练习的距离。RISE就提供这样的刻意练习
                         </div>
                       </div>:null}
                 </div>
