@@ -180,7 +180,7 @@ export class Main extends React.Component <any, any> {
               <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">
-              <div className="submit-bar"><span className="padding"></span>{ content === null?'提交方式':'我的作业'}</div>
+              <div className="submit-bar"><span className="padding"></span>{ content === null?'提交方式':'我的目标'}</div>
               {renderTip()}
               {edit?
                   <div className="editor">
