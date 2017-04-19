@@ -114,7 +114,7 @@ export class Welcome extends React.Component <any, any> {
   }
 
   closeModal(){
-    this.setState({description:false})
+    this.setState({description:false},()=>{ scroll(0,window.innerHeight);})
   }
 
   render() {
@@ -203,7 +203,7 @@ export class Welcome extends React.Component <any, any> {
               {show7?
                   <div className="tips" onClick={()=>this.setState({description:true})}>
                     <span>什么是正式版／试用版</span>
-                    <img height={12} width={12} src="http://www.iqycamp.com/images/fragment/question_rise.png"/>
+                    <img style={{margin:'-1px 0'}} height={12} width={12} src="http://www.iqycamp.com/images/fragment/question_rise.png"/>
                   </div>:null
               }
             </div>
