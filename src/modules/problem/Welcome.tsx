@@ -76,8 +76,11 @@ export class Welcome extends React.Component <any, any> {
   }
 
   becomeRiser(){
-    becomRiser();
-    window.location.href = `http://${window.location.hostname}/pay/pay`
+    becomRiser().then(()=>{
+      window.location.href = `http://${window.location.hostname}/pay/pay`
+    }).catch(()=>{
+      window.location.href = `http://${window.location.hostname}/pay/pay`
+    });
   }
 
   got(){
