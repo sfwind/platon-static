@@ -13,7 +13,7 @@ export default class Work extends React.Component<any,any> {
 
     this.state = {
       showAll: false,
-      filterContent:isString(props.content)?props.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
+      filterContent:isString(props.content)?props.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):""
     }
   }
 
@@ -26,7 +26,7 @@ export default class Work extends React.Component<any,any> {
   componentWillReceiveProps(nextProps){
     if(nextProps.content && !this.props.content){
       this.setState({
-        filterContent:isString(nextProps.content)?nextProps.content.replace(/<\/?.+?>/g,"").replace(/&nbsp;/g,""):""
+        filterContent:isString(nextProps.content)?nextProps.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):""
       })
     }
   }
