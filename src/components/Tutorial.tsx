@@ -61,7 +61,7 @@ export default class Tutorial extends React.Component<any,any> {
       this.props.show?<div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
 
       <div className="tutorial" onClick={()=>this.next()}>
-        <SwipeableViews style={{height:'100%',width:'100%'}} containerStyle={{height:'100%',width:'100%'}}
+        <SwipeableViews style={{height:'100%',width:'100%'}} slideStyle={{height:"100%",width:"100%",overflow:'hidden'}} containerStyle={{height:'100%',width:'100%'}}
                         index={index} onSwitching={(index,type)=>this.onSwitching(index,type)} resistance={true}>
           {this.state.bgList.map((item, seq) => {
             return (<div className="item">
