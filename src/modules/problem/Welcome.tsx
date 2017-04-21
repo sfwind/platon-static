@@ -49,7 +49,6 @@ export class Welcome extends React.Component <any, any> {
   }
 
   componentDidMount(){
-    welcome()
     setTimeout(() => {
       this.setState({show:true})
     }, 500)
