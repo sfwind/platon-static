@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { welcome,trial,becomRiser } from "./async";
+import { welcome,trial,becomRiser,mark } from "./async";
 import "./Welcome.less";
 import { welcome } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
@@ -83,6 +83,7 @@ export class Welcome extends React.Component <any, any> {
   }
 
   got(){
+    mark({module:"RISE",function:"打点",action:"点击怎么练习呢",memo:"欢迎页"});
     const {scroll} = this.state
 
     setTimeout(() => {

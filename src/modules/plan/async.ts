@@ -56,3 +56,6 @@ export function promote() {
   return pget(`/rise/plan/promote`)
 }
 
+export function mark(param){
+  return ppost('/rise/b/mark',param);
+}

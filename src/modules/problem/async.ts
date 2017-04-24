@@ -39,3 +39,7 @@ export function trial() {
 export function becomRiser() {
   return pget(`/rise/plan/mark/becomerise`)
 }
+
+export function mark(param){
+  return ppost('/rise/b/mark',param);
+}
