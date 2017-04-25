@@ -93,10 +93,13 @@ export class AnalysisNew extends React.Component <any, any> {
     const {knowledge} = data
 
     const questionRender = (practice) => {
-      const {id, question, voice, analysis, choiceList = [], score = 0, discussList = []} = practice
+      const {id, question, pic, analysis, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div>
           <div className="intro-container">
+            {pic ? <div className="context-img">
+                  <AssetImg url={pic}/></div>:null
+            }
             <div className="question">
               <div dangerouslySetInnerHTML={{__html: question}}></div>
             </div>

@@ -7,6 +7,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import Tutorial from "../../../components/Tutorial"
+import AssetImg from "../../../components/AssetImg";
 
 const sequenceMap = {
   0: 'A',
@@ -184,16 +185,16 @@ export class Main extends React.Component <any, any> {
     const { practice = [] } = list
 
     const questionRender = (practice) => {
-      const { question, voice, analysis, choiceList = [], score = 0 } = practice
+      const { question, pic, choiceList = [], score = 0 } = practice
       return (
         <div className="intro-container">
           { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
             <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
             <span className="type"><span className="number">{score}</span>分</span>
           </div> : null}
-          { voice ? <div className="context-audio">
-            <Audio url={voice}/>
-          </div> : null }
+          {pic ? <div className="context-img">
+             <AssetImg url={pic}/></div>:null
+          }
           <div className="question">
             <div dangerouslySetInnerHTML={{__html: question}}></div>
           </div>

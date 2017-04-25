@@ -127,7 +127,7 @@ export class Analysis extends React.Component <any, any> {
     const {practice = []} = list
 
     const questionRender = (practice) => {
-      const {id, question, choiceList = [], score = 0, discussList = []} = practice
+      const {id, question, pic, choiceList = [], score = 0, discussList = []} = practice
       return (
         <div>
           <div className="intro-container">
@@ -135,6 +135,9 @@ export class Analysis extends React.Component <any, any> {
                 <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
                 <span className="type"><span className="number">{score}</span>分</span>
               </div> : null}
+            {pic ? <div className="context-img">
+                  <AssetImg url={pic}/></div>:null
+            }
             <div className="question">
               <div dangerouslySetInnerHTML={{__html: question}}></div>
             </div>
