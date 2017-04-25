@@ -12,7 +12,7 @@ export default class DiscussShow extends React.Component <any, any> {
 
   render() {
     const { discuss, reply } = this.props
-    const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,warmupPracticeId } = discuss
+    const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,warmupPracticeId,role } = discuss
     return (
         <div key={id} className="comment-cell">
           <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
@@ -21,6 +21,10 @@ export default class DiscussShow extends React.Component <any, any> {
               <div className="comment-name">
                 {name}
               </div>
+              {role==3||role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
+              {role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+              {role==6||role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
+              {role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
               <div className="comment-time">{discussTime}</div>
               {priority === 1 ?
                   <div className="right">

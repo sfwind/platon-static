@@ -254,8 +254,7 @@ export class ReplySubjectMessage extends React.Component<any,any>{
       <div className="reply-subject has-footer">
         <div className="pull-target">
           <div className="reply-header">
-            {work?<Work onEdit={()=>this.onEdit(work)} operation={false} avatarStyle={"top"}
-                  headImage={work.headImage} userName={work.userName} {...work}/>:null}
+            {work?<Work onEdit={()=>this.onEdit(work)} operation={false} avatarStyle={"top"} {...work}/>:null}
           </div>
           <div className="submit-bar">评论</div>
           <div className="comment-body">

@@ -185,6 +185,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                             "repliedName": "风之伤",
                             "repliedComment": "评论评论评论",
                             "warmupPracticeId": 49,
+                            "role":3,
                             "name":"Diane",
                             "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
                             "discussTime":"10:30",
@@ -199,6 +200,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                             "repliedComment": null,
                             "warmupPracticeId": 49,
                             "name":"风之伤",
+                            "role":8,
                             "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
                             "discussTime":"10:38"
                           }
@@ -451,6 +453,7 @@ router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
             "id":2,
             "repliedId": 1,
             "comment":"回复回复",
+            "role":4,
             "repliedName": "风之伤",
             "repliedComment": "评论评论评论",
             "warmupPracticeId": 49,
@@ -462,6 +465,7 @@ router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
           {
             "id":1,
             "repliedId": null,
+            "role":6,
             "comment":"评论评论评论",
             "repliedName": null,
             "repliedComment": null,
@@ -524,6 +528,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
                     {
                         "title": null,
                         "userName": "nethunder",
+                        "role":3,
                         "submitUpdateTime": "2017-03-24",
                         "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
                         "content": "微博 [cp]今天难得和老爸下馆子聊天，他有些小抱怨。能立即进入移情倾听模式吗？能意识到情绪背后的诉求吗？能试着不去判断他的想法对错吗？回到聊天的目的是什么，是加强理解和沟通而非判断是非，即使是解释了也未必能改变想法。然而通常我们是害怕不解释不纠正，对方会继续错下去。先判断，再强加，这完全是和沟通的目的南辕北辙。[/cp]\n感觉对倾听的要素没有很清晰的分类，写的时候一直在想要按照逻辑去分，但有点难。现在思考，首先是明确和老爸吃饭聊天的目的是加强沟通增进感情，然后在意识到老爸这么说是在发泄情绪，接着开启移情倾听模式，然后时刻保持意识自己是否在判断老爸的对错，回到倾听和理解而非去解释和纠正。\n修改后的微博：\n今天难得和老爸吃饭聊天，快一年没见面真的要和老爸好好联络感情呢。老爸谈起一些家庭琐事的小抱怨，我又忍不住开始解释：其实也不是那样的。。。这是个很好的机会练习移情聆听呀。首先记得和老爸聊天的目的是增加沟通，尽量让老爸多说说他的想法；意识到小抱怨其实是在发泄情绪了，马上进去移情聆听的状态，控制自己不去判断和解释，耐心等老爸说完。嗯，下次应该能做得更好。",
@@ -543,6 +548,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
                     {
                         "title": null,
                         "userName": "nethunder",
+                        "role":5,
                         "submitUpdateTime": "2017-03-24",
                         "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
                         "content": "最近只有转发，没有自创。\n还是不瞎编了吧。",
@@ -562,6 +568,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
                     {
                         "title": null,
                         "userName": "nethunder",
+                        "role":6,
                         "submitUpdateTime": "2017-03-24",
                         "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
                         "content": "是没有做到MECE完全独立，无穷大",
@@ -581,6 +588,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
                     {
                         "title": null,
                         "userName": "nethunder",
+                        "role":7,
                         "submitUpdateTime": "2017-03-24",
                         "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
                         "content": "招聘工作分析\n年后一个月招聘旺季，但是最近招聘成效很差，主要可能存在以下几个问题：\n1.无人投递简历。\n2.新公司搬到安亭，距离较远。\n3.薪资待遇不高，出差补贴低。\n",
@@ -600,6 +608,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
                     {
                         "title": null,
                         "userName": "nethunder",
+                        "role":8,
                         "submitUpdateTime": "2017-03-24",
                         "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
                         "content": "拿最近一次的项目Email为例子\n改动前\nMy duties of the tournament\nDesign the questionaire for tournament feedback collection；\nManage Registration payment(Company Alipay)：Check and feedback every payment during the registration； \nPurchase tournament supplies which include: Tee/Tee marker/flag/towel/unbrella/skin coat for outsourses team/tent/badage；\nPurhase Office and players' supplies；\nHotel arrangement for committee and part of paid clients and potencial clients;\nTransportation for picking up and drop off the airport for committee/players/coach;\nManage the catering for committee;\nShuttle car from hotel to club house;\nManage the cashflow and payment to outsource team;\nManage the invoices from all parties;\nManage the award ceremony;\nPacking with the team and clean up.\n\n改动后\nBefore the tournament（赛前）\nDesign the questionaire for tournament feedback collection；\nManage Registration payment(Company Alipay)：Check and feedback every payment during the registration； \nPurchase tournament supplies which include: Tee/Tee marker/flag/towel/unbrella/skin coat for outsourses team/tent/badage；\nPurhase Office and players' supplies；\nHotel arrangement for committee and part of paid clients and potencial clients;\nTransportation for picking up and drop off the airport for committee/players/coach;\n\nDuring the tournament（赛中）\nManage the catering for committee;\nShuttle car from hotel to club house;\nManage the award ceremony;\n\nAfter the Tournament（赛后）\nManage the cashflow and payment to outsource team;\nManage the invoices from all parties;\nPacking with the team and clean up.",
@@ -619,6 +628,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
                     {
                         "title": null,
                         "userName": "nethunder",
+                        "role":4,
                         "submitUpdateTime": "2017-03-24",
                         "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
                         "content": "之前整理了一个会议纪要，见图片1；\n后来从分层归类角度又重新整理一下，见图片2\n调整的重点：重新归类，重新分组，主线更清晰，要点更明确。",
@@ -654,285 +664,12 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
                         "labelList": null,
                         "picList": []
                     },
-                    {
-                        "title": null,
-                        "userName": "nethunder",
-                        "submitUpdateTime": "2017-03-24",
-                        "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
-                        "content": "查看了最近发的一封邮件，发现自己已有意识地按照分层归类的要求来做了。\n\nX1项目分析\n\n公司简介\n\nX1致力于把制造能力互联网化，通过机器胶囊项目（Roboocap.com）让所有人可以非常方便地使用3D打印机、激光切割机、雕刻机和五轴CNC等制造装备来完成创造性的工作。机器胶囊是新一代的“制造云”。\n\n主要结论：不接这个项目\n\n为评估这个项目的可行性，我从网络渠道、上轮投资者、竞争对手等方面做了深入了解。\n\n1、网络方面，看了企查查、因果树等投资大数据平台，发现做云制造这一块的项目还非常少，资本介入也不活跃；\n2、上轮投资者方面，与X1项目两轮投资机构上海合力投资的投资经理电话聊了，总体感觉这是一个慢热的市场，3D云制造这一块需求端不够活跃，场景也不够清晰，那么供给端很难维持。未来还是主要往toB走，核心在于设备和物联网的成熟。\n3、竞争对手方面，与X1主要竞争对手X2的创始人XX面对面做了交流，实地参观了X2的制造车间，了解到X2虽然走访了3000多家制造企业，筛选出合格的2000多家，但是长期维持合作的企业就十几家。从供给端的数量可以推测需求端的量是非常少的。这是一个没有爆发潜质的项目，也没有核心的壁垒。据XX介绍，制造工业的成长需要较长时间的积累，才能形成品牌信誉度。IDG也看了X2项目，反馈是前景看好，但是还为时过早。\n\n",
-                        "voteCount": 0,
-                        "commentCount": 0,
-                        "submitId": 955,
-                        "type": 11,
-                        "voteStatus": 0,
-                        "priority": 0,
-                        "perfect": null,
-                        "problemId": null,
-                        "authorType": null,
-                        "isMine": null,
-                        "labelList": null,
-                        "picList": []
-                    },
-                    {
-                        "title": null,
-                        "userName": "nethunder",
-                        "submitUpdateTime": "2017-03-24",
-                        "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
-                        "content": " 透过一扇小窗看到的大智慧\n \n 记得在参加完雅思考试之后，曾经引发过自己的深入思考。\n\n 将近一个半月的复习备考正式宣告结束。在这一个半月中，魔鬼式的集中上课、复习、刷题，自然英语水平自己都感觉到蹭蹭地往上窜。但更重要的是，这段时间让我一直在思考一个问题，那就是逻辑思维的问题。\n \n 问题的起源来自于一篇雅思剑桥的阅读材料，大意是说语言的演化和发展。其中有一段提到，一门语言就是一个思维体系，不同语言的不同表达方式其实本质上反映的是不同人群的思维方式，而一门语言的消失实际上是人类的一大损失，因为它终结了一种完全不同的思维体系，大大阻碍了人类思维多样性的发展。\n\n 坦白地讲，学了这么多年英语，还从未想过这个问题，我们始终关注的是单词、语法、阅读等等。现在想想，原来始终没有领会语言的精髓。就雅思英语阅读而言，判断题始终围绕着简单的逻辑判断和推理，只要掌握其逻辑判断准则，自然正确率大大提高；而阅读中的段落大意、匹配等，本质上与写作和口语体现了同样的逻辑思维方式，那就是论据始终要为论点服务，要说服别人，就要表明自己的观点，然后用一些论据来展开说明，说明中利用各种论证方法，尤以举例最易于人接受，而整个推理过程都要合乎逻辑，才能更让人信服，也更乐于接受你的观点。写作如此，口语交流亦如此。\n\n 另一方面，从人类学习语言的整个过程来看，听力和阅读实际上是语言的输入，口语和写作则是语言的输出，从输入到输出是个漫长的过程，很多人输入没问题，输出却始终很难进步，关键的原因恐怕也在于没有掌握英语的思维方式这一精髓，这也是为什么大多数中国学生在这两方面普遍薄弱的主要原因。\n\n 可以说，逻辑思维是我在这次雅思备考中的最大收获。当我重新回到生活和工作中时，居然发现在很多方面都会遇到类似的情况。有次偶然看到美国加州小学生教材，发现数学教材里讲解的重点都是逻辑思维方法，语文教材里讲的依然是怎样用逻辑方法进行分析阅读。看到这里，我恍然大悟，中国和美国孩子的区别原来从这里就开始萌芽。说得更一般些，生活中为了一件事想要说服别人，你要充分了解事情的前因后果，然后提出自己的观点，摆出事实来说明，每一步都合情合理才能最终达到目的。工作中更是如此，为了说服同事接受你的一个提案，需要做大量的调查分析，指出问题所在，提出自己的解决方案，更要根据事实甚至是数据来说理，最终证明自己方案的合理性和可行性。\n\n 关于这一点，最近正好看了一些关于麦肯锡公司的书籍，其中都提到了关于逻辑思考的问题。在《思考的技术》中，作者大前研一提到“解决问题的根本就是逻辑思考力，逻辑思考力不但能够让问题迎刃而解，而且我们一般常说的先见之明、直觉也是从逻辑思考中产生的”，这与我最近备考的收获不谋而合。看来不论什么行业，给人们带来质的飞跃的关键点始终在于思维方式和逻辑思考。而这些都是哲学范畴的内容，哲学作为科学的科学，正是当之无愧。\n\n 写到这里，反观这篇文章的结构，也正是运用了逻辑思维方法，这与我从前的写作方式完全不同，但是却深刻感受到思路的清晰和行文的流畅（请允许我自恋一下哈！），看来逻辑思维已经开始潜移默化地影响我，这让我不禁再一次感叹：逻辑思维无处不在！\n\n",
-                        "voteCount": 0,
-                        "commentCount": 0,
-                        "submitId": 506,
-                        "type": 11,
-                        "voteStatus": 0,
-                        "priority": 0,
-                        "perfect": null,
-                        "problemId": null,
-                        "authorType": null,
-                        "isMine": null,
-                        "labelList": null,
-                        "picList": []
-                    },
-                    {
-                        "title": null,
-                        "userName": "nethunder",
-                        "submitUpdateTime": "2017-03-24",
-                        "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
-                        "content": "1.背景：\n目前考研中的风险和问题\n考研原因、意愿及各比例、实际考研人数、考研失败人数、录取率等数据查询\n2.价值性（目的、功能）（能够反映经济社会民生保障、行业发展要求，为现实生活风险提供保障--能解决什么问题）\n3.相关保险研究现状、创新性（市场上没有，有前瞻性，市场空间大，或者对已有的进行较大改进或优化）\n4.可行性分析（技术、制度、政策）\n5.风险控制及应对（免责？）\n\n\n1.相关数据搜集（需查大量资料）、背景（为什么、目前问题）、价值性（能够反映经济社会民生保障、行业发展要求，为现实生活风险提供保障）\n\n2.问卷调查分析（问卷设计、对回收问卷结果分析）、保险目的（要解决什么达到什么），创新性（市场上没有，有前瞻性，市场空间大，或者对已有的进行较大改进或优化）\n\n2.合同设计资料：考研成本（经济、时间、心理），本科毕业就业时间，就业率，考研就业时间就业率，本科及考研就业薪资情况等",
-                        "voteCount": 0,
-                        "commentCount": 0,
-                        "submitId": 253,
-                        "type": 11,
-                        "voteStatus": 0,
-                        "priority": 0,
-                        "perfect": null,
-                        "problemId": null,
-                        "authorType": null,
-                        "isMine": null,
-                        "labelList": null,
-                        "picList": []
-                    }
-                ],
-                "highlightList": [
-                    {
-                        "title": null,
-                        "userName": "nethunder",
-                        "submitUpdateTime": "2017-03-24",
-                        "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
-                        "content": "讨论某男生喜欢怎么样的女生。\n【性格】\n开朗、乖巧、体贴人、萌萌哒、孝顺\n【价值观】\n物欲不强、上进、自强、独立\n【兴趣】\n散步、做饭\n【知识】\n金融/政治常识、心理/行为学\n【能力】\n做家务、煮饭、沟通、思维\n",
-                        "voteCount": 0,
-                        "commentCount": 0,
-                        "submitId": 1572,
-                        "type": 11,
-                        "voteStatus": 0,
-                        "priority": 1,
-                        "perfect": null,
-                        "problemId": null,
-                        "authorType": null,
-                        "isMine": null,
-                        "labelList": null,
-                        "picList": []
-                    },
-                    {
-                        "title": null,
-                        "userName": "nethunder",
-                        "submitUpdateTime": "2017-03-24",
-                        "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
-                        "content": "原文：\n摩拜只能手动关锁吗？忘记关锁的话就不能APP关锁，还要再折回去岂不是麻烦！万一回去关锁前别人骑走了咋整？\n\n用分层归类发调整后：\n\n摩拜单车使用完后，忘记关锁人就走了，怎么办？\n1、返回后发现车没被人骑走，那恭喜你，手动把锁关上就好了\n2、返回后发现车没锁的情况下又被别人骑走了，唯一办法：打客服电话\n\n",
-                        "voteCount": 0,
-                        "commentCount": 0,
-                        "submitId": 1098,
-                        "type": 11,
-                        "voteStatus": 0,
-                        "priority": 1,
-                        "perfect": null,
-                        "problemId": null,
-                        "authorType": null,
-                        "isMine": null,
-                        "labelList": null,
-                        "picList": []
-                    },
-                    {
-                        "title": null,
-                        "userName": "nethunder",
-                        "submitUpdateTime": "2017-03-24",
-                        "headImage": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLA6Yg58o1S3RwgdnMAIt01fo39veibmsokIa7NuaZ1m8fmxAL9VUdjyHHib5iaLSf1ZnzhawhdPcicicTnfVnyFlUViaRXyjnNibuTNws/0",
-                        "content": "构建外卖业务指标体系，使用了分层归类的方法：\n一级分类：用户、商家、配送、订单\n二级分类：\n用户：用户特征；用户反应\n商家：基本属性、营销、经营、服务、商家分级\n订单：流量分流、交易属性、传播行为、配送属性\n\n在构建指标体系时，用到：海盗指标法、4w。",
-                        "voteCount": 0,
-                        "commentCount": 0,
-                        "submitId": 588,
-                        "type": 11,
-                        "voteStatus": 0,
-                        "priority": 1,
-                        "perfect": null,
-                        "problemId": null,
-                        "authorType": null,
-                        "isMine": null,
-                        "labelList": null,
-                        "picList": []
-                    }
                 ],
                 "end": false
             },
             "code": 200
         }
     )
-  },Math.random()*1500);
-});
-
-router.get("/rise/practice/challenge/list/other/*",(req,res)=>{
-  setTimeout(()=>{
-    res.status(200).json(
-      {
-        "msg": [
-          {
-            "title": null,
-            "userName": "薛定谔的猫",
-            "submitUpdateTime": "2017-01-24",
-            "headImage": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
-            "content": "ffefrgergerghthhthfewfewffewffwefwef",
-            "voteCount": 1,
-            "commentCount": 29,
-            "submitId": 71,
-            "type": 21,
-            "voteStatus": null
-          },
-          {
-            "title": null,
-            "userName": "张凯雯",
-            "submitUpdateTime": "2017-01-21",
-            "headImage": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszvxogCNX1yV90K3QEa68sIXjVLuvaapaUUJOXw9P8qYcWlu3CuSsTEjdPuIoHhFWnIypmX6W84XzX/0",
-            "content": "今天跟所有人说话前，都先停30先想逻辑",
-            "voteCount": 1,
-            "commentCount": 8,
-            "submitId": 73,
-            "type": 21,
-            "voteStatus": null
-          },
-          {
-            "title": null,
-            "userName": "薛定谔的猫",
-            "submitUpdateTime": "2017-02-04",
-            "headImage": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
-            "content": "提交圈外\n\n首页\n\nRISE\n薛定谔的猫\n专题\n与人沟通时条理更清晰\n跟老板/家人提要求时更有说服力\n面对前所未有的新问题时撬开脑洞\n临场发言也能掷地有声\n与人撕逼时找到对方漏洞\n我的心得\nHi，欢迎来到圈外社区。\n请按照手机端挑战任务的页面提示，在这里记录下你学习的小目标、感悟或经历吧！\n小提示\n完成小目标，获得相应的积分。\n训练期间的每日收获，以及最后的......",
-            "voteCount": 1,
-            "commentCount": 5,
-            "submitId": 83,
-            "type": 21,
-            "voteStatus": null
-          },
-          {
-            "title": null,
-            "userName": "朱林源Juliet",
-            "submitUpdateTime": "2017-01-23",
-            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvW6lHtaHXaPO6w1U0cgicWyPMZBY35VByWwApxkvQrJXOX74DnLDicoias5uJMBryPcuNRAJULL7NCj96FPrAeQUKo/0",
-            "content": "完成训练后能更加条理清晰的与人沟通",
-            "voteCount": 1,
-            "commentCount": 4,
-            "submitId": 75,
-            "type": 21,
-            "voteStatus": null
-          },
-          {
-            "title": null,
-            "userName": "(*¯︶¯*)微笑、淡然",
-            "submitUpdateTime": "2017-01-26",
-            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvW6lHtaHXaPO5OpnUfXTwdgg2CYadWIbKia0JKe5GcAtZTbbk3jFMZag5Db0SkmWVUYbjaGeKgVOWpQm5HQ7kd5e/0",
-            "content": "测试",
-            "voteCount": 1,
-            "commentCount": 3,
-            "submitId": 76,
-            "type": 21,
-            "voteStatus": null
-          },
-          {
-            "title": null,
-            "userName": "圈外助手",
-            "submitUpdateTime": "2017-01-26",
-            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvVx3HW1ha4UP24Grs1Pfwu2Rm7mYEOofNQKibosic8O0A1DMMkpAHH2cxagMO5moGgeMDTxk6cU4h7mYwtMzFJ5Xm/0",
-            "content": "tewtwe",
-            "voteCount": 1,
-            "commentCount": 2,
-            "submitId": 77,
-            "type": 21,
-            "voteStatus": null
-          },
-          {
-            "title": null,
-            "userName": "圈外助手",
-            "submitUpdateTime": "2017-01-26",
-            "headImage": "http://wx.qlogo.cn/mmopen/DRC1udVVibvVx3HW1ha4UP24Grs1Pfwu2Rm7mYEOofNQKibosic8O0A1DMMkpAHH2cxagMO5moGgeMDTxk6cU4h7mYwtMzFJ5Xm/0",
-            "content": "est",
-            "voteCount": 0,
-            "commentCount": 2,
-            "submitId": 78,
-            "type": 21,
-            "voteStatus": null
-          },
-          {
-            "title": null,
-            "userName": "张凯雯",
-            "submitUpdateTime": "2017-02-19",
-            "headImage": "http://wx.qlogo.cn/mmopen/JeB8LAjhPIcjw65snUszvxogCNX1yV90K3QEa68sIXjVLuvaapaUUJOXw9P8qYcWlu3CuSsTEjdPuIoHhFWnIypmX6W84XzX/0",
-            "content": "表达更清晰",
-            "voteCount": 0,
-            "commentCount": 0,
-            "submitId": 93,
-            "type": 21,
-            "voteStatus": null
-          }
-        ],
-        "code": 200
-      }
-    )
-  },Math.random()*1500);
-});
-
-router.get("/rise/practice/comment/*",(req,res)=>{
-  setTimeout(()=>{
-    res.status(200).json(
-      {
-        "msg": {"list":[
-          {
-            "id": 52,
-            "content": "fff ",
-            "upName": "薛定谔的猫",
-            "upTime": "2017-01-23",
-            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
-          },
-          {
-            "id": 51,
-            "content": "测试评论",
-            "upName": "薛定谔的猫",
-            "upTime": "2017-01-23",
-            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
-          },
-          {
-            "id": 38,
-            "content": "test",
-            "upName": "薛定谔的猫",
-            "upTime": "2017-01-22",
-            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
-          },
-          {
-            "id": 37,
-            "content": "fewfwef",
-            "upName": "薛定谔的猫",
-            "upTime": "2017-01-22",
-            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
-          },
-          {
-            "id": 36,
-            "content": "comment",
-            "upName": "薛定谔的猫",
-            "upTime": "2017-01-22",
-            "headPic": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0"
-          }
-        ],
-        "end": true,
-        },
-        "code": 200
-      }
-    );
   },Math.random()*1500);
 });
 
@@ -955,7 +692,7 @@ router.post("/rise/practice/check/*",(req,res)=>{
 
 router.get("/rise/practice/subject/list/*",(req,res)=>{
   setTimeout(()=>{
-    res.status(200).json({"msg":{"list":[{"title":"团队成员的绩效表现为什么不佳？","userName":"Chloé\uD83C\uDF38","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0","content":"如图所示<img src=\"http://www.confucius.mobi/images/subject/subject-pefect5.jpeg\" width=\"90%\"/>","voteCount":0,"commentCount":2,"submitId":8,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":2,"isMine":false,"labelList":[{"id":20,"labelId":21,"articleModule":3,"articleId":8,"del":false}],"picList":["http://www.confucius.mobi/images/subject/subject-pefect5.jpeg"]},{"title":"早上起不来的真正原因","userName":"Chloé\uD83C\uDF38","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0","content":"学习了找到本质问题，减少无效努力之后，通过5个为什么终于找到了一直困扰个人无法早起而产生焦虑的本质问题。\n\n发现本质问题的过程是这样的：最近自己一直无法早起而产生焦虑等情绪，利用5个为什么不断追问，挖掘出焦虑的原因是对个人目前现状不满意。而针对此问题是否是本质问题呢？又通过多次问了几个为什么，为什么对现状不满意，是因为最近工作不是很顺利，为什么工作不顺利，是因为老板给别人加薪，却没有给自己加薪，让自己感觉到自己能力不够，所以才没有加薪。那究竟是哪方面的能力不够呢，反观其他被加薪的同事，然后对比自身情况，发现个人独立带团队和领导的能力不足，导致个人没有加薪也无晋升，所以才产生了一系列的焦虑情绪，而自己为了让个人好受一些，就想要通过早起来摆脱这些情绪，但是这样做无非是头痛医脚，没有作用。\n\n所以通过多问几个为什么，发现情绪背后或事件背后的本质问题，然后对症下药，才能真正做到药到病除，否则都是无用功。","voteCount":0,"commentCount":1,"submitId":14,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":2,"isMine":false,"labelList":[],"picList":[]},{"title":"致新人：先把事情做对，再把事情做好","userName":"神韵-Albert Han","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/PiajxSqBRaEJnd7yZzEtibGKDFMaDaNQaZUtUPBJCtlhfPkYPUViaQ89NBNLv6RoHGluMgGyGKAMAFBLg7nUichNpg/0","content":"<p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">引子：初入职场，学会提问，能让你少走弯路</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">今天的文章来自后台一位读者的提问：</span></p><blockquote style=\"border: 0px; margin: 0px; padding: 0px; font-size: 14px; color: rgb(102, 102, 102); font-family: 微软雅黑;\"><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; color: rgb(0, 0, 0); text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我刚参加工作不久。当时面试进入这家公司很不容易，这家公司在行业内也蛮有名的。我被分配到一个项目组里，老大和同事人都不错，每天也有开始教我一些东西。公司定期会有培训，感觉自己要学习的东西特别多。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; color: rgb(0, 0, 0); text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我渐渐觉得压力很大，分配给我的工作我都尽量认真做好，想给大家留下一个好印象，但是总是不得要领，总犯低级错误。看到周围跟我同时期进来的人已经开始能够做一些小项目了，我还是原地踏步。我有时候觉得好急，可也不知道该怎么办，我是不是太笨了？</span></p></blockquote><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">首先我想说，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">你一心想把事情做好的这份心很值得赞赏</span></strong>。比起我见过的很多跟你差不多年龄却已经开始每天想着怎么在工作上偷懒混日子的人强多了。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">其次，我猜你可能还没有掌握这份工作的要领，或者说，还<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">没有熟悉你真正的岗位职责</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/917634eae2ee47c5bddea16fb8bc8bc9_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<span style=\"border: 0px; margin: 0px; padding: 0px;\">我说的岗位职责可不仅仅是招聘面试上写的那一段“岗位要求”的文字。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">先说个身边的例子。我有个朋友，她的第一份工作是做助理。她的老板是一个典型雷厉风行的女强人。初进入这家杂志公司的时候，她每天都提心吊胆，生怕自己做错了什么事情。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这个情景很像电影《穿 Prada 的恶魔》里的剧情。有一次老板的女儿过生日，安排她去订一个生日蛋糕，她顺手订了一个巧克力口味的。结果好巧不巧老板的女儿什么口味都能吃，唯独不喜欢吃巧克力口味的。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">她在订蛋糕之前并没有询问过口味的喜好，更不要说蛋糕尺寸的大小，蜡烛要几根，是否要加特殊的食材等等。最后的结果是蛋糕已经订好，生日 Party 也已经准备就绪，木已成舟只能“顺”水推舟。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">那家公司在招聘面试上写的岗位职责，可绝不会写“帮老板订生日蛋糕”这种事情，但却实实在在发生了。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/7fbbfbc6a5e94817acabaed731aec7bb_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">而她犯的错误其实很多职场新人都容易犯：<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">做事会按照自己以往的风格习惯来，而不是适应职场上的“新习惯”</span></strong>。我猜提问的这位读者，你在每天的实际工作中也经常碰到类似这样的问题。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">想把事情做好没错，但是在做好之前有个大前提，叫<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">“先把事情做对”</span></strong>。刚开始工作的头一两年，更多是需要熟悉自己的岗位，公司和同事之间的规则。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这个规则有人情世故，有职能划分，有效果评定，有奖惩规章，还有公司文化等等。在完全掌握这些规则之前，尽量先让自己把事情做“对”，做到六七十分，再去想怎么做到九十分一百分甚至一百二十分。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">一步登天青云直上的人有，但这就跟摸彩票一样是天时地利人和的结果，可模仿性很小。况且，人家背后所付出的艰辛也远远超过你的想象。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">虽然我不知道你具体在实际工作中遇到的是怎样的困惑，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">但有一些“习惯”我觉得越早养成会越好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/7e63e3d73967434ba8fcf436b55661ab.gif\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">一、把你过去不好的习惯全部清零</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">都说初入社会的新人是一张白纸，这个说法我觉得有待商权。如果说工作经验，确实是一张白纸；但是在为人处事上，就绝不是白纸了。<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">许多在读书时期养成的习惯，会对以后工作和生活造成巨大影响。而有些不好的习惯，越早戒掉越好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">比如说，以前都是家长父母围着自己转，做事很少求过人。但在工作中，大家更多的还是凭实力说话，你过去的这些“优势”很可能在你入职的第一天就荡然无存。当你问旁边同事一个简单问题的时候，很可能对方理都不理你，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这种落差带来的挫败感很可能让你觉得周围的环境和自己格格不入</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">比如说，以前你是个品学兼优的好孩子，年年都是奖学金小能手。但是在实际工作上，你却发现连一份简单的 Excel 表做了十遍都达不到要求，这个时候你很可能会觉得是老板看你不爽，故意给你找茬儿。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">再比如说，老是给你安排一些打杂的工作。就我所在的广告公司而言，很多刚来没多久的实习生新人，日常工作基本上都是：订一张机票，贴组里成员报销的发票，订一间会议室，发一封会议邀请通知，给到公司的客户买 10 杯星巴克的外卖等等。这个时候你很可能觉得一点成就感都没有，觉得自己大好的才华和抱负都被埋没了。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/a584929e274a4238b631bdc84183cec9_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这些都是我曾经遇过或者听到过的故事，我自己也或多或少经历过。但是现在回头再来看，当时如果早点避免以上这些想法我应该会成长地更快。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">除非你有出类拔萃的本领，能够解决大家都不能解决的问题，那么别人围着你转才说的过去；</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">一份 Excel 表格背后的学问大的很，它的用途，查看它的人群，背后的目的和用途，你是不是都了解清楚了，这可不只是纠结这一栏的数字应该放在左边还是右边，用红色还是紫色；</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\">如果连一份打杂的事情都做不好，没有人敢把更重要的事情交给你</strong><span style=\"border: 0px; margin: 0px; padding: 0px;\">。很多你现在仰望的大咖牛人，最初很可能都是从一份前台的工作开始做起；</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">把姿态放低一点，才会有人愿意教你。多学会一点隐忍，才会有厚积薄发的可能。无论在学校多么厉害，刚工作的时候大家的起跑线都是一样的。每个人都喜欢和谦虚的人一起工作，尤其是新人。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/9de08334ac2747dbbeaff52da9e8dcdf.gif\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">二、养成多问问题的习惯，</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">并且一定要记下来</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">很多时候没人有义务主动去教你，但这不代表你就可以每天躺尸一样坐在位置上无所事事。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">新人可能觉得自己问的问题很白痴而不好意思去问，比如“这个发票应该怎么贴？”，“这个文件应该怎么保存？”，“这台打印机应该怎么用？”。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">但比起那些因为不知道怎么处理而造成工作中更多不必要的麻烦（比如我曾看见其他组的新人在公司重要会议上因为不知道怎么用打印机扫描文件而耽误了所有人的时间），你<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">还是越早弄清楚越好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">大多数职场中的同事，都是很友善的。只要你不是摆着一张“我是女王””我是明星”的傲娇扑克脸，客气地去请教，大家都是愿意教你的。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/4274d5d1d50448338664edc02583c296_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这时候我<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">强烈建议你随身带一个小本子，把对方说的答案记下来</span></strong>。这样做有两个好处：</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">1. 口头的话语往往是零散不成系统的，当时说的东西很可能过一阵再想起来跟没说一样。拿一只笔按一二三点记下来，等对方说完之后再重新确认一遍，确保万无一失。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">2. 好记性永远不如烂笔头，这么做避免了以后遇到同样的问题再去询问对方。虽然大家都很友善，但同一个问题没有人喜欢一直回答。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我刚开始工作那阵，在办公桌上一直有一个小本子，每次做错事情都会记下来，做错的原因，以后怎么避免，再遇到类似的事情怎么处理等等。这本子我用了两年。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">每个人都会犯错，但<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">同样的错误不要再犯第二次</span></strong>。做到这一点，非常非常非常加分。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/42e689ce7832459d88ea48e4d484e4a5.gif\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">三、察言观色不是世故</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">职场中的沟通技巧非常重要。对于新人来说，懂得观察和分析对方的言语，揣摩背后的情绪变化，是最先应该学会的。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我的一位同事，最近想招一个新人。面试的几个人中，有一个小朋友非常有“热情”。面试完毕后不断在微信上询问我同事觉得他怎么样，并且一再表示非常仰慕这家公司，希望能够将自己的青春“奉献\" 给这里。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">首先，他的诚意确实很足，任何公司都希望能有充满活力的新人加入。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">但是，招聘并不是今天面试明天就能确定的。任何招过人的人都知道，这其中有用人部门的评估，应聘者的筛选和对比，向更上级的汇报等等。那些大的公司，招聘流程走一两个月是很正常的事情。这段时间，能够做的就是耐心等待，同时可以寻求其他的面试机会，多方对比。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/f6bf1ac86c1e45e8849b31287dca165b_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">而不是隔三差五每天都在微信上“骚扰”招聘人。特别是在我同事已经三番五次明确表示“请耐心等待，公司流程会比较久一点”的时候，还一如既往地发大段的信息表明自己的“雄心壮志”，希望以此打动招聘人。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">对不起，这样打动不了任何人，只会让人觉得厌烦。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">如果最基本的察言观色都做不到，你连把一件事情“做对”的机会都没有。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">最基本的察言观色包括：</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">1. 对对方回复文字的情绪判断，如果每次都是简短的几个字回复，很有可能对方在忙。如果有比较复杂的事情要说，可以约个时间再聊，而不是噼里啪啦一段文字或者语音发过去。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">2. 当发现对方讲话的语气和平时有差别时，一定要多留心眼。很多人讲话都会有特定的习惯，比如喜欢使用某些语气助词，喜欢使用某些标点符号甚至表情。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/c6a2ffcb0e0a4c68b90aff211e867463_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">当你发现有一天突然对方和你沟通的话术里这些习惯都荡然无存的时候，一定要留心是发生了什么事情。无论和你有没有关系，都不要像以前那样随随便便说话。注意措辞，就事论事，不要妄加猜测和臆断。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">3.<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">不要随意打断正在讲话的人</span></strong>。即使你突然灵光一闪，即使你不同意对方的上一句话，也请等对方全部讲完再一一回复。这是基本礼貌。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">4. 当对方的答复和你所期望的回答背道而驰时，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">不要强加自己的思想给对方</span></strong>。可以采用迂回的策略去探究对方拒绝你的原因，而不是纠结“你为什么拒绝我”或者“求求你答应我吧”。这么做只会激化矛盾。从原因入手，从下至上逐条分析，找到反驳或者突破的点，有理有据地说服对方。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">以上三点是我个人经验的一些分享。虽然不能帮助你马上变成耀眼的新人明星，但起码能够帮助你少走很多弯路。还是那句话，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">只有把事情先做对了，你才有机会把事情做好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\">踏实是最快的成功方法</strong><span style=\"border: 0px; margin: 0px; padding: 0px;\">。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">完。</span></p>","voteCount":0,"commentCount":0,"submitId":46,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":1,"isMine":false,"labelList":[{"id":30,"labelId":2,"articleModule":3,"articleId":46,"del":false}],"picList":[]},{"title":"通过提问挖掘病人的真实需求","userName":"ooooooooooooooooooo","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGkdfVyGr3Yx4QBzJRmHD1DBicicYsOv3rMPW4r32KUjsOF6Aa37U7mqVqvFazibDn8N5xiaARic0ndJ1Y75vdGKIaPmh/0","content":"<p><span style=\"font-size: 7.5pt; font-family: 微软雅黑;\">通过学习结构化思维，让我更善于把病人的深层诉求挖掘出来。<br>以前：<br>一病人左手摸着对侧肩膀进来，脸上带着痛苦的微笑道：“有拨火罐吗？”<br>我脸上带着真诚微笑，说了一声“没有”。他失望的低着头，转头推门离开，顺便带上一句有气无力的“谢谢”。<br>现在：<br>一病人左手摸着对侧肩膀进来，脸上带着痛苦的微笑道：“有拨火罐吗？”&nbsp; <br>（思考：这时候我会想“需要拔火罐只是他的表层需求，那么隐藏在这个表层需求下的真实需求究竟是什么呢？当我知道了他的真实需求后我有没有其他的满足办法呢？，当我的思维模式发生变化后于是发生了如下对话。）<br><br>我脸上还是带着一个真诚的微笑“你好！请问你是哪里不舒服吗？”<br>“我肩膀痛”<br>“痛多久了？现在你手放下，不动会痛吗？”<br>“痛几天了，不动不痛，这一上班低头久了就痛。”<br>“好的，那你做几个动作我看一下，头往左右转，抬头低头会痛吗？”<br>他站了个标准的军姿，头往右一转，没事。再往左转头转到一半时就看到他脸上露出了痛苦的表情。<br>“往左转痛！”<br>我走过去，站在他的背后把他的右肩胛骨往上一推，“你再往左转头看看”<br>。<br>他再次小心翼翼的往左转，慢慢的角度越来越大，脸上的眉头慢慢的放开你。“咦，这样就不痛。”<br>（思考：这时候我已经知道他的病症在哪里，并且也知道了拔火罐知识解决问题的途径之一，而在当下还有更合适的解决办法。）<br>我心里默默的念到“寰椎有问题，右侧肩胛提肌有问题”。<br>“我大概知道你问题出在哪了，你进治疗室我再帮你详细检查一下”<br>通过我进一步的检查，确定了他寰椎有半脱位，右侧肩胛提肌受损。通过一个小时的治疗，病人面带微笑，哼着小曲愉快的离开了。<br>综上：当我先转变了自己的思维模式后，我开始从另一个角度去看问题，也可以说直击问题本质—这位病人（客户）的需求是什么，而不是像以前一样—这位病人想要拔火罐。有了这种转变，我就可以从病人真实的需求出发为他量身制定解决方案而不是被病人（客户）牵着走。<br>所以，这招方法可以普遍用在几乎所有和客户打交道的领域。</span><br></p>","voteCount":0,"commentCount":0,"submitId":47,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":1,"isMine":false,"labelList":[],"picList":[]},{"title":"拖延症是病，得治。可是，病根在哪里？","userName":"Chloé\uD83C\uDF38","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0","content":"我自己就有拖延症，曾经，我不知道我的拖延症从哪里来？也不知道怎么去对付它？用毅力、监督都无济于事。靠这些要成功，拖延症发病率就不会那么高了！\n\n我会积极主动地打开酷狗音乐，不知疲倦地看《奇葩说》，为什么做这些事不会拖延呢？万为什么专研一个，没有搞清楚的临床问题会孜孜不倦呢？\n\n对比这两类事情，我发现后面的这些事情，不会给人带来压迫感，也就是说，你不要担心承担失败的后果。而早起、学英语、写论文，要不短期看不到效果，要不被拒稿会很沮丧。\n\n所以拖延根本的原因是二个，一个是害怕失败，一个是缺乏短期回馈。\n\n澄清了拖延症的，根本原因之后，我自然就找到了解决拖延症的良方：1.告诉自己只有进步过程中的挫折，过程不是终点，有一口气就不会是失败；2.给自己设定一个根本不会失败的改进性行动计划，因为要求特别低，然后使用i+1原理来逐步提升难度，这样就不会有挫败感；3.达到一个小目标后得给自己一点小小的奖励，听一首自己喜欢的歌、思考一个疑难的医学问题，给自己及时的正反馈，制作一个克服拖延症进度条，坚持一天就给自己提升一格。\n\n拖延症这样必须被治愈。\n","voteCount":0,"commentCount":0,"submitId":16,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":false,"problemId":null,"authorType":1,"isMine":false,"labelList":[{"id":1,"labelId":28,"articleModule":3,"articleId":16,"del":false},{"id":2,"labelId":29,"articleModule":3,"articleId":16,"del":false}],"picList":[]}],"highlightList":null,"end":true},"code":200});
+    res.status(200).json({"msg":{"list":[{"title":"团队成员的绩效表现为什么不佳？","userName":"Chloé\uD83C\uDF38","submitUpdateTime":"2017-04-18","role":6,"headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0","content":"如图所示<img src=\"http://www.confucius.mobi/images/subject/subject-pefect5.jpeg\" width=\"90%\"/>","voteCount":0,"commentCount":2,"submitId":8,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":2,"isMine":false,"labelList":[{"id":20,"labelId":21,"articleModule":3,"articleId":8,"del":false}],"picList":["http://www.confucius.mobi/images/subject/subject-pefect5.jpeg"]},{"title":"早上起不来的真正原因","userName":"Chloé\uD83C\uDF38","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0","content":"学习了找到本质问题，减少无效努力之后，通过5个为什么终于找到了一直困扰个人无法早起而产生焦虑的本质问题。\n\n发现本质问题的过程是这样的：最近自己一直无法早起而产生焦虑等情绪，利用5个为什么不断追问，挖掘出焦虑的原因是对个人目前现状不满意。而针对此问题是否是本质问题呢？又通过多次问了几个为什么，为什么对现状不满意，是因为最近工作不是很顺利，为什么工作不顺利，是因为老板给别人加薪，却没有给自己加薪，让自己感觉到自己能力不够，所以才没有加薪。那究竟是哪方面的能力不够呢，反观其他被加薪的同事，然后对比自身情况，发现个人独立带团队和领导的能力不足，导致个人没有加薪也无晋升，所以才产生了一系列的焦虑情绪，而自己为了让个人好受一些，就想要通过早起来摆脱这些情绪，但是这样做无非是头痛医脚，没有作用。\n\n所以通过多问几个为什么，发现情绪背后或事件背后的本质问题，然后对症下药，才能真正做到药到病除，否则都是无用功。","voteCount":0,"commentCount":1,"submitId":14,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":2,"isMine":false,"labelList":[],"picList":[]},{"title":"致新人：先把事情做对，再把事情做好","userName":"神韵-Albert Han","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/PiajxSqBRaEJnd7yZzEtibGKDFMaDaNQaZUtUPBJCtlhfPkYPUViaQ89NBNLv6RoHGluMgGyGKAMAFBLg7nUichNpg/0","content":"<p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">引子：初入职场，学会提问，能让你少走弯路</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">今天的文章来自后台一位读者的提问：</span></p><blockquote style=\"border: 0px; margin: 0px; padding: 0px; font-size: 14px; color: rgb(102, 102, 102); font-family: 微软雅黑;\"><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; color: rgb(0, 0, 0); text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我刚参加工作不久。当时面试进入这家公司很不容易，这家公司在行业内也蛮有名的。我被分配到一个项目组里，老大和同事人都不错，每天也有开始教我一些东西。公司定期会有培训，感觉自己要学习的东西特别多。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; color: rgb(0, 0, 0); text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我渐渐觉得压力很大，分配给我的工作我都尽量认真做好，想给大家留下一个好印象，但是总是不得要领，总犯低级错误。看到周围跟我同时期进来的人已经开始能够做一些小项目了，我还是原地踏步。我有时候觉得好急，可也不知道该怎么办，我是不是太笨了？</span></p></blockquote><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">首先我想说，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">你一心想把事情做好的这份心很值得赞赏</span></strong>。比起我见过的很多跟你差不多年龄却已经开始每天想着怎么在工作上偷懒混日子的人强多了。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">其次，我猜你可能还没有掌握这份工作的要领，或者说，还<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">没有熟悉你真正的岗位职责</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/917634eae2ee47c5bddea16fb8bc8bc9_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<span style=\"border: 0px; margin: 0px; padding: 0px;\">我说的岗位职责可不仅仅是招聘面试上写的那一段“岗位要求”的文字。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">先说个身边的例子。我有个朋友，她的第一份工作是做助理。她的老板是一个典型雷厉风行的女强人。初进入这家杂志公司的时候，她每天都提心吊胆，生怕自己做错了什么事情。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这个情景很像电影《穿 Prada 的恶魔》里的剧情。有一次老板的女儿过生日，安排她去订一个生日蛋糕，她顺手订了一个巧克力口味的。结果好巧不巧老板的女儿什么口味都能吃，唯独不喜欢吃巧克力口味的。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">她在订蛋糕之前并没有询问过口味的喜好，更不要说蛋糕尺寸的大小，蜡烛要几根，是否要加特殊的食材等等。最后的结果是蛋糕已经订好，生日 Party 也已经准备就绪，木已成舟只能“顺”水推舟。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">那家公司在招聘面试上写的岗位职责，可绝不会写“帮老板订生日蛋糕”这种事情，但却实实在在发生了。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/7fbbfbc6a5e94817acabaed731aec7bb_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">而她犯的错误其实很多职场新人都容易犯：<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">做事会按照自己以往的风格习惯来，而不是适应职场上的“新习惯”</span></strong>。我猜提问的这位读者，你在每天的实际工作中也经常碰到类似这样的问题。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">想把事情做好没错，但是在做好之前有个大前提，叫<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">“先把事情做对”</span></strong>。刚开始工作的头一两年，更多是需要熟悉自己的岗位，公司和同事之间的规则。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这个规则有人情世故，有职能划分，有效果评定，有奖惩规章，还有公司文化等等。在完全掌握这些规则之前，尽量先让自己把事情做“对”，做到六七十分，再去想怎么做到九十分一百分甚至一百二十分。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">一步登天青云直上的人有，但这就跟摸彩票一样是天时地利人和的结果，可模仿性很小。况且，人家背后所付出的艰辛也远远超过你的想象。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">虽然我不知道你具体在实际工作中遇到的是怎样的困惑，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">但有一些“习惯”我觉得越早养成会越好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/7e63e3d73967434ba8fcf436b55661ab.gif\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">一、把你过去不好的习惯全部清零</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">都说初入社会的新人是一张白纸，这个说法我觉得有待商权。如果说工作经验，确实是一张白纸；但是在为人处事上，就绝不是白纸了。<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">许多在读书时期养成的习惯，会对以后工作和生活造成巨大影响。而有些不好的习惯，越早戒掉越好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">比如说，以前都是家长父母围着自己转，做事很少求过人。但在工作中，大家更多的还是凭实力说话，你过去的这些“优势”很可能在你入职的第一天就荡然无存。当你问旁边同事一个简单问题的时候，很可能对方理都不理你，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这种落差带来的挫败感很可能让你觉得周围的环境和自己格格不入</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">比如说，以前你是个品学兼优的好孩子，年年都是奖学金小能手。但是在实际工作上，你却发现连一份简单的 Excel 表做了十遍都达不到要求，这个时候你很可能会觉得是老板看你不爽，故意给你找茬儿。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">再比如说，老是给你安排一些打杂的工作。就我所在的广告公司而言，很多刚来没多久的实习生新人，日常工作基本上都是：订一张机票，贴组里成员报销的发票，订一间会议室，发一封会议邀请通知，给到公司的客户买 10 杯星巴克的外卖等等。这个时候你很可能觉得一点成就感都没有，觉得自己大好的才华和抱负都被埋没了。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/a584929e274a4238b631bdc84183cec9_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这些都是我曾经遇过或者听到过的故事，我自己也或多或少经历过。但是现在回头再来看，当时如果早点避免以上这些想法我应该会成长地更快。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">除非你有出类拔萃的本领，能够解决大家都不能解决的问题，那么别人围着你转才说的过去；</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">一份 Excel 表格背后的学问大的很，它的用途，查看它的人群，背后的目的和用途，你是不是都了解清楚了，这可不只是纠结这一栏的数字应该放在左边还是右边，用红色还是紫色；</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\">如果连一份打杂的事情都做不好，没有人敢把更重要的事情交给你</strong><span style=\"border: 0px; margin: 0px; padding: 0px;\">。很多你现在仰望的大咖牛人，最初很可能都是从一份前台的工作开始做起；</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">把姿态放低一点，才会有人愿意教你。多学会一点隐忍，才会有厚积薄发的可能。无论在学校多么厉害，刚工作的时候大家的起跑线都是一样的。每个人都喜欢和谦虚的人一起工作，尤其是新人。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/9de08334ac2747dbbeaff52da9e8dcdf.gif\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">二、养成多问问题的习惯，</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">并且一定要记下来</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">很多时候没人有义务主动去教你，但这不代表你就可以每天躺尸一样坐在位置上无所事事。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">新人可能觉得自己问的问题很白痴而不好意思去问，比如“这个发票应该怎么贴？”，“这个文件应该怎么保存？”，“这台打印机应该怎么用？”。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">但比起那些因为不知道怎么处理而造成工作中更多不必要的麻烦（比如我曾看见其他组的新人在公司重要会议上因为不知道怎么用打印机扫描文件而耽误了所有人的时间），你<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">还是越早弄清楚越好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">大多数职场中的同事，都是很友善的。只要你不是摆着一张“我是女王””我是明星”的傲娇扑克脸，客气地去请教，大家都是愿意教你的。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><img src=\"http://img.mp.itc.cn/upload/20160904/4274d5d1d50448338664edc02583c296_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">这时候我<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">强烈建议你随身带一个小本子，把对方说的答案记下来</span></strong>。这样做有两个好处：</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">1. 口头的话语往往是零散不成系统的，当时说的东西很可能过一阵再想起来跟没说一样。拿一只笔按一二三点记下来，等对方说完之后再重新确认一遍，确保万无一失。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">2. 好记性永远不如烂笔头，这么做避免了以后遇到同样的问题再去询问对方。虽然大家都很友善，但同一个问题没有人喜欢一直回答。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我刚开始工作那阵，在办公桌上一直有一个小本子，每次做错事情都会记下来，做错的原因，以后怎么避免，再遇到类似的事情怎么处理等等。这本子我用了两年。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">每个人都会犯错，但<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">同样的错误不要再犯第二次</span></strong>。做到这一点，非常非常非常加分。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/42e689ce7832459d88ea48e4d484e4a5.gif\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: center;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px; font-size: 16px;\">三、察言观色不是世故</span></strong></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">职场中的沟通技巧非常重要。对于新人来说，懂得观察和分析对方的言语，揣摩背后的情绪变化，是最先应该学会的。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">我的一位同事，最近想招一个新人。面试的几个人中，有一个小朋友非常有“热情”。面试完毕后不断在微信上询问我同事觉得他怎么样，并且一再表示非常仰慕这家公司，希望能够将自己的青春“奉献\" 给这里。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">首先，他的诚意确实很足，任何公司都希望能有充满活力的新人加入。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">但是，招聘并不是今天面试明天就能确定的。任何招过人的人都知道，这其中有用人部门的评估，应聘者的筛选和对比，向更上级的汇报等等。那些大的公司，招聘流程走一两个月是很正常的事情。这段时间，能够做的就是耐心等待，同时可以寻求其他的面试机会，多方对比。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/f6bf1ac86c1e45e8849b31287dca165b_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">而不是隔三差五每天都在微信上“骚扰”招聘人。特别是在我同事已经三番五次明确表示“请耐心等待，公司流程会比较久一点”的时候，还一如既往地发大段的信息表明自己的“雄心壮志”，希望以此打动招聘人。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">对不起，这样打动不了任何人，只会让人觉得厌烦。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">如果最基本的察言观色都做不到，你连把一件事情“做对”的机会都没有。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">最基本的察言观色包括：</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">1. 对对方回复文字的情绪判断，如果每次都是简短的几个字回复，很有可能对方在忙。如果有比较复杂的事情要说，可以约个时间再聊，而不是噼里啪啦一段文字或者语音发过去。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">2. 当发现对方讲话的语气和平时有差别时，一定要多留心眼。很多人讲话都会有特定的习惯，比如喜欢使用某些语气助词，喜欢使用某些标点符号甚至表情。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑;\">　　<img src=\"http://img.mp.itc.cn/upload/20160904/c6a2ffcb0e0a4c68b90aff211e867463_th.jpeg\" style=\"border: 0px; margin: 0px; padding: 0px; font-size: 0px; color: transparent;\"></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">当你发现有一天突然对方和你沟通的话术里这些习惯都荡然无存的时候，一定要留心是发生了什么事情。无论和你有没有关系，都不要像以前那样随随便便说话。注意措辞，就事论事，不要妄加猜测和臆断。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">3.<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">不要随意打断正在讲话的人</span></strong>。即使你突然灵光一闪，即使你不同意对方的上一句话，也请等对方全部讲完再一一回复。这是基本礼貌。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">4. 当对方的答复和你所期望的回答背道而驰时，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">不要强加自己的思想给对方</span></strong>。可以采用迂回的策略去探究对方拒绝你的原因，而不是纠结“你为什么拒绝我”或者“求求你答应我吧”。这么做只会激化矛盾。从原因入手，从下至上逐条分析，找到反驳或者突破的点，有理有据地说服对方。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">以上三点是我个人经验的一些分享。虽然不能帮助你马上变成耀眼的新人明星，但起码能够帮助你少走很多弯路。还是那句话，<strong style=\"border: 0px; margin: 0px; padding: 0px;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">只有把事情先做对了，你才有机会把事情做好</span></strong>。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\">踏实是最快的成功方法</strong><span style=\"border: 0px; margin: 0px; padding: 0px;\">。</span></p><p style=\"border: 0px; margin: 0px; padding: 26px 0px 0px; font-size: 14px; font-family: 微软雅黑; text-align: justify;\"><span style=\"border: 0px; margin: 0px; padding: 0px;\">完。</span></p>","voteCount":0,"commentCount":0,"submitId":46,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":1,"isMine":false,"labelList":[{"id":30,"labelId":2,"articleModule":3,"articleId":46,"del":false}],"picList":[]},{"title":"通过提问挖掘病人的真实需求","userName":"ooooooooooooooooooo","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGkdfVyGr3Yx4QBzJRmHD1DBicicYsOv3rMPW4r32KUjsOF6Aa37U7mqVqvFazibDn8N5xiaARic0ndJ1Y75vdGKIaPmh/0","content":"<p><span style=\"font-size: 7.5pt; font-family: 微软雅黑;\">通过学习结构化思维，让我更善于把病人的深层诉求挖掘出来。<br>以前：<br>一病人左手摸着对侧肩膀进来，脸上带着痛苦的微笑道：“有拨火罐吗？”<br>我脸上带着真诚微笑，说了一声“没有”。他失望的低着头，转头推门离开，顺便带上一句有气无力的“谢谢”。<br>现在：<br>一病人左手摸着对侧肩膀进来，脸上带着痛苦的微笑道：“有拨火罐吗？”&nbsp; <br>（思考：这时候我会想“需要拔火罐只是他的表层需求，那么隐藏在这个表层需求下的真实需求究竟是什么呢？当我知道了他的真实需求后我有没有其他的满足办法呢？，当我的思维模式发生变化后于是发生了如下对话。）<br><br>我脸上还是带着一个真诚的微笑“你好！请问你是哪里不舒服吗？”<br>“我肩膀痛”<br>“痛多久了？现在你手放下，不动会痛吗？”<br>“痛几天了，不动不痛，这一上班低头久了就痛。”<br>“好的，那你做几个动作我看一下，头往左右转，抬头低头会痛吗？”<br>他站了个标准的军姿，头往右一转，没事。再往左转头转到一半时就看到他脸上露出了痛苦的表情。<br>“往左转痛！”<br>我走过去，站在他的背后把他的右肩胛骨往上一推，“你再往左转头看看”<br>。<br>他再次小心翼翼的往左转，慢慢的角度越来越大，脸上的眉头慢慢的放开你。“咦，这样就不痛。”<br>（思考：这时候我已经知道他的病症在哪里，并且也知道了拔火罐知识解决问题的途径之一，而在当下还有更合适的解决办法。）<br>我心里默默的念到“寰椎有问题，右侧肩胛提肌有问题”。<br>“我大概知道你问题出在哪了，你进治疗室我再帮你详细检查一下”<br>通过我进一步的检查，确定了他寰椎有半脱位，右侧肩胛提肌受损。通过一个小时的治疗，病人面带微笑，哼着小曲愉快的离开了。<br>综上：当我先转变了自己的思维模式后，我开始从另一个角度去看问题，也可以说直击问题本质—这位病人（客户）的需求是什么，而不是像以前一样—这位病人想要拔火罐。有了这种转变，我就可以从病人真实的需求出发为他量身制定解决方案而不是被病人（客户）牵着走。<br>所以，这招方法可以普遍用在几乎所有和客户打交道的领域。</span><br></p>","voteCount":0,"commentCount":0,"submitId":47,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":1,"isMine":false,"labelList":[],"picList":[]},{"title":"拖延症是病，得治。可是，病根在哪里？","userName":"Chloé\uD83C\uDF38","submitUpdateTime":"2017-04-18","headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0","content":"我自己就有拖延症，曾经，我不知道我的拖延症从哪里来？也不知道怎么去对付它？用毅力、监督都无济于事。靠这些要成功，拖延症发病率就不会那么高了！\n\n我会积极主动地打开酷狗音乐，不知疲倦地看《奇葩说》，为什么做这些事不会拖延呢？万为什么专研一个，没有搞清楚的临床问题会孜孜不倦呢？\n\n对比这两类事情，我发现后面的这些事情，不会给人带来压迫感，也就是说，你不要担心承担失败的后果。而早起、学英语、写论文，要不短期看不到效果，要不被拒稿会很沮丧。\n\n所以拖延根本的原因是二个，一个是害怕失败，一个是缺乏短期回馈。\n\n澄清了拖延症的，根本原因之后，我自然就找到了解决拖延症的良方：1.告诉自己只有进步过程中的挫折，过程不是终点，有一口气就不会是失败；2.给自己设定一个根本不会失败的改进性行动计划，因为要求特别低，然后使用i+1原理来逐步提升难度，这样就不会有挫败感；3.达到一个小目标后得给自己一点小小的奖励，听一首自己喜欢的歌、思考一个疑难的医学问题，给自己及时的正反馈，制作一个克服拖延症进度条，坚持一天就给自己提升一格。\n\n拖延症这样必须被治愈。\n","voteCount":0,"commentCount":0,"submitId":16,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":false,"problemId":null,"authorType":1,"isMine":false,"labelList":[{"id":1,"labelId":28,"articleModule":3,"articleId":16,"del":false},{"id":2,"labelId":29,"articleModule":3,"articleId":16,"del":false}],"picList":[]}],"highlightList":null,"end":true},"code":200});
   },Math.random()*1500);
 });
 

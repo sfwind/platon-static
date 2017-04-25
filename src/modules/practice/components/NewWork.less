@@ -52,9 +52,21 @@
           margin-left:10px;
           width: ~"calc(100% - 60px)";
           vertical-align: top;
-          > .submit-name {
-            color: @color_title;
-            font-size: 1.3em;
+          > .intro{
+            > .submit-name {
+              display: inline-block;
+              color: @color_title;
+              font-size: 1.3em;
+            }
+            > .role{
+              margin-left: 5px;
+              display: inline-block;
+              > img{
+                vertical-align: bottom;
+                width: 53px;
+                height: 23px;
+              }
+            }
           }
           > .submit-time {
             font-size: @font_help;

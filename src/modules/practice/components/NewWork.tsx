@@ -43,7 +43,7 @@ export default class Work extends React.Component<any,any> {
     const {headImage, userName, content,
       submitUpdateTime,onEdit,voteCount,commentCount,
       voteStatus,onVoted,goComment,wordsCount=60,
-      title,avatarStyle = 'left',
+      title,avatarStyle = 'left', role,
       operation=true,picList=[]} = this.props;
     const {showAll,filterContent} = this.state;
     const renderWorkContent = ()=>{
@@ -77,8 +77,14 @@ export default class Work extends React.Component<any,any> {
         <div className={`submit-head ${avatarStyle}`}>
           <div className="submit-img"><img className={`submit-avatar ${avatarStyle}`} src={headImage}/></div>
           <div className="submit-memo">
-            <div className="submit-name">
-              {userName}
+            <div className="intro">
+              <div className="submit-name">
+                {userName}
+              </div>
+              {role==3||role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
+              {role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+              {role==6||role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
+              {role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
             </div>
             <div className="submit-time">{submitUpdateTime}</div>
           </div>

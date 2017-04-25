@@ -146,7 +146,7 @@ export class Analysis extends React.Component <any, any> {
               <div className="context">
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
-              <div className="context">
+              <div className="context" style={{marginBottom:15}}>
                 已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
               </div>
               <div className="context"
