@@ -126,7 +126,7 @@ export class AnalysisNew extends React.Component <any, any> {
           <div className="discuss-container">
             <div className="discuss">
               <a name="discuss"/>
-              <div className="title-bar"><span className="discuss-title">问答</span></div>
+              <div className="title-bar">问答</div>
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
                 <div className="show-more">

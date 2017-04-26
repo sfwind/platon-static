@@ -106,7 +106,7 @@ export class PlanMain extends React.Component <any, any> {
 
   resize(){
     this.setState({style:{
-      picWidth:window.innerWidth,
+      // picWidth:window.innerWidth,
       picHeight:(window.innerWidth / (750 / 350)) > 175?175:(window.innerWidth / (750 / 350))
     }})
   }
@@ -546,7 +546,7 @@ export class PlanMain extends React.Component <any, any> {
         </Alert>
 
         <div className="header-img">
-          <AssetImg url={problem.pic} style={{width: this.state.style.picWidth, height: this.state.style.picHeight}}/>
+          <AssetImg url={problem.pic} style={{height: this.state.style.picHeight, float:'right'}}/>
           <div className="message-box" onClick={this.openMessageBox.bind(this)}>
           { newMessage?
               <AssetImg type="has_message" height={33} width={33}/>

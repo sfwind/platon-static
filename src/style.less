@@ -158,7 +158,7 @@
 
 .header-img {
   position: relative;
-  background-color: @color_weak_background;
+  background-color: #CCEAEB;
   img {
     display: block;
   }
@@ -251,8 +251,6 @@
     margin-left: 10px;
     width: ~"calc(100% - 40px - 10px)";
     > .comment-head{
-      line-height:1.3em;
-      height:13px;
       > .comment-name {
         display: inline-block;
         color: @color_title;
@@ -265,6 +263,7 @@
           vertical-align: bottom;
           width: 53px;
           height: 23px;
+          margin-bottom: 2px;
         }
       }
       > .comment-time{
@@ -291,12 +290,17 @@
         }
       }
     }
+    > .signature{
+      color: #999999;
+      font-size: 12px;
+      margin-top: 3px;
+    }
     > .comment-content{
       font-size: @font_context;
       width: 100%;
       white-space: pre-wrap;
       word-wrap: break-word;
-      margin-top: 15px;
+      margin-top: 5px;
       color: @color_context;
       pre{
         white-space: pre-wrap;

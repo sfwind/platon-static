@@ -43,7 +43,7 @@ export default class Work extends React.Component<any,any> {
     const {headImage, userName, content,
       submitUpdateTime,onEdit,voteCount,commentCount,
       voteStatus,onVoted,goComment,wordsCount=60,
-      title,avatarStyle = 'left', role,
+      title,avatarStyle = 'left', role, signature,
       operation=true,picList=[]} = this.props;
     const {showAll,filterContent} = this.state;
     const renderWorkContent = ()=>{
@@ -85,8 +85,10 @@ export default class Work extends React.Component<any,any> {
               {role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
               {role==6||role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
               {role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
+              <div className="submit-time">{submitUpdateTime}</div>
             </div>
-            <div className="submit-time">{submitUpdateTime}</div>
+            <div className="signature">{signature}</div>
+
           </div>
 
           {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}} onClick={()=>onEdit()}>

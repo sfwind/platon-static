@@ -149,8 +149,13 @@ export class Comment extends React.Component<any,any>{
                     <div className="comment-name">
                       {item.upName}
                     </div>
+                    {item.role==3||item.role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
+                    {item.role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+                    {item.role==6||item.role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
+                    {item.role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
                     <div className="comment-time">{item.upTime}</div>
                   </div>
+                  <div className="signature">{item.signature}</div>
                   <div className="comment-content">
                     <pre>{item.content}</pre>
                   </div>
