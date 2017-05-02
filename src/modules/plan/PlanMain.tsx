@@ -88,7 +88,7 @@ export class PlanMain extends React.Component <any, any> {
       nextSeriesModal:{
         buttons:[
           {label:'我不听',onClick:()=>this.next(true)},
-          {label:'好的',onClick:()=>this.setState({showNextSeriesModal:false})}
+          {label:'做本节练习',onClick:()=>this.setState({showNextSeriesModal:false})}
         ],
       },
       nextModal:{
