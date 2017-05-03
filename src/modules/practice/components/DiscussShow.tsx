@@ -12,7 +12,7 @@ export default class DiscussShow extends React.Component <any, any> {
 
   render() {
     const { discuss, reply } = this.props
-    const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,warmupPracticeId,role,signature } = discuss
+    const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,referenceId,role,signature } = discuss
     return (
         <div key={id} className="comment-cell">
           <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
@@ -36,7 +36,7 @@ export default class DiscussShow extends React.Component <any, any> {
             <div className="comment-content">{comment}</div>
             {repliedComment ?
                 <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
-            <div className="function-area" onClick={()=>{reply(warmupPracticeId, id)}}>
+            <div className="function-area" onClick={()=>{reply(referenceId, id)}}>
               <AssetImg type="reply" height={12} width={15}/>
               <div className="function-button">
                 回复

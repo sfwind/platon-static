@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./Main.less";
-import {loadWarmUpAnalysisNew} from "./async";
+import {loadWarmUpAnalysisNew, discuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
@@ -186,8 +186,8 @@ export class AnalysisNew extends React.Component <any, any> {
         <div className="button-footer" onClick={this.back.bind(this)}>关闭</div>
 
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {showDiscuss ?<Discuss repliedId={repliedId} warmupPracticeId={this.state.warmupPracticeId}
-                               closeModal={this.closeDiscussModal.bind(this)}/> : null}
+        {showDiscuss ?<Discuss repliedId={repliedId} referenceId={this.state.warmupPracticeId}
+                               closeModal={this.closeDiscussModal.bind(this)} discuss={(body)=>discussKnowledge(body)} /> : null}
       </div>
     )
   }

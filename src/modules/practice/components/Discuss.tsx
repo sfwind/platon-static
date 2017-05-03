@@ -9,15 +9,16 @@ import {merge} from "lodash";
 export default class Discuss extends React.Component <any, any> {
   constructor(props) {
     super()
-    const {repliedId, closeModal, warmupPracticeId} = props
+    const {repliedId, closeModal, referenceId} = props
     this.state = {
       discuss: {},
       repliedId: repliedId,
-      warmupPracticeId: warmupPracticeId,
+      referenceId: referenceId,
       comment: "",
       closeModal: closeModal,
       showDisable: false,
     }
+    console.log('referenceId',referenceId)
   }
 
   static contextTypes = {
@@ -26,7 +27,7 @@ export default class Discuss extends React.Component <any, any> {
 
   onSubmit() {
     const {dispatch} = this.props
-    const {warmupPracticeId, repliedId, comment, closeModal} = this.state
+    const {referenceId, repliedId, comment, closeModal} = this.state
     if(comment.length==0){
       dispatch(alertMsg('请填写评论'))
       return
@@ -36,12 +37,12 @@ export default class Discuss extends React.Component <any, any> {
       return
     }
     this.setState({showDisable: true})
-    let discuss_body = {comment: comment, warmupPracticeId: warmupPracticeId}
+    let discuss_body = {comment: comment, referenceId: referenceId}
     if (repliedId) {
       merge(discuss_body, {repliedId: repliedId})
     }
 
-    discuss(discuss_body).then(res => {
+    this.props.discuss(discuss_body).then(res => {
       const {code, msg} = res
       if (code === 200) closeModal()
       else {

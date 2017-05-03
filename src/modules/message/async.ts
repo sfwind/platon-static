@@ -12,6 +12,11 @@ export function loadWarmUpDiscussReply(discussId) {
   return pget(`/rise/message/warmup/discuss/reply/${discussId}`)
 }
 
+export function loadKnowledgeDiscussReply(discussId) {
+  return pget(`/rise/message/knowledge/discuss/reply/${discussId}`)
+}
+
+
 export function readMessage(messageId) {
   return ppost(`/rise/message/read/${messageId}`)
 }
@@ -31,6 +36,19 @@ export function loadSubject(submitId){
 export function submitSubject(problemId,title,content,id,labels){
   return ppost(`/rise/practice/subject/submit/${problemId}`,{submitId:id,title:title,content:content,labelList:labels});
 }
+
+export function loadKnowledge(id){
+  return pget(`/rise/practice/knowledge/${id}`)
+}
+
+export function discussKnowledge(body){
+  return ppost(`/rise/practice/knowledge/discuss`,body);
+}
+
+export function discuss(params) {
+  return ppost(`/rise/practice/warmup/discuss`, params)
+}
+
 
 
 

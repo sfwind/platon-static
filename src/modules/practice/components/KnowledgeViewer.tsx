@@ -97,6 +97,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                          dangerouslySetInnerHTML={{__html: example.analysis}}></div>
                   </div>
                       :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
+                    <div className="discuss">
+                      评论平六年
+                    </div>
                 </div>
             : null}
 

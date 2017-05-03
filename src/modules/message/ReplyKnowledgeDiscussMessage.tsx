@@ -1,13 +1,13 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./ReplyDiscussMessage.less";
-import {loadWarmUp, loadWarmUpDiscussReply, discuss} from "./async";
+import {loadKnowledge, loadKnowledgeDiscussReply,discussKnowledge} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import Discuss from "../practice/components/Discuss";
 import DiscussShow from "../practice/components/DiscussShow";
 
 @connect(state => state)
-export class ReplyDiscussMessage extends React.Component <any, any> {
+export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {
@@ -26,10 +26,10 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
 
   componentWillMount(props) {
     const {dispatch, location} = props || this.props
-    const {warmupPracticeId} = location.query
+    const {knowledgeId} = location.query
     const {commentId} = location.query
     dispatch(startLoad())
-    loadWarmUpDiscussReply(commentId).then(res => {
+    loadKnowledgeDiscussReply(commentId).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
@@ -42,17 +42,12 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
       dispatch(alertMsg(ex))
     })
 
-    loadWarmUp(warmupPracticeId).then(res => {
+    loadKnowledge(knowledgeId).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
-
       if (code === 200) {
-        let {question} = msg
-        if(question.length>16){
-          question = question.substring(0, 16)+"......"
-        }
-        this.setState({question, warmupPracticeId})
-
+        console.log(res.msg);
+        this.setState({knowledge:res.msg, knowledgeId})
       } else {
         dispatch(alertMsg(msg))
       }
@@ -79,8 +74,8 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
   }
 
   render() {
-    const {question, warmupPracticeId, data, commentId, showDiscuss} = this.state
-    console.log('warmupPracticeId',warmupPracticeId)
+    const {knowledge, knowledgeId, data, commentId, showDiscuss} = this.state
+
     const renderDiscuss = (discuss) => {
         return (
             <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
@@ -89,14 +84,14 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
     return (
       <div>
         <div className="container has-footer">
-          <div className="question">{question}</div>
-          <div className="origin-question-tip" onClick={this.onSubmit.bind(this)}>点击查看原题</div>
-          <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
-          {renderDiscuss(data)}
-        </div>
+           <div className="question">{knowledge?knowledge.knowledge:null}</div>
+           <div className="origin-question-tip" onClick={this.onSubmit.bind(this)}>点击查看原题</div>
+           <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
+           {renderDiscuss(data)}
+         </div>
         <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
-        {showDiscuss ?<Discuss repliedId={commentId} referenceId={warmupPracticeId}
-                               closeModal={this.closeModal.bind(this)} discuss={(body)=>discuss(body)}/> : null}
+        {showDiscuss ?<Discuss repliedId={commentId} referenceId={knowledgeId}
+                               closeModal={this.closeModal.bind(this)} discuss={(body)=>discussKnowledge(body)}  /> : null}
       </div>
     )
   }
