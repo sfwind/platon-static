@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./ReplySubjectMessage.less";
 import {connect} from "react-redux"
-import {loadSubjectCommentList,commentSubject,loadSubject, submitSubject} from "./async"
+import {loadSubjectCommentList,commentSubject,loadSubject, submitSubject, requestComment} from "./async"
 import {loadLabels} from "../practice/subject/async"
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -69,6 +69,18 @@ export class ReplySubjectMessage extends React.Component<any,any>{
   goBack(){
     const {location} = this.props
     this.context.router.push({ pathname: '/rise/static/message/center'})
+  }
+
+  onRequestComment(submitId) {
+    const { dispatch } = this.props;
+    requestComment(submitId).then(res =>{
+      let {code,msg} = res;
+      if(code===200){
+        dispatch(alertMsg('求点评成功'))
+      } else {
+        dispatch(alertMsg(msg));
+      }
+    })
   }
 
   componentDidUpdate(){
@@ -200,6 +212,7 @@ export class ReplySubjectMessage extends React.Component<any,any>{
 
   render(){
     const { commentList=[],showDiscuss,end,work,showWorkEdit } = this.state;
+    const {submitId} = this.props.location.query
 
     const renderCommentList = ()=>{
       if(commentList && commentList.length !== 0){
@@ -259,7 +272,9 @@ export class ReplySubjectMessage extends React.Component<any,any>{
       <div className="reply-subject has-footer">
         <div className="pull-target">
           <div className="reply-header">
-            {work?<Work onEdit={()=>this.onEdit(work)} operation={false} avatarStyle={"top"} {...work}/>:null}
+            {work?<Work onEdit={()=>this.onEdit(work)}
+                        onRequestComment={()=> this.onRequestComment(submitId)}
+                        operation={false} avatarStyle={"top"} {...work}/>:null}
           </div>
           <div className="submit-bar">评论</div>
           <div className="comment-body">

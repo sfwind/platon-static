@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadSubjects,submitSubject,vote,loadSubjectDesc,loadLabels } from "./async";
+import { loadSubjects,submitSubject,vote,loadSubjectDesc,loadLabels, requestComment } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
@@ -161,6 +161,18 @@ export class Main extends React.Component <any, any> {
     }
   }
 
+  onRequestComment(submitId) {
+    const { dispatch } = this.props;
+    requestComment(submitId).then(res =>{
+      let {code,msg} = res;
+      if(code===200){
+        dispatch(alertMsg('求点评成功'))
+      } else {
+        dispatch(alertMsg(msg));
+      }
+    })
+  }
+
 
   goComment(submitId){
     const {goBackUrl} = this.state
@@ -300,6 +312,7 @@ export class Main extends React.Component <any, any> {
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,perfect,seq)}  {...item}
                   goComment={()=>this.goComment(item.submitId)}
                   onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content,item.labelList):null}
+                  onRequestComment={item.requestComment?()=>this.onRequestComment(item.submitId):null}
                   avatarStyle={"top"}
             />
           )

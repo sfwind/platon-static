@@ -32,7 +32,9 @@ export function submitSubject(problemId,title,content,id,labels){
   return ppost(`/rise/practice/subject/submit/${problemId}`,{submitId:id,title:title,content:content,labelList:labels});
 }
 
-
+export function requestComment(submitId){
+  return ppost(`/rise/practice/request/comment/3/${submitId}`);
+}
 
 const CommentType = {
   Challenge:1,
