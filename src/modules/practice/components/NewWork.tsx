@@ -71,7 +71,7 @@ export default class Work extends React.Component<any,any> {
 
     const showOperation = ()=>{
       if(operation){
-        if(filterContent && filterContent.length<wordsCount){
+        if(isString(filterContent) && filterContent.length<wordsCount){
           return true;
         } else
           return showAll;
