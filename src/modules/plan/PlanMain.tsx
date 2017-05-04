@@ -580,7 +580,7 @@ export class PlanMain extends React.Component <any, any> {
         </div>
         {showProblem ?<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}
             viewOtherProblem={this.goOthers.bind(this)}/>
-          : <div className="container-no-touch has-footer" ref={'plan'}
+          : <div className="container has-footer" ref={'plan'}
                  style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
           <div className="plan-progress">
             <div className="intro"><div className="intro-chapter">{chapter}</div><div className="bar"/></div>
