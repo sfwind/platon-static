@@ -18,7 +18,6 @@ export default class Discuss extends React.Component <any, any> {
       closeModal: closeModal,
       showDisable: false,
     }
-    console.log('referenceId',referenceId)
   }
 
   static contextTypes = {

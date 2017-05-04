@@ -80,7 +80,6 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
 
   render() {
     const {question, warmupPracticeId, data, commentId, showDiscuss} = this.state
-    console.log('warmupPracticeId',warmupPracticeId)
     const renderDiscuss = (discuss) => {
         return (
             <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
