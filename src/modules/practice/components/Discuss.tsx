@@ -43,7 +43,7 @@ export default class Discuss extends React.Component <any, any> {
 
     this.props.discuss(discuss_body).then(res => {
       const {code, msg} = res
-      if (code === 200) closeModal()
+      if (code === 200) closeModal(discuss_body)
       else {
         dispatch(alertMsg(msg))
         this.setState({showDisable: true})
