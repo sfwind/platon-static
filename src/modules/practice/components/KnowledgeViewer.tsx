@@ -159,18 +159,19 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                     {this.state.discuss ? this.state.discuss.map(item => {
                       return <DiscussShow discuss={item} reply={()=>{this.reply(item.id)}}/>
                     }) : null}
-                    { this.state.discuss? (this.state.discuss.length > 0 ?
+                    { this.state.discuss ? (this.state.discuss.length > 0 ?
                       <div className="show-more">
                         你已经浏览完所有的讨论啦
                       </div>
                       :
                       <div className="discuss-end">
                         <div className="discuss-end-img">
-                          <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                          <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94}
+                                    height={92}></AssetImg>
                         </div>
                         <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
 
-                      </div>):null
+                      </div>) : null
                     }
                   </div>
                 </div>
