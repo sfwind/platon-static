@@ -66,6 +66,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   reply(repliedId){
     console.log('replay',repliedId);
     this.setState({showDiscuss:true, repliedId})
+    if(this.props.trigger){
+      this.props.trigger();
+    }
   }
 
   reload(){
@@ -74,9 +77,19 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       .then(res=>{
         if(res.code === 200){
           this.setState({discuss:res.msg,showDiscuss:false})
+          if(this.props.trigger){
+            this.props.trigger();
+          }
         }
       });
     // this.setState({ showDiscuss: false })
+  }
+
+  writeDiscuss(){
+    this.setState({showDiscuss: true, repliedId:0});
+    if(this.props.trigger){
+      this.props.trigger();
+    }
   }
 
   render() {
@@ -178,7 +191,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             : null}
             </div>
         </div>
-        <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, repliedId:0})}>
+        <div className="writeDiscuss" onClick={() => {this.writeDiscuss()}}>
           <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
         </div>
         {closeModal?<div className="button-footer" onClick={closeModal}>返回</div>:null}
