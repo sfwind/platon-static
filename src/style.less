@@ -42,6 +42,16 @@
   }
 }
 
+.container-no-touch {
+  //-webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
+  padding: 0 15px 0 15px;
+  background-color: #fff;
+  height: 100%;
+  &.has-footer {
+    height: ~"calc(100% - 49px)";
+  }
+}
 .container-no-pd{
   background-color: #fff;
   height: 100%;
