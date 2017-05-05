@@ -88,7 +88,7 @@ export class PlanMain extends React.Component <any, any> {
       nextSeriesModal:{
         buttons:[
           {label:'我不听',onClick:()=>this.next(true)},
-          {label:'好的',onClick:()=>this.setState({showNextSeriesModal:false})}
+          {label:'做本节练习',onClick:()=>this.setState({showNextSeriesModal:false})}
         ],
       },
       nextModal:{
@@ -169,7 +169,7 @@ export class PlanMain extends React.Component <any, any> {
           }
           if(code === 213 && !showedPayTip){
             this.setState({showedPayTip:true});
-            dispatch(alertMsg("试用版仅能体验前三节内容哦"))
+            dispatch(alertMsg("试用版仅能体验前三节内容 <br/> 点击右上角按钮，升级正式版吧"))
           }
         } else if (code === 212) {
           this.context.router.push({ pathname: location.pathname })

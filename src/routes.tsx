@@ -17,6 +17,7 @@ import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Su
 import { ReplyDiscussMessage } from "modules/message/ReplyDiscussMessage";
 import { ReplySubjectMessage  } from "modules/message/ReplySubjectMessage"
 import { MessageCenter } from "modules/message/MessageCenter";
+import { ReplyKnowledgeDiscussMessage } from "modules/message/ReplyKnowledgeDiscussMessage"
 import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
 import { Comment as ApplicationComment } from "modules/practice/application/Comment";
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
@@ -44,6 +45,7 @@ const routes = (
     <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
     <Route path="message/subject/reply" component={ReplySubjectMessage}/>
     <Route path="message/center" component={MessageCenter}/>
+    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
     <Route path="practice/application/comment" component={ApplicationComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
