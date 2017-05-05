@@ -9,6 +9,7 @@ import SubmitBox from "../practice/components/SubmitBox"
 import PullElement from "pull-element"
 import {findIndex,remove,merge,set} from "lodash";
 import Work from "../practice/components/NewWork"
+import CommentShow from "../practice/components/CommentShow"
 
 
 @connect(state=>state)
@@ -206,26 +207,7 @@ export class ReplySubjectMessage extends React.Component<any,any>{
         return (
           commentList.map((item,seq)=>{
             return (
-              <div className="comment-cell">
-                <div className="comment-avatar"><img className="comment-avatar-img" src={item.headPic}/>
-                </div>
-                <div className="comment-area">
-                  <div className="comment-head">
-                    <div className="comment-name">
-                      {item.upName}
-                    </div>
-                    {item.role==3||item.role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
-                    {item.role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
-                    {item.role==6||item.role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
-                    {item.role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
-                    <div className="comment-time">{item.upTime}</div>
-                  </div>
-                  <div className="signature">{item.signature}</div>
-                  <div className="comment-content">
-                    <pre>{item.content}</pre>
-                  </div>
-                </div>
-              </div>
+                <CommentShow comment={item}/>
             )
           })
         )

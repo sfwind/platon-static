@@ -2,6 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
+import {deleteComment} from "../warmup/async"
 
 @connect(state => state)
 export default class DiscussShow extends React.Component <any, any> {
@@ -10,10 +11,32 @@ export default class DiscussShow extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
+  constructor() {
+    super()
+    this.state = {
+      del:false,
+    }
+  }
+
+  onDelete(id){
+    const { dispatch } = this.props
+    deleteComment(id).then(res => {
+      if(res.code === 200){
+        dispatch(alertMsg('删除成功'))
+        this.setState({del:true})
+      }else{
+        dispatch(alertMsg(res.msg))
+      }
+    })
+  }
+
   render() {
     const { discuss, reply } = this.props
-    const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,warmupPracticeId,role,signature } = discuss
+    const {del} = this.state
+    const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,
+        warmupPracticeId,role,signature,isMine,repliedDel } = discuss
     return (
+        del ? null:
         <div key={id} className="comment-cell">
           <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
           <div className="comment-area">
@@ -34,13 +57,23 @@ export default class DiscussShow extends React.Component <any, any> {
             </div>
             <div className="signature">{signature}</div>
             <div className="comment-content">{comment}</div>
-            {repliedComment ?
+            {repliedComment && repliedDel==0 ?
                 <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
-            <div className="function-area" onClick={()=>{reply(warmupPracticeId, id)}}>
-              <AssetImg type="reply" height={12} width={15}/>
-              <div className="function-button">
-                回复
+            <div className="function-area">
+              <div className="function-div" onClick={()=>{reply(warmupPracticeId, id)}}>
+                <AssetImg type="reply" height={12} width={15}/>
+                <div className="function-button">
+                  回复
+                </div>
               </div>
+
+              {isMine ?
+                  <div className="function-div" >
+                      <AssetImg type="reply" height={12} width={15}/>
+                      <div className="function-button" onClick={this.onDelete.bind(this, id)}>
+                        删除
+                      </div>
+                  </div>      : null}
             </div>
           </div>
         </div>

@@ -184,8 +184,10 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                             "comment":"回复回复",
                             "repliedName": "风之伤",
                             "repliedComment": "评论评论评论",
+                              "isMine":true,
                             "warmupPracticeId": 49,
                             "role":3,
+                            "repliedDel":0,
                             "name":"Diane",
                             "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
                             "discussTime":"10:30",
@@ -354,10 +356,12 @@ router.get("/rise/practice/warmup/load/discuss/*/*", (req, res) => {
           "comment":"新增的评论",
           "repliedName": "风之伤",
           "repliedComment": "评论评论评论",
+          "repliedDel":0,
           "warmupPracticeId": 49,
           "name":"Diane",
           "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-          "discussTime":"10:30"
+          "discussTime":"10:30",
+            "isMine":true,
         },
 
         {
@@ -366,6 +370,7 @@ router.get("/rise/practice/warmup/load/discuss/*/*", (req, res) => {
           "comment":"评论评论评论",
           "repliedName": null,
           "repliedComment": null,
+          "repliedDel":null,
           "warmupPracticeId": 49,
           "name":"风之伤",
           "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
@@ -456,6 +461,7 @@ router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
             "role":4,
             "repliedName": "风之伤",
             "repliedComment": "评论评论评论",
+             "isMine":true,
             "warmupPracticeId": 49,
             "name":"Diane",
             "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
@@ -534,6 +540,7 @@ router.get("/rise/practice/comment/*", (req, res) => {
                         "headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg",
                         "signature":"签名",
                         "role":3,
+                        "isMine":true,
                     },
                 ]
             }
@@ -822,5 +829,16 @@ router.get("/rise/practice/knowledge/start/*", (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.post("/rise/practice/warmup/delete/comment/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/delete/comment/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
+    },Math.random()*1500);
+});
 
 module.exports = router;
