@@ -27,7 +27,16 @@ export default class ProblemViewer extends React.Component<any, any> {
   }
 
   show() {
-    this.setState({showAlert: true})
+    // just check
+    if(this.props.checkCreatePlan){
+      this.props.checkCreatePlan(this.props.problem.id).then(res=>{
+        if(res.code === 200){
+          this.setState({showAlert: true})
+        }
+      })
+    } else {
+      this.setState({showAlert: true})
+    }
   }
 
   close() {
