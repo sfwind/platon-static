@@ -2,7 +2,7 @@ import * as React from "react";
 import "./ProblemPriority.less";
 import QueueAnim from 'rc-queue-anim';
 import AssetImg from "../../components/AssetImg";
-import {loadUnChooseList, createPlan} from "./async";
+import {loadUnChooseList, createPlan,checkCreatePlan} from "./async";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {merge, fill, get,isNull} from "lodash";
 import ProblemViewer from "./components/ProblemViewer"
@@ -85,6 +85,21 @@ export class ProblemPriority extends React.Component<any,any> {
     })
   }
 
+  checkCreatePlan(problemId) {
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    return checkCreatePlan(problemId).then(res=>{
+      dispatch(endLoad());
+      if(res.code !== 200){
+        dispatch(alertMsg(res.msg));
+      }
+      return res;
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    });
+  }
+
 
   render() {
     const {name, catalogList, problemListSelected, catalogOpen, showProblem, selectProblem} = this.state
@@ -138,7 +153,7 @@ export class ProblemPriority extends React.Component<any,any> {
           {/*训练开始前，我想更了解你的情况。*/}
         {/*</div>*/}
         {showProblem ?<ProblemViewer problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}
-                                     submitProblem={(problemId)=>this.submitProblem(problemId)}/>
+                                     submitProblem={(problemId)=>this.submitProblem(problemId)} checkCreatePlan={(problemId)=>this.checkCreatePlan(problemId)}/>
           : <div className="swipe-container">
           {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
             .concat(<a href={`http://${window.location.hostname}/survey/wjx?activity=12602894`} className="more-box" style={{display:'block',height:`${this.catalogHeight}px`,lineHeight:`${this.catalogHeight}px`}}>

@@ -24,6 +24,10 @@ export function createPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
 
+export function checkCreatePlan(problemId) {
+  return ppost(`/rise/plan/choose/problem/check/${problemId}`)
+}
+
 export function welcome() {
   return pget(`/rise/plan/welcome`)
 }
