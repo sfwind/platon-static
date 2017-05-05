@@ -61,7 +61,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
   reply(repliedId){
     console.log('replay',repliedId);
-    this.setState({showDiscuss:true, repliedId})
+    this.setState({showDiscuss:true, repliedId},()=>{scroll(0,0)})
     if(this.props.trigger){
       this.props.trigger();
     }
@@ -82,7 +82,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   writeDiscuss(){
-    this.setState({showDiscuss: true, repliedId:0});
+    this.setState({showDiscuss: true, repliedId:0},()=>{scroll(0,0)});
     if(this.props.trigger){
       this.props.trigger();
     }
