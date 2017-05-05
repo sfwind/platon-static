@@ -143,18 +143,6 @@ export class Main extends React.Component <any, any> {
     this.setState({edit:true})
   }
 
-  onRequestComment(submitId){
-    const {dispatch} = this.props
-    requestComment(submitId).then(res => {
-      const {code,msg} = res
-      if(code === 200){
-        dispatch(alertMsg('求点评成功'))
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    })
-  }
-
   closeModal() {
     this.setState({ showKnowledge: false })
   }
@@ -295,7 +283,6 @@ export class Main extends React.Component <any, any> {
           <div>
             <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
                 headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}
-                onRequestComment={()=>this.onRequestComment(submitId)}
                 goComment={()=>this.goComment(submitId)} />
           </div>
         )

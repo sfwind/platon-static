@@ -5,7 +5,11 @@ import AssetImg from "../../../components/AssetImg";
 import { preview } from "../../helpers/JsConfig"
 import { Dialog } from "react-weui"
 const { Alert } = Dialog
+import {connect} from "react-redux";
+import {requestComment} from "../../message/async"
+import {alertMsg} from "../../../redux/actions";
 
+@connect(state => state)
 export default class Work extends React.Component<any,any> {
 
 
@@ -26,8 +30,7 @@ export default class Work extends React.Component<any,any> {
   }
 
   requestComment(){
-    const {onRequestComment} = this.props
-    onRequestComment()
+    this.onRequestComment()
     this.setState({showRequestComment:false})
   }
 
@@ -47,11 +50,23 @@ export default class Work extends React.Component<any,any> {
     }
   }
 
+  onRequestComment() {
+    const { dispatch, submitId } = this.props;
+    requestComment(submitId).then(res =>{
+      let {code,msg} = res;
+      if(code===200){
+        dispatch(alertMsg('求点评成功'))
+      } else {
+        dispatch(alertMsg(msg));
+      }
+    })
+  }
+
   render() {
     const {headImage, userName, content,
       submitUpdateTime,onEdit,voteCount,commentCount,
       voteStatus,onVoted,goComment,wordsCount=60,
-      title,avatarStyle = 'left', role, signature, onRequestComment, requestComment,
+      title,avatarStyle = 'left', role, signature, requestComment,
       operation=true} = this.props;
     const {showAll,filterContent, showRequestComment} = this.state;
     const renderWorkContent = ()=>{
@@ -108,7 +123,7 @@ export default class Work extends React.Component<any,any> {
               </div>
                 {requestComment?
                 <div className="function-area" onClick={()=>this.setState({showRequestComment:true})}>
-                  <AssetImg type="edit" height={12}/>
+                  <AssetImg type="request_comment" height={12}/>
                   <div className="submit-button">
                     求点评
                   </div>

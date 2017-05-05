@@ -37,8 +37,12 @@ export function getOpenStatus(){
   return pget('/rise/plan/open/status');
 }
 
-export function requestComment(submitId){
+export function requestComment(submitId) {
   return ppost(`/rise/practice/request/comment/2/${submitId}`);
+}
+
+export function deleteComment(id){
+  return ppost(`/rise/practice/delete/comment/${id}`)
 }
 
 const CommentType = {

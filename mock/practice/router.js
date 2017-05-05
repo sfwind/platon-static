@@ -184,8 +184,10 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                             "comment":"回复回复",
                             "repliedName": "风之伤",
                             "repliedComment": "评论评论评论",
+                              "isMine":true,
                             "warmupPracticeId": 49,
                             "role":3,
+                            "repliedDel":0,
                             "name":"Diane",
                             "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
                             "discussTime":"10:30",
@@ -355,10 +357,12 @@ router.get("/rise/practice/warmup/load/discuss/*/*", (req, res) => {
           "comment":"新增的评论",
           "repliedName": "风之伤",
           "repliedComment": "评论评论评论",
+          "repliedDel":0,
           "warmupPracticeId": 49,
           "name":"Diane",
           "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
-          "discussTime":"10:30"
+          "discussTime":"10:30",
+            "isMine":true,
         },
 
         {
@@ -367,6 +371,7 @@ router.get("/rise/practice/warmup/load/discuss/*/*", (req, res) => {
           "comment":"评论评论评论",
           "repliedName": null,
           "repliedComment": null,
+          "repliedDel":null,
           "warmupPracticeId": 49,
           "name":"风之伤",
           "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
@@ -457,6 +462,7 @@ router.get('/rise/practice/warmup/new/analysis/*', (req, res) =>{
             "role":4,
             "repliedName": "风之伤",
             "repliedComment": "评论评论评论",
+             "isMine":true,
             "warmupPracticeId": 49,
             "name":"Diane",
             "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
@@ -535,6 +541,7 @@ router.get("/rise/practice/comment/*", (req, res) => {
                         "headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg",
                         "signature":"签名",
                         "role":3,
+                        "isMine":true,
                     },
                 ]
             }
@@ -831,12 +838,45 @@ router.post("/rise/practice/request/comment/*", (req, res) => {
         }), Math.random() * 1500)
 });
 
-router.get("/rise/practice/subject/*", (req, res) =>{
+router.get("/rise/practice/subject/*", (req, res) => {
     setTimeout(() =>
         res.status(200).json({
             "code": 200,
-            "msg": {        "requestComment":true,"title":"团队成员的绩效表现为什么不佳？","userName":"Chloé\uD83C\uDF38","submitUpdateTime":"2017-04-18","role":6,"headImage":"http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0","content":"如图所示<img src=\"http://www.confucius.mobi/images/subject/subject-pefect5.jpeg\" width=\"90%\"/>","voteCount":0,"commentCount":2,"submitId":8,"type":1,"voteStatus":0,"publishTime":null,"priority":null,"perfect":true,"problemId":null,"authorType":2,"isMine":true,"labelList":[{"id":20,"labelId":21,"articleModule":3,"articleId":8,"del":false}],"picList":["http://www.confucius.mobi/images/subject/subject-pefect5.jpeg"]}
+            "msg": {
+                "requestComment": true,
+                "title": "团队成员的绩效表现为什么不佳？",
+                "userName": "Chloé\uD83C\uDF38",
+                "submitUpdateTime": "2017-04-18",
+                "role": 6,
+                "headImage": "http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0",
+                "content": "如图所示<img src=\"http://www.confucius.mobi/images/subject/subject-pefect5.jpeg\" width=\"90%\"/>",
+                "voteCount": 0,
+                "commentCount": 2,
+                "submitId": 8,
+                "type": 1,
+                "voteStatus": 0,
+                "publishTime": null,
+                "priority": null,
+                "perfect": true,
+                "problemId": null,
+                "authorType": 2,
+                "isMine": true,
+                "labelList": [{"id": 20, "labelId": 21, "articleModule": 3, "articleId": 8, "del": false}],
+                "picList": ["http://www.confucius.mobi/images/subject/subject-pefect5.jpeg"]
+            }
         }), Math.random() * 1500)
+});
+
+router.post("/rise/practice/warmup/delete/comment/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/delete/comment/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
+    },Math.random()*1500);
 });
 
 module.exports = router;

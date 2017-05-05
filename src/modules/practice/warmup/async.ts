@@ -31,3 +31,7 @@ export function getOpenStatus(){
 export function openConsolidation(){
   return ppost('/rise/plan/open/consolidation')
 }
+
+export function deleteComment(id){
+  return ppost(`/rise/practice/warmup/delete/comment/${id}`)
+}
