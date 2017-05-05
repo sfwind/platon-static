@@ -57,7 +57,7 @@ export default class CommentShow extends React.Component <any, any> {
                     {isMine ?
                         <div className="function-area">
                             <div className="function-div" >
-                                <AssetImg type="reply" height={12} width={15}/>
+                                <AssetImg type="delete" height={15} width={15}/>
                                 <div className="function-button" onClick={this.onDelete.bind(this, id)}>
                                     删除
                                 </div>
