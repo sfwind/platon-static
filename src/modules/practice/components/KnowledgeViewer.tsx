@@ -72,7 +72,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     loadDiscuss(knowledge.id,1)
       .then(res=>{
         if(res.code === 200){
-          this.setState({discuss:res.msg,showDiscuss:false})
+          this.setState({discuss:res.msg,showDiscuss:false},()=>{window.location.href = '#discuss-bar'})
           if(this.props.trigger){
             this.props.trigger();
           }
@@ -165,6 +165,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                       :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
                 </div>
             : null}
+            <a id="discuss-bar"/>
             <div className="title-bar">问答</div>
             <div className="discuss">
               {this.state.discuss ? this.state.discuss.map(item => {
