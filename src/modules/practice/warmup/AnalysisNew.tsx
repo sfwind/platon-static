@@ -68,7 +68,9 @@ export class AnalysisNew extends React.Component <any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
+        console.log(msg);
         set(data, data.discussList, msg)
+        console.log(data.discussList);
         this.setState({showDiscuss: false, data})
       }
       else dispatch(alertMsg(msg))
@@ -187,7 +189,7 @@ export class AnalysisNew extends React.Component <any, any> {
 
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
         {showDiscuss ?<Discuss repliedId={repliedId} referenceId={this.state.warmupPracticeId}
-                               closeModal={this.closeDiscussModal.bind(this)} discuss={(body)=>discussKnowledge(body)} /> : null}
+                               closeModal={this.closeDiscussModal.bind(this)} discuss={(body)=>discuss(body)} /> : null}
       </div>
     )
   }
