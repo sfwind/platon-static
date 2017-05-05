@@ -191,7 +191,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
         </div>
         {closeModal?<div className="button-footer" onClick={closeModal}>返回</div>:null}
-        {showDiscuss ?<Discuss repliedId={repliedId} referenceId={id}
+        {showDiscuss ?<Discuss repliedId={repliedId} referenceId={id} type="本知识点"
                                closeModal={(body)=> this.reload()} discuss={(body)=>discussKnowledge(body)}  /> : null}
       </div>
     )

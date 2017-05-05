@@ -68,9 +68,7 @@ export class AnalysisNew extends React.Component <any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        console.log(msg);
-        set(data, data.discussList, msg)
-        console.log(data.discussList);
+        set(data, 'discussList', msg.discussList)
         this.setState({showDiscuss: false, data})
       }
       else dispatch(alertMsg(msg))
