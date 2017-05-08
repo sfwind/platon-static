@@ -6,7 +6,7 @@ import { preview } from "../../helpers/JsConfig"
 import { Dialog } from "react-weui"
 const { Alert } = Dialog
 import {connect} from "react-redux";
-import {requestComment} from "../../message/async"
+import {requestCommentByType} from "../../message/async"
 import {alertMsg} from "../../../redux/actions";
 
 @connect(state => state)
@@ -21,6 +21,7 @@ export default class Work extends React.Component<any,any> {
       showAll: false,
       filterContent:isString(props.content)?props.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):"",
       showRequestComment:false,
+      request:false,
     }
   }
 
@@ -42,6 +43,10 @@ export default class Work extends React.Component<any,any> {
     }
   }
 
+  componentWillMount(){
+    this.setState({request:this.props.request})
+  }
+
   contentClick(e){
     if(e.target.tagName === 'IMG'){
       let item = e.target.src
@@ -50,25 +55,41 @@ export default class Work extends React.Component<any,any> {
     }
   }
 
+  click(){
+    const { dispatch, requestCommentCount } = this.props;
+    const { request } = this.state;
+    if(request){
+      dispatch(alertMsg('本练习已求点评'));
+      return;
+    }
+    if(requestCommentCount===0){
+      dispatch(alertMsg('本小课求点评次数已用完'));
+      return;
+    }
+    this.setState({showRequestComment:true})
+  }
+
   onRequestComment() {
-    const { dispatch, submitId } = this.props;
-    requestComment(submitId).then(res =>{
+    const { dispatch, submitId, type } = this.props;
+    requestCommentByType(type, submitId).then(res =>{
       let {code,msg} = res;
       if(code===200){
-        dispatch(alertMsg('求点评成功'))
+        this.setState({request:true})
+        dispatch(alertMsg('教练已经收到你的请求啦\n点评后，会在消息中心通知你的'))
       } else {
         dispatch(alertMsg(msg));
       }
     })
+
   }
 
   render() {
     const {headImage, userName, content,
       submitUpdateTime,onEdit,voteCount,commentCount,
       voteStatus,onVoted,goComment,wordsCount=60,
-      title,avatarStyle = 'left', role, signature, requestComment,
+      title,avatarStyle = 'left', role, signature, requestCommentCount,
       operation=true} = this.props;
-    const {showAll,filterContent, showRequestComment} = this.state;
+    const {showAll,filterContent, showRequestComment,request} = this.state;
     const renderWorkContent = ()=>{
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
@@ -115,20 +136,26 @@ export default class Work extends React.Component<any,any> {
           </div>
 
           {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}}>
-              <div className="function-area" onClick={()=>onEdit()}>
+              <div className="function-area" onClick={()=>onEdit()} style={{marginRight:8}}>
                 <AssetImg type="edit" height={12}/>
                 <div className="submit-button">
                   编辑
                 </div>
               </div>
-                {requestComment?
-                <div className="function-area" onClick={()=>this.setState({showRequestComment:true})}>
-                  <AssetImg type="request_comment" height={12}/>
-                  <div className="submit-button">
+                {requestCommentCount!=null && requestCommentCount>0?
+                <div className="function-area" onClick={this.click.bind(this)}>
+                  {request?<AssetImg type="request_comment_disable" height={12}/>:<AssetImg type="request_comment" height={12}/>}
+                  <div className={`submit-button ${request?'disabled':""}`}>
                     求点评
                   </div>
                 </div>
                 :null}
+                {requestCommentCount!=null && requestCommentCount===0?<div className="function-area" onClick={this.click.bind(this)}>
+                      <AssetImg type="request_comment_disable" height={12}/>
+                      <div className={`submit-button disabled`}>
+                        求点评
+                      </div>
+                    </div>:null}
           </div>:null}
         </div>
       )
@@ -136,8 +163,8 @@ export default class Work extends React.Component<any,any> {
 
     const alertProps = {
       buttons:[
-        {label:'放弃',onClick:()=>this.setState({showRequestComment:false})},
-        {label:'好的',onClick:()=>this.requestComment()}
+        {label:'再想想',onClick:()=>this.setState({showRequestComment:false})},
+        {label:'确定',onClick:()=>this.requestComment()}
       ],
     }
 
@@ -145,7 +172,7 @@ export default class Work extends React.Component<any,any> {
       <div className={`new-work`} >
         <Alert { ...alertProps }
             show={showRequestComment}>
-          <div className="global-pre" dangerouslySetInnerHTML={{__html:"确定使用求点评的机会吗？"}}/>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:`每个小课只有${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>
         </Alert>
         <div className="submit-cell">
           <div className="submit-area">

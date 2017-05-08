@@ -32,11 +32,7 @@ export function loadLabels(problemId){
   return pget(`/rise/practice/label/${problemId}`);
 }
 
-export function requestComment(submitId){
-  return ppost(`/rise/practice/request/comment/3/${submitId}`);
-}
-
-const CommentType = {
+export const CommentType = {
   Challenge:1,
   Application:2,
   Subject:3,

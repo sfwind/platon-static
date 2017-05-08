@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./ReplySubjectMessage.less";
 import {connect} from "react-redux"
-import {loadSubjectCommentList,commentSubject,loadSubject, submitSubject, requestComment} from "./async"
+import {loadSubjectCommentList,commentSubject,loadSubject, submitSubject, CommentType} from "./async"
 import {loadLabels} from "../practice/subject/async"
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -243,6 +243,7 @@ export class ReplySubjectMessage extends React.Component<any,any>{
         <div className="pull-target">
           <div className="reply-header">
             {work?<Work onEdit={()=>this.onEdit(work)}
+                        type = {CommentType.Subject}
                         operation={false} avatarStyle={"top"} {...work}/>:null}
           </div>
           <div className="submit-bar">评论</div>

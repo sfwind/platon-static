@@ -36,7 +36,11 @@ export function requestComment(submitId){
   return ppost(`/rise/practice/request/comment/3/${submitId}`);
 }
 
-const CommentType = {
+export function requestCommentByType(type, submitId){
+  return ppost(`/rise/practice/request/comment/${type}/${submitId}`);
+}
+
+export const CommentType = {
   Challenge:1,
   Application:2,
   Subject:3,

@@ -1,13 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadSubjects,submitSubject,vote,loadSubjectDesc,loadLabels, requestComment } from "./async";
+import { loadSubjects,submitSubject,vote,loadSubjectDesc,loadLabels } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import SubmitBox from "../components/RichSubmitBox"
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
+import {CommentType} from "../../message/async";
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -299,6 +300,7 @@ export class Main extends React.Component <any, any> {
           return (
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,perfect,seq)}  {...item}
                   goComment={()=>this.goComment(item.submitId)}
+                  type = {CommentType.Subject}
                   onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content,item.labelList):null}
                   avatarStyle={"top"}
             />
