@@ -314,7 +314,6 @@ export class PlanMain extends React.Component <any, any> {
       this.context.router.push({ pathname: this.props.location.pathname, query: { series: series + 1 } })
     }
 
-    this.refs.plan.scrollTop = 0
   }
 
   complete() {
@@ -449,6 +448,7 @@ export class PlanMain extends React.Component <any, any> {
     const {
       problem = {}, practice, point, section, chapter, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
+    console.log(planData)
     const practiceRender = (list = []) => {
       return list.map((item, index) => {
         return (
@@ -527,11 +527,13 @@ export class PlanMain extends React.Component <any, any> {
         <Modal show={status===3}
                buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
                >
-          <div className="content"><div className="text">本小课已到期</div></div>
+          <div className="content">
+            <div className="text">糟糕！好久没学，小课到期了！</div>
+          </div>
           <div className="content2">
-            <div className="text">登录</div>
-            <div className="text">www.iquanwai.com/community</div>
-            <div className="text">可继续完成小课/应用练习</div>
+            <div className="text">
+              你完成了<span className="number">{completeSeries}</span>节，获得了<span className="number">{point}</span>积分
+            </div>
           </div>
         </Modal>
 
