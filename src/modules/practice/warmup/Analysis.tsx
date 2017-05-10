@@ -1,13 +1,13 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./Main.less";
-import {loadWarmUpAnalysis, loadWarmUpDiscuss,discuss} from "./async";
+import {loadWarmUpAnalysis, loadWarmUpDiscuss,discuss, deleteComment} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
-import {set} from "lodash"
+import _ from "lodash"
 
 const sequenceMap = {
   0: 'A',
@@ -104,7 +104,7 @@ export class Analysis extends React.Component <any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        set(list, `practice.${currentIndex}.discussList`, msg)
+        _.set(list, `practice.${currentIndex}.discussList`, msg)
         this.setState({showDiscuss: false, list})
       }
       else dispatch(alertMsg(msg))
@@ -119,6 +119,29 @@ export class Analysis extends React.Component <any, any> {
 
   reply(warmupPracticeId, repliedId){
     this.setState({showDiscuss:true, warmupPracticeId, repliedId})
+  }
+
+  onDelete(discussId){
+    const {dispatch} = this.props
+
+    deleteComment(discussId).then(res=>{
+      let {list, currentIndex} = this.state
+      const {practice = []} = list
+      const {id} = practice[currentIndex]
+
+      loadWarmUpDiscuss(id, 1).then(res => {
+        dispatch(endLoad())
+        const {code, msg} = res
+        if (code === 200) {
+          _.set(list, `practice.${currentIndex}.discussList`, msg)
+          this.setState({showDiscuss: false, list})
+        }
+        else dispatch(alertMsg(msg))
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
+    })
   }
 
   render() {
@@ -188,7 +211,7 @@ export class Analysis extends React.Component <any, any> {
 
     const discussRender = (discuss, idx) => {
       return (
-        <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
+        <DiscussShow discuss={discuss} reply={this.reply.bind(this)} onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
