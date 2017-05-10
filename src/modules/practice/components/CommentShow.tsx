@@ -4,13 +4,16 @@ import "./Discuss.less";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import {deleteComment} from "../application/async"
 import AssetImg from "../../../components/AssetImg";
+import { Dialog } from "react-weui"
+const { Alert } = Dialog
 
 @connect(state => state)
 export default class CommentShow extends React.Component <any, any> {
-    constructor(props) {
+    constructor() {
         super()
         this.state = {
-            del:false
+            del:false,
+            show:false,
         }
     }
 
@@ -18,11 +21,11 @@ export default class CommentShow extends React.Component <any, any> {
         router: React.PropTypes.object.isRequired
     }
 
-    onDelete(id){
-        const { dispatch } = this.props
+    onDelete(){
+        const { dispatch,comment } = this.props
+        const {id} = comment
         deleteComment(id).then(res => {
             if(res.code === 200){
-                dispatch(alertMsg('删除成功'))
                 this.setState({del:true})
             }else{
                 dispatch(alertMsg(res.msg))
@@ -31,9 +34,17 @@ export default class CommentShow extends React.Component <any, any> {
     }
 
     render() {
-        const { del } = this.state
+        const { del,show } = this.state
         const { comment } = this.props
         const {id, role, headPic, upTime, signature, content, upName, isMine} = comment
+
+        const alertProps = {
+            buttons:[
+                {label:'再想想',onClick:()=>this.setState({show:false})},
+                {label:'确定',onClick:()=>this.onDelete()}
+            ],
+        }
+
         return (
             del? null:
             <div className="comment-cell subject">
@@ -58,9 +69,13 @@ export default class CommentShow extends React.Component <any, any> {
                         <div className="function-area">
                             <div className="function-div" >
                                 <AssetImg type="delete" height={15} width={15}/>
-                                <div className="function-button" onClick={this.onDelete.bind(this, id)}>
+                                <div className="function-button" onClick={()=>this.setState({show:true})}>
                                     删除
                                 </div>
+                                <Alert { ...alertProps }
+                                    show={show}>
+                                    <div className="global-pre" dangerouslySetInnerHTML={{__html:`确认要删除评论吗？`}}/>
+                                </Alert>
                             </div>
                         </div>    : null}
                 </div>

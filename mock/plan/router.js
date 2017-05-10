@@ -404,4 +404,16 @@ router.get("/rise/plan/promote", (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.get('/rise/plan/open/status', (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "code": 200,
+            "msg": {
+                openRise: true,
+                openApplication: true,
+                openConsolidation: true,
+            }
+        }), Math.random() * 1500)
+});
+
 module.exports = router;

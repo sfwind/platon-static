@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import {deleteComment} from "../warmup/async"
+import { Dialog } from "react-weui"
+const { Alert } = Dialog
 
 @connect(state => state)
 export default class DiscussShow extends React.Component <any, any> {
@@ -15,14 +17,15 @@ export default class DiscussShow extends React.Component <any, any> {
     super()
     this.state = {
       del:false,
+      show:false,
     }
   }
 
-  onDelete(id){
-    const { dispatch } = this.props
+  onDelete(){
+    const { dispatch,discuss } = this.props
+    const { id } = discuss
     deleteComment(id).then(res => {
       if(res.code === 200){
-        dispatch(alertMsg('删除成功'))
         this.setState({del:true})
       }else{
         dispatch(alertMsg(res.msg))
@@ -32,9 +35,17 @@ export default class DiscussShow extends React.Component <any, any> {
 
   render() {
     const { discuss, reply } = this.props
-    const {del} = this.state
+    const {del, show} = this.state
     const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,
         warmupPracticeId,role,signature,isMine,repliedDel } = discuss
+
+    const alertProps = {
+      buttons:[
+        {label:'再想想',onClick:()=>this.setState({show:false})},
+        {label:'确定',onClick:()=>this.onDelete()}
+      ],
+    }
+
     return (
         del ? null:
         <div key={id} className="comment-cell">
@@ -70,9 +81,13 @@ export default class DiscussShow extends React.Component <any, any> {
               {isMine ?
                   <div className="function-div" >
                       <AssetImg type="delete" height={15} width={15}/>
-                      <div className="function-button" onClick={this.onDelete.bind(this, id)}>
+                      <div className="function-button" onClick={()=>this.setState({show:true})}>
                         删除
                       </div>
+                    <Alert { ...alertProps }
+                        show={show}>
+                      <div className="global-pre" dangerouslySetInnerHTML={{__html:`确认要删除评论吗？`}}/>
+                    </Alert>
                   </div>      : null}
             </div>
           </div>

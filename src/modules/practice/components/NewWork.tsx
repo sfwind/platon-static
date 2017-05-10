@@ -59,7 +59,7 @@ export default class Work extends React.Component<any,any> {
     const { dispatch, requestCommentCount } = this.props;
     const { request } = this.state;
     if(request){
-      dispatch(alertMsg('本练习已求点评'));
+      dispatch(alertMsg('本练习已经使用过求点评啦'));
       return;
     }
     if(requestCommentCount===0){
@@ -142,15 +142,15 @@ export default class Work extends React.Component<any,any> {
                   编辑
                 </div>
               </div>
-                {requestCommentCount!=null && requestCommentCount>0?
+                {!request && requestCommentCount!=null && requestCommentCount>0?
                 <div className="function-area" onClick={this.click.bind(this)}>
-                  {request?<AssetImg type="request_comment_disable" height={12}/>:<AssetImg type="request_comment" height={12}/>}
-                  <div className={`submit-button ${request?'disabled':""}`}>
+                  <AssetImg type="request_comment" height={12}/>
+                  <div className={`submit-button`}>
                     求点评
                   </div>
                 </div>
                 :null}
-                {requestCommentCount!=null && requestCommentCount===0?<div className="function-area" onClick={this.click.bind(this)}>
+                {request || (requestCommentCount!=null && requestCommentCount===0)?<div className="function-area" onClick={this.click.bind(this)}>
                       <AssetImg type="request_comment_disable" height={12}/>
                       <div className={`submit-button disabled`}>
                         求点评
@@ -172,7 +172,7 @@ export default class Work extends React.Component<any,any> {
       <div className={`new-work`} >
         <Alert { ...alertProps }
             show={showRequestComment}>
-          <div className="global-pre" dangerouslySetInnerHTML={{__html:`每个小课只有${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:`当前小课还剩${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>
         </Alert>
         <div className="submit-cell">
           <div className="submit-area">
