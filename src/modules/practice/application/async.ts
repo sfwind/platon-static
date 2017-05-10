@@ -42,7 +42,11 @@ export function getOpenStatus(){
   return pget('/rise/plan/open/status');
 }
 
-const CommentType = {
+export function deleteComment(id){
+  return ppost(`/rise/practice/delete/comment/${id}`)
+}
+
+export const CommentType = {
   Challenge:1,
   Application:2,
 }

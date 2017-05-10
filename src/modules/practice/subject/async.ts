@@ -32,7 +32,7 @@ export function loadLabels(problemId){
   return pget(`/rise/practice/label/${problemId}`);
 }
 
-const CommentType = {
+export const CommentType = {
   Challenge:1,
   Application:2,
   Subject:3,

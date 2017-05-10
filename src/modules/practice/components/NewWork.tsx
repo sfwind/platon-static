@@ -3,9 +3,15 @@ import "./NewWork.less"
 import {isString,truncate,isFunction} from "lodash";
 import AssetImg from "../../../components/AssetImg";
 import { preview } from "../../helpers/JsConfig"
+import { Dialog } from "react-weui"
+const { Alert } = Dialog
+import {connect} from "react-redux";
+import {requestCommentByType} from "../../message/async"
+import {alertMsg} from "../../../redux/actions";
 
-
+@connect(state => state)
 export default class Work extends React.Component<any,any> {
+
 
 
   constructor(props) {
@@ -13,7 +19,9 @@ export default class Work extends React.Component<any,any> {
 
     this.state = {
       showAll: false,
-      filterContent:isString(props.content)?props.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):""
+      filterContent:isString(props.content)?props.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):"",
+      showRequestComment:false,
+      request:false,
     }
   }
 
@@ -22,6 +30,10 @@ export default class Work extends React.Component<any,any> {
     return filterContent.length>wordsCount && !showAll;
   }
 
+  requestComment(){
+    this.onRequestComment()
+    this.setState({showRequestComment:false})
+  }
 
   componentWillReceiveProps(nextProps){
     if(nextProps.content && !this.props.content){
@@ -29,6 +41,10 @@ export default class Work extends React.Component<any,any> {
         filterContent:isString(nextProps.content)?nextProps.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):""
       })
     }
+  }
+
+  componentWillMount(){
+    this.setState({request:this.props.request})
   }
 
   contentClick(e){
@@ -39,13 +55,41 @@ export default class Work extends React.Component<any,any> {
     }
   }
 
+  click(){
+    const { dispatch, requestCommentCount } = this.props;
+    const { request } = this.state;
+    if(request){
+      dispatch(alertMsg('本练习已经使用过求点评啦'));
+      return;
+    }
+    if(requestCommentCount===0){
+      dispatch(alertMsg('本小课求点评次数已用完'));
+      return;
+    }
+    this.setState({showRequestComment:true})
+  }
+
+  onRequestComment() {
+    const { dispatch, submitId, type } = this.props;
+    requestCommentByType(type, submitId).then(res =>{
+      let {code,msg} = res;
+      if(code===200){
+        this.setState({request:true})
+        dispatch(alertMsg('教练已经收到你的请求啦\n点评后，会在消息中心通知你的'))
+      } else {
+        dispatch(alertMsg(msg));
+      }
+    })
+
+  }
+
   render() {
     const {headImage, userName, content,
       submitUpdateTime,onEdit,voteCount,commentCount,
       voteStatus,onVoted,goComment,wordsCount=60,
-      title,avatarStyle = 'left', role, signature,
-      operation=true,picList=[]} = this.props;
-    const {showAll,filterContent} = this.state;
+      title,avatarStyle = 'left', role, signature, requestCommentCount,
+      operation=true} = this.props;
+    const {showAll,filterContent, showRequestComment,request} = this.state;
     const renderWorkContent = ()=>{
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
@@ -91,31 +135,51 @@ export default class Work extends React.Component<any,any> {
 
           </div>
 
-          {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}} onClick={()=>onEdit()}>
-              <AssetImg type="edit" height={12}/>
-            <div className="submit-button">
-              编辑
-            </div>
+          {onEdit?<div className="right" style={{marginTop:`${avatarStyle==='left'?'0':'5px'}`}}>
+              <div className="function-area" onClick={()=>onEdit()} style={{marginRight:8}}>
+                <AssetImg type="edit" height={12}/>
+                <div className="submit-button">
+                  编辑
+                </div>
+              </div>
+                {!request && requestCommentCount!=null && requestCommentCount>0?
+                <div className="function-area" onClick={this.click.bind(this)}>
+                  <AssetImg type="request_comment" height={12}/>
+                  <div className={`submit-button`}>
+                    求点评
+                  </div>
+                </div>
+                :null}
+                {request || (requestCommentCount!=null && requestCommentCount===0)?<div className="function-area" onClick={this.click.bind(this)}>
+                      <AssetImg type="request_comment_disable" height={12}/>
+                      <div className={`submit-button disabled`}>
+                        求点评
+                      </div>
+                    </div>:null}
           </div>:null}
         </div>
       )
     }
 
-
+    const alertProps = {
+      buttons:[
+        {label:'再想想',onClick:()=>this.setState({showRequestComment:false})},
+        {label:'确定',onClick:()=>this.requestComment()}
+      ],
+    }
 
     return (
       <div className={`new-work`} >
+        <Alert { ...alertProps }
+            show={showRequestComment}>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:`当前小课还剩${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>
+        </Alert>
         <div className="submit-cell">
           <div className="submit-area">
             {renderHeader()}
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
             {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
-            {/*<div className="pic-list">{picList &&  !(filterContent && filterContent.length>wordsCount && !showAll) ?picList.map((item,seq)=>{
-              return (
-                <img className="pic" src={`${item}`}  onClick={() => preview(item, picList)} />
-              )
-            }):null}</div>*/}
             {showOperation()?<div className={`operation-area ${avatarStyle}`}>
               <div onClick={()=>{isFunction(onVoted)?onVoted():null;}} className="vote">
                 <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>

@@ -88,19 +88,27 @@
           position: absolute;
           top:0;
           right:0;
-          img{
+          > .function-area{
+            display: inline-block;
+            img{
               vertical-align: top;
-              margin-right: 5px;
+              margin-right: 2px;
+              margin-left: 2px;
               margin-top: 2px;
               height: 12px;
               width: 15px;
-              display: inline;
-          }
-          > .submit-button {
-            display: inline-block;
-            color: @color_strong;
-            font-size: @font_click;
-            line-height:@font_click;
+
+              display: inline-block;
+            }
+            > .submit-button {
+              display: inline-block;
+              color: @color_strong;
+              font-size: @font_click;
+              line-height:@font_click;
+              &.disabled{
+                color: @color_weak;
+              }
+            }
           }
         }
       }
