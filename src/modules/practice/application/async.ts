@@ -4,8 +4,13 @@ export function loadKnowledgeIntro(knowledgeId) {
   return pget(`/rise/plan/knowledge/load/${knowledgeId}`)
 }
 
-export function loadApplicationPractice(id) {
-  return pget(`/rise/practice/application/start/${id}`)
+export function loadApplicationPractice(id,planId) {
+  let param = {};
+  if(planId){
+    param.planId = planId;
+  }
+  console.log('laod',param);
+  return pget(`/rise/practice/application/start/${id}`,param)
 }
 
 export function submitApplicationPractice(planId,applicationId, params) {

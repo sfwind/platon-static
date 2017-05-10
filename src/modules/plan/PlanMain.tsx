@@ -88,7 +88,7 @@ export class PlanMain extends React.Component <any, any> {
       nextSeriesModal:{
         buttons:[
           {label:'我不听',onClick:()=>this.next(true)},
-          {label:'好的',onClick:()=>this.setState({showNextSeriesModal:false})}
+          {label:'做本节练习',onClick:()=>this.setState({showNextSeriesModal:false})}
         ],
       },
       nextModal:{
@@ -169,7 +169,7 @@ export class PlanMain extends React.Component <any, any> {
           }
           if(code === 213 && !showedPayTip){
             this.setState({showedPayTip:true});
-            dispatch(alertMsg("试用版仅能体验前三节内容哦"))
+            dispatch(alertMsg("试用版仅能体验前三节内容 <br/> 点击右上角按钮，升级正式版吧"))
           }
         } else if (code === 212) {
           this.context.router.push({ pathname: location.pathname })
@@ -211,7 +211,7 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch } = this.props
     const { planData } = this.state
     const { series, problemId } = planData
-    const { type, practicePlanId } = item
+    const { type, practicePlanId,planId } = item
     // if (!unlocked) {
     //   dispatch(alertMsg("该训练尚未解锁"))
     //   return
@@ -239,12 +239,12 @@ export class PlanMain extends React.Component <any, any> {
         } else if (type === 11) {
           this.context?this.context.router.push({
             pathname: '/rise/static/practice/application',
-            query: { id: item.practiceIdList[0], series, integrated:false }
+            query: { id: item.practiceIdList[0], series, integrated:false,planId }
           }):null;
         } else if (type === 12) {
           this.context?this.context.router.push({
                 pathname: '/rise/static/practice/application',
-                query: { id: item.practiceIdList[0], series, integrated:true }
+                query: { id: item.practiceIdList[0], series, integrated:true,planId }
               }):null;
         } else if (type === 21) {
           this.context?this.context.router.push({

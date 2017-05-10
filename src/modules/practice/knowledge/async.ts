@@ -21,4 +21,10 @@ export function getOpenStatus(){
   return pget('/rise/plan/open/status');
 }
 
+export function loadDiscuss(knowledgeId,offset){
+  return pget(`/rise/practice/knowledge/discuss/${knowledgeId}/${offset}`);
+}
 
+export function discussKnowledge(body){
+  return ppost(`/rise/practice/knowledge/discuss`,body);
+}

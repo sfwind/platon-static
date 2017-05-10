@@ -94,11 +94,12 @@ export class Main extends React.Component <any, any> {
         this.setState({goBackUrl})
       }
     }
-    const {integrated}  = this.props.location.query
+    const {integrated,id,planId}  = this.props.location.query
     this.setState({integrated})
 
     dispatch(startLoad());
-    loadApplicationPractice(location.query.id).then(res => {
+
+    loadApplicationPractice(id,planId).then(res => {
       const { code, msg } = res;
       this.setState({data: msg, submitId: msg.submitId, planId:msg.planId})
       dispatch(endLoad())
