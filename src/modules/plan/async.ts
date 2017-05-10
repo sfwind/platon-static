@@ -40,20 +40,12 @@ export function markRiseMemberTips(){
   return pget('/rise/plan/risemember/tips');
 }
 
-export function createOrder(memberTypeId){
-  return pget(`/rise/plan/member/${memberTypeId}`)
-}
-
 export function isRiseMember(){
   return pget('/rise/plan/risemember');
 }
 
 export function learnKnowledge(knowledgeId) {
   return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
-}
-
-export function promote() {
-  return pget(`/rise/plan/promote`)
 }
 
 export function mark(param){

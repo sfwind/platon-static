@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./RiseMemberExplain.less";
-import {markRiseMemberTips} from "./async";
+import {mark} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 
 @connect(state => state)
@@ -16,7 +16,7 @@ export class RiseMemberExplain extends React.Component <any, any> {
   }
 
   componentWillMount() {
-    markRiseMemberTips();
+    mark({module:"RISE",function:"打点",action:"打开rise会员说明页"});
   }
 
 

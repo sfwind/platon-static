@@ -1,7 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem , isRiseMember, learnKnowledge, promote, mark} from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise,
+  checkPractice,gradeProblem , isRiseMember, learnKnowledge, mark} from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -435,7 +436,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips(){
-    promote().then(res =>{
+    mark({module:"RISE",function:"升级专业版",action:"点击升级专业版按钮"}).then(() =>{
       window.location.href = `http://${window.location.hostname}/pay/pay`
     })
   }

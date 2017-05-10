@@ -1,8 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { welcome,trial,becomRiser,mark } from "./async";
+import { welcome,mark } from "./async";
 import "./Welcome.less";
-import { welcome } from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import Description from "./components/Description"
 import Scroll from "react-scroll";
@@ -68,14 +67,15 @@ export class Welcome extends React.Component <any, any> {
   }
 
   goTrial(){
-    trial();
-    this.context.router.push({
-      pathname: '/rise/static/problem/priority'
+    mark({module:"RISE",function:"打点",action:"点击试用版",memo:"欢迎页"}).then(()=>{
+      this.context.router.push({
+        pathname: '/rise/static/problem/priority'
+      })
     })
   }
 
   becomeRiser(){
-    becomRiser().then(()=>{
+    mark({module:"RISE",function:"打点",action:"点击成为RISER",memo:"欢迎页"}).then(()=>{
       window.location.href = `http://${window.location.hostname}/pay/pay`
     }).catch(()=>{
       window.location.href = `http://${window.location.hostname}/pay/pay`
