@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./Comment.less";
 import {connect} from "react-redux"
-import {loadCommentList,comment} from "./async"
+import {loadCommentList,comment, deleteComment} from "./async"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import SubmitBox from "../components/SubmitBox"
@@ -128,11 +128,27 @@ export class Comment extends React.Component<any,any>{
       dispatch(alertMsg('请先输入内容再提交'))
     }
   }
+
   openWriteBox(){
     this.setState({showDiscuss: true})
     if(this.pullElement){
       this.pullElement.disable();
     }
+  }
+
+  onDelete(id){
+    const {commentList = []} = this.state
+    deleteComment(id).then(res=>{
+      if(res.code===200){
+        let newCommentList = []
+        commentList.forEach((item)=>{
+          if(item.id != id){
+            newCommentList.push(item)
+          }
+        })
+        this.setState({commentList:newCommentList})
+      }
+    })
   }
 
   render(){
@@ -142,7 +158,7 @@ export class Comment extends React.Component<any,any>{
         return (
           commentList.map((item,seq)=>{
             return (
-                <CommentShow comment={item}/>
+                <CommentShow comment={item} onDelete={this.onDelete.bind(this, item.id)}/>
             )
           })
         )

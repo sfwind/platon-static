@@ -2,7 +2,6 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import {deleteComment} from "../warmup/async"
 import { Dialog } from "react-weui"
 const { Alert } = Dialog
 
@@ -16,38 +15,32 @@ export default class DiscussShow extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {
-      del:false,
       show:false,
     }
   }
 
-  onDelete(){
-    const { dispatch,discuss } = this.props
-    const { id } = discuss
-    deleteComment(id).then(res => {
-      if(res.code === 200){
-        this.setState({del:true})
-      }else{
-        dispatch(alertMsg(res.msg))
-      }
-    })
+  delete(){
+    const { onDelete } = this.props
+    this.setState({show:false})
+    if(onDelete){
+      onDelete()
+    }
   }
 
   render() {
     const { discuss, reply } = this.props
-    const {del, show} = this.state
+    const {show} = this.state
     const { id, name, avatar,discussTime,priority,comment,repliedComment,repliedName,
         warmupPracticeId,role,signature,isMine,repliedDel } = discuss
 
     const alertProps = {
       buttons:[
         {label:'再想想',onClick:()=>this.setState({show:false})},
-        {label:'确定',onClick:()=>this.onDelete()}
+        {label:'确定',onClick:()=>this.delete()}
       ],
     }
 
     return (
-        del ? null:
         <div key={id} className="comment-cell">
           <div className="comment-avatar"><img className="comment-avatar-img" src={avatar} /></div>
           <div className="comment-area">

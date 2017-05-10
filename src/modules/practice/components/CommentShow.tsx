@@ -12,7 +12,6 @@ export default class CommentShow extends React.Component <any, any> {
     constructor() {
         super()
         this.state = {
-            del:false,
             show:false,
         }
     }
@@ -21,32 +20,27 @@ export default class CommentShow extends React.Component <any, any> {
         router: React.PropTypes.object.isRequired
     }
 
-    onDelete(){
-        const { dispatch,comment } = this.props
-        const {id} = comment
-        deleteComment(id).then(res => {
-            if(res.code === 200){
-                this.setState({del:true})
-            }else{
-                dispatch(alertMsg(res.msg))
-            }
-        })
+    delete(){
+        const { onDelete } = this.props
+        this.setState({show:false})
+        if(onDelete){
+            onDelete()
+        }
     }
 
     render() {
-        const { del,show } = this.state
+        const { show } = this.state
         const { comment } = this.props
         const {id, role, headPic, upTime, signature, content, upName, isMine} = comment
 
         const alertProps = {
             buttons:[
                 {label:'再想想',onClick:()=>this.setState({show:false})},
-                {label:'确定',onClick:()=>this.onDelete()}
+                {label:'确定',onClick:()=>this.delete()}
             ],
         }
 
         return (
-            del? null:
             <div className="comment-cell subject">
                 <div className="comment-avatar"><img className="comment-avatar-img" src={headPic}/>
                 </div>

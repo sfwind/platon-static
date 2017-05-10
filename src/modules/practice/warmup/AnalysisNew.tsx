@@ -1,12 +1,12 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./Main.less";
-import {loadWarmUpAnalysisNew, discuss} from "./async";
+import {loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeViewer";
 import Discuss from "../components/Discuss";
-import {set} from "lodash"
+import _ from "lodash"
 import DiscussShow from "../components/DiscussShow";
 
 const sequenceMap = {
@@ -68,7 +68,7 @@ export class AnalysisNew extends React.Component <any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        set(data, 'discussList', msg.discussList)
+        _.set(data, 'discussList', msg.discussList)
         this.setState({showDiscuss: false, data})
       }
       else dispatch(alertMsg(msg))
@@ -88,12 +88,33 @@ export class AnalysisNew extends React.Component <any, any> {
     this.setState({showDiscuss:true, warmupPracticeId, repliedId})
   }
 
+  onDelete(discussId){
+    const {data} = this.state
+    const {dispatch} = this.props
+    const {discussList = []} = data
+    deleteComment(discussId).then(res =>{
+      const {id} = data
+      loadWarmUpDiscuss(id, 1).then(res => {
+        dispatch(endLoad())
+        const {code, msg} = res
+        if (code === 200) {
+          _.set(data, 'discussList', msg)
+          this.setState({showDiscuss: false, data})
+        }
+        else dispatch(alertMsg(msg))
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
+    })
+  }
+
   render() {
     const {data, selected, showKnowledge, showDiscuss, repliedId, integrated} = this.state
     const {knowledge} = data
 
     const questionRender = (practice) => {
-      const {id, question, pic, analysis, choiceList = [], score = 0, discussList = []} = practice
+      const {id, question, pic, choiceList = [], discussList = []} = practice
       return (
         <div>
           <div className="intro-container">
@@ -149,7 +170,7 @@ export class AnalysisNew extends React.Component <any, any> {
 
     const discussRender = (discuss, idx) => {
       return (
-          <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
+          <DiscussShow discuss={discuss} reply={this.reply.bind(this)} onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
