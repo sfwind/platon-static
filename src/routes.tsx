@@ -25,10 +25,12 @@ import {RiseMemberExplain } from "modules/plan/RiseMemberExplain"
 import { Intro as KnowledgeIntro } from "modules/practice/knowledge/Intro"
 import { RoadMap } from "modules/practice/knowledge/RoadMap"
 import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
+import { HomePage } from "modules/plan/HomePage"
 
 
 const routes = (
   <Route path="/rise/static" component={Base}>
+    <Route path="home" component={HomePage}/>
     <Route path="problem/list" component={Welcome}/>
     <Route path="problem/priority" component={ProblemPriority}/>
     <Route path="plan/main" component={PlanMain}/>
