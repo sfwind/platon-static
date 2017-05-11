@@ -56,9 +56,9 @@ export default class Personal extends React.Component<any,any>{
     const renderContainer= ()=>{
       return (
         <div>
-          <div className="personal-item" onClick={()=>{this.context.router.push('/personal/static/profile')}}><span>个人信息</span></div>
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/profile')}}><span>个人信息</span></div>
           {/*<div className="personal-item" onClick={()=>{this.context.router.push('/personal/accountset')}}><span>账户设置</span></div>*/}
-          <div className="personal-item" onClick={()=>{this.context.router.push("/personal/static/rise/point/tip")}}>
+          <div className="personal-item" onClick={()=>{this.context.router.push("/rise/static/customer/point/tip")}}>
             <div className="item-label">
               积分
             </div>
@@ -66,10 +66,10 @@ export default class Personal extends React.Component<any,any>{
               {this.state.point}
             </div>
           </div>
-          <div className="personal-item" style={{marginBottom:'0px'}} onClick={()=>{this.context.router.push('/personal/static/rise/problem')}} ><span>RISE</span></div>
-          <div className="personal-item" onClick={()=>{this.context.router.push('/personal/static/courses')}} ><span>训练营</span></div>
+          <div className="personal-item" style={{marginBottom:'0px'}} onClick={()=>{this.context.router.push('/rise/static/customer/problem')}} ><span>RISE</span></div>
+          {/*<div className="personal-item" onClick={()=>{this.context.router.push('/rise/customer/courses')}} ><span>训练营</span></div>*/}
 
-          <div className="personal-item" onClick={()=>{this.context.router.push('/personal/static/feedback')}} ><span>帮助</span></div>
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/feedback')}} ><span>帮助</span></div>
 
         </div>
       )

@@ -20,14 +20,20 @@ import { ReplyKnowledgeDiscussMessage } from "modules/message/ReplyKnowledgeDisc
 import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
 import { Comment as ApplicationComment } from "modules/practice/application/Comment";
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
-import {RiseMemberExplain } from "modules/plan/RiseMemberExplain"
+import { RiseMemberExplain } from "modules/plan/RiseMemberExplain"
 import { Intro as KnowledgeIntro } from "modules/practice/knowledge/Intro"
 import { RoadMap } from "modules/practice/knowledge/RoadMap"
 import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
-import { HomePage } from "modules/plan/HomePage"
 
 import { Customer } from "modules/customer/Customer"
 import Personal from "modules/customer/Personal"
+import PointTip from "modules/customer/PointTip"
+import Profile from "modules/customer/Profile"
+import CustomerRise from "modules/customer/Rise"
+import ProblemGallery from "modules/customer/ProblemGallery"
+import RiseMember from "modules/customer/RiseMember"
+import FeedBack from "modules/customer/FeedBack"
+import UserProtocol from "modules/customer/UserProtocol"
 import {EventWall} from "modules/plan/EventWall";
 
 
@@ -57,7 +63,14 @@ const routes = (
     <Route path="practice/roadmap" component={RoadMap}/>
     <Route path="practice/knowledge/review" component={KnowledgeReview}/>
     <Route path="customer" component={Customer}>
-      <Route path="static" component={Personal}/>
+      <Route path="personal" component={Personal}/>
+      <Route path="profile" component={Profile}/>
+      <Route path="rise" component={CustomerRise}/>
+      <Route path="point/tip" component={PointTip}/>
+      <Route path="problem" component={ProblemGallery}/>
+      <Route path="member" component={RiseMember}/>
+      <Route path="feedback" component={FeedBack}/>
+      <Route path="userprotocol" component={UserProtocol} />
     </Route>
     <Route path="event/wall" component={EventWall}/>
   </Route>
