@@ -1,22 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./PlanMain.less";
-import {
-  loadPlan,
-  loadPlanHistory,
-  loadWarmUpNext,
-  completePlan,
-  closePlan,
-  updateOpenRise,
-  checkPractice,
-  gradeProblem,
-  isRiseMember,
-  learnKnowledge,
-  promote,
-  mark
-} from "./async";
-import {loadProblem} from "../problem/async"
-import {startLoad, endLoad, alertMsg} from "redux/actions";
 import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise,
   checkPractice,gradeProblem , isRiseMember, learnKnowledge, mark} from "./async";
 import { loadProblem } from "../problem/async"
@@ -28,7 +12,6 @@ import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge, isBoolean, get} from "lodash"
 import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
-import EventWall from "./EventWall"
 const {Alert} = Dialog
 
 
