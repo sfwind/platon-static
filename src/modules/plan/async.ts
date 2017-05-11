@@ -61,5 +61,5 @@ export function mark(param){
 }
 
 export function queryEventList(){
-  return pget("/customer/event/list");
+  return pget("/rise/customer/event/list");
 }

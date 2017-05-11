@@ -23,7 +23,7 @@ import DropChoice from "../../components/DropChoice"
 import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge, isBoolean, get} from "lodash"
 import {Toast, Dialog} from "react-weui"
-import {ToolBar} from "./components/ToolBar"
+import {ToolBar} from "../base/ToolBar"
 import EventWall from "./EventWall"
 const {Alert} = Dialog
 
@@ -112,9 +112,6 @@ export class PlanMain extends React.Component <any, any> {
           {label: '好的', onClick: () => this.setState({showNextModal: false})}
         ],
       },
-
-
-      tabIndex: 0,
     }
   }
 
@@ -466,12 +463,12 @@ export class PlanMain extends React.Component <any, any> {
   }
 
 
-  changeTab(tabIndex){
-    this.setState({tabIndex:tabIndex});
-  }
-
   render() {
-    const {planData, showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem, riseMember, riseMemberTips, defeatPercent, showNextModal, showNextSeriesModal} = this.state
+    const {
+      planData, showScoreModal, showCompleteModal, showConfirmModal, showProblem,
+      currentIndex, selectProblem, riseMember, riseMemberTips, defeatPercent,
+      showNextModal, showNextSeriesModal,
+    } = this.state
     const {
       problem = {}, practice, point, section, chapter, deadline, status, totalSeries, series, openRise, newMessage, completeSeries
     } = planData
@@ -520,125 +517,117 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div>
-        <div style={{display:this.state.tabIndex===0?null:'none'}}>
-          {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
-                                       onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
-                                       questionList={this.state.questionList}/>: null}
-          <Modal
-            header={{replace:true,children:<AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
-            buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
-            show={showCompleteModal}>
-            <div className="content">
-              <div className="text2">太棒了!</div>
-            </div>
-            <div className="content2">你完成了本小课</div>
-            <div className="content2">
-              已得<span className="number">{point}</span>积分
-            </div>
-            <div className="content2">
-              打败了<span className="number">{defeatPercent}%</span>的Riser
-            </div>
-          </Modal>
+        {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
+                                     onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
+                                     questionList={this.state.questionList}/>: null}
+        <Modal
+          header={{replace:true,children:<AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
+          buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
+          show={showCompleteModal}>
+          <div className="content">
+            <div className="text2">太棒了!</div>
+          </div>
+          <div className="content2">你完成了本小课</div>
+          <div className="content2">
+            已得<span className="number">{point}</span>积分
+          </div>
+          <div className="content2">
+            打败了<span className="number">{defeatPercent}%</span>的Riser
+          </div>
+        </Modal>
 
-          <Modal show={showConfirmModal}
-                 buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
-            <div className="content">
-              <div className="text">确定开始新小课吗</div>
-              <div className="text">当前小课的巩固练习将无法查看</div>
-            </div>
-            <div className="content2">
-              <div className="text">（PC端应用练习仍然开放）</div>
-            </div>
-          </Modal>
+        <Modal show={showConfirmModal}
+               buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
+          <div className="content">
+            <div className="text">确定开始新小课吗</div>
+            <div className="text">当前小课的巩固练习将无法查看</div>
+          </div>
+          <div className="content2">
+            <div className="text">（PC端应用练习仍然开放）</div>
+          </div>
+        </Modal>
 
-          <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
 
-          <Modal show={status===3}
-                 buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
-          >
-            <div className="content">
-              <div className="text">本小课已到期</div>
+        <Modal show={status===3}
+               buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
+        >
+          <div className="content">
+            <div className="text">本小课已到期</div>
+          </div>
+          <div className="content2">
+            <div className="text">登录</div>
+            <div className="text">www.iquanwai.com/community</div>
+            <div className="text">可继续完成小课/应用练习</div>
+          </div>
+        </Modal>
+
+        <Alert { ...this.state.nextSeriesModal }
+          show={showNextSeriesModal}>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>
+        </Alert>
+
+        <Alert { ...this.state.nextModal }
+          show={showNextModal}>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>
+        </Alert>
+
+        <div className="header-img">
+          <AssetImg url={problem.pic} style={{height: this.state.style.picHeight, float:'right'}}/>
+          <div className="message-box" onClick={this.openMessageBox.bind(this)}>
+            { newMessage ?
+              <AssetImg type="has_message" height={33} width={33}/>
+              : <AssetImg type="no_message" height={33} width={33}/>
+            }
+          </div>
+          {isBoolean(riseMember) && !riseMember ?
+            <div className={`trial-tip ${riseMemberTips?'open':''}`} onClick={()=>this.goRiseMemberTips()}>
+            </div>: null}
+          <div className="plan-guide">
+            <div className="section-title">{problem.problem}</div>
+            <div className="section">
+              <label>已完成:</label> {completeSeries}/{totalSeries}节训练
             </div>
-            <div className="content2">
-              <div className="text">登录</div>
-              <div className="text">www.iquanwai.com/community</div>
-              <div className="text">可继续完成小课/应用练习</div>
-            </div>
-          </Modal>
-
-          <Alert { ...this.state.nextSeriesModal }
-            show={showNextSeriesModal}>
-            <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>
-          </Alert>
-
-          <Alert { ...this.state.nextModal }
-            show={showNextModal}>
-            <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>
-          </Alert>
-
-          <div className="header-img">
-            <AssetImg url={problem.pic} style={{height: this.state.style.picHeight, float:'right'}}/>
-            <div className="message-box" onClick={this.openMessageBox.bind(this)}>
-              { newMessage ?
-                <AssetImg type="has_message" height={33} width={33}/>
-                : <AssetImg type="no_message" height={33} width={33}/>
-              }
-            </div>
-            {isBoolean(riseMember) && !riseMember ?
-              <div className={`trial-tip ${riseMemberTips?'open':''}`} onClick={()=>this.goRiseMemberTips()}>
-              </div>: null}
-            <div className="plan-guide">
-              <div className="section-title">{problem.problem}</div>
-              <div className="section">
-                <label>已完成:</label> {completeSeries}/{totalSeries}节训练
-              </div>
-              {riseMember ?<div className="section">
-                <label>距关闭:</label> {deadline}天
-              </div>: null}
-              <div className="section">
-                <label>总得分:</label> {point} 分
-              </div>
+            {riseMember ?<div className="section">
+              <label>距关闭:</label> {deadline}天
+            </div>: null}
+            <div className="section">
+              <label>总得分:</label> {point} 分
             </div>
           </div>
-          <div className="function-menu">
-            <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
-              <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
-              <span>小课论坛</span>
-            </div>
-            <div className="right" onClick={() => this.problemReview(problem.id)}>
-              <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
-              <span>小课介绍</span>
-            </div>
-          </div>
-          {showProblem ?
-            <ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}
-                           viewOtherProblem={this.goOthers.bind(this)}/>
-            : <div className="container has-footer" ref={'plan'}
-                   style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
-            <div className="plan-progress">
-              <div className="intro">
-                <div className="intro-chapter">{chapter}</div>
-                <div className="bar"/>
-              </div>
-              <div className="intro-section">{section}</div>
-            </div>
-            <div className="plan-main">
-              <div className="list">
-                {practiceRender(practice)}
-              </div>
-              <div className="padding-footer"></div>
-            </div>
-          </div>}
         </div>
+        <div className="function-menu">
+          <div className="left" onClick={() => this.essenceShare(problem.id, series)}>
+            <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
+            <span>小课论坛</span>
+          </div>
+          <div className="right" onClick={() => this.problemReview(problem.id)}>
+            <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
+            <span>小课介绍</span>
+          </div>
+        </div>
+        {showProblem ?
+          <ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}
+                         viewOtherProblem={this.goOthers.bind(this)}/>
+          : <div className="container has-footer" ref={'plan'}
+                 style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>
+          <div className="plan-progress">
+            <div className="intro">
+              <div className="intro-chapter">{chapter}</div>
+              <div className="bar"/>
+            </div>
+            <div className="intro-section">{section}</div>
+          </div>
+          <div className="plan-main">
+            <div className="list">
+              {practiceRender(practice)}
+            </div>
+            <div className="padding-footer"></div>
+          </div>
+        </div>}
 
-        {
-          // 活动
-          this.state.tabIndex===1?
-          <EventWall/>
-          :null
-        }
         {/*<div className="button-footer">*/}
-        <ToolBar index={this.state.tabIndex} tabClick={(tabIndex)=>this.changeTab(tabIndex)}/>
+        <ToolBar />
         {/*<div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一节*/}
         {/*</div>*/}
         {/*{ series !== totalSeries ? <div className={`right`} onClick={()=>this.next()}>下一节</div> : null }*/}

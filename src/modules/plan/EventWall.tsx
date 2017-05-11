@@ -4,10 +4,11 @@ import {connect} from "react-redux"
 import {pget, ppost} from "utils/request"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {queryEventList} from "./async";
+import {ToolBar} from "../base/ToolBar"
 
 
 @connect(state=>state)
-export default class EventWall extends React.Component<any,any>{
+export class EventWall extends React.Component<any,any>{
   constructor(props){
     super(props);
     this.state = {};
@@ -62,6 +63,7 @@ export default class EventWall extends React.Component<any,any>{
           </li>
         }) : null}
       </ul>
+      <ToolBar/>
     </div>)
   }
 }
