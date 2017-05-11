@@ -531,9 +531,8 @@ export class PlanMain extends React.Component <any, any> {
             <div className="text">糟糕！好久没学，小课到期了！</div>
           </div>
           <div className="content2">
-            <div className="text">
-              你完成了<span className="number">{completeSeries}</span>节，获得了<span className="number">{point}</span>积分
-            </div>
+            <div className="text">你完成了<span className="number">{completeSeries}</span>节</div>
+            <div className="text">获得了<span className="number">{point}</span>积分</div>
           </div>
         </Modal>
 
