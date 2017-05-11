@@ -24,6 +24,11 @@ import {RiseMemberExplain } from "modules/plan/RiseMemberExplain"
 import { Intro as KnowledgeIntro } from "modules/practice/knowledge/Intro"
 import { RoadMap } from "modules/practice/knowledge/RoadMap"
 import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
+import { HomePage } from "modules/plan/HomePage"
+
+import { Customer } from "modules/customer/Customer"
+import Personal from "modules/customer/Personal"
+import {EventWall} from "modules/plan/EventWall";
 
 
 const routes = (
@@ -51,6 +56,10 @@ const routes = (
     <Route path="practice/knowledge" component={KnowledgeIntro}/>
     <Route path="practice/roadmap" component={RoadMap}/>
     <Route path="practice/knowledge/review" component={KnowledgeReview}/>
+    <Route path="customer" component={Customer}>
+      <Route path="static" component={Personal}/>
+    </Route>
+    <Route path="event/wall" component={EventWall}/>
   </Route>
 )
 

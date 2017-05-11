@@ -55,3 +55,7 @@ export function learnKnowledge(knowledgeId) {
 export function mark(param){
   return ppost('/rise/b/mark',param);
 }
+
+export function queryEventList(){
+  return pget("/rise/customer/event/list");
+}
