@@ -29,7 +29,7 @@ export function updateOpenRise(){
 }
 
 export function checkPractice(series){
-  return ppost(`/rise/practice/check/${series}`)
+  return ppost(`/rise/plan/check/${series}`)
 }
 
 export function gradeProblem(problemScores,problemId){
