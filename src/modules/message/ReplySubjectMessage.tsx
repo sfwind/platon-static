@@ -257,7 +257,7 @@ export class ReplySubjectMessage extends React.Component<any,any>{
         </div>
         {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
                                  onSubmit={(content)=>this.onSubmitComment(content)}/> : null}
-        <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
+        {/*<div className="button-footer" onClick={()=>this.goBack()}>返回</div>*/}
         {showWorkEdit ?<SubmitBox height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}
                                  onSubmit={(content,title,labels)=>this.onSubmitWork(content,title,labels)} desc={this.state.desc}
                                  defaultTitle={this.state.defaultTitle} defaultContent={this.state.defaultContent}

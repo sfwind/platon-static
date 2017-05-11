@@ -207,7 +207,7 @@ export class Comment extends React.Component<any,any>{
         </div>
         {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
                                  onSubmit={(content)=>this.onSubmit(content)}/> : null}
-        <div className="button-footer" onClick={()=>this.goBack()}>返回</div>
+        {/*<div className="button-footer" onClick={()=>this.goBack()}>返回</div>*/}
       </div>
     );
   }

@@ -93,7 +93,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
           <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
           {renderDiscuss(data)}
         </div>
-        <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
+        {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
         {showDiscuss ?<Discuss repliedId={commentId} referenceId={warmupPracticeId}
                                closeModal={this.closeModal.bind(this)} discuss={(body)=>discuss(body)}/> : null}
       </div>
