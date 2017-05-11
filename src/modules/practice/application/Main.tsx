@@ -307,7 +307,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container">
+        <div className={`container ${edit?'has-footer': ''}`}>
           <div className="application">
             <div className="page-header">{topic}</div>
             <div className="intro-container">
