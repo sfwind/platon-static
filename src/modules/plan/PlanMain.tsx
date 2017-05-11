@@ -1,7 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise, checkPractice,gradeProblem , isRiseMember, learnKnowledge, promote, mark} from "./async";
+import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise,
+  checkPractice,gradeProblem , isRiseMember, learnKnowledge, mark} from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -152,9 +153,10 @@ export class PlanMain extends React.Component <any, any> {
       series =location.query.series
     }
 
+    let planId = location.query.planId
 
     if (series) {
-      loadPlanHistory(series).then(res => {
+      loadPlanHistory(series, planId).then(res => {
         dispatch(endLoad())
         let { code, msg } = res
         if (code === 200 || code === 213) {
@@ -181,7 +183,7 @@ export class PlanMain extends React.Component <any, any> {
         dispatch(alertMsg(ex))
       })
     } else {
-      loadPlan().then(res => {
+      loadPlan(planId).then(res => {
         dispatch(endLoad())
         let { code, msg } = res
         if (code === 200) {
@@ -216,7 +218,7 @@ export class PlanMain extends React.Component <any, any> {
     //   dispatch(alertMsg("该训练尚未解锁"))
     //   return
     // }
-    checkPractice(series).then(res =>{
+    checkPractice(series,planId).then(res =>{
       const { code, msg } = res
       if (code === 200) {
         // 已完成
@@ -228,12 +230,12 @@ export class PlanMain extends React.Component <any, any> {
           if (item.status === 1) {
             this.context?this.context.router.push({
               pathname: '/rise/static/practice/warmup/analysis',
-              query: { practicePlanId, series, integrated }
+              query: { practicePlanId, series, integrated,planId }
             }):null;
           } else {
             this.context?this.context.router.push({
                   pathname: '/rise/static/practice/warmup',
-                  query: { practicePlanId, series, integrated }
+                  query: { practicePlanId, series, integrated,planId }
             }):null;
           }
         } else if (type === 11) {
@@ -249,12 +251,12 @@ export class PlanMain extends React.Component <any, any> {
         } else if (type === 21) {
           this.context?this.context.router.push({
             pathname: '/rise/static/practice/challenge',
-            query: { id: item.practiceIdList[0], series }
+            query: { id: item.practiceIdList[0], series,planId }
           }):null;
         } else if (type === 31) {
           this.context?this.context.router.push({
                 pathname: '/rise/static/practice/roadmap',
-                query: { practicePlanId, series}
+                query: { practicePlanId, series,planId}
               }):null;
         } else if (type === 32) {
           learnKnowledge(practicePlanId).then(res=>{
@@ -262,7 +264,7 @@ export class PlanMain extends React.Component <any, any> {
               if(code === 200){
                 this.context?this.context.router.push({
                       pathname: '/rise/static/practice/knowledge/review',
-                      query: { problemId}
+                      query: { problemId,planId}
                     }):null;
               }
           })
@@ -286,22 +288,31 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   prev() {
-    const { dispatch } = this.props
+    const { dispatch,location } = this.props
     const { planData } = this.state
     const { series } = planData
+    const {planId} = location.query
     if (series === 1) {
       dispatch(alertMsg("当前已经是第一节训练"))
       return
     }
-    this.context.router.push({ pathname: this.props.location.pathname, query: { series: series - 1 } })
+
+    let query;
+    if(planId){
+      query = {series: series - 1, planId: planId}
+    }else{
+      query = {series: series - 1}
+    }
+    this.context.router.push({ pathname: this.props.location.pathname, query })
 
     this.refs.plan.scrollTop = 0
   }
 
   next(force) {
-    const {dispatch} = this.props
+    const {location} = this.props
     const { planData, currentIndex} = this.state
     const {series,doneCurSeriesApplication, totalSeries} = planData
+    const {planId} = location.query
     const unlocked = get(planData,'practice[0].unlocked');
     if (series === totalSeries) {
       this.setState({showNextSeriesModal:false});
@@ -310,17 +321,25 @@ export class PlanMain extends React.Component <any, any> {
         this.setState({showNextSeriesModal:true});
         return;
       }
+
       this.setState({showNextSeriesModal:false});
-      this.context.router.push({ pathname: this.props.location.pathname, query: { series: series + 1 } })
+      let query;
+      if(planId){
+        query = {series: series + 1, planId: planId}
+      }else{
+        query = {series: series + 1}
+      }
+      this.context.router.push({ pathname: this.props.location.pathname, query })
     }
 
     this.refs.plan.scrollTop = 0
   }
 
   complete() {
-    const { dispatch } = this.props
+    const { dispatch,location } = this.props
     const { selectProblem } = this.state;
-    completePlan().then(res => {
+    const planId = location.query.planId
+    completePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
         if(msg.iscomplete === true)
@@ -380,8 +399,9 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   nextPlan() {
-    const { dispatch } = this.props
-    closePlan().then(res => {
+    const { dispatch,location } = this.props
+    const planId = location.query.planId
+    closePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
         this.context.router.push("/rise/static/problem/priority")
@@ -435,7 +455,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips(){
-    promote().then(res =>{
+    mark({module:"RISE",function:"升级专业版",action:"点击升级专业版按钮"}).then(() =>{
       window.location.href = `http://${window.location.hostname}/pay/pay`
     })
   }
@@ -445,7 +465,9 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, currentIndex, selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal } = this.state
+    const {location} = this.props
+    const planId = location.query.planId
     const {
       problem = {}, practice, point, section, chapter, deadline, status, totalSeries, series, openRise, newMessage,completeSeries
     } = planData
@@ -524,7 +546,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
 
-        <Modal show={status===3}
+        <Modal show={status===3 && !planId}
                buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
                >
           <div className="content"><div className="text">本小课已到期</div></div>

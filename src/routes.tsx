@@ -8,7 +8,6 @@ import { Intro as WarmUpIntro } from "modules/practice/knowledge/Intro";
 import { Main as WarmUp } from "modules/practice/warmup/Main";
 import { Analysis as WarmUpAnalysis } from "modules/practice/warmup/Analysis";
 import { Result as WarmUpResult } from "modules/practice/warmup/Result";
-import { Ready as WarmUpReady } from "modules/practice/warmup/Ready";
 import { Main as Application } from "modules/practice/application/Main";
 import { Main as Challenge } from "modules/practice/challenge/Main";
 import { Main as Subject } from "modules/practice/subject/Main"
@@ -37,7 +36,6 @@ const routes = (
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
     <Route path="practice/warmup/result" component={WarmUpResult}/>
-    <Route path="practice/warmup/ready" component={WarmUpReady}/>
     <Route path="practice/application" component={Application}/>
     <Route path="practice/challenge" component={Challenge}/>
     <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
