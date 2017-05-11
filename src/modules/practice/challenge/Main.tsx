@@ -54,7 +54,6 @@ export class Main extends React.Component <any, any> {
         const { content } = msg
         this.setState({data: msg, submitId: msg.submitId, planId:msg.planId})
         if (content !== null){
-          window.location.href = '#submit'
           this.setState({edit:false})
         }
       }
@@ -161,7 +160,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        <div ref="container" className="container has-footer">
+        <div className="container">
           <div className="challenge">
             <div className="page-header">{'小目标'}</div>
             <div className="intro-container">
@@ -177,7 +176,6 @@ export class Main extends React.Component <any, any> {
                   <p className="tip">制定目标之前，可以先回顾该小课的知识体系</p>
                 </div>
               </div>
-              <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">
               <div className="submit-bar"><span className="padding"></span>{ content === null?'提交方式':'我的目标'}</div>
@@ -194,9 +192,7 @@ export class Main extends React.Component <any, any> {
             <div className="button-footer disabled">提交中</div>
             :
             edit?
-                <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>
-                :
-                <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
+                <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>:null
         }
       </div>
     )

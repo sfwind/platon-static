@@ -9,7 +9,6 @@ export function loadApplicationPractice(id,planId) {
   if(planId){
     param.planId = planId;
   }
-  console.log('laod',param);
   return pget(`/rise/practice/application/start/${id}`,param)
 }
 
