@@ -30,7 +30,6 @@ import { HomePage } from "modules/plan/HomePage"
 
 const routes = (
   <Route path="/rise/static" component={Base}>
-    <Route path="home" component={HomePage}/>
     <Route path="problem/list" component={Welcome}/>
     <Route path="problem/priority" component={ProblemPriority}/>
     <Route path="plan/main" component={PlanMain}/>

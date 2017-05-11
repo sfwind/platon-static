@@ -59,3 +59,7 @@ export function promote() {
 export function mark(param){
   return ppost('/rise/b/mark',param);
 }
+
+export function queryEventList(){
+  return pget("/customer/event/list");
+}
