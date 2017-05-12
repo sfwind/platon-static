@@ -571,14 +571,14 @@ export class PlanMain extends React.Component <any, any> {
                   <div className="cell">
                     <div className="chapter">
                       <div>
-                      <div className="label">{NumberToChinese(item.chapterId)}、</div><div className="str">{item.chapter}</div>
+                      <div className="label">{NumberToChinese(item.chapterId)}、</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
                       </div>
                     </div>
                     {item.sectionList.map((section,index)=>{
                       return (
                         <div className={`section  ${series===section.series?'open':''}`}  onClick={()=>this.next(false,section.series)} key={index}>
                           <div>
-                          <div className="label">{item.chapterId}.{section.sectionId}</div><div className="str">{section.section}</div>
+                          <div className="label">{item.chapterId}.{section.sectionId}</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
                           </div>
                         </div>
                       )
@@ -591,6 +591,7 @@ export class PlanMain extends React.Component <any, any> {
         </div>
       )
     }
+
 
 
     return (
