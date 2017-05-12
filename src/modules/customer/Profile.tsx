@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 import "./Profile.less"
 import * as _ from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-// import DropDownList from  "../../components/DropDownList"
+import DropDownList from  "./components/DropDownList"
 import {pget, ppost} from "utils/request"
 import {changeTitle} from "utils/helpers"
 import { ButtonArea, Button } from "react-weui"
@@ -167,8 +167,8 @@ export default class Profile extends React.Component<any,any> {
       const userData = [{value: province, id: provinceId}, {value: city, id: cityId}];
       return (
         <div className={provinceId && cityId?"select-wrapper-has":"select-wrapper"}>
-          {/*<DropDownList level={2} data={[provinceList,cityList]} userData={userData[1].id?userData:null}*/}
-                        {/*onChoice={(one,two)=>this.onChoiceRegion(one,two)}/>*/}
+          <DropDownList level={2} data={[provinceList,cityList]} userData={userData[1].id?userData:null}
+            onChoice={(one,two)=>this.onChoiceRegion(one,two)}/>
         </div>
       )
     }
@@ -184,8 +184,8 @@ export default class Profile extends React.Component<any,any> {
 
       return (
         <div className={industry?"select-wrapper-has":"select-wrapper"}>
-          {/*<DropDownList level={1} data={[industryList]} userData={myIndustry.id?[myIndustry]:null}*/}
-                        {/*onChoice={(one)=>this.onChoiceIndustry(one)}/>*/}
+          <DropDownList level={1} data={[industryList]} userData={myIndustry.id?[myIndustry]:null}
+            onChoice={(one)=>this.onChoiceIndustry(one)}/>
         </div>
       )
     }
@@ -201,8 +201,8 @@ export default class Profile extends React.Component<any,any> {
 
       return (
         <div className={workingLife?"select-wrapper-has":"select-wrapper"}>
-          {/*<DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id?[myWorkingLife]:null}*/}
-                        {/*onChoice={(one)=>this.onChoiceWorkingLife(one)}/>*/}
+          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id?[myWorkingLife]:null}
+            onChoice={(one)=>this.onChoiceWorkingLife(one)}/>
         </div>
       )
     }

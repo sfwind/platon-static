@@ -30,6 +30,7 @@
     "axios": "^0.15.2",
     "fbjs": "^0.8.3",
     "gulp": "^3.9.1",
+    "iosselect": "0.0.5",
     "jquery": "^3.2.1",
     "lodash": "^4.14.1",
     "numeral": "^1.5.5",
@@ -48,6 +49,7 @@
     "react-rangeslider": "1.0.9",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",
+    "react-scroll": "^1.4.8",
     "react-slick": "^0.12.2",
     "react-sound": "^0.5.2",
     "react-swipeable-views": "^0.10.8",
@@ -56,7 +58,6 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
-    "react-scroll": "^1.4.8",
     "shelljs": "^0.7.3",
     "weui": "^0.4.3",
     "whatwg-fetch": "^1.0.0"

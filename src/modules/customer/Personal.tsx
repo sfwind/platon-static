@@ -3,7 +3,6 @@ import { connect } from "react-redux"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {pget, ppost} from "utils/request"
 import "./Personal.less"
-import {isFunction} from "lodash";
 
 
 @connect(state=>state)
@@ -83,7 +82,7 @@ export default class Personal extends React.Component<any,any>{
         <div className="personal-container">
           {renderContainer()}
         </div>
-        <div onClick={()=>this.props.triggerTab()}>off/on</div>
+        {/*<div onClick={()=>this.props.triggerTab()}>off/on</div>*/}
       </div>
     )
   }

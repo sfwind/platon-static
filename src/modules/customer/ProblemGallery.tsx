@@ -38,9 +38,8 @@ export default class ProblemGallery extends React.Component<any,any>{
     });
   }
 
-  goProblemView(item){
-    this.context.router.push({pathname:"/rise/static/practice/knowledge/review",query:{problemId:item.problemId}})
-    // window.location.href = '/rise/static/practice/knowledge/review?problemId='+item.problemId
+  goPlanView(item){
+    this.context.router.push({pathname:"/rise/static/plan/main",query:{planId:item.planId}})
   }
 
   render(){
@@ -51,7 +50,7 @@ export default class ProblemGallery extends React.Component<any,any>{
         <div className="galley-module-content">
           {plans && plans.length > 0 ?plans.map((item,index)=>{
             return (
-              <div key={index} className="item" onClick={()=>this.goProblemView(item)}>
+              <div key={index} className="item" onClick={()=>this.goPlanView(item)}>
                 <div className="item-label">
                   {item.name}
                 </div>
@@ -79,7 +78,7 @@ export default class ProblemGallery extends React.Component<any,any>{
 
     return(
       <div className="problem-gallery">
-        <div className="problem-galley-header" style={{    marginBottom:"10px",borderBottom:"none"}}>
+        <div className="problem-galley-header" style={{marginBottom:"10px",borderBottom:"none"}}>
           <div className="header-label" style={{float:"left"}}>
             RISE ID
           </div>
