@@ -322,6 +322,7 @@ export class PlanMain extends React.Component <any, any> {
     completePlan().then(res => {
       const { code, msg } = res
       if (code === 200) {
+        console.log(res)
         if(msg.iscomplete === true)
         {
           if(selectProblem.hasProblemScore){
@@ -500,15 +501,13 @@ export class PlanMain extends React.Component <any, any> {
             buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
             show={showCompleteModal}>
           <div className="content">
-            <div className="text2">太棒了!</div>
+            <div className="text2">太棒了</div>
           </div>
-          <div className="content2">你完成了本小课</div>
+          <div className="content2">你已完成该小课的必做练习</div>
           <div className="content2">
-            已得<span className="number">{point}</span>积分
+            获得了<span className="number">{point}</span>积分，打败了<span>{defeatPercent}%</span>的Riser
           </div>
-          <div className="content2">
-            打败了<span className="number">{defeatPercent}%</span>的Riser
-          </div>
+          <div className="content2">在已完成中可以再次复习</div>
         </Modal>
 
         <Modal show={showConfirmModal}
