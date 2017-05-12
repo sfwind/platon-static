@@ -17,7 +17,7 @@ export default class UserProtocol extends React.Component<any,any> {
   render() {
     return (
       <div className="feedback">
-        <div className="feedback-header">
+        <div className="feedback-header" style={{fontSize:'13px'}}>
           圈外用户协议
         </div>
         <div className="feedback-container">
