@@ -64,7 +64,7 @@ export class ToolBar extends React.Component<any,any> {
       tabIndex = 0;
     } else if(window.location.pathname === '/rise/static/event/wall'){
       tabIndex = 1;
-    } else if(window.location.pathname === '/rise/static/customer/static'){
+    } else if(window.location.pathname === '/rise/static/customer/personal'){
       tabIndex = 3;
     }
     dispatch(set('tabIndex',tabIndex))
@@ -80,7 +80,7 @@ export class ToolBar extends React.Component<any,any> {
     } else if(tabIndex === 2) {
       console.log('go explore ignore')
     } else if(tabIndex === 3){
-      this.context.router.push("/rise/static/customer/static");
+      this.context.router.push("/rise/static/customer/personal");
     }
   }
 
