@@ -149,10 +149,11 @@ router.get("/rise/plan/history/load/*", (req, res) => {
 				"warmupComplete": 3, //结束的热身训练
 				"applicationComplete": 2, //结束的应用训练
 				"total": 14, //总共的训练
-				"point": 0,
+        "completeSeries": 2,
+				"point": 10,
 				"complete": 0,
 				"keycnt": 2,
-				"status": 1,
+				"status": 3,
 				"summary": true, //是否显示总结弹窗
         "newMessage": true,
 				"problem": {

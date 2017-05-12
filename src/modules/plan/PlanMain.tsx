@@ -608,15 +608,13 @@ export class PlanMain extends React.Component <any, any> {
           buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
           show={showCompleteModal}>
           <div className="content">
-            <div className="text2">太棒了!</div>
+            <div className="text2">太棒了</div>
           </div>
-          <div className="content2">你完成了本小课</div>
+          <div className="content2">你已完成该小课的必做练习</div>
           <div className="content2">
-            已得<span className="number">{point}</span>积分
+            获得了<span className="number">{point}</span>积分，打败了<span>{defeatPercent}%</span>的Riser
           </div>
-          <div className="content2">
-            打败了<span className="number">{defeatPercent}%</span>的Riser
-          </div>
+          <div className="content2">在已完成中可以再次复习</div>
         </Modal>
 
         <Modal show={showConfirmModal}
@@ -636,12 +634,11 @@ export class PlanMain extends React.Component <any, any> {
                buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
         >
           <div className="content">
-            <div className="text">本小课已到期</div>
+            <div className="text">糟糕！好久没学，小课到期了！</div>
           </div>
           <div className="content2">
-            <div className="text">登录</div>
-            <div className="text">www.iquanwai.com/community</div>
-            <div className="text">可继续完成小课/应用练习</div>
+            <div className="text">你完成了<span className="number">{completeSeries}</span>节</div>
+            <div className="text">获得了<span className="number">{point}</span>积分</div>
           </div>
         </Modal>
 
