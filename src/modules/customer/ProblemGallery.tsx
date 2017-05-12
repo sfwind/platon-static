@@ -21,7 +21,7 @@ export default class ProblemGallery extends React.Component<any,any>{
   }
 
   componentWillMount(){
-    changeTitle("RISE");
+    changeTitle("我的小课");
     const {dispatch} = this.props;
     dispatch(startLoad());
     pget("/rise/customer/plans")
@@ -43,7 +43,7 @@ export default class ProblemGallery extends React.Component<any,any>{
   }
 
   render(){
-    const {runningPlans=[],donePlans=[],riseId,riseMember} = this.state;
+    const {runningPlans=[],donePlans=[],point,riseId,riseMember} = this.state;
 
     const renderGalleyList = (plans)=>{
       return (
@@ -78,27 +78,27 @@ export default class ProblemGallery extends React.Component<any,any>{
 
     return(
       <div className="problem-gallery">
-        <div className="problem-galley-header" style={{marginBottom:"10px",borderBottom:"none"}}>
-          <div className="header-label" style={{float:"left"}}>
-            RISE ID
-          </div>
-          <div className="header-content" style={{float:"right",marginRight:"20px"}}>
-            {riseId}
-          </div>
-        </div>
+        {/*<div className="problem-galley-header" style={{marginBottom:"10px",borderBottom:"none"}}>*/}
+          {/*<div className="header-label" style={{float:"left"}}>*/}
+            {/*RISE ID*/}
+          {/*</div>*/}
+          {/*<div className="header-content" style={{float:"right",marginRight:"20px"}}>*/}
+            {/*{riseId}*/}
+          {/*</div>*/}
+        {/*</div>*/}
         <div className="problem-galley-header" onClick={()=>this.context.router.push({
-            pathname:'/rise/static/customer/member',
+            pathname:'/rise/static/customer/point/tip',
           })} style={{    marginBottom:"10px",borderBottom:"none"}}>
           <div className="header-label" style={{float:"left"}}>
-            RISE会员
+            总积分
           </div>
           <div className="header-content arrow" style={{float:"right",marginRight:"20px"}}>
-            {renderRiseMember(riseMember)}
+            {point}{'积分'}
           </div>
         </div>
-        <div className="problem-galley-header">
-          我的小课
-        </div>
+        {/*<div className="problem-galley-header">*/}
+          {/*我的小课*/}
+        {/*</div>*/}
         <div className="problem-galley-container">
           <div className="galley-module">
            <div className="galley-module-header">

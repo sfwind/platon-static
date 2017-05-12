@@ -1,6 +1,5 @@
 import * as React from "react"
 import "./DropDownList.less"
-import {pget} from "utils/request"
 import * as _ from "lodash"
 import IosSelect from "iosselect";
 
@@ -11,7 +10,6 @@ export default class DropDownList extends React.Component<any,any> {
 
   choice(){
     const {level,data,userData,onChoice} = this.props;
-    console.log(data,userData);
     if(this.dataCheck(level,data,userData)){
       new IosSelect(
         level,

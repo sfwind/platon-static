@@ -29,7 +29,7 @@ import { Customer } from "modules/customer/Customer"
 import Personal from "modules/customer/Personal"
 import PointTip from "modules/customer/PointTip"
 import Profile from "modules/customer/Profile"
-import CustomerRise from "modules/customer/Rise"
+import Account from "modules/customer/Account"
 import ProblemGallery from "modules/customer/ProblemGallery"
 import RiseMember from "modules/customer/RiseMember"
 import FeedBack from "modules/customer/FeedBack"
@@ -51,10 +51,6 @@ const routes = (
     <Route path="practice/challenge" component={Challenge}/>
     <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
     <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
-    <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
-    <Route path="message/subject/reply" component={ReplySubjectMessage}/>
-    <Route path="message/center" component={MessageCenter}/>
-    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
     <Route path="practice/application/comment" component={ApplicationComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
@@ -65,12 +61,18 @@ const routes = (
     <Route path="customer" component={Customer}>
       <Route path="personal" component={Personal}/>
       <Route path="profile" component={Profile}/>
-      <Route path="rise" component={CustomerRise}/>
+      <Route path="account" component={Account}/>
       <Route path="point/tip" component={PointTip}/>
       <Route path="problem" component={ProblemGallery}/>
       <Route path="member" component={RiseMember}/>
       <Route path="feedback" component={FeedBack}/>
       <Route path="userprotocol" component={UserProtocol} />
+    </Route>
+    <Route path="message" component={Customer}>
+        <Route path="warmup/reply" component={ReplyDiscussMessage}/>
+        <Route path="subject/reply" component={ReplySubjectMessage}/>
+        <Route path="center" component={MessageCenter}/>
+        <Route path="knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
     </Route>
     <Route path="event/wall" component={EventWall}/>
   </Route>

@@ -4,6 +4,7 @@ import * as _ from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {changeTitle} from "utils/helpers"
 import "./PointTip.less"
+import {mark} from "../problem/async"
 
 
 @connect(state => state)
@@ -21,6 +22,7 @@ export default class PointTip extends React.Component<any,any> {
 
   componentWillMount() {
     changeTitle("积分规则");
+    mark({module: "个人中心", function: "帮助", action: "打开积分规则"})
   }
 
   render() {
