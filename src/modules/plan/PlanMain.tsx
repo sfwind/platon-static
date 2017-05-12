@@ -13,6 +13,7 @@ import {merge, isBoolean, get} from "lodash"
 import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
+import { NumberToChinese } from "../../utils/helpers"
 const {Alert} = Dialog
 
 
@@ -339,10 +340,10 @@ export class PlanMain extends React.Component <any, any> {
       // 点击侧边栏
       if(series === otherSeries){
         // 点击自己
-        this.onSetSidebarOpen(false);
+        // this.onSetSidebarOpen(false);
       } else {
         // 直接跳
-        this.onSetSidebarOpen(false);
+        // this.onSetSidebarOpen(false);
         let query;
         if(planId){
           query = {series: otherSeries, planId: planId}
@@ -561,19 +562,27 @@ export class PlanMain extends React.Component <any, any> {
       return (
         <div className="plan-side-bar">
           <div className="side-header-title">
-           <span className="content">{selectProblem.problem}</span>
+           <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
           <div className="side-content" style={{height:`${window.innerHeight-50-65}px`,overflowY:'scroll'}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
-                <div key={key} className="chapter-area" onClick={()=>this.next(false,item.series)}>
+                <div key={key} className={`chapter-area`}>
                   <div className="cell">
                     <div className="chapter">
-                      {item.chapterStr}
+                      <div>
+                      <div className="label">{NumberToChinese(item.chapterId)}、</div><div className="str">{item.chapter}</div>
+                      </div>
                     </div>
-                    <div className="section">
-                      {item.sectionStr}
-                    </div>
+                    {item.sectionList.map((section,index)=>{
+                      return (
+                        <div className={`section  ${series===section.series?'open':''}`}  onClick={()=>this.next(false,section.series)} key={index}>
+                          <div>
+                          <div className="label">{item.chapterId}.{section.sectionId}</div><div className="str">{section.section}</div>
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
               )
