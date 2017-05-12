@@ -1,7 +1,8 @@
 import * as React from "react"
 import { connect } from "react-redux"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {pget, ppost} from "utils/request"
+import {changeTitle} from "utils/helpers"
+import {mark} from "../problem/async"
 import "./Personal.less"
 
 
@@ -20,23 +21,8 @@ export default class Personal extends React.Component<any,any>{
   }
 
   componentWillMount(){
-    const {dispatch} = this.props;
-    dispatch(startLoad());
-    pget("/rise/customer/rise")
-      .then(res=>{
-        dispatch(endLoad());
-        if(res.code===200){
-          this.setState(res.msg);
-        } else {
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(err=>{
-      dispatch(endLoad());
-      dispatch(alertMsg(err+""));
-    });
-    // if( isFunction(this.props.triggerTab)){
-    //   this.props.triggerTab();
-    // }
+      changeTitle("个人中心");
+      mark({module: "个人中心", function: "个人中心", action: "打开个人中心"})
   }
 
 
@@ -56,18 +42,10 @@ export default class Personal extends React.Component<any,any>{
       return (
         <div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/profile')}}><span>个人信息</span></div>
-          {/*<div className="personal-item" onClick={()=>{this.context.router.push('/personal/accountset')}}><span>账户设置</span></div>*/}
-          <div className="personal-item" onClick={()=>{this.context.router.push("/rise/static/customer/point/tip")}}>
-            <div className="item-label">
-              积分
-            </div>
-            <div className="item-content">
-              {this.state.point}
-            </div>
-          </div>
-          <div className="personal-item" style={{marginBottom:'0px'}} onClick={()=>{this.context.router.push('/rise/static/customer/problem')}} ><span>RISE</span></div>
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/message/center')}}><span>消息通知</span></div>
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/problem')}} ><span>我的小课</span></div>
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/account')}} ><span>我的账户</span></div>
           {/*<div className="personal-item" onClick={()=>{this.context.router.push('/rise/customer/courses')}} ><span>训练营</span></div>*/}
-
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/feedback')}} ><span>帮助</span></div>
 
         </div>

@@ -4,7 +4,7 @@ import * as _ from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {pget, ppost} from "utils/request"
 import {changeTitle} from "utils/helpers"
-import "./Rise.less"
+import "./Account.less"
 
 
 @connect(state=>state)
@@ -16,19 +16,19 @@ export default class Rise extends React.Component<any,any>{
   constructor(props){
     super(props);
     this.state={
-      point:null,
+        data:{},
     }
   }
 
   componentWillMount(){
-    changeTitle("RISE");
+    changeTitle("我的账户");
     const {dispatch} = this.props;
     dispatch(startLoad());
-    pget("/rise/customer/riseid")
+    pget("/rise/customer/account")
       .then(res=>{
         dispatch(endLoad());
         if(res.code===200){
-          this.setState({riseId:res.msg});
+          this.setState({data:res.msg});
         } else {
           dispatch(alertMsg(res.msg));
         }
@@ -38,6 +38,8 @@ export default class Rise extends React.Component<any,any>{
     })
   }
   render(){
+    const {data} = this.state
+    const {riseId, memberType} = data
     return (
      <div className="rise">
        <div className="item">
@@ -45,15 +47,16 @@ export default class Rise extends React.Component<any,any>{
            RISE ID
          </div>
          <div className="content-no-cut">
-           {this.state.riseId}
+           {riseId}
          </div>
        </div>
 
-       <div className="item" onClick={()=>{this.context.router.push("/rise/static/customer/problem")}}>
+       <div className="item" onClick={()=>{this.context.router.push("/rise/static/customer/member")}}>
          <div className="label">
-           我的小课
+           RISE会员
          </div>
          <div className="content">
+             {memberType}
          </div>
        </div>
      </div>

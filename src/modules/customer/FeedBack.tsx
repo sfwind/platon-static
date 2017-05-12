@@ -1,7 +1,7 @@
 import * as React from "react"
 import "./FeedBack.less"
 import {changeTitle} from "utils/helpers"
-import {pget, ppost} from "utils/request"
+import {mark} from "../problem/async"
 
 
 export default class FeedBack extends React.Component<any,any>{
@@ -14,7 +14,7 @@ export default class FeedBack extends React.Component<any,any>{
 
   componentWillMount(){
     changeTitle("帮助");
-    pget("/rise/customer/feedback/open");
+    mark({module: "个人中心", function: "帮助", action: "打开帮助页面"})
   }
 
   render(){
