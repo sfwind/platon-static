@@ -88,7 +88,7 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
            <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
            {renderDiscuss(data)}
          </div>
-        <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
+        {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
         {showDiscuss ?<Discuss repliedId={commentId} referenceId={knowledgeId} type="本知识点"
                                closeModal={this.closeModal.bind(this)} discuss={(body)=>discussKnowledge(body)}  /> : null}
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.back.bind(this)}/> : null}

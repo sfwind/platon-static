@@ -49,7 +49,7 @@ export default class DiscussShow extends React.Component <any, any> {
                 {name}
               </div>
               {role==3||role==4?<div className="role"><img src='http://www.iqycamp.com/images/coach.png'/></div>:null}
-              {role==5?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
+              {role==5||role==10?<div className="role"><img src='http://www.iqycamp.com/images/senior_coach.png'/></div>:null}
               {role==6||role==8?<div className="role"><img src='http://www.iqycamp.com/images/first_coach.png'/></div>:null}
               {role==7?<div className="role"><img src='http://www.iqycamp.com/images/vip.png'/></div>:null}
               <div className="comment-time">{discussTime}</div>
@@ -61,7 +61,7 @@ export default class DiscussShow extends React.Component <any, any> {
             </div>
             <div className="signature">{signature}</div>
             <div className="comment-content">{comment}</div>
-            {repliedComment && repliedDel==0 ?
+            {repliedComment && repliedDel!=1 ?
                 <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
             <div className="function-area">
               <div className="function-div" onClick={()=>{reply(warmupPracticeId, id)}}>

@@ -417,4 +417,12 @@ router.get('/rise/plan/open/status', (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.post("/rise/plan/check/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json(
+            {"msg":"ok","code":200}
+        );
+    },Math.random()*1500);
+});
+
 module.exports = router;

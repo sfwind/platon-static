@@ -117,7 +117,7 @@ export class Main extends React.Component <any, any> {
         }
 
         if (content !== null){
-          window.location.href = '#submit'
+          this.refs.submitBar.scrollTop = 0
           this.setState({edit:false})
         }
       }
@@ -307,7 +307,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        <div  ref="container" className="container has-footer">
+        <div className={`container ${edit?'has-footer': ''}`}>
           <div className="application">
             <div className="page-header">{topic}</div>
             <div className="intro-container">
@@ -328,10 +328,9 @@ export class Main extends React.Component <any, any> {
               {integrated=='false'?
                 <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看知识点</div>:null
               }
-              <a name="submit"/>
             </div>
             <div ref="workContainer" className="work-container">
-              <div className="submit-bar">{ content === null?'提交方式':'我的作业'}</div>
+              <div ref="submitBar" className="submit-bar">{ content === null?'提交方式':'我的作业'}</div>
               {renderTip()}
 
               {edit?
@@ -355,7 +354,7 @@ export class Main extends React.Component <any, any> {
             edit?
             <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>
             :
-            <div className="button-footer" onClick={this.back.bind(this)}>返回</div>
+            null
         }
 
       </div>

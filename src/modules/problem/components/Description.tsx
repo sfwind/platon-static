@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./Description.less";
-import {memberDescription} from "../async"
+import {mark} from "../async"
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import { preview } from "../../helpers/JsConfig"
@@ -12,7 +12,7 @@ export default class Description extends React.Component <any, any> {
     }
 
     componentWillMount() {
-        memberDescription()
+        mark({module:"RISE",function:"打点",action:"打开会员说明页"})
     }
 
     view(e){
