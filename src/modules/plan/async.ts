@@ -59,3 +59,7 @@ export function mark(param){
 export function queryEventList(){
   return pget("/rise/customer/event/list");
 }
+
+export function queryChapterList(planId){
+  return pget(`/rise/plan/chapter/list`,{planId:planId});
+}

@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import "./PlanMain.less";
 import { loadPlan, loadPlanHistory, loadWarmUpNext, completePlan, closePlan, updateOpenRise,
-  checkPractice,gradeProblem , isRiseMember, learnKnowledge, mark} from "./async";
+  checkPractice,gradeProblem , isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
 import { loadProblem } from "../problem/async"
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -12,7 +12,9 @@ import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge, isBoolean, get} from "lodash"
 import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
+import {Sidebar} from '../../components/Sidebar';
 const {Alert} = Dialog
+
 
 
 const typeMap = {
@@ -99,6 +101,8 @@ export class PlanMain extends React.Component <any, any> {
           {label: '好的', onClick: () => this.setState({showNextModal: false})}
         ],
       },
+
+      sidebarOpen:false,
     }
   }
 
@@ -123,6 +127,13 @@ export class PlanMain extends React.Component <any, any> {
 
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
+    const { planId } = this.props.location.query;
+    queryChapterList(planId).then(res=>{
+      if(res.code === 200){
+        console.log(res.msg);
+        this.setState({chapterList:res.msg});
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -146,6 +157,9 @@ export class PlanMain extends React.Component <any, any> {
     });
   }
 
+
+
+
   componentWillMount(id) {
     this.resize();
     const {dispatch, location} = this.props
@@ -159,6 +173,7 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     let planId = location.query.planId
+
 
     if (series) {
       loadPlanHistory(series, planId).then(res => {
@@ -313,13 +328,30 @@ export class PlanMain extends React.Component <any, any> {
     this.refs.plan.scrollTop = 0
   }
 
-  next(force) {
+  next(force,otherSeries) {
     const {location} = this.props
     const { planData, currentIndex} = this.state
     const {series,doneCurSeriesApplication, totalSeries} = planData
     const {planId} = location.query
     const unlocked = get(planData,'practice[0].unlocked');
-    if (series === totalSeries) {
+    console.log(otherSeries);
+    if(otherSeries){
+      // 点击侧边栏
+      if(series === otherSeries){
+        // 点击自己
+        this.onSetSidebarOpen(false);
+      } else {
+        // 直接跳
+        this.onSetSidebarOpen(false);
+        let query;
+        if(planId){
+          query = {series: otherSeries, planId: planId}
+        }else{
+          query = {series: otherSeries}
+        }
+        this.context.router.push({ pathname: this.props.location.pathname, query })
+      }
+    } else if (series === totalSeries) {
       this.setState({showNextSeriesModal: false});
     } else {
       if (unlocked && !doneCurSeriesApplication && !force) {
@@ -468,9 +500,16 @@ export class PlanMain extends React.Component <any, any> {
     this.context.router.push({pathname: '/rise/static/problem/priority'})
   }
 
+  onSetSidebarOpen(open){
+    console.log('open',open);
+    this.setState({sidebarOpen:open});
+  }
+
+
+
 
   render() {
-    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal } = this.state
+    const { planData,showScoreModal, showCompleteModal, showConfirmModal, showProblem, selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal, chapterList } = this.state
     const {location} = this.props
     const planId = location.query.planId
     const {
@@ -518,10 +557,41 @@ export class PlanMain extends React.Component <any, any> {
       })
     }
 
+    const renderSidebar = ()=>{
+      return (
+        <div className="plan-side-bar">
+          <div className="side-header-title">
+           <span className="content">{selectProblem.problem}</span>
+          </div>
+          <div className="side-content" style={{height:`${window.innerHeight-50-65}px`,overflowY:'scroll'}}>
+            {chapterList?chapterList.map((item,key)=>{
+              return (
+                <div key={key} className="chapter-area" onClick={()=>this.next(false,item.series)}>
+                  <div className="cell">
+                    <div className="chapter">
+                      {item.chapterStr}
+                    </div>
+                    <div className="section">
+                      {item.sectionStr}
+                    </div>
+                  </div>
+                </div>
+              )
+            }):null}
+          </div>
+        </div>
+      )
+    }
+
 
     return (
       <div>
-        {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
+        <Sidebar sidebar={ renderSidebar() }
+                 open={this.state.sidebarOpen}
+                 onSetOpen={(open)=>this.onSetSidebarOpen(open)}
+                 trigger={()=>this.onSetSidebarOpen(!this.state.sidebarOpen)}
+        >
+          {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
                                      onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
                                      questionList={this.state.questionList}/>: null}
         <Modal
@@ -629,7 +699,7 @@ export class PlanMain extends React.Component <any, any> {
             <div className="padding-footer"></div>
           </div>
         </div>}
-
+        </Sidebar>
         {/*<div className="button-footer">*/}
         <ToolBar />
         {/*<div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一节*/}
