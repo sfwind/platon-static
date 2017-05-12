@@ -23,13 +23,16 @@
   -ms-transform: translateX(-50px);
   -o-transform: translateX(-50px);
   transform: translateX(-50px);
+  -webkit-transition: transform 1s;
+  -moz-transition: transform 1s;
+  -ms-transition: transform 1s;
+  -o-transition: transform 1s;
+  transition: transform 1s;
   &.open{
-    animation:trans-left-show 1s alternate forwards;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+    transform: translateX(0px);
   }
-
-}
-
-@keyframes trans-left-show {
-  0%{ transform: translateX(-50px) }
-  100% {transform: translateX(0px)}
 }

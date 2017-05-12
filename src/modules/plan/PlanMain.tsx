@@ -276,7 +276,7 @@ export class PlanMain extends React.Component <any, any> {
           }):null;
         } else if (type === 31) {
           this.context ? this.context.router.push({
-            pathname: '/rise/static/practice/roadmap',
+            pathname: '/rise/static/practice/knowledge',
             query: {practicePlanId, series,planId}
           }) : null;
         } else if (type === 32) {

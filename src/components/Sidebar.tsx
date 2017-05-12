@@ -86,6 +86,7 @@ export class Sidebar extends Component {
   componentDidMount() {
     this.setState({
       dragSupported: typeof window === 'object' && 'ontouchstart' in window,
+      ctlOpen:true
     });
     this.saveSidebarWidth();
   }
@@ -325,7 +326,7 @@ export class Sidebar extends Component {
       <div {...rootProps}>
         <div className={this.props.sidebarClassName} style={sidebarStyle} ref={this.saveSidebarRef}>
           {this.props.sidebar}
-          <div className={`side-bar-controller open`} onClick={()=>this.props.trigger()}>
+          <div className={`side-bar-controller ${this.state.ctlOpen?'open':''}`} onClick={()=>this.props.trigger()}>
             <span>{this.props.open?'收起':'大纲'}</span>
           </div>
         </div>

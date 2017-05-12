@@ -77,11 +77,12 @@ export class Intro extends React.Component <any, any> {
       <div>
         {knowledge ? <KnowledgeViewer trigger={()=>this.setState({hide:!hide})} knowledge={knowledge}/>: null}
         {!hide ?<div className="button-footer">
-          <div className={`left`} onClick={this.prev.bind(this)}>上一步
-          </div>
-          { currentIndex !== total_knowledge ? <div className={`right`} onClick={this.next.bind(this)}>下一步</div> :
-            <div className={`right`} onClick={this.onSubmit.bind(this)}>完成</div>
-          }
+          {/*<div className={`left`} onClick={this.prev.bind(this)}>上一步*/}
+          {/*</div>*/}
+          {/*{ currentIndex !== total_knowledge ? <div className={`right`} onClick={this.next.bind(this)}>下一步</div> :*/}
+            {/*<div className={`right`} onClick={this.onSubmit.bind(this)}>完成</div>*/}
+          {/*}*/}
+          <div onClick={this.onSubmit.bind(this)}>完成</div>
         </div>: null}
       </div>
     )
