@@ -8,20 +8,8 @@ export function loadPlan(planId) {
   return pget(`/rise/plan/load`, param)
 }
 
-export function loadPlanHistory(series, planId) {
-  let param = {};
-  if(planId){
-    param.planId = planId;
-  }
-  return pget(`/rise/plan/history/load/${series}`, param)
-}
-
 export function loadPlanIntro(planId) {
   return pget(`/rise/plan/play/${planId}`)
-}
-
-export function loadWarmUpNext(id) {
-  return pget(`/rise/practice/next/${id}`)
 }
 
 export function completePlan(planId) {
