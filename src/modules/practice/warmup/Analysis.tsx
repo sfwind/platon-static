@@ -221,7 +221,7 @@ export class Analysis extends React.Component <any, any> {
         <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
             {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
-              {/*( choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx])}*/}
+            {/*{choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx]}*/}
           </span>
           <span className={`text`}>{subject}</span>
         </div>

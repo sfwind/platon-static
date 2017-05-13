@@ -1,22 +1,22 @@
 import * as React from "react";
 import "./Comment.less";
 import {connect} from "react-redux"
-import {loadCommentList,comment, deleteComment} from "./async"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import {loadCommentList, comment, deleteComment, commentReply} from "./async"
+import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import SubmitBox from "../components/SubmitBox"
 import PullElement from "pull-element"
-import {findIndex,remove} from "lodash";
-import CommentShow from "../components/CommentShow"
+import {findIndex, remove} from "lodash";
+import DiscussShow from "../components/DiscussShow"
 
-@connect(state=>state)
-export class Comment extends React.Component<any,any>{
-  constructor(){
+@connect(state => state)
+export class Comment extends React.Component<any, any> {
+  constructor() {
     super();
     this.state = {
-      page:1,
-      editDisable:false,
-      commentList:[],
+      page: 1,
+      editDisable: false,
+      commentList: [],
     }
     this.commentHeight = window.innerHeight;
   }
@@ -31,8 +31,8 @@ export class Comment extends React.Component<any,any>{
     loadCommentList(location.query.submitId, 1)
       .then(res => {
         dispatch(endLoad());
-        if(res.code===200){
-          this.setState({commentList:res.msg.list,page:1,end:res.msg.end});
+        if (res.code === 200) {
+          this.setState({commentList: res.msg.list, page: 1, end: res.msg.end});
         } else {
           dispatch(alertMsg(res.msg));
         }
@@ -42,23 +42,23 @@ export class Comment extends React.Component<any,any>{
     });
   }
 
-  goBack(){
+  goBack() {
     const {location} = this.props
     this.context.router.push({
-      pathname:'/rise/static/practice/application',
+      pathname: '/rise/static/practice/application',
       query: location.query,
       state: location.state
     })
   }
 
-  componentDidUpdate(){
-    const { commentList=[],end } = this.state;
-    const {dispatch,location} = this.props;
-    if(commentList&& commentList.length!==0 && !this.pullElement){
+  componentDidUpdate() {
+    const {commentList = [], end} = this.state;
+    const {dispatch, location} = this.props;
+    if (commentList && commentList.length !== 0 && !this.pullElement) {
       this.pullElement = new PullElement({
         target: '.pull-target',
         scroller: '.comment',
-        trigger:'.comment',
+        trigger: '.comment',
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
@@ -89,7 +89,7 @@ export class Comment extends React.Component<any,any>{
       this.pullElement.init();
     }
 
-    if(this.pullElement && this.state.end){
+    if (this.pullElement && this.state.end) {
       this.pullElement.disable();
     }
   }
@@ -98,29 +98,33 @@ export class Comment extends React.Component<any,any>{
 
   }
 
-  componentWillUnmount(){
-    this.pullElement?this.pullElement.destroy():null;
+  componentWillUnmount() {
+    this.pullElement ? this.pullElement.destroy() : null;
   }
 
-  onSubmit(content){
-    const {dispatch,location} = this.props;
-    if(content){
+  onSubmit(content) {
+    const {dispatch, location} = this.props;
+    if (content) {
       dispatch(startLoad());
-      this.setState({editDisable:true});
-      comment(location.query.submitId,content)
-        .then(res=>{
+      this.setState({editDisable: true});
+      comment(location.query.submitId, content)
+        .then(res => {
           dispatch(endLoad());
-          if(res.code===200){
-            this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false,editDisable:false});
-            if(!this.state.end && this.pullElement){
+          if (res.code === 200) {
+            this.setState({
+              commentList: [res.msg].concat(this.state.commentList),
+              showDiscuss: false,
+              editDisable: false
+            });
+            if (!this.state.end && this.pullElement) {
               this.pullElement.enable();
             }
           } else {
             dispatch(alertMsg(res.msg));
-            this.setState({editDisable:false});
+            this.setState({editDisable: false});
           }
         }).catch(ex => {
-        this.setState({editDisable:false});
+        this.setState({editDisable: false});
         dispatch(endLoad());
         dispatch(alertMsg(ex));
       })
@@ -129,40 +133,92 @@ export class Comment extends React.Component<any,any>{
     }
   }
 
-  openWriteBox(){
+  openWriteBox() {
     this.setState({showDiscuss: true})
-    if(this.pullElement){
+    if (this.pullElement) {
       this.pullElement.disable();
     }
   }
 
-  onDelete(id){
+  reply(id) {
+    this.setState({
+      id: id,
+      showReply: true
+    })
+  }
+
+  onReply(content) {
+    const {dispatch, location} = this.props;
+    if (content) {
+      dispatch(startLoad());
+      this.setState({editDisable: true});
+      commentReply(location.query.submitId, content, this.state.id).then(res => {
+        dispatch(endLoad());
+        if (res.code === 200) {
+          this.setState({
+            commentList: [res.msg].concat(this.state.commentList),
+            showReply: false,
+            editDisable: false
+          });
+          if (!this.state.end && this.pullElement) {
+            this.pullElement.enable();
+          }
+        } else {
+          dispatch(alertMsg(res.msg));
+          this.setState({editDisable: false});
+        }
+        dispatch(startLoad());
+        loadCommentList(location.query.submitId, 1)
+          .then(res => {
+            dispatch(endLoad());
+            if (res.code === 200) {
+              this.setState({commentList: res.msg.list, page: 1, end: res.msg.end});
+            } else {
+              dispatch(alertMsg(res.msg));
+            }
+          }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        });
+      }).catch(ex => {
+        this.setState({editDisable: false});
+        dispatch(endLoad());
+        dispatch(alertMsg(ex));
+      });
+    } else {
+      dispatch(alertMsg("请先输入内容再提交"))
+    }
+  }
+
+  onDelete(id) {
     const {commentList = []} = this.state
-    deleteComment(id).then(res=>{
-      if(res.code===200){
+    deleteComment(id).then(res => {
+      if (res.code === 200) {
         let newCommentList = []
-        commentList.forEach((item)=>{
-          if(item.id != id){
+        commentList.forEach((item) => {
+          if (item.id != id) {
             newCommentList.push(item)
           }
         })
-        this.setState({commentList:newCommentList})
+        this.setState({commentList: newCommentList})
       }
     })
   }
 
-  render(){
-    const { commentList=[],showDiscuss,end } = this.state;
-    const renderCommentList = ()=>{
-      if(commentList && commentList.length !== 0){
+  render() {
+    const {commentList = [], showDiscuss, showReply, end} = this.state;
+    const renderCommentList = () => {
+      if (commentList && commentList.length !== 0) {
         return (
-          commentList.map((item,seq)=>{
+          commentList.map((item, seq) => {
             return (
-                <CommentShow comment={item} onDelete={this.onDelete.bind(this, item.id)}/>
+              <DiscussShow discuss={item} reply={() => {
+                this.reply(item.id)
+              }} onDelete={this.onDelete.bind(this, item.id)}/>
             )
           })
         )
-      }  else {
+      } else {
         return (<div className="on_message">
           <div className="no_comment">
             <AssetImg url="http://www.iqycamp.com/images/no_comment.png" height={120} width={120}/>
@@ -172,10 +228,10 @@ export class Comment extends React.Component<any,any>{
       }
     }
 
-    const renderTips = ()=>{
+    const renderTips = () => {
 
-      if(commentList && commentList.length !== 0){
-        if(!end){
+      if (commentList && commentList.length !== 0) {
+        if (!end) {
           return (
             <div className="show-more">上拉加载更多消息</div>
           )
@@ -201,8 +257,13 @@ export class Comment extends React.Component<any,any>{
         <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
           <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
-        {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
-                                 onSubmit={(content)=>this.onSubmit(content)}/> : null}
+        {showDiscuss ?
+          <SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
+                     onSubmit={(content) => this.onSubmit(content)}/> : null}
+        {showReply ?
+          <SubmitBox height={this.commentHeight} placeholder={"和志同道友们一起切磋讨论一下吧"} editDisable={this.state.editDisable}
+                     onSubmit={(content) => this.onReply(content)}/> : null}
+
         {/*<div className="button-footer" onClick={()=>this.goBack()}>返回</div>*/}
       </div>
     );

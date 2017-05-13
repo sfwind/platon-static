@@ -32,6 +32,10 @@ export function comment(submitId,content){
   return ppost(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{content:content})
 }
 
+export function commentReply(submitId, comment, replyedCommentId){
+  return ppost(`/rise/practice/comment/reply/${CommentType.Application}/${submitId}`,{comment:comment, id:replyedCommentId})
+}
+
 export function openApplication(){
   return ppost('/rise/plan/open/application');
 }
