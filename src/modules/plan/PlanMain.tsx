@@ -7,7 +7,6 @@ import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
 import DropChoice from "../../components/DropChoice"
-import ProblemViewer from "../problem/components/ProblemViewer"
 import {merge, isBoolean, get, isEmpty} from "lodash"
 import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
@@ -141,7 +140,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   riseMemberCheck() {
-    const {dispatch, location} = this.props
+    const {dispatch} = this.props
     return isRiseMember().then(res => {
       if (res.code === 200) {
         this.setState({riseMember: res.msg});
@@ -156,9 +155,6 @@ export class PlanMain extends React.Component <any, any> {
       }
     });
   }
-
-
-
 
   componentWillMount(id) {
     this.resize();
@@ -182,7 +178,7 @@ export class PlanMain extends React.Component <any, any> {
           this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
         } else {
           this.context.router.push({
-            pathname: '/rise/static/problem/list'
+            pathname: '/rise/static/welcome'
           })
         }
       }
@@ -382,8 +378,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   problemReview(problemId) {
-    mark({module: "RISE", function: "打点", action: "查看小课详情", memo: "每日首页"});
-    this.setState({showProblem: true})
+    this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problemId, show:true}})
   }
 
   nextPlan() {
@@ -461,9 +456,12 @@ export class PlanMain extends React.Component <any, any> {
       return
     }
     const {dispatch} = this.props
-    const {planData} = this.state
+    const {planData, showedPayTip} = this.state
     const {sections, id} = planData
     this.setState({currentIndex:series})
+    if(showedPayTip){
+      return
+    }
     dispatch(startLoad());
     checkPractice(series, id).then(res => {
       dispatch(endLoad());
@@ -472,10 +470,10 @@ export class PlanMain extends React.Component <any, any> {
         sections[series-1].practices.map((practice) => {
           practice.unlocked = 1
         })
-        this.setState({currentIndex:series, planData})
+        this.setState({planData})
       } else {
         dispatch(alertMsg(msg))
-        this.setState({currentIndex:series})
+        this.setState({showedPayTip:true})
       }
     }).catch(ex => {
       dispatch(endLoad());
@@ -573,7 +571,7 @@ export class PlanMain extends React.Component <any, any> {
       <div key={idx}>
         <div className="plan-progress">
           <div className="intro">
-            <div className="intro-chapter">{NumberToChinese(item.chapter)}{' '}{item.chapterName}</div>
+            <div className="intro-chapter">{NumberToChinese(item.chapter)}{'、 '}{item.chapterName}</div>
             <div className="bar"/>
           </div>
           <div className="intro-section">{item.chapter+'.'+item.section}{' '}{item.name}</div>
@@ -675,25 +673,6 @@ export class PlanMain extends React.Component <any, any> {
             <span>小课介绍</span>
           </div>
         </div>
-        {/*{showProblem ?*/}
-          {/*<ProblemViewer readonly="true" problem={selectProblem} closeModal={()=>this.setState({showProblem:false})}*/}
-                         {/*viewOtherProblem={this.goOthers.bind(this)}/>*/}
-          {/*: <div className="container has-footer" ref={'plan'}*/}
-                 {/*style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}>*/}
-          {/*<div className="plan-progress">*/}
-            {/*<div className="intro">*/}
-              {/*<div className="intro-chapter">{chapter}</div>*/}
-              {/*<div className="bar"/>*/}
-            {/*</div>*/}
-            {/*<div className="intro-section">{section}</div>*/}
-          {/*</div>*/}
-          {/*<div className="plan-main">*/}
-            {/*<div className="list">*/}
-              {/*{practiceRender(practice)}*/}
-            {/*</div>*/}
-            {/*<div className="padding-footer"></div>*/}
-          {/*</div>*/}
-        {/*</div>}*/}
           {!isEmpty(planData)?
             <SwipeableViews style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}
                             index={currentIndex-1} onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
@@ -703,8 +682,8 @@ export class PlanMain extends React.Component <any, any> {
             </SwipeableViews>
           :null}
         </Sidebar>
-        {/*<div className="button-footer">*/}
         <ToolBar />
+        {/*<div className="button-footer">*/}
         {/*<div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一节*/}
         {/*</div>*/}
         {/*{ series !== totalSeries ? <div className={`right`} onClick={()=>this.next()}>下一节</div> : null }*/}

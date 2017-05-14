@@ -3,6 +3,7 @@ import { Route } from "react-router";
 import Base from "modules/base/Base";
 import { Welcome } from "modules/problem/Welcome";
 import { ProblemPriority } from "modules/problem/ProblemPriority";
+import { ProblemViewer } from "modules/problem/ProblemViewer";
 import { PlanMain } from "modules/plan/PlanMain";
 import { Intro as WarmUpIntro } from "modules/practice/knowledge/Intro";
 import { Main as WarmUp } from "modules/practice/warmup/Main";
@@ -39,8 +40,9 @@ import {EventWall} from "modules/plan/EventWall";
 
 const routes = (
   <Route path="/rise/static" component={Base}>
-    <Route path="problem/list" component={Welcome}/>
+    <Route path="welcome" component={Welcome}/>
     <Route path="problem/priority" component={ProblemPriority}/>
+    <Route path="problem/view" component={ProblemViewer}/>
     <Route path="plan/main" component={PlanMain}/>
     <Route path="practice/warmup/intro" component={WarmUpIntro}/>
     <Route path="practice/warmup" component={WarmUp}/>
