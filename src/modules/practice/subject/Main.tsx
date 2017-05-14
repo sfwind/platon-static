@@ -336,7 +336,7 @@ export class Main extends React.Component <any, any> {
           </div>
         </div>
         <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-          <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
+          <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
         {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
         {showDiscuss ?<SubmitBox moduleId={4} height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}

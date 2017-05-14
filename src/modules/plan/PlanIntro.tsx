@@ -47,7 +47,7 @@ export class PlanIntro extends React.Component <any, any> {
             <div className="text">从了解到运用这些知识，你会训练的任务共有：</div>
             <div className="groups">{totalSeries}组</div>
             <div className="context-img">
-              <img src={"http://www.iqycamp.com/images/fragment/play3.png"} alt=""/>
+              <img src={"https://www.iqycamp.com/images/fragment/play3.png"} alt=""/>
             </div>
             <div className="text">你需要每天完成<span className="number">1</span>组，完成后第二天早上<span className="number">6</span>点会解锁下一组</div>
             <div className="text">你共有<span className="number">{length}</span>天完成所有的训练，截止日期如下：</div>

@@ -46,9 +46,9 @@ export default class RiseMember extends React.Component<any,any> {
 
   goUp(){
     pget('/personal/mark/rise/up').then(()=>{
-      window.location.href=`http://${window.location.hostname}/pay/pay`
+      window.location.href=`https://${window.location.hostname}/pay/pay`
     }).catch(()=>{
-      window.location.href=`http://${window.location.hostname}/pay/pay`
+      window.location.href=`https://${window.location.hostname}/pay/pay`
     })
   }
 

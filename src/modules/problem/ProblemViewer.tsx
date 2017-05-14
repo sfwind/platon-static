@@ -117,21 +117,21 @@ export class ProblemViewer extends React.Component<any, any> {
                 <pre>{why}</pre>
               </div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/how_2.png"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/how_2.png"/>
               </div>
               <pre>{how}</pre>
               <AssetImg width={'100%'} style={{marginTop:25}} url={descPic}/>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/what_2.png"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/what_2.png"/>
               </div>
               <pre>{what}</pre>
               <div className="roadmap">{chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}</div>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/who_2.png"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/who_2.png"/>
               </div>
               <pre><b>{who}</b></pre>
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/when_2.png"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/when_2.png"/>
               </div>
               <div className="text">随开随学，进度自控</div>
               <div className="text">教研团队的推荐进度：每天1节，保证学习效果</div>
@@ -146,7 +146,7 @@ export class ProblemViewer extends React.Component<any, any> {
 
 
               <div className="context-title-img">
-                <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/where_2.png"/>
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/where_2.png"/>
               </div>
               <div className="text">随时随地，多客户端</div>
               <div className="text"><b>手机微信：</b>圈外学习号-RISE</div>

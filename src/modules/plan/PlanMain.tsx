@@ -439,7 +439,7 @@ export class PlanMain extends React.Component <any, any> {
 
   goRiseMemberTips(){
     mark({module:"RISE",function:"升级专业版",action:"点击升级专业版按钮"}).then(() =>{
-      window.location.href = `http://${window.location.hostname}/pay/pay`
+      window.location.href = `https://${window.location.hostname}/pay/pay`
     })
   }
 
@@ -597,7 +597,7 @@ export class PlanMain extends React.Component <any, any> {
                                      onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
                                      questionList={this.state.questionList}/>: null}
         <Modal
-          header={{replace:true,children:<AssetImg width={107} height={83} url="http://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
+          header={{replace:true,children:<AssetImg width={107} height={83} url="https://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
           buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
           show={showCompleteModal}>
           <div className="content">
