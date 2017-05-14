@@ -676,9 +676,11 @@ export class PlanMain extends React.Component <any, any> {
           {!isEmpty(planData)?
             <SwipeableViews style={{height: window.innerHeight - this.state.style.picHeight - 49, backgroundColor: '#f5f5f5'}}
                             index={currentIndex-1} onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
+                <div style={{padding:"0 15px"}}>
                 {sections?sections.map((item, idx)=>{
                   return renderSection(item, idx)
                 }):null}
+                </div>
             </SwipeableViews>
           :null}
         </Sidebar>
