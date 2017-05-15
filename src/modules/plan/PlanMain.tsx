@@ -474,7 +474,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   updateSectionChoose(series){
-    let section = document.querySelector(`#section${series}`);
+    let section = this.refs.sideContent.querySelector(`#section${series}`);
     let sectionArr = this.refs.sideContent.querySelectorAll('.section');
     for(let i=0; i< sectionArr.length;i++){
       sectionArr[i].setAttribute('class','section');
