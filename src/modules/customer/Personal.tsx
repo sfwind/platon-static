@@ -29,7 +29,7 @@ export default class Personal extends React.Component<any,any>{
   goMessage() {
     const {dispatch} = this.props;
     dispatch(startLoad());
-    getOldMsg(res => {
+    getOldMsg().then(res => {
       dispatch(endLoad());
       if (res.code === 200) {
         dispatch(set('noticeMsgCount', 0))
@@ -60,9 +60,7 @@ export default class Personal extends React.Component<any,any>{
       return (
         <div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/profile')}}><span>个人信息</span></div>
-          <div className="personal-item" onClick={()=>{
-            this.goMessage();
-          }}>
+          <div className="personal-item" onClick={()=>this.goMessage()}>
             <span>消息通知</span>
             {noticeMsgCount ?<span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span>: null}
           </div>
