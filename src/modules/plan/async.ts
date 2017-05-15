@@ -16,6 +16,10 @@ export function completePlan(planId) {
   return ppost(`/rise/plan/complete${planId?'?planId='+planId:''}`)
 }
 
+export function markPlan(series, planId) {
+  return ppost(`/rise/plan/mark/${series}${planId?'?planId='+planId:''}`)
+}
+
 export function closePlan(planId) {
   return ppost(`/rise/plan/close${planId?'?planId='+planId:''}`)
 }
