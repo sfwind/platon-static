@@ -13,7 +13,9 @@ import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
 import { NumberToChinese } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
-import ScrollBar from '../../components/ScrollBar'
+
+import Scrollbar from 'smooth-scrollbar';
+import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 const {Alert} = Dialog
 
 
@@ -131,12 +133,14 @@ export class PlanMain extends React.Component <any, any> {
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
-        this.setState({chapterList:res.msg});
+        this.setState({chapterList:res.msg},()=>{
+          this.scrollbar = Scrollbar.init(this.refs.sideContent);
+        });
       }
     })
   }
 
-  componentWillUnmount() {
+ componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
   }
 
@@ -460,11 +464,22 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   onSetSidebarOpen(open){
-    this.setState({sidebarOpen:open});
+    const {currentIndex = 1} = this.state;
+
+    this.setState({sidebarOpen:open},()=>this.updateSectionChoose(currentIndex));
   }
 
   goSection(series) {
-    this.setState({currentIndex:series})
+    this.setState({currentIndex:series},()=>this.updateSectionChoose(series));
+  }
+
+  updateSectionChoose(series){
+    let section = document.querySelector(`#section${series}`);
+    let sectionArr = this.refs.sideContent.querySelectorAll('.section');
+    for(let i=0; i< sectionArr.length;i++){
+      sectionArr[i].setAttribute('class','section');
+    }
+    section.setAttribute('class','section open');
   }
 
   onTransitionEnd(){
@@ -531,7 +546,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <ScrollBar className="side-content" style={{height:`${window.innerHeight-55-65}px`,width:`${window.innerWidth * 0.7}px`}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-65}px`,width:`${window.innerWidth * 0.7}px`}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -541,11 +556,14 @@ export class PlanMain extends React.Component <any, any> {
                       <div className="label">{NumberToChinese(item.chapterId)}、</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
                       </div>
                     </div>
-                    {item.sectionList.map((section,index)=>{
+                    {item.sectionList.map((section, index) => {
                       return (
-                        <div className={`section  ${currentIndex===section.series?'open':''}`}  onClick={()=>this.goSection(section.series)} key={index}>
+                        <div id={`section${section.series}`} className={`${currentIndex===section.series?'open':''} section`}
+                             onClick={()=>this.goSection(section.series)} key={index}>
                           <div>
-                          <div className="label">{item.chapterId}.{section.sectionId}</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
+                            <div className="label">{item.chapterId}.{section.sectionId}</div>
+                            <div className="str"
+                                 style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
                           </div>
                         </div>
                       )
@@ -554,7 +572,7 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
               )
             }):null}
-          </ScrollBar>
+          </div>
         </div>
       )
     }
