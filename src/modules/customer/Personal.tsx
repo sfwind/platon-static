@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {changeTitle} from "utils/helpers"
 import {mark} from "../problem/async"
+import { getOldMsg } from '../message/async'
 import "./Personal.less"
 
 
@@ -25,8 +26,25 @@ export default class Personal extends React.Component<any,any>{
       mark({module: "个人中心", function: "个人中心", action: "打开个人中心"})
   }
 
+  goMessage() {
+    const {dispatch} = this.props;
+    dispatch(startLoad());
+    getOldMsg(res => {
+      dispatch(endLoad());
+      if (res.code === 200) {
+        dispatch(set('noticeMsgCount', 0))
+        this.context.router.push('/rise/static/message/center')
+      }
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
+  }
+
 
   render(){
+    const { noticeMsgCount } = this.props;
+
     const renderHeader = ()=>{
       return (
         <div className="personal-head" style={{marginTop:this.marginTop+"px"}}>
@@ -42,7 +60,12 @@ export default class Personal extends React.Component<any,any>{
       return (
         <div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/profile')}}><span>个人信息</span></div>
-          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/message/center')}}><span>消息通知</span></div>
+          <div className="personal-item" onClick={()=>{
+            this.goMessage();
+          }}>
+            <span>消息通知</span>
+            {noticeMsgCount ?<span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span>: null}
+          </div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/problem')}} ><span>我的小课</span></div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/account')}} ><span>我的账户</span></div>
           {/*<div className="personal-item" onClick={()=>{this.context.router.push('/rise/customer/courses')}} ><span>训练营</span></div>*/}

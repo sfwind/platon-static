@@ -10,7 +10,7 @@ import {
   Article
 } from 'react-weui';
 
-import { isFunction } from "lodash";
+import { isFunction,isNumber } from "lodash";
 
 import IconStudy from '../../../assets/img/tabbar_book.png';
 import IconExplore from '../../../assets/img/tabbar_explore.png';
@@ -23,7 +23,7 @@ import IconMineActive from '../../../assets/img/tabbar_mine_active.png';
 import IconActivityActive from '../../../assets/img/tabbar_team_study_active.png';
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
-import AssetImg from '../../components/AssetImg'
+import {loadOldCount} from '../message/async'
 
 @connect(state=>state)
 export class ToolBar extends React.Component<any,any> {
@@ -71,6 +71,15 @@ export class ToolBar extends React.Component<any,any> {
       tabIndex = 3;
     }
     dispatch(set('tabIndex',tabIndex))
+    const { noticeMsgCount } = this.props;
+    if(!isNumber(noticeMsgCount)){
+      loadOldCount().then(res=>{
+        if(res.code === 200){
+          console.log('count',res.msg);
+          dispatch(set('noticeMsgCount',res.msg));
+        }
+      })
+    }
   }
 
   changeTab(tabIndex){
@@ -88,18 +97,38 @@ export class ToolBar extends React.Component<any,any> {
   }
 
   render() {
-    const {tabIndex = 0} = this.props;
+    const {tabIndex = 0,noticeMsgCount} = this.props;
     return (
       this.props.hidden?null:<TabBar>
         {this.state.tabs.map((item, key) => {
           const {bar} = item;
-          return <TabBarItem
-            active={tabIndex == item.key}
-            onClick={()=>this.changeTab(item.key)}
-            icon={<img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>}
-            label={bar.label}
-          >
-          </TabBarItem>
+
+          if(item.key === 3){
+            return (
+              <TabBarItem
+                active={tabIndex == item.key}
+                onClick={()=>this.changeTab(item.key)}
+              >
+                <TabBarIcon>
+                    <img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>
+                    {noticeMsgCount?<span>{noticeMsgCount>99?99:noticeMsgCount}</span>:null}
+                </TabBarIcon>
+                <TabBarLabel>
+                  {bar.label}
+                </TabBarLabel>
+
+              </TabBarItem>
+            )
+          } else {
+            return <TabBarItem
+              active={tabIndex == item.key}
+              onClick={()=>this.changeTab(item.key)}
+              icon={<img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>}
+              label={bar.label}
+            />
+          }
+
+
         })}
       </TabBar>
     )

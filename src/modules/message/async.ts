@@ -4,6 +4,14 @@ export function loadMessage(offset) {
   return pget('/rise/message/load', {page:offset})
 }
 
+export function loadOldCount(){
+  return pget('/rise/message/old/count/load');
+}
+
+export function getOldMsg(){
+  return pget('/rise/message/old/get');
+}
+
 export function loadWarmUp(id) {
   return pget(`/rise/practice/warmup/${id}`)
 }
