@@ -68,6 +68,7 @@ export class ToolBar extends React.Component<any,any> {
       tabIndex = 1;
     } else if(window.location.pathname.indexOf('/rise/static/customer')!=-1 ||
         window.location.pathname.indexOf('/rise/static/message')!=-1){
+      //消息中心和个人中心
       tabIndex = 3;
     }
     dispatch(set('tabIndex',tabIndex))
