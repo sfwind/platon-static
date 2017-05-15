@@ -46,6 +46,7 @@ router.get("/rise/plan/load", (req, res) => {
 				"complete": 0,
 				"keycnt": 2,
 				"status": 1,
+                "lockedStatus":-1,
                 "problem": {
                     "id": 2,
                     "problem": "跟老板",
@@ -395,5 +396,13 @@ router.get("/rise/plan/chapter/list", (req, res)=>{
         );
     },Math.random()*1500);
 })
+
+router.post("/rise/plan/mark/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json(
+            {"msg":"ok","code":200}
+        );
+    },Math.random()*1500);
+});
 
 module.exports = router;
