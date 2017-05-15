@@ -134,7 +134,7 @@ export class PlanMain extends React.Component <any, any> {
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
         this.setState({chapterList:res.msg},()=>{
-          this.scrollbar = Scrollbar.init(this.refs.sideContent);
+          this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
         });
       }
     })
