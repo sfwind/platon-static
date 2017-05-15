@@ -44,7 +44,6 @@
     "rc-tween-one": "^1.1.2",
     "react": "^15.4.2",
     "react-copy-to-clipboard": "^4.2.3",
-    "react-custom-scrollbars": "^4.1.2",
     "react-document-meta": "^2.0.3",
     "react-dom": "^15.4.2",
     "react-lite": "^0.15.30",
@@ -63,6 +62,7 @@
     "redux-logger": "^2.7.0",
     "redux-thunk": "^2.1.0",
     "shelljs": "^0.7.3",
+    "smooth-scrollbar": "^7.2.10",
     "weui": "^0.4.3",
     "whatwg-fetch": "^1.0.0"
   },

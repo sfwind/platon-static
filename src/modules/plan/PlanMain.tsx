@@ -12,8 +12,8 @@ import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
 import { NumberToChinese } from "../../utils/helpers"
-import { Scrollbars } from 'react-custom-scrollbars';
 import SwipeableViews from 'react-swipeable-views';
+import ScrollBar from '../../components/ScrollBar'
 const {Alert} = Dialog
 
 
@@ -540,10 +540,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <Scrollbars autoHide={true}
-                      autoHideTimeout={1000}
-                      autoHideDuration={200}
-                      ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-65}px`,width:`${window.innerWidth * 0.7}px`}}>
+          <ScrollBar className="side-content" style={{height:`${window.innerHeight-55-65}px`,width:`${window.innerWidth * 0.7}px`}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -566,7 +563,7 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
               )
             }):null}
-          </Scrollbars>
+          </ScrollBar>
         </div>
       )
     }
