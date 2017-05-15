@@ -1,8 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, completePlan, closePlan, updateOpenRise,
-  checkPractice,gradeProblem , isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
+import { loadPlan, completePlan, closePlan, updateOpenRise, markPlan,
+  checkPractice, gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
@@ -13,7 +13,9 @@ import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
 import { NumberToChinese } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
-import ScrollBar from '../../components/ScrollBar'
+
+import Scrollbar from 'smooth-scrollbar';
+import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 const {Alert} = Dialog
 
 
@@ -131,12 +133,14 @@ export class PlanMain extends React.Component <any, any> {
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
-        this.setState({chapterList:res.msg});
+        this.setState({chapterList:res.msg},()=>{
+          this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
+        });
       }
     })
   }
 
-  componentWillUnmount() {
+ componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
   }
 
@@ -169,7 +173,7 @@ export class PlanMain extends React.Component <any, any> {
       series = location.query.series
     }
 
-    const planId = location.query.planId
+    const {planId} = location.query
 
     loadPlan(planId).then(res => {
       dispatch(endLoad())
@@ -193,67 +197,78 @@ export class PlanMain extends React.Component <any, any> {
   onPracticeSelected(item) {
     const {dispatch} = this.props
     const {planData, currentIndex} = this.state
-    const {problemId} = planData
-    const {type, practicePlanId, planId} = item
-    // if (!unlocked) {
-    //   dispatch(alertMsg("该训练尚未解锁"))
-    //   return
-    // }
-    checkPractice(currentIndex,planId).then(res =>{
-      const { code, msg } = res
-      if (code === 200) {
-        // 已完成
-        if (type === 1 || type === 2) {
-          let integrated = true
-          if (type === 1) {
-            integrated = false
-          }
-          if (item.status === 1) {
-            this.context ? this.context.router.push({
+    const {problemId, lockedStatus} = planData
+    const {type, practicePlanId, planId, unlocked} = item
+
+    if(!unlocked){
+      if(lockedStatus===-1){
+        dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
+      }
+      if(lockedStatus===-2){
+        dispatch(alertMsg('该内容为付费内容，只有会员可以查看'))
+      }
+      if(lockedStatus===-3){
+        dispatch(alertMsg('抱歉哦，课程开放期间，你未能完成前面的练习，导致这个练习无法解锁'))
+      }
+      return
+    }
+    //已解锁状态
+    if (type === 1 || type === 2) {
+      let integrated = true
+      if (type === 1) {
+        integrated = false
+      }
+      if (item.status === 1) {
+        this.context ? this.context.router.push({
               pathname: '/rise/static/practice/warmup/analysis',
               query: { practicePlanId, currentIndex, integrated ,planId}
             }):null;
-          } else {
-            this.context?this.context.router.push({
-                  pathname: '/rise/static/practice/warmup',
-                  query: { practicePlanId, currentIndex, integrated ,planId}
+      } else {
+        this.context?this.context.router.push({
+              pathname: '/rise/static/practice/warmup',
+              query: { practicePlanId, currentIndex, integrated ,planId}
             }):null;
-          }
-        } else if (type === 11) {
-          this.context ? this.context.router.push({
+      }
+    } else if (type === 11) {
+      this.context ? this.context.router.push({
             pathname: '/rise/static/practice/application',
             query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId}
           }) : null;
-        } else if (type === 12) {
-          this.context ? this.context.router.push({
+    } else if (type === 12) {
+      this.context ? this.context.router.push({
             pathname: '/rise/static/practice/application',
             query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId}
           }) : null;
-        } else if (type === 21) {
-          this.context ? this.context.router.push({
+    } else if (type === 21) {
+      this.context ? this.context.router.push({
             pathname: '/rise/static/practice/challenge',
             query: { id: item.practiceIdList[0], currentIndex ,planId}
           }):null;
-        } else if (type === 31) {
-          this.context ? this.context.router.push({
+    } else if (type === 31) {
+      this.context ? this.context.router.push({
             pathname: '/rise/static/practice/knowledge',
             query: {practicePlanId, currentIndex,planId}
           }) : null;
-        } else if (type === 32) {
-          learnKnowledge(practicePlanId).then(res => {
-            const {code, msg} = res
-            if (code === 200) {
-              this.context ? this.context.router.push({
+    } else if (type === 32) {
+      learnKnowledge(practicePlanId).then(res => {
+        const {code, msg} = res
+        if (code === 200) {
+          this.context ? this.context.router.push({
                 pathname: '/rise/static/practice/knowledge/review',
                 query: {problemId,planId}
               }) : null;
-            }
-          })
         }
-      } else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(alertMsg(ex))
-    })
+      })
+    }
+    // checkPractice(currentIndex,planId).then(res =>{
+    //   const { code, msg } = res
+    //   if (code === 200) {
+    //     // 已完成
+    //
+    //   } else dispatch(alertMsg(msg))
+    // }).catch(ex => {
+    //   dispatch(alertMsg(ex))
+    // })
   }
 
   // prev() {
@@ -324,7 +339,7 @@ export class PlanMain extends React.Component <any, any> {
   complete() {
     const { dispatch,location } = this.props
     const { selectProblem } = this.state;
-    const planId = location.query.planId
+    const {planId} = location.query
     completePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
@@ -384,7 +399,7 @@ export class PlanMain extends React.Component <any, any> {
 
   nextPlan() {
     const { dispatch,location } = this.props
-    const planId = location.query.planId
+    const {planId} = location.query
     closePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
@@ -449,45 +464,36 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   onSetSidebarOpen(open){
-    this.setState({sidebarOpen:open});
+    const {currentIndex = 1} = this.state;
+
+    this.setState({sidebarOpen:open},()=>this.updateSectionChoose(currentIndex));
   }
 
   goSection(series) {
-    if(!series){
-      return
-    }
-    const {dispatch} = this.props
-    const {planData, showedPayTip} = this.state
-    const {sections, id} = planData
-    this.setState({currentIndex:series})
-    if(showedPayTip){
-      return
-    }
-    dispatch(startLoad());
-    checkPractice(series, id).then(res => {
-      dispatch(endLoad());
-      const {code, msg} = res
-      if (code === 200) {
-        sections[series-1].practices.map((practice) => {
-          practice.unlocked = 1
-        })
-        this.setState({planData})
-      } else {
-        dispatch(alertMsg(msg))
-        this.setState({showedPayTip:true})
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex))
-    })
+    this.setState({currentIndex:series},()=>this.updateSectionChoose(series));
   }
 
+  updateSectionChoose(series){
+    let section = this.refs.sideContent.querySelector(`#section${series}`);
+    let sectionArr = this.refs.sideContent.querySelectorAll('.section');
+    for(let i=0; i< sectionArr.length;i++){
+      sectionArr[i].setAttribute('class','section');
+    }
+    section.setAttribute('class','section open');
+  }
+
+  onTransitionEnd(){
+    const {location} = this.props
+    const {planId} = location.query
+    const {currentIndex} = this.state
+    markPlan(currentIndex, planId)
+  }
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
         selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal, chapterList } = this.state
     const {location} = this.props
-    const planId = location.query.planId
+    const {planId} = location.query
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries
     } = planData
@@ -540,7 +546,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <ScrollBar className="side-content" style={{height:`${window.innerHeight-55-65}px`,width:`${window.innerWidth * 0.7}px`}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-65}px`,width:`${window.innerWidth * 0.7}px`}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -550,11 +556,14 @@ export class PlanMain extends React.Component <any, any> {
                       <div className="label">{NumberToChinese(item.chapterId)}、</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
                       </div>
                     </div>
-                    {item.sectionList.map((section,index)=>{
+                    {item.sectionList.map((section, index) => {
                       return (
-                        <div className={`section  ${currentIndex===section.series?'open':''}`}  onClick={()=>this.goSection(section.series)} key={index}>
+                        <div id={`section${section.series}`} className={`${currentIndex===section.series?'open':''} section`}
+                             onClick={()=>this.goSection(section.series)} key={index}>
                           <div>
-                          <div className="label">{item.chapterId}.{section.sectionId}</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
+                            <div className="label">{item.chapterId}.{section.sectionId}</div>
+                            <div className="str"
+                                 style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
                           </div>
                         </div>
                       )
@@ -563,7 +572,7 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
               )
             }):null}
-          </ScrollBar>
+          </div>
         </div>
       )
     }
@@ -582,6 +591,8 @@ export class PlanMain extends React.Component <any, any> {
           <div className="list">
             {practiceRender(item.practices)}
           </div>
+          { currentIndex === totalSeries ?
+              <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
           <div className="padding-footer"></div>
         </div>
       </div>)
@@ -589,7 +600,7 @@ export class PlanMain extends React.Component <any, any> {
 
 
     return (
-      <div>
+      <div className="rise-main">
         <Sidebar sidebar={ renderSidebar() }
                  open={this.state.sidebarOpen}
                  onSetOpen={(open)=>this.onSetSidebarOpen(open)}
@@ -677,7 +688,8 @@ export class PlanMain extends React.Component <any, any> {
         </div>
           {!isEmpty(planData)?
               <div style={{padding:"0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews index={currentIndex-1} onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
+                <SwipeableViews index={currentIndex-1} onTransitionEnd={()=>this.onTransitionEnd()}
+                                onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
                   {sections?sections.map((item, idx)=>{
                         return renderSection(item, idx)
                       }):null}
@@ -686,13 +698,12 @@ export class PlanMain extends React.Component <any, any> {
               :null}
         </Sidebar>
         <ToolBar />
-        {/*<div className="button-footer">*/}
         {/*<div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一节*/}
         {/*</div>*/}
         {/*{ series !== totalSeries ? <div className={`right`} onClick={()=>this.next()}>下一节</div> : null }*/}
         {/*{ series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>*/}
         {/*完成训练</div> : null }*/}
-        {/*</div>*/}
+
       </div>
     )
   }
