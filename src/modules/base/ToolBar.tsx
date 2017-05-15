@@ -23,6 +23,8 @@ import IconMineActive from '../../../assets/img/tabbar_mine_active.png';
 import IconActivityActive from '../../../assets/img/tabbar_team_study_active.png';
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
+import AssetImg from '../../components/AssetImg'
+
 @connect(state=>state)
 export class ToolBar extends React.Component<any,any> {
 
@@ -96,7 +98,8 @@ export class ToolBar extends React.Component<any,any> {
             onClick={()=>this.changeTab(item.key)}
             icon={<img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>}
             label={bar.label}
-          />;
+          >
+          </TabBarItem>
         })}
       </TabBar>
     )
