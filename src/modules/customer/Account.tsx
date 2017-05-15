@@ -41,7 +41,7 @@ export default class Rise extends React.Component<any,any>{
     const {data} = this.state
     const {riseId, memberType} = data
     return (
-     <div className="rise">
+     <div className="account">
        <div className="item">
          <div className="label">
            RISE ID

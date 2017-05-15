@@ -58,7 +58,7 @@ export default class Tutorial extends React.Component<any,any> {
     const {index, bgList} = this.state;
 
     return (
-      this.props.show?<div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
+      this.props.show?<div className="tutorial-mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
 
       <div className="tutorial" onClick={()=>this.next()}>
         <SwipeableViews style={{height:'100%',width:'100%'}} slideStyle={{height:"100%",width:"100%",overflow:'hidden'}} containerStyle={{height:'100%',width:'100%'}}
