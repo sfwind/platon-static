@@ -36,12 +36,14 @@ import RiseMember from "modules/customer/RiseMember"
 import FeedBack from "modules/customer/FeedBack"
 import UserProtocol from "modules/customer/UserProtocol"
 import {EventWall} from "modules/plan/EventWall";
+import { Explore } from 'modules/problem/Explore';
 
 
 const routes = (
   <Route path="/rise/static" component={Base}>
     <Route path="welcome" component={Welcome}/>
     <Route path="problem/priority" component={ProblemPriority}/>
+    <Route path="problem/explore" component={Explore} />
     <Route path="problem/view" component={ProblemViewer}/>
     <Route path="plan/main" component={PlanMain}/>
     <Route path="practice/warmup/intro" component={WarmUpIntro}/>

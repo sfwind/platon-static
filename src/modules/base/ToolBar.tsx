@@ -50,6 +50,13 @@ export class ToolBar extends React.Component<any,any> {
             label: '活动'
           }
         }, {
+          key: 2,
+          bar: {
+            icon: IconExplore,
+            activeIcon: IconExploreActive,
+            label: '发现'
+          }
+        }, {
           key: 3,
           bar: {
             icon: IconMine,
@@ -91,7 +98,7 @@ export class ToolBar extends React.Component<any,any> {
     } else if(tabIndex === 1){
       this.context.router.push('/rise/static/event/wall');
     } else if(tabIndex === 2) {
-      console.log('go explore ignore')
+      this.context.router.push('/rise/static/problem/explore')
     } else if(tabIndex === 3){
       this.context.router.push("/rise/static/customer/personal");
     }
