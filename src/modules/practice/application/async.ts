@@ -33,7 +33,7 @@ export function comment(submitId,content){
 }
 
 export function commentReply(submitId, comment, replyedCommentId){
-  return ppost(`/rise/practice/comment/reply/${CommentType.Application}/${submitId}`,{comment:comment, id:replyedCommentId})
+  return ppost(`/rise/practice/comment/reply/${CommentType.Application}/${submitId}`,{comment:comment, repliedId:replyedCommentId})
 }
 
 export function openApplication(){
