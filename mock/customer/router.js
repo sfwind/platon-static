@@ -82,4 +82,26 @@ router.get("/rise/customer/account", (req, res) => {
             }, "code": 200}
         ), Math.random() * 1500);
 })
+
+router.get("/rise/customer/member", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json(
+            {
+                "msg": {
+                    "id": 47,
+                    "orderId": "iy1q66nes0jtsxkz",
+                    "openId": "o5h6ywlXxHLmoGrLzH9Nt7uyoHbM",
+                    "memberTypeId": 3,
+                    "expireDate": "2018-04-19",
+                    "expired": false,
+                    "addTime": 1492573781000,
+                    "startTime": "2017.04.19",
+                    "endTime": "2018.04.18",
+                    "name": "精英版（一年）"
+                },
+                "code": 200
+            }
+        ), Math.random() * 1500);
+})
+
 module.exports = router;
