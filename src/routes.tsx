@@ -36,7 +36,6 @@ import RiseMember from "modules/customer/RiseMember"
 import FeedBack from "modules/customer/FeedBack"
 import UserProtocol from "modules/customer/UserProtocol"
 import {EventWall} from "modules/plan/EventWall";
-import Test from 'components/Swiper'
 
 const routes = (
   <Route path="/rise/static" component={Base}>
@@ -77,7 +76,6 @@ const routes = (
         <Route path="knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
     </Route>
     <Route path="event/wall" component={EventWall}/>
-    <Route path="test" component = {Test}/>
   </Route>
 )
 
