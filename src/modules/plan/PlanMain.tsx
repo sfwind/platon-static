@@ -135,7 +135,7 @@ export class PlanMain extends React.Component <any, any> {
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
         this.setState({chapterList:res.msg},()=>{
-          this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
+          // this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
         });
       }
     })
@@ -544,7 +544,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`,overflowY:'scroll'}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
