@@ -1,24 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { ToolBar } from '../base/ToolBar'
-import SwipeableViews from 'react-swipeable-views';
+import Swiper from '../../components/Swiper'
 
-const styles = {
-  slide: {
-    padding: 15,
-    minHeight: 100,
-    color: '#fff',
-  },
-  slide1: {
-    background: '#FEA900',
-  },
-  slide2: {
-    background: '#B3DC4A',
-  },
-  slide3: {
-    background: '#6AC0FF',
-  },
-};
 
 export class Explore extends React.Component<any,any>{
   constructor(props){
@@ -28,20 +12,14 @@ export class Explore extends React.Component<any,any>{
     }
   }
 
+  componentDidMount(){
+    window.mySwipe = Swipe(document.getElementById('slider'));
+  }
+
   render(){
     return (
       <div className="explore-container">
-        <SwipeableViews>
-          <div style={Object.assign({}, styles.slide, styles.slide1)}>
-            slide n°1
-          </div>
-          <div style={Object.assign({}, styles.slide, styles.slide2)}>
-            slide n°2
-          </div>
-          <div style={Object.assign({}, styles.slide, styles.slide3)}>
-            slide n°3
-          </div>
-        </SwipeableViews>
+        <Swiper/>
         <ToolBar/>
       </div>
     )
