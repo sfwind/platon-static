@@ -13,7 +13,10 @@ import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
 import { NumberToChinese } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
-import ScrollBar from '../../components/ScrollBar'
+
+import Scrollbar from 'smooth-scrollbar';
+import 'smooth-scrollbar/dist/smooth-scrollbar.css'
+import Swiper from '../../components/Swiper'
 const {Alert} = Dialog
 
 
@@ -131,12 +134,14 @@ export class PlanMain extends React.Component <any, any> {
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
-        this.setState({chapterList:res.msg});
+        this.setState({chapterList:res.msg},()=>{
+          this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
+        });
       }
     })
   }
 
-  componentWillUnmount() {
+ componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
   }
 
@@ -334,13 +339,13 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch,location } = this.props
-    const { selectProblem } = this.state;
+    const { planData } = this.state;
     const {planId} = location.query
     completePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
         if (msg.iscomplete === true) {
-          if (selectProblem.hasProblemScore) {
+          if (planData.hasProblemScore) {
             // 已经评分
             this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
             this.confirmComplete()
@@ -426,7 +431,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   submitScore(questionList) {
-    const {selectProblem} = this.state;
+    const {selectProblem, planData} = this.state;
     const {dispatch} = this.props;
     let problemScores = questionList.map(item => {
       let selectedChoice;
@@ -440,7 +445,7 @@ export class PlanMain extends React.Component <any, any> {
     dispatch(startLoad());
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad());
-      this.setState({showScoreModal: false, selectProblem: merge({}, selectProblem, {hasProblemScore: true})});
+      this.setState({showScoreModal: false, selectProblem: merge({}, planData, {hasProblemScore: true})});
       this.confirmComplete()
     }).catch(ex => {
       dispatch(endLoad());
@@ -460,23 +465,31 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   onSetSidebarOpen(open){
-    this.setState({sidebarOpen:open});
+    const {currentIndex = 1} = this.state;
+
+    this.setState({sidebarOpen:open},()=>this.updateSectionChoose(currentIndex));
   }
 
   goSection(series) {
-    this.setState({currentIndex:series})
-  }
-
-  onTransitionEnd(){
     const {location} = this.props
     const {planId} = location.query
-    const {currentIndex} = this.state
-    markPlan(currentIndex, planId)
+    markPlan(series, planId)
+    this.setState({currentIndex:series},()=>this.updateSectionChoose(series));
   }
+
+  updateSectionChoose(series){
+    let section = this.refs.sideContent.querySelector(`#section${series}`);
+    let sectionArr = this.refs.sideContent.querySelectorAll('.section');
+    for(let i=0; i< sectionArr.length;i++){
+      sectionArr[i].setAttribute('class','section');
+    }
+    section.setAttribute('class','section open');
+  }
+
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
-        selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal, chapterList } = this.state
+        selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal, chapterList } = this.state
     const {location} = this.props
     const {planId} = location.query
     const {
@@ -531,7 +544,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <ScrollBar className="side-content" style={{height:`${window.innerHeight-55-65}px`,width:`${window.innerWidth * 0.7}px`}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -541,11 +554,17 @@ export class PlanMain extends React.Component <any, any> {
                       <div className="label">{NumberToChinese(item.chapterId)}、</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
                       </div>
                     </div>
-                    {item.sectionList.map((section,index)=>{
+                    {item.sectionList.map((section, index) => {
                       return (
-                        <div className={`section  ${currentIndex===section.series?'open':''}`}  onClick={()=>this.goSection(section.series)} key={index}>
+                        <div id={`section${section.series}`} className={`${currentIndex===section.series?'open':''} section`}
+                             onClick={()=>{
+                               this.goSection(section.series);
+                               this.refs.planSlider.slide(section.series - 1);
+                             }} key={index}>
                           <div>
-                          <div className="label">{item.chapterId}.{section.sectionId}</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
+                            <div className="label">{item.chapterId}.{section.sectionId}</div>
+                            <div className="str"
+                                 style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
                           </div>
                         </div>
                       )
@@ -554,7 +573,7 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
               )
             }):null}
-          </ScrollBar>
+          </div>
         </div>
       )
     }
@@ -575,7 +594,6 @@ export class PlanMain extends React.Component <any, any> {
           </div>
           { currentIndex === totalSeries ?
               <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
-          <div className="padding-footer"></div>
         </div>
       </div>)
     }
@@ -637,7 +655,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Alert { ...this.state.nextModal }
           show={showNextModal}>
-          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:"提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
         </Alert>
 
         <div className="header-img">
@@ -670,12 +688,12 @@ export class PlanMain extends React.Component <any, any> {
         </div>
           {!isEmpty(planData)?
               <div style={{padding:"0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews index={currentIndex-1} onTransitionEnd={()=>this.onTransitionEnd()}
-                                onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
+                <Swiper  ref="planSlider" startIndex={currentIndex-1} style={{height:`${window.innerHeight - 50 - this.state.style.picHeight - 55}px`}}
+                        onChangeIndex={(index, elem)=>this.goSection(index+1)}>
                   {sections?sections.map((item, idx)=>{
                         return renderSection(item, idx)
                       }):null}
-                </SwipeableViews>
+                </Swiper>
               </div>
               :null}
         </Sidebar>
