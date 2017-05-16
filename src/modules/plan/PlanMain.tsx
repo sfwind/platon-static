@@ -339,13 +339,13 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch,location } = this.props
-    const { selectProblem } = this.state;
+    const { planData } = this.state;
     const {planId} = location.query
     completePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
         if (msg.iscomplete === true) {
-          if (selectProblem.hasProblemScore) {
+          if (planData.hasProblemScore) {
             // 已经评分
             this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
             this.confirmComplete()
@@ -431,7 +431,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   submitScore(questionList) {
-    const {selectProblem} = this.state;
+    const {selectProblem, planData} = this.state;
     const {dispatch} = this.props;
     let problemScores = questionList.map(item => {
       let selectedChoice;
@@ -445,7 +445,7 @@ export class PlanMain extends React.Component <any, any> {
     dispatch(startLoad());
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad());
-      this.setState({showScoreModal: false, selectProblem: merge({}, selectProblem, {hasProblemScore: true})});
+      this.setState({showScoreModal: false, selectProblem: merge({}, planData, {hasProblemScore: true})});
       this.confirmComplete()
     }).catch(ex => {
       dispatch(endLoad());
@@ -489,7 +489,7 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
-        selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal,showNextSeriesModal, chapterList } = this.state
+        selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal, chapterList } = this.state
     const {location} = this.props
     const {planId} = location.query
     const {
@@ -655,7 +655,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Alert { ...this.state.nextModal }
           show={showNextModal}>
-          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:"提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
         </Alert>
 
         <div className="header-img">
