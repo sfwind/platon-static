@@ -592,7 +592,7 @@ export class PlanMain extends React.Component <any, any> {
           <div className="list">
             {practiceRender(item.practices)}
           </div>
-          { currentIndex === totalSeries ?
+          { item.series === totalSeries ?
               <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
         </div>
       </div>)
