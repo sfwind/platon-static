@@ -6,9 +6,8 @@ export default class Tutorial extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      bgList: props.bgList || ["http://www.iqycamp.com/images/fragment/rise_tutorial_1_0419.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_2_0419.png",
-        "http://www.iqycamp.com/images/fragment/rise_tutorial_3_0419.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_4_0419.png",
-        "http://www.iqycamp.com/images/fragment/rise_tutorial_5_0419.png","http://www.iqycamp.com/images/rise_tutorial_6_0516.png"],
+      bgList: props.bgList || ["http://www.iqycamp.com/images/rise_tutorial_1_0516.png",
+        "http://www.iqycamp.com/images/rise_tutorial_2_0516.png"],
       index: 0,
       onShowEnd: props.onShowEnd || function () {
       },
