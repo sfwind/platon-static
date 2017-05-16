@@ -17,7 +17,6 @@ import Ps from 'perfect-scrollbar'
 // import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
 import Scrollbar from 'smooth-scrollbar';
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
-import Swiper from '../../components/Swiper'
 const {Alert} = Dialog
 
 
