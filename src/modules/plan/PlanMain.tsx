@@ -11,7 +11,7 @@ import {merge, isBoolean, get, isEmpty} from "lodash"
 import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
-import { NumberToChinese } from "../../utils/helpers"
+import { NumberToChinese,changeTitle } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
 // import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
@@ -109,6 +109,8 @@ export class PlanMain extends React.Component <any, any> {
 
       sidebarOpen:false,
     }
+
+    changeTitle('RISE');
   }
 
   static contextTypes = {
