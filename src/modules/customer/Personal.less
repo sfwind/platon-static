@@ -1,9 +1,11 @@
+@import "../../style/variable";
+
 .personal {
   position: absolute;
   width:100%;
   height:~'calc(100% - 55px)';
   overflow-y: scroll;
-  background-color:#f5f5f5;
+  background-color:@color_weak_background;
   > .personal-header {
     width: 100%;
     position: relative;
@@ -34,7 +36,7 @@
       }
       > .personal-name {
         font-size: 13px;
-        color: #666666;
+        color: @color_title;
       }
     }
   }
@@ -44,7 +46,7 @@
       height: 50px;
       border-bottom: 1px #f5f5f5 solid;
       padding-left: 15px;
-      color: #333333;
+      color: @color_context;
       font-size: 13px;
       cursor: pointer;
       overflow: hidden;

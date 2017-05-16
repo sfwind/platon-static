@@ -1,9 +1,11 @@
+@import "../../style/variable";
+
 .profile {
   position: absolute;
   width: 100%;
   height:~'calc(100% - 55px)' !important;
   overflow-y: scroll;
-  background-color: #efefef;
+  background-color: @color_weak_background;
   > .profile-header {
     > .profile-header-tip{
       height: 40px;
@@ -19,7 +21,7 @@
       line-height: 55px;
       font-size: 13px;
       padding-left: 15px;
-      color: #333333;
+      color: @color_context;
       border-bottom: 1px solid #f5f5f5;
       overflow: hidden;
       vertical-align: middle;
@@ -34,7 +36,7 @@
         padding-right: 20px;
         font-size: 13px;
         > .select-wrapper {
-          color: #55cbcb;
+          color: @color_strong;
 
           &-has {
             &:after {
@@ -49,7 +51,7 @@
             }
             > .form-item {
               display: inline-block;
-              color: #666666;
+              color: @color_title;
               > .pc-box{
                 > span{
                 }
@@ -57,7 +59,7 @@
             }
             > input {
               font-size: 13px !important;
-              color: #666666;
+              color: @color_title;
               text-align: right;
               border: none;
             }
@@ -65,7 +67,7 @@
               margin-right:10px;
               > .form-item {
                 display: inline-block;
-                color: #666666;
+                color: @color_title;
                 > .pc-box{
                   > span{
                   }
@@ -73,7 +75,7 @@
               }
               > input {
                 font-size: 13px !important;
-                color: #666666;
+                color: @color_title;
                 text-align: right;
                 border: none;
               }
@@ -84,20 +86,20 @@
           }
           > input {
             font-size: 13px;
-            color: #55cbcb;
+            color: @color_strong;
             text-align: right;
             border: none;
             &::-webkit-input-placeholder { /* WebKit browsers */
-              color: #55cbcb;
+              color: @color_strong;
             }
             &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-              color: #55cbcb;
+              color: @color_strong;
             }
             &::-moz-placeholder { /* Mozilla Firefox 19+ */
-              color: #55cbcb;
+              color: @color_strong;
             }
             &::-ms-input-placeholder { /* Internet Explorer 10+ */
-              color: #55cbcb;
+              color: @color_strong;
             }
           }
         }
@@ -110,7 +112,7 @@
     margin:40px auto;
     > .submit-btn{
       margin:0 auto;
-      background-color:#55cbcb;
+      background-color:@color_strong;
       color:#ffffff;
       height:40px;
       font-size:15px;
