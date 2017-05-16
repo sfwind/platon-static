@@ -3,14 +3,11 @@ import {connect} from "react-redux"
 import "./KnowledgeViewer.less";
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
-import { isEmpty } from "lodash"
-import {loadDiscuss,discussKnowledge} from "../knowledge/async"
-import DiscussShow from "./DiscussShow"
-import Discuss from "./Discuss"
-
+import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledges} from "./async"
+import DiscussShow from "../components/DiscussShow"
+import Discuss from "../components/Discuss"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
-@connect(state=>state)
 const sequenceMap = {
   0: 'A',
   1: 'B',
@@ -22,45 +19,63 @@ const sequenceMap = {
 }
 
 @connect(state=>state)
-export default class KnowledgeViewer extends React.Component<any, any> {
-  constructor(props) {
+export class KnowledgeViewer extends React.Component<any, any> {
+  constructor() {
     super()
     this.state = {
       showTip:false,
       showDiscuss:false,
       commentId:0,
+      knowledge:{},
+      discuss:{},
     }
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   }
 
   componentWillMount(){
-    const { knowledge, closeModal } = this.props
-    if(!isEmpty(knowledge)){
-      loadDiscuss(knowledge.id,1)
-        .then(res=>{
-          if(res.code === 200){
-            this.setState({discuss:res.msg})
-          }
-        });
-    }
-
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(isEmpty(this.props.knowledge) && !isEmpty(nextProps.knowledge)){
-      // 设置了knowledge
-      const {knowledge} = nextProps;
-      loadDiscuss(knowledge.id,1)
-        .then(res=>{
-          if(res.code === 200){
-            this.setState({discuss:res.msg})
-          }
-        });
+    const {id,practicePlanId} = this.props.location.query
+    const {dispatch} = this.props
+    dispatch(startLoad())
+    if(practicePlanId){
+      loadKnowledges(practicePlanId).then(res =>{
+        if(res.code === 200){
+          this.setState({knowledge:res.msg[0]})
+          dispatch(endLoad())
+          loadDiscuss(res.msg[0].id,1)
+              .then(res=>{
+                if(res.code === 200){
+                  this.setState({discuss:res.msg})
+                }
+              });
+        }else{
+          dispatch(endLoad())
+          dispatch(alertMsg(res.msg))
+        }
+      })
+    }else if(id){
+      loadKnowledge(id).then(res=>{
+        if(res.code === 200){
+          this.setState({knowledge:res.msg})
+          dispatch(endLoad())
+          loadDiscuss(id,1)
+              .then(res=>{
+                if(res.code === 200){
+                  this.setState({discuss:res.msg})
+                }
+              });
+        }else{
+          dispatch(endLoad())
+          dispatch(alertMsg(res.msg))
+        }
+      })
     }
   }
 
 
   reply(repliedId){
-    console.log('replay',repliedId);
     this.setState({showDiscuss:true, repliedId},()=>{scroll(0,0)})
     if(this.props.trigger){
       this.props.trigger();
@@ -78,7 +93,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           }
         }
       });
-    // this.setState({ showDiscuss: false })
   }
 
   writeDiscuss(){
@@ -88,9 +102,22 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }
   }
 
+  onSubmit() {
+    const {dispatch, location} = this.props
+    learnKnowledge(location.query.practicePlanId).then(res => {
+      const {code, msg} = res
+      if (code === 200) {
+        this.context.router.push({pathname: '/rise/static/plan/main', query: this.props.location.query})
+      }
+      else dispatch(alertMsg(msg))
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+  }
+
   render() {
-    const { knowledge, closeModal } = this.props
-    const { showTip,showDiscuss,repliedId } = this.state
+    const { showTip,showDiscuss,knowledge,discuss=[] } = this.state
     const { analysis, means, keynote, audio, pic,example,id } = knowledge
 
     const choiceRender = (choice, idx) => {
@@ -110,8 +137,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }
 
     return (
-      <div className={`knowledge-page${closeModal? '': ' no-footer'}`}>
-        <div className={`container${closeModal? ' has-footer': ''}`}>
+      <div className={`knowledge-page`}>
+        <div className={`container has-footer`}>
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
@@ -168,10 +195,10 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             <a id="discuss-bar"/>
             <div className="title-bar">问答</div>
             <div className="discuss">
-              {this.state.discuss ? this.state.discuss.map(item => {
+              {discuss ? null :discuss.map(item => {
                 return <DiscussShow discuss={item} reply={()=>{this.reply(item.id)}}/>
-              }) : null}
-              { this.state.discuss ? (this.state.discuss.length > 0 ?
+              })}
+              { discuss ? (discuss.length > 0 ?
                 <div className="show-more">
                   你已经浏览完所有的讨论啦
                 </div>
@@ -191,8 +218,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         <div className="writeDiscuss" onClick={() => {this.writeDiscuss()}}>
           <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
         </div>
-        {closeModal?<div className="button-footer" onClick={closeModal}>返回</div>:null}
-        {showDiscuss ?<Discuss repliedId={repliedId} referenceId={id} type="本知识点"
+        <div className="button-footer" onClick={this.onSubmit.bind(this)}>标记完成</div>
+        {showDiscuss ?<Discuss referenceId={id} type="本知识点"
                                closeModal={(body)=> this.reload()} discuss={(body)=>discussKnowledge(body)}  /> : null}
       </div>
     )

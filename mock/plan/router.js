@@ -139,10 +139,10 @@ router.get("/rise/plan/load", (req, res) => {
                                 "voice": null,
                                 "appear": true
                             },
-                            "type": 1,
+                            "type": 32,
                             "status": 0,
-                            "unlocked": false,
-                            "practiceIdList": [49, 45, 47],
+                            "unlocked": true,
+                            "practiceIdList": [1],
                             "series": 1,
                             "sequence": 1,
                             "practicePlanId": 1,

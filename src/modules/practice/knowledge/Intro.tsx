@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {loadKnowledges, learnKnowledge} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
-import KnowledgeViewer from "../components/KnowledgeViewer";
+import KnowledgeViewer from "../components/KnowledgeModal";
 
 @connect(state => state)
 export class Intro extends React.Component <any, any> {

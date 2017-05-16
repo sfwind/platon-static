@@ -5,7 +5,7 @@ import {loadKnowledge, loadKnowledgeDiscussReply,discussKnowledge} from "./async
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import Discuss from "../practice/components/Discuss";
 import DiscussShow from "../practice/components/DiscussShow";
-import KnowledgeViewer from "../practice/components/KnowledgeViewer";
+import KnowledgeViewer from "../practice/components/KnowledgeModal";
 
 @connect(state => state)
 export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
