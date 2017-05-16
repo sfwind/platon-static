@@ -13,7 +13,7 @@ export function changeTitle(title){
 	document.title = title;
 	const iframe = document.createElement('iframe');
 	iframe.style.cssText = 'display: none; width: 0; height: 0;';
-	iframe.src = 'http://desk.fd.zol-img.com.cn/t_s960x600c5/g5/M00/05/0F/ChMkJ1erCriIJ_opAAY8rSwt72wAAUU6gMmHKwABjzF444.jpg';
+	iframe.src = '/images/logo.png';
 	//iframe.src = require('./img/text_delete.png');
 	const listener = () => {
 		setTimeout(() => {

@@ -5,7 +5,7 @@ import { Welcome } from "modules/problem/Welcome";
 import { ProblemPriority } from "modules/problem/ProblemPriority";
 import { ProblemViewer } from "modules/problem/ProblemViewer";
 import { PlanMain } from "modules/plan/PlanMain";
-import { Intro as WarmUpIntro } from "modules/practice/knowledge/Intro";
+import { KnowledgeViewer } from "modules/practice/knowledge/KnowledgeViewer";
 import { Main as WarmUp } from "modules/practice/warmup/Main";
 import { Analysis as WarmUpAnalysis } from "modules/practice/warmup/Analysis";
 import { Result as WarmUpResult } from "modules/practice/warmup/Result";
@@ -22,7 +22,6 @@ import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
 import { Comment as ApplicationComment } from "modules/practice/application/Comment";
 import { Comment as SubjectComment } from "modules/practice/subject/Comment"
 import { RiseMemberExplain } from "modules/plan/RiseMemberExplain"
-import { Intro as KnowledgeIntro } from "modules/practice/knowledge/Intro"
 import { RoadMap } from "modules/practice/knowledge/RoadMap"
 import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
 
@@ -46,7 +45,6 @@ const routes = (
     <Route path="problem/explore" component={Explore} />
     <Route path="problem/view" component={ProblemViewer}/>
     <Route path="plan/main" component={PlanMain}/>
-    <Route path="practice/warmup/intro" component={WarmUpIntro}/>
     <Route path="practice/warmup" component={WarmUp}/>
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
@@ -59,7 +57,7 @@ const routes = (
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
     <Route path="member/explain" component={RiseMemberExplain}/>
-    <Route path="practice/knowledge" component={KnowledgeIntro}/>
+    <Route path="practice/knowledge" component={KnowledgeViewer}/>
     <Route path="practice/roadmap" component={RoadMap}/>
     <Route path="practice/knowledge/review" component={KnowledgeReview}/>
     <Route path="customer" component={Customer}>
