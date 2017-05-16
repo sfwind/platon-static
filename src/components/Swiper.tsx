@@ -30,12 +30,10 @@ export default class Swiper extends React.Component<any,any>{
         if(isFunction(this.props.onChangeIndex)){
           this.props.onChangeIndex(index,elem);
         }
-        console.log('callback',index,elem);
       },
     });
 
     this.setState({slider:mySwipe});
-    window.slider = mySwipe;
   }
 
   componentDidUpdate(preProps,preState){
