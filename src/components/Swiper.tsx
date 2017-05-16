@@ -8,7 +8,7 @@ export default class Swiper extends React.Component<any,any>{
   constructor(props){
     super(props);
     this.state = {
-      slider:null
+      slider:null,
     }
 
   }
@@ -31,6 +31,8 @@ export default class Swiper extends React.Component<any,any>{
           this.props.onChangeIndex(index,elem);
         }
       },
+      transitionEnd:(index,elem) => {
+      }
     });
 
     this.setState({slider:mySwipe});
