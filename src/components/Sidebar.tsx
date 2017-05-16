@@ -329,7 +329,7 @@ export class Sidebar extends Component {
           <div className={`side-bar-controller ${this.state.ctlOpen?'open':''}`} onClick={()=>{
             this.props.trigger()
           }}>
-            <span>{this.props.open?'收起':'大纲'}</span>
+            <span>{this.props.open?'收起':'提纲'}</span>
           </div>
         </div>
         <div className={this.props.overlayClassName}
