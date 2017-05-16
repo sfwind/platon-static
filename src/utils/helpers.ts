@@ -13,7 +13,7 @@ export function changeTitle(title){
 	document.title = title;
 	const iframe = document.createElement('iframe');
 	iframe.style.cssText = 'display: none; width: 0; height: 0;';
-	iframe.src = 'https://www.confucius.mobi/images/logo.png';
+	iframe.src = '//www.confucius.mobi/images/logo.png';
 	//iframe.src = require('./img/text_delete.png');
 	const listener = () => {
 		setTimeout(() => {
