@@ -16,7 +16,6 @@ import SwipeableViews from 'react-swipeable-views';
 
 import Scrollbar from 'smooth-scrollbar';
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
-import Swiper from '../../components/Swiper'
 const {Alert} = Dialog
 
 
