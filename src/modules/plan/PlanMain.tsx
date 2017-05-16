@@ -14,7 +14,7 @@ import {Sidebar} from '../../components/Sidebar';
 import { NumberToChinese } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
-import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
+// import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
 import Scrollbar from 'smooth-scrollbar';
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 import Swiper from '../../components/Swiper'
@@ -137,7 +137,10 @@ export class PlanMain extends React.Component <any, any> {
       if(res.code === 200){
         this.setState({chapterList:res.msg},()=>{
           // this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
-          Ps.initialize(this.refs.sideContent,{swipePropagation:false});
+          Ps.initialize(this.refs.sideContent,{
+            swipePropagation:false,
+            handlers:[ 'wheel', 'touch']
+          });
         });
       }
     })

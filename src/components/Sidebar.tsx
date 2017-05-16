@@ -38,7 +38,7 @@ const defaultStyles = {
     transition: 'left .3s ease-out, right .3s ease-out',
   },
   overlay: {
-    zIndex: 100,
+    zIndex: 550,
     position: 'fixed',
     top: 0,
     left: 0,
