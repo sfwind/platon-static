@@ -15,7 +15,7 @@ const defaultStyles = {
     overflow: 'hidden',
   },
   sidebar: {
-    zIndex: 200,
+    zIndex: 600,
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -28,6 +28,7 @@ const defaultStyles = {
   },
   content: {
     position: 'absolute',
+    zIndex: 500,
     top: 0,
     left: 0,
     right: 0,
@@ -37,7 +38,7 @@ const defaultStyles = {
     transition: 'left .3s ease-out, right .3s ease-out',
   },
   overlay: {
-    zIndex: 100,
+    zIndex: 550,
     position: 'fixed',
     top: 0,
     left: 0,
@@ -321,13 +322,14 @@ export class Sidebar extends Component {
                onTouchEnd={this.onTouchEnd} onTouchCancel={this.onTouchEnd} />);
       }
     }
-
     return (
       <div {...rootProps}>
         <div className={this.props.sidebarClassName} style={sidebarStyle} ref={this.saveSidebarRef}>
           {this.props.sidebar}
-          <div className={`side-bar-controller ${this.state.ctlOpen?'open':''}`} onClick={()=>this.props.trigger()}>
-            <span>{this.props.open?'收起':'大纲'}</span>
+          <div className={`side-bar-controller ${this.state.ctlOpen?'open':''}`} onClick={()=>{
+            this.props.trigger()
+          }}>
+            <span>{this.props.open?'收起':'提纲'}</span>
           </div>
         </div>
         <div className={this.props.overlayClassName}

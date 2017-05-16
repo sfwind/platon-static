@@ -38,7 +38,6 @@ import UserProtocol from "modules/customer/UserProtocol"
 import {EventWall} from "modules/plan/EventWall";
 import { Explore } from 'modules/problem/Explore';
 
-import Test from 'components/Swiper'
 
 const routes = (
   <Route path="/rise/static" component={Base}>
