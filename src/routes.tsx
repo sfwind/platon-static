@@ -5,7 +5,6 @@ import { Welcome } from "modules/problem/Welcome";
 import { ProblemPriority } from "modules/problem/ProblemPriority";
 import { ProblemViewer } from "modules/problem/ProblemViewer";
 import { PlanMain } from "modules/plan/PlanMain";
-import { Intro as WarmUpIntro } from "modules/practice/knowledge/Intro";
 import { KnowledgeViewer } from "modules/practice/knowledge/KnowledgeViewer";
 import { Main as WarmUp } from "modules/practice/warmup/Main";
 import { Analysis as WarmUpAnalysis } from "modules/practice/warmup/Analysis";
@@ -43,7 +42,6 @@ const routes = (
     <Route path="problem/priority" component={ProblemPriority}/>
     <Route path="problem/view" component={ProblemViewer}/>
     <Route path="plan/main" component={PlanMain}/>
-    <Route path="practice/warmup/intro" component={WarmUpIntro}/>
     <Route path="practice/warmup" component={WarmUp}/>
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>

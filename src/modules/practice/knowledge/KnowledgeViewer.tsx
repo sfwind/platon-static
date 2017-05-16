@@ -6,6 +6,7 @@ import Audio from "../../../components/Audio";
 import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledges} from "./async"
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
+import _ from "lodash"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
 const sequenceMap = {
@@ -77,20 +78,14 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
   reply(repliedId){
     this.setState({showDiscuss:true, repliedId},()=>{scroll(0,0)})
-    if(this.props.trigger){
-      this.props.trigger();
-    }
   }
 
   reload(){
-    const {knowledge} = this.props;
+    const {knowledge} = this.state;
     loadDiscuss(knowledge.id,1)
       .then(res=>{
         if(res.code === 200){
-          this.setState({discuss:res.msg,showDiscuss:false},()=>{window.location.href = '#discuss-bar'})
-          if(this.props.trigger){
-            this.props.trigger();
-          }
+          this.setState({discuss:res.msg,showDiscuss:false})
         }
       });
   }
@@ -119,6 +114,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
   render() {
     const { showTip,showDiscuss,knowledge,discuss=[] } = this.state
     const { analysis, means, keynote, audio, pic,example,id } = knowledge
+    const {location} = this.props
+    const {practicePlanId} = location.query
 
     const choiceRender = (choice, idx) => {
       const {id, subject} = choice
@@ -138,7 +135,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
     return (
       <div className={`knowledge-page`}>
-        <div className={`container has-footer`}>
+        <div className={`container ${practicePlanId?'has-footer':''}`}>
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
@@ -192,10 +189,9 @@ export class KnowledgeViewer extends React.Component<any, any> {
                       :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
                 </div>
             : null}
-            <a id="discuss-bar"/>
-            <div className="title-bar">问答</div>
+            <div ref="reply" className="title-bar">问答</div>
             <div className="discuss">
-              {discuss ? null :discuss.map(item => {
+              {_.isEmpty(discuss) ? null: discuss.map(item => {
                 return <DiscussShow discuss={item} reply={()=>{this.reply(item.id)}}/>
               })}
               { discuss ? (discuss.length > 0 ?
@@ -218,7 +214,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
         <div className="writeDiscuss" onClick={() => {this.writeDiscuss()}}>
           <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
         </div>
-        <div className="button-footer" onClick={this.onSubmit.bind(this)}>标记完成</div>
+
+        {practicePlanId?<div className="button-footer" onClick={this.onSubmit.bind(this)}>标记完成</div>:null}
         {showDiscuss ?<Discuss referenceId={id} type="本知识点"
                                closeModal={(body)=> this.reload()} discuss={(body)=>discussKnowledge(body)}  /> : null}
       </div>

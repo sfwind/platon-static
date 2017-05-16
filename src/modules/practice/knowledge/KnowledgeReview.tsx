@@ -36,8 +36,8 @@ export class KnowledgeReview extends React.Component<any,any>{
     })
   }
 
-  goKnowledgeIntro(item){
-    this.context.router.push({pathname:"/rise/static/practice/knowledge",query:{id:item.id}})
+  goKnowledgeIntro(section){
+    this.context.router.push({pathname:"/rise/static/practice/knowledge",query:{id:section.knowledgeId}})
   }
 
   goProblemIntro(){
@@ -65,7 +65,7 @@ export class KnowledgeReview extends React.Component<any,any>{
           <div key={idx}>
             <div className='section'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>:
-          <div key={idx} onClick={this.goKnowledgeIntro.bind(this, section.knowledge)}>
+          <div key={idx} onClick={this.goKnowledgeIntro.bind(this, section)}>
             <div className='section click'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>
       )
