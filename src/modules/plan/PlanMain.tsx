@@ -16,6 +16,7 @@ import SwipeableViews from 'react-swipeable-views';
 
 import Scrollbar from 'smooth-scrollbar';
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
+import Swiper from '../../components/Swiper'
 const {Alert} = Dialog
 
 
@@ -470,6 +471,9 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goSection(series) {
+    const {location} = this.props
+    const {planId} = location.query
+    markPlan(series, planId)
     this.setState({currentIndex:series},()=>this.updateSectionChoose(series));
   }
 
@@ -482,12 +486,6 @@ export class PlanMain extends React.Component <any, any> {
     section.setAttribute('class','section open');
   }
 
-  onTransitionEnd(){
-    const {location} = this.props
-    const {planId} = location.query
-    const {currentIndex} = this.state
-    markPlan(currentIndex, planId)
-  }
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
@@ -559,7 +557,10 @@ export class PlanMain extends React.Component <any, any> {
                     {item.sectionList.map((section, index) => {
                       return (
                         <div id={`section${section.series}`} className={`${currentIndex===section.series?'open':''} section`}
-                             onClick={()=>this.goSection(section.series)} key={index}>
+                             onClick={()=>{
+                               this.goSection(section.series);
+                               this.refs.planSlider.slide(section.series - 1);
+                             }} key={index}>
                           <div>
                             <div className="label">{item.chapterId}.{section.sectionId}</div>
                             <div className="str"
@@ -688,12 +689,12 @@ export class PlanMain extends React.Component <any, any> {
         </div>
           {!isEmpty(planData)?
               <div style={{padding:"0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews index={currentIndex-1} onTransitionEnd={()=>this.onTransitionEnd()}
-                                onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
+                <Swiper  ref="planSlider" startIndex={currentIndex-1} style={{height:`${window.innerHeight - 50 - this.state.style.picHeight - 55}px`}}
+                        onChangeIndex={(index, elem)=>this.goSection(index+1)}>
                   {sections?sections.map((item, idx)=>{
                         return renderSection(item, idx)
                       }):null}
-                </SwipeableViews>
+                </Swiper>
               </div>
               :null}
         </Sidebar>
