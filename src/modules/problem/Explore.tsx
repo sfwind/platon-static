@@ -13,7 +13,6 @@ export class Explore extends React.Component<any,any>{
   }
 
   componentDidMount(){
-    window.mySwipe = Swipe(document.getElementById('slider'));
   }
 
   render(){
