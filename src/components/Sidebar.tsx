@@ -15,7 +15,7 @@ const defaultStyles = {
     overflow: 'hidden',
   },
   sidebar: {
-    zIndex: 200,
+    zIndex: 600,
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -28,6 +28,7 @@ const defaultStyles = {
   },
   content: {
     position: 'absolute',
+    zIndex: 500,
     top: 0,
     left: 0,
     right: 0,

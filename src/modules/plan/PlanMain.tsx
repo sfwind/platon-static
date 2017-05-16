@@ -13,7 +13,8 @@ import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
 import { NumberToChinese } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
-
+import Ps from 'perfect-scrollbar'
+import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
 import Scrollbar from 'smooth-scrollbar';
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 import Swiper from '../../components/Swiper'
@@ -136,6 +137,7 @@ export class PlanMain extends React.Component <any, any> {
       if(res.code === 200){
         this.setState({chapterList:res.msg},()=>{
           // this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
+          Ps.initialize(this.refs.sideContent,{swipePropagation:false});
         });
       }
     })
@@ -544,7 +546,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`,overflowY:'scroll'}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -601,12 +603,8 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div className="rise-main">
-        <Sidebar sidebar={ renderSidebar() }
-                 open={this.state.sidebarOpen}
-                 onSetOpen={(open)=>this.onSetSidebarOpen(open)}
-                 trigger={()=>this.onSetSidebarOpen(!this.state.sidebarOpen)}
-        >
-          {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
+
+        {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
                                      onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
                                      questionList={this.state.questionList}/>: null}
         <Modal
@@ -649,8 +647,8 @@ export class PlanMain extends React.Component <any, any> {
         </Modal>
 
         {/*<Alert { ...this.state.nextSeriesModal }*/}
-          {/*show={showNextSeriesModal}>*/}
-          {/*<div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>*/}
+        {/*show={showNextSeriesModal}>*/}
+        {/*<div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>*/}
         {/*</Alert>*/}
 
         <Alert { ...this.state.nextModal }
@@ -658,6 +656,12 @@ export class PlanMain extends React.Component <any, any> {
           <div className="global-pre" dangerouslySetInnerHTML={{__html:"提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
         </Alert>
 
+
+        <Sidebar sidebar={ renderSidebar() }
+                 open={this.state.sidebarOpen}
+                 onSetOpen={(open)=>this.onSetSidebarOpen(open)}
+                 trigger={()=>this.onSetSidebarOpen(!this.state.sidebarOpen)}
+        >
         <div className="header-img">
           <AssetImg url={problem.pic} style={{height: this.state.style.picHeight, float:'right'}}/>
           {isBoolean(riseMember) && !riseMember ?
