@@ -594,7 +594,6 @@ export class PlanMain extends React.Component <any, any> {
           </div>
           { currentIndex === totalSeries ?
               <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
-          <div className="padding-footer"></div>
         </div>
       </div>)
     }
