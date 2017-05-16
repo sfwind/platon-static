@@ -103,19 +103,23 @@ export default class Profile extends React.Component<any,any> {
   }
 
   getInputValue(e) {
+    this.checkIsFull()
     return e.currentTarget.value
   }
 
   onChoiceRegion(provinceRegion, cityRegion) {
+    this.checkIsFull()
     this.setState({province:provinceRegion.value,provinceId:provinceRegion.id,city:cityRegion.value,cityId:cityRegion.id});
   }
 
 
   onChoiceIndustry(industry) {
+    this.checkIsFull()
     this.setState({industry:industry.value});
   }
 
   onChoiceWorkingLife(workingLife) {
+    this.checkIsFull()
     this.setState({workingLife:workingLife.value});
   }
 
@@ -146,6 +150,13 @@ export default class Profile extends React.Component<any,any> {
       });
     } else {
       dispatch(alertMsg("请全部填写后提交"))
+    }
+  }
+
+  checkIsFull(){
+    const {city, province, industry, workingLife} = this.state;
+    if (city && province && industry && workingLife){
+      this.setState({isFull:true})
     }
   }
 
@@ -262,7 +273,7 @@ export default class Profile extends React.Component<any,any> {
           </div>
         </div>
         <div className="profile-bottom">
-          <div className="submit-btn"  style={{width:`${this.btnWidth}px`}} onClick={this.submitProfile.bind(this)}>
+          <div className={`submit-btn ${isFull?'':'disabled'}`}  style={{width:`${this.btnWidth}px`}} onClick={this.submitProfile.bind(this)}>
             完成
           </div>
         </div>

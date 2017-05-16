@@ -35,6 +35,8 @@
         position: relative;
         padding-right: 20px;
         font-size: 13px;
+        width: 50%;
+        text-align: right;
         > .select-wrapper {
           color: @color_strong;
 
@@ -119,6 +121,9 @@
       line-height:40px;
       text-align: center;
       border-radius:5px;
+      &.disabled {
+        background: #cccccc;
+      }
     }
   }
 }
