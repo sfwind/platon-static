@@ -16,9 +16,8 @@ export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }
 
-
-export function getOpenStatus(){
-  return pget('/rise/plan/open/status');
+export function loadKnowledge(id){
+  return pget(`/rise/plan/knowledge/load/${id}`);
 }
 
 export function loadDiscuss(knowledgeId,offset){

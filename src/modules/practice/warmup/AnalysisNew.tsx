@@ -4,7 +4,7 @@ import "./Main.less";
 import {loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeViewer from "../components/KnowledgeViewer";
+import KnowledgeViewer from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import _ from "lodash"
 import DiscussShow from "../components/DiscussShow";
