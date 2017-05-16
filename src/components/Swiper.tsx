@@ -1,65 +1,61 @@
 import * as React from 'react';
-import './Swiper.less'
+import './Swiper.less';
 import Swipe from './Swipe.js';
+import { isFunction,merge } from 'lodash';
+
 
 export default class Swiper extends React.Component<any,any>{
   constructor(props){
     super(props);
+    this.state = {
+      slider:null,
+    }
+
+  }
+
+  slide(index){
+    const {slider} = this.state;
+    slider.slide(index,this.props.speed?this.props.speed:400);
   }
 
   componentDidMount(){
-    let elem = document.getElementById('mySwipe');
-    window.mySwipe = Swipe(elem, {
-      // startSlide: 4,
-      // auto: 3000,
-      // continuous: true,
-      // disableScroll: true,
-      // stopPropagation: true,
-      // callback: function(index, element) {},
-      // transitionEnd: function(index, element) {}
+    let mySwipe = new Swipe(document.getElementById('slider'), {
+      startSlide: this.props.startIndex,
+      speed: 400,
+      auto: 0,
+      continuous: false,
+      disableScroll: false,
+      stopPropagation: true,
+      callback: (index, elem) => {
+        if(isFunction(this.props.onChangeIndex)){
+          this.props.onChangeIndex(index,elem);
+        }
+      },
+      transitionEnd:(index,elem) => {
+      }
     });
+
+    this.setState({slider:mySwipe});
+  }
+
+  componentDidUpdate(preProps,preState){
+    // if(preProps.index !== this.props.index){
+    //   // 在外面修改了index，在里面修改
+    //   if(isFunction(this.props.onChangeIndex)){
+    //
+    //     this.props.onChangeIndex();
+    //   }
+    // }
+
   }
 
   render(){
+    let styles = merge({},this.props.style);
+
     return (
-      <div>
-        <h1>Swipe 2</h1>
-
-
-
-        <div id='mySwipe' style='max-width:500px;margin:0 auto' className='swipe'>
-          <div className='swipe-wrap'>
-            <div><b>0</b></div>
-            <div><b>1</b></div>
-            <div><b>2</b></div>
-            <div><b>3</b></div>
-            <div><b>4</b></div>
-            <div><b>5</b></div>
-            <div><b>6</b></div>
-            <div><b>7</b></div>
-            <div><b>8</b></div>
-            <div><b>9</b></div>
-            <div><b>10</b></div>
-            <div><b>11</b></div>
-            <div><b>12</b></div>
-            <div><b>13</b></div>
-            <div><b>14</b></div>
-            <div><b>15</b></div>
-            <div><b>16</b></div>
-            <div><b>17</b></div>
-            <div><b>18</b></div>
-            <div><b>19</b></div>
-            <div><b>20</b></div>
-          </div>
-        </div>
-
-
-
-        <div style='text-align:center;padding-top:20px;'>
-
-          <button onClick={()=>mySwipe.prev()}>prev</button>
-          <button onClick={()=>mySwipe.next()}>next</button>
-
+      <div id={`${this.props.sliderId ? this.props.sliderId: 'slider'}`} style={styles} className='swipe'>
+        <div className='swipe-wrap'>
+          {this.props.children}
         </div>
       </div>
     )

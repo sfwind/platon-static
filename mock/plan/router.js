@@ -37,15 +37,14 @@ router.get("/rise/plan/load", (req, res) => {
 				"closeDate": "2017-01-07",
 				"currentSeries": 1, //当前题组
 				"completeSeries": 1, //完成题组
-				"series": 7, //当前题组
-				"totalSeries": 7,  //总题组
+				"totalSeries": 2,  //总题组
 				"warmupComplete": 3, //结束的热身训练
 				"applicationComplete": 2, //结束的应用训练
 				"total": 14, //总共的训练
 				"point": 0,
 				"complete": 0,
-				"keycnt": 2,
 				"status": 1,
+                "hasProblemScore":false,
                 "lockedStatus":-1,
                 "problem": {
                     "id": 2,
@@ -226,6 +225,7 @@ router.post("/rise/plan/complete", (req, res) => {
 			"msg": {
 				"iscomplete":true,
 				"percent":15,
+                "mustStudyDays":7,
 			}
 		}), Math.random() * 1500)
 });

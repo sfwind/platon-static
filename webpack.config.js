@@ -34,7 +34,8 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ test: /\.tsx?$/, loaders: ["babel-loader", "ts-loader?transpileOnly=true"], exclude: /node_modules/ },
+      { test: /\.js?$/, loaders: ["babel-loader"], exclude: /node_modules/ },
+      { test: /\.tsx?$/, loaders: ["babel-loader", "ts-loader?transpileOnly=true"], exclude: /node_modules/ },
 			{ test: /\.less$/, loader: "style!css!less" },
 			{ test: /\.css$/, loader: "style!css" },
 			{ test: /\.(gif|jpg|png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=10000', exclude: /node_modules/ },
