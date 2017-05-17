@@ -533,6 +533,7 @@ export class PlanMain extends React.Component <any, any> {
           </div>
           { item.series === totalSeries ?
               <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
+          <div className="padding-footer"></div>
         </div>
       </div>)
     }
@@ -629,7 +630,7 @@ export class PlanMain extends React.Component <any, any> {
         </div>
           {!isEmpty(planData)?
               <div style={{padding:"0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews  ref="planSlider" index={currentIndex-1} style={{height:`${window.innerHeight - 50 - this.state.style.picHeight - 55}px`}}
+                <SwipeableViews  ref="planSlider" index={currentIndex-1}
                                  onTransitionEnd={()=>this.onTransitionEnd()}
                                  onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
                   {sections?sections.map((item, idx)=>{
