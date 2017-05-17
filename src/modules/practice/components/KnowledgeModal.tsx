@@ -26,11 +26,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       showDiscuss:false,
       commentId:0,
     }
+
   }
 
-  componentWillMount(){
-    console.log('in')
-  }
 
   render() {
     const { knowledge } = this.props
@@ -56,7 +54,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     return (
       <div className="knowledge-container">
         <div className="close-button" onClick={()=>this.props.closeModal()}><AssetImg type="white_close_btn" size={32}/></div>
-        <div className="pin"></div>
         <div className="knowledge-modal">
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">

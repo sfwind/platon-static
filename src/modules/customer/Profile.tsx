@@ -98,8 +98,12 @@ export default class Profile extends React.Component<any,any> {
   bind(field, getValue) {
     return {
       value: this.state[field],
-      onChange: (e) => this.changeValue(field, getValue ? getValue(e) : e)
+      onChange: (e) => {
+        this.changeValue(field, getValue ? getValue(e) : e)
+        this.checkIsFull()
+      }
     }
+
   }
 
   getInputValue(e) {
@@ -108,15 +112,18 @@ export default class Profile extends React.Component<any,any> {
 
   onChoiceRegion(provinceRegion, cityRegion) {
     this.setState({province:provinceRegion.value,provinceId:provinceRegion.id,city:cityRegion.value,cityId:cityRegion.id});
+    this.checkIsFull()
   }
 
 
   onChoiceIndustry(industry) {
     this.setState({industry:industry.value});
+    this.checkIsFull()
   }
 
   onChoiceWorkingLife(workingLife) {
     this.setState({workingLife:workingLife.value});
+    this.checkIsFull()
   }
 
   submitProfile() {
@@ -146,6 +153,13 @@ export default class Profile extends React.Component<any,any> {
       });
     } else {
       dispatch(alertMsg("请全部填写后提交"))
+    }
+  }
+
+  checkIsFull(){
+    const {city, province, industry, workingLife} = this.state;
+    if (city && province && industry && workingLife){
+      this.setState({isFull:true})
     }
   }
 
@@ -262,7 +276,7 @@ export default class Profile extends React.Component<any,any> {
           </div>
         </div>
         <div className="profile-bottom">
-          <div className="submit-btn"  style={{width:`${this.btnWidth}px`}} onClick={this.submitProfile.bind(this)}>
+          <div className={`submit-btn ${isFull?'':'disabled'}`}  style={{width:`${this.btnWidth}px`}} onClick={this.submitProfile.bind(this)}>
             完成
           </div>
         </div>

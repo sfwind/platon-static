@@ -8,6 +8,7 @@ import AssetImg from "../../components/AssetImg";
 const P = "base"
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
+let iNoBounce = require('../../components/iNoBounce.js')
 const { Alert } = Dialog
 
 @connect(state => state)
@@ -50,6 +51,10 @@ export default class Main extends React.Component<any, any> {
 		}
 
 	}
+
+	componentDidMount(){
+    iNoBounce(this);
+  }
 
 	closeAnswer() {
 		const { dispatch } = this.props

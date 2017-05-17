@@ -12,15 +12,9 @@ import {
 
 import { isFunction,isNumber } from "lodash";
 
-import IconStudy from '../../../assets/img/tabbar_book.png';
-import IconExplore from '../../../assets/img/tabbar_explore.png';
-import IconMine from '../../../assets/img/tabbar_mine.png';
-import IconActivity from '../../../assets/img/tabbar_team_study.png';
+let IconExplore = 'https://www.iqycamp.com/images/tabbar_explore.png';
+let IconExploreActive = 'https://www.iqycamp.com/images/tabbar_explore_active.png';
 
-import IconStudyActive from '../../../assets/img/tabbar_book_active.png';
-import IconExploreActive from '../../../assets/img/tabbar_explore_active.png';
-import IconMineActive from '../../../assets/img/tabbar_mine_active.png';
-import IconActivityActive from '../../../assets/img/tabbar_team_study_active.png';
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
 import {loadOldCount} from '../message/async'
@@ -38,15 +32,15 @@ export class ToolBar extends React.Component<any,any> {
         {
           key: 0,
           bar: {
-            icon: IconStudy,
-            activeIcon: IconStudyActive,
+            icon: 'https://www.iqycamp.com/images/tabbar_book.png',
+            activeIcon: 'https://www.iqycamp.com/images/tabbar_book_active.png',
             label: '学习',
           },
         }, {
           key: 1,
           bar: {
-            icon: IconActivity,
-            activeIcon: IconActivityActive,
+            icon: 'https://www.iqycamp.com/images/tabbar_team_study.png',
+            activeIcon: 'https://www.iqycamp.com/images/tabbar_team_study_active.png',
             label: '活动'
           }
         }, {
@@ -59,8 +53,8 @@ export class ToolBar extends React.Component<any,any> {
         }, {
           key: 3,
           bar: {
-            icon: IconMine,
-            activeIcon: IconMineActive,
+            icon: 'https://www.iqycamp.com/images/tabbar_mine.png',
+            activeIcon: 'https://www.iqycamp.com/images/tabbar_mine_active.png',
             label: '我的'
           }
         },

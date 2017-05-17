@@ -102,7 +102,7 @@ export class PlanMain extends React.Component <any, any> {
       nextModal: {
         buttons: [
           {label: '我不听', onClick: () => this.confirmComplete(true)},
-          {label: '好的', onClick: () => this.setState({showNextModal: false})}
+          {label: '好的', onClick: () => this.setState({showWarningModal: false})}
         ],
       },
 
@@ -267,81 +267,7 @@ export class PlanMain extends React.Component <any, any> {
         }
       })
     }
-    // checkPractice(currentIndex,planId).then(res =>{
-    //   const { code, msg } = res
-    //   if (code === 200) {
-    //     // 已完成
-    //
-    //   } else dispatch(alertMsg(msg))
-    // }).catch(ex => {
-    //   dispatch(alertMsg(ex))
-    // })
   }
-
-  // prev() {
-  //   const { dispatch ,location} = this.props
-  //   const { planData } = this.state
-  //   const { series } = planData
-  //   const { planId } = location.query
-  //   if (series === 1) {
-  //     dispatch(alertMsg("当前已经是第一节训练"))
-  //     return
-  //   }
-  //
-  //   let query;
-  //   if(planId){
-  //     query = {series: series - 1, planId: planId}
-  //   }else{
-  //     query = {series: series - 1}
-  //   }
-  //   this.context.router.push({ pathname: this.props.location.pathname, query })
-  //
-  //   this.refs.plan.scrollTop = 0
-  // }
-  //
-  // next(force,otherSeries) {
-  //   const {location} = this.props
-  //   const { planData} = this.state
-  //   const {series,doneCurSeriesApplication, totalSeries} = planData
-  //   const {planId} = location.query
-  //   const unlocked = get(planData,'practice[0].unlocked');
-  //   console.log(otherSeries);
-  //   if(otherSeries){
-  //     // 点击侧边栏
-  //     if(series === otherSeries){
-  //       // 点击自己
-  //       // this.onSetSidebarOpen(false);
-  //     } else {
-  //       // 直接跳
-  //       // this.onSetSidebarOpen(false);
-  //       let query;
-  //       if(planId){
-  //         query = {series: otherSeries, planId: planId}
-  //       }else{
-  //         query = {series: otherSeries}
-  //       }
-  //       this.context.router.push({ pathname: this.props.location.pathname, query })
-  //     }
-  //   } else if (series === totalSeries) {
-  //     this.setState({showNextSeriesModal: false});
-  //   } else {
-  //     if (unlocked && !doneCurSeriesApplication && !force) {
-  //       this.setState({showNextSeriesModal: true});
-  //       return;
-  //     }
-  //
-  //     this.setState({showNextSeriesModal:false});
-  //     let query;
-  //     if(planId){
-  //       query = {series: series + 1, planId: planId}
-  //     }else{
-  //       query = {series: series + 1}
-  //     }
-  //     this.context.router.push({ pathname: this.props.location.pathname, query })
-  //   }
-  //
-  //   this.refs.plan.scrollTop = 0
-  // }
 
   complete() {
     const { dispatch,location } = this.props
@@ -350,13 +276,14 @@ export class PlanMain extends React.Component <any, any> {
     completePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
-        if (msg.iscomplete === true) {
+        if (msg.iscomplete) {
           if (planData.hasProblemScore) {
             // 已经评分
             this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
             this.confirmComplete()
           } else {
             // 未评分
+            console.log('show score')
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
           }
         } else {
@@ -370,17 +297,22 @@ export class PlanMain extends React.Component <any, any> {
 
   confirmComplete(force) {
     const {dispatch} = this.props;
-    const {planData} = this.state
+    const {planData, mustStudyDays} = this.state
     const {doneAllIntegrated} = planData
+      console.log('in')
+      console.log(mustStudyDays)
     if (!force && !doneAllIntegrated) {
-      this.setState({showCompleteModal: false, showNextModal: true})
+      console.log('show next')
+      this.setState({showCompleteModal: false, showWarningModal: true})
       return
     }
-    if (!this.state.mustStudyDays) {
-      this.setState({showCompleteModal: true, showNextModal: false})
+    if (!mustStudyDays) {
+        console.log('show complete')
+        this.setState({showCompleteModal: true, showWarningModal: false})
     } else {
-      this.setState({showCompleteModal: false, showNextModal: false})
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${this.state.mustStudyDays}天<br/>之后就可以开启下一小课了`))
+        console.log('show must study')
+      this.setState({showCompleteModal: false, showWarningModal: false})
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
     }
   }
 
@@ -497,7 +429,7 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
-        selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal, chapterList } = this.state
+        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList } = this.state
     const {location} = this.props
     const {planId} = location.query
     const {
@@ -552,7 +484,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-50-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -601,6 +533,7 @@ export class PlanMain extends React.Component <any, any> {
           </div>
           { item.series === totalSeries ?
               <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
+          <div className="padding-footer"></div>
         </div>
       </div>)
     }
@@ -657,7 +590,7 @@ export class PlanMain extends React.Component <any, any> {
         {/*</Alert>*/}
 
         <Alert { ...this.state.nextModal }
-          show={showNextModal}>
+          show={showWarningModal}>
           <div className="global-pre" dangerouslySetInnerHTML={{__html:"提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
         </Alert>
 
@@ -697,7 +630,7 @@ export class PlanMain extends React.Component <any, any> {
         </div>
           {!isEmpty(planData)?
               <div style={{padding:"0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews  ref="planSlider" index={currentIndex-1} style={{height:`${window.innerHeight - 50 - this.state.style.picHeight - 55}px`}}
+                <SwipeableViews  ref="planSlider" index={currentIndex-1}
                                  onTransitionEnd={()=>this.onTransitionEnd()}
                                  onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
                   {sections?sections.map((item, idx)=>{

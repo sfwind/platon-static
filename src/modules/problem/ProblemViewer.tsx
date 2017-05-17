@@ -70,9 +70,12 @@ export class ProblemViewer extends React.Component<any, any> {
   }
 
   show() {
+    const {dispatch} = this.props
     checkCreatePlan(this.props.location.query.id).then(res=>{
       if(res.code === 200){
         this.setState({showAlert: true})
+      }else{
+        dispatch(alertMsg(res.msg))
       }
     })
   }
