@@ -76,14 +76,13 @@ export class ToolBar extends React.Component<any,any> {
     }
     dispatch(set('tabIndex',tabIndex))
     const { noticeMsgCount } = this.props;
-    if(!isNumber(noticeMsgCount)){
+    // if(!isNumber(noticeMsgCount)){
       loadOldCount().then(res=>{
         if(res.code === 200){
-          console.log('count',res.msg);
           dispatch(set('noticeMsgCount',res.msg));
         }
       })
-    }
+    // }
   }
 
   changeTab(tabIndex){
