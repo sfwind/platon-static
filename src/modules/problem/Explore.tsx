@@ -28,15 +28,14 @@ export class Explore extends React.Component<any,any>{
     loadUnChooseList().then(res => {
       dispatch(endLoad());
       if(res.code === 200){
-        console.log(res.msg);
         this.setState({catalogList:res.msg.catalogList},()=>{
           let sliders = [];
           for(let i=0; i<res.msg.catalogList.length; i++){
             var mySwiper = new Swiper (`#slide${i}`, {
               // Optional parameters
-              slidesPerView: 2.3,
+              slidesPerView: 'auto',
               spaceBetween: 10,
-              freeMode: true
+              freeMode: true,
             })
           }
 
@@ -79,7 +78,9 @@ export class Explore extends React.Component<any,any>{
                   {catalog.problemList?catalog.problemList.map((problem,key)=>{
                     return (
                       <div className="problem-item swiper-slide" >
-                        <img src={problem.pic}/>
+                        <div className="img">
+                          <img src={problem.pic}/>
+                        </div>
                         <span>{problem.problem}</span>
                       </div>
                     )
