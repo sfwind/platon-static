@@ -112,7 +112,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   render() {
-    const { showTip,showDiscuss,knowledge,discuss=[] } = this.state
+    const { showTip,showDiscuss,knowledge,discuss=[],repliedId } = this.state
     const { analysis, means, keynote, audio, pic,example,id } = knowledge
     const {location} = this.props
     const {practicePlanId} = location.query
@@ -216,7 +216,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
         </div>
 
         {practicePlanId?<div className="button-footer" onClick={this.onSubmit.bind(this)}>标记完成</div>:null}
-        {showDiscuss ?<Discuss referenceId={id} type="本知识点"
+        {showDiscuss ?<Discuss referenceId={id} repliedId={repliedId} type="本知识点"
                                closeModal={(body)=> this.reload()} discuss={(body)=>discussKnowledge(body)}  /> : null}
       </div>
     )
