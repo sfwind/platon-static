@@ -889,7 +889,43 @@ router.get("/rise/practice/application/article/*",(req,res)=>{
 
 router.get("/rise/practice/knowledge/discuss/*",(req,res)=>{
     setTimeout(()=>{
-        res.status(200).json({"msg":[],"code":200});
+        res.status(200).json({
+            "code": 200,
+            "msg": [
+                {
+                    "id":2,
+                    "repliedId": 1,
+                    "comment":"新增的评论",
+                    "repliedName": "风之伤",
+                    "repliedComment": "评论评论评论",
+                    "repliedDel":0,
+                    "knowledgeId": 49,
+                    "name":"Diane",
+                    "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                    "discussTime":"10:30",
+                    "isMine":true,
+                },
+
+                {
+                    "id":1,
+                    "repliedId": null,
+                    "comment":"评论评论评论",
+                    "repliedName": null,
+                    "repliedComment": null,
+                    "repliedDel":null,
+                    "knowledgeId": 49,
+                    "name":"风之伤",
+                    "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                    "discussTime":"10:38"
+                }
+            ]
+        });
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/knowledge/discuss",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
     },Math.random()*1500);
 });
 

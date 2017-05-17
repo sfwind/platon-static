@@ -33,6 +33,8 @@ export class Analysis extends React.Component <any, any> {
       warmupPracticeId: 0,
       pageIndex:1,
       integrated:false,
+      isReply:false,
+      placeholder:'解答同学的提问（限300字）',
     }
   }
 
@@ -112,13 +114,50 @@ export class Analysis extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-
-    window.location.href = '#discuss'
-
   }
 
-  reply(warmupPracticeId, repliedId){
-    this.setState({showDiscuss:true, warmupPracticeId, repliedId})
+  reply(item){
+    this.setState({showDiscuss:true, isReply:true,
+      placeholder:'回复 '+item.name+':', content:'',
+      repliedId:item.id, referenceId:item.warmupPracticeId})
+  }
+
+  onChange(value){
+    this.setState({content:value})
+  }
+
+  cancel(){
+    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false})
+  }
+
+  onSubmit(){
+    const {dispatch} = this.props
+    const {referenceId, repliedId, content} = this.state
+    if(content.length==0){
+      dispatch(alertMsg('请填写评论'))
+      return
+    }
+    if(content.length>300){
+      dispatch(alertMsg('您的评论字数已超过300字'))
+      return
+    }
+
+    let discussBody = {content, referenceId: referenceId}
+    if (repliedId) {
+      _.merge(discussBody, {repliedId: repliedId})
+    }
+
+    discuss(discussBody).then(res => {
+      const {code, msg} = res
+      if (code === 200) {
+        this.closeDiscussModal()
+      }
+      else {
+        dispatch(alertMsg(msg))
+      }
+    }).catch(ex => {
+      dispatch(alertMsg(ex))
+    })
   }
 
   onDelete(discussId){
@@ -146,7 +185,7 @@ export class Analysis extends React.Component <any, any> {
 
   render() {
     const {list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, repliedId, integrated} = this.state
+      showKnowledge, showDiscuss, isReply, integrated, placeholder} = this.state
     const {practice = []} = list
 
     const questionRender = (practice) => {
@@ -181,13 +220,9 @@ export class Analysis extends React.Component <any, any> {
                   <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null
               }
             </div>
-            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true, warmupPracticeId: id, repliedId:0})}>
-              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-            </div>
           </div>
           <div className="discuss-container">
             <div className="discuss">
-              <a name="discuss"/>
               <div className="title-bar">问答</div>
               {discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
@@ -211,7 +246,7 @@ export class Analysis extends React.Component <any, any> {
 
     const discussRender = (discuss, idx) => {
       return (
-        <DiscussShow discuss={discuss} reply={this.reply.bind(this)} onDelete={this.onDelete.bind(this, discuss.id)}/>
+        <DiscussShow discuss={discuss} reply={()=>this.reply(discuss)} onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
@@ -244,16 +279,21 @@ export class Analysis extends React.Component <any, any> {
             {questionRender(practice[currentIndex] || {})}
           </div>
         </div>
+        {showDiscuss? null:
         <div className="button-footer">
           <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>上一题</div>
           {currentIndex + 1 < practiceCount ?
             <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
-        </div>
-
+        </div>}
         {showKnowledge ? <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {showDiscuss ?<Discuss repliedId={repliedId} referenceId={this.state.warmupPracticeId}
-                               closeModal={this.closeDiscussModal.bind(this)} discuss={(body)=>discuss(body)}/> : null}
+
+        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
+                 submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                 cancel={()=>this.cancel()}/>:
+            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
+              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+            </div>}
       </div>
     )
   }

@@ -29,6 +29,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
       commentId:0,
       knowledge:{},
       discuss:{},
+      placeholder:'解答同学的提问（限300字）',
+      isReply:false,
     }
   }
 
@@ -76,8 +78,10 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
 
-  reply(repliedId){
-    this.setState({showDiscuss:true, repliedId},()=>{scroll(0,0)})
+  reply(item){
+    this.setState({showDiscuss:true, isReply:true,
+      placeholder:'回复 '+item.name+':', content:'',
+      repliedId:item.id, referenceId:item.knowledgeId})
   }
 
   reload(){
@@ -97,7 +101,45 @@ export class KnowledgeViewer extends React.Component<any, any> {
     }
   }
 
-  onSubmit() {
+  onChange(value){
+    this.setState({content:value})
+  }
+
+  cancel(){
+    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false})
+  }
+
+  onSubmit(){
+    const {dispatch} = this.props
+    const {referenceId, repliedId, content} = this.state
+    if(content.length==0){
+      dispatch(alertMsg('请填写评论'))
+      return
+    }
+    if(content.length>300){
+      dispatch(alertMsg('您的评论字数已超过300字'))
+      return
+    }
+
+    let discussBody = {content, referenceId: referenceId}
+    if (repliedId) {
+      _.merge(discussBody, {repliedId: repliedId})
+    }
+
+    discussKnowledge(discussBody).then(res => {
+      const {code, msg} = res
+      if (code === 200) {
+        this.reload()
+      }
+      else {
+        dispatch(alertMsg(msg))
+      }
+    }).catch(ex => {
+      dispatch(alertMsg(ex))
+    })
+  }
+
+  complete() {
     const {dispatch, location} = this.props
     learnKnowledge(location.query.practicePlanId).then(res => {
       const {code, msg} = res
@@ -112,7 +154,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   render() {
-    const { showTip,showDiscuss,knowledge,discuss=[],repliedId } = this.state
+    const { showTip,showDiscuss,knowledge,discuss=[],isReply,placeholder } = this.state
     const { analysis, means, keynote, audio, pic,example,id } = knowledge
     const {location} = this.props
     const {practicePlanId} = location.query
@@ -192,7 +234,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             <div ref="reply" className="title-bar">问答</div>
             <div className="discuss">
               {_.isEmpty(discuss) ? null: discuss.map(item => {
-                return <DiscussShow discuss={item} reply={()=>{this.reply(item.id)}}/>
+                return <DiscussShow discuss={item} reply={()=>{this.reply(item)}}/>
               })}
               { discuss ? (discuss.length > 0 ?
                 <div className="show-more">
@@ -211,13 +253,14 @@ export class KnowledgeViewer extends React.Component<any, any> {
             </div>
             </div>
         </div>
-        <div className="writeDiscuss" onClick={() => {this.writeDiscuss()}}>
-          <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-        </div>
 
-        {practicePlanId?<div className="button-footer" onClick={this.onSubmit.bind(this)}>标记完成</div>:null}
-        {showDiscuss ?<Discuss referenceId={id} repliedId={repliedId} type="本知识点"
-                               closeModal={(body)=> this.reload()} discuss={(body)=>discussKnowledge(body)}  /> : null}
+        {practicePlanId&&!showDiscuss?<div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>:null}
+        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
+                              submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                              cancel={()=>this.cancel()}/>:
+            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
+              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+            </div>}
       </div>
     )
   }
