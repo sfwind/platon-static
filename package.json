@@ -62,6 +62,7 @@
     "redux-thunk": "^2.1.0",
     "shelljs": "^0.7.3",
     "smooth-scrollbar": "^7.2.10",
+    "swiper": "^3.4.2",
     "weui": "^0.4.3",
     "whatwg-fetch": "^1.0.0"
   },

@@ -19,7 +19,7 @@ export default class Swiper extends React.Component<any,any>{
   }
 
   componentDidMount(){
-    let mySwipe = new Swipe(document.getElementById('slider'), {
+    let mySwipe = new Swipe(document.getElementById(`${this.props.sliderId ? this.props.sliderId: 'slider'}`), {
       startSlide: this.props.startIndex,
       speed: 400,
       auto: 0,

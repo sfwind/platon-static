@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { ToolBar } from '../base/ToolBar';
 import SwipeableViews from 'react-swipeable-views';
 import Banner from '../../components/Banner';
+import Swiper from 'swiper';
+import 'swiper/dist/css/swiper.css'
 import { loadUnChooseList } from './async';
 
 import './Explore.less';
@@ -16,7 +18,7 @@ export class Explore extends React.Component<any,any>{
 
     }
 
-    this.problemWidth = window.innerWidth / 2.3;
+    this.problemWidth = window.innerWidth / 2.4;
     this.problemHeight = 90/150 * this.problemWidth;
   }
 
@@ -27,7 +29,18 @@ export class Explore extends React.Component<any,any>{
       dispatch(endLoad());
       if(res.code === 200){
         console.log(res.msg);
-        this.setState({catalogList:res.msg.catalogList});
+        this.setState({catalogList:res.msg.catalogList},()=>{
+          let sliders = [];
+          for(let i=0; i<res.msg.catalogList.length; i++){
+            var mySwiper = new Swiper (`#slide${i}`, {
+              // Optional parameters
+              slidesPerView: 2.3,
+              spaceBetween: 10,
+              freeMode: true
+            })
+          }
+
+        });
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -61,16 +74,18 @@ export class Explore extends React.Component<any,any>{
                   <span className="catalog-name">{catalog.name}</span>
                   <span className="catalog-more">更多</span>
                 </div>
-                <SwipeableViews containerStyle={{padding:'0 20px 0 0',width:`${this.problemWidth}px`}} slideStyle={{padding:'0 10px 0 0',width:`${this.problemWidth}px`}}>
+                <div id={`slide${key}`}  className="swiper-container">
+                  <div className="swiper-wrapper">
                   {catalog.problemList?catalog.problemList.map((problem,key)=>{
                     return (
-                      <div className="problem-item">
+                      <div className="problem-item swiper-slide" >
                         <img src={problem.pic}/>
                         <span>{problem.problem}</span>
                       </div>
                     )
                   }):null}
-                </SwipeableViews>
+                  </div>
+                </div>
               </div>
             )
           }):null}
