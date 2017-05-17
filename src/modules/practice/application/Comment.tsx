@@ -4,7 +4,6 @@ import {connect} from "react-redux"
 import {loadCommentList, comment, deleteComment, commentReply, getApplicationPractice} from "./async"
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import SubmitBox from "../components/SubmitBox"
 import PullElement from "pull-element"
 import {findIndex, remove} from "lodash";
 import DiscussShow from "../components/DiscussShow"
@@ -29,7 +28,6 @@ export class Comment extends React.Component<any, any> {
   componentWillMount() {
     const {dispatch, location} = this.props;
     dispatch(startLoad());
-    console.log(location.query.submitId);
     loadCommentList(location.query.submitId, 1).then(res => {
       if (res.code === 200) {
         this.setState({commentList: res.msg.list, page: 1, end: res.msg.end});
@@ -41,7 +39,6 @@ export class Comment extends React.Component<any, any> {
       dispatch(alertMsg(ex));
     });
     getApplicationPractice(location.query.id, location.query.submitId).then(res => {
-      console.log(`res`,res);
       if (res.code === 200) {
         this.setState({article: res.msg})
       } else {
@@ -140,10 +137,12 @@ export class Comment extends React.Component<any, any> {
     }
   }
 
-  reply(id) {
+  reply(item) {
     this.setState({
-      id: id,
-      showDiscuss: true
+      id: item.id,
+      name:item.upName,
+      showDiscuss: true,
+      isReply:true,
     })
   }
 
@@ -193,7 +192,7 @@ export class Comment extends React.Component<any, any> {
   }
 
   render() {
-    const {commentList = [], showDiscuss, end} = this.state;
+    const {commentList = [], showDiscuss, end, isReply, name} = this.state;
     const {topic, description} = this.state.article;
     const renderCommentList = () => {
       if (commentList && commentList.length !== 0) {
@@ -201,7 +200,7 @@ export class Comment extends React.Component<any, any> {
           commentList.map((item, seq) => {
             return (
               <DiscussShow discuss={item} reply={() => {
-                this.reply(item.id)
+                this.reply(item)
               }} onDelete={this.onDelete.bind(this, item.id)}/>
             )
           })
@@ -245,15 +244,20 @@ export class Comment extends React.Component<any, any> {
             {renderTips()}
           </div>
         </div>
-        <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-          <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
-        </div>
+
         {showDiscuss ?
-          <div>
-            <textarea placeholder={"和作者切磋讨论一下吧"} onChange={(e)=>this.setState({content:e.currentTarget.value})}>
+          <div className="comment-area">
+            <textarea placeholder={`${isReply?"回复 "+name+":":"和作者切磋讨论一下吧"}`} onChange={(e)=>this.setState({content:e.currentTarget.value})}>
             </textarea>
-            <div onClick={this.onSubmit.bind(this)}>评论</div>
-          </div>  :null}
+            <div className="comment-right-area" style={{marginTop: `${isReply?0:28}`}}>
+              {isReply? <div className="reply-tip" onClick={()=>this.setState({isReply:false})}>取消回复</div>:null}
+              <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
+            </div>
+          </div>  :
+            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
+            </div>
+        }
           {/*<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}*/}
                      {/*onSubmit={(content) => this.onSubmit(content)}/> : null}*/}
       </div>

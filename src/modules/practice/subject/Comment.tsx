@@ -38,16 +38,14 @@ export class Comment extends React.Component<any,any>{
     }).catch(ex => {
       dispatch(alertMsg(ex));
     });
-    console.log(`submitId:`,location.query.submitId);
     loadSubject(location.query.submitId).then(res => {
       if(res.code === 200) {
-        console.log(res.msg)
         this.setState({article: res.msg})
       } else {
         dispatch(alertMsg(res.msg));
       }
     }).catch(ex => {
-       dispatch(alertMsg(res.msg));
+       dispatch(alertMsg(ex.msg));
     });
     dispatch(endLoad());
   }
@@ -133,10 +131,12 @@ export class Comment extends React.Component<any,any>{
     }
   }
 
-  reply(id) {
+  reply(item) {
     this.setState({
-      id: id,
-      showReply: true
+      id: item.id,
+      name:item.upName,
+      showDiscuss: true,
+      isReply:true,
     })
   }
 
@@ -199,7 +199,7 @@ export class Comment extends React.Component<any,any>{
   }
 
   render(){
-    const { commentList=[],showDiscuss,showReply,end } = this.state;
+    const { commentList=[],showDiscuss,isReply,end,name } = this.state;
     const {title, content} = this.state.article;
     const renderCommentList = ()=>{
       if(commentList && commentList.length !== 0){
@@ -207,7 +207,7 @@ export class Comment extends React.Component<any,any>{
           commentList.map((item,seq)=>{
             return (
               <DiscussShow discuss={item} reply={() => {
-                this.reply(item.id)
+                this.reply(item)
               }} onDelete={this.onDelete.bind(this, item.id)}/>
             )
           })
@@ -215,7 +215,7 @@ export class Comment extends React.Component<any,any>{
       }  else {
         return (<div className="on_message">
           <div className="no_comment">
-            <AssetImg url="http://www.iquanwai.com/images/no_comment.png" height={120} width={120}/>
+            <AssetImg url="http://www.iqycamp.com/images/no_comment.png" height={120} width={120}/>
           </div>
           还没有人评论过<br/>点击左下角按钮，发表第一条吧
         </div>)
@@ -253,15 +253,20 @@ export class Comment extends React.Component<any,any>{
           {renderTips()}
         </div>
       </div>
-      <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-        <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
-      </div>
+
       {showDiscuss ?
-        <SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
-                   onSubmit={(content) => this.onSubmit(content)}/> : null}
-      {showReply ?
-        <SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
-                   onSubmit={(content) => this.onReply(content)}/> : null}
+          <div className="comment-area">
+            <textarea placeholder={`${isReply?"回复 "+name+":":"和作者切磋讨论一下吧"}`} onChange={(e)=>this.setState({content:e.currentTarget.value})}>
+            </textarea>
+            <div className="comment-right-area" style={{marginTop: `${isReply?0:28}`}}>
+              {isReply? <div className="reply-tip" onClick={()=>this.setState({isReply:false})}>取消回复</div>:null}
+              <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
+            </div>
+          </div>  :
+          <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+            <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
+          </div>
+      }
     </div>
     );
   }
