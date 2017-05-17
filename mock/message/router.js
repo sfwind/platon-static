@@ -26,6 +26,10 @@ router.get("/rise/message/warmup/discuss/reply/*", (req, res) => {
     }), Math.random() * 1500)
 });
 
+router.get('/rise/message/old/count/load', (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({"msg":80,"code":200}), Math.random() * 1500)
+});
 
 router.post("/rise/message/read/*", (req, res) => {
   setTimeout(() =>

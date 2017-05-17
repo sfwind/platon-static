@@ -8,14 +8,6 @@ export function loadUnChooseList(){
   return pget(`/rise/problem/list/unchoose`)
 }
 
-export function submitProblemList(params) {
-  return ppost(`/rise/problem/select`, params)
-}
-
-export function loadMyProblemList() {
-  return pget(`/rise/problem/load/mine`)
-}
-
 export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }

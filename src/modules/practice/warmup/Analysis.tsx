@@ -4,7 +4,7 @@ import "./Main.less";
 import {loadWarmUpAnalysis, loadWarmUpDiscuss,discuss, deleteComment} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeViewer from "../components/KnowledgeViewer";
+import KnowledgeModal from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
 import _ from "lodash"
@@ -251,7 +251,7 @@ export class Analysis extends React.Component <any, any> {
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
         </div>
 
-        {showKnowledge ? <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
+        {showKnowledge ? <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
         {showDiscuss ?<Discuss repliedId={repliedId} referenceId={this.state.warmupPracticeId}
                                closeModal={this.closeDiscussModal.bind(this)} discuss={(body)=>discuss(body)}/> : null}
       </div>

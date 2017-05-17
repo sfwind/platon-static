@@ -887,4 +887,10 @@ router.get("/rise/practice/application/article/*",(req,res)=>{
     },Math.random()*1500);
 });
 
+router.get("/rise/practice/knowledge/discuss/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":[],"code":200});
+    },Math.random()*1500);
+});
+
 module.exports = router;

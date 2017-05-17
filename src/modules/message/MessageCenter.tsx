@@ -6,6 +6,7 @@ import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import {set, findIndex, remove} from "lodash"
 import PullElement from "pull-element";
 import AssetImg from "../../components/AssetImg";
+import { changeTitle } from '../../utils/helpers'
 
 @connect(state => state)
 export class MessageCenter extends React.Component <any, any> {
@@ -19,6 +20,7 @@ export class MessageCenter extends React.Component <any, any> {
       end: true,
     }
     this.pullElement=null
+    changeTitle('消息中心');
   }
 
   static contextTypes = {
