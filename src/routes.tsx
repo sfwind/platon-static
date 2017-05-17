@@ -24,7 +24,7 @@ import {RiseMemberExplain } from "modules/plan/RiseMemberExplain"
 import { Intro as KnowledgeIntro } from "modules/practice/knowledge/Intro"
 import { RoadMap } from "modules/practice/knowledge/RoadMap"
 import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
-
+import { ReplyCommentMessage } from "modules/message/ReplyCommentMessage";
 
 const routes = (
   <Route path="/rise/static" component={Base}>
@@ -44,6 +44,7 @@ const routes = (
     <Route path="message/subject/reply" component={ReplySubjectMessage}/>
     <Route path="message/center" component={MessageCenter}/>
     <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
+    <Route path="message/comment/reply" component={ReplyCommentMessage}/>
     <Route path="practice/application/comment" component={ApplicationComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>

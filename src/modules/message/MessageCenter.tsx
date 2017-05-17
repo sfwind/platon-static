@@ -101,6 +101,7 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   open(url, id, isRead){
+    console.log(url);
     if(!isRead) {
       readMessage(id).then(res => {
         const {code} = res

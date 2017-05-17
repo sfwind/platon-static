@@ -2,22 +2,30 @@
 
 .comment{
   overflow: auto;
+  .article {
+    padding: 0 15px 0 15px;
+    > .description {
+      font-size: @font_context;
+      padding: 10px;
+    }
+  }
   &.has-footer {
     height: ~"calc(100% - 49px)";
   }
   .comment-header{
     font-size:1.3em;
     line-height:1.3em;
-    color:@color_title;
-    padding:15px 0 15px 15px;
-    border-bottom:1px solid #d0d0d0;
+    color: @color_help;
+    background-color: @color_weak_background;
+    padding: 0 15px;
     margin-bottom: 20px;
   }
   .comment-body{
     margin-bottom:49px;
+    padding: 0 15px 0 15px;
     .on_message{
       color: @color_weak;
-      font-size: @font_index;
+      font-size: @font_context;
       text-align: center;
       margin-top: 15px;
       > .no_comment{
@@ -32,4 +40,10 @@
     left:15px;
     bottom: 68px;
   }
+}
+
+pre {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

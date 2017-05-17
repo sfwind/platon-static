@@ -40,9 +40,12 @@ export function openApplication(){
   return ppost('/rise/plan/open/application');
 }
 
-
 export function getOpenStatus(){
   return pget('/rise/plan/open/status');
+}
+
+export function getApplicationPractice(id, submitId) {
+  return pget(`/rise/practice/application/article/${id}/${submitId}`)
 }
 
 export function deleteComment(id){
