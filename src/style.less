@@ -221,7 +221,21 @@
   -ms-transform: translate(-50%,-50%);
   -o-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
+
   > .weui_dialog_ft {
+    display: -webkit-box;
+    display:-moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display:-webkit-box;
+    display: flex;
+    > a{
+      -webkit-box-flex: 1.0;
+      -moz-flex-grow: 1;
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      flex: 1;
+    }
     > .weui_btn_dialog {
       color: @color_strong;
       &:nth-of-type(odd){
