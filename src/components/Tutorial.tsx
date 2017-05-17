@@ -6,9 +6,8 @@ export default class Tutorial extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      bgList: props.bgList || ["http://www.iqycamp.com/images/fragment/rise_tutorial_1_0419.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_2_0419.png",
-        "http://www.iqycamp.com/images/fragment/rise_tutorial_3_0419.png", "http://www.iqycamp.com/images/fragment/rise_tutorial_4_0419.png",
-        "http://www.iqycamp.com/images/fragment/rise_tutorial_5_0419.png"],
+      bgList: props.bgList || ["http://www.iqycamp.com/images/rise_tutorial_1_0516.png",
+        "http://www.iqycamp.com/images/rise_tutorial_2_0516.png"],
       index: 0,
       onShowEnd: props.onShowEnd || function () {
       },
@@ -58,7 +57,7 @@ export default class Tutorial extends React.Component<any,any> {
     const {index, bgList} = this.state;
 
     return (
-      this.props.show?<div className="mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
+      this.props.show?<div className="tutorial-mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
 
       <div className="tutorial" onClick={()=>this.next()}>
         <SwipeableViews style={{height:'100%',width:'100%'}} slideStyle={{height:"100%",width:"100%",overflow:'hidden'}} containerStyle={{height:'100%',width:'100%'}}

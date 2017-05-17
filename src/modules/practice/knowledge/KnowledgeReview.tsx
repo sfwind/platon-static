@@ -3,8 +3,6 @@ import {connect} from "react-redux"
 import "./KnowledgeReview.less"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {loadProblem} from "./async"
-import ProblemViewer from "../../problem/components/ProblemViewer"
-import KnowledgeViewer from "../components/KnowledgeViewer"
 
 @connect(state=>state)
 export class KnowledgeReview extends React.Component<any,any>{
@@ -38,13 +36,17 @@ export class KnowledgeReview extends React.Component<any,any>{
     })
   }
 
-  goKnowledgeIntro(item){
-    this.setState({showKnowledge:true, knowledge:item})
+  goKnowledgeIntro(section){
+    this.context.router.push({pathname:"/rise/static/practice/knowledge",query:{id:section.knowledgeId}})
   }
 
+  goProblemIntro(){
+    const {data} = this.state
+    this.context.router.push({pathname:"/rise/static/problem/view",query:{id:data.id, show:true}})
+  }
 
   render(){
-    const {showProblem,data,showKnowledge,knowledge} = this.state;
+    const {data} = this.state;
     const {chapterList=[]} = data;
 
     const renderRoadMap = (chapter, idx) => {
@@ -63,19 +65,15 @@ export class KnowledgeReview extends React.Component<any,any>{
           <div key={idx}>
             <div className='section'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>:
-          <div key={idx} onClick={this.goKnowledgeIntro.bind(this, section.knowledge)}>
+          <div key={idx} onClick={this.goKnowledgeIntro.bind(this, section)}>
             <div className='section click'>{chapter}{'.'}{section.section+'节 '}{section.name}</div>
           </div>
       )
     }
 
     return(
-          showProblem ?
-          <ProblemViewer readonly="true" problem={data} closeModal={()=>this.setState({showProblem:false})}/> :
-          showKnowledge?
-          <KnowledgeViewer knowledge={knowledge} closeModal={()=>this.setState({showKnowledge:false})}/> :
           <div className="problem-detail">
-            <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={()=>this.setState({showProblem:true})}>
+            <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={this.goProblemIntro.bind(this)}>
               <div className="header-label" style={{float:"left"}}>
                 小课介绍
               </div>
