@@ -7,6 +7,7 @@ import AssetImg from "../../../components/AssetImg";
 import PullElement from "pull-element"
 import {findIndex, remove} from "lodash";
 import DiscussShow from "../components/DiscussShow"
+import Discuss from "../components/Discuss"
 
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
@@ -16,7 +17,8 @@ export class Comment extends React.Component<any, any> {
       page: 1,
       editDisable: false,
       commentList: [],
-      article: {}
+      article: {},
+      placeholder:'和作者切磋讨论一下吧',
     };
     this.commentHeight = window.innerHeight;
   }
@@ -131,7 +133,7 @@ export class Comment extends React.Component<any, any> {
   }
 
   openWriteBox() {
-    this.setState({showDiscuss: true})
+    this.setState({showDiscuss: true, content: ''})
     if (this.pullElement) {
       this.pullElement.disable();
     }
@@ -140,9 +142,10 @@ export class Comment extends React.Component<any, any> {
   reply(item) {
     this.setState({
       id: item.id,
-      name:item.upName,
+      placeholder:'回复 '+item.upName+":",
       showDiscuss: true,
       isReply:true,
+      content:'',
     })
   }
 
@@ -191,8 +194,16 @@ export class Comment extends React.Component<any, any> {
     })
   }
 
+  onChange(value){
+    this.setState({content:value})
+  }
+
+  cancel(){
+    this.setState({placeholder:'和作者切磋讨论一下吧', isReply:false})
+  }
+
   render() {
-    const {commentList = [], showDiscuss, end, isReply, name} = this.state;
+    const {commentList = [], showDiscuss, end, isReply, placeholder} = this.state;
     const {topic, description} = this.state.article;
     const renderCommentList = () => {
       if (commentList && commentList.length !== 0) {
@@ -246,20 +257,14 @@ export class Comment extends React.Component<any, any> {
         </div>
 
         {showDiscuss ?
-          <div className="comment-area">
-            <textarea placeholder={`${isReply?"回复 "+name+":":"和作者切磋讨论一下吧"}`} onChange={(e)=>this.setState({content:e.currentTarget.value})}>
-            </textarea>
-            <div className="comment-right-area" style={{marginTop: `${isReply?0:28}`}}>
-              {isReply? <div className="reply-tip" onClick={()=>this.setState({isReply:false})}>取消回复</div>:null}
-              <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
-            </div>
-          </div>  :
+            <Discuss isReply={isReply} placeholder={placeholder}
+                     submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                     cancel={()=>this.cancel()}
+            /> :
             <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
               <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
             </div>
         }
-          {/*<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}*/}
-                     {/*onSubmit={(content) => this.onSubmit(content)}/> : null}*/}
       </div>
     );
   }
