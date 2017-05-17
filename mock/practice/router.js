@@ -871,4 +871,20 @@ router.post("/rise/practice/delete/comment/*",(req,res)=>{
     },Math.random()*1500);
 });
 
+router.get("/rise/practice/application/article/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({
+            "msg": {
+                "id": null,
+                "topic": "用5W1H给多啦A梦找女朋友",
+                "description": "<p>测试测试</p >",
+                "comments": null,
+                "planId": null,
+                "integrated": null
+            },
+            "code": 200
+        });
+    },Math.random()*1500);
+});
+
 module.exports = router;

@@ -101,8 +101,9 @@ export class Comment extends React.Component<any, any> {
     this.pullElement ? this.pullElement.destroy() : null;
   }
 
-  onSubmit(content) {
+  onSubmit() {
     const {dispatch, location} = this.props;
+    const {content} = this.state;
     if (content) {
       dispatch(startLoad());
       this.setState({editDisable: true});
@@ -142,7 +143,7 @@ export class Comment extends React.Component<any, any> {
   reply(id) {
     this.setState({
       id: id,
-      showReply: true
+      showDiscuss: true
     })
   }
 
@@ -156,7 +157,7 @@ export class Comment extends React.Component<any, any> {
         if (res.code === 200) {
           this.setState({
             commentList: [res.msg].concat(this.state.commentList),
-            showReply: false,
+            showDiscuss: false,
             editDisable: false
           });
           if (!this.state.end && this.pullElement) {
@@ -192,7 +193,7 @@ export class Comment extends React.Component<any, any> {
   }
 
   render() {
-    const {commentList = [], showDiscuss, showReply, end} = this.state;
+    const {commentList = [], showDiscuss, end} = this.state;
     const {topic, description} = this.state.article;
     const renderCommentList = () => {
       if (commentList && commentList.length !== 0) {
@@ -248,11 +249,13 @@ export class Comment extends React.Component<any, any> {
           <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
         {showDiscuss ?
-          <SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
-                     onSubmit={(content) => this.onSubmit(content)}/> : null}
-        {showReply ?
-          <SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
-                     onSubmit={(content) => this.onReply(content)}/> : null}
+          <div>
+            <textarea placeholder={"和作者切磋讨论一下吧"} onChange={(e)=>this.setState({content:e.currentTarget.value})}>
+            </textarea>
+            <div onClick={this.onSubmit.bind(this)}>评论</div>
+          </div>  :null}
+          {/*<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}*/}
+                     {/*onSubmit={(content) => this.onSubmit(content)}/> : null}*/}
       </div>
     );
   }
