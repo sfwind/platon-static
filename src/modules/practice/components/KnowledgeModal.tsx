@@ -26,11 +26,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       showDiscuss:false,
       commentId:0,
     }
-  }
-
-  componentWillMount(){
 
   }
+
 
   render() {
     const { knowledge } = this.props
