@@ -484,7 +484,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-50-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
