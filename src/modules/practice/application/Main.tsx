@@ -307,6 +307,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
+        <Tutorial bgList={['http://www.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png']} show={isBoolean(openStatus.openApplication) && !openStatus.openApplication} onShowEnd={()=>this.tutorialEnd()}/>
         <div className={`container ${edit?'has-footer': ''}`}>
           <div className="application">
             <div className="page-header">{topic}</div>
@@ -344,7 +345,6 @@ export class Main extends React.Component <any, any> {
               {renderEnd()}
             </div>
           </div>
-          <Tutorial bgList={['http://www.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png']} show={isBoolean(openStatus.openApplication) && !openStatus.openApplication} onShowEnd={()=>this.tutorialEnd()}/>
         </div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
 
