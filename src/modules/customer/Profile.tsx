@@ -98,29 +98,32 @@ export default class Profile extends React.Component<any,any> {
   bind(field, getValue) {
     return {
       value: this.state[field],
-      onChange: (e) => this.changeValue(field, getValue ? getValue(e) : e)
+      onChange: (e) => {
+        this.changeValue(field, getValue ? getValue(e) : e)
+        this.checkIsFull()
+      }
     }
+
   }
 
   getInputValue(e) {
-    this.checkIsFull()
     return e.currentTarget.value
   }
 
   onChoiceRegion(provinceRegion, cityRegion) {
-    this.checkIsFull()
     this.setState({province:provinceRegion.value,provinceId:provinceRegion.id,city:cityRegion.value,cityId:cityRegion.id});
+    this.checkIsFull()
   }
 
 
   onChoiceIndustry(industry) {
-    this.checkIsFull()
     this.setState({industry:industry.value});
+    this.checkIsFull()
   }
 
   onChoiceWorkingLife(workingLife) {
-    this.checkIsFull()
     this.setState({workingLife:workingLife.value});
+    this.checkIsFull()
   }
 
   submitProfile() {
