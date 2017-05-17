@@ -26,6 +26,12 @@
     padding: 0 15px;
     overflow: auto;
 
+    &::-webkit-scrollbar {width: 5px;height: 5px;}
+    &::-webkit-scrollbar-thumb {border-radius: 999px;border:0px solid transparent;}
+    //&::-webkit-scrollbar-track {box-shadow: 1px 1px 5px rgba(255,255,255,1) inset;}
+    &::-webkit-scrollbar-thumb {min-height: 20px;background-clip: content-box;box-shadow: 0 0 0 8px rgba(0,0,0,.3) inset;}
+    &::-webkit-scrollbar-corner {background:transparent}
+
     .intro-container {
       .context-title-img {
         text-align: center;
