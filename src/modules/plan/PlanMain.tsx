@@ -11,9 +11,10 @@ import {merge, isBoolean, get, isEmpty} from "lodash"
 import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
-import { NumberToChinese } from "../../utils/helpers"
+import { NumberToChinese,changeTitle } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
-
+import Ps from 'perfect-scrollbar'
+// import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
 import Scrollbar from 'smooth-scrollbar';
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 const {Alert} = Dialog
@@ -101,12 +102,14 @@ export class PlanMain extends React.Component <any, any> {
       nextModal: {
         buttons: [
           {label: '我不听', onClick: () => this.confirmComplete(true)},
-          {label: '好的', onClick: () => this.setState({showNextModal: false})}
+          {label: '好的', onClick: () => this.setState({showWarningModal: false})}
         ],
       },
 
       sidebarOpen:false,
     }
+
+    changeTitle('RISE');
   }
 
   static contextTypes = {
@@ -134,7 +137,11 @@ export class PlanMain extends React.Component <any, any> {
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
         this.setState({chapterList:res.msg},()=>{
-          this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
+          // this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
+          Ps.initialize(this.refs.sideContent,{
+            swipePropagation:false,
+            handlers:[ 'wheel', 'touch']
+          });
         });
       }
     })
@@ -260,81 +267,7 @@ export class PlanMain extends React.Component <any, any> {
         }
       })
     }
-    // checkPractice(currentIndex,planId).then(res =>{
-    //   const { code, msg } = res
-    //   if (code === 200) {
-    //     // 已完成
-    //
-    //   } else dispatch(alertMsg(msg))
-    // }).catch(ex => {
-    //   dispatch(alertMsg(ex))
-    // })
   }
-
-  // prev() {
-  //   const { dispatch ,location} = this.props
-  //   const { planData } = this.state
-  //   const { series } = planData
-  //   const { planId } = location.query
-  //   if (series === 1) {
-  //     dispatch(alertMsg("当前已经是第一节训练"))
-  //     return
-  //   }
-  //
-  //   let query;
-  //   if(planId){
-  //     query = {series: series - 1, planId: planId}
-  //   }else{
-  //     query = {series: series - 1}
-  //   }
-  //   this.context.router.push({ pathname: this.props.location.pathname, query })
-  //
-  //   this.refs.plan.scrollTop = 0
-  // }
-  //
-  // next(force,otherSeries) {
-  //   const {location} = this.props
-  //   const { planData} = this.state
-  //   const {series,doneCurSeriesApplication, totalSeries} = planData
-  //   const {planId} = location.query
-  //   const unlocked = get(planData,'practice[0].unlocked');
-  //   console.log(otherSeries);
-  //   if(otherSeries){
-  //     // 点击侧边栏
-  //     if(series === otherSeries){
-  //       // 点击自己
-  //       // this.onSetSidebarOpen(false);
-  //     } else {
-  //       // 直接跳
-  //       // this.onSetSidebarOpen(false);
-  //       let query;
-  //       if(planId){
-  //         query = {series: otherSeries, planId: planId}
-  //       }else{
-  //         query = {series: otherSeries}
-  //       }
-  //       this.context.router.push({ pathname: this.props.location.pathname, query })
-  //     }
-  //   } else if (series === totalSeries) {
-  //     this.setState({showNextSeriesModal: false});
-  //   } else {
-  //     if (unlocked && !doneCurSeriesApplication && !force) {
-  //       this.setState({showNextSeriesModal: true});
-  //       return;
-  //     }
-  //
-  //     this.setState({showNextSeriesModal:false});
-  //     let query;
-  //     if(planId){
-  //       query = {series: series + 1, planId: planId}
-  //     }else{
-  //       query = {series: series + 1}
-  //     }
-  //     this.context.router.push({ pathname: this.props.location.pathname, query })
-  //   }
-  //
-  //   this.refs.plan.scrollTop = 0
-  // }
 
   complete() {
     const { dispatch,location } = this.props
@@ -343,13 +276,14 @@ export class PlanMain extends React.Component <any, any> {
     completePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
-        if (msg.iscomplete === true) {
+        if (msg.iscomplete) {
           if (planData.hasProblemScore) {
             // 已经评分
             this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
             this.confirmComplete()
           } else {
             // 未评分
+            console.log('show score')
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
           }
         } else {
@@ -363,17 +297,22 @@ export class PlanMain extends React.Component <any, any> {
 
   confirmComplete(force) {
     const {dispatch} = this.props;
-    const {planData} = this.state
+    const {planData, mustStudyDays} = this.state
     const {doneAllIntegrated} = planData
+      console.log('in')
+      console.log(mustStudyDays)
     if (!force && !doneAllIntegrated) {
-      this.setState({showCompleteModal: false, showNextModal: true})
+      console.log('show next')
+      this.setState({showCompleteModal: false, showWarningModal: true})
       return
     }
-    if (!this.state.mustStudyDays) {
-      this.setState({showCompleteModal: true, showNextModal: false})
+    if (!mustStudyDays) {
+        console.log('show complete')
+        this.setState({showCompleteModal: true, showWarningModal: false})
     } else {
-      this.setState({showCompleteModal: false, showNextModal: false})
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${this.state.mustStudyDays}天<br/>之后就可以开启下一小课了`))
+        console.log('show must study')
+      this.setState({showCompleteModal: false, showWarningModal: false})
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
     }
   }
 
@@ -490,7 +429,7 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
-        selectProblem,riseMember,riseMemberTips,defeatPercent,showNextModal, chapterList } = this.state
+        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList } = this.state
     const {location} = this.props
     const {planId} = location.query
     const {
@@ -545,7 +484,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -601,12 +540,8 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div className="rise-main">
-        <Sidebar sidebar={ renderSidebar() }
-                 open={this.state.sidebarOpen}
-                 onSetOpen={(open)=>this.onSetSidebarOpen(open)}
-                 trigger={()=>this.onSetSidebarOpen(!this.state.sidebarOpen)}
-        >
-          {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
+
+        {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
                                      onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
                                      questionList={this.state.questionList}/>: null}
         <Modal
@@ -649,15 +584,21 @@ export class PlanMain extends React.Component <any, any> {
         </Modal>
 
         {/*<Alert { ...this.state.nextSeriesModal }*/}
-          {/*show={showNextSeriesModal}>*/}
-          {/*<div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>*/}
+        {/*show={showNextSeriesModal}>*/}
+        {/*<div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>*/}
         {/*</Alert>*/}
 
         <Alert { ...this.state.nextModal }
-          show={showNextModal}>
+          show={showWarningModal}>
           <div className="global-pre" dangerouslySetInnerHTML={{__html:"提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
         </Alert>
 
+
+        <Sidebar sidebar={ renderSidebar() }
+                 open={this.state.sidebarOpen}
+                 onSetOpen={(open)=>this.onSetSidebarOpen(open)}
+                 trigger={()=>this.onSetSidebarOpen(!this.state.sidebarOpen)}
+        >
         <div className="header-img">
           <AssetImg url={problem.pic} style={{height: this.state.style.picHeight, float:'right'}}/>
           {isBoolean(riseMember) && !riseMember ?

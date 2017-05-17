@@ -5,7 +5,7 @@ import { loadApplicationPractice,vote,loadOtherList,loadKnowledgeIntro,
   openApplication,getOpenStatus, submitApplicationPractice, CommentType } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeViewer from "../components/KnowledgeViewer";
+import KnowledgeViewer from "../components/KnowledgeModal";
 import {isNull,isString,truncate,merge,set,get} from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'

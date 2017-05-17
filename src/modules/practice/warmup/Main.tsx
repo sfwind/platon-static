@@ -5,7 +5,7 @@ import "./Main.less";
 import { answer,loadWarmUpAnalysis,getOpenStatus,openConsolidation } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Audio from "../../../components/Audio";
-import KnowledgeViewer from "../components/KnowledgeViewer";
+import KnowledgeViewer from "../components/KnowledgeModal";
 import Tutorial from "../../../components/Tutorial"
 import AssetImg from "../../../components/AssetImg";
 

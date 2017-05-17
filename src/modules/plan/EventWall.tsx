@@ -5,6 +5,7 @@ import {pget, ppost} from "utils/request"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {queryEventList} from "./async";
 import {ToolBar} from "../base/ToolBar"
+import { changeTitle } from '../../utils/helpers'
 
 
 @connect(state=>state)
@@ -12,6 +13,7 @@ export class EventWall extends React.Component<any,any>{
   constructor(props){
     super(props);
     this.state = {};
+    changeTitle('活动');
   }
 
   componentWillMount(){

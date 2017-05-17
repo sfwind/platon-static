@@ -1,15 +1,17 @@
+@import "../../style/variable";
+
 .account{
   width: 100%;
   height:~'calc(100% - 55px)' !important;
   overflow-y: scroll;
-  background-color: #f5f5f5;
+  background-color: @color_weak_background;
   > .item{
     background-color: #ffffff;
     height: 55px;
     line-height: 55px;
     font-size: 13px;
     padding-left: 15px;
-    color: #333333;
+    color: @color_context;
     border-bottom: 1px solid #f5f5f5;
     overflow: hidden;
     > .label{
