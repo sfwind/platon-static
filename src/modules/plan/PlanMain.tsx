@@ -107,6 +107,7 @@ export class PlanMain extends React.Component <any, any> {
       },
 
       sidebarOpen:false,
+      isHistory:false,
     }
 
     changeTitle('RISE');
@@ -123,12 +124,6 @@ export class PlanMain extends React.Component <any, any> {
         picHeight: (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
       }
     })
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.props.location.query.series !== newProps.location.query.series && newProps.location.query.series !== undefined) {
-      this.componentWillMount(newProps.location.query.series)
-    }
   }
 
   componentDidMount() {
@@ -168,20 +163,16 @@ export class PlanMain extends React.Component <any, any> {
     });
   }
 
-  componentWillMount(id) {
+  componentWillMount(newProps) {
     this.resize();
     const {dispatch, location} = this.props
-    const {showedPayTip} = this.state;
-    dispatch(startLoad())
-    let series;
-    if (id !== undefined && !isNaN(id)) {
-      series = id
-    } else if (location.query.series !== undefined && !isNaN(location.query.series)) {
-      series = location.query.series
-    }
 
     const {planId} = location.query
+    if(planId){
+        this.setState({isHistory:true})
+    }
 
+    dispatch(startLoad())
     loadPlan(planId).then(res => {
       dispatch(endLoad())
       let {code, msg} = res
@@ -429,52 +420,56 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
-        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList } = this.state
+        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,isHistory } = this.state
     const {location} = this.props
-    const {planId} = location.query
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries
     } = planData
     const practiceRender = (list = []) => {
-      return list.map((item, index) => {
-        return (
-          <div key={index} className="practice-card"
-               onClick={() => this.onPracticeSelected(item)}>
-            <div className="header">
-              {item.type === 1 || item.type === 2 ? item.status !== 1 ?
-                <AssetImg type="warmup" size={50}/>:
-                <AssetImg type="warmup_complete" size={50}/> : null
-              }
-              {item.type === 11 ? item.status !== 1 ?
-                <AssetImg type="application" size={50}/>:
-                <AssetImg type="application_complete" size={50}/> : null
-              }
-              {item.type === 12 ? item.status !== 1 ?
-                <AssetImg type="integrated" size={50}/>:
-                <AssetImg type="integrated_complete" size={50}/> : null
-              }
-              {item.type === 21 ? item.status !== 1 ?
-                <AssetImg type="challenge" size={50}/>:
-                <AssetImg type="challenge_complete" size={50}/> : null
-              }
-              {item.type === 31 || item.type === 32 ? item.status !== 1 ?
-                <AssetImg type="knowledge" size={50}/>:
-                <AssetImg type="knowledge_complete" size={50}/> : null
-              }
-            </div>
-            {item.unlocked === false ?
-              <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
-            }
-            <div className="body">
-              <div className="title">{typeMap[item.type]}</div>
-            </div>
-            <div className="footer">
-              {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
-              {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
-            </div>
-          </div>
-        )
-      })
+        if(!list){
+            return null
+        }else{
+            return list.map((item, index) => {
+                return (
+                    <div key={index} className="practice-card"
+                         onClick={() => this.onPracticeSelected(item)}>
+                        <div className="header">
+                            {item.type === 1 || item.type === 2 ? item.status !== 1 ?
+                                    <AssetImg type="warmup" size={50}/>:
+                                    <AssetImg type="warmup_complete" size={50}/> : null
+                            }
+                            {item.type === 11 ? item.status !== 1 ?
+                                    <AssetImg type="application" size={50}/>:
+                                    <AssetImg type="application_complete" size={50}/> : null
+                            }
+                            {item.type === 12 ? item.status !== 1 ?
+                                    <AssetImg type="integrated" size={50}/>:
+                                    <AssetImg type="integrated_complete" size={50}/> : null
+                            }
+                            {item.type === 21 ? item.status !== 1 ?
+                                    <AssetImg type="challenge" size={50}/>:
+                                    <AssetImg type="challenge_complete" size={50}/> : null
+                            }
+                            {item.type === 31 || item.type === 32 ? item.status !== 1 ?
+                                    <AssetImg type="knowledge" size={50}/>:
+                                    <AssetImg type="knowledge_complete" size={50}/> : null
+                            }
+                        </div>
+                        {item.unlocked === false ?
+                            <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
+                        }
+                        <div className="body">
+                            <div className="title">{typeMap[item.type]}</div>
+                        </div>
+                        <div className="footer">
+                            {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
+                            {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
+                        </div>
+                    </div>
+                )
+            })
+        }
+
     }
 
     const renderSidebar = ()=>{
@@ -572,7 +567,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
 
-        <Modal show={status===3 && !planId}
+        <Modal show={status===3 && !isHistory}
                buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
         >
           <div className="content">
