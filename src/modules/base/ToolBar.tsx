@@ -56,7 +56,8 @@ export class ToolBar extends React.Component<any,any> {
     // check url
     const { dispatch } = this.props;
     let tabIndex = 0;
-    if(window.location.pathname === '/rise/static/plan/main'){
+    if(window.location.pathname === '/rise/static/plan/main' ||
+        window.location.pathname === '/rise/static/learn'){
       tabIndex = 0;
     } else if(window.location.pathname === '/rise/static/event/wall'){
       tabIndex = 1;
@@ -80,7 +81,7 @@ export class ToolBar extends React.Component<any,any> {
     const {dispatch} = this.props;
     dispatch(set('tabIndex',tabIndex))
     if(tabIndex === 0){
-      this.context.router.push('/rise/static/plan/main');
+      this.context.router.push('/rise/static/learn');
     } else if(tabIndex === 1){
       this.context.router.push('/rise/static/event/wall');
     } else if(tabIndex === 2) {

@@ -42,6 +42,7 @@ const routes = (
     <Route path="problem/priority" component={ProblemPriority}/>
     <Route path="problem/view" component={ProblemViewer}/>
     <Route path="plan/main" component={PlanMain}/>
+    <Route path="learn" component={PlanMain}/>
     <Route path="practice/warmup" component={WarmUp}/>
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
