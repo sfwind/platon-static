@@ -252,6 +252,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
               }
             </div>
             </div>
+          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
 
         {practicePlanId&&!showDiscuss?<div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>:null}

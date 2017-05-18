@@ -31,6 +31,7 @@ export default class Discuss extends React.Component <any, any> {
             <div className="comment-button" onClick={()=>submit()}>评论</div>
           </div>
         </div>
+
     )
   }
 }

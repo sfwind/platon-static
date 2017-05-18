@@ -239,6 +239,7 @@ export class AnalysisNew extends React.Component <any, any> {
             {knowledge?<div className="page-header">{knowledge.knowledge}</div>:null}
             {questionRender(data)}
           </div>
+          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
         {showDiscuss?null:<div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
 

@@ -278,6 +278,7 @@ export class Analysis extends React.Component <any, any> {
             {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
             {questionRender(practice[currentIndex] || {})}
           </div>
+          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
         {showDiscuss? null:
         <div className="button-footer">
@@ -287,7 +288,6 @@ export class Analysis extends React.Component <any, any> {
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
         </div>}
         {showKnowledge ? <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-
         {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
                  submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                  cancel={()=>this.cancel()}/>:

@@ -64,24 +64,23 @@ export default class DiscussShow extends React.Component <any, any> {
             {repliedComment && repliedDel!=1 ?
                 <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
             <div className="function-area">
+              {isMine ?
+                  <div className="function-div" style={{marginRight:5}}>
+                    <AssetImg type="delete" height={15} width={15}/>
+                    <div className="function-button" onClick={()=>this.setState({show:true})}>
+                      删除
+                    </div>
+                    <Alert { ...alertProps }
+                        show={show}>
+                      <div className="global-pre" dangerouslySetInnerHTML={{__html:`确认要删除评论吗？`}}/>
+                    </Alert>
+                  </div>      : null}
               <div className="function-div" onClick={()=>reply()}>
                 <AssetImg type="reply" height={12} width={15}/>
                 <div className="function-button">
                   回复
                 </div>
               </div>
-
-              {isMine ?
-                  <div className="function-div" >
-                      <AssetImg type="delete" height={15} width={15}/>
-                      <div className="function-button" onClick={()=>this.setState({show:true})}>
-                        删除
-                      </div>
-                    <Alert { ...alertProps }
-                        show={show}>
-                      <div className="global-pre" dangerouslySetInnerHTML={{__html:`确认要删除评论吗？`}}/>
-                    </Alert>
-                  </div>      : null}
             </div>
           </div>
         </div>

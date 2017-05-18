@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
-import {pget, ppost} from "../../utils/request";
 import DiscussShow from "../practice/components/DiscussShow";
-import SubmitBox from "../practice/components/SubmitBox"
-import "./ReplyCommentMessage.less";
+import Discuss from "../practice/components/Discuss"
+import "./ReplyDiscussMessage.less";
 import {isString, truncate} from "lodash";
+import {commentReply, loadArticleData, deleteComment} from "./async";
 
 @connect(state => state)
 export class ReplyCommentMessage extends React.Component<any, any> {
@@ -28,9 +28,9 @@ export class ReplyCommentMessage extends React.Component<any, any> {
 
   componentWillMount() {
     const {dispatch, location} = this.props;
-    const {moduleId, submitId, commentId} = location.query;
+    const {moduleId, commentId} = location.query;
     dispatch(startLoad());
-    loadApplicationData(moduleId, submitId, commentId).then(
+    loadArticleData(moduleId, commentId).then(
       res => {
         dispatch(endLoad());
         if (res.code === 200) {
@@ -43,27 +43,19 @@ export class ReplyCommentMessage extends React.Component<any, any> {
           dispatch(alertMsg(res.msg));
         }
       }
-    ).catch(
-      ex => {
+    ).catch(ex => {
         dispatch(endLoad());
         dispatch(alertMsg(ex));
-      }
-    )
-  }
-
-  reply(id) {
-    this.setState({
-      id: id,
-      showReply: true
     })
   }
 
-  onReply(content) {
+  onSubmit() {
     const {dispatch, location} = this.props;
+    const {content, repliedId} = this.state;
     if (content) {
       dispatch(startLoad());
       this.setState({editDisable: true});
-      commentReply(location.query.moduleId, location.query.submitId, content, this.state.id).then(res => {
+      commentReply(location.query.moduleId, location.query.submitId, content, repliedId).then(res => {
         dispatch(endLoad());
         if (res.code === 200) {
           this.setState({
@@ -74,7 +66,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
           if (!this.state.end && this.pullElement) {
             this.pullElement.enable();
           }
-          this.gocomment();
+          this.goComment();
         } else {
           dispatch(alertMsg(res.msg));
           this.setState({editDisable: false});
@@ -104,7 +96,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     })
   }
 
-  godetail() {
+  goDetail() {
     const {id, integrated, planId} = this.state.data;
     const {moduleId} = this.props.location.query;
     if (moduleId == 2) {
@@ -122,7 +114,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     }
   }
 
-  gocomment() {
+  goComment() {
     const {id, integrated, planId} = this.state.data;
     const {submitId, moduleId} = this.props.location.query;
     if (moduleId == 2) {
@@ -139,10 +131,21 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     }
   }
 
+  reply(item){
+    this.setState({showDiscuss:true, repliedId:item.id})
+  }
+
+  onChange(value){
+    this.setState({content:value})
+  }
+
+  cancel(){
+    this.setState({showDiscuss:false})
+  }
+
   render() {
-    console.log(this.state)
-    const {showReply, showAll, filterContent} = this.state;
-    const {topic, description} = this.state.data;
+    const {showDiscuss, showAll, filterContent,data} = this.state;
+    const {topic, description, comments} = data;
     const wordsCount = 60;
 
     const renderWorkContent = () => {
@@ -172,7 +175,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
           commentList.map((item) => {
             return (
               <DiscussShow discuss={item} reply={() => {
-                this.reply(item.id);
+                this.reply(item);
               }} onDelete={this.onDelete.bind(this, item.id)}/>
             );
           })
@@ -182,33 +185,17 @@ export class ReplyCommentMessage extends React.Component<any, any> {
 
     return (
       <div>
-        <div>
-          <div className="container">
-            <div className="page-header">{topic}</div>
+        <div className="container">
+          <div className="page-header">{topic}</div>
             {renderWorkContent()}
-            <div className="origin-question-tip" onClick={() => this.godetail()}>点击查看原题</div>
-          </div>
-          <div className="comment-area">
-            <div className="comment-header"><span>当前评论</span></div>
-            {renderComments()}
-          </div>
+          <div className="origin-question-tip" onClick={() => this.goDetail()}>点击查看原题</div>
+          <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
+          {renderComments()}
         </div>
-        {showReply ?
-          <SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
-                     onSubmit={(content) => this.onReply(content)}/> : null}
+        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+comments[0].name+':'}
+                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                               cancel={()=>this.cancel()}/> : null}
       </div>
     );
   }
-}
-
-function loadApplicationData(moduleId, submitId, commentId) {
-  return pget(`/rise/message/comment/reply/${moduleId}/${submitId}/${commentId}`);
-}
-
-function commentReply(moduleId, submitId, comment, replyedCommentId) {
-  return ppost(`/rise/practice/comment/reply/${moduleId}/${submitId}`, {comment: comment, repliedId: replyedCommentId})
-}
-
-function deleteComment(id) {
-  return ppost(`/rise/practice/delete/comment/${id}`)
 }
