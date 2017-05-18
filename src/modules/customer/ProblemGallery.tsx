@@ -25,46 +25,50 @@ export default class ProblemGallery extends React.Component<any,any>{
     const {dispatch} = this.props;
     dispatch(startLoad());
     pget("/rise/customer/plans")
-      .then(res=>{
-        dispatch(endLoad());
-        if(res.code===200){
-          this.setState(res.msg);
-        } else{
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(err=>{
+        .then(res=>{
+          dispatch(endLoad());
+          if(res.code===200){
+            this.setState(res.msg);
+          } else{
+            dispatch(alertMsg(res.msg));
+          }
+        }).catch(err=>{
       dispatch(endLoad());
       dispatch(alertMsg(err+""));
     });
   }
 
-  goPlanView(item){
-    this.context.router.push({pathname:"/rise/static/plan/main",query:{planId:item.planId}})
+  goPlanView(item, isHistory){
+    let query = {planId:item.planId}
+    if(isHistory){
+      query = _.merge(query, {isHistory:true})
+    }
+    this.context.router.push({pathname:"/rise/static/plan/main",query})
   }
 
   render(){
     const {runningPlans=[],donePlans=[],point,riseId,riseMember} = this.state;
 
-    const renderGalleyList = (plans)=>{
+    const renderGalleyList = (plans, isHistory)=>{
       return (
-        <div className="galley-module-content">
-          {plans && plans.length > 0 ?plans.map((item,index)=>{
-            return (
-              <div key={index} className="item" onClick={()=>this.goPlanView(item)}>
-                <div className="item-label">
-                  {item.name}
-                </div>
-                <div className="item-content">
-                  {item.point+" 积分"}
-                </div>
-              </div>
-            )
-          }):<div className="item">
-            <div className="item-label" style={{color:"#999999"}}>
-              无
-            </div>
-          </div>}
-        </div>
+          <div className="galley-module-content">
+            {plans && plans.length > 0 ?plans.map((item,index)=>{
+                  return (
+                      <div key={index} className="item" onClick={()=>this.goPlanView(item, isHistory)}>
+                        <div className="item-label">
+                          {item.name}
+                        </div>
+                        <div className="item-content">
+                          {item.point+" 积分"}
+                        </div>
+                      </div>
+                  )
+                }):<div className="item">
+                  <div className="item-label" style={{color:"#999999"}}>
+                    无
+                  </div>
+                </div>}
+          </div>
       )
     }
 
@@ -77,51 +81,51 @@ export default class ProblemGallery extends React.Component<any,any>{
     }
 
     return(
-      <div className="problem-gallery">
-        {/*<div className="problem-galley-header" style={{marginBottom:"10px",borderBottom:"none"}}>*/}
+        <div className="problem-gallery">
+          {/*<div className="problem-galley-header" style={{marginBottom:"10px",borderBottom:"none"}}>*/}
           {/*<div className="header-label" style={{float:"left"}}>*/}
-            {/*RISE ID*/}
+          {/*RISE ID*/}
           {/*</div>*/}
           {/*<div className="header-content" style={{float:"right",marginRight:"20px"}}>*/}
-            {/*{riseId}*/}
+          {/*{riseId}*/}
           {/*</div>*/}
-        {/*</div>*/}
-        <div className="problem-galley-header" onClick={()=>this.context.router.push({
+          {/*</div>*/}
+          <div className="problem-galley-header" onClick={()=>this.context.router.push({
             pathname:'/rise/static/customer/point/tip',
           })} style={{    marginBottom:"10px",borderBottom:"none"}}>
-          <div className="header-label" style={{float:"left"}}>
-            总积分
-          </div>
-          <div className="header-content arrow" style={{float:"right",marginRight:"20px"}}>
-            {point}{'积分'}
-          </div>
-        </div>
-        {/*<div className="problem-galley-header">*/}
-          {/*我的小课*/}
-        {/*</div>*/}
-        <div className="problem-galley-container">
-          <div className="galley-module">
-           <div className="galley-module-header">
-             <div className="label">
-               进行中
-             </div>
-           </div>
-            {renderGalleyList(runningPlans)}
-          </div>
-
-          <div className="galley-module">
-            <div className="galley-module-header">
-              <div className="label">
-                已完成
-              </div>
+            <div className="header-label" style={{float:"left"}}>
+              总积分
             </div>
-            {renderGalleyList(donePlans)}
+            <div className="header-content arrow" style={{float:"right",marginRight:"20px"}}>
+              {point}{'积分'}
+            </div>
+          </div>
+          {/*<div className="problem-galley-header">*/}
+          {/*我的小课*/}
+          {/*</div>*/}
+          <div className="problem-galley-container">
+            <div className="galley-module">
+              <div className="galley-module-header">
+                <div className="label">
+                  进行中
+                </div>
+              </div>
+              {renderGalleyList(runningPlans, false)}
+            </div>
+
+            <div className="galley-module">
+              <div className="galley-module-header">
+                <div className="label">
+                  已完成
+                </div>
+              </div>
+              {renderGalleyList(donePlans, true)}
+            </div>
+          </div>
+          <div className="problem-galley-header arrow" style={{marginTop:"10px"}} onClick={()=>{window.location.href = "http://mp.weixin.qq.com/s/8VIQPI_MYgJA6BrseIsr0Q"}}>
+            RISE介绍
           </div>
         </div>
-        <div className="problem-galley-header arrow" style={{marginTop:"10px"}} onClick={()=>{window.location.href = "http://mp.weixin.qq.com/s/8VIQPI_MYgJA6BrseIsr0Q"}}>
-          RISE介绍
-        </div>
-      </div>
     )
   }
 }
