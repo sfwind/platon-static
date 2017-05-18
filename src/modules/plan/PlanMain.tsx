@@ -218,7 +218,7 @@ export class PlanMain extends React.Component <any, any> {
         dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
       }
       if(lockedStatus===-2){
-        dispatch(alertMsg('该内容为付费内容，只有会员可以查看'))
+        dispatch(alertMsg('试用版仅能体验前三节内容 <br/> 点击右上角按钮，升级正式版吧'))
       }
       if(lockedStatus===-3){
         dispatch(alertMsg('抱歉哦，课程开放期间，你未能完成前面的练习，导致这个练习无法解锁'))
