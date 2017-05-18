@@ -6,7 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
-import SubmitBox from "../components/RichSubmitBox"
+import SubmitBox from "../components/SubmitBox"
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
 import {CommentType} from "../../message/async";
 
@@ -302,7 +302,6 @@ export class Main extends React.Component <any, any> {
                   goComment={()=>this.goComment(item.submitId)}
                   type = {CommentType.Subject}
                   onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content,item.labelList):null}
-                  avatarStyle={"top"}
             />
           )
         })

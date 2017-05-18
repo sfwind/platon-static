@@ -105,7 +105,7 @@ router.get("/rise/message/load", (req, res) => {
             "old": true,
             "readTime": 1488793895000,
             "sendTime": "2017-03-06",
-            "url": "/rise/static/message/comment/reply?commentId=64&moduleId=223&submitId=12",
+            "url": "/rise/static/message/comment/reply?commentId=64&moduleId=2&submitId=12",
             "fromUserName": "风之伤",
             "fromUserAvatar": "http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0"
           },
