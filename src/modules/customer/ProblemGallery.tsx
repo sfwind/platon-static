@@ -38,19 +38,23 @@ export default class ProblemGallery extends React.Component<any,any>{
     });
   }
 
-  goPlanView(item){
-    this.context.router.push({pathname:"/rise/static/plan/main",query:{planId:item.planId}})
+  goPlanView(item, isHistory){
+    let query = {planId:item.planId}
+    if(isHistory){
+      query = _.merge(query, {isHistory:true})
+    }
+    this.context.router.push({pathname:"/rise/static/plan/main",query})
   }
 
   render(){
     const {runningPlans=[],donePlans=[],point,riseId,riseMember} = this.state;
 
-    const renderGalleyList = (plans)=>{
+    const renderGalleyList = (plans, isHistory)=>{
       return (
         <div className="galley-module-content">
           {plans && plans.length > 0 ?plans.map((item,index)=>{
             return (
-              <div key={index} className="item" onClick={()=>this.goPlanView(item)}>
+              <div key={index} className="item" onClick={()=>this.goPlanView(item, isHistory)}>
                 <div className="item-label">
                   {item.name}
                 </div>
@@ -106,7 +110,7 @@ export default class ProblemGallery extends React.Component<any,any>{
                进行中
              </div>
            </div>
-            {renderGalleyList(runningPlans)}
+            {renderGalleyList(runningPlans, false)}
           </div>
 
           <div className="galley-module">
@@ -115,7 +119,7 @@ export default class ProblemGallery extends React.Component<any,any>{
                 已完成
               </div>
             </div>
-            {renderGalleyList(donePlans)}
+            {renderGalleyList(donePlans, true)}
           </div>
         </div>
         <div className="problem-galley-header arrow" style={{marginTop:"10px"}} onClick={()=>{window.location.href = "http://mp.weixin.qq.com/s/8VIQPI_MYgJA6BrseIsr0Q"}}>
