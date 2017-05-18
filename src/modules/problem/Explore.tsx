@@ -31,6 +31,7 @@ export class Explore extends React.Component<any,any>{
     loadUnChooseList().then(res => {
       dispatch(endLoad());
       if(res.code === 200){
+        console.log(res.msg.catalogList);
         this.setState({catalogList:res.msg.catalogList},()=>{
           let sliders = [];
           for(let i=0; i<res.msg.catalogList.length; i++){
@@ -63,7 +64,7 @@ export class Explore extends React.Component<any,any>{
 
 
   openMore(catalog){
-    this.context.router.push({pathname:'/rise/static/problem/more',query:{catalogId:catalog.id}});
+    this.context.router.push({pathname:'/rise/static/problem/more',query:{catalogId:catalog.catalogId}});
   }
   render(){
     const { catalogList } = this.state;

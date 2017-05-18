@@ -1,0 +1,24 @@
+@import "../../style/variable";
+.more-problem{
+  > .simple-page-header{
+    height:46px;
+    font-size:@font_title;
+    line-height:46px;
+    color: @color_title;
+    padding-left:15px;
+    border-bottom:1px solid @color_weak_background;
+    &:before {
+      display: inline-block;
+      content: '';
+      width:5px;
+      height:@font_click;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;;
+      margin-bottom:4px;
+      margin-right:5px;
+      background-color:#55cbcb;
+      vertical-align: middle;
+    }
+  }
+}

@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import * as _ from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {changeTitle} from "utils/helpers"
+import './MoreProblem.less';
 import { loadCatalog } from "./async"
 
 
@@ -26,6 +27,7 @@ export class MoreProblem extends React.Component<any,any> {
       .then(res=>{
         dispatch(endLoad());
         if(res.code === 200){
+          console.log(res.msg)
           this.setState({problemList:res.msg});
         }
       }).catch(ex=>{
