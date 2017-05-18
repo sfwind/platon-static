@@ -36,6 +36,7 @@ import FeedBack from "modules/customer/FeedBack"
 import UserProtocol from "modules/customer/UserProtocol"
 import {EventWall} from "modules/plan/EventWall";
 import { Explore } from 'modules/problem/Explore';
+import { MoreProblem } from 'modules/problem/MoreProblem'
 
 
 const routes = (
@@ -44,6 +45,7 @@ const routes = (
     <Route path="problem/priority" component={ProblemPriority}/>
     <Route path="problem/explore" component={Explore} />
     <Route path="problem/view" component={ProblemViewer}/>
+    <Route path="problem/more" component={MoreProblem}/>
     <Route path="plan/main" component={PlanMain}/>
     <Route path="practice/warmup" component={WarmUp}/>
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>

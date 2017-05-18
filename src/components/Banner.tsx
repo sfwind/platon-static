@@ -19,6 +19,7 @@ export default class Banner extends React.Component<any,any> {
       <div style={{position:'relative',width:`${this.props.width?this.props.width:'100%'}`,height:`${this.props.height?this.props.height:'100%'}`}}>
         <AutoPlaySwipeableViews
           style={{height:'100%'}}
+          containerStyle={{height:'100%'}}
           onChangeIndex={(index, indexLatest)=>this.setState({index:index})}
           onSwitching={(index, type)=>{console.log('onSwitching',index,type)}}
           onTransitionEnd={()=>console.log('onTransitionEnd')}

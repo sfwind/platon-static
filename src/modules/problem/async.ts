@@ -27,3 +27,7 @@ export function welcome() {
 export function mark(param){
   return ppost('/rise/b/mark',param);
 }
+
+export function loadCatalog(catalogId){
+  return pget(`/rise/problem/list/${catalogId}`);
+}

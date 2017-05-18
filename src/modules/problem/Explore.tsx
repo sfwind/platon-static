@@ -19,7 +19,10 @@ export class Explore extends React.Component<any,any>{
     }
 
     this.problemWidth = window.innerWidth / 2.4;
-    this.problemHeight = 90/150 * this.problemWidth;
+    this.problemHeight = 115/130 * this.problemWidth;
+  }
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   }
 
   componentWillMount(){
@@ -54,16 +57,23 @@ export class Explore extends React.Component<any,any>{
 
   }
 
+  clickProblem(problem){
+    this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problem.id}})
+  }
+
+
+  openMore(catalog){
+    this.context.router.push({pathname:'/rise/static/problem/more',query:{catalogId:catalog.id}});
+  }
   render(){
     const { catalogList } = this.state;
-
     return (
       <div className="explore-container">
         <Banner height="200px">
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
+          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>1</div>
+          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>2</div>
+          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>3</div>
+          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>4</div>
         </Banner>
         <div className="problem-catalog-list">
           {catalogList?catalogList.map((catalog,key)=>{
@@ -71,15 +81,14 @@ export class Explore extends React.Component<any,any>{
               <div className="problem-catalog">
                 <div className="header">
                   <span className="catalog-name">{catalog.name}</span>
-                  <span className="catalog-more">更多</span>
+                  <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
                 </div>
                 <div id={`slide${key}`}  className="swiper-container">
                   <div className="swiper-wrapper">
                   {catalog.problemList?catalog.problemList.map((problem,key)=>{
                     return (
-                      <div className="problem-item swiper-slide" >
-                        <div className="img">
-                          <img src={problem.pic}/>
+                      <div onClick={()=>this.clickProblem(problem)} className="problem-item swiper-slide" style={{width:`${this.problemWidth}px`,height:`${this.problemHeight}px`}}>
+                        <div className="img"  style={{backgroundImage:`url(${problem.pic})`}}>
                         </div>
                         <span>{problem.problem}</span>
                       </div>
