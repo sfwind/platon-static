@@ -331,9 +331,10 @@ router.get("/rise/practice/challenge/start/*", (req, res) => {
 				"pic": "http://www.iquanwai.com/images/cintro1.png",  //图片url
 				"problemId": 1, //问题id
 				"pcurl": "http://someurl", //pc端url
-				"content": null, //提交内容
-        "submitId": 1, //提交id
-        "submitUpdateTime": "2017-02-15" //最后提交时间
+				"content": "aaaa", //提交内容
+                "submitId": 1, //提交id
+                "submitUpdateTime": "2017-02-15", //最后提交时间
+                "planId":1, //计划id
 			}
 		}), Math.random() * 1500)
 });
