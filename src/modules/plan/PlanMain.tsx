@@ -167,9 +167,18 @@ export class PlanMain extends React.Component <any, any> {
     this.resize();
     const {dispatch, location} = this.props
 
-    const {planId} = location.query
-    if(planId){
-        this.setState({isHistory:true})
+    let {planId, isHistory} = location.query
+    if(newProps){
+        //从学习导航进入
+        isHistory = false
+        planId = newProps.location.query.planId
+    }  else{
+        if(isHistory!==undefined){
+            //个人中心进入
+        }else{
+            //从微信菜单按钮进入
+            isHistory = false
+        }
     }
 
     dispatch(startLoad())
@@ -178,7 +187,7 @@ export class PlanMain extends React.Component <any, any> {
       let {code, msg} = res
       if (code === 200) {
         if (msg !== null) {
-          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
+          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem, isHistory})
         } else {
           this.context.router.push({
             pathname: '/rise/static/welcome'
@@ -190,6 +199,12 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))})
 
+  }
+
+  componentWillReceiveProps(newProps){
+      if (this.props.location.pathname !== newProps.location.pathname) {
+          this.componentWillMount(newProps)
+      }
   }
 
   onPracticeSelected(item) {
