@@ -536,10 +536,10 @@ router.get("/rise/practice/comment/*", (req, res) => {
                 "list":[
                     {
                         "id":1,
-                        "content":"评论",
-                        "upName":"风之伤",
-                        "upTime":"2017-03-28",
-                        "headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg",
+                        "comment":"评论",
+                        "name":"风之伤",
+                        "discussTime":"2017-03-28",
+                        "avatar":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg",
                         "signature":"签名",
                         "role":3,
                         "isMine":true,
@@ -708,7 +708,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
 router.post("/rise/practice/comment/*",(req,res)=>{
   setTimeout(()=>{
     res.status(200).json(
-      {"msg":{"id":null,"content":"ccccc","upName":"风之伤","upTime":"2017-03-01","headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg"},"code":200}
+      {"msg":{"id":null,"comment":"ccccc","name":"风之伤","discussTime":"2017-03-01","avatar":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg"},"code":200}
     );
   },Math.random()*1500);
 });

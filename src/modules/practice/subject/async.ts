@@ -17,7 +17,7 @@ export function loadCommentList(submitId,page){
 }
 
 export function comment(submitId,content){
-  return ppost(`/rise/practice/comment/${CommentType.Subject}/${submitId}`,{content:content})
+  return ppost(`/rise/practice/comment/${CommentType.Subject}/${submitId}`,{comment:content})
 }
 
 export function commentReply(submitId, comment, replyedCommentId){

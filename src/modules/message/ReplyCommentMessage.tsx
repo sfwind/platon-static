@@ -36,7 +36,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
         if (res.code === 200) {
           this.setState({
             data: res.msg,
-            commentList: res.msg.comments,
+            commentList: [res.msg.comment],
             filterContent: isString(res.msg.description) ? res.msg.description.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, "") : ""
           });
         } else {
@@ -140,12 +140,15 @@ export class ReplyCommentMessage extends React.Component<any, any> {
   }
 
   cancel(){
-    this.setState({showDiscuss:false})
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
   }
 
   render() {
     const {showDiscuss, showAll, filterContent,data} = this.state;
-    const {topic, description, comments} = data;
+    const {topic, description, comment} = data;
     const wordsCount = 60;
 
     const renderWorkContent = () => {
@@ -185,14 +188,14 @@ export class ReplyCommentMessage extends React.Component<any, any> {
 
     return (
       <div>
-        <div className="container">
+        <div className="container" onClick={()=>this.cancel()}>
           <div className="page-header">{topic}</div>
             {renderWorkContent()}
           <div className="origin-question-tip" onClick={() => this.goDetail()}>点击查看原题</div>
-          <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
-          {renderComments()}
+            <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
+            {renderComments()}
         </div>
-        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+comments[0].name+':'}
+        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+comment.upName+':'}
                                submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                                cancel={()=>this.cancel()}/> : null}
       </div>

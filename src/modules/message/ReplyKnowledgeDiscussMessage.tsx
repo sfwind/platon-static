@@ -73,7 +73,10 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
   }
 
   cancel(){
-    this.setState({showDiscuss:false})
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
   }
 
   onSubmit(){
@@ -118,9 +121,9 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
     }
     return (
       <div>
-        <div className="container has-footer">
-           <div className="question">知识点:{knowledge?knowledge.knowledge:null}</div>
-           <div className="origin-question-tip" onClick={this.goKnowledge.bind(this)}>点击查看知识点</div>
+        <div className="container" onClick={()=>this.cancel()}>
+          <div className="question">知识点:{knowledge?knowledge.knowledge:null}</div>
+          <div className="origin-question-tip" onClick={this.goKnowledge.bind(this)}>点击查看知识点</div>
            <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
            {renderDiscuss(data)}
          </div>

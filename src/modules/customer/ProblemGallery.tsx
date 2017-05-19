@@ -25,14 +25,14 @@ export default class ProblemGallery extends React.Component<any,any>{
     const {dispatch} = this.props;
     dispatch(startLoad());
     pget("/rise/customer/plans")
-      .then(res=>{
-        dispatch(endLoad());
-        if(res.code===200){
-          this.setState(res.msg);
-        } else{
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(err=>{
+        .then(res=>{
+          dispatch(endLoad());
+          if(res.code===200){
+            this.setState(res.msg);
+          } else{
+            dispatch(alertMsg(res.msg));
+          }
+        }).catch(err=>{
       dispatch(endLoad());
       dispatch(alertMsg(err+""));
     });
@@ -47,7 +47,7 @@ export default class ProblemGallery extends React.Component<any,any>{
   }
 
   render(){
-    const {runningPlans=[],donePlans=[],point,riseId,riseMember} = this.state;
+    const {runningPlans=[],donePlans=[],point} = this.state;
 
     const renderGalleyList = (plans, isHistory)=>{
       return (
@@ -72,60 +72,42 @@ export default class ProblemGallery extends React.Component<any,any>{
       )
     }
 
-    const renderRiseMember = (riseMember)=>{
-      if(_.isBoolean(riseMember)){
-        if(riseMember){}
-      } else {
-        return null;
-      }
-    }
-
     return(
-      <div className="problem-gallery">
-        {/*<div className="problem-galley-header" style={{marginBottom:"10px",borderBottom:"none"}}>*/}
-          {/*<div className="header-label" style={{float:"left"}}>*/}
-            {/*RISE ID*/}
-          {/*</div>*/}
-          {/*<div className="header-content" style={{float:"right",marginRight:"20px"}}>*/}
-            {/*{riseId}*/}
-          {/*</div>*/}
-        {/*</div>*/}
-        <div className="problem-galley-header" onClick={()=>this.context.router.push({
+        <div className="problem-gallery">
+          <div className="problem-galley-header" onClick={()=>this.context.router.push({
             pathname:'/rise/static/customer/point/tip',
           })} style={{    marginBottom:"10px",borderBottom:"none"}}>
-          <div className="header-label" style={{float:"left"}}>
-            总积分
-          </div>
-          <div className="header-content arrow" style={{float:"right",marginRight:"20px"}}>
-            {point}{'积分'}
-          </div>
-        </div>
-        {/*<div className="problem-galley-header">*/}
-          {/*我的小课*/}
-        {/*</div>*/}
-        <div className="problem-galley-container">
-          <div className="galley-module">
-           <div className="galley-module-header">
-             <div className="label">
-               进行中
-             </div>
-           </div>
-            {renderGalleyList(runningPlans, false)}
+            <div className="header-label" style={{float:"left"}}>
+              总积分
+            </div>
+            <div className="header-content arrow" style={{float:"right",marginRight:"20px"}}>
+              {point}{'积分'}
+            </div>
           </div>
 
-          <div className="galley-module">
-            <div className="galley-module-header">
-              <div className="label">
-                已完成
+          <div className="problem-galley-container">
+            <div className="galley-module">
+              <div className="galley-module-header">
+                <div className="label">
+                  进行中
+                </div>
               </div>
+              {renderGalleyList(runningPlans, false)}
             </div>
-            {renderGalleyList(donePlans, true)}
+
+            <div className="galley-module">
+              <div className="galley-module-header">
+                <div className="label">
+                  已完成
+                </div>
+              </div>
+              {renderGalleyList(donePlans, true)}
+            </div>
+          </div>
+          <div className="problem-galley-header arrow" style={{marginTop:"10px"}} onClick={()=>{window.location.href = "http://mp.weixin.qq.com/s/8VIQPI_MYgJA6BrseIsr0Q"}}>
+            RISE介绍
           </div>
         </div>
-        <div className="problem-galley-header arrow" style={{marginTop:"10px"}} onClick={()=>{window.location.href = "http://mp.weixin.qq.com/s/8VIQPI_MYgJA6BrseIsr0Q"}}>
-          RISE介绍
-        </div>
-      </div>
     )
   }
 }

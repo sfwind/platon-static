@@ -76,7 +76,10 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
   }
 
   cancel(){
-    this.setState({showDiscuss:false})
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
   }
 
   onSubmit(){
@@ -118,7 +121,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
     }
     return (
       <div>
-        <div className="container">
+        <div className="container" onClick={()=>this.cancel()}>
           <div className="question">{question}</div>
           <div className="origin-question-tip" onClick={this.goOrigin.bind(this)}>点击查看原题</div>
           <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>

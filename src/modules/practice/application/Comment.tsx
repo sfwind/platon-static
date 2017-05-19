@@ -157,16 +157,13 @@ export class Comment extends React.Component<any, any> {
   }
 
   openWriteBox() {
-    this.setState({showDiscuss: true, content: ''})
-    if (this.pullElement) {
-      this.pullElement.disable();
-    }
+    this.setState({showDiscuss: true, content: '', isReply:false})
   }
 
   reply(item) {
     this.setState({
       id: item.id,
-      placeholder:'回复 '+item.upName+":",
+      placeholder:'回复 '+item.name+":",
       showDiscuss: true,
       isReply:true,
       content:'',
@@ -235,21 +232,23 @@ export class Comment extends React.Component<any, any> {
     }
 
     return (
-      <div className="comment">
-        <div className="article">
-          <div className="page-header">{topic}</div>
-          <pre dangerouslySetInnerHTML={{__html: description}} className="description"></pre>
-        </div>
+      <div>
+        <div className="application-comment">
+          <div className="article">
+            <div className="page-header">{topic}</div>
+            <pre dangerouslySetInnerHTML={{__html: description}} className="description"></pre>
             <div className="comment-header">
-              <span>当前评论</span>
+              当前评论
             </div>
-        <div className="pull-target">
-          <div className="comment-body">
-            {renderCommentList()}
-            {renderTips()}
           </div>
+          <div className="pull-target">
+            <div className="comment-body">
+              {renderCommentList()}
+              {renderTips()}
+            </div>
+          </div>
+          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
-        {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         {showDiscuss ?
             <Discuss isReply={isReply} placeholder={placeholder}
                      submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}

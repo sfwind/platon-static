@@ -29,7 +29,7 @@ export function loadCommentList(submitId,page,searchTime){
 }
 
 export function comment(submitId,content){
-  return ppost(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{content:content})
+  return ppost(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{comment:content})
 }
 
 export function commentReply(submitId, comment, replyedCommentId){

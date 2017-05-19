@@ -151,16 +151,13 @@ export class Comment extends React.Component<any,any>{
   }
 
   openWriteBox(){
-    this.setState({showDiscuss: true, content: ''})
-    if(this.pullElement){
-      this.pullElement.disable();
-    }
+    this.setState({showDiscuss: true, content: '', isReply:false})
   }
 
   reply(item) {
     this.setState({
       id: item.id,
-      placeholder:'回复 '+item.upName+":",
+      placeholder:'回复 '+item.name+":",
       showDiscuss: true,
       isReply:true,
       content:'',
@@ -272,14 +269,12 @@ export class Comment extends React.Component<any,any>{
     }
 
     return (
-
-
-    <div className="comment">
+    <div className="subject-comment">
       <div className="article">
         <div className="page-header">{title}</div>
         <pre dangerouslySetInnerHTML={{__html: content}} className="description"></pre>
         <div className="comment-header">
-          <span>当前评论</span>
+          当前评论
         </div>
       </div>
       <div className="pull-target">
