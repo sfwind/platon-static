@@ -44,8 +44,8 @@ export function getOpenStatus(){
   return pget('/rise/plan/open/status');
 }
 
-export function getApplicationPractice(id, submitId) {
-  return pget(`/rise/practice/application/article/${id}/${submitId}`)
+export function getApplicationPractice(submitId) {
+  return pget(`/rise/practice/application/article/${submitId}`)
 }
 
 export function deleteComment(id){
