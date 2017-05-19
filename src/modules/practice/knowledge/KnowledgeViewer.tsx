@@ -45,7 +45,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     if(practicePlanId){
       loadKnowledges(practicePlanId).then(res =>{
         if(res.code === 200){
-          this.setState({knowledge:res.msg[0]})
+          this.setState({knowledge:res.msg[0], referenceId:res.msg[0].id})
           dispatch(endLoad())
           loadDiscuss(res.msg[0].id,1)
               .then(res=>{
@@ -111,7 +111,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false})
+    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false, showDiscuss:false})
   }
 
   onSubmit(){
@@ -126,7 +126,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
       return
     }
 
-    let discussBody = {comment: content, referenceId: this.state.knowledge.id}
+    let discussBody = {comment: content, referenceId: this.state.knowledge.id};
+
     if (repliedId) {
       _.merge(discussBody, {repliedId: repliedId})
     }

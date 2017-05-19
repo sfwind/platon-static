@@ -116,12 +116,12 @@ export class AnalysisNew extends React.Component <any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false})
+    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false, showDiscuss:false})
   }
 
   onSubmit(){
     const {dispatch} = this.props
-    const {referenceId, repliedId, content} = this.state
+    const {warmupPracticeId, repliedId, content} = this.state
     if(content.length==0){
       dispatch(alertMsg('请填写评论'))
       return
@@ -131,7 +131,7 @@ export class AnalysisNew extends React.Component <any, any> {
       return
     }
 
-    let discussBody = {content, referenceId: referenceId}
+    let discussBody = {comment:content, referenceId: warmupPracticeId}
     if (repliedId) {
       _.merge(discussBody, {repliedId: repliedId})
     }

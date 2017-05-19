@@ -97,19 +97,18 @@ export class ReplyCommentMessage extends React.Component<any, any> {
   }
 
   goDetail() {
-    const {id, integrated, planId} = this.state.data;
-    const {moduleId} = this.props.location.query;
+    const {moduleId, submitId} = this.props.location.query;
     if (moduleId == 2) {
       this.context.router.push({
-        pathname: "/rise/static/practice/application",
-        query: {id, integrated, planId}
+        pathname: "/rise/static/practice/application/comment",
+        query: {submitId}
       });
     }
 
     if (moduleId == 3) {
       this.context.router.push({
         pathname: `/rise/static/practice/subject/comment`,
-        query: {id: 3, submitId: id}
+        query: {submitId}
       });
     }
   }
@@ -195,7 +194,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
             <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
             {renderComments()}
         </div>
-        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+comment.upName+':'}
+        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+comment.name+':'}
                                submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                                cancel={()=>this.cancel()}/> : null}
       </div>

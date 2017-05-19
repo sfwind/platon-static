@@ -28,8 +28,8 @@ export function readMessage(messageId) {
   return ppost(`/rise/message/read/${messageId}`)
 }
 
-export function commentReply(submitId, comment, replyedCommentId){
-  return ppost(`/rise/practice/comment/reply/${CommentType.Subject}/${submitId}`,{comment:comment, repliedId:replyedCommentId})
+export function commentReply(moduleId, submitId, comment, replyedCommentId){
+  return ppost(`/rise/practice/comment/reply/${moduleId}/${submitId}`,{comment:comment, repliedId:replyedCommentId})
 }
 
 export function requestComment(submitId){

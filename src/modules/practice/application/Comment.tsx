@@ -40,7 +40,7 @@ export class Comment extends React.Component<any, any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     });
-    getApplicationPractice(location.query.id, location.query.submitId).then(res => {
+    getApplicationPractice(location.query.submitId).then(res => {
       if (res.code === 200) {
         this.setState({article: res.msg})
       } else {
@@ -56,44 +56,44 @@ export class Comment extends React.Component<any, any> {
   componentDidUpdate() {
     const {commentList = [], end} = this.state;
     const {dispatch, location} = this.props;
-    if (commentList && commentList.length !== 0 && !this.pullElement) {
-      this.pullElement = new PullElement({
-        target: '.pull-target',
-        scroller: '.comment',
-        trigger: '.comment',
-        damping: 4,
-        detectScroll: true,
-        detectScrollOnStart: true,
-        onPullUpEnd: (data) => {
-          loadCommentList(location.query.submitId, this.state.page + 1)
-          .then(res => {
-            if (res.code === 200) {
-              if (res.msg && res.msg.list.length !== 0) {
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.commentList, item) !== -1;
-                });
-                this.setState({
-                  commentList: this.state.commentList.concat(res.msg.list),
-                  page: this.state.page + 1,
-                  end: res.msg.end
-                })
-              } else {
-                dispatch(alertMsg('没有更多了'));
-              }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      });
-      this.pullElement.init();
-    }
-
-    if (this.pullElement && this.state.end) {
-      this.pullElement.disable();
-    }
+    // if (commentList && commentList.length !== 0 && !this.pullElement) {
+    //   this.pullElement = new PullElement({
+    //     target: '.pull-target',
+    //     scroller: '.application-comment',
+    //     trigger: '.application-comment',
+    //     damping: 4,
+    //     detectScroll: true,
+    //     detectScrollOnStart: true,
+    //     onPullUpEnd: (data) => {
+    //       loadCommentList(location.query.submitId, this.state.page + 1)
+    //       .then(res => {
+    //         if (res.code === 200) {
+    //           if (res.msg && res.msg.list.length !== 0) {
+    //             remove(res.msg.list, (item) => {
+    //               return findIndex(this.state.commentList, item) !== -1;
+    //             });
+    //             this.setState({
+    //               commentList: this.state.commentList.concat(res.msg.list),
+    //               page: this.state.page + 1,
+    //               end: res.msg.end
+    //             })
+    //           } else {
+    //             dispatch(alertMsg('没有更多了'));
+    //           }
+    //         } else {
+    //           dispatch(alertMsg(res.msg));
+    //         }
+    //       }).catch(ex => {
+    //         dispatch(alertMsg(ex));
+    //       });
+    //     }
+    //   });
+    //   this.pullElement.init();
+    // }
+    //
+    // if (this.pullElement && this.state.end) {
+    //   this.pullElement.disable();
+    // }
   }
 
   componentWillUnmount() {
@@ -157,7 +157,7 @@ export class Comment extends React.Component<any, any> {
   }
 
   openWriteBox() {
-    this.setState({showDiscuss: true, content: '', isReply:false})
+    this.setState({showDiscuss: true, content: '', isReply:false, placeholder:'和作者切磋讨论一下吧'})
   }
 
   reply(item) {
@@ -190,7 +190,10 @@ export class Comment extends React.Component<any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'和作者切磋讨论一下吧', isReply:false})
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
   }
 
   render() {

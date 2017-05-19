@@ -54,44 +54,44 @@ export class Comment extends React.Component<any,any>{
   componentDidUpdate(){
     const { commentList=[],end } = this.state;
     const {dispatch,location} = this.props;
-    if(commentList&& commentList.length!==0 && !this.pullElement){
-      this.pullElement = new PullElement({
-        target: '.pull-target',
-        scroller: '.comment',
-        trigger:'.comment',
-        damping: 4,
-        detectScroll: true,
-        detectScrollOnStart: true,
-        onPullUpEnd: (data) => {
-          loadCommentList(location.query.submitId, this.state.page + 1)
-            .then(res => {
-              if (res.code === 200) {
-                if (res.msg && res.msg.list.length !== 0) {
-                  remove(res.msg.list, (item) => {
-                    return findIndex(this.state.commentList, item) !== -1;
-                  });
-                  this.setState({
-                    commentList: this.state.commentList.concat(res.msg.list),
-                    page: this.state.page + 1,
-                    end: res.msg.end
-                  })
-                } else {
-                  dispatch(alertMsg('没有更多了'));
-                }
-              } else {
-                dispatch(alertMsg(res.msg));
-              }
-            }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      });
-      this.pullElement.init();
-    }
-
-    if(this.pullElement && this.state.end){
-      this.pullElement.disable();
-    }
+    // if(commentList&& commentList.length!==0 && !this.pullElement){
+    //   this.pullElement = new PullElement({
+    //     target: '.pull-target',
+    //     scroller: '.subject-comment',
+    //     trigger:'.subject-comment',
+    //     damping: 4,
+    //     detectScroll: true,
+    //     detectScrollOnStart: true,
+    //     onPullUpEnd: (data) => {
+    //       loadCommentList(location.query.submitId, this.state.page + 1)
+    //         .then(res => {
+    //           if (res.code === 200) {
+    //             if (res.msg && res.msg.list.length !== 0) {
+    //               remove(res.msg.list, (item) => {
+    //                 return findIndex(this.state.commentList, item) !== -1;
+    //               });
+    //               this.setState({
+    //                 commentList: this.state.commentList.concat(res.msg.list),
+    //                 page: this.state.page + 1,
+    //                 end: res.msg.end
+    //               })
+    //             } else {
+    //               dispatch(alertMsg('没有更多了'));
+    //             }
+    //           } else {
+    //             dispatch(alertMsg(res.msg));
+    //           }
+    //         }).catch(ex => {
+    //         dispatch(alertMsg(ex));
+    //       });
+    //     }
+    //   });
+    //   this.pullElement.init();
+    // }
+    //
+    // if(this.pullElement && this.state.end){
+    //   this.pullElement.disable();
+    // }
   }
 
   componentWillUnmount(){
@@ -110,7 +110,7 @@ export class Comment extends React.Component<any,any>{
           if (res.code === 200) {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
-              showReply: false,
+              showDiscuss: false,
               editDisable: false
             });
             if (!this.state.end && this.pullElement) {
@@ -151,7 +151,7 @@ export class Comment extends React.Component<any,any>{
   }
 
   openWriteBox(){
-    this.setState({showDiscuss: true, content: '', isReply:false})
+    this.setState({showDiscuss: true, content: '', isReply:false, placeholder:'和作者切磋讨论一下吧'})
   }
 
   reply(item) {
@@ -227,7 +227,10 @@ export class Comment extends React.Component<any,any>{
   }
 
   cancel(){
-    this.setState({placeholder:'和作者切磋讨论一下吧', isReply:false})
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
   }
 
   render(){
@@ -269,32 +272,35 @@ export class Comment extends React.Component<any,any>{
     }
 
     return (
-    <div className="subject-comment">
-      <div className="article">
-        <div className="page-header">{title}</div>
-        <pre dangerouslySetInnerHTML={{__html: content}} className="description"></pre>
-        <div className="comment-header">
-          当前评论
-        </div>
-      </div>
-      <div className="pull-target">
-        <div className="comment-body">
-          {renderCommentList()}
-          {renderTips()}
-        </div>
-      </div>
-      {showDiscuss ? <div className="padding-comment-dialog"/>:null}
-      {showDiscuss ?
-          <Discuss isReply={isReply} placeholder={placeholder}
-                   submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
-                   cancel={()=>this.cancel()}
-          />
-          :
-          <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-            <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
+      <div>
+        <div className="subject-comment">
+          <div className="article">
+            <div className="page-header">{title}</div>
+            <pre dangerouslySetInnerHTML={{__html: content}} className="description"></pre>
+            <div className="comment-header">
+              当前评论
+            </div>
           </div>
-      }
-    </div>
+          <div className="pull-target">
+            <div className="comment-body">
+              {renderCommentList()}
+              {renderTips()}
+            </div>
+          </div>
+          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
+        </div>
+        {showDiscuss ?
+            <Discuss isReply={isReply} placeholder={placeholder}
+                     submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                     cancel={()=>this.cancel()}
+            />
+            :
+            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
+            </div>
+        }
+      </div>
+
     );
   }
 }

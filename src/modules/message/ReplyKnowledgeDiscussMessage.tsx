@@ -91,7 +91,7 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
       return
     }
 
-    let discussBody = {content, referenceId: referenceId}
+    let discussBody = {comment:content, referenceId: referenceId}
     if (repliedId) {
       _.merge(discussBody, {repliedId: repliedId})
     }
