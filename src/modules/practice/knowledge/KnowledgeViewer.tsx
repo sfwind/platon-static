@@ -3,7 +3,7 @@ import {connect} from "react-redux"
 import "./KnowledgeViewer.less";
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
-import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledges} from "./async"
+import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledges, deleteKnowledgeDiscuss} from "./async"
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
 import _ from "lodash"
@@ -78,10 +78,15 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
 
-  reply(item){
-    this.setState({showDiscuss:true, isReply:true,
-      placeholder:'回复 '+item.name+':', content:'',
-      repliedId:item.id, referenceId:item.knowledgeId})
+  reply(item) {
+    this.setState({
+      showDiscuss: true,
+      isReply: true,
+      placeholder: '回复 ' + item.name + ':',
+      content: '',
+      repliedId: item.id,
+      referenceId: item.knowledgeId
+    })
   }
 
   reload(){
@@ -121,7 +126,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       return
     }
 
-    let discussBody = {content, referenceId: referenceId}
+    let discussBody = {comment: content, referenceId: this.state.knowledge.id}
     if (repliedId) {
       _.merge(discussBody, {repliedId: repliedId})
     }
@@ -138,6 +143,30 @@ export class KnowledgeViewer extends React.Component<any, any> {
       dispatch(alertMsg(ex))
     })
   }
+
+  onDelete(id) {
+    const {dispatch} = this.props;
+    let newDiscuss = [];
+    let discuss = this.state.discuss;
+    dispatch(startLoad());
+    deleteKnowledgeDiscuss(id).then(res => {
+      if(res.code === 200) {
+        discuss.map(disItem => {
+          if(disItem.id !== id) {
+            newDiscuss.push(disItem);
+          }
+        });
+        this.setState({
+          discuss: newDiscuss
+        });
+        dispatch(endLoad());
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    });
+  }
+
 
   complete() {
     const {dispatch, location} = this.props
@@ -174,7 +203,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const rightAnswerRender = (choice, idx) => {
       return (choice.isRight? sequenceMap[idx]+' ' :'')
     }
-
     return (
       <div className={`knowledge-page`}>
         <div className={`container ${practicePlanId?'has-footer':''}`}>
@@ -201,12 +229,13 @@ export class KnowledgeViewer extends React.Component<any, any> {
                     <pre>{means}</pre>
                   </div>
                 </div>
-                : null }
-            {keynote ?<div><div className="context-title-img">
-                  <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote2.png"/>
-                </div><div className="text">
-                  <pre>{keynote}</pre>
-                </div></div>: null}
+                : null}
+            {keynote ?
+              <div>
+                <div className="context-title-img"><AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote2.png"/></div>
+                <div className="text"><pre>{keynote}</pre></div>
+              </div>
+              : null}
             {example ?
                 <div>
                   <div className="context-title-img">
@@ -233,8 +262,12 @@ export class KnowledgeViewer extends React.Component<any, any> {
             : null}
             <div ref="reply" className="title-bar">问答</div>
             <div className="discuss">
-              {_.isEmpty(discuss) ? null: discuss.map(item => {
-                return <DiscussShow discuss={item} reply={()=>{this.reply(item)}}/>
+              {_.isEmpty(discuss) ? null : discuss.map(item => {
+                return (
+                  <DiscussShow discuss={item} reply={() => {
+                    this.reply(item)
+                  }} onDelete={() => this.onDelete(item.id)}/>
+                )
               })}
               { discuss ? (discuss.length > 0 ?
                 <div className="show-more">
@@ -243,13 +276,11 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 :
                 <div className="discuss-end">
                   <div className="discuss-end-img">
-                    <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94}
-                              height={92}></AssetImg>
+                    <AssetImg url="http://www.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
                   </div>
                   <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-
-                </div>) : null
-              }
+                </div>)
+                : null}
             </div>
             </div>
           {showDiscuss ? <div className="padding-comment-dialog"/>:null}
