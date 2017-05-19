@@ -9,6 +9,7 @@ import PullElement from "pull-element"
 import {findIndex,remove} from "lodash";
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
+import {scroll} from "../../../utils/helpers"
 
 @connect(state=>state)
 export class Comment extends React.Component<any,any>{
@@ -120,6 +121,7 @@ export class Comment extends React.Component<any,any>{
             if (!this.state.end && this.pullElement) {
               this.pullElement.enable();
             }
+            scroll('.comment-body', '.subject-comment')
           } else {
             dispatch(alertMsg(res.msg));
             this.setState({editDisable: false});
@@ -138,6 +140,7 @@ export class Comment extends React.Component<any,any>{
                 if(!this.state.end && this.pullElement){
                   this.pullElement.enable();
                 }
+                scroll('.comment-body', '.subject-comment')
               } else {
                 dispatch(alertMsg(res.msg));
                 this.setState({editDisable:false});

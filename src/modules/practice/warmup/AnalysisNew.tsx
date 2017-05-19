@@ -8,6 +8,7 @@ import KnowledgeViewer from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import _ from "lodash"
 import DiscussShow from "../components/DiscussShow";
+import {scroll} from "../../../utils/helpers"
 
 const sequenceMap = {
   0: 'A',
@@ -72,6 +73,7 @@ export class AnalysisNew extends React.Component <any, any> {
       if (code === 200) {
         _.set(data, 'discussList', msg.discussList)
         this.setState({showDiscuss: false, data})
+        scroll('.discuss', '.container')
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {

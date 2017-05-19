@@ -8,6 +8,7 @@ import KnowledgeModal from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
 import _ from "lodash"
+import {scroll} from "../../../utils/helpers"
 
 const sequenceMap = {
   0: 'A',
@@ -71,7 +72,6 @@ export class Analysis extends React.Component <any, any> {
     if (currentIndex < practiceCount - 1) {
       this.setState({currentIndex: currentIndex + 1})
     }
-    this.refs.warmup.scrollTop = 0
   }
 
   prev() {
@@ -80,7 +80,6 @@ export class Analysis extends React.Component <any, any> {
     if (currentIndex > 0) {
       this.setState({currentIndex: currentIndex - 1})
     }
-    this.refs.warmup.scrollTop = 0
   }
 
   nextTask() {
@@ -108,6 +107,7 @@ export class Analysis extends React.Component <any, any> {
       if (code === 200) {
         _.set(list, `practice.${currentIndex}.discussList`, msg)
         this.setState({showDiscuss: false, list})
+        scroll('.discuss', '.container')
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -275,7 +275,7 @@ export class Analysis extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container has-footer" ref={'warmup'}>
+        <div className="container has-footer">
           <div className="warm-up">
             {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
             {questionRender(practice[currentIndex] || {})}

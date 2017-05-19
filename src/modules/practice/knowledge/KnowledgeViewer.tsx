@@ -8,6 +8,7 @@ import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
 import _ from "lodash"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import {scroll} from "../../../utils/helpers"
 
 const sequenceMap = {
   0: 'A',
@@ -95,6 +96,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       .then(res=>{
         if(res.code === 200){
           this.setState({discuss:res.msg,showDiscuss:false})
+          scroll('.discuss', '.container')
         }
       });
   }
@@ -261,7 +263,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                       :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
                 </div>
             : null}
-            <div ref="reply" className="title-bar">问答</div>
+            <div className="title-bar">问答</div>
             <div className="discuss">
               {_.isEmpty(discuss) ? null : discuss.map(item => {
                 return (
