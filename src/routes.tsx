@@ -42,6 +42,7 @@ const routes = (
     <Route path="problem/priority" component={ProblemPriority}/>
     <Route path="problem/view" component={ProblemViewer}/>
     <Route path="plan/main" component={PlanMain}/>
+    <Route path="learn" component={PlanMain}/>
     <Route path="practice/warmup" component={WarmUp}/>
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
@@ -57,6 +58,9 @@ const routes = (
     <Route path="practice/knowledge" component={KnowledgeViewer}/>
     <Route path="practice/roadmap" component={RoadMap}/>
     <Route path="practice/knowledge/review" component={KnowledgeReview}/>
+    <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
+    <Route path="message/subject/reply" component={ReplySubjectMessage}/>
+    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
     <Route path="customer" component={Customer}>
       <Route path="personal" component={Personal}/>
       <Route path="profile" component={Profile}/>
@@ -68,10 +72,7 @@ const routes = (
       <Route path="userprotocol" component={UserProtocol} />
     </Route>
     <Route path="message" component={Customer}>
-        <Route path="warmup/reply" component={ReplyDiscussMessage}/>
-        <Route path="subject/reply" component={ReplySubjectMessage}/>
-        <Route path="center" component={MessageCenter}/>
-        <Route path="knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
+      <Route path="center" component={MessageCenter}/>
     </Route>
     <Route path="event/wall" component={EventWall}/>
   </Route>

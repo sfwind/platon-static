@@ -54,7 +54,10 @@ export class ProblemPriority extends React.Component<any,any> {
   }
 
   openProblemIntro(problem) {
-    this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problem.id}})
+    if(problem.status===0){
+      this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problem.id}})
+    }
+
   }
 
 

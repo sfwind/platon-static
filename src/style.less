@@ -3,6 +3,8 @@
 #react-app {
   height: 100vh;
   font-size: 62.5%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
   > * {
     height: 100%;
     > * {
@@ -23,14 +25,17 @@
     }
     background-color: rgba(252,251,253,0.9) !important;;
     .weui_tabbar_item{
-      display: inline-block !important;;
-      width:~'calc(100% / 3)' !important;;
+      display: inline-block !important;
+      width:~'calc(100% / 3)' !important;
+      padding: 5px 0 0 !important;
       .weui_tabbar_icon{
-        width:auto !important;;
-        position: relative !important;;
+        width:auto !important;
+        position: relative !important;
+        height:25px !important;
         img {
           width:auto !important;;
-          margin:0 auto !important;;
+          margin:0 auto !important;
+          height:25px !important;
         }
         span {
           position: absolute;
@@ -45,6 +50,10 @@
           border-radius: 15px;
           color: #FFF
         }
+      }
+      p.weui_tabbar_label {
+        margin-top:0 !important;
+        height:20px !important;
       }
     }
   }
@@ -85,7 +94,7 @@
 }
 
 .writeDiscuss {
-  position: fixed;
+  position: fixed !important;
   height:55px;
   width:55px;
   left:15px;
@@ -207,7 +216,26 @@
 }
 
 .weui_dialog {
+  -webkit-transform: translate(-50%,-50%);
+  -moz-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  -o-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+
   > .weui_dialog_ft {
+    display: -webkit-box;
+    display:-moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display:-webkit-box;
+    display: flex;
+    > a{
+      -webkit-box-flex: 1.0;
+      -moz-flex-grow: 1;
+      -webkit-flex-grow: 1;
+      flex-grow: 1;
+      flex: 1;
+    }
     > .weui_btn_dialog {
       color: @color_strong;
       &:nth-of-type(odd){

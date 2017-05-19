@@ -26,11 +26,9 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       showDiscuss:false,
       commentId:0,
     }
+
   }
 
-  componentWillMount(){
-    console.log('in')
-  }
 
   render() {
     const { knowledge } = this.props
@@ -56,7 +54,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     return (
       <div className="knowledge-container">
         <div className="close-button" onClick={()=>this.props.closeModal()}><AssetImg type="white_close_btn" size={32}/></div>
-        <div className="pin"></div>
         <div className="knowledge-modal">
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
@@ -65,7 +62,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             { analysis?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/analysis2.png"/>
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
                   <div className="text">
                     <pre>{analysis}</pre>
@@ -75,7 +72,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             { means?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/means2.png"/>
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
                   </div>
                   <div className="text">
                     <pre>{means}</pre>
@@ -83,14 +80,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                 </div>
                 : null }
             {keynote ?<div><div className="context-title-img">
-                  <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote2.png"/>
+                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote2.png"/>
                 </div><div className="text">
                   <pre>{keynote}</pre>
                 </div></div>: null}
             {example ?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/example.png"/>
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/example.png"/>
                   </div>
                   <div className="question">
                     <div className="context" dangerouslySetInnerHTML={{__html: example.question}}></div>

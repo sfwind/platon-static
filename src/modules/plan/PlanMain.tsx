@@ -107,6 +107,7 @@ export class PlanMain extends React.Component <any, any> {
       },
 
       sidebarOpen:false,
+      isHistory:false,
     }
 
     changeTitle('RISE');
@@ -123,12 +124,6 @@ export class PlanMain extends React.Component <any, any> {
         picHeight: (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
       }
     })
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.props.location.query.series !== newProps.location.query.series && newProps.location.query.series !== undefined) {
-      this.componentWillMount(newProps.location.query.series)
-    }
   }
 
   componentDidMount() {
@@ -168,26 +163,31 @@ export class PlanMain extends React.Component <any, any> {
     });
   }
 
-  componentWillMount(id) {
+  componentWillMount(newProps) {
     this.resize();
     const {dispatch, location} = this.props
-    const {showedPayTip} = this.state;
-    dispatch(startLoad())
-    let series;
-    if (id !== undefined && !isNaN(id)) {
-      series = id
-    } else if (location.query.series !== undefined && !isNaN(location.query.series)) {
-      series = location.query.series
+
+    let {planId, isHistory} = location.query
+    if(newProps){
+        //从学习导航进入
+        isHistory = false
+        planId = newProps.location.query.planId
+    }  else{
+        if(isHistory!==undefined){
+            //个人中心进入
+        }else{
+            //从微信菜单按钮进入
+            isHistory = false
+        }
     }
 
-    const {planId} = location.query
-
+    dispatch(startLoad())
     loadPlan(planId).then(res => {
       dispatch(endLoad())
       let {code, msg} = res
       if (code === 200) {
         if (msg !== null) {
-          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
+          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem, isHistory})
         } else {
           this.context.router.push({
             pathname: '/rise/static/welcome'
@@ -201,6 +201,12 @@ export class PlanMain extends React.Component <any, any> {
 
   }
 
+  componentWillReceiveProps(newProps){
+      if (this.props.location.pathname !== newProps.location.pathname) {
+          this.componentWillMount(newProps)
+      }
+  }
+
   onPracticeSelected(item) {
     const {dispatch} = this.props
     const {planData, currentIndex} = this.state
@@ -212,7 +218,7 @@ export class PlanMain extends React.Component <any, any> {
         dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
       }
       if(lockedStatus===-2){
-        dispatch(alertMsg('该内容为付费内容，只有会员可以查看'))
+        dispatch(alertMsg('试用版仅能体验前三节内容 <br/> 点击右上角按钮，升级正式版吧'))
       }
       if(lockedStatus===-3){
         dispatch(alertMsg('抱歉哦，课程开放期间，你未能完成前面的练习，导致这个练习无法解锁'))
@@ -429,52 +435,56 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
-        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList } = this.state
+        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,isHistory } = this.state
     const {location} = this.props
-    const {planId} = location.query
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries
     } = planData
     const practiceRender = (list = []) => {
-      return list.map((item, index) => {
-        return (
-          <div key={index} className="practice-card"
-               onClick={() => this.onPracticeSelected(item)}>
-            <div className="header">
-              {item.type === 1 || item.type === 2 ? item.status !== 1 ?
-                <AssetImg type="warmup" size={50}/>:
-                <AssetImg type="warmup_complete" size={50}/> : null
-              }
-              {item.type === 11 ? item.status !== 1 ?
-                <AssetImg type="application" size={50}/>:
-                <AssetImg type="application_complete" size={50}/> : null
-              }
-              {item.type === 12 ? item.status !== 1 ?
-                <AssetImg type="integrated" size={50}/>:
-                <AssetImg type="integrated_complete" size={50}/> : null
-              }
-              {item.type === 21 ? item.status !== 1 ?
-                <AssetImg type="challenge" size={50}/>:
-                <AssetImg type="challenge_complete" size={50}/> : null
-              }
-              {item.type === 31 || item.type === 32 ? item.status !== 1 ?
-                <AssetImg type="knowledge" size={50}/>:
-                <AssetImg type="knowledge_complete" size={50}/> : null
-              }
-            </div>
-            {item.unlocked === false ?
-              <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
-            }
-            <div className="body">
-              <div className="title">{typeMap[item.type]}</div>
-            </div>
-            <div className="footer">
-              {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
-              {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
-            </div>
-          </div>
-        )
-      })
+        if(!list){
+            return null
+        }else{
+            return list.map((item, index) => {
+                return (
+                    <div key={index} className="practice-card"
+                         onClick={() => this.onPracticeSelected(item)}>
+                        <div className="header">
+                            {item.type === 1 || item.type === 2 ? item.status !== 1 ?
+                                    <AssetImg type="warmup" size={50}/>:
+                                    <AssetImg type="warmup_complete" size={50}/> : null
+                            }
+                            {item.type === 11 ? item.status !== 1 ?
+                                    <AssetImg type="application" size={50}/>:
+                                    <AssetImg type="application_complete" size={50}/> : null
+                            }
+                            {item.type === 12 ? item.status !== 1 ?
+                                    <AssetImg type="integrated" size={50}/>:
+                                    <AssetImg type="integrated_complete" size={50}/> : null
+                            }
+                            {item.type === 21 ? item.status !== 1 ?
+                                    <AssetImg type="challenge" size={50}/>:
+                                    <AssetImg type="challenge_complete" size={50}/> : null
+                            }
+                            {item.type === 31 || item.type === 32 ? item.status !== 1 ?
+                                    <AssetImg type="knowledge" size={50}/>:
+                                    <AssetImg type="knowledge_complete" size={50}/> : null
+                            }
+                        </div>
+                        {item.unlocked === false ?
+                            <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
+                        }
+                        <div className="body">
+                            <div className="title">{typeMap[item.type]}</div>
+                        </div>
+                        <div className="footer">
+                            {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
+                            {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
+                        </div>
+                    </div>
+                )
+            })
+        }
+
     }
 
     const renderSidebar = ()=>{
@@ -484,7 +494,7 @@ export class PlanMain extends React.Component <any, any> {
            <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-55-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
+          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-50-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
             {chapterList?chapterList.map((item,key)=>{
               return (
                 <div key={key} className={`chapter-area`}>
@@ -533,6 +543,7 @@ export class PlanMain extends React.Component <any, any> {
           </div>
           { item.series === totalSeries ?
               <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
+          <div className="padding-footer"></div>
         </div>
       </div>)
     }
@@ -571,7 +582,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
 
-        <Modal show={status===3 && !planId}
+        <Modal show={status===3 && !isHistory}
                buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
         >
           <div className="content">
@@ -629,7 +640,7 @@ export class PlanMain extends React.Component <any, any> {
         </div>
           {!isEmpty(planData)?
               <div style={{padding:"0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews  ref="planSlider" index={currentIndex-1} style={{height:`${window.innerHeight - 50 - this.state.style.picHeight - 55}px`}}
+                <SwipeableViews  ref="planSlider" index={currentIndex-1}
                                  onTransitionEnd={()=>this.onTransitionEnd()}
                                  onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
                   {sections?sections.map((item, idx)=>{

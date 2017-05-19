@@ -65,6 +65,8 @@ export class EventWall extends React.Component<any,any>{
           </li>
         }) : null}
       </ul>
+      <div className="show-more" style={{borderTop:'1px solid #efefef'}}>没有更多了</div>
+      <div className="padding"></div>
       <ToolBar/>
     </div>)
   }
