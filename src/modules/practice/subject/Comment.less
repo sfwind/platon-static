@@ -1,17 +1,12 @@
 @import "../../../style/variable";
 
 .subject-comment{
-  height: 100%;
   .article {
-    height: 100%;
     padding: 0 15px 0 15px;
     > .description {
       font-size: @font_context;
       padding: 10px 0;
     }
-  }
-  &.has-footer {
-    height: ~"calc(100% - 49px)";
   }
   .comment-header{
     font-size:1.3em;
@@ -22,7 +17,6 @@
     padding-left: 15px;
   }
   .comment-body{
-    margin-bottom:49px;
     padding: 0 15px 0 15px;
     .on_message{
       color: @color_weak;

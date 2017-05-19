@@ -30,70 +30,72 @@ export class Comment extends React.Component<any, any> {
   componentWillMount() {
     const {dispatch, location} = this.props;
     dispatch(startLoad());
-    loadCommentList(location.query.submitId, 1).then(res => {
-      if (res.code === 200) {
-        this.setState({commentList: res.msg.list, page: 1, end: res.msg.end});
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
     getApplicationPractice(location.query.submitId).then(res => {
       if (res.code === 200) {
         this.setState({article: res.msg})
+        loadCommentList(location.query.submitId, 1).then(res => {
+          if (res.code === 200) {
+            dispatch(endLoad());
+            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end});
+          } else {
+            dispatch(endLoad());
+            dispatch(alertMsg(res.msg));
+          }
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        });
       } else {
+        dispatch(endLoad());
         dispatch(alertMsg(res.msg));
       }
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     });
-    dispatch(endLoad());
   }
 
   componentDidUpdate() {
     const {commentList = [], end} = this.state;
     const {dispatch, location} = this.props;
-    // if (commentList && commentList.length !== 0 && !this.pullElement) {
-    //   this.pullElement = new PullElement({
-    //     target: '.pull-target',
-    //     scroller: '.application-comment',
-    //     trigger: '.application-comment',
-    //     damping: 4,
-    //     detectScroll: true,
-    //     detectScrollOnStart: true,
-    //     onPullUpEnd: (data) => {
-    //       loadCommentList(location.query.submitId, this.state.page + 1)
-    //       .then(res => {
-    //         if (res.code === 200) {
-    //           if (res.msg && res.msg.list.length !== 0) {
-    //             remove(res.msg.list, (item) => {
-    //               return findIndex(this.state.commentList, item) !== -1;
-    //             });
-    //             this.setState({
-    //               commentList: this.state.commentList.concat(res.msg.list),
-    //               page: this.state.page + 1,
-    //               end: res.msg.end
-    //             })
-    //           } else {
-    //             dispatch(alertMsg('没有更多了'));
-    //           }
-    //         } else {
-    //           dispatch(alertMsg(res.msg));
-    //         }
-    //       }).catch(ex => {
-    //         dispatch(alertMsg(ex));
-    //       });
-    //     }
-    //   });
-    //   this.pullElement.init();
-    // }
-    //
-    // if (this.pullElement && this.state.end) {
-    //   this.pullElement.disable();
-    // }
+    if (commentList && commentList.length !== 0 && !this.pullElement) {
+      this.pullElement = new PullElement({
+        target: '.pull-target',
+        scroller: '.application-comment',
+        trigger: '.application-comment',
+        damping: 4,
+        detectScroll: true,
+        detectScrollOnStart: true,
+        onPullUpEnd: (data) => {
+          loadCommentList(location.query.submitId, this.state.page + 1)
+          .then(res => {
+            if (res.code === 200) {
+              if (res.msg && res.msg.list.length !== 0) {
+                remove(res.msg.list, (item) => {
+                  return findIndex(this.state.commentList, item) !== -1;
+                });
+                this.setState({
+                  commentList: this.state.commentList.concat(res.msg.list),
+                  page: this.state.page + 1,
+                  end: res.msg.end
+                })
+              } else {
+                dispatch(alertMsg('没有更多了'));
+              }
+            } else {
+              dispatch(alertMsg(res.msg));
+            }
+          }).catch(ex => {
+            dispatch(alertMsg(ex));
+          });
+        }
+      });
+      this.pullElement.init();
+    }
+
+    if (this.pullElement && this.state.end) {
+      this.pullElement.disable();
+    }
   }
 
   componentWillUnmount() {
