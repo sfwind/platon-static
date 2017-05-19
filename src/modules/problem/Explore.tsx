@@ -7,6 +7,7 @@ import Banner from '../../components/Banner';
 import Swiper from 'swiper';
 import 'swiper/dist/css/swiper.css'
 import { loadUnChooseList } from './async';
+import { merge } from 'lodash'
 
 import './Explore.less';
 
@@ -59,12 +60,22 @@ export class Explore extends React.Component<any,any>{
   }
 
   clickProblem(problem){
-    this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problem.id}})
+    let param = {
+      id: problem.id
+    }
+    if(this.props.location.query.show){
+      merge(param,{show:true});
+    }
+    this.context.router.push({pathname: '/rise/static/problem/view', query: param});
   }
 
 
   openMore(catalog){
-    this.context.router.push({pathname:'/rise/static/problem/more',query:{catalogId:catalog.catalogId}});
+    let param = {catalogId:catalog.catalogId}
+    if(this.props.location.query.show){
+      merge(param,{show:true});
+    }
+    this.context.router.push({pathname:'/rise/static/problem/more',query:param});
   }
   render(){
     const { catalogList } = this.state;

@@ -93,7 +93,10 @@ export class ToolBar extends React.Component<any,any> {
     } else if(tabIndex === 1){
       this.context.router.push('/rise/static/event/wall');
     } else if(tabIndex === 2) {
-      this.context.router.push('/rise/static/problem/explore')
+      this.context.router.push({
+        pathname:'/rise/static/problem/explore',
+        query:{show:true}
+      })
     } else if(tabIndex === 3){
       this.context.router.push("/rise/static/customer/personal");
     }
