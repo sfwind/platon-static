@@ -57,8 +57,8 @@ export class Comment extends React.Component<any,any>{
     if(commentList&& commentList.length!==0 && !this.pullElement){
       this.pullElement = new PullElement({
         target: '.pull-target',
-        scroller: '.comment',
-        trigger:'.comment',
+        scroller: '.subject-comment',
+        trigger:'.subject-comment',
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
@@ -151,7 +151,7 @@ export class Comment extends React.Component<any,any>{
   }
 
   openWriteBox(){
-    this.setState({showDiscuss: true, content: '', isReply:false})
+    this.setState({showDiscuss: true, content: '', isReply:false, placeholder:'和作者切磋讨论一下吧'})
   }
 
   reply(item) {
@@ -227,7 +227,10 @@ export class Comment extends React.Component<any,any>{
   }
 
   cancel(){
-    this.setState({placeholder:'和作者切磋讨论一下吧', isReply:false})
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
   }
 
   render(){

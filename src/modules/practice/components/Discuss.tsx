@@ -26,8 +26,8 @@ export default class Discuss extends React.Component <any, any> {
         <div className="comment-dialog">
           <textarea placeholder={placeholder} onChange={(e)=>onChange(e.currentTarget.value)}>
           </textarea>
-          <div className="comment-right-area" style={{marginTop: `${isReply?0:28}`}}>
-            {isReply? <div className="reply-tip" onClick={()=>cancel()}>取消回复</div>:null}
+          <div className="comment-right-area">
+            <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
             <div className="comment-button" onClick={()=>submit()}>评论</div>
           </div>
         </div>
