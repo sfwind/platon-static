@@ -23,8 +23,8 @@ const sequenceMap = {
 
 @connect(state=>state)
 export default class KnowledgeViewer extends React.Component<any, any> {
-  constructor(props) {
-    super()
+  constructor() {
+    super();
     this.state = {
       showTip:false,
       showDiscuss:false,
@@ -33,16 +33,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   componentWillMount(){
-    const { knowledge, closeModal } = this.props
-    if(!isEmpty(knowledge)){
-      loadDiscuss(knowledge.id,1)
-        .then(res=>{
-          if(res.code === 200){
-            this.setState({discuss:res.msg})
-          }
-        });
+    const {knowledge} = this.props;
+    if (!isEmpty(knowledge)) {
+      loadDiscuss(knowledge.id, 1).then(res => {
+        if (res.code === 200) {
+          this.setState({discuss: res.msg})
+        }
+      });
     }
-
   }
 
   componentWillReceiveProps(nextProps){
@@ -60,7 +58,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
 
   reply(repliedId){
-    console.log('replay',repliedId);
     this.setState({showDiscuss:true, repliedId},()=>{scroll(0,0)})
     if(this.props.trigger){
       this.props.trigger();
@@ -91,7 +88,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   render() {
     const { knowledge, closeModal } = this.props
     const { showTip,showDiscuss,repliedId } = this.state
-    const { analysis, means, keynote, audio, pic,example,id } = knowledge
+    const {analysis, means, keynote, analysisPic, meansPic, keynotePic, audio, pic, example, id} = knowledge;
 
     const choiceRender = (choice, idx) => {
       const {id, subject} = choice
@@ -121,6 +118,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   <div className="context-title-img">
                     <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
+                  { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
                   <div className="text">
                     <pre>{analysis}</pre>
                   </div>
@@ -131,16 +129,22 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   <div className="context-title-img">
                     <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/means2.png"/>
                   </div>
+                  { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
                   <div className="text">
                     <pre>{means}</pre>
                   </div>
                 </div>
                 : null }
-            {keynote ?<div><div className="context-title-img">
+            {keynote ?
+              <div>
+                <div className="context-title-img">
                   <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote2.png"/>
-                </div><div className="text">
+                </div>
+                { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
+                <div className="text">
                   <pre>{keynote}</pre>
-                </div></div>: null}
+                </div>
+              </div> : null}
             {example ?
                 <div>
                   <div className="context-title-img">
