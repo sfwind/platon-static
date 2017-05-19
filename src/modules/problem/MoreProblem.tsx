@@ -5,6 +5,7 @@ import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {changeTitle} from "utils/helpers"
 import './MoreProblem.less';
 import { loadCatalog } from "./async"
+import ProblemItem from './components/ProblemItem'
 
 
 @connect(state => state)
@@ -61,21 +62,10 @@ export class MoreProblem extends React.Component<any,any> {
         </div>
         <div className="more-problem-container">
            {problemList?problemList.map((item,key)=>{
-             return (
-               <div className="problem-item" onClick={()=>this.openProblem(item)}>
-                 <div className="pic"
-                      style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`,backgroundImage:`url(${item.pic})`}}>
-                 </div>
-                 <div className="desc" style={{width:`${window.innerWidth - this.picWidth - 35}px`,height:`${this.picHeight}px`}}>
-                   <p className="title" style={{width:`${window.innerWidth - this.picWidth - 35}px`}}>{item.name}</p>
-                   <p className="catalog sub-font">分类：{item.catalog}</p>
-                   <p className="author sub-font">讲师：{item.author}</p>
-                   <p className="score sub-font">难度系数：{item.difficulty}/5.0</p>
-                 </div>
-               </div>
-             )
+             return <ProblemItem problem={item} clickHandler={(problem)=>this.openProblem(problem)}/>
            }):null}
         </div>
+        <div className="show-more" style={{borderTop:'1px solid #efefef'}}>没有更多了</div>
       </div>
     )
   }

@@ -77,43 +77,58 @@ export class Explore extends React.Component<any,any>{
     }
     this.context.router.push({pathname:'/rise/static/problem/more',query:param});
   }
+  goBanner(id){
+    this.context.router.push({pathname:'/rise/static/problem/package',query:{showId:id}});
+  }
   render(){
     const { catalogList } = this.state;
     return (
-      <div className="explore-container">
-        <Banner height="200px">
-          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>1</div>
-          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>2</div>
-          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>3</div>
-          <div className="banner-item" style={{backgroundColor:`rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)}`}}>4</div>
-        </Banner>
-        <div className="problem-catalog-list">
-          {catalogList?catalogList.map((catalog,key)=>{
-            return (
-              <div className="problem-catalog">
-                <div className="header">
-                  <span className="catalog-name">{catalog.name}</span>
-                  <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
-                </div>
-                <div id={`slide${key}`}  className="swiper-container">
-                  <div className="swiper-wrapper">
-                  {catalog.problemList?catalog.problemList.map((problem,key)=>{
-                    return (
-                      <div onClick={()=>this.clickProblem(problem)} className="problem-item swiper-slide" style={{width:`${this.problemWidth}px`,height:`${this.problemHeight}px`}}>
-                        <div className="img"  style={{backgroundImage:`url(${problem.pic})`}}>
-                        </div>
-                        <span>{problem.problem}</span>
-                      </div>
-                    )
-                  }):null}
+      <div>
+        <div className="explore-container">
+          <Banner height="200px">
+            <div className="banner-item" onClick={()=>this.goBanner(1)}
+                 style={{backgroundImage:`url('http://www.iqycamp.com/images/problem_explore_banner_1.png'`}}>
+            </div>
+            <div className="banner-item" onClick={()=>this.goBanner(2)}
+                 style={{backgroundImage:`url('http://www.iqycamp.com/images/problem_explore_banner_2.png'`}}>
+            </div>
+            <div className="banner-item" onClick={()=>this.goBanner(3)}
+                 style={{backgroundImage:`url('http://www.iqycamp.com/images/problem_explore_banner_3.png'`}}>
+
+            </div>
+            <div className="banner-item" onClick={()=>this.goBanner(4)}
+                 style={{backgroundImage:`url('http://www.iqycamp.com/images/problem_explore_banner_4.png'`}}>
+            </div>
+          </Banner>
+          <div className="problem-catalog-list">
+            {catalogList ? catalogList.map((catalog, key) => {
+              return (
+                <div className="problem-catalog">
+                  <div className="header">
+                    <span className="catalog-name">{catalog.name}</span>
+                    <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
+                  </div>
+                  <div id={`slide${key}`} className="swiper-container">
+                    <div className="swiper-wrapper">
+                      {catalog.problemList ? catalog.problemList.map((problem, key) => {
+                        return (
+                          <div onClick={()=>this.clickProblem(problem)} className="problem-item swiper-slide"
+                               style={{width:`${this.problemWidth}px`,height:`${this.problemHeight}px`}}>
+                            <div className="img" style={{backgroundImage:`url(${problem.pic})`}}>
+                            </div>
+                            <span>{problem.problem}</span>
+                          </div>
+                        )
+                      }) : null}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          }):null}
+              )
+            }) : null}
 
+          </div>
         </div>
-
+        <div className="padding-footer"></div>
         <ToolBar/>
       </div>
     )

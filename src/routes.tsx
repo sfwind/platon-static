@@ -37,7 +37,7 @@ import UserProtocol from "modules/customer/UserProtocol"
 import {EventWall} from "modules/plan/EventWall";
 import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
-
+import BannerArticle from 'modules/problem/BannerArticle'
 
 const routes = (
   <Route path="/rise/static" component={Base}>
@@ -46,6 +46,7 @@ const routes = (
     <Route path="problem/explore" component={Explore} />
     <Route path="problem/view" component={ProblemViewer}/>
     <Route path="problem/more" component={MoreProblem}/>
+    <Route path="problem/package" component={BannerArticle}/>
     <Route path="plan/main" component={PlanMain}/>
     <Route path="learn" component={PlanMain}/>
     <Route path="practice/warmup" component={WarmUp}/>
