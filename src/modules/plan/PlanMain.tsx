@@ -197,8 +197,13 @@ export class PlanMain extends React.Component <any, any> {
       else dispatch(alertMsg(msg))
     }).then(() => this.riseMemberCheck()).catch(ex => {
       dispatch(endLoad())
-      dispatch(alertMsg(ex))})
-
+      dispatch(alertMsg(ex))}
+    )
+    if(navigator.userAgent.indexOf('WindowsWechat') !== -1){
+        this.setState({windowsClient:true})
+    }else{
+        this.setState({windowsClient:false})
+    }
   }
 
   componentWillReceiveProps(newProps){
@@ -289,7 +294,6 @@ export class PlanMain extends React.Component <any, any> {
             this.confirmComplete()
           } else {
             // 未评分
-            console.log('show score')
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
           }
         } else {
@@ -305,18 +309,13 @@ export class PlanMain extends React.Component <any, any> {
     const {dispatch} = this.props;
     const {planData, mustStudyDays} = this.state
     const {doneAllIntegrated} = planData
-      console.log('in')
-      console.log(mustStudyDays)
     if (!force && !doneAllIntegrated) {
-      console.log('show next')
       this.setState({showCompleteModal: false, showWarningModal: true})
       return
     }
     if (!mustStudyDays) {
-        console.log('show complete')
         this.setState({showCompleteModal: true, showWarningModal: false})
     } else {
-        console.log('show must study')
       this.setState({showCompleteModal: false, showWarningModal: false})
       dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
     }
@@ -434,7 +433,7 @@ export class PlanMain extends React.Component <any, any> {
 
 
   render() {
-    const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal,
+    const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal, windowsClient,
         selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,isHistory } = this.state
     const {location} = this.props
     const {
@@ -541,8 +540,17 @@ export class PlanMain extends React.Component <any, any> {
           <div className="list">
             {practiceRender(item.practices)}
           </div>
-          { item.series === totalSeries ?
-              <div className="submit-btn" onClick={()=>this.complete()}>完成小课</div>:null}
+          {windowsClient?
+            <div className="submit-btn-footer">
+                <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
+                </div>
+                { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
+                { item.series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>
+                        完成训练</div> : null }
+            </div>
+          : null}
+          { item.series === totalSeries && !windowsClient?
+              <div className="submit-btn-footer" onClick={()=>this.complete()}>完成小课</div>:null}
           <div className="padding-footer"></div>
         </div>
       </div>)
@@ -651,11 +659,6 @@ export class PlanMain extends React.Component <any, any> {
               :null}
         </Sidebar>
         <ToolBar />
-        {/*<div className={`left origin ${series === 1 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一节*/}
-        {/*</div>*/}
-        {/*{ series !== totalSeries ? <div className={`right`} onClick={()=>this.next()}>下一节</div> : null }*/}
-        {/*{ series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>*/}
-        {/*完成训练</div> : null }*/}
 
       </div>
     )
