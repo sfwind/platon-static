@@ -32,7 +32,8 @@ export class ProblemViewer extends React.Component<any, any> {
             onClick: this.submitProblem.bind(this),
           }
         ]
-      }
+      },
+      show:true,
     }
   }
 
@@ -41,13 +42,25 @@ export class ProblemViewer extends React.Component<any, any> {
     const {id} = location.query
     dispatch(startLoad())
     loadProblem(id).then(res=>{
-      dispatch(endLoad())
       const {msg, code} = res
       if(code === 200){
-        this.setState({data:msg})
+        return msg;
       }else{
-        dispatch(alertMsg(msg))
+        throw msg;
       }
+    }).then(msg=>{
+      return checkCreatePlan(id).then(res=>{
+        console.log(res.msg);
+        dispatch(endLoad());
+        if(res.code === 200){
+          this.setState({data:msg,show:false})
+        } else {
+          this.setState({data:msg,show:true});
+        }
+      })
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(msg))
     })
   }
 
@@ -85,8 +98,7 @@ export class ProblemViewer extends React.Component<any, any> {
   }
 
   render() {
-    const {data, showTip} = this.state;
-    const {show} = this.props.location.query
+    const {data, showTip,show} = this.state;
     const {length, why, how, what, who, descPic, audio, chapterList, problem} = data;
 
     const renderRoadMap = (chapter, idx) => {

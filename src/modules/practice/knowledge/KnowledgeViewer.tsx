@@ -214,25 +214,25 @@ export class KnowledgeViewer extends React.Component<any, any> {
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
             { pic ? <div className="context-img"><img src={pic}/></div> : null }
             { analysis?
-                <div>
-                  <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
-                  </div>
-                  <div className="text">
-                    <pre>{analysis}</pre>
-                  </div>
+              <div>
+                <div className="context-title-img">
+                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
-                : null}
+                <div className="text">
+                  <pre>{analysis}</pre>
+                </div>
+              </div>
+              : null}
             { means?
-                <div>
-                  <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
-                  </div>
-                  <div className="text">
-                    <pre>{means}</pre>
-                  </div>
+              <div>
+                <div className="context-title-img">
+                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
                 </div>
-                : null}
+                <div className="text">
+                  <pre>{means}</pre>
+                </div>
+              </div>
+              : null}
             {keynote ?
               <div>
                 <div className="context-title-img"><AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote2.png"/></div>
@@ -240,18 +240,18 @@ export class KnowledgeViewer extends React.Component<any, any> {
               </div>
               : null}
             {example ?
-                <div>
-                  <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/example.png"/>
-                  </div>
-                  <div className="question">
-                    <div className="context" dangerouslySetInnerHTML={{__html: example.question}}></div>
-                  </div>
-                  <div className="choice-list">
-                    {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
-                  </div>
+              <div>
+                <div className="context-title-img">
+                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/example.png"/>
+                </div>
+                <div className="question">
+                  <div className="context" dangerouslySetInnerHTML={{__html: example.question}}></div>
+                </div>
+                <div className="choice-list">
+                  {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
+                </div>
 
-                  {showTip?
+                {showTip?
                   <div className="analysis">
                     <div className="title-bar">解析</div>
                     <div className="context">
@@ -260,9 +260,9 @@ export class KnowledgeViewer extends React.Component<any, any> {
                     <div className="context"
                          dangerouslySetInnerHTML={{__html: example.analysis}}></div>
                   </div>
-                      :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
-                </div>
-            : null}
+                  :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
+              </div>
+              : null}
             <div className="title-bar">问答</div>
             <div className="discuss">
               {_.isEmpty(discuss) ? null : discuss.map(item => {
@@ -286,16 +286,16 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 </div>)
                 : null}
             </div>
-            </div>
+          </div>
           {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
         {practicePlanId&&!showDiscuss?<div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>:null}
         {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
-            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-            </div>}
+          <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
+            <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+          </div>}
       </div>
     )
   }
