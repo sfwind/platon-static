@@ -47,6 +47,29 @@ export class Analysis extends React.Component <any, any> {
     if (this.props.location.query.practicePlanId !== newProps.location.query.practicePlanId) {
       this.componentWillMount(newProps)
     }
+    if(!this.props.iNoBounce && newProps.iNoBounce){
+      if(!newProps.iNoBounce.isEnabled()){
+        newProps.iNoBounce.enable();
+        alert('enable:'+newProps.iNoBounce.isEnabled());
+      }
+    }
+  }
+
+  componentDidMount(){
+    if(this.props.iNoBounce){
+      if(!this.props.iNoBounce.isEnabled()){
+        this.props.iNoBounce.enable();
+        alert('enable:'+this.props.iNoBounce.isEnabled());
+      }
+    }
+  }
+
+  componentWillUnmount(){
+    const {dispatch} = this.props;
+    if(this.props.iNoBounce){
+      this.props.iNoBounce.disable();
+      alert('diable:'+this.props.iNoBounce.isEnabled());
+    }
   }
 
   componentWillMount(props) {
@@ -65,6 +88,10 @@ export class Analysis extends React.Component <any, any> {
       dispatch(alertMsg(ex))
     })
   }
+
+
+
+
 
   next() {
     const {dispatch} = this.props
