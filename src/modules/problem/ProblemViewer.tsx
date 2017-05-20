@@ -99,7 +99,7 @@ export class ProblemViewer extends React.Component<any, any> {
 
   render() {
     const {data, showTip,show} = this.state;
-    const {length, why, how, what, who, descPic, audio, chapterList, problem} = data;
+    const {authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem} = data;
 
     const renderRoadMap = (chapter, idx) => {
       const {sections} = chapter
@@ -123,8 +123,14 @@ export class ProblemViewer extends React.Component<any, any> {
       <div className="problem-page">
         <div className={`container ${show?'':'has-footer'}`}>
           <div className="problem-intro">
-            <div className="page-header">{problem}</div>
+            <div className="page-header">
+              {problem}
+            </div>
             <div className="page-content">
+              { authorDesc ?
+                <div className="text">
+                  {authorDesc}
+                </div> : null }
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
