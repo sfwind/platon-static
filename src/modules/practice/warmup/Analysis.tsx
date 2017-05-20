@@ -50,7 +50,6 @@ export class Analysis extends React.Component <any, any> {
     if(!this.props.iNoBounce && newProps.iNoBounce){
       if(!newProps.iNoBounce.isEnabled()){
         newProps.iNoBounce.enable();
-        alert('enable:'+newProps.iNoBounce.isEnabled());
       }
     }
   }
@@ -59,7 +58,6 @@ export class Analysis extends React.Component <any, any> {
     if(this.props.iNoBounce){
       if(!this.props.iNoBounce.isEnabled()){
         this.props.iNoBounce.enable();
-        alert('enable:'+this.props.iNoBounce.isEnabled());
       }
     }
   }
@@ -68,7 +66,6 @@ export class Analysis extends React.Component <any, any> {
     const {dispatch} = this.props;
     if(this.props.iNoBounce){
       this.props.iNoBounce.disable();
-      alert('diable:'+this.props.iNoBounce.isEnabled());
     }
   }
 
