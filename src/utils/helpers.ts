@@ -55,6 +55,12 @@ function SectionToChinese(section){
   return chnStr;
 }
 
+export function scroll(target, container){
+    let y = document.querySelector(target).offsetTop
+    console.log(y)
+    document.querySelector(container).scrollTop = y
+}
+
 export function NumberToChinese(num){
   var unitPos = 0;
   var strIns = '', chnStr = '';

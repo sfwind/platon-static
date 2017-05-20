@@ -1,79 +1,37 @@
 import * as React from "react";
-import {connect} from "react-redux";
 import "./Discuss.less";
-import {discuss} from "../warmup/async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
-import {merge} from "lodash";
 
-@connect(state => state)
 export default class Discuss extends React.Component <any, any> {
   constructor(props) {
     super()
-    const {repliedId, closeModal, referenceId} = props
+    const {isReply,placeholder} = props
     this.state = {
-      discuss: {},
-      repliedId: repliedId,
-      referenceId: referenceId,
-      comment: "",
-      closeModal: closeModal,
-      showDisable: false,
+      isReply: isReply,
+      placeholder:placeholder,
     }
   }
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
-
-  onSubmit() {
-    const {dispatch} = this.props
-    const {referenceId, repliedId, comment, closeModal} = this.state
-    if(comment.length==0){
-      dispatch(alertMsg('请填写评论'))
-      return
+  componentWillReceiveProps(newProps){
+    const {isReply} = this.state
+    if(newProps.isReply!==isReply){
+      this.setState({isReply:newProps.isReply,placeholder:newProps.placeholder})
     }
-    if(comment.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'))
-      return
-    }
-    this.setState({showDisable: true})
-    let discuss_body = {comment: comment, referenceId: referenceId}
-    if (repliedId) {
-      merge(discuss_body, {repliedId: repliedId})
-    }
-
-    this.props.discuss(discuss_body).then(res => {
-      const {code, msg} = res
-      if (code === 200) closeModal(discuss_body)
-      else {
-        dispatch(alertMsg(msg))
-        this.setState({showDisable: true})
-      }
-    }).catch(ex => {
-      dispatch(alertMsg(ex))
-      this.setState({showDisable: false})
-    })
-
   }
 
   render() {
-    const { showDisable } = this.state
+    const { isReply, placeholder } = this.state
+    const { submit, onChange, cancel } = this.props
     return (
-      <div className="discuss-page">
-        <div className="submit">
-          <textarea className="submit-area" cols="30" rows="10" height="500px" width="100%"
-                    value={this.state.comment}
-                    placeholder={this.state.repliedId?"解答同学的提问（限300字）":`分享你对${this.props.type?this.props.type:'本题'}的见解吧（限300字）`}
-                    onChange={(e) => this.setState({comment: e.currentTarget.value})}></textarea>
-          <div className="btn-container">
-            { showDisable ?
-              <div className="submit-button disabled">提交中</div>
-              :
-              <div className="submit-button" onClick={this.onSubmit.bind(this)}>提交</div>
-            }
+        <div className="comment-dialog">
+          <textarea placeholder={placeholder} onChange={(e)=>onChange(e.currentTarget.value)}>
+          </textarea>
+          <div className="comment-right-area">
+            <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
+            <div className="comment-button" onClick={()=>submit()}>评论</div>
           </div>
         </div>
 
-      </div>
     )
   }
 }

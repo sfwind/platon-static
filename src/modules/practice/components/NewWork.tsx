@@ -107,10 +107,7 @@ export default class Work extends React.Component<any,any> {
 
     const showOperation = ()=>{
       if(operation){
-        if(isString(filterContent) && filterContent.length<wordsCount){
-          return true;
-        } else
-          return showAll;
+        return true;
       } else {
         return false;
       }
@@ -179,13 +176,15 @@ export default class Work extends React.Component<any,any> {
             {renderHeader()}
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
-            {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})} className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
-            {showOperation()?<div className={`operation-area ${avatarStyle}`}>
-              <div onClick={()=>{isFunction(onVoted)?onVoted():null;}} className="vote">
-                <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
-              </div>
+            {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})}
+                                                                   className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
+            {showOperation()?
+            <div className={`operation-area`}>
               <div onClick={()=>{isFunction(goComment)?goComment():null}} className="comment">
                 <span>{commentCount}</span>
+              </div>
+              <div onClick={()=>{isFunction(onVoted)?onVoted():null}} className="vote">
+                <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
               </div>
             </div>:null}
           </div>

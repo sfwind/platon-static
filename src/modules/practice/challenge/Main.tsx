@@ -82,16 +82,6 @@ export class Main extends React.Component <any, any> {
       state: {goBackUrl}})
   }
 
-  back(){
-    const {goBackUrl} = this.state
-    const {location} = this.props
-    if(goBackUrl) {
-      this.context.router.push({pathname: goBackUrl})
-    }else{
-      this.context.router.push({pathname: '/rise/static/plan/main', query: { series: location.query.series}})
-    }
-
-  }
 
   onSubmit(){
     const { dispatch, location} = this.props
@@ -136,12 +126,6 @@ export class Main extends React.Component <any, any> {
       if(edit){
         return (
             <div className="no-comment">
-              {/*<AssetImg type="mobile" height={65} marginTop={15}/>*/}
-              {/*<div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>*/}
-              {/*<div className="content">*/}
-              {/*<div className="text">windows微信客户端也适用</div>*/}
-              {/*</div>*/}
-              {/*<AssetImg type="pc" height={65} marginTop={15}/>*/}
               <div className="content">
                 <div className="text">更喜欢电脑上提交?</div>
                 <div className="text">登录www.iquanwai.com/community</div>
