@@ -62,7 +62,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             { analysis?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/analysis2.png"/>
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
                   <div className="text">
                     <pre>{analysis}</pre>
@@ -72,7 +72,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             { means?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/means2.png"/>
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
                   </div>
                   <div className="text">
                     <pre>{means}</pre>
@@ -80,14 +80,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                 </div>
                 : null }
             {keynote ?<div><div className="context-title-img">
-                  <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/keynote2.png"/>
+                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote2.png"/>
                 </div><div className="text">
                   <pre>{keynote}</pre>
                 </div></div>: null}
             {example ?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="http://www.iqycamp.com/images/fragment/example.png"/>
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/example.png"/>
                   </div>
                   <div className="question">
                     <div className="context" dangerouslySetInnerHTML={{__html: example.question}}></div>

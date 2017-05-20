@@ -76,9 +76,9 @@ export class Welcome extends React.Component <any, any> {
 
   becomeRiser(){
     mark({module:"RISE",function:"打点",action:"点击成为RISER",memo:"欢迎页"}).then(()=>{
-      window.location.href = `http://${window.location.hostname}/pay/pay`
+      window.location.href = `https://${window.location.hostname}/pay/pay`
     }).catch(()=>{
-      window.location.href = `http://${window.location.hostname}/pay/pay`
+      window.location.href = `https://${window.location.hostname}/pay/pay`
     });
   }
 
@@ -135,7 +135,7 @@ export class Welcome extends React.Component <any, any> {
                 <div>
                   {show?
                       <div>
-                        <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                        <img className="description-logo" src="https://www.iqycamp.com/images/fragment/description_logo.png"/>
                         <div className="guide-msg">
                           Hi，你来啦！我是你的移动端RISE教练
                         </div>
@@ -144,7 +144,7 @@ export class Welcome extends React.Component <any, any> {
                 <div>
                   {show2?
                       <div>
-                        <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                        <img className="description-logo" src="https://www.iqycamp.com/images/fragment/description_logo.png"/>
                         <div className="guide-msg">
                           相信你也知道，我们从了解知识概念、到用它来解决问题，中间还差一个刻意练习的距离。RISE就提供这样的刻意练习
                         </div>
@@ -152,7 +152,7 @@ export class Welcome extends React.Component <any, any> {
                 </div>
                 {!confirm && show3?
                     <div className="button-div" style={{marginTop:70}}>
-                      <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_confirm_2.png"
+                      <img className={"button"} src="https://www.iqycamp.com/images/fragment/rise_welcome_confirm_2.png"
                            onClick={this.got.bind(this)}/>
 
                     </div>:null}
@@ -167,7 +167,7 @@ export class Welcome extends React.Component <any, any> {
 
                 {show5 ?
                     <div>
-                      <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                      <img className="description-logo" src="https://www.iqycamp.com/images/fragment/description_logo.png"/>
                       <div className="guide-msg" ref="welcome2">
                         你可以根据需要，选择要学习的RISE小课，我会据此制定你的练习计划，来帮助你学习知识、实践应用、解决问题
                       </div>
@@ -176,7 +176,7 @@ export class Welcome extends React.Component <any, any> {
 
                 {show6 ?
                     <div>
-                      <img className="description-logo" src="http://www.iqycamp.com/images/fragment/description_logo.png"/>
+                      <img className="description-logo" src="https://www.iqycamp.com/images/fragment/description_logo.png"/>
                       <div className="guide-msg" ref="welcome3">
                         选择正式版，开始学习所有小课吧！如果你不确定，也可以点击试用版，选择体验一个小课的前3节内容
                       </div>
@@ -186,12 +186,12 @@ export class Welcome extends React.Component <any, any> {
                 <div>
                   <div className="button-div" style={{marginTop:50}}>
                     {show7 ?
-                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_pay_2.png"
+                    <img className={"button"} src="https://www.iqycamp.com/images/fragment/rise_welcome_pay_2.png"
                          onClick={()=>this.becomeRiser()}/>:null}
                   </div>
                   <div className="button-div" style={{marginTop:25}}>
                     {show7 ?
-                    <img className={"button"} src="http://www.iqycamp.com/images/fragment/rise_welcome_try.png"
+                    <img className={"button"} src="https://www.iqycamp.com/images/fragment/rise_welcome_try.png"
                          onClick={()=>this.goTrial()}/>:null}
                   </div>
                 </div>
@@ -200,13 +200,13 @@ export class Welcome extends React.Component <any, any> {
               {show7 ?
                   <div className="little-bg">
                     <img width={110} height={113}
-                         src="http://www.iqycamp.com/images/fragment/rise_welcome_little_bg.png"/>
+                         src="https://www.iqycamp.com/images/fragment/rise_welcome_little_bg.png"/>
                   </div>: null
               }
               {show7?
                   <div className="tips" onClick={()=>this.setState({description:true})}>
                     <span>什么是正式版／试用版</span>
-                    <img style={{margin:'-1px 0'}} height={12} width={12} src="http://www.iqycamp.com/images/fragment/question_rise.png"/>
+                    <img style={{margin:'-1px 0'}} height={12} width={12} src="https://www.iqycamp.com/images/fragment/question_rise.png"/>
                   </div>:null
               }
             </div>

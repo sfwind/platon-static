@@ -26,7 +26,7 @@ export default class RiseMember extends React.Component<any,any> {
     return (
       <div className="container" style={{textAlign:'center'}}>
         <span style={{marginTop:'50px',display:'inline-block'}}>请先关注"圈外学习号"</span>
-        <img src="http://www.iqycamp.com/images/serverQrCode.jpg" style={{width:'90%',height:'auto'}}/>
+        <img src="https://www.iqycamp.com/images/serverQrCode.jpg" style={{width:'90%',height:'auto'}}/>
       </div>
     )
   }

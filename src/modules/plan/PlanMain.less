@@ -2,7 +2,7 @@
 
 .rise-main{
   .trial-tip{
-    background:url('http://www.iqycamp.com/images/riseMemberUpButtonV2.png') no-repeat center center/100% 100%;
+    background:url('https://www.iqycamp.com/images/riseMemberUpButtonV2.png') no-repeat center center/100% 100%;
     position: absolute;
     z-index:20;
     right: 0;
@@ -19,17 +19,42 @@
     > .list {
       margin-bottom: 10px;
     }
-    > .submit-btn{
-      margin:0 auto;
-      background-size:100% 100%;
-      background-image:url('http://www.iqycamp.com/images/bottom_button_bg3.png');
-      color:#fff;
-      height:40px;
-      font-size:@font_title;
-      line-height:40px;
-      text-align: center;
-      border-radius:@border-radius;
+    >.submit-btn-footer {
       margin-top: 30px;
+      display: block;
+      border-radius: @border-radius;
+      font-size: @font_title;
+      width: 100%;
+      height: @button_footer_height;
+      text-align: center;
+      line-height: @button_footer_height;
+      background-size:100% 100%;
+      background-image:url('https://www.iqycamp.com/images/bottom_button_bg3.png');
+      color: #fff;
+      > .left {
+        border-radius: 0;
+        display: inline-block;
+        width: ~"calc(50% - 1px)";
+        border-right: 1px solid white;
+        background-size:100% 100%;
+        background-image:url('https://www.iqycamp.com/images/left_button_bg2.png');
+        &.disabled {
+          background: #cccccc;
+        }
+      }
+      > .right {
+        border-radius: 0;
+        display: inline-block;
+        width: 50%;
+        background-image:url('https://www.iqycamp.com/images/right_button_bg2.png');
+        background-size:100% 100%;
+        &.disabled {
+          background: #cccccc;
+        }
+      }
+      &.disabled {
+        background: #cccccc;
+      }
     }
     .practice-card {
       position: relative;
@@ -215,7 +240,7 @@
       width: ~"calc(50% - 1px)";
       border-right: 1px solid white;
       background-size:100% 100%;
-      background-image:url('http://www.iqycamp.com/images/left_button_bg2.png');
+      background-image:url('https://www.iqycamp.com/images/left_button_bg2.png');
       border-radius: 0 0 0 @border-radius;
       &.disabled {
         background: #cccccc;
@@ -225,7 +250,7 @@
       display: inline-block;
       width: 50%;
       background-size:100% 100%;
-      background-image:url('http://www.iqycamp.com/images/right_button_bg2.png');
+      background-image:url('https://www.iqycamp.com/images/right_button_bg2.png');
       border-radius: 0 0 @border-radius 0;
       &.disabled {
         background: #cccccc;
@@ -235,7 +260,7 @@
     > .button {
       width: 100%;
       background-size:100% 100%;
-      background-image:url('http://www.iqycamp.com/images/bottom_button_bg3.png');
+      background-image:url('https://www.iqycamp.com/images/bottom_button_bg3.png');
       border-radius: 0 0 @border-radius @border-radius;
       &.disabled {
         background: #cccccc;

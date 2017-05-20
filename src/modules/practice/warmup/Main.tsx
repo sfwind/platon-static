@@ -237,7 +237,7 @@ export class Main extends React.Component <any, any> {
             </div>
           </div>
         }
-        <Tutorial bgList={['http://www.iqycamp.com/images/rise_tutorial_gglx_0420.png']} show={isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation} onShowEnd={()=>this.tutorialEnd()}/>
+        <Tutorial bgList={['https://www.iqycamp.com/images/rise_tutorial_gglx_0420.png']} show={isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation} onShowEnd={()=>this.tutorialEnd()}/>
       </div>
     )
   }
