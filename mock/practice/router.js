@@ -726,6 +726,12 @@ router.get("/rise/practice/subject/desc/*",(req,res)=>{
     },Math.random()*1500);
 });
 
+router.post("/rise/practice/subject/submit/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
+    },Math.random()*1500);
+});
+
 router.get("/rise/practice/label/*",(req,res)=>{
     setTimeout(()=>{
         res.status(200).json(

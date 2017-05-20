@@ -23,6 +23,10 @@ export default class SubmitBox extends React.Component <any, any> {
     this.labelMargin = (window.innerWidth-2) * 0.1 / 6;
   }
 
+  componentWillReceiveProps(newProps){
+    this.setState({labels:newProps.labels})
+  }
+
   onSubmit() {
     let choseList = [];
     this.state.labels.forEach(item=>{

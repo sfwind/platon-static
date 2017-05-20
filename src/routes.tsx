@@ -14,6 +14,7 @@ import { Main as Challenge } from "modules/practice/challenge/Main";
 import { Main as Subject } from "modules/practice/subject/Main"
 import { Submit as ApplicationPracticeSubmit } from "modules/practice/application/Submit";
 import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
+import { Submit as SubjectSubmit } from "modules/practice/subject/Submit";
 import { ReplyDiscussMessage } from "modules/message/ReplyWarmupDiscussMessage";
 
 import { MessageCenter } from "modules/message/MessageCenter";
@@ -53,6 +54,7 @@ const routes = (
     <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
     <Route path="practice/application/comment" component={ApplicationComment}/>
     <Route path="practice/subject" component={Subject}/>
+    <Route path="practice/subject/submit" component={SubjectSubmit}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
     <Route path="practice/knowledge" component={KnowledgeViewer}/>
     <Route path="practice/roadmap" component={RoadMap}/>
