@@ -107,11 +107,9 @@ export class Comment extends React.Component<any, any> {
     const {dispatch, location} = this.props;
     const {content, isReply} = this.state;
     if (content) {
-      dispatch(startLoad());
       this.setState({editDisable: true});
       if(isReply){
         commentReply(location.query.submitId, content, this.state.id).then(res => {
-          dispatch(endLoad());
           if (res.code === 200) {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
@@ -128,13 +126,11 @@ export class Comment extends React.Component<any, any> {
           }
         }).catch(ex => {
           this.setState({editDisable: false});
-          dispatch(endLoad());
           dispatch(alertMsg(ex));
         });
       }else{
         comment(location.query.submitId, content)
             .then(res => {
-              dispatch(endLoad());
               if (res.code === 200) {
                 this.setState({
                   commentList: [res.msg].concat(this.state.commentList),
@@ -149,9 +145,8 @@ export class Comment extends React.Component<any, any> {
                 dispatch(alertMsg(res.msg));
                 this.setState({editDisable: false});
               }
-            }).catch(ex => {
+        }).catch(ex => {
           this.setState({editDisable: false});
-          dispatch(endLoad());
           dispatch(alertMsg(ex));
         })
       }
