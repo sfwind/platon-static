@@ -294,7 +294,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+              <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
             </div>}
       </div>
     )
