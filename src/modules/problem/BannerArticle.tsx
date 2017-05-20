@@ -1,24 +1,26 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { startLoad, endLoad, alertMsg } from "redux/actions";
 import ProblemItem from  './components/ProblemItem';
-import { isEqual,merge } from 'lodash';
+import { isEqual,merge,set } from 'lodash';
+import { loadUnChooseList } from './async';
 import './BannerArticle.less';
 
 const problems = {
-  p1:{"id":1,"catalog":"沟通人际","catalogId":null,"subCatalog":"表达能力","subCatalogId":1,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem1_3.png","name":"与人沟通时条理更清晰"},
-  p3:{"id":3,"catalog":"思维方法","catalogId":null,"subCatalog":"创新能力","subCatalogId":2,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem3_4.png","name":"面对前所未有的新问题时撬开脑洞"},
-  p5:{"id":5,"catalog":"沟通人际","catalogId":null,"subCatalog":null,"subCatalogId":null,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem5_3.png","name":"与人撕逼时找到对方逻辑漏洞"},
-  p6:{"id":6,"catalog":"职业发展","catalogId":null,"subCatalog":"求职能力","subCatalogId":4,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem6_3.png","name":"写出令HR过目难忘的简历"},
-  p7:{"id":7,"catalog":"职业发展","catalogId":null,"subCatalog":"求职能力","subCatalogId":4,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem7_3.png","name":"在面试中脱颖而出"},
-  p8:{"id":8,"catalog":"职业发展","catalogId":null,"subCatalog":"个人规划","subCatalogId":5,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem8_3.png","name":"给自己的未来定个发展策略"},
-  p9:{"id":9,"catalog":"思维方法","catalogId":null,"subCatalog":"思考能力","subCatalogId":3,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem9_3.png","name":"找到本质问题，减少无效努力"},
-  p11:{"id":11,"catalog":"思维方法","catalogId":null,"subCatalog":"思考能力","subCatalogId":3,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem11_3.png","name":"洞察他人行为背后的真相"},
-  p12:{"id":12,"catalog":"思维方法","catalogId":null,"subCatalog":"思考能力","subCatalogId":3,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem12_3.png","name":"面对热点事件保持独立思考"},
-  p13:{"id":13,"catalog":"沟通人际","catalogId":null,"subCatalog":"表达能力","subCatalogId":1,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem13_3.png","name":"演讲也是力量"},
-  p14:{"id":14,"catalog":"沟通人际","catalogId":null,"subCatalog":"影响力","subCatalogId":6,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem14_3.png","name":"如何用故事说服别人"},
-  p16:{"id":16,"catalog":"沟通人际","catalogId":null,"subCatalog":"影响力","subCatalogId":6,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem16_1.png","name":"影响力：让他人不再对我们说不"},
-  p18:{"id":18,"catalog":"自我管理","catalogId":null,"subCatalog":"情绪管理","subCatalogId":9,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem18_1.png","name":"别让情绪打败你"},
-  p19:{"id":19,"catalog":"沟通人际","catalogId":null,"subCatalog":"人际网络","subCatalogId":10,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem19_1.png","name":"如何结识比自己牛的人"},
+  p1:{"id":1,"catalog":"打造自己","catalogId":null,"subCatalog":"表达能力","subCatalogId":1,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem1_3.png","name":"与人沟通时条理更清晰"},
+  p3:{"id":3,"catalog":"打造自己","catalogId":null,"subCatalog":"创新能力","subCatalogId":2,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem3_4.png","name":"面对前所未有的新问题时撬开脑洞"},
+  p5:{"id":5,"catalog":"打造自己","catalogId":null,"subCatalog":'思考能力',"subCatalogId":null,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem5_3.png","name":"与人撕逼时找到对方逻辑漏洞"},
+  p6:{"id":6,"catalog":"营销自己","catalogId":null,"subCatalog":"求职能力","subCatalogId":4,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem6_3.png","name":"写出令HR过目难忘的简历"},
+  p7:{"id":7,"catalog":"营销自己","catalogId":null,"subCatalog":"求职能力","subCatalogId":4,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem7_3.png","name":"在面试中脱颖而出"},
+  p8:{"id":8,"catalog":"定位自己","catalogId":null,"subCatalog":"个人规划","subCatalogId":5,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem8_3.png","name":"给自己的未来定个发展策略"},
+  p9:{"id":9,"catalog":"打造自己","catalogId":null,"subCatalog":"思考能力","subCatalogId":3,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem9_3.png","name":"找到本质问题，减少无效努力"},
+  p11:{"id":11,"catalog":"打造自己","catalogId":null,"subCatalog":"思考能力","subCatalogId":3,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem11_3.png","name":"洞察他人行为背后的真相"},
+  p12:{"id":12,"catalog":"打造自己","catalogId":null,"subCatalog":"思考能力","subCatalogId":3,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem12_3.png","name":"面对热点事件保持独立思考"},
+  p13:{"id":13,"catalog":"打造自己","catalogId":null,"subCatalog":"表达能力","subCatalogId":1,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem13_3.png","name":"演讲也是力量"},
+  p14:{"id":14,"catalog":"打造自己","catalogId":null,"subCatalog":"影响力","subCatalogId":6,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem14_3.png","name":"如何用故事说服别人"},
+  p16:{"id":16,"catalog":"打造自己","catalogId":null,"subCatalog":"影响力","subCatalogId":6,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem16_1.png","name":"影响力：让他人不再对我们说不"},
+  p18:{"id":18,"catalog":"管理自己","catalogId":null,"subCatalog":"情绪管理","subCatalogId":9,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem18_1.png","name":"别让情绪打败你"},
+  p19:{"id":19,"catalog":"营销自己","catalogId":null,"subCatalog":"人际网络","subCatalogId":10,"author":"孙圈圈","difficulty":"0.0","pic":"https://www.iqycamp.com/images/fragment/problem19_1.png","name":"如何结识比自己牛的人"},
 }
 
 @connect(state=>state)
@@ -32,6 +34,8 @@ export default class UpMind extends React.Component<any,any>{
     router: React.PropTypes.object.isRequired
   }
 
+  componentWillMount(){
+  }
 
   clickProblem(problem){
     let param = {
@@ -46,7 +50,6 @@ export default class UpMind extends React.Component<any,any>{
   render(){
     const { showId } = this.props.location.query;
     console.log(showId,1,isEqual(Number(showId),1));
-
 
 
     const renderHeader= (showId)=>{
@@ -152,7 +155,7 @@ export default class UpMind extends React.Component<any,any>{
                            rootClass={'bborder'}
                            problem={problems.p7}
                            clickHandler = {(problem)=>this.clickProblem(problem)}/>
-                </div>
+            </div>
 
 
 

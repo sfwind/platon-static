@@ -10,6 +10,7 @@ import { loadUnChooseList } from './async';
 import { merge } from 'lodash'
 
 import './Explore.less';
+import AssetImg from "../../components/AssetImg";
 
 @connect(state=>state)
 export class Explore extends React.Component<any,any>{
@@ -77,18 +78,17 @@ export class Explore extends React.Component<any,any>{
       <div>
         <div className="explore-container">
           <Banner height={this.bannerHeight}>
-            <div className="banner-item" onClick={()=>this.goBanner(1)}
-                 style={{backgroundImage:`url('https://www.iqycamp.com/images/problem_explore_banner_1.png'`}}>
+            <div className="banner-item" onClick={()=>this.goBanner(1)}>
+              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_1.png'} style={{width:'auto',height:'100%'}}/>
             </div>
-            <div className="banner-item" onClick={()=>this.goBanner(2)}
-                 style={{backgroundImage:`url('https://www.iqycamp.com/images/problem_explore_banner_2.png'`}}>
+            <div className="banner-item" onClick={()=>this.goBanner(2)}>
+              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_2.png'} style={{width:'auto',height:'100%'}}/>
             </div>
-            <div className="banner-item" onClick={()=>this.goBanner(3)}
-                 style={{backgroundImage:`url('https://www.iqycamp.com/images/problem_explore_banner_3.png'`}}>
-
+            <div className="banner-item" onClick={()=>this.goBanner(3)}>
+              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_3.png'} style={{width:'auto',height:'100%'}}/>
             </div>
-            <div className="banner-item" onClick={()=>this.goBanner(4)}
-                 style={{backgroundImage:`url('https://www.iqycamp.com/images/problem_explore_banner_4.png'`}}>
+            <div className="banner-item" onClick={()=>this.goBanner(4)}>
+            <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_4.png'} style={{width:'auto',height:'100%'}}/>
             </div>
           </Banner>
           <div className="problem-catalog-list">
@@ -104,7 +104,8 @@ export class Explore extends React.Component<any,any>{
                     {catalog.problemList ? catalog.problemList.map((problem, key) => {
                       return (
                         <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}} className="problem-item-show">
-                          <div className="img" style={{backgroundImage:`url(${problem.pic})`,width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                          <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                            <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
                           </div>
                           <span>{problem.problem}</span>
                         </div>
