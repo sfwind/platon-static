@@ -41,6 +41,7 @@ export class ProblemViewer extends React.Component<any, any> {
     const {id} = location.query
     dispatch(startLoad())
     loadProblem(id).then(res=>{
+      console.log(res)
       dispatch(endLoad())
       const {msg, code} = res
       if(code === 200){
@@ -87,7 +88,7 @@ export class ProblemViewer extends React.Component<any, any> {
   render() {
     const {data, showTip} = this.state;
     const {show} = this.props.location.query
-    const {length, why, how, what, who, descPic, audio, chapterList, problem} = data;
+    const {authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem} = data;
 
     const renderRoadMap = (chapter, idx) => {
       const {sections} = chapter
@@ -111,8 +112,14 @@ export class ProblemViewer extends React.Component<any, any> {
       <div className="problem-page">
         <div className={`container ${show?'':'has-footer'}`}>
           <div className="problem-intro">
-            <div className="page-header">{problem}</div>
+            <div className="page-header">
+              {problem}
+            </div>
             <div className="page-content">
+              { authorDesc ?
+                <div className="text">
+                  {authorDesc}
+                </div> : null }
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
