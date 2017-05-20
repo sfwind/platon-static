@@ -187,7 +187,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
   render() {
     const { showTip,showDiscuss,knowledge,discuss=[],isReply,placeholder } = this.state
-    const { analysis, means, keynote, audio, pic,example,id } = knowledge
+    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic } = knowledge
     const {location} = this.props
     const {practicePlanId} = location.query
 
@@ -214,28 +214,31 @@ export class KnowledgeViewer extends React.Component<any, any> {
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
             { pic ? <div className="context-img"><img src={pic}/></div> : null }
             { analysis?
-              <div>
-                <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
+                <div>
+                  <div className="context-title-img">
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
+                  </div>
+                  { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
+                  <div className="text">
+                    <pre>{analysis}</pre>
+                  </div>
                 </div>
-                <div className="text">
-                  <pre>{analysis}</pre>
-                </div>
-              </div>
-              : null}
+                : null}
             { means?
-              <div>
-                <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
+                <div>
+                  <div className="context-title-img">
+                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
+                  </div>
+                  { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
+                  <div className="text">
+                    <pre>{means}</pre>
+                  </div>
                 </div>
-                <div className="text">
-                  <pre>{means}</pre>
-                </div>
-              </div>
-              : null}
+                : null}
             {keynote ?
               <div>
                 <div className="context-title-img"><AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote2.png"/></div>
+                { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
                 <div className="text"><pre>{keynote}</pre></div>
               </div>
               : null}
@@ -293,9 +296,9 @@ export class KnowledgeViewer extends React.Component<any, any> {
         {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
-          <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-            <AssetImg url="http://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-          </div>}
+            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
+              <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+            </div>}
       </div>
     )
   }

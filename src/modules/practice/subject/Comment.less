@@ -1,11 +1,21 @@
 @import "../../../style/variable";
 
 .subject-comment{
+  overflow: auto;
   .article {
     padding: 0 15px 0 15px;
     > .description {
       font-size: @font_context;
       padding: 10px 0;
+    }
+    > .article-header{
+      width: 100%;
+      min-height: 45px;
+      font-size: @font_title;
+      border-bottom: 2px solid @color_strong;
+      text-align: center;
+      line-height: 2.5em;
+      color: @color_title;
     }
   }
   .comment-header{

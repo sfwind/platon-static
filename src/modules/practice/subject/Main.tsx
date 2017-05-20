@@ -178,9 +178,7 @@ export class Main extends React.Component <any, any> {
   }
 
   openWriteBox(){
-    let query = this.props.location.query
-    const {submitId} = this.state
-    this.context.router.push({pathname: '/rise/static/practice/subject/submit', query:_.merge(query, {submitId})})
+    this.context.router.push({pathname: '/rise/static/practice/subject/submit', query:this.props.location.query})
   }
 
   render() {

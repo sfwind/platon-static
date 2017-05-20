@@ -9,26 +9,31 @@ export default class Discuss extends React.Component <any, any> {
     this.state = {
       isReply: isReply,
       placeholder:placeholder,
+      editDisable:false,
     }
   }
 
-  componentWillReceiveProps(newProps){
-    const {isReply} = this.state
-    if(newProps.isReply!==isReply){
-      this.setState({isReply:newProps.isReply,placeholder:newProps.placeholder})
-    }
+  onSubmit(){
+    this.setState({editDisable:true})
+    const { submit } = this.props
+    submit()
   }
 
   render() {
-    const { isReply, placeholder } = this.state
-    const { submit, onChange, cancel } = this.props
+    const { placeholder, editDisable} = this.state
+    const { onChange, cancel } = this.props
+
     return (
         <div className="comment-dialog">
           <textarea placeholder={placeholder} onChange={(e)=>onChange(e.currentTarget.value)}>
           </textarea>
           <div className="comment-right-area">
             <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
-            <div className="comment-button" onClick={()=>submit()}>评论</div>
+            { editDisable ?
+                <div className="comment-button disabled">评论中</div>
+                :
+                <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
+            }
           </div>
         </div>
 

@@ -107,11 +107,9 @@ export class Comment extends React.Component<any,any>{
     const {dispatch,location} = this.props;
     const {content, isReply} = this.state
     if(content){
-      dispatch(startLoad());
       this.setState({editDisable:true});
       if(isReply){
         commentReply(location.query.submitId, content, this.state.id).then(res => {
-          dispatch(endLoad());
           if (res.code === 200) {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
@@ -121,33 +119,30 @@ export class Comment extends React.Component<any,any>{
             if (!this.state.end && this.pullElement) {
               this.pullElement.enable();
             }
-            scroll('.comment-body', '.subject-comment')
+            scroll('.comment-header', '.subject-comment')
           } else {
             dispatch(alertMsg(res.msg));
             this.setState({editDisable: false});
           }
         }).catch(ex => {
           this.setState({editDisable: false});
-          dispatch(endLoad());
           dispatch(alertMsg(ex));
         });
       }else{
         comment(location.query.submitId,content)
             .then(res=>{
-              dispatch(endLoad());
               if(res.code===200){
                 this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false,editDisable:false});
                 if(!this.state.end && this.pullElement){
                   this.pullElement.enable();
                 }
-                scroll('.comment-body', '.subject-comment')
+                scroll('.comment-header', '.subject-comment')
               } else {
                 dispatch(alertMsg(res.msg));
                 this.setState({editDisable:false});
               }
         }).catch(ex => {
           this.setState({editDisable:false});
-          dispatch(endLoad());
           dispatch(alertMsg(ex));
         })
       }
@@ -282,7 +277,7 @@ export class Comment extends React.Component<any,any>{
       <div>
         <div className="subject-comment">
           <div className="article">
-            <div className="page-header">{title}</div>
+            <div className="article-header">{title}</div>
             <pre dangerouslySetInnerHTML={{__html: content}} className="description"></pre>
             <div className="comment-header">
               当前评论
