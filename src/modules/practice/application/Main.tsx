@@ -307,13 +307,13 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        <Tutorial bgList={['http://www.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png']} show={isBoolean(openStatus.openApplication) && !openStatus.openApplication} onShowEnd={()=>this.tutorialEnd()}/>
+        <Tutorial bgList={['https://www.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png']} show={isBoolean(openStatus.openApplication) && !openStatus.openApplication} onShowEnd={()=>this.tutorialEnd()}/>
         <div className={`container ${edit?'has-footer': ''}`}>
           <div className="application">
             <div className="page-header">{topic}</div>
             <div className="intro-container">
               <div className="context-img">
-                <img src={integrated=='false'?'http://www.iqycamp.com/images/fragment/application_practice_2.png':'http://www.iqycamp.com/images/fragment/integrated_practice.png'} alt=""/>
+                <img src={integrated=='false'?'https://www.iqycamp.com/images/fragment/application_practice_2.png':'https://www.iqycamp.com/images/fragment/integrated_practice.png'} alt=""/>
               </div>
               <div className="application-context">
                 <div className="section1">

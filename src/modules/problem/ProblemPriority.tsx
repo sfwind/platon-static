@@ -135,7 +135,7 @@ export class ProblemPriority extends React.Component<any,any> {
         {/*</div>*/}
         <div className="swipe-container">
           {catalogList ? catalogList.map((catalog, seq) => getCatalogBox(catalog, seq))
-            .concat(<a href={`http://${window.location.hostname}/survey/wjx?activity=12602894`} className="more-box" style={{display:'block',height:`${this.catalogHeight}px`,lineHeight:`${this.catalogHeight}px`}}>
+            .concat(<a href={`https://${window.location.hostname}/survey/wjx?activity=12602894`} className="more-box" style={{display:'block',height:`${this.catalogHeight}px`,lineHeight:`${this.catalogHeight}px`}}>
               {/*<div className="swipe-box-mask" style={{opacity:'0.25'}}></div>*/}
               <span style={{fontSize:`${this.catalogName}px`}}>更多小课</span>
             </a>) : null}
