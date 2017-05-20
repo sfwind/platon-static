@@ -18,6 +18,7 @@ export default class Banner extends React.Component<any,any> {
     return (
       <div style={{position:'relative',width:`${this.props.width?this.props.width:'100%'}`,height:`${this.props.height?this.props.height:'100%'}`}}>
         <AutoPlaySwipeableViews
+          animateTransitions={false}
           style={{height:'100%'}}
           containerStyle={{height:'100%'}}
           slideStyle={{height:'100%'}}

@@ -15,6 +15,13 @@
     background-repeat:no-repeat;
     background-size:auto 130%;
     background-position: 100% 10%;
+    overflow: hidden;
+    position: relative;
+    > img{
+      position: absolute;
+      right:0;
+      top:0;
+    }
   }
   .desc {
     position: relative;
@@ -40,6 +47,9 @@
       font-size:@font_index;
       line-height:@font_index;
       margin-top:4px;
+      &.no-mg{
+        margin-top:0;
+      }
     }
     .score{
       position: absolute;
