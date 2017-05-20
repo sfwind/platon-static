@@ -1,23 +1,26 @@
 import * as React from "react";
 import "./Comment.less";
 import {connect} from "react-redux"
-import {loadCommentList,comment, deleteComment} from "./async"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import {loadCommentList, comment, deleteComment, commentReply, getApplicationPractice} from "./async"
+import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import SubmitBox from "../components/SubmitBox"
 import PullElement from "pull-element"
-import {findIndex,remove} from "lodash";
-import CommentShow from "../components/CommentShow"
+import {findIndex, remove} from "lodash";
+import DiscussShow from "../components/DiscussShow"
+import Discuss from "../components/Discuss"
+import {scroll} from "../../../utils/helpers"
 
-@connect(state=>state)
-export class Comment extends React.Component<any,any>{
-  constructor(){
+@connect(state => state)
+export class Comment extends React.Component<any, any> {
+  constructor() {
     super();
     this.state = {
-      page:1,
-      editDisable:false,
-      commentList:[],
-    }
+      page: 1,
+      editDisable: false,
+      commentList: [],
+      article: {},
+      placeholder:'和作者切磋讨论一下吧',
+    };
     this.commentHeight = window.innerHeight;
   }
 
@@ -28,60 +31,62 @@ export class Comment extends React.Component<any,any>{
   componentWillMount() {
     const {dispatch, location} = this.props;
     dispatch(startLoad());
-    loadCommentList(location.query.submitId, 1)
-      .then(res => {
+    getApplicationPractice(location.query.submitId).then(res => {
+      if (res.code === 200) {
+        this.setState({article: res.msg})
+        loadCommentList(location.query.submitId, 1).then(res => {
+          if (res.code === 200) {
+            dispatch(endLoad());
+            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end});
+          } else {
+            dispatch(endLoad());
+            dispatch(alertMsg(res.msg));
+          }
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        });
+      } else {
         dispatch(endLoad());
-        if(res.code===200){
-          this.setState({commentList:res.msg.list,page:1,end:res.msg.end});
-        } else {
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(ex => {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     });
   }
 
-  goBack(){
-    const {location} = this.props
-    this.context.router.push({
-      pathname:'/rise/static/practice/application',
-      query: location.query,
-      state: location.state
-    })
-  }
-
-  componentDidUpdate(){
-    const { commentList=[],end } = this.state;
-    const {dispatch,location} = this.props;
-    if(commentList&& commentList.length!==0 && !this.pullElement){
+  componentDidUpdate() {
+    const {commentList = [], end} = this.state;
+    const {dispatch, location} = this.props;
+    if (commentList && commentList.length !== 0 && !this.pullElement) {
       this.pullElement = new PullElement({
         target: '.pull-target',
-        scroller: '.comment',
-        trigger:'.comment',
+        scroller: '.application-comment',
+        trigger: '.application-comment',
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
           loadCommentList(location.query.submitId, this.state.page + 1)
-            .then(res => {
-              if (res.code === 200) {
-                if (res.msg && res.msg.list.length !== 0) {
-                  remove(res.msg.list, (item) => {
-                    return findIndex(this.state.commentList, item) !== -1;
-                  });
-                  this.setState({
-                    commentList: this.state.commentList.concat(res.msg.list),
-                    page: this.state.page + 1,
-                    end: res.msg.end
-                  })
-                } else {
-                  dispatch(alertMsg('没有更多了'));
-                }
+          .then(res => {
+            if (res.code === 200) {
+              if (res.msg && res.msg.list.length !== 0) {
+                remove(res.msg.list, (item) => {
+                  return findIndex(this.state.commentList, item) !== -1;
+                });
+                this.setState({
+                  commentList: this.state.commentList.concat(res.msg.list),
+                  page: this.state.page + 1,
+                  end: res.msg.end
+                })
               } else {
-                dispatch(alertMsg(res.msg));
+                dispatch(alertMsg('没有更多了'));
               }
-            }).catch(ex => {
+            } else {
+              dispatch(alertMsg(res.msg));
+            }
+          }).catch(ex => {
             dispatch(alertMsg(ex));
           });
         }
@@ -89,80 +94,128 @@ export class Comment extends React.Component<any,any>{
       this.pullElement.init();
     }
 
-    if(this.pullElement && this.state.end){
+    if (this.pullElement && this.state.end) {
       this.pullElement.disable();
     }
   }
 
-  componentDidMount() {
-
+  componentWillUnmount() {
+    this.pullElement ? this.pullElement.destroy() : null;
   }
 
-  componentWillUnmount(){
-    this.pullElement?this.pullElement.destroy():null;
-  }
-
-  onSubmit(content){
-    const {dispatch,location} = this.props;
-    if(content){
+  onSubmit() {
+    const {dispatch, location} = this.props;
+    const {content, isReply} = this.state;
+    if (content) {
       dispatch(startLoad());
-      this.setState({editDisable:true});
-      comment(location.query.submitId,content)
-        .then(res=>{
+      this.setState({editDisable: true});
+      if(isReply){
+        commentReply(location.query.submitId, content, this.state.id).then(res => {
           dispatch(endLoad());
-          if(res.code===200){
-            this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false,editDisable:false});
-            if(!this.state.end && this.pullElement){
+          if (res.code === 200) {
+            this.setState({
+              commentList: [res.msg].concat(this.state.commentList),
+              showDiscuss: false,
+              editDisable: false
+            });
+            if (!this.state.end && this.pullElement) {
               this.pullElement.enable();
             }
+            scroll('.comment-body', '.application-comment')
           } else {
             dispatch(alertMsg(res.msg));
-            this.setState({editDisable:false});
+            this.setState({editDisable: false});
           }
         }).catch(ex => {
-        this.setState({editDisable:false});
-        dispatch(endLoad());
-        dispatch(alertMsg(ex));
-      })
+          this.setState({editDisable: false});
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        });
+      }else{
+        comment(location.query.submitId, content)
+            .then(res => {
+              dispatch(endLoad());
+              if (res.code === 200) {
+                this.setState({
+                  commentList: [res.msg].concat(this.state.commentList),
+                  showDiscuss: false,
+                  editDisable: false
+                });
+                if (!this.state.end && this.pullElement) {
+                  this.pullElement.enable();
+                }
+                scroll('.comment-body', '.application-comment')
+              } else {
+                dispatch(alertMsg(res.msg));
+                this.setState({editDisable: false});
+              }
+            }).catch(ex => {
+          this.setState({editDisable: false});
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        })
+      }
+
     } else {
       dispatch(alertMsg('请先输入内容再提交'))
     }
   }
 
-  openWriteBox(){
-    this.setState({showDiscuss: true})
-    if(this.pullElement){
-      this.pullElement.disable();
-    }
+  openWriteBox() {
+    this.setState({showDiscuss: true, content: '', isReply:false, placeholder:'和作者切磋讨论一下吧'})
   }
 
-  onDelete(id){
+  reply(item) {
+    this.setState({
+      id: item.id,
+      placeholder:'回复 '+item.name+":",
+      showDiscuss: true,
+      isReply:true,
+      content:'',
+    })
+  }
+
+  onDelete(id) {
     const {commentList = []} = this.state
-    deleteComment(id).then(res=>{
-      if(res.code===200){
+    deleteComment(id).then(res => {
+      if (res.code === 200) {
         let newCommentList = []
-        commentList.forEach((item)=>{
-          if(item.id != id){
+        commentList.forEach((item) => {
+          if (item.id != id) {
             newCommentList.push(item)
           }
         })
-        this.setState({commentList:newCommentList})
+        this.setState({commentList: newCommentList})
       }
     })
   }
 
-  render(){
-    const { commentList=[],showDiscuss,end } = this.state;
-    const renderCommentList = ()=>{
-      if(commentList && commentList.length !== 0){
+  onChange(value){
+    this.setState({content:value})
+  }
+
+  cancel(){
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
+  }
+
+  render() {
+    const {commentList = [], showDiscuss, end, isReply, placeholder} = this.state;
+    const {topic, description} = this.state.article;
+    const renderCommentList = () => {
+      if (commentList && commentList.length !== 0) {
         return (
-          commentList.map((item,seq)=>{
+          commentList.map((item, seq) => {
             return (
-                <CommentShow comment={item} onDelete={this.onDelete.bind(this, item.id)}/>
+              <DiscussShow discuss={item} reply={() => {
+                this.reply(item)
+              }} onDelete={this.onDelete.bind(this, item.id)}/>
             )
           })
         )
-      }  else {
+      } else {
         return (<div className="on_message">
           <div className="no_comment">
             <AssetImg url="https://www.iqycamp.com/images/no_comment.png" height={120} width={120}/>
@@ -172,10 +225,9 @@ export class Comment extends React.Component<any,any>{
       }
     }
 
-    const renderTips = ()=>{
-
-      if(commentList && commentList.length !== 0){
-        if(!end){
+    const renderTips = () => {
+      if (commentList && commentList.length !== 0) {
+        if (!end) {
           return (
             <div className="show-more">上拉加载更多消息</div>
           )
@@ -188,22 +240,32 @@ export class Comment extends React.Component<any,any>{
     }
 
     return (
-      <div className="comment">
-        <div className="pull-target">
-          <div className="comment-header">
-            评论
+      <div>
+        <div className="application-comment">
+          <div className="article">
+            <div className="page-header">{topic}</div>
+            <pre dangerouslySetInnerHTML={{__html: description}} className="description"></pre>
+            <div className="comment-header">
+              当前评论
+            </div>
           </div>
-          <div className="comment-body">
-            {renderCommentList()}
-            {renderTips()}
+          <div className="pull-target">
+            <div className="comment-body">
+              {renderCommentList()}
+              {renderTips()}
+            </div>
           </div>
+          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
-        <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-          <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
-        </div>
-        {showDiscuss ?<SubmitBox height={this.commentHeight} placeholder={"和作者切磋讨论一下吧"} editDisable={this.state.editDisable}
-                                 onSubmit={(content)=>this.onSubmit(content)}/> : null}
-        {/*<div className="button-footer" onClick={()=>this.goBack()}>返回</div>*/}
+        {showDiscuss ?
+            <Discuss isReply={isReply} placeholder={placeholder}
+                     submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                     cancel={()=>this.cancel()}
+            /> :
+            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+              <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
+            </div>
+        }
       </div>
     );
   }

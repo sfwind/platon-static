@@ -127,13 +127,9 @@
           white-space: pre-wrap;
           word-wrap: break-word;
           &.left {
-            width: ~"calc(100% - 40px)";
-            margin-left: 20px;
+            width: 100%;
             margin-top: 7px;
           }
-        }
-        > pre {
-          font-size: @font_index;
         }
         ol, ul {
           padding: 0 15px;
@@ -141,73 +137,61 @@
       }
 
       > .show-all{
-        float:right;
         font-size:@font_click;
-        margin-top:-20px;
         color:@color_strong;
-        z-index: 5;
         position: relative;
         background: white;
         padding: 0 1px;
       }
 
       > .operation-area{
-        margin-top: 3px;
-        &.top{
-          width: 100%;
-        }
-        &.left{
-          width: ~"calc(100% - 20px)";
-          margin-left:20px;
-        }
+        float: right;
+        margin-top: 5px;
         span{
           line-height:@font_click;
           font-size:@font_click;
           color: @color_help;
         }
         > .vote{
-          display: block;
-          float: left;
+          display: inline-block;
           height: 25px;
-          min-width: 35px;
-          margin-right: 20px;
           > span{
             &:before {
               content: '';
               display: inline-block;
               vertical-align: bottom;
-              width: 16px;
-              height: 16px;
+              width: 25px;
+              height: 25px;
               margin-right:5px;
-              margin-bottom:5px;
+              margin-bottom: 2px;
             }
           }
           > .disVote{
             &:before{
-              background: url(https://www.iqycamp.com/images/iconGreyVote.png) no-repeat bottom center/13px 13px;
+              background: url(https://www.iqycamp.com/images/fragment/unvote.png) no-repeat bottom center/25px 25px;
             }
           }
           > .voted{
             &:before{
-              background: url(https://www.iqycamp.com/images/iconGreenVote.png) no-repeat bottom center/13px 13px;
+              background: url(https://www.iqycamp.com/images/fragment/voted.png) no-repeat bottom center/25px 25px;
             }
           }
         }
         > .comment{
-          display: block;
-          width:35px;
+          display: inline-block;
           height:25px;
-
+          margin-right: 20px;
+          float: left;
           > span{
             &:before {
-              background: url(https://www.iqycamp.com/images/iconComment.png) no-repeat bottom center/13px 10px;
+              background: url(https://www.iqycamp.com/images/fragment/comment.png) no-repeat bottom center/25px 25px;
               content: '';
               display: inline-block;
               vertical-align: bottom;
-              width: 16px;
-              height: 16px;
+              width: 25px;
+              height: 25px;
               margin-right:5px;
-              margin-bottom:5px;
+              margin-bottom: 2px;
             }
           }
         }

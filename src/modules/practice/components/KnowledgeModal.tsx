@@ -6,7 +6,6 @@ import Audio from "../../../components/Audio";
 
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
-@connect(state=>state)
 const sequenceMap = {
   0: 'A',
   1: 'B',
@@ -18,7 +17,7 @@ const sequenceMap = {
 }
 
 @connect(state=>state)
-export default class KnowledgeViewer extends React.Component<any, any> {
+export default class KnowledgeModal extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {

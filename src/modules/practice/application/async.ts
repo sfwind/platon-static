@@ -29,16 +29,23 @@ export function loadCommentList(submitId,page,searchTime){
 }
 
 export function comment(submitId,content){
-  return ppost(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{content:content})
+  return ppost(`/rise/practice/comment/${CommentType.Application}/${submitId}`,{comment:content})
+}
+
+export function commentReply(submitId, comment, replyedCommentId){
+  return ppost(`/rise/practice/comment/reply/${CommentType.Application}/${submitId}`,{comment:comment, repliedId:replyedCommentId})
 }
 
 export function openApplication(){
   return ppost('/rise/plan/open/application');
 }
 
-
 export function getOpenStatus(){
   return pget('/rise/plan/open/status');
+}
+
+export function getApplicationPractice(submitId) {
+  return pget(`/rise/practice/application/article/${submitId}`)
 }
 
 export function deleteComment(id){

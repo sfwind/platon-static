@@ -62,56 +62,32 @@ router.get("/rise/plan/load", (req, res) => {
                     "section":1,
                     "chapter":1,
                     "practices": [{
-                        "knowledge": {
-                            "id": 6,
-                            "knowledge": "概括主题",
-                            "type": 1,
-                            "analysis": "当别人在听你讲话时，一般是逐句理解你的意思的。当大量信息扑向受众时，他们会自动从中寻找共同点，将你所表达的思想归类组合进行解读。但受众的知识背景和理解力千差万别，他们很难对你的表达做出和你完全一样的解读。这时你传达的信息既增加了读者的理解难度，又容易造成误解。因此，如果你先提出总结性的思想，再表述具体内容，可以让你的讲话条理清晰，更容易理解。",
-                            "pic": null,
-                            "voice": null,
-                            "appear": true
-                        },
-                        "type": 1,
+                        "type": 31,
                         "status": 0,
-                        "unlocked": false,
-                        "practiceIdList": [49, 45, 47],
+                        "unlocked": true,
+                        "practiceIdList": [49],
                         "series": 1,
                         "sequence": 1,
                         "practicePlanId": 1,
+                        "planId":3,
                         "optional":true
                     }, {
-                        "knowledge": {
-                            "id": 7,
-                            "knowledge": "SCQA",
-                            "type": 1,
-                            "analysis": "SCQA通过讲故事的方式撰写主题、使主题更加鲜明和吸引人。通过SCQA概述你所要解决的问题背景、复杂性、关键问题和解决方案，以故事的形式激发读者兴趣，让他们专注于你的话题和你将要表达的思想。",
-                            "pic": null,
-                            "voice": null,
-                            "appear": true
-                        },
                         "type": 1,
                         "status": 0,
                         "unlocked": true,
                         "practiceIdList": [52, 56, 52],
                         "series": 1,
                         "sequence": 2,
+                        "planId":3,
                         "practicePlanId": 1
                     }, {
-                        "knowledge": {
-                            "id": 6,
-                            "knowledge": "概括主题",
-                            "type": 1,
-                            "analysis": "当别人在听你讲话时，一般是逐句理解你的意思的。当大量信息扑向受众时，他们会自动从中寻找共同点，将你所表达的思想归类组合进行解读。但受众的知识背景和理解力千差万别，他们很难对你的表达做出和你完全一样的解读。这时你传达的信息既增加了读者的理解难度，又容易造成误解。因此，如果你先提出总结性的思想，再表述具体内容，可以让你的讲话条理清晰，更容易理解。",
-                            "pic": null,
-                            "voice": null,
-                            "appear": true
-                        },
                         "type": 11,
                         "status": 1,
                         "unlocked": true,
                         "practiceIdList": [27],
                         "series": 1,
                         "sequence": 3,
+                        "planId":3,
                         "practicePlanId": 1
                     }, {
                         "knowledge": null,
@@ -121,6 +97,7 @@ router.get("/rise/plan/load", (req, res) => {
                         "practiceIdList": [2],
                         "series": 0,
                         "sequence": 4,
+                        "planId":3,
                         "optional":true
                     }]
 				},
@@ -130,15 +107,6 @@ router.get("/rise/plan/load", (req, res) => {
                         "section":2,
                         "chapter":1,
                         "practices": [{
-                            "knowledge": {
-                                "id": 6,
-                                "knowledge": "概括主题",
-                                "type": 1,
-                                "analysis": "当别人在听你讲话时，一般是逐句理解你的意思的。当大量信息扑向受众时，他们会自动从中寻找共同点，将你所表达的思想归类组合进行解读。但受众的知识背景和理解力千差万别，他们很难对你的表达做出和你完全一样的解读。这时你传达的信息既增加了读者的理解难度，又容易造成误解。因此，如果你先提出总结性的思想，再表述具体内容，可以让你的讲话条理清晰，更容易理解。",
-                                "pic": null,
-                                "voice": null,
-                                "appear": true
-                            },
                             "type": 32,
                             "status": 0,
                             "unlocked": true,
@@ -146,40 +114,25 @@ router.get("/rise/plan/load", (req, res) => {
                             "series": 1,
                             "sequence": 1,
                             "practicePlanId": 1,
+                            "planId":3,
                             "optional":true
                         }, {
-                            "knowledge": {
-                                "id": 7,
-                                "knowledge": "SCQA",
-                                "type": 1,
-                                "analysis": "SCQA通过讲故事的方式撰写主题、使主题更加鲜明和吸引人。通过SCQA概述你所要解决的问题背景、复杂性、关键问题和解决方案，以故事的形式激发读者兴趣，让他们专注于你的话题和你将要表达的思想。",
-                                "pic": null,
-                                "voice": null,
-                                "appear": true
-                            },
                             "type": 1,
                             "status": 0,
                             "unlocked": true,
                             "practiceIdList": [52, 56, 52],
                             "series": 1,
                             "sequence": 2,
+                            "planId":3,
                             "practicePlanId": 1
                         }, {
-                            "knowledge": {
-                                "id": 6,
-                                "knowledge": "概括主题",
-                                "type": 1,
-                                "analysis": "当别人在听你讲话时，一般是逐句理解你的意思的。当大量信息扑向受众时，他们会自动从中寻找共同点，将你所表达的思想归类组合进行解读。但受众的知识背景和理解力千差万别，他们很难对你的表达做出和你完全一样的解读。这时你传达的信息既增加了读者的理解难度，又容易造成误解。因此，如果你先提出总结性的思想，再表述具体内容，可以让你的讲话条理清晰，更容易理解。",
-                                "pic": null,
-                                "voice": null,
-                                "appear": true
-                            },
                             "type": 11,
                             "status": 1,
                             "unlocked": true,
                             "practiceIdList": [27],
                             "series": 1,
                             "sequence": 3,
+                            "planId":3,
                             "practicePlanId": 1
                         }, {
                             "knowledge": null,

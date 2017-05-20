@@ -47,49 +47,33 @@ export default class ProblemGallery extends React.Component<any,any>{
   }
 
   render(){
-    const {runningPlans=[],donePlans=[],point,riseId,riseMember} = this.state;
+    const {runningPlans=[],donePlans=[],point} = this.state;
 
     const renderGalleyList = (plans, isHistory)=>{
       return (
-          <div className="galley-module-content">
-            {plans && plans.length > 0 ?plans.map((item,index)=>{
-                  return (
-                      <div key={index} className="item" onClick={()=>this.goPlanView(item, isHistory)}>
-                        <div className="item-label">
-                          {item.name}
-                        </div>
-                        <div className="item-content">
-                          {item.point+" 积分"}
-                        </div>
-                      </div>
-                  )
-                }):<div className="item">
-                  <div className="item-label" style={{color:"#999999"}}>
-                    无
-                  </div>
-                </div>}
-          </div>
+        <div className="galley-module-content">
+          {plans && plans.length > 0 ?plans.map((item,index)=>{
+            return (
+              <div key={index} className="item" onClick={()=>this.goPlanView(item, isHistory)}>
+                <div className="item-label">
+                  {item.name}
+                </div>
+                <div className="item-content">
+                  {item.point+" 积分"}
+                </div>
+              </div>
+            )
+          }):<div className="item">
+            <div className="item-label" style={{color:"#999999"}}>
+              无
+            </div>
+          </div>}
+        </div>
       )
-    }
-
-    const renderRiseMember = (riseMember)=>{
-      if(_.isBoolean(riseMember)){
-        if(riseMember){}
-      } else {
-        return null;
-      }
     }
 
     return(
         <div className="problem-gallery">
-          {/*<div className="problem-galley-header" style={{marginBottom:"10px",borderBottom:"none"}}>*/}
-          {/*<div className="header-label" style={{float:"left"}}>*/}
-          {/*RISE ID*/}
-          {/*</div>*/}
-          {/*<div className="header-content" style={{float:"right",marginRight:"20px"}}>*/}
-          {/*{riseId}*/}
-          {/*</div>*/}
-          {/*</div>*/}
           <div className="problem-galley-header" onClick={()=>this.context.router.push({
             pathname:'/rise/static/customer/point/tip',
           })} style={{    marginBottom:"10px",borderBottom:"none"}}>
@@ -100,9 +84,7 @@ export default class ProblemGallery extends React.Component<any,any>{
               {point}{'积分'}
             </div>
           </div>
-          {/*<div className="problem-galley-header">*/}
-          {/*我的小课*/}
-          {/*</div>*/}
+
           <div className="problem-galley-container">
             <div className="galley-module">
               <div className="galley-module-header">

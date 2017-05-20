@@ -331,9 +331,10 @@ router.get("/rise/practice/challenge/start/*", (req, res) => {
 				"pic": "http://www.iquanwai.com/images/cintro1.png",  //图片url
 				"problemId": 1, //问题id
 				"pcurl": "http://someurl", //pc端url
-				"content": null, //提交内容
-        "submitId": 1, //提交id
-        "submitUpdateTime": "2017-02-15" //最后提交时间
+				"content": "aaaa", //提交内容
+                "submitId": 1, //提交id
+                "submitUpdateTime": "2017-02-15", //最后提交时间
+                "planId":1, //计划id
 			}
 		}), Math.random() * 1500)
 });
@@ -535,10 +536,10 @@ router.get("/rise/practice/comment/*", (req, res) => {
                 "list":[
                     {
                         "id":1,
-                        "content":"评论",
-                        "upName":"风之伤",
-                        "upTime":"2017-03-28",
-                        "headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg",
+                        "comment":"评论",
+                        "name":"风之伤",
+                        "discussTime":"2017-03-28",
+                        "avatar":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg",
                         "signature":"签名",
                         "role":3,
                         "isMine":true,
@@ -707,7 +708,7 @@ router.get("/rise/practice/application/list/other/*",(req,res)=>{
 router.post("/rise/practice/comment/*",(req,res)=>{
   setTimeout(()=>{
     res.status(200).json(
-      {"msg":{"id":null,"content":"ccccc","upName":"风之伤","upTime":"2017-03-01","headPic":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg"},"code":200}
+      {"msg":{"id":null,"comment":"ccccc","name":"风之伤","discussTime":"2017-03-01","avatar":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg"},"code":200}
     );
   },Math.random()*1500);
 });
@@ -722,6 +723,12 @@ router.get("/rise/practice/subject/list/*",(req,res)=>{
 router.get("/rise/practice/subject/desc/*",(req,res)=>{
     setTimeout(()=>{
         res.status(200).json({"msg":"学习是为了更好地实践。不妨跟大家分享一下，你运用学习的方法找到了什么本质问题。好的分享能有机会获得圈外教练的点评，其他童鞋的点赞，以及被收录为精华！","code":200});
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/subject/submit/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
     },Math.random()*1500);
 });
 
@@ -871,11 +878,137 @@ router.post("/rise/practice/delete/comment/*",(req,res)=>{
     },Math.random()*1500);
 });
 
-router.get("/rise/practice/knowledge/discuss/*",(req,res)=>{
+router.get("/rise/practice/application/article/*",(req,res)=>{
     setTimeout(()=>{
-        res.status(200).json({"msg":[],"code":200});
+        res.status(200).json({
+            "msg": {
+                "id": null,
+                "topic": "用5W1H给多啦A梦找女朋友",
+                "description": "<p>测试测试</p >",
+                "comments": null,
+                "planId": null,
+                "integrated": null
+            },
+            "code": 200
+        });
     },Math.random()*1500);
 });
 
+router.get("/rise/practice/knowledge/discuss/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({
+            "code": 200,
+            "msg": [
+                {
+                    "id":2,
+                    "repliedId": 1,
+                    "comment":"新增的评论",
+                    "repliedName": "风之伤",
+                    "repliedComment": "评论评论评论",
+                    "repliedDel":0,
+                    "knowledgeId": 49,
+                    "name":"Diane",
+                    "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                    "discussTime":"10:30",
+                    "isMine":true,
+                },
+
+                {
+                    "id":1,
+                    "repliedId": null,
+                    "comment":"评论评论评论",
+                    "repliedName": null,
+                    "repliedComment": null,
+                    "repliedDel":null,
+                    "knowledgeId": 49,
+                    "name":"风之伤",
+                    "avatar":"http://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                    "discussTime":"10:38"
+                }
+            ]
+        });
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/knowledge/discuss",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
+    },Math.random()*1500);
+});
+
+router.get("/rise/practice/knowledge/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({
+            "code": 200,
+            "msg": {
+                "id": 57,
+                "knowledge": "故事的三种作用",
+                "step": "",
+                "analysis": "只有故事，才能达到共情、建立人与人之间的链接、塑造深层次的认同感。\n\n故事是一种有别于逻辑和数据的思维模式，可以被广泛运用与职场管理、市场营销、市场社交的领域。\n",
+                "means": "在以说服为目的的情景中，有三种代表性的故事：\n\n第一种：故事化包装，主要起到吸引受众的作用\n\n第二种：类比类故事，主要起到帮助受众理解的作用\n\n第三种：典型事例类故事，主要起到使受众对概念的理解更具象的作用\n",
+                "keynote": "\n\n",
+                "pic": null,
+                "audio": null,
+                "appear": 0,
+                "example": {
+                    "id": 679,
+                    "question": "初中语文课本上有一篇古文《邹忌讽齐王纳谏》。齐国的相邹忌，身高八尺多，容貌光艳美丽。有一天邹忌上朝拜见齐威王，说：“城北的徐公，是齐国的美男子。我不相信自己会比徐公美丽。有一天早晨我穿戴好衣帽，照着镜子，问妻子：‘我与城北的徐公相比，谁更美丽呢？’我妻子说：‘您美极了，徐公怎么能比得上您呢！’。我又问小妾，妾说：‘徐公怎么能比得上您呢？’。第二天，有客人从外面来拜访，我问客人，客人说：“徐公不如您美丽啊。”又过了一天，徐公前来拜访，我仔细地端详他，觉得远远比不上人家。晚上，我躺在床上想这件事：我的妻子说我美，是偏爱我；我的小妾说我美，是惧怕我；客人说我美，是想要有求于我。如今的齐国，土地方圆千里，有一百二十座城池，宫中的姬妾和身边的近臣，没有不偏爱大王的；朝廷中的大臣，没有不惧怕大王的；国内的百姓，没有不对大王有所求的：由此看来，大王受蒙蔽一定很厉害了。”请问，邹忌对齐威王讲的这个故事，属于以说服为目的的情景下，三种代表性故事类型的哪一种？起到了什么作用？",
+                    "type": 1,
+                    "analysis": "明显属于类比类故事，将君王身边的姬妾、大臣、百姓和自己的妻子、小妾、朋友做类比，帮助齐王理解：你面对的不同的人，会因为各自的私心而蒙蔽你，需要有清醒的认识",
+                    "pic": null,
+                    "difficulty": 2,
+                    "knowledgeId": 57,
+                    "sceneId": 1,
+                    "del": false,
+                    "problemId": 13,
+                    "sequence": 1,
+                    "example": true,
+                    "practiceUid": "T014A015B001Y01001",
+                    "score": 0,
+                    "choiceList": [
+                        {
+                            "id": 2057,
+                            "questionId": 679,
+                            "subject": "典型事例类故事，主要起到使受众对概念的理解更具象的作用",
+                            "sequence": 1,
+                            "isRight": false,
+                            "selected": false
+                        },
+                        {
+                            "id": 2058,
+                            "questionId": 679,
+                            "subject": "类比类故事，主要起到帮助受众理解的作用",
+                            "sequence": 2,
+                            "isRight": true,
+                            "selected": false
+                        },
+                        {
+                            "id": 2059,
+                            "questionId": 679,
+                            "subject": "故事化包装，主要起到吸引受众的作用",
+                            "sequence": 3,
+                            "isRight": false,
+                            "selected": false
+                        }
+                    ],
+                    "discussList": null,
+                    "choice": null,
+                    "knowledge": {
+                        "id": 57,
+                        "knowledge": "故事的三种作用",
+                        "step": "",
+                        "analysis": "只有故事，才能达到共情、建立人与人之间的链接、塑造深层次的认同感。\n\n故事是一种有别于逻辑和数据的思维模式，可以被广泛运用与职场管理、市场营销、市场社交的领域。\n",
+                        "means": "在以说服为目的的情景中，有三种代表性的故事：\n\n第一种：故事化包装，主要起到吸引受众的作用\n\n第二种：类比类故事，主要起到帮助受众理解的作用\n\n第三种：典型事例类故事，主要起到使受众对概念的理解更具象的作用\n",
+                        "keynote": "\n\n",
+                        "pic": null,
+                        "audio": null,
+                        "appear": null,
+                        "example": null
+                    }
+                }
+            }
+        });
+    },Math.random()*1500);
+});
 
 module.exports = router;

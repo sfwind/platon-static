@@ -1,8 +1,13 @@
 import * as React from "react";
 import "./SubmitBox.less";
 import { merge,findIndex,set } from "lodash";
+import Editor from "../../../components/editor/Editor"
+import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
+import {connect} from "react-redux";
 
-export default class Discuss extends React.Component <any, any> {
+
+@connect(state=>state)
+export default class SubmitBox extends React.Component <any, any> {
   constructor(props) {
     super()
     let labels = labels = merge([],props.labels);
@@ -18,6 +23,10 @@ export default class Discuss extends React.Component <any, any> {
     this.labelMargin = (window.innerWidth-2) * 0.1 / 6;
   }
 
+  componentWillReceiveProps(newProps){
+    this.setState({labels:newProps.labels})
+  }
+
   onSubmit() {
     let choseList = [];
     this.state.labels.forEach(item=>{
@@ -25,7 +34,8 @@ export default class Discuss extends React.Component <any, any> {
         choseList.push({labelId:item.id});
       }
     });
-    this.props.onSubmit(this.state.comment,this.state.title,choseList);
+    const comment = this.refs.editor.getValue();
+    this.props.onSubmit(comment,this.state.title,choseList);
   }
 
   clickLabel(selected,seq){
@@ -58,10 +68,11 @@ export default class Discuss extends React.Component <any, any> {
                                          onChange={(e)=>this.setState({title:e.currentTarget.value})}>
           </input>:null}
           {this.props.labels?renderLabels():null}
-          <textarea className="submit-area" cols="30" rows="10" height="500px" width="100%"
-                    value={this.state.comment}
-                    placeholder={this.props.placeholder}
-                    onChange={(e) => this.setState({comment: e.currentTarget.value})}/>
+          <Editor ref="editor" moduleId={this.props.moduleId} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}} uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={this.state.comment} placeholder="离开页面前请提交，以免内容丢失。"/>
+          {/*<textarea className="submit-area" cols="30" rows="10" height="500px" width="100%"*/}
+                    {/*value={this.state.comment}*/}
+                    {/*placeholder={this.props.placeholder}*/}
+                    {/*onChange={(e) => this.setState({comment: e.currentTarget.value})}/>*/}
           <div className="btn-container">
             { this.props.editDisable ?
               <div className="submit-button disabled">提交中</div>

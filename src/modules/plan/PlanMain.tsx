@@ -14,8 +14,6 @@ import {Sidebar} from '../../components/Sidebar';
 import { NumberToChinese,changeTitle } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
-// import 'perfect-scrollbar/dist/css/perfect-scrollbar.css'
-import Scrollbar from 'smooth-scrollbar';
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 const {Alert} = Dialog
 

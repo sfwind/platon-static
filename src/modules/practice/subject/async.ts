@@ -1,7 +1,7 @@
 import { pget, ppost } from "utils/request";
 
 export function loadSubject(subjectId){
-  return pget(`/rise/practice/subject/{subjectId}`);
+  return pget(`/rise/practice/subject/${subjectId}`);
 }
 
 export function loadSubjects(problemId,page){
@@ -17,7 +17,11 @@ export function loadCommentList(submitId,page){
 }
 
 export function comment(submitId,content){
-  return ppost(`/rise/practice/comment/${CommentType.Subject}/${submitId}`,{content:content})
+  return ppost(`/rise/practice/comment/${CommentType.Subject}/${submitId}`,{comment:content})
+}
+
+export function commentReply(submitId, comment, replyedCommentId){
+  return ppost(`/rise/practice/comment/reply/${CommentType.Subject}/${submitId}`,{comment:comment, repliedId:replyedCommentId})
 }
 
 export function vote(referencedId){

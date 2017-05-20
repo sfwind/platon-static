@@ -1,14 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadSubjects,submitSubject,vote,loadSubjectDesc,loadLabels } from "./async";
+import { loadSubjects,vote } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
-import SubmitBox from "../components/RichSubmitBox"
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
 import {CommentType} from "../../message/async";
+import _ from "lodash"
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -130,28 +130,6 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-    loadSubjectDesc(location.query.id).then(res=>{
-      let {code, msg} = res;
-      if(code === 200){
-        this.setState({desc:msg});
-      } else {
-        dispatch(alertMsg("获取描述失败"));
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-    loadLabels(location.query.id).then(res=>{
-      let {code,msg} = res;
-      if(code===200){
-        this.setState({labels:msg});
-      } else {
-        dispatch(alertMsg("获取标签失败"));
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
 
   }
 
@@ -200,81 +178,9 @@ export class Main extends React.Component <any, any> {
   }
 
   openWriteBox(){
-    this.setState({showDiscuss: true,submitId:null})
-    if(this.pullElement){
-      this.pullElement.disable();
-    }
-  }
-
-  onSubmit(content,title,labels){
-    const {submitId} = this.state;
-    const { dispatch, location} = this.props
-    if(content == null || content.length === 0){
-      dispatch(alertMsg('还没有输入正文'))
-      return
-    }
-    if(title == null || title.length === 0){
-      dispatch(alertMsg('还没有输入标题'))
-      return
-    }
-    this.setState({editDisable: true})
-    submitSubject(location.query.id,title, content,submitId,labels).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if (code === 200) {
-        if(submitId){
-          // 是更新
-          let newPerfect = merge([],this.state.perfectList);
-          let newNormal = merge([],this.state.normalList);
-          let flag = false;
-          for(let i = 0;i<newPerfect.length; i++){
-            if(flag){
-              break;
-            }
-            if(newPerfect[i].submitId === submitId){
-              flag = true;
-              newPerfect[i].title = msg.title;
-              newPerfect[i].content = msg.content;
-              newPerfect[i].submitUpdateTime = msg.submitUpdateTime;
-              newPerfect[i].labelList = msg.labelList;
-            }
-          }
-          for(let i=0;i<newNormal.length; i++){
-            if(flag){
-              break;
-            }
-            if(newNormal[i].submitId===submitId){
-              flag=true;
-              newNormal[i].title = msg.title;
-              newNormal[i].content = msg.content;
-              newNormal[i].submitUpdateTime = msg.submitUpdateTime;
-              newNormal[i].labelList = msg.labelList;
-            }
-          }
-
-          this.setState({showDiscuss:false,editDisable:false,submitId:null,perfectList:newPerfect,normalList:newNormal});
-        } else {
-          // 是新增
-          if(msg.perfect){
-            // 优秀
-            this.setState({showDiscuss:false,editDisable:false,submitId:null,perfectList:[msg].concat(this.state.perfectList)});
-          } else {
-            this.setState({showDiscuss:false,editDisable:false,submitId:null,normalList:[msg].concat(this.state.normalList)});
-          }
-        }
-        if(!this.state.end && this.pullElement){
-          this.pullElement.enable();
-        }
-      }
-      else {
-        dispatch(alertMsg(msg))
-        this.setState({editDisable: false})
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-      this.setState({editDisable: false})
-    })
+    let query = this.props.location.query
+    const {submitId} = this.state
+    this.context.router.push({pathname: '/rise/static/practice/subject/submit', query:_.merge(query, {submitId})})
   }
 
   render() {
@@ -302,7 +208,6 @@ export class Main extends React.Component <any, any> {
                   goComment={()=>this.goComment(item.submitId)}
                   type = {CommentType.Subject}
                   onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content,item.labelList):null}
-                  avatarStyle={"top"}
             />
           )
         })
@@ -339,11 +244,11 @@ export class Main extends React.Component <any, any> {
           <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
         {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
-        {showDiscuss ?<SubmitBox moduleId={4} height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}
-                                 onSubmit={(content,title,labels)=>this.onSubmit(content,title,labels)} desc={this.state.desc}
-                                 defaultTitle={this.state.defaultTitle} defaultContent={this.state.defaultContent}
-                                 labels={this.state.labels} defaultLabels={this.state.defaultLabels}
-                                 titleEnable={true} /> : null}
+        {/*{showDiscuss ?<SubmitBox moduleId={4} height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}*/}
+                                 {/*onSubmit={(content,title,labels)=>this.onSubmit(content,title,labels)} desc={this.state.desc}*/}
+                                 {/*defaultTitle={this.state.defaultTitle} defaultContent={this.state.defaultContent}*/}
+                                 {/*labels={this.state.labels} defaultLabels={this.state.defaultLabels}*/}
+                                 {/*titleEnable={true} /> : null}*/}
       </div>
     )
   }

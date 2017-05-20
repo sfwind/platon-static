@@ -14,8 +14,9 @@ import { Main as Challenge } from "modules/practice/challenge/Main";
 import { Main as Subject } from "modules/practice/subject/Main"
 import { Submit as ApplicationPracticeSubmit } from "modules/practice/application/Submit";
 import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
-import { ReplyDiscussMessage } from "modules/message/ReplyDiscussMessage";
-import { ReplySubjectMessage  } from "modules/message/ReplySubjectMessage"
+import { Submit as SubjectSubmit } from "modules/practice/subject/Submit";
+import { ReplyDiscussMessage } from "modules/message/ReplyWarmupDiscussMessage";
+
 import { MessageCenter } from "modules/message/MessageCenter";
 import { ReplyKnowledgeDiscussMessage } from "modules/message/ReplyKnowledgeDiscussMessage"
 import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
@@ -24,7 +25,7 @@ import { Comment as SubjectComment } from "modules/practice/subject/Comment"
 import { RiseMemberExplain } from "modules/plan/RiseMemberExplain"
 import { RoadMap } from "modules/practice/knowledge/RoadMap"
 import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
-
+import { ReplyCommentMessage } from "modules/message/ReplyCommentMessage";
 import { Customer } from "modules/customer/Customer"
 import Personal from "modules/customer/Personal"
 import PointTip from "modules/customer/PointTip"
@@ -59,14 +60,16 @@ const routes = (
     <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
     <Route path="practice/application/comment" component={ApplicationComment}/>
     <Route path="practice/subject" component={Subject}/>
+    <Route path="practice/subject/submit" component={SubjectSubmit}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
-    <Route path="member/explain" component={RiseMemberExplain}/>
     <Route path="practice/knowledge" component={KnowledgeViewer}/>
     <Route path="practice/roadmap" component={RoadMap}/>
     <Route path="practice/knowledge/review" component={KnowledgeReview}/>
+    <Route path="member/explain" component={RiseMemberExplain}/>
     <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
-    <Route path="message/subject/reply" component={ReplySubjectMessage}/>
+    <Route path="message/subject/reply" component={SubjectComment}/>
     <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
+    <Route path="message/comment/reply" component={ReplyCommentMessage}/>
     <Route path="customer" component={Customer}>
       <Route path="personal" component={Personal}/>
       <Route path="profile" component={Profile}/>

@@ -5,7 +5,7 @@ import {loadKnowledge, loadKnowledgeDiscussReply,discussKnowledge} from "./async
 import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import Discuss from "../practice/components/Discuss";
 import DiscussShow from "../practice/components/DiscussShow";
-import KnowledgeViewer from "../practice/components/KnowledgeModal";
+import _ from "lodash"
 
 @connect(state => state)
 export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
@@ -58,43 +58,78 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
     })
   }
 
-
-  back(){
-    this.context.router.push({ pathname: '/rise/static/message/center'})
-  }
-
-  closeModal(){
-    const {knowledgeId} = this.props.location.query
+  goKnowledge(){
     this.context.router.push({
-      pathname: 'rise/static/practice/knowledge', query: {id:knowledgeId}
+      pathname: '/rise/static/practice/knowledge', query: {id:this.props.location.query.knowledgeId}
     })
   }
 
+  reply(item){
+    this.setState({showDiscuss:true, referenceId:item.knowledgeId, repliedId:item.id})
+  }
 
-  reply(warmupPracticeId, repliedId){
-    this.setState({showDiscuss:true, warmupPracticeId, repliedId})
+  onChange(value){
+    this.setState({content:value})
+  }
+
+  cancel(){
+    const {showDiscuss} = this.state
+    if(showDiscuss){
+      this.setState({showDiscuss:false})
+    }
+  }
+
+  onSubmit(){
+    const {dispatch} = this.props
+    const {referenceId, repliedId, content} = this.state
+    if(content.length==0){
+      dispatch(alertMsg('请填写评论'))
+      return
+    }
+    if(content.length>300){
+      dispatch(alertMsg('您的评论字数已超过300字'))
+      return
+    }
+
+    let discussBody = {comment:content, referenceId: referenceId}
+    if (repliedId) {
+      _.merge(discussBody, {repliedId: repliedId})
+    }
+
+    discussKnowledge(discussBody).then(res => {
+      const {code, msg} = res
+      if (code === 200) {
+        this.context.router.push({
+          pathname: '/rise/static/practice/knowledge', query: {id:this.props.location.query.knowledgeId}
+        })
+      }
+      else {
+        dispatch(alertMsg(msg))
+      }
+    }).catch(ex => {
+      dispatch(alertMsg(ex))
+    })
   }
 
   render() {
-    const {knowledge, knowledgeId, data, commentId, showDiscuss, showKnowledge} = this.state
+    const {knowledge, data, showDiscuss} = this.state
 
     const renderDiscuss = (discuss) => {
         return (
-            <DiscussShow discuss={discuss} reply={this.reply.bind(this)}/>
+            <DiscussShow discuss={discuss} reply={()=>this.reply(discuss)}/>
         )
     }
     return (
       <div>
-        <div className="container has-footer">
-           <div className="question">知识点:{knowledge?knowledge.knowledge:null}</div>
-           <div className="origin-question-tip" onClick={this.closeModal.bind(this)}>点击查看知识点</div>
+        <div className="container" onClick={()=>this.cancel()}>
+          <div className="question">知识点:{knowledge?knowledge.knowledge:null}</div>
+          <div className="origin-question-tip" onClick={this.goKnowledge.bind(this)}>点击查看知识点</div>
            <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
            {renderDiscuss(data)}
          </div>
-        {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
-        {showDiscuss ?<Discuss repliedId={commentId} referenceId={knowledgeId} type="本知识点"
-                               closeModal={this.closeModal.bind(this)} discuss={(body)=>discussKnowledge(body)}  /> : null}
-        {/*{showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.back.bind(this)}/> : null}*/}
+        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+data.name+':'}
+                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                               cancel={()=>this.cancel()}/> : null}
 
       </div>
     )

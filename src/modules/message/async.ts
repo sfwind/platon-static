@@ -28,24 +28,12 @@ export function readMessage(messageId) {
   return ppost(`/rise/message/read/${messageId}`)
 }
 
-export function loadSubjectCommentList(submitId,page){
-  return pget(`/rise/practice/comment/${CommentType.Subject}/${submitId}`,{page:page})
-}
-
-export function commentSubject(submitId,content){
-  return ppost(`/rise/practice/comment/${CommentType.Subject}/${submitId}`,{content:content})
-}
-
-export function loadSubject(submitId){
-  return pget(`/rise/practice/subject/${submitId}`)
-}
-
-export function submitSubject(problemId,title,content,id,labels){
-  return ppost(`/rise/practice/subject/submit/${problemId}`,{submitId:id,title:title,content:content,labelList:labels});
+export function commentReply(moduleId, submitId, comment, replyedCommentId){
+  return ppost(`/rise/practice/comment/reply/${moduleId}/${submitId}`,{comment:comment, repliedId:replyedCommentId})
 }
 
 export function requestComment(submitId){
-  return ppost(`/rise/practice/request/comment/3/${submitId}`);
+  return ppost(`/rise/practice/request/comment/${CommentType.Subject}/${submitId}`);
 }
 
 export function loadKnowledge(id){
@@ -62,6 +50,14 @@ export function discuss(params) {
 
 export function requestCommentByType(type, submitId){
   return ppost(`/rise/practice/request/comment/${type}/${submitId}`);
+}
+
+export function loadArticleData(moduleId, commentId) {
+  return pget(`/rise/message/comment/reply/${moduleId}/${commentId}`);
+}
+
+export function deleteComment(id) {
+  return ppost(`/rise/practice/delete/comment/${id}`)
 }
 
 export const CommentType = {
