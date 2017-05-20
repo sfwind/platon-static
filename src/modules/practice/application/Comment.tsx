@@ -121,7 +121,7 @@ export class Comment extends React.Component<any, any> {
             if (!this.state.end && this.pullElement) {
               this.pullElement.enable();
             }
-            scroll('.comment-body', '.application-comment')
+            scroll('.comment-header', '.application-comment')
           } else {
             dispatch(alertMsg(res.msg));
             this.setState({editDisable: false});
@@ -144,7 +144,7 @@ export class Comment extends React.Component<any, any> {
                 if (!this.state.end && this.pullElement) {
                   this.pullElement.enable();
                 }
-                scroll('.comment-body', '.application-comment')
+                scroll('.comment-header', '.application-comment')
               } else {
                 dispatch(alertMsg(res.msg));
                 this.setState({editDisable: false});
@@ -243,7 +243,7 @@ export class Comment extends React.Component<any, any> {
       <div>
         <div className="application-comment">
           <div className="article">
-            <div className="page-header">{topic}</div>
+            <div className="article-header">{topic}</div>
             <pre dangerouslySetInnerHTML={{__html: description}} className="description"></pre>
             <div className="comment-header">
               当前评论

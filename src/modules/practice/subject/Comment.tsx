@@ -118,10 +118,10 @@ export class Comment extends React.Component<any,any>{
               showDiscuss: false,
               editDisable: false
             });
-            if (!this.state.end && this.pullElement) {
-              this.pullElement.enable();
-            }
-            scroll('.comment-body', '.subject-comment')
+            // if (!this.state.end && this.pullElement) {
+            //   this.pullElement.enable();
+            // }
+            scroll('.comment-header', '.subject-comment')
           } else {
             dispatch(alertMsg(res.msg));
             this.setState({editDisable: false});
@@ -137,10 +137,10 @@ export class Comment extends React.Component<any,any>{
               dispatch(endLoad());
               if(res.code===200){
                 this.setState({commentList:[res.msg].concat(this.state.commentList),showDiscuss:false,editDisable:false});
-                if(!this.state.end && this.pullElement){
-                  this.pullElement.enable();
-                }
-                scroll('.comment-body', '.subject-comment')
+                // if(!this.state.end && this.pullElement){
+                //   this.pullElement.enable();
+                // }
+                scroll('.comment-header', '.subject-comment')
               } else {
                 dispatch(alertMsg(res.msg));
                 this.setState({editDisable:false});
@@ -282,7 +282,7 @@ export class Comment extends React.Component<any,any>{
       <div>
         <div className="subject-comment">
           <div className="article">
-            <div className="page-header">{title}</div>
+            <div className="article-header">{title}</div>
             <pre dangerouslySetInnerHTML={{__html: content}} className="description"></pre>
             <div className="comment-header">
               当前评论

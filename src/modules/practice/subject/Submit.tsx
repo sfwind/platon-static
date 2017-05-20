@@ -57,7 +57,6 @@ export class Submit extends React.Component <any, any> {
     }
 
     onSubmit(content, title, labels){
-        const {submitId} = this.props.location.query;
         const { dispatch, location} = this.props
         if(content == null || content.length === 0){
             dispatch(alertMsg('还没有输入正文'))
@@ -68,7 +67,7 @@ export class Submit extends React.Component <any, any> {
             return
         }
         this.setState({editDisable: true})
-        submitSubject(location.query.id,title, content,submitId,labels).then(res => {
+        submitSubject(location.query.id,title, content,null, labels).then(res => {
             dispatch(endLoad())
             const { code, msg } = res
             if (code === 200) {

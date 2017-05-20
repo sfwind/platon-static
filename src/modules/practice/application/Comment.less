@@ -1,7 +1,17 @@
 @import "../../../style/variable";
 
 .application-comment{
+  overflow: auto;
   .article {
+    > .article-header{
+      width: 100%;
+      min-height: 45px;
+      font-size: @font_title;
+      line-height: 2.5em;
+      border-bottom: 2px solid @color_strong;
+      text-align: center;
+      color: @color_title;
+    }
     padding: 0 15px 0 15px;
     > .description {
       font-size: @font_context;
