@@ -15,6 +15,11 @@ export default class Discuss extends React.Component <any, any> {
 
   componentDidMount(){
     this.refs.input.focus()
+    //解决ios键盘弹出挡住输入框的问题
+    setInterval(function() {
+      document.body.scrollTop = document.body.scrollHeight
+    }, 100)
+
   }
 
   onSubmit(){
