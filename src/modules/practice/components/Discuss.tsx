@@ -13,6 +13,10 @@ export default class Discuss extends React.Component <any, any> {
     }
   }
 
+  componentDidMount(){
+    this.refs.input.focus()
+  }
+
   onSubmit(){
     this.setState({editDisable:true})
     const { submit } = this.props
@@ -25,7 +29,7 @@ export default class Discuss extends React.Component <any, any> {
 
     return (
         <div className="comment-dialog">
-          <textarea placeholder={placeholder} onChange={(e)=>onChange(e.currentTarget.value)}>
+          <textarea ref="input" placeholder={placeholder} onChange={(e)=>onChange(e.currentTarget.value)}>
           </textarea>
           <div className="comment-right-area">
             <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
