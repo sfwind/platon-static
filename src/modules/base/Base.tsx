@@ -53,7 +53,11 @@ export default class Main extends React.Component<any, any> {
 	}
 
 	componentDidMount(){
-    iNoBounce(this);
+	  iNoBounce(window);
+	  // window.iNoBounce = this.iNoBounce;
+	  // window.iNoBounce.disable();
+	  const { dispatch } = this.props;
+	  dispatch(set('iNoBounce',window.iNoBounce));
   }
 
 	closeAnswer() {

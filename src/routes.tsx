@@ -2,7 +2,6 @@ import * as React from "react";
 import { Route } from "react-router";
 import Base from "modules/base/Base";
 import { Welcome } from "modules/problem/Welcome";
-import { ProblemPriority } from "modules/problem/ProblemPriority";
 import { ProblemViewer } from "modules/problem/ProblemViewer";
 import { PlanMain } from "modules/plan/PlanMain";
 import { KnowledgeViewer } from "modules/practice/knowledge/KnowledgeViewer";
@@ -16,7 +15,6 @@ import { Submit as ApplicationPracticeSubmit } from "modules/practice/applicatio
 import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
 import { Submit as SubjectSubmit } from "modules/practice/subject/Submit";
 import { ReplyDiscussMessage } from "modules/message/ReplyWarmupDiscussMessage";
-
 import { MessageCenter } from "modules/message/MessageCenter";
 import { ReplyKnowledgeDiscussMessage } from "modules/message/ReplyKnowledgeDiscussMessage"
 import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
@@ -36,12 +34,17 @@ import RiseMember from "modules/customer/RiseMember"
 import FeedBack from "modules/customer/FeedBack"
 import UserProtocol from "modules/customer/UserProtocol"
 import {EventWall} from "modules/plan/EventWall";
+import { Explore } from 'modules/problem/Explore';
+import { MoreProblem } from 'modules/problem/MoreProblem'
+import BannerArticle from 'modules/problem/BannerArticle'
 
 const routes = (
   <Route path="/rise/static" component={Base}>
     <Route path="welcome" component={Welcome}/>
-    <Route path="problem/priority" component={ProblemPriority}/>
+    <Route path="problem/explore" component={Explore} />
     <Route path="problem/view" component={ProblemViewer}/>
+    <Route path="problem/more" component={MoreProblem}/>
+    <Route path="problem/package" component={BannerArticle}/>
     <Route path="plan/main" component={PlanMain}/>
     <Route path="learn" component={PlanMain}/>
     <Route path="practice/warmup" component={WarmUp}/>

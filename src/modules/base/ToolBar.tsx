@@ -44,6 +44,13 @@ export class ToolBar extends React.Component<any,any> {
             label: '活动'
           }
         }, {
+          key: 2,
+          bar: {
+            icon: IconExplore,
+            activeIcon: IconExploreActive,
+            label: '发现'
+          }
+        }, {
           key: 3,
           bar: {
             icon: 'https://www.iqycamp.com/images/tabbar_mine.png',
@@ -61,6 +68,8 @@ export class ToolBar extends React.Component<any,any> {
       tabIndex = 0;
     } else if(window.location.pathname === '/rise/static/event/wall'){
       tabIndex = 1;
+    } else if(window.location.pathname === '/rise/static/problem/explore'){
+      tabIndex = 2;
     } else if(window.location.pathname.indexOf('/rise/static/customer')!=-1 ||
         window.location.pathname.indexOf('/rise/static/message')!=-1){
       //消息中心和个人中心
@@ -85,7 +94,9 @@ export class ToolBar extends React.Component<any,any> {
     } else if(tabIndex === 1){
       this.context.router.push('/rise/static/event/wall');
     } else if(tabIndex === 2) {
-      console.log('go explore ignore')
+      this.context.router.push({
+        pathname:'/rise/static/problem/explore',
+      })
     } else if(tabIndex === 3){
       this.context.router.push("/rise/static/customer/personal");
     }

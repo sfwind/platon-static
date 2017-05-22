@@ -31,6 +31,7 @@ export class Customer extends React.Component<any,any>{
           triggerTab:()=>this.triggerTab()
         })}
         {this.state.hiddenTab?null:<ToolBar/>}
+        <div className="padding-footer"></div>
       </div>
     )
   }

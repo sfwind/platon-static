@@ -57,7 +57,6 @@ function SectionToChinese(section){
 
 export function scroll(target, container){
     let y = document.querySelector(target).offsetTop
-    console.log(y)
     document.querySelector(container).scrollTop = y
 }
 

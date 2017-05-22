@@ -143,6 +143,7 @@
         &:not(:nth-last-of-type(1)){
           border-bottom:1px solid rgba(255,255,255,0.3);
         }
+
         .cell {
           > div{
             display: table;
@@ -304,6 +305,7 @@
           margin-top: 31px;
           font-size: @font_context;
           line-height: @font_context;
+          color: @color_context;
           > .text {
             margin-bottom: 41px;
             color: @color_context;
@@ -317,6 +319,7 @@
         > .content2 {
           font-size: @font_context;
           line-height: @font_context;
+          color: @color_context;
           margin-top: 18px;
           .number {
             margin: 0 5px;
@@ -326,6 +329,10 @@
           > .text {
             margin-bottom: 13px;
             color: @color_context;
+          }
+          > .text2 {
+            color: @color_help;
+            font-size: 0.8em;
           }
         }
         > .button {
@@ -540,4 +547,43 @@
 }
 .ps:hover > .ps__scrollbar-y-rail:hover > .ps__scrollbar-y {
   //background-color: #999;
+}
+
+
+.empty-container {
+  .empty-img {
+    height: 100px;
+    width: 100%;
+    float: left;
+    text-align: center;
+    margin: 100px auto;
+  }
+  .empty-text {
+    text-align: center;
+    width: 100%;
+    float: left;
+    height: 1.6rem;
+    line-height: 16px;
+    font-size: 16px;
+    padding: 20px;
+    margin: -10px;
+    color: #cccccc;
+    span {
+      line-height: 22px;
+    }
+  }
+  .empty-button {
+    float: left;
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 40px;
+    background-color: #55CBCB;
+    color: #ffffff;
+    height: 40px;
+    font-size: 15px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px;
+  }
+
 }
