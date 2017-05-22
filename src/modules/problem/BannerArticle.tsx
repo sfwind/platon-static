@@ -83,16 +83,16 @@ export default class UpMind extends React.Component<any,any> {
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p9} clickHandler={(problem)=>this.clickProblem(problem)}
                 />
-                <span className="normal_font"><br/>其次，面对前所未有的新问题，利用创新思维撬开脑洞；<br/></span>
+                <span className="normal_font">其次，面对前所未有的新问题，利用创新思维撬开脑洞；<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p3} clickHandler={(problem)=>this.clickProblem(problem)}/>
-                <span className="normal_font"><br/>然后，面对他人的观点，保持独立，不人云亦云。<br/></span>
+                <span className="normal_font">然后，面对他人的观点，保持独立，不人云亦云。<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p12}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
-                <span className="normal_font"> <br/> 以上三个方面都在升级你的理性脑。<br/>
+                <span className="normal_font"> 以上三个方面都在升级你的理性脑。<br/>
                 然而，情绪脑也不能被忽略，如果不能管理好情绪，理性的作用就无法发挥出来。<br/>
                   因此你还需要，升级情绪脑，别让情绪浪费了你的努力。<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
@@ -109,13 +109,13 @@ export default class UpMind extends React.Component<any,any> {
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p11}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
-                <span className="normal_font"><br/>其次，通过结构化思维训练，使沟通条理更清晰；<br/></span>
+                <span className="normal_font">其次，通过结构化思维训练，使沟通条理更清晰；<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p1}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
 
-                <span className="normal_font"> <br/>然后，利用影响力法则，赢得他人的支持；<br/></span>
+                <span className="normal_font">然后，利用影响力法则，赢得他人的支持；<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p16}
@@ -140,13 +140,13 @@ export default class UpMind extends React.Component<any,any> {
                              problem={problems.p8}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
 
-                <span className="normal_font"> <br/>其次了解企业的真正需求，进而包装自己的简历；<br/></span>
+                <span className="normal_font">其次了解企业的真正需求，进而包装自己的简历；<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p6}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
 
-                <span className="normal_font"> <br/>最后，知道面试官究竟想听什么，在面试中脱颖而出。<br/></span>
+                <span className="normal_font">最后，知道面试官究竟想听什么，在面试中脱颖而出。<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p7}
@@ -164,7 +164,7 @@ export default class UpMind extends React.Component<any,any> {
                              problem={problems.p1}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
 
-                <span className="normal_font"> <br/>其次，用故事包装你的观点、以及借助演讲的力量，更好地说服别人；<br/></span>
+                <span className="normal_font">其次，用故事包装你的观点、以及借助演讲的力量，更好地说服别人；<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p14}
@@ -174,12 +174,12 @@ export default class UpMind extends React.Component<any,any> {
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p13}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
-                <span className="normal_font"> <br/>接着，一针见血地找到对方的逻辑漏洞；<br/></span>
+                <span className="normal_font">接着，一针见血地找到对方的逻辑漏洞；<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p5}
                              clickHandler={(problem)=>this.clickProblem(problem)}/>
-                <span className="normal_font"> <br/>最后，通过影响力法则，让他人不再对我们说不。<br/></span>
+                <span className="normal_font">最后，通过影响力法则，让他人不再对我们说不。<br/></span>
                 <ProblemItem width={window.innerWidth - 30}
                              rootStyle={{padding:'15px 0'}}
                              problem={problems.p16}

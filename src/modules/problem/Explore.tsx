@@ -5,6 +5,7 @@ import { ToolBar } from '../base/ToolBar';
 import SwipeableViews from 'react-swipeable-views';
 import Banner from '../../components/Banner';
 import { loadUnChooseList } from './async';
+import {changeTitle} from '../../utils/helpers'
 import { merge } from 'lodash'
 
 import './Explore.less';
@@ -29,6 +30,7 @@ export class Explore extends React.Component<any,any>{
   }
 
   componentWillMount(){
+    changeTitle('发现')
     const { dispatch } = this.props;
     dispatch(startLoad());
     loadUnChooseList().then(res => {

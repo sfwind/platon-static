@@ -49,15 +49,15 @@ export class ProblemViewer extends React.Component<any, any> {
         throw msg;
       }
     }).then(msg=>{
-      return checkCreatePlan(id).then(res=>{
-        console.log(res.msg);
+      // return checkCreatePlan(id).then(res=>{
+      //   console.log(res.msg);
         dispatch(endLoad());
-        if(res.code === 200){
+        // if(res.code === 200){
           this.setState({data:msg,show:false})
-        } else {
-          this.setState({data:msg,show:true});
-        }
-      })
+        // } else {
+        //   this.setState({data:msg,show:true});
+        // }
+      // })
     }).catch(ex=>{
       dispatch(endLoad());
       dispatch(alertMsg(ex))
