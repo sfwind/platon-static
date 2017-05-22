@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Swiper from 'swiper';
-import 'swiper/dist/css/swiper.css'
 
 
 export default class Banner extends React.Component<any,any> {
