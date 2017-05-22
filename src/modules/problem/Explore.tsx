@@ -34,13 +34,29 @@ export class Explore extends React.Component<any,any>{
     loadUnChooseList().then(res => {
       dispatch(endLoad());
       if(res.code === 200){
-        this.setState({catalogList:res.msg.catalogList});
+        this.setState({catalogList:res.msg.catalogList},()=>{
+          console.log(res);
+          for(let i=0;i<res.msg.catalogList.length; i++){
+            let id = `#catalog${i}`;
+            let bar = `#catalogbar${i}`;
+            var swiper = new Swiper(id, {
+              scrollbar: bar,
+              scrollbarHide: true,
+              slidesPerView: 'auto',
+              centeredSlides: false,
+              spaceBetween: 0,
+              grabCursor: true
+            });
+          }
+
+        });
       } else {
         dispatch(alertMsg(res.msg));
       }
     }).catch(ex=>{
+      console.log(ex);
       dispatch(endLoad());
-      dispatch(alertMsg(res.msg));
+      dispatch(alertMsg(ex));
     })
 
   }
@@ -72,6 +88,16 @@ export class Explore extends React.Component<any,any>{
   }
   render(){
     const { catalogList } = this.state;
+    const renderDesc = (id)=>{
+      console.log(id);
+      switch(id){
+        case 1: return '培养可迁移能力';
+        case 2: return '让他人看到你的能力';
+        case 3: return '提高自我认知';
+        case 4: return '提高做事效率';
+        case 6: return '提升领导力';
+      }
+    }
     return (
       <div>
         <div className="explore-container">
@@ -96,20 +122,23 @@ export class Explore extends React.Component<any,any>{
                   <div className="header">
                     <span className="catalog-name">{catalog.name}</span>
                     <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
+                    <span className="desc">{renderDesc(catalog.catalogId)}</span>
                   </div>
-                  <div className="problem-box">
-                    <div style={{height:'auto',width:`${this.picWidth*(catalog.problemList?catalog.problemList.length + 1:0)}px`}}>
-                    {catalog.problemList ? catalog.problemList.map((problem, key) => {
-                      return (
-                        <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}} className="problem-item-show">
-                          <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
-                            <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
+                  <div className="problem-box swiper-container" id={`catalog${key}`}>
+                    <div className="swiper-wrapper">
+                      {catalog.problemList ? catalog.problemList.map((problem, key) => {
+                        return (
+                          <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
+                               className="problem-item-show swiper-slide">
+                            <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                              <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
+                            </div>
+                            <span>{problem.problem}</span>
                           </div>
-                          <span>{problem.problem}</span>
-                        </div>
-                      )
-                    }) : null}
+                        )
+                      }) : null}
                     </div>
+                    <div className="swiper-scrollbar" id={`catalogbar${key}`}></div>
                   </div>
                 </div>
               )
