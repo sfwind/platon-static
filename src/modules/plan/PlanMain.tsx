@@ -106,6 +106,7 @@ export class PlanMain extends React.Component <any, any> {
 
       sidebarOpen:false,
       isHistory:false,
+      showEmptyPage: false,
     }
 
     changeTitle('RISE');
@@ -187,9 +188,16 @@ export class PlanMain extends React.Component <any, any> {
         if (msg !== null) {
           this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem, isHistory})
         } else {
-          this.context.router.push({
-            pathname: '/rise/static/welcome'
-          })
+          // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
+          if(location.pathname === '/rise/static/learn') {
+            this.setState({
+              showEmptyPage: true
+            })
+          } else {
+            this.context.router.push({
+              pathname: '/rise/static/welcome'
+            })
+          }
         }
       }
       else dispatch(alertMsg(msg))
@@ -429,88 +437,101 @@ export class PlanMain extends React.Component <any, any> {
     section.setAttribute('class','section open');
   }
 
+  onClickProblemChoose() {
+    this.context.router.push({
+      pathname: '/rise/static/problem/explore'
+    })
+  }
 
   render() {
-    const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal, windowsClient,
+    const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
         selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,isHistory } = this.state
     const {location} = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries
     } = planData
     const practiceRender = (list = []) => {
-        if(!list){
-            return null
-        }else{
-            return list.map((item, index) => {
-                return (
-                    <div key={index} className="practice-card"
-                         onClick={() => this.onPracticeSelected(item)}>
-                        <div className="header">
-                            {item.type === 1 || item.type === 2 ? item.status !== 1 ?
-                                    <AssetImg type="warmup" size={50}/>:
-                                    <AssetImg type="warmup_complete" size={50}/> : null
-                            }
-                            {item.type === 11 ? item.status !== 1 ?
-                                    <AssetImg type="application" size={50}/>:
-                                    <AssetImg type="application_complete" size={50}/> : null
-                            }
-                            {item.type === 12 ? item.status !== 1 ?
-                                    <AssetImg type="integrated" size={50}/>:
-                                    <AssetImg type="integrated_complete" size={50}/> : null
-                            }
-                            {item.type === 21 ? item.status !== 1 ?
-                                    <AssetImg type="challenge" size={50}/>:
-                                    <AssetImg type="challenge_complete" size={50}/> : null
-                            }
-                            {item.type === 31 || item.type === 32 ? item.status !== 1 ?
-                                    <AssetImg type="knowledge" size={50}/>:
-                                    <AssetImg type="knowledge_complete" size={50}/> : null
-                            }
-                        </div>
-                        {item.unlocked === false ?
-                            <div className="locked"><AssetImg type="lock" height={24} width={20}/></div>: null
-                        }
-                        <div className="body">
-                            <div className="title">{typeMap[item.type]}</div>
-                        </div>
-                        <div className="footer">
-                            {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
-                            {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
-                        </div>
-                    </div>
-                )
-            })
-        }
+      if (!list) {
+        return null
+      } else {
+        return list.map((item, index) => {
+          return (
+            <div key={index} className="practice-card"
+                 onClick={() => this.onPracticeSelected(item)}>
+              <div className="header">
+                {item.type === 1 || item.type === 2 ? item.status !== 1 ?
+                  <AssetImg type="warmup" size={50}/> :
+                  <AssetImg type="warmup_complete" size={50}/> : null
+                }
+                {item.type === 11 ? item.status !== 1 ?
+                  <AssetImg type="application" size={50}/> :
+                  <AssetImg type="application_complete" size={50}/> : null
+                }
+                {item.type === 12 ? item.status !== 1 ?
+                  <AssetImg type="integrated" size={50}/> :
+                  <AssetImg type="integrated_complete" size={50}/> : null
+                }
+                {item.type === 21 ? item.status !== 1 ?
+                  <AssetImg type="challenge" size={50}/> :
+                  <AssetImg type="challenge_complete" size={50}/> : null
+                }
+                {item.type === 31 || item.type === 32 ? item.status !== 1 ?
+                  <AssetImg type="knowledge" size={50}/> :
+                  <AssetImg type="knowledge_complete" size={50}/> : null
+                }
+              </div>
+              {item.unlocked === false ?
+                <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null
+              }
+              <div className="body">
+                <div className="title">{typeMap[item.type]}</div>
+              </div>
+              <div className="footer">
+                {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
+                {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
+              </div>
+            </div>
+          )
+        })
+      }
 
     }
 
-    const renderSidebar = ()=>{
+    const renderSidebar = () => {
       return (
         <div className="plan-side-bar">
           <div className="side-header-title">
-           <span className="content" style={{width:`${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
+            <span className="content" style={{width: `${window.innerWidth * 0.7 - 20}`}}>{selectProblem.problem}</span>
           </div>
 
-          <div ref="sideContent" className="side-content" style={{height:`${window.innerHeight-50-75}px`,width:`${window.innerWidth * 0.7}px`,overflow:'hidden',position:'relative'}}>
-            {chapterList?chapterList.map((item,key)=>{
+          <div ref="sideContent" className="side-content" style={{
+            height: `${window.innerHeight - 50 - 75}px`,
+            width: `${window.innerWidth * 0.7}px`,
+            overflow: 'hidden',
+            position: 'relative'
+          }}>
+            {chapterList ? chapterList.map((item, key) => {
               return (
                 <div key={key} className={`chapter-area`}>
                   <div className="cell">
                     <div className="chapter">
                       <div>
-                      <div className="label">{NumberToChinese(item.chapterId)}、</div><div className="str" style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
+                        <div className="label">{NumberToChinese(item.chapterId)}、</div>
+                        <div className="str"
+                             style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
                       </div>
                     </div>
                     {item.sectionList.map((section, index) => {
                       return (
-                        <div id={`section${section.series}`} className={`${currentIndex===section.series?'open':''} section`}
-                             onClick={()=>{
+                        <div id={`section${section.series}`}
+                             className={`${currentIndex === section.series ? 'open' : ''} section`}
+                             onClick={() => {
                                this.goSection(section.series);
                              }} key={index}>
                           <div>
                             <div className="label">{item.chapterId}.{section.sectionId}</div>
                             <div className="str"
-                                 style={{maxWidth:`${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
+                                 style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{section.section}</div>
                           </div>
                         </div>
                       )
@@ -518,25 +539,29 @@ export class PlanMain extends React.Component <any, any> {
                   </div>
                 </div>
               )
-            }):null}
+            }) : null}
           </div>
         </div>
       )
     }
 
-    const renderSection = (item,idx)=>{
+    const renderSection = (item, idx) => {
       return (
-      <div key={idx}>
-        <div className="plan-progress">
-          <div className="intro">
-            <div className="intro-chapter">{NumberToChinese(item.chapter)}{'、 '}{item.chapterName}</div>
-            <div className="bar"/>
+        <div key={idx}>
+          <div className="plan-progress">
+            <div className="intro">
+              <div className="intro-chapter">{NumberToChinese(item.chapter)}{'、 '}{item.chapterName}</div>
+              <div className="bar"/>
+            </div>
+            <div className="intro-section">{item.chapter + '.' + item.section}{' '}{item.name}</div>
           </div>
-          <div className="intro-section">{item.chapter+'.'+item.section}{' '}{item.name}</div>
-        </div>
-        <div className="plan-main">
-          <div className="list">
-            {practiceRender(item.practices)}
+          <div className="plan-main">
+            <div className="list">
+              {practiceRender(item.practices)}
+            </div>
+            { item.series === totalSeries ?
+              <div className="submit-btn" onClick={() => this.complete()}>完成小课</div> : null}
+            <div className="padding-footer"></div>
           </div>
           {windowsClient?
             <div className="submit-btn-footer">
@@ -550,14 +575,12 @@ export class PlanMain extends React.Component <any, any> {
           { item.series === totalSeries && !windowsClient?
               <div className="submit-btn-footer" onClick={()=>this.complete()}>完成小课</div>:null}
           <div className="padding-footer"></div>
-        </div>
       </div>)
     }
 
-
     return (
       <div className="rise-main">
-
+        <ToolBar />
         {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
                                      onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
                                      questionList={this.state.questionList}/>: null}
@@ -586,78 +609,89 @@ export class PlanMain extends React.Component <any, any> {
           </div>
         </Modal>
 
-        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={()=>this.tutorialEnd()}/>
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
 
-        <Modal show={status===3 && !isHistory}
-               buttons={[{click:()=>this.nextPlan(),content:"开始新小课"}]}
+        <Modal show={status === 3 && !isHistory}
+               buttons={[{click: () => this.nextPlan(), content: "开始新小课"}]}
         >
-          <div className="content">
-            <div className="text">糟糕！好久没学，小课到期了！</div>
-          </div>
-          <div className="content2">
-            <div className="text">你完成了<span className="number">{completeSeries}</span>节</div>
-            <div className="text">获得了<span className="number">{point}</span>积分</div>
-          </div>
+            <div className="content">
+                <div className="text">糟糕！好久没学，小课到期了！</div>
+            </div>
+            <div className="content2">
+                <div className="text">你完成了<span className="number">{completeSeries}</span>节</div>
+                <div className="text">获得了<span className="number">{point}</span>积分</div>
+            </div>
         </Modal>
 
-        {/*<Alert { ...this.state.nextSeriesModal }*/}
-        {/*show={showNextSeriesModal}>*/}
-        {/*<div className="global-pre" dangerouslySetInnerHTML={{__html:this.state.planData.alertMsg}}/>*/}
-        {/*</Alert>*/}
-
         <Alert { ...this.state.nextModal }
-          show={showWarningModal}>
-          <div className="global-pre" dangerouslySetInnerHTML={{__html:"提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
+            show={showWarningModal}>
+            <div className="global-pre" dangerouslySetInnerHTML={{__html: "提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
         </Alert>
 
-
-        <Sidebar sidebar={ renderSidebar() }
-                 open={this.state.sidebarOpen}
-                 onSetOpen={(open)=>this.onSetSidebarOpen(open)}
-                 trigger={()=>this.onSetSidebarOpen(!this.state.sidebarOpen)}
-        >
-        <div className="header-img">
-          <AssetImg url={problem.pic} style={{height: this.state.style.picHeight, float:'right'}}/>
-          {isBoolean(riseMember) && !riseMember ?
-            <div className={`trial-tip ${riseMemberTips?'open':''}`} onClick={()=>this.goRiseMemberTips()}>
-            </div>: null}
-          <div className="plan-guide">
-            <div className="section-title">{problem.problem}</div>
-            <div className="section">
-              <label>已完成:</label> {completeSeries}/{totalSeries}节训练
-            </div>
-            {riseMember ?<div className="section">
-              <label>距关闭:</label> {deadline}天
-            </div>: null}
-            <div className="section">
-              <label>总得分:</label> {point} 分
-            </div>
-          </div>
-        </div>
-        <div className="function-menu">
-          <div className="left" onClick={() => this.essenceShare(problem.id, currentIndex)}>
-            <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
-            <span>小课论坛</span>
-          </div>
-          <div className="right" onClick={() => this.problemReview(problem.id)}>
-            <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
-            <span>小课介绍</span>
-          </div>
-        </div>
-          {!isEmpty(planData)?
-              <div style={{padding:"0 15px", backgroundColor: '#f5f5f5'}}>
-                <SwipeableViews  ref="planSlider" index={currentIndex-1}
-                                 onTransitionEnd={()=>this.onTransitionEnd()}
-                                 onChangeIndex={(index, indexLatest)=>this.goSection(index+1)}>
-                  {sections?sections.map((item, idx)=>{
-                        return renderSection(item, idx)
-                      }):null}
-                </SwipeableViews>
+        <div>
+          {showEmptyPage ? (
+            <div>
+              <div className="empty-container">
+                <div className="empty-img">
+                  <AssetImg url="http://www.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
+                </div>
+                <div className="empty-text">
+                  <span>没有正在学习的小课哦，</span><br/>
+                  <span>点击按钮去选课吧！</span>
+                </div>
+                <div className="empty-button"><span onClick={this.onClickProblemChoose.bind(this)}>去选课</span></div>
               </div>
-              :null}
-        </Sidebar>
-        <ToolBar />
-
+            </div>
+          ) : (
+            <div className="rise-main">
+              <Sidebar sidebar={ renderSidebar() }
+                       open={this.state.sidebarOpen}
+                       onSetOpen={(open) => this.onSetSidebarOpen(open)}
+                       trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}
+              >
+                <div className="header-img">
+                  <AssetImg url={problem.pic} style={{height: this.state.style.picHeight, float: 'right'}}/>
+                  {isBoolean(riseMember) && !riseMember ?
+                    <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`} onClick={() => this.goRiseMemberTips()}>
+                    </div> : null}
+                  <div className="plan-guide">
+                    <div className="section-title">{problem.problem}</div>
+                    <div className="section">
+                      <label>已完成:</label> {completeSeries}/{totalSeries}节训练
+                    </div>
+                    {riseMember ? <div className="section">
+                      <label>距关闭:</label> {deadline}天
+                    </div> : null}
+                    <div className="section">
+                      <label>总得分:</label> {point} 分
+                    </div>
+                  </div>
+                </div>
+                <div className="function-menu">
+                  <div className="left" onClick={() => this.essenceShare(problem.id, currentIndex)}>
+                    <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
+                    <span>小课论坛</span>
+                  </div>
+                  <div className="right" onClick={() => this.problemReview(problem.id)}>
+                    <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
+                    <span>小课介绍</span>
+                  </div>
+                </div>
+                {!isEmpty(planData) ?
+                  <div style={{padding: "0 15px", backgroundColor: '#f5f5f5'}}>
+                    <SwipeableViews ref="planSlider" index={currentIndex - 1}
+                                    onTransitionEnd={() => this.onTransitionEnd()}
+                                    onChangeIndex={(index, indexLatest) => this.goSection(index + 1)}>
+                      {sections ? sections.map((item, idx) => {
+                        return renderSection(item, idx)
+                      }) : null}
+                    </SwipeableViews>
+                  </div>
+                  : null}
+              </Sidebar>
+            </div>
+          )}
+        </div>
       </div>
     )
   }
