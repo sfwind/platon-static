@@ -60,7 +60,7 @@ export class ProblemViewer extends React.Component<any, any> {
       })
     }).catch(ex=>{
       dispatch(endLoad());
-      dispatch(alertMsg(msg))
+      dispatch(alertMsg(ex))
     })
   }
 
@@ -99,7 +99,7 @@ export class ProblemViewer extends React.Component<any, any> {
 
   render() {
     const {data, showTip,show} = this.state;
-    const {authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem} = data;
+    const {authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic} = data;
 
     const renderRoadMap = (chapter, idx) => {
       const {sections} = chapter
@@ -127,30 +127,42 @@ export class ProblemViewer extends React.Component<any, any> {
               {problem}
             </div>
             <div className="page-content">
-              { authorDesc ?
-                <div className="text">
-                  {authorDesc}
-                </div> : null }
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
               </div> : null }
               <div style={{marginTop:30}}>
                 <pre>{why}</pre>
               </div>
+
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/how_2.png"/>
               </div>
               <pre>{how}</pre>
               <AssetImg width={'100%'} style={{marginTop:25}} url={descPic}/>
+
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/what_2.png"/>
               </div>
-              <pre>{what}</pre>
+              {what?<pre>{what}</pre> :null}
               <div className="roadmap">{chapterList?chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)):null}</div>
+
+              <div className="context-title-img">
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/ability.png"/>
+              </div>
+              <AssetImg width={'100%'} url={categoryPic}/>
+
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/who_2.png"/>
               </div>
               <pre><b>{who}</b></pre>
+
+              <div className="context-title-img">
+                <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/author_desc.png"/>
+              </div>
+              <div className="text">
+                {authorDesc}
+              </div>
+
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/when_2.png"/>
               </div>
@@ -164,7 +176,6 @@ export class ProblemViewer extends React.Component<any, any> {
                       </div>:<div className="tip-img" onClick={()=>this.setState({showTip:true})}>
                         <AssetImg width={16} height={16} type="question-mark"/></div>}
               </div></div>
-
 
               <div className="context-title-img">
                 <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/where_2.png"/>
