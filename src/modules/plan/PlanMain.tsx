@@ -597,7 +597,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Modal show={showConfirmModal}
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
-          <div className="content">
+          <div className="content" style={{marginTop:75}}>
             <div className="text">确定开始下一小课吗？</div>
           </div>
           <div className="content2">

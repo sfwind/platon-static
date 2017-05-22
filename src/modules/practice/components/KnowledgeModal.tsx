@@ -63,10 +63,10 @@ export default class KnowledgeModal extends React.Component<any, any> {
                   <div className="context-title-img">
                     <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
-                  { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
                   <div className="text">
                     <pre>{analysis}</pre>
                   </div>
+                  { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
                 </div>
                 : null}
             { means?
@@ -74,18 +74,22 @@ export default class KnowledgeModal extends React.Component<any, any> {
                   <div className="context-title-img">
                     <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
                   </div>
-                  { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
                   <div className="text">
                     <pre>{means}</pre>
                   </div>
+                  { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
                 </div>
                 : null }
-            {keynote ?<div><div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote2.png"/>
-                  { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
-                </div><div className="text">
-                  <pre>{keynote}</pre>
-                </div></div>: null}
+            {keynote ?
+                <div>
+                    <div className="context-title-img">
+                      <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote2.png"/>
+                    </div>
+                    <div className="text">
+                      <pre>{keynote}</pre>
+                    </div>
+                    { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
+                </div>: null}
             {example ?
                 <div>
                   <div className="context-title-img">
