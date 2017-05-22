@@ -14,7 +14,6 @@ export class Welcome extends React.Component <any, any> {
   constructor(){
     super();
     this.state = {
-      // scroll:Scroll.animateScroll,
       show:false,
       show2:false,
       show3:false,
@@ -84,42 +83,29 @@ export class Welcome extends React.Component <any, any> {
     });
   }
 
-  got(){
+  play(){
     mark({module:"RISE",function:"打点",action:"点击怎么练习呢",memo:"欢迎页"});
-    // const {scroll} = this.state
-
+    // var autoScroll = Scroll.animateScroll;
     setTimeout(() => {
       this.setState({show4:true, confirm:true})
     }, 300)
 
     setTimeout(() => {
-      this.setState({show5:true})
+      this.setState({show5:true}, ()=>scroll('#welcome', '.problem-list'))
     }, 800)
 
     setTimeout(() => {
-      scroll('#welcome', '.problem-list')
-    }, 800)
-
-    setTimeout(() => {
-      this.setState({show6:true})
+      this.setState({show6:true}, ()=> scroll('#welcome2', '.problem-list'))
     }, 2800)
 
 
     setTimeout(() => {
-      scroll('#welcome2', '.problem-list')
-    }, 2800)
-
-    setTimeout(() => {
-      this.setState({show7:true})
-    }, 4800)
-
-    setTimeout(() => {
-      scroll('#welcome3', '.problem-list')
+      this.setState({show7:true}, ()=>scroll('#welcome3', '.problem-list'))
     }, 4800)
   }
 
   closeModal(){
-    this.setState({description:false},()=>{ scroll(0,window.innerHeight);})
+    this.setState({description:false},()=>{ scroll('.info', '.problem-list')})
   }
 
   render() {
@@ -155,7 +141,7 @@ export class Welcome extends React.Component <any, any> {
                 {!confirm && show3?
                     <div className="button-div" style={{marginTop:70}}>
                       <img className={"button"} src="https://www.iqycamp.com/images/fragment/rise_welcome_confirm_2.png"
-                           onClick={this.got.bind(this)}/>
+                           onClick={this.play.bind(this)}/>
 
                     </div>:null}
                 {show4?
