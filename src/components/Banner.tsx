@@ -1,8 +1,6 @@
 import * as React from 'react';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
+import Swiper from 'swiper';
+import 'swiper/dist/css/swiper.css'
 
 
 export default class Banner extends React.Component<any,any> {
@@ -13,29 +11,26 @@ export default class Banner extends React.Component<any,any> {
     }
   }
 
+  componentDidMount(){
+    var swiper = new Swiper('#swiepr-banner', {
+      pagination: '.swiper-pagination',
+      paginationClickable: true,
+      spaceBetween: 0,
+      centeredSlides: true,
+      autoplay: 2500,
+      autoplayDisableOnInteraction: false
+    });
+  }
+
   render(){
     const { index } = this.state;
-    return (
-      <div style={{position:'relative',width:`${this.props.width?this.props.width:'100%'}`,height:`${this.props.height?this.props.height:'100%'}`}}>
-        <AutoPlaySwipeableViews
-          animateTransitions={false}
-          style={{height:'100%'}}
-          containerStyle={{height:'100%'}}
-          slideStyle={{height:'100%'}}
-          onChangeIndex={(index, indexLatest)=>this.setState({index:index})}
-        >
+    return (<div>
+      <div className="swiper-container" id="swiepr-banner" style={{height:`${this.props.height}px`}}>
+        <div className="swiper-wrapper">
           {this.props.children}
-        </AutoPlaySwipeableViews>
-        {<div className="sequence-dot" style={{marginLeft:`-${this.props.children.length * 18 / 2}px`}}>
-          {this.props.children.length > 1 && this.props.children.map((item, seq) => {
-            return (<button className="dot-box">
-              <div className="dot"
-                   style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>
-            </button>)
-          })}
-        </div>}
+        </div>
+        <div className="swiper-pagination"></div>
       </div>
-
-    )
+    </div>)
   }
 }

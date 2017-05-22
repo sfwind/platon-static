@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { ToolBar } from '../base/ToolBar';
 import SwipeableViews from 'react-swipeable-views';
 import Banner from '../../components/Banner';
-import Swiper from 'swiper';
-import 'swiper/dist/css/swiper.css'
 import { loadUnChooseList } from './async';
 import { merge } from 'lodash'
 
@@ -78,16 +76,16 @@ export class Explore extends React.Component<any,any>{
       <div>
         <div className="explore-container">
           <Banner height={this.bannerHeight}>
-            <div className="banner-item" onClick={()=>this.goBanner(1)}>
+            <div className="banner-item swiper-slide" onClick={()=>this.goBanner(1)}>
               <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_1.png'} style={{width:'auto',height:'100%'}}/>
             </div>
-            <div className="banner-item" onClick={()=>this.goBanner(2)}>
+            <div className="banner-item swiper-slide" onClick={()=>this.goBanner(2)}>
               <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_2.png'} style={{width:'auto',height:'100%'}}/>
             </div>
-            <div className="banner-item" onClick={()=>this.goBanner(3)}>
+            <div className="banner-item swiper-slide" onClick={()=>this.goBanner(3)}>
               <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_3.png'} style={{width:'auto',height:'100%'}}/>
             </div>
-            <div className="banner-item" onClick={()=>this.goBanner(4)}>
+            <div className="banner-item swiper-slide" onClick={()=>this.goBanner(4)}>
             <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_4.png'} style={{width:'auto',height:'100%'}}/>
             </div>
           </Banner>
