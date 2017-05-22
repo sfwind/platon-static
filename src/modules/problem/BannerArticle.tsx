@@ -41,9 +41,6 @@ export default class UpMind extends React.Component<any,any> {
     let param = {
       id: problem.id
     }
-    // if(this.props.location.query.show){
-    merge(param, {show: true});
-    // }
     this.context.router.push({pathname: '/rise/static/problem/view', query: param});
   }
 

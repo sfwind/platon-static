@@ -42,25 +42,13 @@ export class ProblemViewer extends React.Component<any, any> {
     const {id} = location.query
     dispatch(startLoad())
     loadProblem(id).then(res=>{
+      dispatch(endLoad())
       const {msg, code} = res
       if(code === 200){
-        return msg;
+        this.setState({data:msg})
       }else{
-        throw msg;
+        dispatch(alertMsg(msg))
       }
-    }).then(msg=>{
-      // return checkCreatePlan(id).then(res=>{
-      //   console.log(res.msg);
-        dispatch(endLoad());
-        // if(res.code === 200){
-          this.setState({data:msg,show:false})
-        // } else {
-        //   this.setState({data:msg,show:true});
-        // }
-      // })
-    }).catch(ex=>{
-      dispatch(endLoad());
-      dispatch(alertMsg(ex))
     })
   }
 
@@ -98,7 +86,8 @@ export class ProblemViewer extends React.Component<any, any> {
   }
 
   render() {
-    const {data, showTip,show} = this.state;
+    const {data, showTip} = this.state;
+    const {show} = this.props.location.query
     const {authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic} = data;
 
     const renderRoadMap = (chapter, idx) => {
