@@ -39,7 +39,7 @@ export class Welcome extends React.Component <any, any> {
       if(res.code === 200){
         if(res.msg){
           this.context.router.push({
-            pathname: '/rise/static/problem/priority'
+            pathname: '/rise/static/problem/explore'
           })
         }
       }
@@ -63,7 +63,7 @@ export class Welcome extends React.Component <any, any> {
 
   onSubmit(){
     this.context.router.push({
-      pathname: '/rise/static/problem/priority'
+      pathname: '/rise/static/problem/explore'
     })
   }
 
