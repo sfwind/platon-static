@@ -47,26 +47,26 @@ export class Analysis extends React.Component <any, any> {
     if (this.props.location.query.practicePlanId !== newProps.location.query.practicePlanId) {
       this.componentWillMount(newProps)
     }
-    if(!this.props.iNoBounce && newProps.iNoBounce){
-      if(!newProps.iNoBounce.isEnabled()){
-        newProps.iNoBounce.enable();
-      }
-    }
+    // if(!this.props.iNoBounce && newProps.iNoBounce){
+    //   if(!newProps.iNoBounce.isEnabled()){
+    //     newProps.iNoBounce.enable();
+    //   }
+    // }
   }
 
   componentDidMount(){
-    if(this.props.iNoBounce){
-      if(!this.props.iNoBounce.isEnabled()){
-        this.props.iNoBounce.enable();
-      }
-    }
+    // if(this.props.iNoBounce){
+    //   if(!this.props.iNoBounce.isEnabled()){
+    //     this.props.iNoBounce.enable();
+    //   }
+    // }
   }
 
   componentWillUnmount(){
-    const {dispatch} = this.props;
-    if(this.props.iNoBounce){
-      this.props.iNoBounce.disable();
-    }
+    // const {dispatch} = this.props;
+    // if(this.props.iNoBounce){
+    //   this.props.iNoBounce.disable();
+    // }
   }
 
   componentWillMount(props) {
