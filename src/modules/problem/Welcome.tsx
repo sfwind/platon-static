@@ -61,16 +61,10 @@ export class Welcome extends React.Component <any, any> {
     }, 2500)
   }
 
-  onSubmit(){
-    this.context.router.push({
-      pathname: '/rise/static/problem/explore'
-    })
-  }
-
   goTrial(){
     mark({module:"RISE",function:"打点",action:"点击试用版",memo:"欢迎页"}).then(()=>{
       this.context.router.push({
-        pathname: '/rise/static/problem/priority'
+        pathname: '/rise/static/problem/explore'
       })
     })
   }

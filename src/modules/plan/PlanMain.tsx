@@ -559,22 +559,19 @@ export class PlanMain extends React.Component <any, any> {
             <div className="list">
               {practiceRender(item.practices)}
             </div>
-            { item.series === totalSeries ?
-              <div className="submit-btn" onClick={() => this.complete()}>完成小课</div> : null}
+            {windowsClient?
+              <div className="submit-btn-footer">
+                  <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
+                  </div>
+                  { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
+                  { item.series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>
+                          完成小课</div> : null }
+              </div>
+            : null}
+            { item.series === totalSeries && !windowsClient?
+                <div className="submit-btn-footer" onClick={()=>this.complete()}>完成小课</div>:null}
             <div className="padding-footer"></div>
           </div>
-          {windowsClient?
-            <div className="submit-btn-footer">
-                <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
-                </div>
-                { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
-                { item.series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>
-                        完成训练</div> : null }
-            </div>
-          : null}
-          { item.series === totalSeries && !windowsClient?
-              <div className="submit-btn-footer" onClick={()=>this.complete()}>完成小课</div>:null}
-          <div className="padding-footer"></div>
       </div>)
     }
 
@@ -601,11 +598,10 @@ export class PlanMain extends React.Component <any, any> {
         <Modal show={showConfirmModal}
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
           <div className="content">
-            <div className="text">确定开始新小课吗</div>
-            <div className="text">当前小课的巩固练习将无法查看</div>
+            <div className="text">确定开始下一小课吗？</div>
           </div>
           <div className="content2">
-            <div className="text">（PC端应用练习仍然开放）</div>
+            <div className="text2">当前小课可以进入我的-我的小课中复习</div>
           </div>
         </Modal>
 

@@ -61,6 +61,7 @@ router.get("/rise/plan/load", (req, res) => {
                     "chapterName":"第一章",
                     "section":1,
                     "chapter":1,
+                    "series":1,
                     "practices": [{
                         "type": 31,
                         "status": 0,
@@ -111,7 +112,7 @@ router.get("/rise/plan/load", (req, res) => {
                             "status": 0,
                             "unlocked": true,
                             "practiceIdList": [1],
-                            "series": 1,
+                            "series": 2,
                             "sequence": 1,
                             "practicePlanId": 1,
                             "planId":3,
@@ -121,7 +122,7 @@ router.get("/rise/plan/load", (req, res) => {
                             "status": 0,
                             "unlocked": true,
                             "practiceIdList": [52, 56, 52],
-                            "series": 1,
+                            "series": 2,
                             "sequence": 2,
                             "planId":3,
                             "practicePlanId": 1
@@ -130,7 +131,7 @@ router.get("/rise/plan/load", (req, res) => {
                             "status": 1,
                             "unlocked": true,
                             "practiceIdList": [27],
-                            "series": 1,
+                            "series": 2,
                             "sequence": 3,
                             "planId":3,
                             "practicePlanId": 1
@@ -140,7 +141,7 @@ router.get("/rise/plan/load", (req, res) => {
                             "status": 1,
                             "unlocked": true,
                             "practiceIdList": [2],
-                            "series": 0,
+                            "series": 2,
                             "sequence": 4,
                             "optional":true
                         }]
