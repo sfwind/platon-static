@@ -4,7 +4,9 @@ import { welcome,mark } from "./async";
 import "./Welcome.less";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import Description from "./components/Description"
-import Scroll from "react-scroll";
+// import Scroll from "react-scroll";
+import {scroll} from "../../utils/helpers"
+
 
 @connect(state => state)
 export class Welcome extends React.Component <any, any> {
@@ -12,7 +14,7 @@ export class Welcome extends React.Component <any, any> {
   constructor(){
     super();
     this.state = {
-      scroll:Scroll.animateScroll,
+      // scroll:Scroll.animateScroll,
       show:false,
       show2:false,
       show3:false,
@@ -84,7 +86,7 @@ export class Welcome extends React.Component <any, any> {
 
   got(){
     mark({module:"RISE",function:"打点",action:"点击怎么练习呢",memo:"欢迎页"});
-    const {scroll} = this.state
+    // const {scroll} = this.state
 
     setTimeout(() => {
       this.setState({show4:true, confirm:true})
@@ -95,7 +97,7 @@ export class Welcome extends React.Component <any, any> {
     }, 800)
 
     setTimeout(() => {
-      scroll.scrollTo(this.refs.welcome.offsetHeight)
+      scroll('#welcome', '.problem-list')
     }, 800)
 
     setTimeout(() => {
@@ -104,7 +106,7 @@ export class Welcome extends React.Component <any, any> {
 
 
     setTimeout(() => {
-      scroll.scrollMore(this.refs.welcome2.offsetHeight)
+      scroll('#welcome2', '.problem-list')
     }, 2800)
 
     setTimeout(() => {
@@ -112,7 +114,7 @@ export class Welcome extends React.Component <any, any> {
     }, 4800)
 
     setTimeout(() => {
-      scroll.scrollTo(500)
+      scroll('#welcome3', '.problem-list')
     }, 4800)
   }
 
@@ -158,7 +160,7 @@ export class Welcome extends React.Component <any, any> {
                     </div>:null}
                 {show4?
                     <div className="right-div">
-                      <div className="reply-msg" ref="welcome">
+                      <div className="reply-msg" id="welcome">
                         怎样练习呢？
                       </div>
                       <img className={"head"} src={window.ENV.headImage}/>
@@ -168,7 +170,7 @@ export class Welcome extends React.Component <any, any> {
                 {show5 ?
                     <div>
                       <img className="description-logo" src="https://www.iqycamp.com/images/fragment/description_logo.png"/>
-                      <div className="guide-msg" ref="welcome2">
+                      <div className="guide-msg" id="welcome2">
                         你可以根据需要，选择要学习的RISE小课，我会据此制定你的练习计划，来帮助你学习知识、实践应用、解决问题
                       </div>
                     </div>:null
@@ -177,7 +179,7 @@ export class Welcome extends React.Component <any, any> {
                 {show6 ?
                     <div>
                       <img className="description-logo" src="https://www.iqycamp.com/images/fragment/description_logo.png"/>
-                      <div className="guide-msg" ref="welcome3">
+                      <div className="guide-msg" id="welcome3">
                         选择正式版，开始学习所有小课吧！如果你不确定，也可以点击试用版，选择体验一个小课的前3节内容
                       </div>
                     </div>:null
