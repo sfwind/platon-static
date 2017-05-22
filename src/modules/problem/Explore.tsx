@@ -35,7 +35,6 @@ export class Explore extends React.Component<any,any>{
       dispatch(endLoad());
       if(res.code === 200){
         this.setState({catalogList:res.msg.catalogList},()=>{
-          console.log(res);
           for(let i=0;i<res.msg.catalogList.length; i++){
             let id = `#catalog${i}`;
             let bar = `#catalogbar${i}`;
@@ -54,7 +53,6 @@ export class Explore extends React.Component<any,any>{
         dispatch(alertMsg(res.msg));
       }
     }).catch(ex=>{
-      console.log(ex);
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
@@ -88,16 +86,6 @@ export class Explore extends React.Component<any,any>{
   }
   render(){
     const { catalogList } = this.state;
-    const renderDesc = (id)=>{
-      console.log(id);
-      switch(id){
-        case 1: return '培养可迁移能力';
-        case 2: return '让他人看到你的能力';
-        case 3: return '提高自我认知';
-        case 4: return '提高做事效率';
-        case 6: return '提升领导力';
-      }
-    }
     return (
       <div>
         <div className="explore-container">
@@ -122,7 +110,7 @@ export class Explore extends React.Component<any,any>{
                   <div className="header">
                     <span className="catalog-name">{catalog.name}</span>
                     <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
-                    <span className="desc">{renderDesc(catalog.catalogId)}</span>
+                    <span className="desc">{catalog.description}</span>
                   </div>
                   <div className="problem-box swiper-container" id={`catalog${key}`}>
                     <div className="swiper-wrapper">
