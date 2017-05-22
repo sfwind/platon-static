@@ -353,7 +353,7 @@ export class PlanMain extends React.Component <any, any> {
     closePlan(planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
-        this.context.router.push("/rise/static/problem/priority")
+        this.context.router.push("/rise/static/problem/explore")
       } else {
         dispatch(alertMsg(msg))
         this.setState({showConfirmModal: false})
@@ -413,10 +413,6 @@ export class PlanMain extends React.Component <any, any> {
     mark({module:"RISE",function:"升级专业版",action:"点击升级专业版按钮"}).then(() =>{
       window.location.href = `https://${window.location.hostname}/pay/pay`
     })
-  }
-
-  goOthers() {
-    this.context.router.push({pathname: '/rise/static/problem/priority'})
   }
 
   onSetSidebarOpen(open){
