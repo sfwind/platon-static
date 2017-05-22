@@ -110,7 +110,6 @@ export class Explore extends React.Component<any,any>{
                   <div className="header">
                     <span className="catalog-name">{catalog.name}</span>
                     <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
-                    <span className="desc">{catalog.description}</span>
                   </div>
                   <div className="problem-box swiper-container" id={`catalog${key}`}>
                     <div className="swiper-wrapper">

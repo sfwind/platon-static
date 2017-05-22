@@ -58,7 +58,9 @@ export class MoreProblem extends React.Component<any,any> {
     return (
       <div className="more-problem">
         <div className="simple-page-header">
-          定位自己
+          <span className="title">{problemList?problemList[0].catalog:null}</span>
+          <span className="desc">{problemList?problemList[0].catalogDescribe:null}</span>
+
         </div>
         <div className="more-problem-container">
            {problemList?problemList.map((item,key)=>{
