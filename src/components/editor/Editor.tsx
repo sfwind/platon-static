@@ -1,6 +1,6 @@
 import * as React from "react"
 import "./Editor.less"
-import $ from "jquery"
+import $ from "jquery/dist/jquery.slim.min.js"
 import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import {isFunction} from "lodash";
