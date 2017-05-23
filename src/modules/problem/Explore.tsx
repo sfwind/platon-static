@@ -124,7 +124,11 @@ export class Explore extends React.Component<any,any>{
                             <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
                               { problem.newProblem ?
                                 <AssetImg url="https://www.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                          style={{zIndex: 1, left: 0, top: 0}} size={32}/> : null
+                                          style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null
+                              }
+                              { problem.trial ?
+                                  <AssetImg url="https://www.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                            style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null
                               }
                               <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
                             </div>

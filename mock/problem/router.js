@@ -43,6 +43,7 @@ router.get("/rise/problem/list/unchoose", (req, res) => {
                   "catalogId": "1",
                   "audio": "http://www.iquanwai.com/images/fragment/rise_p1.m4a",
                   "status": 0,
+                  "trial": true,
                 }
               ]
             }
