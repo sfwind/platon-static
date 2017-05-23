@@ -861,7 +861,8 @@ router.get("/rise/practice/subject/*", (req, res) => {
                 "authorType": 2,
                 "isMine": true,
                 "labelList": [{"id": 20, "labelId": 21, "articleModule": 3, "articleId": 8, "del": false}],
-                "picList": ["http://www.confucius.mobi/images/subject/subject-pefect5.jpeg"]
+                "picList": ["http://www.confucius.mobi/images/subject/subject-pefect5.jpeg"],
+                "desc":'学习是为了更好地实践。不妨跟大家分享一下，你运用学习的方法找到了什么本质问题。好的分享能有机会获得圈外教练的点评，其他童鞋的点赞，以及被收录为精华！'
             }
         }), Math.random() * 1500)
 });

@@ -10,21 +10,22 @@ import {connect} from "react-redux";
 export default class SubmitBox extends React.Component <any, any> {
   constructor(props) {
     super()
-    let labels = labels = merge([],props.labels);
-    labels.forEach(item=>{
-      item.selected = findIndex(props.defaultLabels,(o)=>o.labelId===item.id)>-1;
-    });
 
     this.state = {
-      comment: props.defaultContent?props.defaultContent:"",
-      title:props.defaultTitle?props.defaultTitle:"",
-      labels:labels,
+      comment: "",
+      title:"",
+      labels:[],
     }
     this.labelMargin = (window.innerWidth-2) * 0.1 / 6;
   }
 
   componentWillReceiveProps(newProps){
-    this.setState({labels:newProps.labels})
+    let labels = merge([],newProps.labels);
+    labels.forEach(item=>{
+      item.selected = findIndex(newProps.defaultLabels,(o)=>o.labelId===item.id)>-1;
+    });
+
+    this.setState({labels, comment:newProps.defaultContent, title:newProps.defaultTitle})
   }
 
   onSubmit() {
@@ -68,7 +69,11 @@ export default class SubmitBox extends React.Component <any, any> {
                                          onChange={(e)=>this.setState({title:e.currentTarget.value})}>
           </input>:null}
           {this.props.labels?renderLabels():null}
-          <Editor ref="editor" moduleId={this.props.moduleId} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}} uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={this.state.comment} placeholder="离开页面前请提交，以免内容丢失。"/>
+          <Editor ref="editor" moduleId={this.props.moduleId}
+                  onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
+                  uploadStart={()=>{this.props.dispatch(startLoad())}}
+                  uploadEnd={()=>{this.props.dispatch(endLoad())}}
+                  defaultValue={this.state.comment} placeholder="离开页面前请提交，以免内容丢失。"/>
           {/*<textarea className="submit-area" cols="30" rows="10" height="500px" width="100%"*/}
                     {/*value={this.state.comment}*/}
                     {/*placeholder={this.props.placeholder}*/}
