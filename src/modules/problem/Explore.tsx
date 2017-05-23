@@ -122,8 +122,10 @@ export class Explore extends React.Component<any,any>{
                           <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
                                className="problem-item-show swiper-slide">
                             <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
-                              <AssetImg url="https://www.iqycamp.com/images/fragment/problem_new_icon_02.png"
-                                        style={{zIndex: 1, left: 0, top: 0}}/>
+                              { problem.newProblem ?
+                                <AssetImg url="https://www.iqycamp.com/images/fragment/problem_new_icon_02.png"
+                                          style={{zIndex: 1, left: 0, top: 0}}/> : null
+                              }
                               <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
                             </div>
                             <span>{problem.problem}</span>
