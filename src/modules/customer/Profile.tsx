@@ -127,7 +127,7 @@ export default class Profile extends React.Component<any,any> {
   }
 
   submitProfile() {
-    const {dispatch}= this.props;
+    const {dispatch, location}= this.props;
     const {city, province, industry, workingLife} = this.state;
     const functionValue = _.get(this.state, "function");
     if (city && province && industry && workingLife && functionValue) {
@@ -142,8 +142,13 @@ export default class Profile extends React.Component<any,any> {
         .then(res => {
           dispatch(endLoad());
           if (res.code === 200) {
-            dispatch(alertMsg("提交成功"));
-            this.setState({isFull: true});
+            //从rise付款页跳转过来的，填完个人信息后引导去学习页面
+            if(location.query.goRise){
+              this.context.router.push('/rise/static/learn')
+            }else{
+              dispatch(alertMsg("提交成功"));
+              this.setState({isFull: true});
+            }
           } else {
             dispatch(alertMsg(res.msg));
           }

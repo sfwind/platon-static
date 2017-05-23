@@ -8,7 +8,6 @@ import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
 import {CommentType} from "../../message/async";
-import _ from "lodash"
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -133,11 +132,10 @@ export class Main extends React.Component <any, any> {
 
   }
 
-  onEdit(submitId,title,content,labels) {
-    this.setState({showDiscuss: true,submitId:submitId,defaultTitle:title,defaultContent:content,defaultLabels:labels});
-    if(this.pullElement){
-      this.pullElement.disable();
-    }
+  onEdit(submitId) {
+    const {location} = this.props
+    this.context.router.push({pathname: '/rise/static/practice/subject/submit',
+      query:{series: location.query.series, id:location.query.id, submitId}})
   }
 
 
@@ -178,7 +176,9 @@ export class Main extends React.Component <any, any> {
   }
 
   openWriteBox(){
-    this.context.router.push({pathname: '/rise/static/practice/subject/submit', query:this.props.location.query})
+    const {location} = this.props
+    this.context.router.push({pathname: '/rise/static/practice/subject/submit',
+      query:{series: location.query.series, id:location.query.id}})
   }
 
   render() {
@@ -205,7 +205,7 @@ export class Main extends React.Component <any, any> {
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,perfect,seq)}  {...item}
                   goComment={()=>this.goComment(item.submitId)}
                   type = {CommentType.Subject}
-                  onEdit={item.isMine?()=>this.onEdit(item.submitId,item.title,item.content,item.labelList):null}
+                  onEdit={item.isMine?()=>this.onEdit(item.submitId):null}
             />
           )
         })
