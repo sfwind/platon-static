@@ -133,8 +133,9 @@ export class Main extends React.Component <any, any> {
   }
 
   onEdit(submitId) {
+    const {location} = this.props
     this.context.router.push({pathname: '/rise/static/practice/subject/submit',
-      query:merge(this.props.location.query, {submitId})})
+      query:{series: location.query.series, id:location.query.id, submitId}})
   }
 
 
@@ -175,7 +176,9 @@ export class Main extends React.Component <any, any> {
   }
 
   openWriteBox(){
-    this.context.router.push({pathname: '/rise/static/practice/subject/submit', query:this.props.location.query})
+    const {location} = this.props
+    this.context.router.push({pathname: '/rise/static/practice/subject/submit',
+      query:{series: location.query.series, id:location.query.id}})
   }
 
   render() {
