@@ -36,6 +36,7 @@ export class Explore extends React.Component<any,any>{
     loadUnChooseList().then(res => {
       dispatch(endLoad());
       if(res.code === 200){
+        console.log(res.msg)
         this.setState({catalogList:res.msg.catalogList},()=>{
           for(let i=0;i<res.msg.catalogList.length; i++){
             let id = `#catalog${i}`;
@@ -102,10 +103,11 @@ export class Explore extends React.Component<any,any>{
               <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_3.png'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(4)}>
-            <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_4.png'} style={{width:'auto',height:'100%'}}/>
+              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_4.png'} style={{width:'auto',height:'100%'}}/>
             </div>
           </Banner>
           <div className="problem-catalog-list">
+            {console.log(catalogList)}
             {catalogList ? catalogList.map((catalog, key) => {
               return (
                 <div className="problem-catalog">
@@ -120,6 +122,8 @@ export class Explore extends React.Component<any,any>{
                           <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
                                className="problem-item-show swiper-slide">
                             <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                              <AssetImg url="https://www.iqycamp.com/images/fragment/problem_new_icon_02.png"
+                                        style={{zIndex: 1, left: 0, top: 0}}/>
                               <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
                             </div>
                             <span>{problem.problem}</span>
