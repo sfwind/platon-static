@@ -344,7 +344,8 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   problemReview(problemId) {
-    this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problemId, show:true}})
+    mark({module:"RISE",function:"打点",action:"打开小课介绍",memo:problemId});
+    this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problemId, show: true}});
   }
 
   nextPlan() {
