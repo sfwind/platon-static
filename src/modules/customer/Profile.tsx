@@ -292,6 +292,7 @@ export default class Profile extends React.Component<any,any> {
             完成
           </div>
         </div>
+        <div className="padding-footer"></div>
       </div>
     )
   }

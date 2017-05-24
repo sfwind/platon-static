@@ -51,6 +51,7 @@ export default class FeedBack extends React.Component<any,any>{
             <p>-书非借不能读，为了每个人能有动力坚持完成练习，每个小课的开放天数=30天(拖延症福利)，到期后自动关闭</p>
           </div>
         </div>
+        <div className="padding-footer"></div>
       </div>
     )
   }
