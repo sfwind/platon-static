@@ -59,6 +59,7 @@ export default class Rise extends React.Component<any,any>{
              {memberType}
          </div>
        </div>
+       <div className="padding-footer"></div>
      </div>
     )
   }

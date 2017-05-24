@@ -40,6 +40,7 @@ export default class PointTip extends React.Component<any,any> {
           <b style={{fontSize:"14px"}}>积分有什么用？</b> <br/>
           -积分换购、延长开放期等功能开发中，敬请关注
         </div>
+        <div className="padding-footer"></div>
       </div>
     )
   }

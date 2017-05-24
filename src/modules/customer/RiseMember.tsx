@@ -98,12 +98,14 @@ export default class RiseMember extends React.Component<any,any> {
           <div className="point-tip-container">
             <b style={{fontSize:"14px"}}>还未升级成正式版哦！</b><br/>
             <div className="rocket-container">
-            </div>
-            <div className="button" onClick={()=>{this.goUp()}}>
-              升级正式版
+              <img className="rocket" src="https://www.iqycamp.com/images/riseButtonRocket.png"  width="90%" height="auto"/>
+              <div className="button" onClick={()=>{this.goUp()}}>
+                升级正式版
+              </div>
             </div>
           </div>
         }
+        <div className="padding-footer"></div>
       </div>
     )
   }
