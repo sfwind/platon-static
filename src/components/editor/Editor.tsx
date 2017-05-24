@@ -1,6 +1,6 @@
 import * as React from "react"
 import "./Editor.less"
-import $ from "jquery/dist/jquery.slim.min.js"
+import $ from "jquery"
 import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import {isFunction} from "lodash";
@@ -13,6 +13,7 @@ export default class Editor extends React.Component<any,any>{
     this.state={
       editor:null
     }
+    console.log($.ajax);
   }
 
   componentDidMount(){

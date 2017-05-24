@@ -104,6 +104,7 @@ export default class UserProtocol extends React.Component<any,any> {
             <p>2、如果不同意圈外对本协议相关条款所做的修改，用户有权并应当停止使用圈外。如果用户继续使用圈外，则视为用户接受圈外对本协议相关条款所做的修改。</p>
           </div>
         </div>
+        <div className="padding-footer"></div>
       </div>
     )
   }

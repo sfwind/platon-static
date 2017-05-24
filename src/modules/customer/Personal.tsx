@@ -81,7 +81,7 @@ export default class Personal extends React.Component<any,any>{
         <div className="personal-container">
           {renderContainer()}
         </div>
-        {/*<div onClick={()=>this.props.triggerTab()}>off/on</div>*/}
+        <div className="padding-footer"></div>
       </div>
     )
   }
