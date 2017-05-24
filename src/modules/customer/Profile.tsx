@@ -243,9 +243,16 @@ export default class Profile extends React.Component<any,any> {
     }
     return (
       <div className="profile">
-        <div className="profile-header">
-          {renderProfileHeader()}
-        </div>
+        {this.props.location.query.goRise?(
+          <div className="go-rise">
+            <img src="https://www.iqycamp.com/images/personal_gorise_bg.png" width="25%" height="auto"/>
+            <span>完善你的个人信息，成为分舵一员，学习的路上不孤单！</span>
+          </div>
+        ):(
+          <div className="profile-header">
+            {renderProfileHeader()}
+          </div>
+        )}
         <div className="profile-container">
           <div className="profile-item">
             <div className="item-label">
