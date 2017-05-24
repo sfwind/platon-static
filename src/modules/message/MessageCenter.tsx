@@ -139,7 +139,7 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   back(){
-    this.context.router.push({pathname: '/rise/static/plan/main'})
+    this.context.router.push({pathname: '/rise/static/learn'})
   }
 
   render() {

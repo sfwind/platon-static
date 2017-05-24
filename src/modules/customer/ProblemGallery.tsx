@@ -43,7 +43,7 @@ export default class ProblemGallery extends React.Component<any,any>{
     if(isHistory){
       query = _.merge(query, {isHistory:true})
     }
-    this.context.router.push({pathname:"/rise/static/plan/main",query})
+    this.context.router.push({pathname:"/rise/static/learn",query})
   }
 
   render(){
