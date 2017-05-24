@@ -29,7 +29,6 @@ export default class RiseMember extends React.Component<any,any> {
       const {code, msg} = res;
       if (code === 200) {
         if (msg) {
-          console.log(msg);
           this.setState({riseMember: true, memberType: msg});
         } else {
           this.setState({riseMember: false})

@@ -11,7 +11,12 @@ export default class AssetImg extends React.Component<any, any> {
   }
 
   render() {
-    const { size, type, url, width, height, marginTop, style, marginRight } = this.props
+    const { size, type, width, height, marginTop, style, marginRight } = this.props
+    let {url} = this.props
+    //来自七牛云的图片，自动添加瘦身参数
+    if(url.indexOf('static.iqycamp.com')!=-1 && url.indexOf('imageslim')!=-1){
+      url = url + '?imageslim'
+    }
     const { loading } = this.state;
     const _style = {
       width: size || width,

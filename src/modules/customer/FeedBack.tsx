@@ -2,6 +2,7 @@ import * as React from "react"
 import "./FeedBack.less"
 import {changeTitle} from "utils/helpers"
 import {mark} from "../problem/async"
+import AssetImg from "../../components/AssetImg";
 
 
 export default class FeedBack extends React.Component<any,any>{
@@ -27,7 +28,7 @@ export default class FeedBack extends React.Component<any,any>{
           <div className="tip">
             <p style={{fontSize:'15px',fontWeight:'bolder'}}>有疑问或建议，请给后台留言</p>
             <div className="serverCode">
-              <img src="https://www.iqycamp.com/images/personalFeedbackv1.png"/>
+              <AssetImg url="https://static.iqycamp.com/images/personalFeedbackv1.png"/>
             </div>
             <p style={{fontSize:'15px',fontWeight:'bolder'}}>常见问题</p><br/>
 

@@ -6,6 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import Editor from "../../../components/editor/Editor"
 import {merge} from 'lodash'
+import AssetImg from "../../../components/AssetImg";
 
 
 @connect(state => state)
@@ -149,7 +150,7 @@ export class Main extends React.Component <any, any> {
             <div className="page-header">{'小目标'}</div>
             <div className="intro-container">
               <div className="context-img">
-                <img src="https://www.iqycamp.com/images/fragment/challenge_practice_2.png" alt=""/>
+                <AssetImg url="https://static.iqycamp.com/images/fragment/challenge_practice_2.png" alt=""/>
               </div>
               <div className="challenge-context">
                 <div>

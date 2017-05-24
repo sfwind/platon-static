@@ -216,7 +216,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             { analysis?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/analysis2.png"/>
+                    <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
                   <div className="text">
                     <pre>{analysis}</pre>
@@ -227,7 +227,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             { means?
                 <div>
                   <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/means2.png"/>
+                    <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                   </div>
                   <div className="text">
                     <pre>{means}</pre>
@@ -238,7 +238,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             {keynote ?
               <div>
                 <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/keynote2.png"/>
+                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                 </div>
                 <div className="text">
                   <pre>{keynote}</pre>
@@ -249,7 +249,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             {example ?
               <div>
                 <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://www.iqycamp.com/images/fragment/example.png"/>
+                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
                 </div>
                 <div className="question">
                   <div className="context" dangerouslySetInnerHTML={{__html: example.question}}></div>
@@ -286,7 +286,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 :
                 <div className="discuss-end">
                   <div className="discuss-end-img">
-                    <AssetImg url="https://www.iqycamp.com/images/no_comment.png" width={94}
+                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
                               height={92}></AssetImg>
                   </div>
                   <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
@@ -301,7 +301,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="https://www.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
             </div>}
       </div>
     )

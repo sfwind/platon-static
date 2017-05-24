@@ -35,7 +35,6 @@ export class Explore extends React.Component<any,any>{
     loadUnChooseList().then(res => {
       dispatch(endLoad());
       if(res.code === 200){
-        console.log(res.msg)
         this.setState({catalogList:res.msg.catalogList},()=>{
           for(let i=0;i<res.msg.catalogList.length; i++){
             let id = `#catalog${i}`;
@@ -93,20 +92,19 @@ export class Explore extends React.Component<any,any>{
         <div className="explore-container">
           <Banner height={this.bannerHeight}>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(1)}>
-              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_1.png'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_1.png?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(2)}>
-              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_2.png'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_2.png?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(3)}>
-              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_3.png'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_3.png?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(4)}>
-              <AssetImg url={'https://www.iqycamp.com/images/problem_explore_banner_4.png'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_4.png?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
           </Banner>
           <div className="problem-catalog-list">
-            {console.log(catalogList)}
             {catalogList ? catalogList.map((catalog, key) => {
               return (
                 <div className="problem-catalog">
@@ -122,11 +120,11 @@ export class Explore extends React.Component<any,any>{
                                className="problem-item-show swiper-slide">
                             <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
                               { problem.newProblem ?
-                                <AssetImg url="https://www.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
                                           style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null
                               }
                               { problem.trial ?
-                                  <AssetImg url="https://www.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                  <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
                                             style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null
                               }
                               <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>

@@ -574,7 +574,7 @@ export class PlanMain extends React.Component <any, any> {
                                      onClose={()=>this.setState({ showCompleteModal: true, showScoreModal: false })}
                                      questionList={this.state.questionList}/>: null}
         <Modal
-          header={{replace:true,children:<AssetImg width={107} height={83} url="https://www.iqycamp.com/images/fragment/finish_modal3.png"/>}}
+          header={{replace:true,children:<AssetImg width={107} height={83} url="https://static.iqycamp.com/images/fragment/finish_modal3.png"/>}}
           buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
           show={showCompleteModal}>
           <div className="content">
@@ -621,7 +621,7 @@ export class PlanMain extends React.Component <any, any> {
             <div>
               <div className="empty-container">
                 <div className="empty-img">
-                  <AssetImg url="http://www.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
+                  <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
                 </div>
                 <div className="empty-text">
                   <span>没有正在学习的小课哦，</span><br/>

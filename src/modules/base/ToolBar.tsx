@@ -10,10 +10,8 @@ import {
   Article
 } from 'react-weui';
 
-import { isFunction,isNumber } from "lodash";
-
-let IconExplore = 'https://www.iqycamp.com/images/tabbar_explore.png';
-let IconExploreActive = 'https://www.iqycamp.com/images/tabbar_explore_active.png';
+let IconExplore = 'https://static.iqycamp.com/images/tabbar_explore.png?imageSlim';
+let IconExploreActive = 'https://static.iqycamp.com/images/tabbar_explore_active.png?imageSlim';
 
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
@@ -32,15 +30,15 @@ export class ToolBar extends React.Component<any,any> {
         {
           key: 0,
           bar: {
-            icon: 'https://www.iqycamp.com/images/tabbar_book.png',
-            activeIcon: 'https://www.iqycamp.com/images/tabbar_book_active.png',
+            icon: 'https://static.iqycamp.com/images/tabbar_book.png?imageSlim',
+            activeIcon: 'https://static.iqycamp.com/images/tabbar_book_active.png?imageSlim',
             label: '学习',
           },
         }, {
           key: 1,
           bar: {
-            icon: 'https://www.iqycamp.com/images/tabbar_team_study.png',
-            activeIcon: 'https://www.iqycamp.com/images/tabbar_team_study_active.png',
+            icon: 'https://static.iqycamp.com/images/tabbar_team_study.png?imageSlim',
+            activeIcon: 'https://static.iqycamp.com/images/tabbar_team_study_active.png?imageSlim',
             label: '活动'
           }
         }, {
@@ -53,8 +51,8 @@ export class ToolBar extends React.Component<any,any> {
         }, {
           key: 3,
           bar: {
-            icon: 'https://www.iqycamp.com/images/tabbar_mine.png',
-            activeIcon: 'https://www.iqycamp.com/images/tabbar_mine_active.png',
+            icon: 'https://static.iqycamp.com/images/tabbar_mine.png?imageSlim',
+            activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active.png?imageSlim',
             label: '我的'
           }
         },
