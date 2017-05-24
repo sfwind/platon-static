@@ -3,7 +3,6 @@ import {connect} from "react-redux"
 import "./ProblemGallery.less"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {pget, ppost} from "utils/request"
-import * as _ from "lodash"
 import {changeTitle} from "utils/helpers"
 
 
@@ -38,12 +37,9 @@ export default class ProblemGallery extends React.Component<any,any>{
     });
   }
 
-  goPlanView(item, isHistory){
+  goPlanView(item){
     let query = {planId:item.planId}
-    if(isHistory){
-      query = _.merge(query, {isHistory:true})
-    }
-    this.context.router.push({pathname:"/rise/static/plan/main",query})
+    this.context.router.push({pathname:"/rise/static/learn",query})
   }
 
   render(){
@@ -54,7 +50,7 @@ export default class ProblemGallery extends React.Component<any,any>{
         <div className="galley-module-content">
           {plans && plans.length > 0 ?plans.map((item,index)=>{
             return (
-              <div key={index} className="item" onClick={()=>this.goPlanView(item, isHistory)}>
+              <div key={index} className="item" onClick={()=>this.goPlanView(item)}>
                 <div className="item-label">
                   {item.name}
                 </div>

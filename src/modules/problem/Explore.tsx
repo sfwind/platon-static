@@ -2,7 +2,6 @@ import * as React from 'react';
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { connect } from 'react-redux';
 import { ToolBar } from '../base/ToolBar';
-import SwipeableViews from 'react-swipeable-views';
 import Banner from '../../components/Banner';
 import { loadUnChooseList } from './async';
 import {changeTitle} from '../../utils/helpers'

@@ -110,7 +110,7 @@ export class Analysis extends React.Component <any, any> {
     const {dispatch} = this.props
     const {series, planId} = this.props.location.query
     this.context.router.push({
-      pathname: '/rise/static/plan/main',
+      pathname: '/rise/static/learn',
       query: {series,planId}
     })
   }
