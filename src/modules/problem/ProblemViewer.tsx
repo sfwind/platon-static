@@ -60,7 +60,7 @@ export class ProblemViewer extends React.Component<any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/plan/main'})
+        this.context.router.push({pathname: '/rise/static/learn'})
       } else {
         dispatch(alertMsg(msg))
       }
