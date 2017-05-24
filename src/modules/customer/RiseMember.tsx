@@ -171,6 +171,7 @@ export default class RiseMember extends React.Component<any,any> {
       return (
         <div className="point-tip-container">
           <b style={{fontSize:"14px"}}>当前会员：{memberType.name}</b><br/>
+          微信昵称：{window.ENV.userName}<br/>
           有效期至：{memberType.endTime}<br/><br/>
           会员专享：<br/>
           {this.memberDescription(memberType.memberTypeId)}
