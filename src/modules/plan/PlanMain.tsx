@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import "./PlanMain.less";
 import { loadPlan, completePlan, closePlan, updateOpenRise, markPlan,
-  checkPractice, gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
+  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
@@ -44,6 +44,7 @@ export class PlanMain extends React.Component <any, any> {
       showProblem: false,
       selectProblem: {},
       defeatPercent: 0,
+      expired:false,
       questionList: [
         {
           id: 1,
@@ -105,7 +106,6 @@ export class PlanMain extends React.Component <any, any> {
       },
 
       sidebarOpen:false,
-      isHistory:false,
       showEmptyPage: false,
     }
 
@@ -166,18 +166,9 @@ export class PlanMain extends React.Component <any, any> {
     this.resize();
     const {dispatch, location} = this.props
 
-    let {planId, isHistory} = location.query
+    let {planId} = location.query
     if(newProps){
-        //从学习导航进入
-        isHistory = false
         planId = newProps.location.query.planId
-    }  else{
-        if(isHistory!==undefined){
-            //个人中心进入
-        }else{
-            //从微信菜单按钮进入
-            isHistory = false
-        }
     }
 
     dispatch(startLoad())
@@ -186,7 +177,11 @@ export class PlanMain extends React.Component <any, any> {
       let {code, msg} = res
       if (code === 200) {
         if (msg !== null) {
-          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem, isHistory})
+          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
+          //从微信菜单按钮进入且已过期，弹出选新小课弹窗
+          if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
+             this.setState({expired:true})
+          }
         } else {
           // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
           if(location.pathname === '/rise/static/learn') {
@@ -442,7 +437,7 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const { currentIndex, planData,showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,isHistory } = this.state
+        selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,expired } = this.state
     const {location} = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries
@@ -604,7 +599,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
 
-        <Modal show={status === 3 && !isHistory}
+        <Modal show={expired}
                buttons={[{click: () => this.nextPlan(), content: "开始新小课"}]}
         >
             <div className="content">
