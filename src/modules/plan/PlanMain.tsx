@@ -208,7 +208,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   componentWillReceiveProps(newProps){
-      if (this.props.location.pathname !== newProps.location.pathname) {
+      if (this.props.location.query.planId !== newProps.location.query.planId) {
           this.componentWillMount(newProps)
       }
   }
