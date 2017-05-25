@@ -30,7 +30,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       commentId:0,
       knowledge:{},
       discuss:{},
-      placeholder:'解答同学的提问（限300字）',
+      placeholder:'提出你的疑问或意见吧（限300字）',
       isReply:false,
     }
   }
@@ -113,7 +113,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false, showDiscuss:false})
+    this.setState({placeholder:'提出你的疑问或意见吧（限300字）', isReply:false, showDiscuss:false})
   }
 
   onSubmit(){
