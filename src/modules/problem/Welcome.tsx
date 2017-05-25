@@ -35,6 +35,7 @@ export class Welcome extends React.Component <any, any> {
     // 查看是否试用版
     const {dispatch} = this.props;
     dispatch(startLoad());
+    mark({module:"打点",function:"付费相关",action:"打开",memo:"欢迎页面页面"});
     welcome().then((res)=>{
       dispatch(endLoad());
       if(res.code === 200){
