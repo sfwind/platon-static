@@ -339,7 +339,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   problemReview(problemId) {
-    mark({module:"RISE",function:"打点",action:"打开小课介绍",memo:problemId});
+    mark({module:"打点",function:"首页",action:"打开小课介绍",memo:problemId});
     this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problemId, show: true}});
   }
 
@@ -406,7 +406,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips(){
-    mark({module:"RISE",function:"升级专业版",action:"点击升级专业版按钮"}).then(() =>{
+    mark({module:"打点",function:"升级专业版",action:"点击升级专业版按钮",memo:"首页"}).then(() =>{
       window.location.href = `https://${window.location.hostname}/pay/pay`
     })
   }

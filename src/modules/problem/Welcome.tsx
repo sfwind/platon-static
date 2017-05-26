@@ -35,6 +35,7 @@ export class Welcome extends React.Component <any, any> {
     // 查看是否试用版
     const {dispatch} = this.props;
     dispatch(startLoad());
+    mark({module:"打点",function:"付费相关",action:"打开",memo:"欢迎页"});
     welcome().then((res)=>{
       dispatch(endLoad());
       if(res.code === 200){
@@ -63,7 +64,7 @@ export class Welcome extends React.Component <any, any> {
   }
 
   goTrial(){
-    mark({module:"RISE",function:"打点",action:"点击试用版",memo:"欢迎页"}).then(()=>{
+    mark({module:"打点",function:"付费相关",action:"点击试用版",memo:"欢迎页"}).then(()=>{
       this.context.router.push({
         pathname: '/rise/static/problem/explore'
       })
@@ -71,7 +72,7 @@ export class Welcome extends React.Component <any, any> {
   }
 
   becomeRiser(){
-    mark({module:"RISE",function:"打点",action:"点击成为RISER",memo:"欢迎页"}).then(()=>{
+    mark({module:"打点",function:"付费相关",action:"点击成为RISER",memo:"欢迎页"}).then(()=>{
       window.location.href = `https://${window.location.hostname}/pay/pay`
     }).catch(()=>{
       window.location.href = `https://${window.location.hostname}/pay/pay`
@@ -79,7 +80,7 @@ export class Welcome extends React.Component <any, any> {
   }
 
   play(){
-    mark({module:"RISE",function:"打点",action:"点击怎么练习呢",memo:"欢迎页"});
+    mark({module:"打点",function:"付费相关",action:"点击怎么练习呢",memo:"欢迎页"});
     // var autoScroll = Scroll.animateScroll;
     setTimeout(() => {
       this.setState({show4:true, confirm:true})
