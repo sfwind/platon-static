@@ -29,12 +29,14 @@ export default class Audio extends React.Component<any, any> {
     this.setState({playing:true})
     // 首次加载
     if(this.state.duration === 0) {
+      // 加载音频
       self.refs.sound.load()
       duration_load_timer = setInterval(() => {
         if(self.state.duration) {
           clearInterval(duration_load_timer)
           return
         }
+        //【IOS bug解决方法】先播放，再暂停，获取控件duration
         self.refs.sound.play()
         self.refs.sound.pause()
         if(self.refs.sound.duration) {
@@ -60,6 +62,7 @@ export default class Audio extends React.Component<any, any> {
       self.refs.sound.play()
       timer = setInterval(() => {
         if(this.state.currentSecond < this.state.duration) {
+          //设置已播放时长
           self.setState({currentSecond: self.refs.sound.currentTime})
         } else {
           this.setState({playing: false})
@@ -82,13 +85,6 @@ export default class Audio extends React.Component<any, any> {
     if(this.state.duration === 0){
       return
     }
-    // if(value >= this.state.duration) {
-    //   this.setState({currentSecond: this.state.duration}, () => {
-    //     this.refs.sound.pause()
-    //     this.onEnd()
-    //   })
-    //   return
-    // }
     clearInterval(timer)
     this.setState({playing: true, currentSecond: value}, () => {
       this.refs.sound.currentTime = value
