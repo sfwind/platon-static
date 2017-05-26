@@ -27,7 +27,9 @@ export default class Audio extends React.Component<any, any> {
     let self = this
     // 首次点击播放按钮
     this.setState({playing:true})
+    // 首次加载
     if(this.state.duration === 0) {
+      self.refs.sound.load()
       duration_load_timer = setInterval(() => {
         if(self.state.duration) {
           clearInterval(duration_load_timer)
@@ -40,11 +42,12 @@ export default class Audio extends React.Component<any, any> {
           self.play()
         }
       }, 500)
-    }
-    // 暂停后重新播放
-    if(this.state.pause && this.state.duration !== 0) {
-      this.play()
-      this.setState({pause:false})
+    }else{
+      // 暂停后重新播放
+      if(this.state.pause) {
+        this.play()
+        this.setState({pause:false})
+      }
     }
   }
 
@@ -73,21 +76,19 @@ export default class Audio extends React.Component<any, any> {
     this.refs.sound.pause()
   }
 
-  stop() {
-    clearInterval(timer)
-    this.refs.sound.pause()
-    this.refs.sound.load()
-    this.setState({playing: false, currentSecond: 0})
-  }
-
   //手动更改时间
   onProgressChange(value) {
-    if(value >= this.state.duration) {
-      this.setState({currentSecond: this.state.duration}, () => {
-        this.pause()
-      })
+    //如果没有加载完成，不允许拖动
+    if(this.state.duration === 0){
       return
     }
+    // if(value >= this.state.duration) {
+    //   this.setState({currentSecond: this.state.duration}, () => {
+    //     this.refs.sound.pause()
+    //     this.onEnd()
+    //   })
+    //   return
+    // }
     clearInterval(timer)
     this.setState({playing: true, currentSecond: value}, () => {
       this.refs.sound.currentTime = value
@@ -117,7 +118,6 @@ export default class Audio extends React.Component<any, any> {
             {intToTime(currentSecond)} / {intToTime(duration)}
           </div>
           <audio ref="sound" src={url}
-                 preload="auto"
                  onEnded={this.onEnd.bind(this)}
           />
         </div>
