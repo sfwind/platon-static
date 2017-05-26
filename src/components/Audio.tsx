@@ -14,11 +14,8 @@ export default class Audio extends React.Component<any, any> {
       currentSecond: 0,
       cntSecond: 0,
       playing: false,
+      pause:false,
     }
-  }
-
-  onReady(e) {
-    this.setState({duration: e.target.duration})
   }
 
   onEnd() {
@@ -29,6 +26,7 @@ export default class Audio extends React.Component<any, any> {
   start() {
     let self = this
     // 首次点击播放按钮
+    this.setState({playing:true})
     if(this.state.duration === 0) {
       duration_load_timer = setInterval(() => {
         if(self.state.duration) {
@@ -38,14 +36,15 @@ export default class Audio extends React.Component<any, any> {
         self.refs.sound.play()
         self.refs.sound.pause()
         if(self.refs.sound.duration) {
-          self.setState({duration: Math.ceil(self.refs.sound.duration)})
+          self.setState({duration: Math.floor(self.refs.sound.duration)})
           self.play()
         }
       }, 500)
     }
     // 暂停后重新播放
-    if(!this.state.playing && this.state.duration !== 0) {
+    if(this.state.pause && this.state.duration !== 0) {
       this.play()
+      this.setState({pause:false})
     }
   }
 
@@ -58,18 +57,18 @@ export default class Audio extends React.Component<any, any> {
       self.refs.sound.play()
       timer = setInterval(() => {
         if(this.state.currentSecond < this.state.duration) {
-          self.setState({currentSecond: self.state.currentSecond + 1})
+          self.setState({currentSecond: self.refs.sound.currentTime})
         } else {
           this.setState({playing: false})
           clearInterval(timer)
         }
-      }, 1000)
+      }, 100)
     })
   }
 
 
   pause() {
-    this.setState({playing: false})
+    this.setState({playing: false, pause:true})
     clearInterval(timer)
     this.refs.sound.pause()
   }
@@ -84,7 +83,7 @@ export default class Audio extends React.Component<any, any> {
   //手动更改时间
   onProgressChange(value) {
     if(value >= this.state.duration) {
-      this.setState({currentSecond: this.state.duration + 1}, () => {
+      this.setState({currentSecond: this.state.duration}, () => {
         this.pause()
       })
       return
@@ -111,7 +110,7 @@ export default class Audio extends React.Component<any, any> {
             </div>
           }
           <div className="audio-progress">
-            <Slider min={0} max={duration - 1} value={currentSecond} onChange={this.onProgressChange.bind(this)}
+            <Slider min={0} max={duration} value={currentSecond} onChange={this.onProgressChange.bind(this)}
                     withBars={true}/>
           </div>
           <div className="audio-duration">
@@ -119,7 +118,6 @@ export default class Audio extends React.Component<any, any> {
           </div>
           <audio ref="sound" src={url}
                  preload="auto"
-                 onCanPlay={this.onReady.bind(this)}
                  onEnded={this.onEnd.bind(this)}
           />
         </div>
