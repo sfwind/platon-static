@@ -3,7 +3,7 @@ import "./EventWall.less"
 import {connect} from "react-redux"
 import {pget, ppost} from "utils/request"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {queryEventList} from "./async";
+import {queryEventList,mark} from "./async";
 import {ToolBar} from "../base/ToolBar"
 import { changeTitle } from '../../utils/helpers'
 
@@ -33,8 +33,9 @@ export class EventWall extends React.Component<any,any>{
     })
   }
 
-  goEvent(url){
-    window.location.href=url;
+  goEvent(item){
+    mark({module:"打点",function:"活动墙",action:"打开活动墙",memo:item.id});
+    window.location.href=item.destUrl;
   }
 
 
@@ -48,7 +49,7 @@ export class EventWall extends React.Component<any,any>{
       <div className="mg-bg-grey"/>
       <ul className="event-list">
         {list ? list.map((item,idx)=> {
-          return <li onClick={()=>this.goEvent(item.destUrl)} key={idx} className="event-item">
+          return <li onClick={()=>this.goEvent(item)} key={idx} className="event-item">
             <img className="head-pic"
                  src={item.pic}/>
             <div className="event-info">
