@@ -15,7 +15,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     this.state = {
       data: {},
       editDisable: false,
-      commentList: [],
+      comment: {},
       showAll: false,
       filterContent: ''
     };
@@ -36,7 +36,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
         if(res.code === 200) {
           this.setState({
             data: res.msg,
-            commentList: [res.msg.comment],
+            comment: res.msg.comment,
             filterContent: isString(res.msg.description) ? res.msg.description.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, "") : ""
           });
         } else {
@@ -58,14 +58,6 @@ export class ReplyCommentMessage extends React.Component<any, any> {
       commentReply(location.query.moduleId, location.query.submitId, content, repliedId).then(res => {
         dispatch(endLoad());
         if(res.code === 200) {
-          this.setState({
-            commentList: this.state.commentList.concat(res.msg),
-            showReply: false,
-            editDisable: false
-          });
-          if(!this.state.end && this.pullElement) {
-            this.pullElement.enable();
-          }
           this.goComment();
         } else {
           dispatch(alertMsg(res.msg));
@@ -82,16 +74,9 @@ export class ReplyCommentMessage extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const commentList = this.state.commentList;
     deleteComment(id).then(res => {
       if(res.code === 200) {
-        let newCommentList = [];
-        commentList.forEach((item) => {
-          if(item.id != id) {
-            newCommentList.push(item)
-          }
-        });
-        this.setState({commentList: newCommentList})
+        this.setState({comment: {}})
       }
     })
   }
@@ -171,18 +156,12 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     };
 
     const renderComments = () => {
-      const {commentList} = this.state;
-      if(commentList && commentList.length != 0) {
-        return (
-          commentList.map((item) => {
-            return (
-              <DiscussShow discuss={item} reply={() => {
-                this.reply(item);
-              }} onDelete={this.onDelete.bind(this, item.id)}/>
-            );
-          })
-        );
-      }
+      const {comment} = this.state;
+      return (
+        <DiscussShow discuss={comment} reply={() => {
+          this.reply(comment);
+        }} onDelete={this.onDelete.bind(this, comment.id)}/>
+      );
     };
 
     return (
@@ -191,14 +170,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
           <div className="page-header">{topic}</div>
           {renderWorkContent()}
           <div className="origin-question-tip" onClick={() => this.goDetail()}>点击查看原题</div>
-          {
-            this.state.commentList.filter(comment => {
-              if(comment.del === 1) {
-                return comment
-              }
-            }).length > 0 ? <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
-              : <div className="discuss-title-bar"><span className="discuss-title">该评论已删除</span></div>
-          }
+          <div className="discuss-title-bar"><span className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
           {renderComments()}
         </div>
         {showDiscuss ? <Discuss isReply={true} placeholder={'回复 ' + comment.name + ':'}
