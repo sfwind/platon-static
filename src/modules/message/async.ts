@@ -60,6 +60,10 @@ export function deleteComment(id) {
   return ppost(`/rise/practice/delete/comment/${id}`)
 }
 
+export function IncreaseArticleShow(moduleId,submitId){
+  return pget(`/rise/practice/article/show/${moduleId}/${submitId}`)
+}
+
 export const CommentType = {
   Challenge:1,
   Application:2,
@@ -70,4 +74,10 @@ const VoteType = {
   Challenge:1,
   Application:2,
   Subject:3
+}
+
+export const ArticleViewModule = {
+  Challenge:1,
+  Application:2,
+  Subject:3,
 }

@@ -61,3 +61,9 @@ const VoteType = {
   Challenge:1,
   Application:2,
 }
+
+export const ArticleViewModule = {
+  Challenge:1,
+  Application:2,
+  Subject:3,
+}

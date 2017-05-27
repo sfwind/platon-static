@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
 import { loadApplicationPractice,vote,loadOtherList,loadKnowledgeIntro,
-  openApplication,getOpenStatus, submitApplicationPractice, CommentType } from "./async";
+  openApplication,getOpenStatus, submitApplicationPractice, CommentType ,ArticleViewModule} from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeModal";
@@ -257,7 +257,9 @@ export class Main extends React.Component <any, any> {
         return list.map((item,seq)=>{
           return (
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,false,seq)}  {...item}
-                  goComment={()=>this.goComment(item.submitId)} type = {CommentType.Application}/>
+                  goComment={()=>this.goComment(item.submitId)} type = {CommentType.Application}
+                  articleModule={ArticleViewModule.Application}
+            />
           )
         })
       }
@@ -285,6 +287,7 @@ export class Main extends React.Component <any, any> {
             <Work onVoted={()=>this.voted(submitId,voteStatus,voteCount,true)} onEdit={()=>this.onEdit()}
                 headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}
                 type = {CommentType.Application}
+                  articleModule={ArticleViewModule.Application}
                 goComment={()=>this.goComment(submitId)} />
           </div>
         )

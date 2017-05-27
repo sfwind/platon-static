@@ -6,7 +6,7 @@ import { preview } from "../../helpers/JsConfig"
 import { Dialog } from "react-weui"
 const { Alert } = Dialog
 import {connect} from "react-redux";
-import {requestCommentByType} from "../../message/async"
+import {requestCommentByType,IncreaseArticleShow} from "../../message/async"
 import {alertMsg} from "../../../redux/actions";
 
 @connect(state => state)
@@ -81,6 +81,16 @@ export default class Work extends React.Component<any,any> {
       }
     })
 
+  }
+
+  show(showAll){
+    const { articleModule ,submitId} = this.props;
+    console.log('click',articleModule,submitId,showAll );
+    if(!showAll && articleModule){
+      // 展开 模块
+      IncreaseArticleShow(articleModule,submitId);
+    }
+    this.setState({showAll:!showAll})
   }
 
   render() {
@@ -176,7 +186,7 @@ export default class Work extends React.Component<any,any> {
             {renderHeader()}
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
-            {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.setState({showAll:!this.state.showAll})}
+            {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.show(showAll)}
                                                                    className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
             {showOperation()?
             <div className={`operation-area`}>
