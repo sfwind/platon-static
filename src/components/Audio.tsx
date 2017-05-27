@@ -15,6 +15,7 @@ export default class Audio extends React.Component<any, any> {
       cntSecond: 0,
       playing: false,
       pause:false,
+      loading:false,
     }
   }
 
@@ -30,6 +31,7 @@ export default class Audio extends React.Component<any, any> {
     // 首次加载
     if(this.state.duration === 0) {
       // 加载音频
+      this.setState({loading:true})
       self.refs.sound.load()
       duration_load_timer = setInterval(() => {
         if(self.state.duration) {
@@ -40,7 +42,7 @@ export default class Audio extends React.Component<any, any> {
         self.refs.sound.play()
         self.refs.sound.pause()
         if(self.refs.sound.duration) {
-          self.setState({duration: Math.floor(self.refs.sound.duration)})
+          self.setState({duration: Math.floor(self.refs.sound.duration), loading:false})
           self.play()
         }
       }, 500)
@@ -94,11 +96,15 @@ export default class Audio extends React.Component<any, any> {
 
   render() {
     const {url} = this.props
-    const {currentSecond, playing, duration} = this.state
+    const {currentSecond, playing, duration, loading} = this.state
     return (
       <div className="audio">
         <div className="audio-container">
-          { playing ?
+          { loading ?
+              <div className="audio-btn" onClick={this.pause.bind(this)}>
+                <AssetImg url="https://www.iqycamp.com/images/audio_loading.gif" size={20}/>
+              </div>
+          : playing ?
             <div className="audio-btn" onClick={this.pause.bind(this)}>
               <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
             </div> :
