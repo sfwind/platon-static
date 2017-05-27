@@ -18,7 +18,7 @@
     display: inline-block;
     height: 100%;
     border-color: #e7e7e7;
-    margin: 8px 10px 8px 15px;
+    margin: 8px 8px 8px 5px;
     vertical-align: middle;
     & > * {
       vertical-align: middle;
@@ -26,16 +26,17 @@
   }
   .audio-duration {
     display: inline-block;
-    font-size: @font_help;
+    font-size: 11px;
     height: 36px;
     line-height: 36px;
     vertical-align: middle;
     margin-left: 10px;
+    width: 75px;
   }
   .audio-progress {
     display: inline-block;
     vertical-align: middle;
-    width: 45%;
+    width: ~"calc(100% - 120px)";
     height: 100%;
   }
 }
@@ -54,14 +55,9 @@
     display: block;
   }
   .rangeslider__handle {
-    background: #fff;
-    border: 1px solid #cccccc;
     cursor: pointer;
     display: inline-block;
     position: absolute;
-    &:active {
-      background: #999;
-    }
   }
 }
 
@@ -78,11 +74,11 @@
     top: 0;
   }
   .rangeslider__handle {
-    background: #FFFFFF;
-    width: 14px;
-    height: 14px;
-    border-radius: 12px;
-    top: -4.5px;
-    border: 1px solid #55cbcb;
+    background: url('https://static.iqycamp.com/images/audio_round4.png?imageslim') no-repeat left center / 16px 16px;
+    width: 16px;
+    height: 16px;
+    top: -15px;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
   }
 }
