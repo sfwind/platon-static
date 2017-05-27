@@ -124,8 +124,8 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
         <div className="container" onClick={()=>this.cancel()}>
           <div className="question">知识点:{knowledge?knowledge.knowledge:null}</div>
           <div className="origin-question-tip" onClick={this.goKnowledge.bind(this)}>点击查看知识点</div>
-           <div className="discuss-title-bar"><span className="discuss-title">当前评论</span></div>
-           {renderDiscuss(data)}
+          <div className="discuss-title-bar"><span className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
+          {renderDiscuss(data)}
          </div>
         {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+data.name+':'}
                                submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
