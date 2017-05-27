@@ -7,7 +7,7 @@ import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
-import {CommentType} from "../../message/async";
+import {CommentType,ArticleViewModule} from "../../message/async";
 import { mark } from '../../plan/async';
 
 @connect(state => state)
@@ -208,6 +208,7 @@ export class Main extends React.Component <any, any> {
             <Work onVoted={()=>this.voted(item.submitId,item.voteStatus,item.voteCount,perfect,seq)}  {...item}
                   goComment={()=>this.goComment(item.submitId)}
                   type = {CommentType.Subject}
+                  articleModule={ArticleViewModule.Subject}
                   onEdit={item.isMine?()=>this.onEdit(item.submitId):null}
             />
           )
