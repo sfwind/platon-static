@@ -65,7 +65,7 @@ export default class DiscussShow extends React.Component <any, any> {
             }
           </div>
           <div className="signature">{signature}</div>
-          <div className="comment-content" style={isDel ? {color: "#ccc"} : {}}>{comment}</div>
+          <div className="comment-content">{comment}</div>
           {repliedComment && repliedDel != 1 && !isDel ? <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           {
             isDel ? null :
