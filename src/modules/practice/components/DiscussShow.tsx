@@ -28,13 +28,13 @@ export default class DiscussShow extends React.Component <any, any> {
   }
 
   render() {
-    const {discuss, reply, removeReply} = this.props
+    const {discuss, reply} = this.props
     const {show} = this.state
     const {
       id, name, avatar, discussTime, priority, comment, repliedComment, repliedName,
-      warmupPracticeId, role, signature, isMine, repliedDel
+      role, signature, isMine, repliedDel
     } = discuss
-
+    const isDel = discuss.del
     const alertProps = {
       buttons: [
         {label: '再想想', onClick: () => this.setState({show: false})},
@@ -65,10 +65,10 @@ export default class DiscussShow extends React.Component <any, any> {
             }
           </div>
           <div className="signature">{signature}</div>
-          <div className="comment-content">{comment}</div>
-          {repliedComment && repliedDel != 1 && !removeReply ? <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
+          <div className="comment-content" style={isDel ? {color: "#ccc"} : {}}>{comment}</div>
+          {repliedComment && repliedDel != 1 && !isDel ? <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
           {
-            removeReply ? null :
+            isDel ? null :
             <div className="function-area">
               {isMine ?
                 <div className="function-div" style={{marginRight: 5}}>

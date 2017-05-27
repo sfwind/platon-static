@@ -116,12 +116,10 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
   }
 
   render() {
-    console.log(this.props)
     const {question, data, showDiscuss} = this.state
-    const isDeleteComment = this.props.location.query.del ? true : false
     const renderDiscuss = (discuss) => {
       return (
-        <DiscussShow discuss={discuss} reply={() => this.reply(discuss)} removeReply={isDeleteComment}/>
+        <DiscussShow discuss={discuss} reply={() => this.reply(discuss)}/>
       )
     }
     return (
@@ -129,7 +127,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
         <div className="container" onClick={() => this.cancel()}>
           <div className="question">{question}</div>
           <div className="origin-question-tip" onClick={this.goOrigin.bind(this)}>点击查看原题</div>
-          <div className="discuss-title-bar"><span className="discuss-title">{isDeleteComment ? "该评论已删除" : "当前评论"}</span></div>
+          <div className="discuss-title-bar"><span className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
           {renderDiscuss(data)}
         </div>
         {showDiscuss ? <Discuss isReply={true} placeholder={'回复 ' + data.name + ':'}
