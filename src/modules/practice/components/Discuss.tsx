@@ -13,6 +13,12 @@ export default class Discuss extends React.Component <any, any> {
     }
   }
 
+  componentWillReceiveProps(newProps){
+    if(this.state.placeholder!==newProps.placeholder){
+      this.setState({placeholder:newProps.placeholder})
+    }
+  }
+
   componentDidMount(){
     this.refs.input.focus()
     //解决ios键盘弹出挡住输入框的问题
