@@ -92,7 +92,7 @@ export class EventWall extends React.Component<any,any>{
                 <div className="title">
                   {item.title}
                 </div>
-                {item.password?<div className="password">{item.password}</div>:null}
+                {item.password?<div className="password">直播间密码：{item.password}</div>:null}
                 <div className="describe" style={{marginTop:`${item.password?9:30}px`}}>
                   {item.publisher}
                 </div>
@@ -103,7 +103,7 @@ export class EventWall extends React.Component<any,any>{
             </li>
           }) : null}
         </ul>
-        <div className="show-more" style={{borderTop:'1px solid #efefef'}}>没有更多了</div>
+        <div className="show-more">没有更多了</div>
         {/*<div className="padding"></div>*/}
       </div>
     )
