@@ -92,7 +92,8 @@ export class EventWall extends React.Component<any,any>{
                 <div className="title">
                   {item.title}
                 </div>
-                <div className="describe">
+                {item.password?<div className="password">{item.password}</div>:null}
+                <div className="describe" style={{marginTop:`${item.password?9:30}px`}}>
                   {item.publisher}
                 </div>
                 <div className="time">
