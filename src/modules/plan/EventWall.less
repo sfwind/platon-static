@@ -1,33 +1,68 @@
+@import "../../style/variable";
 .layout {
   width:100%;
+  .event-wall-tab{
+    .navbar{
+      font-size:@font_context;
+      //margin:0 -15px;
+      padding:0 15px;
+      border-bottom:1px solid #f5f5f5;
+      .navbar-item{
+        display: inline-block;
+        text-align: center;
+        color:@color_title;
+        &.active{
+          color:@color_strong;
+          span{
+            border-bottom:2px solid @color_strong;
+          }
+        }
+        span{
+          padding:15px 0;
+          display: inline-block;
+          height:100%;
+        }
+      }
+    }
+
+  }
   .padding{
     height: 50px;
   }
   .event-list{
-    color:#333333;
+    color:@color_context;
     list-style: none;
     .event-item{
       overflow: hidden;
       padding:15px;
       height:65px;
       position: relative;
-      border-bottom:1px solid #f5f5f5;
+      border-bottom:1px solid @color_weak_background;
       .head-pic{
         display: inline-block;
         width:65px;
         height:65px;
-        position: absolute;
-        left:15px;
-        top:50%;
-        -webkit-transform: translateY(-50%);
-        -moz-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        -o-transform: translateY(-50%);
-        transform: translateY(-50%);
+        position: relative;
+        overflow: hidden;
+        //position: absolute;
+        //left:15px;
+        //top:50%;
+        //-webkit-transform: translateY(-50%);
+        //-moz-transform: translateY(-50%);
+        //-ms-transform: translateY(-50%);
+        //-o-transform: translateY(-50%);
+        //transform: translateY(-50%);
+        img{
+          width:auto;
+          height:100%;
+          position: absolute;
+          top:0;
+          right:0;
+        }
       }
       .event-info{
         display: inline-block;
-        margin-left:75px;
+        margin-left:10px;
         width: ~'calc(100% - 75px)';
         .title{
           height:16px;
@@ -35,18 +70,19 @@
           font-size:16px;
           -ms-word-break: break-all;
           word-break: break-all;
+          color:@color_context;
         }
         .describe{
           line-height:13px;
           margin-top:20px;
           font-size:13px;
-          color:#666666;
+          color:@color_title;
         }
         .time{
           line-height:13px;
           margin-top:5px;
           font-size:13px;
-          color:#666666;
+          color:@color_title;
         }
       }
     }
