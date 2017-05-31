@@ -21,6 +21,11 @@ export class EventWall extends React.Component<any,any>{
     this.bannerHeight = 175/375 * this.bannerWidth;
     this.barItemPd = ((70/750) * (window.innerWidth-30))/2;
     this.barItemWidth = ((window.innerWidth-30)-this.barItemPd*6)/4;
+
+    if(this.barItemWidth<64){
+      this.barItemWidth = 64;
+      this.barItemPd = ((window.innerWidth-30)-(this.barItemWidth*4))/6;
+    }
   }
 
   componentWillMount(){
