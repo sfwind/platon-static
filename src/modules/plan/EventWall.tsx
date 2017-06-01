@@ -93,7 +93,7 @@ export class EventWall extends React.Component<any,any>{
                   {item.title}
                 </div>
                 {item.password?<div className="password">直播间密码：{item.password}</div>:null}
-                <div className="describe" style={{marginTop:`${item.password?9:30}px`}}>
+                <div className="describe" style={{marginTop:`${item.password?6:24}px`}}>
                   {item.publisher}
                 </div>
                 <div className="time">
