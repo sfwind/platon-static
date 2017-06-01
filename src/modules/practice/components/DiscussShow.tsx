@@ -32,7 +32,7 @@ export default class DiscussShow extends React.Component <any, any> {
     const {show} = this.state
     const {
       id, name, avatar, discussTime, priority, comment, repliedComment, repliedName,
-      role, signature, isMine, repliedDel
+      role, signature, isMine, repliedDel, del
     } = discuss
     const isDel = discuss.del
     const alertProps = {
@@ -41,7 +41,7 @@ export default class DiscussShow extends React.Component <any, any> {
         {label: '确定', onClick: () => this.delete()}
       ],
     }
-
+    console.log(discuss)
     return (
       <div key={id} className="comment-cell">
         <div className="comment-avatar"><img className="comment-avatar-img" src={avatar}/></div>
@@ -62,6 +62,12 @@ export default class DiscussShow extends React.Component <any, any> {
               <div className="right">
                 <AssetImg type="excellent_answer" height={31} width={32} marginTop={-10} marginRight={-10}/>
               </div> : null
+            }
+            {
+              del === 1 ?
+                <div className="right">
+                  <AssetImg url="https://www.iqycamp.com/images/fragment/comment_reply_del.png" height={50} width={60} marginTop={-10}/>
+                </div> : null
             }
           </div>
           <div className="signature">{signature}</div>

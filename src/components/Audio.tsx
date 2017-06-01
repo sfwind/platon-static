@@ -6,6 +6,12 @@ import AssetImg from "./AssetImg";
 let timer;
 let duration_load_timer;
 
+enum Device {
+  IPHONE = 1,
+  ANDROID,
+  OTHER
+}
+
 export default class Audio extends React.Component<any, any> {
   constructor(props) {
     super(props)
@@ -13,9 +19,20 @@ export default class Audio extends React.Component<any, any> {
       duration: 0,
       currentSecond: 0,
       cntSecond: 0,
+      device: "",
       playing: false,
-      pause:false,
-      loading:false,
+      pause: false,
+      loading: false,
+    }
+  }
+
+  componentWillMount() {
+    if(window.navigator.userAgent.indexOf("Android") > 0) {
+      this.setState({device: Device.ANDROID})
+    } else if(window.navigator.userAgent.indexOf("iPhone") > 0 || window.navigator.userAgent.indexOf("iPad") > 0) {
+      this.setState({device: Device.IPHONE})
+    } else {
+      this.setState({device: Device.OTHER})
     }
   }
 
@@ -27,11 +44,11 @@ export default class Audio extends React.Component<any, any> {
   start() {
     let self = this
     // 首次点击播放按钮
-    this.setState({playing:true})
+    this.setState({playing: true})
     // 首次加载
     if(this.state.duration === 0) {
       // 加载音频
-      this.setState({loading:true})
+      this.setState({loading: true})
       self.refs.sound.load()
       duration_load_timer = setInterval(() => {
         if(self.state.duration) {
@@ -42,15 +59,15 @@ export default class Audio extends React.Component<any, any> {
         self.refs.sound.play()
         self.refs.sound.pause()
         if(self.refs.sound.duration) {
-          self.setState({duration: Math.floor(self.refs.sound.duration), loading:false})
+          self.setState({duration: Math.floor(self.refs.sound.duration), loading: false})
           self.play()
         }
       }, 500)
-    }else{
+    } else {
       // 暂停后重新播放
       if(this.state.pause) {
         this.play()
-        this.setState({pause:false})
+        this.setState({pause: false})
       }
     }
   }
@@ -74,9 +91,8 @@ export default class Audio extends React.Component<any, any> {
     })
   }
 
-
   pause() {
-    this.setState({playing: false, pause:true})
+    this.setState({playing: false, pause: true})
     clearInterval(timer)
     this.refs.sound.pause()
   }
@@ -84,7 +100,7 @@ export default class Audio extends React.Component<any, any> {
   //手动更改时间
   onProgressChange(value) {
     //如果没有加载完成，不允许拖动
-    if(this.state.duration === 0){
+    if(this.state.duration === 0) {
       return
     }
     clearInterval(timer)
@@ -94,23 +110,30 @@ export default class Audio extends React.Component<any, any> {
     })
   }
 
-  render() {
-    const {url} = this.props
+  //使用原生audio标签
+  renderOrigin(url) {
+    return (
+      <audio ref="sound" src={url} controls="controls"/>
+    )
+  }
+
+  //使用定制化audio组件
+  renderCustomize(url) {
     const {currentSecond, playing, duration, loading} = this.state
     return (
       <div className="audio">
         <div className="audio-container">
           { loading ?
-              <div className="audio-btn" onClick={this.pause.bind(this)}>
-                <AssetImg url="https://www.iqycamp.com/images/audio_loading.gif" size={20}/>
-              </div>
-          : playing ?
             <div className="audio-btn" onClick={this.pause.bind(this)}>
-              <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
-            </div> :
-            <div className="audio-btn" onClick={this.start.bind(this)}>
-              <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
+              <AssetImg url="https://www.iqycamp.com/images/audio_loading.gif" size={20}/>
             </div>
+            : playing ?
+              <div className="audio-btn" onClick={this.pause.bind(this)}>
+                <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
+              </div> :
+              <div className="audio-btn" onClick={this.start.bind(this)}>
+                <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
+              </div>
           }
           <div className="audio-progress">
             <Slider min={0} max={duration} value={currentSecond} onChange={this.onProgressChange.bind(this)}
@@ -124,6 +147,15 @@ export default class Audio extends React.Component<any, any> {
           />
         </div>
       </div>
+    )
+  }
+
+  render() {
+    const {url} = this.props
+    return (
+      this.state.device === Device.ANDROID
+        ? this.renderOrigin(url)
+        : this.renderCustomize(url)
     )
   }
 }
