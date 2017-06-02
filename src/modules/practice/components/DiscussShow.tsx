@@ -41,7 +41,6 @@ export default class DiscussShow extends React.Component <any, any> {
         {label: '确定', onClick: () => this.delete()}
       ],
     }
-    console.log(discuss)
     return (
       <div key={id} className="comment-cell">
         <div className="comment-avatar"><img className="comment-avatar-img" src={avatar}/></div>
@@ -66,7 +65,7 @@ export default class DiscussShow extends React.Component <any, any> {
             {
               del === 1 ?
                 <div className="right">
-                  <AssetImg url="https://www.iqycamp.com/images/fragment/comment_reply_del.png" height={50} width={60} marginTop={-10}/>
+                  <AssetImg url="https://static.iqycamp.com/images/fragment/comment_reply_del.png" height={33} width={40} marginTop={-10}/>
                 </div> : null
             }
           </div>
