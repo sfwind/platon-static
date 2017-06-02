@@ -1,6 +1,7 @@
 @import "../../style/variable";
 .layout {
   width:100%;
+  overflow: hidden;
   .event-wall-tab{
     .navbar{
       font-size:@font_context;
@@ -25,7 +26,9 @@
         }
       }
     }
-
+  }
+  .event-tab-body{
+    overflow-y: scroll;
   }
   .padding{
     height: 50px;

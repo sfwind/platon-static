@@ -80,7 +80,7 @@ export class EventWall extends React.Component<any,any>{
       default:tempList = liveList;break;
     }
     return (
-      <div>
+      <div className="event-tab-body"  style={{height:`${window.innerHeight-this.bannerHeight - 50 - 50}px`}}>
         <ul className="event-list">
           {tempList ? tempList.map((item, idx) => {
             return <li onClick={()=>this.goEvent(item)} key={idx} className="event-item">
@@ -131,7 +131,7 @@ export class EventWall extends React.Component<any,any>{
   render(){
     return (<div className="layout">
       {this.renderBanner()}
-      <div className="event-wall-tab" style={{height:`${window.innerHeight-this.bannerHeight}px`}}>
+      <div className="event-wall-tab">
         <div className="navbar">
           <div style={{margin:`0 ${this.barItemPd}px 0 0`,width:`${this.barItemWidth}px`}} className={`navbar-item ${this.state.tab == 1?'active':''}`} onClick={e=>this.setState({tab:1})}>
             <span>大咖直播</span>
@@ -146,9 +146,9 @@ export class EventWall extends React.Component<any,any>{
             <span>地域PK</span>
           </div>
         </div>
-        {this.renderTabBody()}
       </div>
-      <ToolBar hidden="true" />
+      {this.renderTabBody()}
+      <ToolBar />
     </div>)
   }
 }
