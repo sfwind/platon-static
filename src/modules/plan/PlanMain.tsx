@@ -285,7 +285,9 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch,location } = this.props
     const { planData } = this.state;
     const {planId} = location.query
+    dispatch(startLoad());
     completePlan(planId).then(res => {
+      dispatch(endLoad());
       const { code, msg } = res
       if (code === 200) {
         if (msg.iscomplete) {
@@ -304,6 +306,9 @@ export class PlanMain extends React.Component <any, any> {
       } else {
         dispatch(alertMsg(msg))
       }
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     })
   }
 
