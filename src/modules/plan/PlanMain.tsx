@@ -402,8 +402,10 @@ export class PlanMain extends React.Component <any, any> {
     dispatch(startLoad());
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad());
-      this.setState({showScoreModal: false, planData: merge({}, planData, {hasProblemScore: true})},()=>{
-      this.confirmComplete()});
+      this.setState({showScoreModal: false, planData: merge({}, planData, {hasProblemScore: true})}, () => {
+          this.confirmComplete()
+        }
+      );
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex))
