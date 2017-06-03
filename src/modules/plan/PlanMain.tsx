@@ -403,9 +403,7 @@ export class PlanMain extends React.Component <any, any> {
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad());
       this.setState({showScoreModal: false, planData: merge({}, planData, {hasProblemScore: true})},()=>{
-        this.confirmComplete()
-      });
-
+      this.confirmComplete()});
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex))
@@ -579,7 +577,7 @@ export class PlanMain extends React.Component <any, any> {
       <div className="rise-main">
         <ToolBar />
         {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
-                                     onClose={()=>this.setState({ showScoreModal: false },()=>{this.confirmComplete()})}
+                                     onClose={()=>this.setState({  showScoreModal: false },()=>{this.confirmComplete()})}
                                      questionList={this.state.questionList}/>: null}
         <Modal
           header={{replace:true,children:<AssetImg width={107} height={83} url="https://static.iqycamp.com/images/fragment/finish_modal3.png"/>}}
