@@ -210,7 +210,11 @@ export class Main extends React.Component <any, any> {
 
   onSubmit(){
     const { dispatch, location} = this.props
-    const { data,planId } = this.state
+    const { data } = this.state
+    let { planId } = this.state;
+    if(!planId){
+      planId = location.query.planId;
+    }
     const answer = this.refs.editor.getValue();
     const { submitId } = data
     if(answer == null || answer.length === 0){
