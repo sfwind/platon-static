@@ -13,7 +13,6 @@ export default class Editor extends React.Component<any,any>{
     this.state={
       editor:null
     }
-    console.log($.ajax);
   }
 
   componentDidMount(){
@@ -70,7 +69,6 @@ export default class Editor extends React.Component<any,any>{
       uploadError: function(res) {
         //这里做上传失败的操作
         //也就是http返回码非200的时候
-        console.log(res);
         if(isFunction(this.props.onUploadError)){
           this.props.onUploadError(res);
         }
@@ -96,12 +94,13 @@ export default class Editor extends React.Component<any,any>{
     }
   }
 
-
   render(){
+    const focusHandler = this.props.focusHandler;
+
     return (
       <div className="publish-article-content">
         <input type="hidden" id="target" value=""/>
-        <div ref="editor" className="article-content" id="content">
+        <div ref="editor" className="article-content" id="content" onFocus={() => focusHandler()}>
         </div>
         <div className="footer-btn">
           <div className="upload">
