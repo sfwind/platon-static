@@ -34,9 +34,8 @@ export class Main extends React.Component <any, any> {
       integrated: true,
       showOthers: false,
       edit: true,
-      firstSaveDraft: true,
-      draftId: '-1',
-      preContent: ''
+      draftId: -1,
+      draft: ''
     }
     this.pullElement = null;
   }
@@ -107,14 +106,14 @@ export class Main extends React.Component <any, any> {
     dispatch(startLoad());
     loadApplicationPractice(id, planId).then(res => {
       const {code, msg} = res;
-      this.setState({data: msg, submitId: msg.submitId, planId: msg.planId}, () => {
-        // 加载自动保存练习内容
-        loadAutoSaveApplicationDraft(this.state.planId, this.props.location.query.id).then(res => {
-          console.log("预加载内容", res);
-          this.setState({preContent: res.msg})
-        })
+      this.setState({
+        data: msg, submitId: msg.submitId, planId: msg.planId, draftId: res.msg.draftId, draft: res.msg.draft
+      }, () => {
+        const isSubmitted = res.msg.content != null;
+        if(!isSubmitted) {
+          this.autoSaveApplicationDraft();
+        }
       })
-      this.autoSaveApplicationDraft();
       dispatch(endLoad())
       if(code === 200) {
         const {content} = msg;
@@ -152,7 +151,16 @@ export class Main extends React.Component <any, any> {
     timer = setInterval(() => {
       const draft = this.refs.editor.getValue();
       if(draft.trim().length > 0) {
-        autoUpdateApplicationDraft(this.state.draftId, {draft})
+        if(this.state.draftId == -1) {
+          const planId = this.state.planId;
+          const applicationId = this.props.location.query.id;
+          autoSaveApplicationDraft(planId, applicationId).then(res => {
+            this.setState({draftId: res.msg})
+            autoUpdateApplicationDraft(res.msg, {draft})
+          })
+        } else {
+          autoUpdateApplicationDraft(this.state.draftId, {draft})
+        }
       }
     }, 10000)
   }
@@ -233,18 +241,6 @@ export class Main extends React.Component <any, any> {
         dispatch(alertMsg(res.msg));
       }
     })
-  }
-
-  editorFocusHandler() {
-    const planId = this.state.planId;
-    const applicationId = this.props.location.query.id;
-    if(this.state.firstSaveDraft) {
-      this.setState({firstSaveDraft: false}, () => {
-        autoSaveApplicationDraft(planId, applicationId).then(res => {
-          this.setState({draftId: res.msg})
-        })
-      })
-    }
   }
 
   onSubmit() {
@@ -391,7 +387,7 @@ export class Main extends React.Component <any, any> {
                     this.props.dispatch(startLoad())
                   }} uploadEnd={() => {
                     this.props.dispatch(endLoad())
-                  }} focusHandler={this.editorFocusHandler.bind(this)} defaultValue={this.state.preContent}
+                  }} defaultValue={this.state.draft}
                           placeholder="离开页面前请提交，以免内容丢失。"/>
                 </div> : null}
               {showOthers && !isEmpty(otherHighlightList) ? <div>

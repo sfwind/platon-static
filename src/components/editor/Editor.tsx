@@ -95,12 +95,10 @@ export default class Editor extends React.Component<any,any>{
   }
 
   render(){
-    const focusHandler = this.props.focusHandler;
-
     return (
       <div className="publish-article-content">
         <input type="hidden" id="target" value=""/>
-        <div ref="editor" className="article-content" id="content" onFocus={() => focusHandler()}>
+        <div ref="editor" className="article-content" id="content">
         </div>
         <div className="footer-btn">
           <div className="upload">
