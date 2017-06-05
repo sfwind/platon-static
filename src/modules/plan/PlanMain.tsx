@@ -291,8 +291,9 @@ export class PlanMain extends React.Component <any, any> {
         if (msg.iscomplete) {
           if (planData.hasProblemScore) {
             // 已经评分
-            this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
-            this.confirmComplete()
+            this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
+              this.confirmComplete()
+            })
           } else {
             // 未评分
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
@@ -301,7 +302,13 @@ export class PlanMain extends React.Component <any, any> {
           dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
         }
       } else {
-        dispatch(alertMsg(msg))
+        if(code===-1){
+          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
+        } else if(code === -2){
+          dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${msg}天<br/>之后就可以开启下一小课了`))
+        } else {
+          dispatch(alertMsg(msg))
+        }
       }
     })
   }
@@ -351,7 +358,13 @@ export class PlanMain extends React.Component <any, any> {
       if (code === 200) {
         this.context.router.push("/rise/static/problem/explore")
       } else {
-        dispatch(alertMsg(msg))
+        if(code===-1){
+          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
+        } else if(code === -2){
+          dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${msg}天<br/>之后就可以开启下一小课了`))
+        } else if (code === -3){
+          dispatch(alertMsg(msg))
+        }
         this.setState({showConfirmModal: false})
       }
     })
