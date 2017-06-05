@@ -97,7 +97,7 @@ export class EventWall extends React.Component<any,any>{
                   {item.publisher}
                 </div>
                 <div className="time">
-                  {item.showTime ? `${item.startStr} ~ ${item.endStr}` : null}
+                  {item.time}
                 </div>
               </div>
             </li>
