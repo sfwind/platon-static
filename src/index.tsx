@@ -11,9 +11,10 @@ import "weui/src/style/widget/weui_tips/weui_dialog.less";
 import "weui/src/style/widget/weui_tips/weui_mask.less";
 import "weui/src/style/widget/weui_tips/weui_toast.less";
 import "weui/src/style/base/reset.less";
-import "weui/src/style/widget/weui_tab/weui_tab.less"
-import "weui/src/style/widget/weui_tab/tabbar.less"
-import 'swiper/dist/css/swiper.css'
+import "weui/src/style/widget/weui_tab/weui_tab.less";
+import "weui/src/style/widget/weui_tab/tabbar.less";
+import "weui/src/style/widget/weui_tab/navbar.less";
+import 'swiper/dist/css/swiper.css';
 
 const store = configureStore()
 

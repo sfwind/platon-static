@@ -17,7 +17,10 @@ export default class Banner extends React.Component<any,any> {
       spaceBetween: 0,
       centeredSlides: true,
       autoplay: 2500,
-      autoplayDisableOnInteraction: false
+      autoplayDisableOnInteraction: false,
+      paginationBulletRender: function (swiper, index, className) {
+        return '<span class="banner-bullet ' + className + '"></span>';
+      }
     });
   }
 
