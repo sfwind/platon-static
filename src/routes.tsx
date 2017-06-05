@@ -37,6 +37,7 @@ import {EventWall} from "modules/plan/EventWall";
 import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
 import BannerArticle from 'modules/problem/BannerArticle'
+import { ImprovementReport } from 'modules/plan/ImprovementReport'
 
 const routes = (
   <Route path="/rise/static" component={Base}>
@@ -46,6 +47,7 @@ const routes = (
     <Route path="problem/more" component={MoreProblem}/>
     <Route path="problem/package" component={BannerArticle}/>
     <Route path="plan/main" component={PlanMain}/>
+    <Route path="plan/report" component={ImprovementReport}/>
     <Route path="learn" component={PlanMain}/>
     <Route path="practice/warmup" component={WarmUp}/>
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
