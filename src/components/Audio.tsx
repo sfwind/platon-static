@@ -36,6 +36,21 @@ export default class Audio extends React.Component<any, any> {
     }
   }
 
+  componentDidMount(){
+    const {device} = this.state
+    // alert(window.navigator.userAgent)
+    if(device == Device.ANDROID){
+      try{
+        //华为某些机型不支持https的语音
+        this.refs.sound.src = this.refs.sound.src.replace('https','http')
+        this.refs.sound.load()
+      }catch (e){
+        alert(e)
+      }
+
+    }
+  }
+
   onEnd() {
     this.setState({currentSecond: this.state.duration, playing: false})
     clearInterval(timer)
