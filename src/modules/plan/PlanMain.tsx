@@ -291,8 +291,9 @@ export class PlanMain extends React.Component <any, any> {
         if (msg.iscomplete) {
           if (planData.hasProblemScore) {
             // 已经评分
-            this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
-            this.confirmComplete()
+            this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
+              this.confirmComplete()
+            })
           } else {
             // 未评分
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
