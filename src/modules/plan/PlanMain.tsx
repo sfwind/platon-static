@@ -375,6 +375,10 @@ export class PlanMain extends React.Component <any, any> {
     })
   }
 
+  goExlore(){
+    this.context.router.push("/rise/static/problem/explore")
+  }
+
   onTransitionEnd(){
       const {location} = this.props
       const {planId} = location.query
@@ -620,7 +624,7 @@ export class PlanMain extends React.Component <any, any> {
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
 
         <Modal show={expired}
-               buttons={[{click: () => this.nextPlan(), content: "开始新小课"}]}
+               buttons={[{click: () => this.goExlore(), content: "开始新小课"}]}
         >
             <div className="content">
                 <div className="text">糟糕！好久没学，小课到期了！</div>
