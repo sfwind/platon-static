@@ -13,9 +13,10 @@ import { isNull, isString, truncate, merge, set, get } from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import { findIndex, remove, isEmpty, isBoolean } from "lodash";
-import { Toast } from "react-weui"
+// import { Toast } from "react-weui"
 import Tutorial from "../../../components/Tutorial"
 import Editor from "../../../components/editor/Editor";
+import Toast from "../../../components/Toast";
 
 let timer;
 
@@ -108,21 +109,31 @@ export class Main extends React.Component <any, any> {
     dispatch(startLoad());
     loadApplicationPractice(id, planId).then(res => {
       const {code, msg} = res;
+      if(res.msg.draftId) {
+        this.setState({draftId: res.msg.draftId})
+      }
       this.setState({
-        data: msg, submitId: msg.submitId, planId: msg.planId, draftId: res.msg.draftId, draft: res.msg.draft
-      }, () => {
+        data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft
+      }
+      , () => {
         const isSubmitted = res.msg.content != null;
+        console.log(isSubmitted)
         if(!isSubmitted) {
           this.autoSaveApplicationDraft();
         }
       })
       dispatch(endLoad())
+      // 如果存在未提交的草稿，则显示提醒toast
       if(res.msg.draft) {
         this.setState({showDraftToast: true}, () => {
           setTimeout(() => {
-            this.setState({showDraftToast: false})
-          }, 1000)
-        })
+            let draftToast = document.getElementById("main-toast-draft");
+            draftToast.style.opacity = 0;
+          }, 1000);
+          setTimeout(() => {
+            this.setState({showDraftToast: false});
+          }, 1500);
+        });
       }
       if(code === 200) {
         const {content} = msg;
@@ -430,9 +441,12 @@ export class Main extends React.Component <any, any> {
             null
         }
         <div className="main-toast">
-          <Toast show={this.state.showDraftToast} icon="none">
-            <div style={{fontSize: 13, paddingTop: 10}}>上次未提交的内容，</div>
-            <div style={{fontSize: 13, paddingTop: 10}}>已经自动保存啦！</div>
+          <Toast
+            show={this.state.showDraftToast}
+            id="main-toast-draft"
+          >
+            <div>上次未提交的内容</div>
+            <div style={{marginTop: 10}}>已经自动保存啦</div>
           </Toast>
         </div>
       </div>

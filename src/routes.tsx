@@ -33,7 +33,7 @@ import ProblemGallery from "modules/customer/ProblemGallery"
 import RiseMember from "modules/customer/RiseMember"
 import FeedBack from "modules/customer/FeedBack"
 import UserProtocol from "modules/customer/UserProtocol"
-import {EventWall} from "modules/plan/EventWall";
+import { EventWall } from "modules/plan/EventWall";
 import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
 import BannerArticle from 'modules/problem/BannerArticle'
@@ -41,7 +41,7 @@ import BannerArticle from 'modules/problem/BannerArticle'
 const routes = (
   <Route path="/rise/static" component={Base}>
     <Route path="welcome" component={Welcome}/>
-    <Route path="problem/explore" component={Explore} />
+    <Route path="problem/explore" component={Explore}/>
     <Route path="problem/view" component={ProblemViewer}/>
     <Route path="problem/more" component={MoreProblem}/>
     <Route path="problem/package" component={BannerArticle}/>
@@ -65,7 +65,7 @@ const routes = (
     <Route path="member/explain" component={RiseMemberExplain}/>
     <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
     <Route path="message/subject/reply" component={SubjectComment}/>
-    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage} />
+    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
     <Route path="message/comment/reply" component={ReplyCommentMessage}/>
     <Route path="customer" component={Customer}>
       <Route path="personal" component={Personal}/>
@@ -75,7 +75,7 @@ const routes = (
       <Route path="problem" component={ProblemGallery}/>
       <Route path="member" component={RiseMember}/>
       <Route path="feedback" component={FeedBack}/>
-      <Route path="userprotocol" component={UserProtocol} />
+      <Route path="userprotocol" component={UserProtocol}/>
     </Route>
     <Route path="message" component={Customer}>
       <Route path="center" component={MessageCenter}/>
