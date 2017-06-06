@@ -110,33 +110,32 @@ export class Main extends React.Component <any, any> {
     dispatch(startLoad());
     loadApplicationPractice(id, planId).then(res => {
       const {code, msg} = res;
-      if(res.msg.draftId) {
-        this.setState({draftId: res.msg.draftId})
-      }
-      this.setState({
-        data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft,
-        editorValue: res.msg.content == null ? res.msg.draft : res.msg.content
-      }
-      , () => {
+      if(code === 200) {
+        if(res.msg.draftId) {
+          this.setState({draftId: res.msg.draftId})
+        }
+        this.setState({
+          data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft,
+          editorValue: res.msg.content == null ? res.msg.draft : res.msg.content
+        })
         const isSubmitted = res.msg.content != null;
         if(!isSubmitted) {
           this.autoSaveApplicationDraft();
         }
-      })
-      dispatch(endLoad())
-      // 如果存在未提交的草稿，则显示提醒toast
-      if(res.msg.draft) {
-        this.setState({showDraftToast: true}, () => {
-          setTimeout(() => {
-            let draftToast = document.getElementById("main-toast-draft");
-            draftToast.style.opacity = 0;
-          }, 1500);
-          setTimeout(() => {
-            this.setState({showDraftToast: false});
-          }, 3000);
-        });
-      }
-      if(code === 200) {
+        dispatch(endLoad())
+        // 如果存在未提交的草稿，则显示提醒toast
+        if(res.msg.draft) {
+          this.setState({showDraftToast: true}, () => {
+            setTimeout(() => {
+              let draftToast = document.getElementById("main-toast-draft");
+              draftToast.style.opacity = 0;
+            }, 1500);
+            setTimeout(() => {
+              this.setState({showDraftToast: false});
+            }, 3000);
+          });
+        }
+
         const {content} = msg;
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
@@ -153,8 +152,9 @@ export class Main extends React.Component <any, any> {
           this.refs.submitBar.scrollTop = 0
           this.setState({edit: false})
         }
+      } else {
+        dispatch(alertMsg(msg))
       }
-      else dispatch(alertMsg(msg))
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
