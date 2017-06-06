@@ -102,7 +102,7 @@ export class Submit extends React.Component <any, any> {
             return
         }
         this.setState({editDisable: true})
-        submitSubject(location.query.id,title, content,null, labels).then(res => {
+        submitSubject(location.query.id,title, content,location.query.submitId, labels).then(res => {
             dispatch(endLoad())
             const { code, msg } = res
             if (code === 200) {
