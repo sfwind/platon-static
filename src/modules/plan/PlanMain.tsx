@@ -293,6 +293,7 @@ export class PlanMain extends React.Component <any, any> {
         if (msg.iscomplete) {
           if (planData.hasProblemScore) {
             // 已经评分
+            
             this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
               this.confirmComplete();
             })
@@ -301,11 +302,11 @@ export class PlanMain extends React.Component <any, any> {
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
           }
         } else {
-          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
+          dispatch(alertMsg('先完成今天的知识点和巩固训练，才能查看报告哦'))
         }
       } else {
         if(code===-1){
-          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
+          dispatch(alertMsg('先完成今天的知识点和巩固训练，才能查看报告哦'))
         } else if(code === -2){
           dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${msg}天<br/>之后就可以开启下一小课了`))
         } else {
@@ -581,11 +582,11 @@ export class PlanMain extends React.Component <any, any> {
                   </div>
                   { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
                   { item.series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>
-                          完成小课</div> : null }
+                          学习报告</div> : null }
               </div>
             : null}
             { item.series === totalSeries && !windowsClient?
-                <div className="submit-btn-footer" onClick={()=>this.complete()}>完成小课</div>:null}
+                <div className="submit-btn-footer" onClick={()=>this.complete()}>学习报告</div>:null}
             <div className="padding-footer"></div>
           </div>
       </div>)
