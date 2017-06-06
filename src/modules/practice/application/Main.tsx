@@ -117,7 +117,6 @@ export class Main extends React.Component <any, any> {
       }
       , () => {
         const isSubmitted = res.msg.content != null;
-        console.log(isSubmitted)
         if(!isSubmitted) {
           this.autoSaveApplicationDraft();
         }
