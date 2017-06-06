@@ -35,6 +35,7 @@ export class Main extends React.Component <any, any> {
       goBackUrl: '',
       integrated: true,
       showOthers: false,
+      editorValue: '',
       edit: true,
       draftId: -1,
       draft: '',
@@ -113,7 +114,8 @@ export class Main extends React.Component <any, any> {
         this.setState({draftId: res.msg.draftId})
       }
       this.setState({
-        data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft
+        data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft,
+        editorValue: res.msg.content == null ? res.msg.draft : res.msg.content
       }
       , () => {
         const isSubmitted = res.msg.content != null;
@@ -128,10 +130,10 @@ export class Main extends React.Component <any, any> {
           setTimeout(() => {
             let draftToast = document.getElementById("main-toast-draft");
             draftToast.style.opacity = 0;
-          }, 1000);
+          }, 1500);
           setTimeout(() => {
             this.setState({showDraftToast: false});
-          }, 1500);
+          }, 3000);
         });
       }
       if(code === 200) {
@@ -285,7 +287,7 @@ export class Main extends React.Component <any, any> {
           dispatch(endLoad())
           const {code, msg} = res;
           if(code === 200) {
-            this.setState({data: msg, submitId: msg.submitId, planId: msg.planId, edit: false})
+            this.setState({data: msg, submitId: msg.submitId, planId: msg.planId, edit: false, editorValue: msg.content})
           }
           else dispatch(alertMsg(msg))
         }).catch(ex => {
@@ -414,7 +416,7 @@ export class Main extends React.Component <any, any> {
                     uploadEnd={() => {
                       this.props.dispatch(endLoad())
                     }}
-                    defaultValue={this.state.draft}
+                    defaultValue={this.state.editorValue}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
                   />
                 </div> : null}
