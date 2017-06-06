@@ -13,8 +13,9 @@ import { isNull, isString, truncate, merge, set, get } from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import { findIndex, remove, isEmpty, isBoolean } from "lodash";
+import { Toast } from "react-weui"
 import Tutorial from "../../../components/Tutorial"
-import Editor from "../../../components/editor/Editor"
+import Editor from "../../../components/editor/Editor";
 
 let timer;
 
@@ -35,7 +36,8 @@ export class Main extends React.Component <any, any> {
       showOthers: false,
       edit: true,
       draftId: -1,
-      draft: ''
+      draft: '',
+      showDraftToast: false
     }
     this.pullElement = null;
   }
@@ -115,6 +117,13 @@ export class Main extends React.Component <any, any> {
         }
       })
       dispatch(endLoad())
+      if(res.msg.draft) {
+        this.setState({showDraftToast: true}, () => {
+          setTimeout(() => {
+            this.setState({showDraftToast: false})
+          }, 1000)
+        })
+      }
       if(code === 200) {
         const {content} = msg;
         if(integrated == 'false') {
@@ -144,6 +153,9 @@ export class Main extends React.Component <any, any> {
         this.setState({openStatus: res.msg});
       }
     })
+  }
+
+  componentDidMount() {
   }
 
   // 定时保存方法
@@ -287,7 +299,6 @@ export class Main extends React.Component <any, any> {
   render() {
     const {data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated} = this.state
     const {topic, description, content, voteCount, submitId, voteStatus} = data
-    const firstSubmit = !this.state.data.content
 
     const renderList = (list) => {
       if(list) {
@@ -381,14 +392,21 @@ export class Main extends React.Component <any, any> {
 
               {edit ?
                 <div className="editor">
-                  <Editor ref="editor" moduleId={3} onUploadError={(res) => {
-                    this.props.dispatch(alertMsg(res.msg))
-                  }} uploadStart={() => {
-                    this.props.dispatch(startLoad())
-                  }} uploadEnd={() => {
-                    this.props.dispatch(endLoad())
-                  }} defaultValue={this.state.draft}
-                          placeholder="离开页面前请提交，以免内容丢失。"/>
+                  <Editor
+                    ref="editor"
+                    moduleId={3}
+                    onUploadError={(res) => {
+                      this.props.dispatch(alertMsg(res.msg))
+                    }}
+                    uploadStart={() => {
+                      this.props.dispatch(startLoad())
+                    }}
+                    uploadEnd={() => {
+                      this.props.dispatch(endLoad())
+                    }}
+                    defaultValue={this.state.draft}
+                    placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
+                  />
                 </div> : null}
               {showOthers && !isEmpty(otherHighlightList) ? <div>
                 <div className="submit-bar">{'管理员推荐'}</div>
@@ -411,7 +429,12 @@ export class Main extends React.Component <any, any> {
             :
             null
         }
-
+        <div className="main-toast">
+          <Toast show={this.state.showDraftToast} icon="none">
+            <div style={{fontSize: 13, paddingTop: 10}}>上次未提交的内容，</div>
+            <div style={{fontSize: 13, paddingTop: 10}}>已经自动保存啦！</div>
+          </Toast>
+        </div>
       </div>
     )
   }
