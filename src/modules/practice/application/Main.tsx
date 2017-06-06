@@ -446,8 +446,8 @@ export class Main extends React.Component <any, any> {
             show={this.state.showDraftToast}
             id="main-toast-draft"
           >
-            <div>上次未提交的内容</div>
-            <div style={{marginTop: 10}}>已经自动保存啦</div>
+            <div>上次输入的内容未提交哦</div>
+            <div>已自动保存，可以继续编辑啦</div>
           </Toast>
         </div>
       </div>
