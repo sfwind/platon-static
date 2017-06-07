@@ -13,7 +13,6 @@ export default class Editor extends React.Component<any,any>{
     this.state={
       editor:null
     }
-    console.log($.ajax);
   }
 
   componentDidMount(){
@@ -70,7 +69,6 @@ export default class Editor extends React.Component<any,any>{
       uploadError: function(res) {
         //这里做上传失败的操作
         //也就是http返回码非200的时候
-        console.log(res);
         if(isFunction(this.props.onUploadError)){
           this.props.onUploadError(res);
         }
@@ -95,7 +93,6 @@ export default class Editor extends React.Component<any,any>{
       this.state.editor.setValue(nextProps.defaultValue);
     }
   }
-
 
   render(){
     return (
