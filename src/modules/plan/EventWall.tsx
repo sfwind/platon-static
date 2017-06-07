@@ -79,8 +79,11 @@ export class EventWall extends React.Component<any,any>{
       case 4:tempList = areaList;break;
       default:tempList = liveList;break;
     }
+
+    let height = this.bannerHeight>(window.innerHeight-60)?'auto':`${window.innerHeight-this.bannerHeight - 50 - 50}px`;
+
     return (
-      <div className="event-tab-body"  style={{height:`${window.innerHeight-this.bannerHeight - 50 - 50}px`}}>
+      <div className="event-tab-body"  style={{height:`${height}`}}>
         <ul className="event-list">
           {tempList ? tempList.map((item, idx) => {
             return <li onClick={()=>this.goEvent(item)} key={idx} className="event-item">
@@ -129,7 +132,7 @@ export class EventWall extends React.Component<any,any>{
 
 
   render(){
-    return (<div className="layout">
+    return (<div className="layout" style={{overflow:`${this.bannerHeight>(window.innerHeight-60)?'auto':'hidden'}`}}>
       {this.renderBanner()}
       <div className="event-wall-tab">
         <div className="navbar">
