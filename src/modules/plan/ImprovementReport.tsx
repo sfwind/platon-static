@@ -139,20 +139,20 @@ export class ImprovementReport extends React.Component<any,any>{
     const { problem,studyDays,percent,receiveVoteCount,shareVoteCount,totalScore,integratedTotalScore,integratedShouldCount,
       integratedScore,integratedCompleteCount,chapterList,applicationTotalScore,applicationShouldCount,
       applicationScore,applicationCompleteCount,pic,showNextBtn} = planData;
-    if(showNextBtn){
+    // if(showNextBtn){
       return (
         <div className="button-footer">
           <div className="left" onClick={this.chooseNew.bind(this)}>选择新小课</div>
           <div className="right" onClick={this.goBack.bind(this)}>返回本小课</div>
         </div>
       )
-    } else {
-      return (
-        <div className="button-footer">
-          <div  onClick={this.goBack.bind(this)}>返回本小课</div>
-        </div>
-      )
-    }
+    // } else {
+    //   return (
+    //     <div className="button-footer">
+    //       <div  onClick={this.goBack.bind(this)}>返回本小课</div>
+    //     </div>
+    //   )
+    // }
 
   }
 
@@ -190,7 +190,7 @@ export class ImprovementReport extends React.Component<any,any>{
               总得分：<span className="socre">{totalScore}</span> ，打败了<span className="percent"> {percent}% </span>的同学
             </div>
             <div className="time">
-              学习时长：{studyDays===-1?'未完成':`${studyDays} 天`}
+              学习时长：{studyDays===-1?'30天':`${studyDays} 天`}
             </div>
           </div>
         </div>
