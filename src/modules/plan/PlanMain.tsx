@@ -288,14 +288,16 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch,location } = this.props
     const { planData = {} } = this.state;
     const {planId} = location.query
-    const {status} = planData;
-    dispatch(startLoad());
-    if(status != 1){
+    const {status,reportStatus} = planData;
+    if(reportStatus === 3){
       this.context.router.push({
         pathname:'/rise/static/plan/report',
         query:{planId:planId}
       });
+    } else if(reportStatus === -1){
+      dispatch(alertMsg("由于您未能在开放期间完成所有必做题，所以学习报告无法查看哦"))
     } else {
+      dispatch(startLoad());
       completePlan(planId).then(res => {
         dispatch(endLoad());
         const { code, msg } = res;
@@ -315,8 +317,6 @@ export class PlanMain extends React.Component <any, any> {
         } else {
           if(code===-1){
             dispatch(alertMsg('先完成所有的知识点和巩固训练，才能查看报告哦'))
-          } else if(code === -2){
-            dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${msg}天<br/>之后就可以开启下一小课了`))
           } else {
             dispatch(alertMsg(msg))
           }
@@ -465,7 +465,7 @@ export class PlanMain extends React.Component <any, any> {
         selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,expired } = this.state
     const {location} = this.props
     const {
-      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries
+      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries,reportStatus
     } = planData
     const practiceRender = (list = []) => {
       if (!list) {
@@ -581,12 +581,12 @@ export class PlanMain extends React.Component <any, any> {
                   <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
                   </div>
                   { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
-                  { item.series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>
+                  { item.series === totalSeries ? <div className={`right ${reportStatus===-1?'grey':''}`} onClick={()=>this.complete()}>
                           学习报告</div> : null }
               </div>
             : null}
             { item.series === totalSeries && !windowsClient?
-                <div className="submit-btn-footer" onClick={()=>this.complete()}>学习报告</div>:null}
+                <div className={`submit-btn-footer ${reportStatus===-1?'grey':''}`}  onClick={()=>this.complete()}>学习报告</div>:null}
             <div className="padding-footer"></div>
           </div>
       </div>)
