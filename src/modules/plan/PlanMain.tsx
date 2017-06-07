@@ -581,12 +581,12 @@ export class PlanMain extends React.Component <any, any> {
                   <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
                   </div>
                   { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
-                  { item.series === totalSeries ? <div className={`right ${reportStatus===-1?'grey':''}`} onClick={()=>this.complete()}>
+                  { item.series === totalSeries ? <div className={`right ${reportStatus<0?'grey':''}`} onClick={()=>this.complete()}>
                           学习报告</div> : null }
               </div>
             : null}
             { item.series === totalSeries && !windowsClient?
-                <div className={`submit-btn-footer ${reportStatus===-1?'grey':''}`}  onClick={()=>this.complete()}>学习报告</div>:null}
+                <div className={`submit-btn-footer ${reportStatus<0?'grey':''}`}  onClick={()=>this.complete()}>学习报告</div>:null}
             <div className="padding-footer"></div>
           </div>
       </div>)

@@ -85,7 +85,6 @@ export default class Work extends React.Component<any,any> {
 
   show(showAll){
     const { articleModule ,submitId} = this.props;
-    console.log('click',articleModule,submitId,showAll );
     if(!showAll && articleModule){
       // 展开 模块
       IncreaseArticleShow(articleModule,submitId);
