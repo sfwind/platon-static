@@ -374,10 +374,20 @@ export class PlanMain extends React.Component <any, any> {
 
 
   goReport(){
-    this.context.router.push({
-      pathname:"/rise/static/plan/report",
-      query:this.props.location.query
-    })
+    const {planData = {}} = this.state;
+    const {status,reportStatus} = planData;
+    if(reportStatus === 3){
+      this.context.router.push({
+        pathname:"/rise/static/plan/report",
+        query:this.props.location.query
+      })
+    } else {
+      this.context.router.push({
+        pathname:"/rise/static/problem/explore",
+        // query:this.props.location.query
+      })
+    }
+
   }
 
   onTransitionEnd(){
@@ -604,7 +614,7 @@ export class PlanMain extends React.Component <any, any> {
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
 
         <Modal show={expired}
-               buttons={[{click: () => this.goReport(), content: "学习报告"}]}
+               buttons={[{click: () => this.goReport(), content: `${reportStatus < 0?'选择新小课':'学习报告'}`}]}
         >
             <div className="content">
                 <div className="text">糟糕！好久没学，小课到期了！</div>
