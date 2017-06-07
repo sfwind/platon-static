@@ -28,7 +28,7 @@ export class Modal extends React.Component<any,any> {
     return (
       <div className="modal">
         {this.props.show ?<div className="mask">
-          <div className="finished-modal">
+          <div className="finished-modal" style={{height:`${this.props.height?this.props.height:349}px`}}>
             {this.props.header && this.props.header.replace ? this.props.header.children :
               <div className="modal-header">{this.props.header ? this.props.header.children : null}</div>}
             <div className="modal-context">
