@@ -168,7 +168,7 @@ export class ImprovementReport extends React.Component<any,any>{
         <Modal show={showConfirmModal}
                height={240}
                buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
-          <div className="content" style={{marginTop:'15px'}}>
+          <div className="content" style={{marginTop:'0px'}}>
             <div className="text">确定开始下一小课吗？</div>
           </div>
           <div className="content2">
