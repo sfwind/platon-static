@@ -314,7 +314,7 @@ export class PlanMain extends React.Component <any, any> {
           }
         } else {
           if(code===-1){
-            dispatch(alertMsg('先完成今天的知识点和巩固训练，才能查看报告哦'))
+            dispatch(alertMsg('先完成所有的知识点和巩固训练，才能查看报告哦'))
           } else if(code === -2){
             dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${msg}天<br/>之后就可以开启下一小课了`))
           } else {
