@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import './ImprovementReport.less'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { queryReport } from './async'
-import {isNumber} from 'lodash';
+import { Modal } from '../../components/Modal'
+import {isNumber,merge} from 'lodash';
+import { startLoad, endLoad, alertMsg } from "redux/actions";
+import {NumberToChinese} from '../../utils/helpers'
 const numeral = require('numeral');
 
 
@@ -25,7 +28,6 @@ export class ImprovementReport extends React.Component<any,any>{
     queryReport(planId).then((res)=>{
       dispatch(endLoad());
       if(res.code === 200){
-        console.log(res.msg);
         this.setState({planData:res.msg});
       } else {
         dispatch(alertMsg(res.msg));
@@ -34,49 +36,28 @@ export class ImprovementReport extends React.Component<any,any>{
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
-    console.log(numeral);
+    this.picHeight =  (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
+
   }
 
-  calculatePercent(score,total){
-    let tempScore = score/total;
-    if(isNumber(tempScore)){
-      if(tempScore!=0){
-        if(tempScore<0.05){
-          tempScore = 0.05;
-        }
-      }
 
-      tempScore = numeral(tempScore*100).format('0.00');
-    } else {
-      tempScore = 0;
-    }
-    return tempScore;
-  }
 
   renderChapterScores(){
     const { planData = {} } = this.state;
     const { problem,studyDays,percent,receiveVoteCount,shareVoteCount,totalScore,integratedTotalScore,integratedShouldCount,
       integratedScore,integratedCompleteCount,chapterList,applicationTotalScore,applicationShouldCount,
-      applicationScore,applicationCompleteCount} = planData;
+      applicationScore,applicationCompleteCount,checkStatus} = planData;
     if(chapterList){
       return chapterList.map((item,key)=>{
         let clazz = 'complete-item ' +(key===0?'first':'');
-        let tempScore = this.calculatePercent(item.myWarmScore,item.totalWarmScore)
-
         return (
           <div className={clazz}>
             <div className="info">
-              <span className="name">{item.name}</span>
-              <span className="score"><span className="point number">{item.myWarmScore}</span> / <span className="number">{item.totalWarmScore}</span></span>
+              <span className="name">{NumberToChinese(item.chapter)}、{item.name}</span>
+              {/*<span className="score"><span className="point number">{item.myWarmScore}</span> / <span className="number">{item.totalWarmScore}</span></span>*/}
               <div className="clear"></div>
             </div>
-            <div className="progress">
-              <div className="track"/>
-              <div className="holder" style={{width:`${tempScore}%`}}>
-                <div className="slider">
-                </div>
-              </div>
-            </div>
+            <Progress progressStyle={{width:`${window.innerWidth - 170}px`}} score={item.myWarmScore} totalScore={item.totalWarmScore}/>
           </div>
         )
       })
@@ -91,41 +72,25 @@ export class ImprovementReport extends React.Component<any,any>{
       integratedScore,integratedCompleteCount,chapterList,applicationTotalScore,applicationShouldCount,
       applicationScore,applicationCompleteCount} = planData;
     let renderArr = [];
-    let appScore = this.calculatePercent(applicationScore,applicationTotalScore);
 
     let applications = (
       <div className="complete-item first">
         <div className="info">
-          <span className="name">应用练习完成 <span className="clear-position"><span className="big-point">{applicationCompleteCount}</span></span> / {applicationShouldCount} 份，得分：</span>
-          <span className="score"><span className="point number">{applicationScore}</span> / <span className="number">{applicationTotalScore}</span></span>
+          <span className="name">应用练习完成 <span className="big-point">{applicationCompleteCount}</span> / {applicationShouldCount} 份，得分：</span>
           <div className="clear"></div>
         </div>
-        <div className="progress">
-          <div className="track"/>
-          <div className="holder"  style={{width:`${appScore}%`}}>
-            <div className="slider">
-            </div>
-          </div>
-        </div>
+        <Progress holderClass="article"  progressStyle={{width:`${window.innerWidth - 170}px`}} score={applicationScore} totalScore={applicationTotalScore}/>
       </div>
     )
 
-    let integrateScore = this.calculatePercent(integratedScore,integratedTotalScore);
 
     let integrates = (
       <div className="complete-item first">
         <div className="info">
-          <span className="name">综合练习完成 <span className="clear-position"><span className="big-point">{integratedCompleteCount}</span></span> / {integratedShouldCount} 份，得分：</span>
-          <span className="score"><span className="point number">{integratedScore}</span> / <span className="number">{integratedTotalScore}</span></span>
+          <span className="name">综合练习完成 <span className="big-point">{integratedCompleteCount}</span> / {integratedShouldCount} 份，得分：</span>
           <div className="clear"></div>
         </div>
-        <div className="progress">
-          <div className="track"/>
-          <div className="holder" style={{width:`${integrateScore}%`}}>
-            <div className="slider">
-            </div>
-          </div>
-        </div>
+        <Progress holderClass="article"  progressStyle={{width:`${window.innerWidth - 170}px`}} score={integratedScore} totalScore={integratedTotalScore}/>
       </div>
     );
     renderArr.push(applications);
@@ -136,8 +101,15 @@ export class ImprovementReport extends React.Component<any,any>{
   }
 
 
-  nextTask(){
-    this.context.router.push("/rise/static/problem/explore")
+  chooseNew(){
+    const { planData = {},showConfirmModal } = this.state;
+    const { dispatch } = this.props;
+    const { status,mustStudyDays } = planData;
+    if(status !== 1 && isNumber(mustStudyDays) && mustStudyDays !== 0){
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
+    } else {
+      this.setState({showConfirmModal:true})
+    }
   }
 
 
@@ -151,15 +123,62 @@ export class ImprovementReport extends React.Component<any,any>{
       }
     });
   }
-  render(){
-    const { planData = {} } = this.state;
+
+  nextPlan() {
+    const { dispatch,location } = this.props
+    const {planId} = location.query
+    this.context.router.push("/rise/static/problem/explore")
+  }
+
+  closeConfirmModal(){
+    this.setState({showConfirmModal:false});
+  }
+
+  renderBtns(){
+    const { planData = {},showConfirmModal } = this.state;
     const { problem,studyDays,percent,receiveVoteCount,shareVoteCount,totalScore,integratedTotalScore,integratedShouldCount,
       integratedScore,integratedCompleteCount,chapterList,applicationTotalScore,applicationShouldCount,
-      applicationScore,applicationCompleteCount,pic} = planData;
+      applicationScore,applicationCompleteCount,pic,showNextBtn} = planData;
+    if(showNextBtn){
+      return (
+        <div className="button-footer">
+          <div className="left" onClick={this.chooseNew.bind(this)}>选择新小课</div>
+          <div className="right" onClick={this.goBack.bind(this)}>返回本小课</div>
+        </div>
+      )
+    } else {
+      return (
+        <div className="button-footer">
+          <div  onClick={this.goBack.bind(this)}>返回本小课</div>
+        </div>
+      )
+    }
+
+  }
+
+
+
+  render(){
+    const { planData = {},showConfirmModal } = this.state;
+    const { problem,studyDays,percent,receiveVoteCount,shareVoteCount,totalScore,integratedTotalScore,integratedShouldCount,
+      integratedScore,integratedCompleteCount,chapterList,applicationTotalScore,applicationShouldCount,
+      applicationScore,applicationCompleteCount,pic,showNextBtn} = planData;
     return (
       <div className="improvement-report">
-        <div className="header">
-          <img className="bg" src={`${pic}`}/>
+        <Modal show={showConfirmModal}
+               buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
+          <div className="content" style={{marginTop:75}}>
+            <div className="text">确定开始下一小课吗？</div>
+          </div>
+          <div className="content2">
+            <div className="text2">当前小课可以进入我的-我的小课中复习</div>
+          </div>
+        </Modal>
+
+
+
+        <div className="header" style={{height: this.picHeight}}>
+          <img className="bg"  src={`${pic}`}/>
           <div className="msg">
             <div className="title">
               学习报告
@@ -168,10 +187,10 @@ export class ImprovementReport extends React.Component<any,any>{
               小课：{problem}
             </div>
             <div className="sub-text">
-              总得分：<span className="socre">{totalScore}</span> ，打败了的<span className="percent">{percent}</span>同学
+              总得分：<span className="socre">{totalScore}</span> ，打败了<span className="percent"> {percent}% </span>的同学
             </div>
             <div className="time">
-              学习时长：{studyDays===-1?'未完成':studyDays}
+              学习时长：{studyDays===-1?'未完成':`${studyDays} 天`}
             </div>
           </div>
         </div>
@@ -191,18 +210,57 @@ export class ImprovementReport extends React.Component<any,any>{
             </div>
             {this.renderApplicationScores()}
             <div className="vote-info">
-              共送出 <span className="clear-position"><span className="big-point">{shareVoteCount}</span></span>个赞  收获 <span className="clear-position"><span className="big-point">{receiveVoteCount}</span></span>个赞
+              共送出 <span className="big-point">{shareVoteCount}</span> 个赞  收获 <span className="big-point">{receiveVoteCount}</span> 个赞
             </div>
           </div>
           <div className="tips">不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！</div>
           <div className="padding-footer" style={{height:'80px'}}/>
         </div>
-        <div className="button-footer">
-          <div className="left" onClick={this.nextTask.bind(this)}>学习下一小课</div>
-          <div className="right" onClick={this.goBack.bind(this)}>返回完成练习题</div>
-        </div>
+        {this.renderBtns()}
       </div>
     )
   }
 }
 
+
+class Progress extends React.Component<any,any>{
+  constructor(props){
+    super(props);
+    this.state = {}
+  }
+
+  calculatePercent(score,total){
+    let tempScore = score/total;
+    if(isNumber(tempScore)){
+      if(tempScore!=0){
+        if(tempScore<0.05){
+          tempScore = 0.05;
+        }
+      }
+
+      tempScore = numeral(tempScore*100).format('0.00');
+    } else {
+      tempScore = 0;
+    }
+    return tempScore;
+  }
+
+  // appScore
+
+  render(){
+    let progressStyle = merge({width:'50%'},this.props.progressStyle);
+
+    return (
+      <div>
+        <div className="progress" style={progressStyle}>
+          <div className="track"/>
+          <div className={`holder ${this.props.holderClass?this.props.holderClass:''}`}  style={{width:`${this.calculatePercent(this.props.score,this.props.totalScore)}%`}}>
+            {/*<div className="slider">*/}
+            {/*</div>*/}
+          </div>
+        </div>
+        <span className="score" style={{width:'65px'}}><span className="point number">{this.props.score}</span> / <span className="number">{this.props.totalScore}</span></span>
+      </div>
+    )
+  }
+}
