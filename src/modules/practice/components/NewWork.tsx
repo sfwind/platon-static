@@ -201,8 +201,8 @@ export default class Work extends React.Component<any,any> {
                       ? <div className="operation-asset" onClick={()=>{isFunction(goComment)?goComment():null}}>
                           <AssetImg
                             url="https://static.iqycamp.com/images/fragment/application_asset_comment.png"
-                            width="50px"
-                            height="13px"
+                            width="42px"
+                            height="11px"
                           />
                         </div>
                       : null
