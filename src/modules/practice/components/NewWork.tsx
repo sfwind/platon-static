@@ -200,7 +200,7 @@ export default class Work extends React.Component<any,any> {
                     feedback
                       ? <div className="operation-asset" onClick={()=>{isFunction(goComment)?goComment():null}}>
                           <AssetImg
-                            url="https://www.iqycamp.com/images/fragment/application_asset_comment.png"
+                            url="https://static.iqycamp.com/images/fragment/application_asset_comment.png"
                             width="50px"
                             height="13px"
                           />
