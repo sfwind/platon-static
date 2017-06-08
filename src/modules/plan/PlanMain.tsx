@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./PlanMain.less";
-import { loadPlan, completePlan, closePlan, updateOpenRise, markPlan,
+import { loadPlan, completePlan, updateOpenRise, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -11,11 +11,13 @@ import {merge, isBoolean, get, isEmpty} from "lodash"
 import {Toast, Dialog} from "react-weui"
 import {ToolBar} from "../base/ToolBar"
 import {Sidebar} from '../../components/Sidebar';
+import { Modal } from '../../components/Modal'
 import { NumberToChinese,changeTitle } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 const {Alert} = Dialog
+
 
 
 
@@ -283,55 +285,68 @@ export class PlanMain extends React.Component <any, any> {
 
   complete() {
     const { dispatch,location } = this.props
-    const { planData } = this.state;
+    const { planData = {} } = this.state;
     const {planId} = location.query
-    dispatch(startLoad());
-    completePlan(planId).then(res => {
-      dispatch(endLoad());
-      const { code, msg } = res
-      if (code === 200) {
-        if (msg.iscomplete) {
+    const {status,reportStatus} = planData;
+    if(reportStatus === 3){
+      this.context.router.push({
+        pathname:'/rise/static/plan/report',
+        query:{planId:planId}
+      });
+    } else if(reportStatus === -1){
+      dispatch(alertMsg("糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告"))
+    } else {
+      dispatch(startLoad());
+      completePlan(planId).then(res => {
+        dispatch(endLoad());
+        const { code, msg } = res;
+        if (code === 200) {
+          // 设置完成
           if (planData.hasProblemScore) {
             // 已经评分
-            this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
-              this.confirmComplete();
-            })
+            //
+            // this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
+            //   this.confirmComplete();
+            // })
+            this.confirmComplete();
           } else {
             // 未评分
             this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
           }
         } else {
-          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
+          if(code===-1){
+            dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+          } else {
+            dispatch(alertMsg(msg))
+          }
         }
-      } else {
-        if(code===-1){
-          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
-        } else if(code === -2){
-          dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${msg}天<br/>之后就可以开启下一小课了`))
-        } else {
-          dispatch(alertMsg(msg))
-        }
-      }
-    }).catch(ex=>{
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    })
+      }).catch(ex=>{
+        dispatch(endLoad());
+        dispatch(alertMsg(ex));
+      })
+    }
   }
 
   confirmComplete(force) {
-    const {dispatch} = this.props;
+    const {dispatch,location} = this.props;
     const {planData, mustStudyDays} = this.state
+    const {planId} = location.query
     const {doneAllIntegrated} = planData
     if (!force && !doneAllIntegrated) {
       this.setState({showCompleteModal: false, showWarningModal: true})
       return
     }
-    if (!mustStudyDays) {
-        this.setState({showCompleteModal: true, showWarningModal: false})
-    } else {
-      this.setState({showCompleteModal: false, showWarningModal: false})
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
-    }
+    this.context.router.push({
+      pathname:'/rise/static/plan/report',
+      query:{planId:planId}
+    });
+    // if (!mustStudyDays) {
+    //
+    //     // this.setState({showCompleteModal: true, showWarningModal: false})
+    // } else {
+    //   this.setState({showCompleteModal: false, showWarningModal: false})
+    //   dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
+    // }
   }
 
   confirmNextPlan() {
@@ -355,28 +370,23 @@ export class PlanMain extends React.Component <any, any> {
     this.context.router.push({pathname: '/rise/static/problem/view', query: {id: problemId, show: true}});
   }
 
-  nextPlan() {
-    const { dispatch,location } = this.props
-    const {planId} = location.query
-    closePlan(planId).then(res => {
-      const { code, msg } = res
-      if (code === 200) {
-        this.context.router.push("/rise/static/problem/explore")
-      } else {
-        if(code===-1){
-          dispatch(alertMsg('至少要完成所有知识理解和巩固练习哦'))
-        } else if(code === -2){
-          dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${msg}天<br/>之后就可以开启下一小课了`))
-        } else if (code === -3){
-          dispatch(alertMsg(msg))
-        }
-        this.setState({showConfirmModal: false})
-      }
-    })
-  }
 
-  goExlore(){
-    this.context.router.push("/rise/static/problem/explore")
+
+  goReport(){
+    const {planData = {}} = this.state;
+    const {status,reportStatus} = planData;
+    if(reportStatus === 3){
+      this.context.router.push({
+        pathname:"/rise/static/plan/report",
+        query:this.props.location.query
+      })
+    } else {
+      this.context.router.push({
+        pathname:"/rise/static/problem/explore",
+        // query:this.props.location.query
+      })
+    }
+
   }
 
   onTransitionEnd(){
@@ -464,7 +474,7 @@ export class PlanMain extends React.Component <any, any> {
         selectProblem,riseMember,riseMemberTips,defeatPercent,showWarningModal, chapterList,expired } = this.state
     const {location} = this.props
     const {
-      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries
+      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries,reportStatus
     } = planData
     const practiceRender = (list = []) => {
       if (!list) {
@@ -580,12 +590,12 @@ export class PlanMain extends React.Component <any, any> {
                   <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
                   </div>
                   { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
-                  { item.series === totalSeries ? <div className={`right`} onClick={()=>this.complete()}>
-                          完成小课</div> : null }
+                  { item.series === totalSeries ? <div className={`right ${reportStatus<0?'grey':''}`} onClick={()=>this.complete()}>
+                          学习报告</div> : null }
               </div>
             : null}
             { item.series === totalSeries && !windowsClient?
-                <div className="submit-btn-footer" onClick={()=>this.complete()}>完成小课</div>:null}
+                <div className={`submit-btn-footer ${reportStatus<0?'grey':''}`}  onClick={()=>this.complete()}>学习报告</div>:null}
             <div className="padding-footer"></div>
           </div>
       </div>)
@@ -597,34 +607,13 @@ export class PlanMain extends React.Component <any, any> {
         {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
                                      onClose={()=>this.setState({  showScoreModal: false },()=>{this.confirmComplete()})}
                                      questionList={this.state.questionList}/>: null}
-        <Modal
-          header={{replace:true,children:<AssetImg width={107} height={83} url="https://static.iqycamp.com/images/fragment/finish_modal3.png"/>}}
-          buttons={[{click:()=>this.confirmNextPlan(),content:"下一小课"},{click:()=>this.closeCompleteModal(),content:"取消"}]}
-          show={showCompleteModal}>
-          <div className="content">
-            <div className="text2">太棒了</div>
-          </div>
-          <div className="content2">你已完成该小课的必做练习</div>
-          <div className="content2">
-            获得了<span className="number">{point}</span>积分，打败了<span>{defeatPercent}%</span>的Riser
-          </div>
-          <div className="content2">在已完成中可以再次复习</div>
-        </Modal>
 
-        <Modal show={showConfirmModal}
-               buttons={[{click:()=>this.nextPlan(),content:"确定"},{click:()=>this.closeConfirmModal(),content:"取消"}]}>
-          <div className="content" style={{marginTop:75}}>
-            <div className="text">确定开始下一小课吗？</div>
-          </div>
-          <div className="content2">
-            <div className="text2">当前小课可以进入我的-我的小课中复习</div>
-          </div>
-        </Modal>
+
 
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
 
         <Modal show={expired}
-               buttons={[{click: () => this.goExlore(), content: "开始新小课"}]}
+               buttons={[{click: () => this.goReport(), content: `${reportStatus < 0?'选择新小课':'学习报告'}`}]}
         >
             <div className="content">
                 <div className="text">糟糕！好久没学，小课到期了！</div>
@@ -637,7 +626,7 @@ export class PlanMain extends React.Component <any, any> {
 
         <Alert { ...this.state.nextModal }
             show={showWarningModal}>
-            <div className="global-pre" dangerouslySetInnerHTML={{__html: "提升能力和解决问题<br/>需要你的刻意练习<br/>我们推荐你至少完成所有综合练习"}}/>
+            <div className="global-pre" dangerouslySetInnerHTML={{__html: "我们发现你的综合练习还没有完成，这会影响你的学习报告内容<br/>建议先返回完成它们"}}/>
         </Alert>
 
         <div>
@@ -705,48 +694,6 @@ export class PlanMain extends React.Component <any, any> {
           )}
         </div>
       </div>
-    )
-  }
-}
-
-
-class Modal extends React.Component<any,any> {
-  constructor(props) {
-    super(props);
-  }
-
-
-  render() {
-    const renderButton = (buttons = []) => {
-      if (!buttons || buttons.length > 2) {
-        return null;
-      }
-      if (buttons.length == 2) {
-        return (
-          buttons.map((item, key) => {
-            return <div className={`${key==0?'left':'right'}`} onClick={()=>item.click()}>{item.content}</div>
-          })
-        )
-      } else {
-        return (
-          <div className="button" onClick={()=>buttons[0].click()}>{buttons[0].content}</div>
-        )
-      }
-    }
-
-    return (
-      this.props.show ?<div className="mask">
-        <div className="finished-modal">
-          {this.props.header && this.props.header.replace ? this.props.header.children :
-            <div className="modal-header">{this.props.header ? this.props.header.children : null}</div>}
-          <div className="modal-context">
-            {this.props.children}
-          </div>
-          <div className="modal-button-footer">
-            {renderButton(this.props.buttons)}
-          </div>
-        </div>
-      </div>: null
     )
   }
 }

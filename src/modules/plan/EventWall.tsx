@@ -18,7 +18,7 @@ export class EventWall extends React.Component<any,any>{
     changeTitle('活动');
 
     this.bannerWidth = window.innerWidth;
-    this.bannerHeight = 175/375 * this.bannerWidth;
+    this.bannerHeight = (175/375 * this.bannerWidth);
     this.barItemPd = ((70/750) * (window.innerWidth-30))/2;
     this.barItemWidth = ((window.innerWidth-30)-this.barItemPd*6)/4;
 

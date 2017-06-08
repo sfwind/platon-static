@@ -55,3 +55,7 @@ export function queryEventList(){
 export function queryChapterList(planId){
   return pget(`/rise/plan/chapter/list`,{planId:planId});
 }
+
+export function queryReport(planId){
+  return pget(`/rise/plan/improvement/report${planId?'?planId='+planId:''}`);
+}
