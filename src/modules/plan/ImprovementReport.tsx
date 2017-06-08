@@ -223,7 +223,7 @@ export class ImprovementReport extends React.Component<any,any> {
             <div className="vote-info">
               共送出 <span className="big-point">{shareVoteCount}</span> 个赞，收获 <span
               className="big-point">{receiveVoteCount}</span> 个赞<br/>
-              获得  <span className="big-point">{votedScore}</span> 积分（1被赞=2积分）
+              获得  <span className="big-point">{votedScore}</span> 积分 <span className="tips">（1被赞=2积分）</span>
             </div>
           </div>
           <div className="tips">不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！</div>
