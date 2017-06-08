@@ -316,7 +316,7 @@ export class PlanMain extends React.Component <any, any> {
           }
         } else {
           if(code===-1){
-            dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+            dispatch(alertMsg(`糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告`))
           } else {
             dispatch(alertMsg(msg))
           }
