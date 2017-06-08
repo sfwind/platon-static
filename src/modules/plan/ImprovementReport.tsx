@@ -172,7 +172,7 @@ export class ImprovementReport extends React.Component<any,any> {
     const {
       problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
       integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn
+      applicationScore, applicationCompleteCount, pic, showNextBtn,votedScore
     } = planData;
     return (
       <div className="improvement-report">
@@ -198,7 +198,7 @@ export class ImprovementReport extends React.Component<any,any> {
               小课：{problem}
             </div>
             <div className="sub-text">
-              总得分：<span className="socre">{totalScore}</span> ，打败了<span className="percent"> {percent}% </span>的同学
+              总得分：<span className="socre top">{totalScore}</span> ，打败了<span className="percent"> {percent}% </span>的同学
             </div>
             <div className="time">
               学习时长：{studyDays === -1 ? '30天' : `${studyDays} 天`}
@@ -221,8 +221,9 @@ export class ImprovementReport extends React.Component<any,any> {
             </div>
             {this.renderApplicationScores()}
             <div className="vote-info">
-              共送出 <span className="big-point">{shareVoteCount}</span> 个赞  收获 <span
-              className="big-point">{receiveVoteCount}</span> 个赞
+              共送出 <span className="big-point">{shareVoteCount}</span> 个赞，收获 <span
+              className="big-point">{receiveVoteCount}</span> 个赞<br/>
+              获得  <span className="big-point">{votedScore}</span> 积分（1被赞=2积分）
             </div>
           </div>
           <div className="tips">不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！</div>

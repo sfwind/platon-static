@@ -179,7 +179,6 @@ export class PlanMain extends React.Component <any, any> {
       let {code, msg} = res
       if (code === 200) {
         if (msg !== null) {
-          console.log(msg);
           this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
           if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
