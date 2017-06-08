@@ -244,8 +244,8 @@ class Progress extends React.Component<any,any>{
   calculatePercent(score,total){
     let tempScore = score/total;
     if(isNumber(tempScore)){
-      if(tempScore<0.05){
-        tempScore = 0.05;
+      if(tempScore<0){
+        tempScore = 0;
       } else if(tempScore > 1){
         tempScore = 1;
       }
