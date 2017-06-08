@@ -1,14 +1,14 @@
 import * as React from "react";
 import "./Comment.less";
-import {connect} from "react-redux"
-import {loadCommentList, comment, deleteComment, commentReply, getApplicationPractice} from "./async"
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
+import { connect } from "react-redux"
+import { loadCommentList, comment, deleteComment, commentReply, getApplicationPractice } from "./async"
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import PullElement from "pull-element"
-import {findIndex, remove} from "lodash";
+import { findIndex, remove } from "lodash";
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
-import {scroll} from "../../../utils/helpers"
+import { scroll } from "../../../utils/helpers"
 
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
@@ -19,7 +19,7 @@ export class Comment extends React.Component<any, any> {
       editDisable: false,
       commentList: [],
       article: {},
-      placeholder:'和作者切磋讨论一下吧',
+      placeholder: '和作者切磋讨论一下吧',
     };
     this.commentHeight = window.innerHeight;
   }
@@ -32,12 +32,13 @@ export class Comment extends React.Component<any, any> {
     const {dispatch, location} = this.props;
     dispatch(startLoad());
     getApplicationPractice(location.query.submitId).then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.setState({article: res.msg})
         loadCommentList(location.query.submitId, 1).then(res => {
-          if (res.code === 200) {
+          console.log(res)
+          if(res.code === 200) {
             dispatch(endLoad());
-            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end});
+            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end, isFeedback: res.msg.feedback});
           } else {
             dispatch(endLoad());
             dispatch(alertMsg(res.msg));
@@ -59,7 +60,7 @@ export class Comment extends React.Component<any, any> {
   componentDidUpdate() {
     const {commentList = [], end} = this.state;
     const {dispatch, location} = this.props;
-    if (commentList && commentList.length !== 0 && !this.pullElement) {
+    if(commentList && commentList.length !== 0 && !this.pullElement) {
       this.pullElement = new PullElement({
         target: '.pull-target',
         scroller: '.application-comment',
@@ -70,8 +71,8 @@ export class Comment extends React.Component<any, any> {
         onPullUpEnd: (data) => {
           loadCommentList(location.query.submitId, this.state.page + 1)
           .then(res => {
-            if (res.code === 200) {
-              if (res.msg && res.msg.list.length !== 0) {
+            if(res.code === 200) {
+              if(res.msg && res.msg.list.length !== 0) {
                 remove(res.msg.list, (item) => {
                   return findIndex(this.state.commentList, item) !== -1;
                 });
@@ -94,7 +95,7 @@ export class Comment extends React.Component<any, any> {
       this.pullElement.init();
     }
 
-    if (this.pullElement && this.state.end) {
+    if(this.pullElement && this.state.end) {
       this.pullElement.disable();
     }
   }
@@ -106,17 +107,17 @@ export class Comment extends React.Component<any, any> {
   onSubmit() {
     const {dispatch, location} = this.props;
     const {content, isReply} = this.state;
-    if (content) {
+    if(content) {
       this.setState({editDisable: true});
-      if(isReply){
+      if(isReply) {
         commentReply(location.query.submitId, content, this.state.id).then(res => {
-          if (res.code === 200) {
+          if(res.code === 200) {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
             });
-            if (!this.state.end && this.pullElement) {
+            if(!this.state.end && this.pullElement) {
               this.pullElement.enable();
             }
             scroll('.comment-header', '.application-comment')
@@ -128,23 +129,23 @@ export class Comment extends React.Component<any, any> {
           this.setState({editDisable: false});
           dispatch(alertMsg(ex));
         });
-      }else{
+      } else {
         comment(location.query.submitId, content)
-            .then(res => {
-              if (res.code === 200) {
-                this.setState({
-                  commentList: [res.msg].concat(this.state.commentList),
-                  showDiscuss: false,
-                  editDisable: false
-                });
-                if (!this.state.end && this.pullElement) {
-                  this.pullElement.enable();
-                }
-                scroll('.comment-header', '.application-comment')
-              } else {
-                dispatch(alertMsg(res.msg));
-                this.setState({editDisable: false});
-              }
+        .then(res => {
+          if(res.code === 200) {
+            this.setState({
+              commentList: [res.msg].concat(this.state.commentList),
+              showDiscuss: false,
+              editDisable: false
+            });
+            if(!this.state.end && this.pullElement) {
+              this.pullElement.enable();
+            }
+            scroll('.comment-header', '.application-comment')
+          } else {
+            dispatch(alertMsg(res.msg));
+            this.setState({editDisable: false});
+          }
         }).catch(ex => {
           this.setState({editDisable: false});
           dispatch(alertMsg(ex));
@@ -157,26 +158,26 @@ export class Comment extends React.Component<any, any> {
   }
 
   openWriteBox() {
-    this.setState({showDiscuss: true, content: '', isReply:false, placeholder:'和作者切磋讨论一下吧'})
+    this.setState({showDiscuss: true, content: '', isReply: false, placeholder: '和作者切磋讨论一下吧'})
   }
 
   reply(item) {
     this.setState({
       id: item.id,
-      placeholder:'回复 '+item.name+":",
+      placeholder: '回复 ' + item.name + ":",
       showDiscuss: true,
-      isReply:true,
-      content:'',
+      isReply: true,
+      content: '',
     })
   }
 
   onDelete(id) {
     const {commentList = []} = this.state
     deleteComment(id).then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         let newCommentList = []
         commentList.forEach((item) => {
-          if (item.id != id) {
+          if(item.id != id) {
             newCommentList.push(item)
           }
         })
@@ -185,14 +186,14 @@ export class Comment extends React.Component<any, any> {
     })
   }
 
-  onChange(value){
-    this.setState({content:value})
+  onChange(value) {
+    this.setState({content: value})
   }
 
-  cancel(){
+  cancel() {
     const {showDiscuss} = this.state
-    if(showDiscuss){
-      this.setState({showDiscuss:false})
+    if(showDiscuss) {
+      this.setState({showDiscuss: false})
     }
   }
 
@@ -200,7 +201,7 @@ export class Comment extends React.Component<any, any> {
     const {commentList = [], showDiscuss, end, isReply, placeholder} = this.state;
     const {topic, description} = this.state.article;
     const renderCommentList = () => {
-      if (commentList && commentList.length !== 0) {
+      if(commentList && commentList.length !== 0) {
         return (
           commentList.map((item, seq) => {
             return (
@@ -221,8 +222,8 @@ export class Comment extends React.Component<any, any> {
     }
 
     const renderTips = () => {
-      if (commentList && commentList.length !== 0) {
-        if (!end) {
+      if(commentList && commentList.length !== 0) {
+        if(!end) {
           return (
             <div className="show-more">上拉加载更多消息</div>
           )
@@ -243,6 +244,14 @@ export class Comment extends React.Component<any, any> {
             <div className="comment-header">
               当前评论
             </div>
+            {
+              this.state.isFeedback
+                ? (<div className="comment-header-feedback">
+                    <span className="comment-feedback-tips">小提示：</span>
+                    该条教练点评后，作业被更新，可能有和教练点评不一致的内容
+                  </div>)
+                : null
+            }
           </div>
           <div className="pull-target">
             <div className="comment-body">
@@ -250,16 +259,16 @@ export class Comment extends React.Component<any, any> {
               {renderTips()}
             </div>
           </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
+          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
         {showDiscuss ?
-            <Discuss isReply={isReply} placeholder={placeholder}
-                     submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
-                     cancel={()=>this.cancel()}
-            /> :
-            <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-            </div>
+          <Discuss isReply={isReply} placeholder={placeholder}
+                   submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                   cancel={() => this.cancel()}
+          /> :
+          <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+          </div>
         }
       </div>
     );

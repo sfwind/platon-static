@@ -147,6 +147,12 @@
       > .operation-area{
         float: right;
         margin-top: 5px;
+        position: relative;
+        .operation-asset {
+          position: absolute;
+          top: -5px;
+          left: 12px;
+        }
         span{
           line-height:@font_click;
           font-size:@font_click;
@@ -155,6 +161,7 @@
         > .vote{
           display: inline-block;
           height: 25px;
+          float: right;
           > span{
             &:before {
               content: '';

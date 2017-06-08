@@ -85,7 +85,6 @@ export default class Work extends React.Component<any,any> {
 
   show(showAll){
     const { articleModule ,submitId} = this.props;
-    console.log('click',articleModule,submitId,showAll );
     if(!showAll && articleModule){
       // 展开 模块
       IncreaseArticleShow(articleModule,submitId);
@@ -97,7 +96,7 @@ export default class Work extends React.Component<any,any> {
     const {headImage, userName, content,
       submitUpdateTime,onEdit,voteCount,commentCount,
       voteStatus,onVoted,goComment,wordsCount=60,
-      title,avatarStyle = 'left', role, signature, requestCommentCount,
+      title,avatarStyle = 'left', role, signature, requestCommentCount,feedback=false,
       operation=true} = this.props;
     const {showAll,filterContent, showRequestComment,request} = this.state;
     const renderWorkContent = ()=>{
@@ -188,15 +187,29 @@ export default class Work extends React.Component<any,any> {
             <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
             {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.show(showAll)}
                                                                    className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
-            {showOperation()?
-            <div className={`operation-area`}>
-              <div onClick={()=>{isFunction(goComment)?goComment():null}} className="comment">
-                <span>{commentCount}</span>
-              </div>
-              <div onClick={()=>{isFunction(onVoted)?onVoted():null}} className="vote">
-                <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
-              </div>
-            </div>:null}
+            {
+              showOperation()
+              ? <div className={`operation-area`}>
+                  <div onClick={()=>{isFunction(goComment)?goComment():null}} className="comment">
+                    <span>{commentCount}</span>
+                  </div>
+                  <div onClick={()=>{isFunction(onVoted)?onVoted():null}} className="vote">
+                    <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
+                  </div>
+                  {
+                    feedback
+                      ? <div className="operation-asset" onClick={()=>{isFunction(goComment)?goComment():null}}>
+                          <AssetImg
+                            url="https://www.iqycamp.com/images/fragment/application_asset_comment.png"
+                            width="50px"
+                            height="13px"
+                          />
+                        </div>
+                      : null
+                  }
+                </div>
+              : null
+            }
           </div>
         </div>
       </div>

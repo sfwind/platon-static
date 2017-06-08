@@ -271,7 +271,6 @@ export class Main extends React.Component <any, any> {
     const {dispatch, location} = this.props
     const {data, planId} = this.state
     const answer = this.refs.editor.getValue();
-    console.log(answer)
     const {submitId} = data
     if(answer == null || answer.length === 0) {
       dispatch(alertMsg('请填写作业'))
@@ -286,7 +285,6 @@ export class Main extends React.Component <any, any> {
         loadApplicationPractice(location.query.id, planId).then(res => {
           dispatch(endLoad())
           const {code, msg} = res;
-          console.log(res)
           if(code === 200) {
             this.setState({data: msg, submitId: msg.submitId, planId: msg.planId, edit: false, editorValue: msg.content})
           }
