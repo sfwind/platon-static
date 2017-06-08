@@ -4,7 +4,7 @@ import "./Main.less";
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft, loadAutoSaveApplicationDraft
+  autoUpdateApplicationDraft
 } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";

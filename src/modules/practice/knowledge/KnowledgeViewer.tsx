@@ -95,7 +95,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     loadDiscuss(knowledge.id,1)
       .then(res=>{
         if(res.code === 200){
-          this.setState({discuss:res.msg,showDiscuss:false})
+          this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,placeholder:'提出你的疑问或意见吧（限300字）'})
           scroll('.discuss', '.container')
         }
       });
@@ -113,10 +113,11 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'提出你的疑问或意见吧（限300字）', isReply:false, showDiscuss:false})
+    this.setState({placeholder:'提出你的疑问或意见吧（限300字）', isReply:false, showDiscuss:false,repliedId:0})
   }
 
   onSubmit(){
+
     const {dispatch} = this.props
     const {referenceId, repliedId, content} = this.state
     if(content.length==0){
