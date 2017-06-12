@@ -604,7 +604,7 @@ export class PlanMain extends React.Component <any, any> {
     return (
       <div className="rise-main">
         <ToolBar />
-        {true ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
+        {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
                                      onClose={()=>this.setState({  showScoreModal: false },()=>{this.confirmComplete()})}
                                      questionList={this.state.questionList}/>: null}
 
