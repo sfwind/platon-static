@@ -634,7 +634,7 @@ export class PlanMain extends React.Component <any, any> {
             <div>
               <div className="empty-container">
                 <div className="empty-img">
-                  <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
+                  <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
                 </div>
                 <div className="empty-text">
                   <span>没有正在学习的小课哦，</span><br/>
