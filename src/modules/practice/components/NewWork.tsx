@@ -6,7 +6,7 @@ import { preview } from "../../helpers/JsConfig"
 import { Dialog } from "react-weui"
 const { Alert } = Dialog
 import {connect} from "react-redux";
-import {requestCommentByType,IncreaseArticleShow} from "../../message/async"
+import {requestCommentByType,showCompleteArticle} from "../../message/async"
 import {alertMsg} from "../../../redux/actions";
 
 @connect(state => state)
@@ -87,7 +87,7 @@ export default class Work extends React.Component<any,any> {
     const { articleModule ,submitId} = this.props;
     if(!showAll && articleModule){
       // 展开 模块
-      IncreaseArticleShow(articleModule,submitId);
+      showCompleteArticle(articleModule,submitId);
     }
     this.setState({showAll:!showAll})
   }

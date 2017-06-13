@@ -6,17 +6,18 @@ import {
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
   autoUpdateApplicationDraft
 } from "./async";
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import KnowledgeViewer from "../components/KnowledgeModal";
-import { isNull, isString, truncate, merge, set, get } from "lodash";
+import _ from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
-import { findIndex, remove, isEmpty, isBoolean } from "lodash";
+import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from "lodash";
 // import { Toast } from "react-weui"
 import Tutorial from "../../../components/Tutorial"
 import Editor from "../../../components/editor/Editor";
 import Toast from "../../../components/Toast";
+import {scroll} from "../../../utils/helpers"
 
 let timer;
 
@@ -32,7 +33,6 @@ export class Main extends React.Component <any, any> {
       page: 1,
       otherList: [],
       otherHighlightList: [],
-      goBackUrl: '',
       integrated: true,
       showOthers: false,
       editorValue: '',
@@ -40,16 +40,16 @@ export class Main extends React.Component <any, any> {
       draftId: -1,
       draft: '',
       showDraftToast: false
-    }
+    };
     this.pullElement = null;
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  }
+  };
 
   componentDidUpdate(preProps, preState) {
-    const content = get(this.state, 'data.content');
+    const content = _.get(this.state, 'data.content');
     if(content && !this.pullElement) {
       // 有内容并且米有pullElement
       const {dispatch} = this.props;
@@ -85,8 +85,12 @@ export class Main extends React.Component <any, any> {
       })
       this.pullElement.init();
     }
-    if(this.pullElement && this.state.end) {
-      this.pullElement.disable();
+    if(this.pullElement) {
+      if(this.state.end){
+        this.pullElement.disable();
+      }else{
+        this.pullElement.enable();
+      }
     }
   }
 
@@ -96,16 +100,9 @@ export class Main extends React.Component <any, any> {
   }
 
   componentWillMount() {
-    const {dispatch, location} = this.props;
-    const {state} = location
-    if(state) {
-      const {goBackUrl} = state
-      if(goBackUrl) {
-        this.setState({goBackUrl})
-      }
-    }
-    const {integrated, id, planId} = this.props.location.query
-    this.setState({integrated})
+    const {dispatch, location, otherApplicationPracticeSubmitId, applicationId} = this.props;
+    const {integrated, id, planId} = location.query;
+    this.setState({integrated});
 
     dispatch(startLoad());
     loadApplicationPractice(id, planId).then(res => {
@@ -149,22 +146,29 @@ export class Main extends React.Component <any, any> {
         }
 
         if(content !== null) {
-          this.refs.submitBar.scrollTop = 0
+          if(isUndefined(otherApplicationPracticeSubmitId) || id != applicationId){
+            this.refs.submitBar.scrollTop = 0;
+          }
           this.setState({edit: false})
         }
       } else {
         dispatch(alertMsg(msg))
       }
+
+      // 自动加载其它同学的作业
+      if(otherApplicationPracticeSubmitId && id == applicationId){
+        this.others();
+      }
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
-    })
+    });
 
     getOpenStatus().then(res => {
       if(res.code === 200) {
         this.setState({openStatus: res.msg});
       }
-    })
+    });
   }
 
   componentDidMount() {
@@ -190,13 +194,6 @@ export class Main extends React.Component <any, any> {
   }
 
   onEdit() {
-    // const { location } = this.props
-    // const { goBackUrl } = this.state
-    // this.context.router.push({
-    //   pathname: '/rise/static/practice/application/submit',
-    //   query: { id: location.query.id, series: location.query.series},
-    //   state: {goBackUrl}
-    // })
     this.setState({edit: true})
   }
 
@@ -205,11 +202,12 @@ export class Main extends React.Component <any, any> {
   }
 
   goComment(submitId) {
-    const {goBackUrl} = this.state
+    const {dispatch} = this.props;
+    dispatch(set('otherApplicationPracticeSubmitId', submitId));
+    dispatch(set('applicationId', this.props.location.query.id));
     this.context.router.push({
       pathname: "/rise/static/practice/application/comment",
-      query: merge({submitId: submitId}, this.props.location.query),
-      state: {goBackUrl}
+      query: merge({submitId: submitId}, this.props.location.query)
     })
   }
 
@@ -219,8 +217,8 @@ export class Main extends React.Component <any, any> {
         this.setState({data: merge({}, this.state.data, {voteCount: voteCount + 1, voteStatus: true})});
       } else {
         let newOtherList = merge([], this.state.otherList);
-        set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
-        set(newOtherList, `[${seq}].voteStatus`, 1);
+        _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
+        _.set(newOtherList, `[${seq}].voteStatus`, 1);
         this.setState({otherList: newOtherList})
       }
       vote(id);
@@ -229,13 +227,8 @@ export class Main extends React.Component <any, any> {
   }
 
   back() {
-    const {goBackUrl} = this.state
     const {location} = this.props
-    if(goBackUrl) {
-      this.context.router.push({pathname: goBackUrl})
-    } else {
-      this.context.router.push({pathname: '/rise/static/learn', query: {series: location.query.series}})
-    }
+    this.context.router.push({pathname: '/rise/static/learn', query: {series: location.query.series}})
   }
 
   tutorialEnd() {
@@ -252,14 +245,20 @@ export class Main extends React.Component <any, any> {
   }
 
   others() {
-    const {dispatch, location} = this.props
+    const {dispatch, location, otherApplicationPracticeSubmitId, applicationId} = this.props
     dispatch(startLoad());
     loadOtherList(location.query.id, 1).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({
-          otherList: res.msg.list, otherHighlightList: res.msg.highlightList,
+          otherList: res.msg.list,
           page: 1, end: res.msg.end, showOthers: true
+        }, ()=>{
+          if(otherApplicationPracticeSubmitId && location.query.id == applicationId){
+            //锚定到上次看的练习
+            scroll('#app-'+otherApplicationPracticeSubmitId, '.container');
+          }
+
         });
       } else {
         dispatch(alertMsg(res.msg));
@@ -315,10 +314,12 @@ export class Main extends React.Component <any, any> {
       if(list) {
         return list.map((item, seq) => {
           return (
-            <Work onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}  {...item}
-                  goComment={() => this.goComment(item.submitId)} type={CommentType.Application}
-                  articleModule={ArticleViewModule.Application}
-            />
+            <div id={'app-'+item.submitId}>
+              <Work onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}  {...item}
+                    goComment={() => this.goComment(item.submitId)} type={CommentType.Application}
+                    articleModule={ArticleViewModule.Application}
+              />
+            </div>
           )
         })
       }
@@ -419,9 +420,9 @@ export class Main extends React.Component <any, any> {
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
                   />
                 </div> : null}
-              {showOthers && !isEmpty(otherHighlightList) ? <div>
-                <div className="submit-bar">{'管理员推荐'}</div>
-                {renderList(otherHighlightList)}</div> : null}
+              {/*{showOthers && !isEmpty(otherHighlightList) ? <div>*/}
+                {/*<div className="submit-bar">{'管理员推荐'}</div>*/}
+                {/*{renderList(otherHighlightList)}</div> : null}*/}
               {showOthers && !isEmpty(otherList) ? <div>
                 <div className="submit-bar">{'最新文章'}</div>
                 {renderList(otherList)}</div> : null}
