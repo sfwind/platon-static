@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import "./PlanMain.less";
 import { loadPlan, completePlan, updateOpenRise, markPlan,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
-import { startLoad, endLoad, alertMsg } from "redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
 import DropChoice from "../../components/DropChoice"
@@ -251,11 +251,15 @@ export class PlanMain extends React.Component <any, any> {
             }):null;
       }
     } else if (type === 11) {
+      dispatch(set('otherApplicationPracticeSubmitId', undefined));
+      dispatch(set('applicationId', undefined));
       this.context ? this.context.router.push({
             pathname: '/rise/static/practice/application',
             query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId}
           }) : null;
     } else if (type === 12) {
+      dispatch(set('otherApplicationPracticeSubmitId', undefined));
+      dispatch(set('applicationId', undefined));
       this.context ? this.context.router.push({
             pathname: '/rise/static/practice/application',
             query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId}
@@ -634,7 +638,7 @@ export class PlanMain extends React.Component <any, any> {
             <div>
               <div className="empty-container">
                 <div className="empty-img">
-                  <AssetImg url="http://static.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
+                  <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
                 </div>
                 <div className="empty-text">
                   <span>没有正在学习的小课哦，</span><br/>
