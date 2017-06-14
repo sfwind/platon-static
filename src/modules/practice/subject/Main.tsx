@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadSubjects,vote } from "./async";
+import { loadSubjects,vote,loadSubjectDesc } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
@@ -21,7 +21,6 @@ export class Main extends React.Component <any, any> {
       submitId: 0,
       page:1,
       otherList:[],
-      goBackUrl: '',
       showDiscuss:false,
       editDisable:false,
       defaultTitle:null,
@@ -102,16 +101,19 @@ export class Main extends React.Component <any, any> {
   componentWillMount() {
 
     const { dispatch, location } = this.props;
-    const {state} = location
-    if(state){
-      const {goBackUrl} = state
-      if(goBackUrl){
-        this.setState({goBackUrl})
-      }
-    }
     mark({module:"打点",function:"小课论坛",action:"打开小课论坛",memo:location.query.id});
     dispatch(startLoad());
-
+    loadSubjectDesc(location.query.id).then(res=>{
+      let {code, msg} = res;
+      if(code === 200){
+        this.setState({desc:msg});
+      } else {
+        dispatch(alertMsg("获取描述失败"));
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
     loadSubjects(location.query.id,1).then(res => {
       dispatch(endLoad())
       let { code, msg } = res;
@@ -143,10 +145,8 @@ export class Main extends React.Component <any, any> {
 
 
   goComment(submitId){
-    const {goBackUrl} = this.state
     this.context.router.push({pathname:"/rise/static/practice/subject/comment",
-      query:merge({submitId:submitId},this.props.location.query),
-      state:{goBackUrl}
+      query:merge({submitId:submitId},this.props.location.query)
     })
   }
 
@@ -169,13 +169,8 @@ export class Main extends React.Component <any, any> {
   }
 
   back(){
-    const {goBackUrl} = this.state
     const {location} = this.props
-    if(goBackUrl) {
-      this.context.router.push({pathname: goBackUrl})
-    }else{
-      this.context.router.push({pathname: '/rise/static/learn', query: { series: location.query.series}})
-    }
+    this.context.router.push({pathname: '/rise/static/learn', query: { series: location.query.series}})
   }
 
   openWriteBox(){
