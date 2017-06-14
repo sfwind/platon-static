@@ -60,7 +60,7 @@ export function deleteComment(id) {
   return ppost(`/rise/practice/delete/comment/${id}`)
 }
 
-export function showCompleteArticle(moduleId, submitId){
+export function increaseArticleShow(moduleId, submitId){
   return pget(`/rise/practice/article/show/${moduleId}/${submitId}`)
 }
 

@@ -59,6 +59,15 @@ export class Main extends React.Component <any, any> {
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
+        //iNoBounce和pull-element兼容有问题，pull-element生效时需禁用iNoBounce
+        onPullUp: (data) => {
+            if(this.props.iNoBounce){
+              if(this.props.iNoBounce.isEnabled()){
+                this.props.iNoBounce.disable();
+              }
+            }
+        },
+
         onPullUpEnd: (data) => {
           loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
             if(res.code === 200) {
@@ -81,8 +90,13 @@ export class Main extends React.Component <any, any> {
           }).catch(ex => {
             dispatch(alertMsg(ex));
           });
+          if(this.props.iNoBounce){
+            if(!this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.enable();
+            }
+          }
         }
-      })
+      });
       this.pullElement.init();
     }
     if(this.pullElement) {
@@ -96,7 +110,7 @@ export class Main extends React.Component <any, any> {
 
   componentWillUnmount() {
     this.pullElement ? this.pullElement.destroy() : null;
-    clearInterval(timer)
+    clearInterval(timer);
   }
 
   componentWillMount() {
@@ -114,12 +128,12 @@ export class Main extends React.Component <any, any> {
         this.setState({
           data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft,
           editorValue: res.msg.content == null ? res.msg.draft : res.msg.content
-        })
+        });
         const isSubmitted = res.msg.content != null;
         if(!isSubmitted) {
           this.autoSaveApplicationDraft();
         }
-        dispatch(endLoad())
+        dispatch(endLoad());
         // 如果存在未提交的草稿，则显示提醒toast
         if(res.msg.draft) {
           this.setState({showDraftToast: true}, () => {
@@ -160,8 +174,8 @@ export class Main extends React.Component <any, any> {
         this.others();
       }
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     });
 
     getOpenStatus().then(res => {
@@ -190,7 +204,7 @@ export class Main extends React.Component <any, any> {
           autoUpdateApplicationDraft(this.state.draftId, {draft})
         }
       }
-    }, 10000)
+    }, 10000);
   }
 
   onEdit() {
