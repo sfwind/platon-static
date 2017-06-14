@@ -38,7 +38,7 @@ export class Comment extends React.Component<any, any> {
         loadCommentList(location.query.submitId, 1).then(res => {
           if(res.code === 200) {
             dispatch(endLoad());
-            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end, isFeedback: res.msg.feedback});
+            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end, isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
           } else {
             dispatch(endLoad());
             dispatch(alertMsg(res.msg));
