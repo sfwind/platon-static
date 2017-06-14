@@ -848,7 +848,7 @@ router.get("/rise/practice/subject/*", (req, res) => {
                 "submitUpdateTime": "2017-04-18",
                 "role": 6,
                 "headImage": "http://wx.qlogo.cn/mmopen/Bqm3aw1TmGlHZDT30nZLHgYsBTxNN5eWWzX7ibBgulX8TVUhWMx9RQ2awkFbkGPt0kDfplxFmzVDErWpQvEr3yibmgGY8PIHeX/0",
-                "content": "如图所示<img src=\"http://www.confucius.mobi/images/subject/subject-pefect5.jpeg\" width=\"90%\"/>",
+                "content": "用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友",
                 "voteCount": 0,
                 "commentCount": 2,
                 "submitId": 8,
@@ -885,7 +885,7 @@ router.get("/rise/practice/application/article/*",(req,res)=>{
             "msg": {
                 "id": null,
                 "topic": "用5W1H给多啦A梦找女朋友",
-                "description": "<p>测试测试</p >",
+                "content": "<p>用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友用5W1H给多啦A梦找女朋友</p>",
                 "comments": null,
                 "planId": null,
                 "integrated": null

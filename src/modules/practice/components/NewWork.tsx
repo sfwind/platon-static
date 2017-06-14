@@ -6,7 +6,7 @@ import { preview } from "../../helpers/JsConfig"
 import { Dialog } from "react-weui"
 const { Alert } = Dialog
 import {connect} from "react-redux";
-import {requestCommentByType,showCompleteArticle} from "../../message/async"
+import {requestCommentByType, increaseArticleShow} from "../../message/async"
 import {alertMsg} from "../../../redux/actions";
 
 @connect(state => state)
@@ -86,8 +86,8 @@ export default class Work extends React.Component<any,any> {
   show(showAll){
     const { articleModule ,submitId} = this.props;
     if(!showAll && articleModule){
-      // 展开 模块
-      showCompleteArticle(articleModule,submitId);
+      // 增加浏览量
+      increaseArticleShow(articleModule,submitId);
     }
     this.setState({showAll:!showAll})
   }
@@ -103,7 +103,7 @@ export default class Work extends React.Component<any,any> {
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
           return (
-            <div className={`${avatarStyle}`}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></div>
+            <div className={`${avatarStyle}`} onClick={()=>this.show(showAll)}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></div>
           )
         } else {
           return (
@@ -186,7 +186,7 @@ export default class Work extends React.Component<any,any> {
             {title?<div className="submit-title">{title}</div>:null}
             <div className="submit-content" ref="submitContent" onClick={(e)=>this.contentClick(e)}>{renderWorkContent()}</div>
             {filterContent && filterContent.length>wordsCount?<div onClick={()=>this.show(showAll)}
-                                                                   className="show-all" style={{marginTop:5}}>{showAll?'收起':'展开'}</div>:null}
+                                                                   className="show-all">{showAll?'收起':'展开'}</div>:null}
             {
               showOperation()
               ? <div className={`operation-area`}>

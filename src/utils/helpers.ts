@@ -84,3 +84,7 @@ export function NumberToChinese(num){
 
   return chnStr;
 }
+
+export function filterHtmlTag(content){
+    return _.isString(content)?content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):"";
+}
