@@ -297,7 +297,7 @@ export class Comment extends React.Component<any, any> {
               当前评论
             </div>
             {
-              this.state.isFeedback
+              this.state.isModifiedAfterFeedback
                 ? (<div className="comment-header-feedback">
                     <span className="comment-feedback-tips">小提示：</span>
                     该条教练点评后，作业被更新，可能有和教练点评不一致的内容
