@@ -32,6 +32,10 @@ export function loadOtherList(applicationId, page) {
   return pget(`/rise/practice/application/list/other/${applicationId}`, {page: page})
 }
 
+export function loadOtherListBatch(applicationId, index) {
+  return pget(`/rise/practice/application/list/other/${applicationId}/${index}`)
+}
+
 export function loadCommentList(submitId, page) {
   return pget(`/rise/practice/comment/${CommentType.Application}/${submitId}`, {page: page})
 }
