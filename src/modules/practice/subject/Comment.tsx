@@ -68,14 +68,6 @@ export class Comment extends React.Component<any,any>{
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
-        //iNoBounce和pull-element兼容有问题，pull-element生效时需禁用iNoBounce
-        onPullUp: (data) => {
-          if(this.props.iNoBounce){
-            if(this.props.iNoBounce.isEnabled()){
-              this.props.iNoBounce.disable();
-            }
-          }
-        },
         onPullUpEnd: (data) => {
           loadCommentList(location.query.submitId, this.state.page + 1)
             .then(res => {
@@ -98,11 +90,6 @@ export class Comment extends React.Component<any,any>{
             }).catch(ex => {
               dispatch(alertMsg(ex));
             });
-            if(this.props.iNoBounce){
-              if(!this.props.iNoBounce.isEnabled()){
-                this.props.iNoBounce.enable();
-              }
-            }
         }
       });
       this.pullElement.init();

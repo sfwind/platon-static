@@ -253,6 +253,7 @@ export class PlanMain extends React.Component <any, any> {
     } else if (type === 11) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined));
       dispatch(set('applicationId', undefined));
+      dispatch(set('articlePage', undefined));
       this.context ? this.context.router.push({
             pathname: '/rise/static/practice/application',
             query: {id: item.practiceIdList[0], currentIndex, integrated: false, planId}
@@ -260,6 +261,7 @@ export class PlanMain extends React.Component <any, any> {
     } else if (type === 12) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined));
       dispatch(set('applicationId', undefined));
+      dispatch(set('articlePage', undefined));
       this.context ? this.context.router.push({
             pathname: '/rise/static/practice/application',
             query: {id: item.practiceIdList[0], currentIndex, integrated: true, planId}

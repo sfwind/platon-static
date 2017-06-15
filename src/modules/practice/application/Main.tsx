@@ -4,7 +4,7 @@ import "./Main.less";
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft
+  autoUpdateApplicationDraft, loadOtherListBatch
 } from "./async";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
@@ -39,7 +39,8 @@ export class Main extends React.Component <any, any> {
       edit: true,
       draftId: -1,
       draft: '',
-      showDraftToast: false
+      showDraftToast: false,
+      loading: false,
     };
     this.pullElement = null;
   }
@@ -48,29 +49,24 @@ export class Main extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   };
 
-  componentDidUpdate(preProps, preState) {
-    const content = _.get(this.state, 'data.content');
-    if(content && !this.pullElement) {
+  componentDidUpdate() {
+    if(!this.pullElement) {
       // 有内容并且米有pullElement
       const {dispatch} = this.props;
       this.pullElement = new PullElement({
         target: '.container',
         scroller: '.container',
-        damping: 4,
+        damping: 3,
         detectScroll: true,
         detectScrollOnStart: true,
-        //iNoBounce和pull-element兼容有问题，pull-element生效时需禁用iNoBounce
-        onPullUp: (data) => {
-            if(this.props.iNoBounce){
-              if(this.props.iNoBounce.isEnabled()){
-                this.props.iNoBounce.disable();
-              }
-            }
-        },
 
+        onPullUp: (data) => {
+          this.setState({loading:true})
+        },
         onPullUpEnd: (data) => {
           loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
             if(res.code === 200) {
+              this.setState({loading:false})
               if(res.msg && res.msg.list && res.msg.list.length !== 0) {
                 remove(res.msg.list, (item) => {
                   return findIndex(this.state.otherList, item) !== -1;
@@ -90,11 +86,6 @@ export class Main extends React.Component <any, any> {
           }).catch(ex => {
             dispatch(alertMsg(ex));
           });
-          if(this.props.iNoBounce){
-            if(!this.props.iNoBounce.isEnabled()){
-              this.props.iNoBounce.enable();
-            }
-          }
         }
       });
       this.pullElement.init();
@@ -219,6 +210,7 @@ export class Main extends React.Component <any, any> {
     const {dispatch} = this.props;
     dispatch(set('otherApplicationPracticeSubmitId', submitId));
     dispatch(set('applicationId', this.props.location.query.id));
+    dispatch(set('articlePage', this.state.page));
     this.context.router.push({
       pathname: "/rise/static/practice/application/comment",
       query: merge({submitId: submitId}, this.props.location.query)
@@ -259,9 +251,13 @@ export class Main extends React.Component <any, any> {
   }
 
   others() {
-    const {dispatch, location, otherApplicationPracticeSubmitId, applicationId} = this.props
+    const {dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage} = this.props
     dispatch(startLoad());
-    loadOtherList(location.query.id, 1).then(res => {
+    let page = 1;
+    if(articlePage){
+      page = articlePage;
+    }
+    loadOtherListBatch(location.query.id, page).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({
@@ -321,14 +317,14 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const {data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated} = this.state
+    const {data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated, loading} = this.state
     const {topic, description, content, voteCount, submitId, voteStatus} = data
 
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
           return (
-            <div id={'app-'+item.submitId}>
+            <div id={'app-'+item.submitId} className="application-article">
               <Work onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}  {...item}
                     goComment={() => this.goComment(item.submitId)} type={CommentType.Application}
                     articleModule={ArticleViewModule.Application}
@@ -370,13 +366,20 @@ export class Main extends React.Component <any, any> {
 
     const renderEnd = () => {
       if(showOthers) {
+        if(loading){
+          return (
+              <div style={{textAlign:'center', margin: '5px 0'}}>
+                <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
+              </div>
+          )
+        }
         if(!end) {
           return (
-            <div className="show-more" style={{borderTop: '1px solid #efefef'}}>上拉加载更多消息</div>
+            <div className="show-more">上拉加载更多消息</div>
           )
         } else {
           return (
-            <div className="show-more" style={{borderTop: '1px solid #efefef'}}>没有更多了</div>
+            <div className="show-more">没有更多了</div>
           )
         }
       }
@@ -438,8 +441,8 @@ export class Main extends React.Component <any, any> {
                 {/*<div className="submit-bar">{'管理员推荐'}</div>*/}
                 {/*{renderList(otherHighlightList)}</div> : null}*/}
               {showOthers && !isEmpty(otherList) ? <div>
-                <div className="submit-bar">{'最新文章'}</div>
-                {renderList(otherList)}</div> : null}
+              <div className="submit-bar">{'最新文章'}</div>
+              {renderList(otherList)}</div> : null}
               {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
               {renderEnd()}
             </div>
