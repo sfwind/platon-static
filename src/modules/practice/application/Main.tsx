@@ -61,6 +61,11 @@ export class Main extends React.Component <any, any> {
         detectScrollOnStart: true,
 
         onPullUp: (data) => {
+          if(this.props.iNoBounce){
+            if(this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.disable();
+            }
+          }
           this.setState({loading:true})
         },
         onPullUpEnd: (data) => {
@@ -86,6 +91,11 @@ export class Main extends React.Component <any, any> {
           }).catch(ex => {
             dispatch(alertMsg(ex));
           });
+          if(this.props.iNoBounce){
+            if(!this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.enable();
+            }
+          }
         }
       });
       this.pullElement.init();
