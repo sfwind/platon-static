@@ -6,7 +6,7 @@ import {pget, ppost} from "utils/request"
 import {changeTitle} from "utils/helpers"
 import "./PointTip.less"
 import { Button, ButtonArea, Dialog, Form, FormCell, CellHeader, CellBody, Checkbox } from "react-weui"
-import AssetImg from "../../components/AssetImg";
+import {mark} from "../problem/async"
 
 
 @connect(state => state)
