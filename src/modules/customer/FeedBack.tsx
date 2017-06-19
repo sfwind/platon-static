@@ -52,7 +52,7 @@ export default class FeedBack extends React.Component<any,any>{
             <p>-可以的，补差价即可。差价=（升级时RISE专业版或精英版的价格）－（您购买的价格）<br/>请微信添加圈外助手小Q完成付款（ID：quanwaizhushou）</p>
             <br/>
             <p className="q">啊哦～还想了解更多关于RISE使用的问题？戳链接直达吧——</p>
-            <p>{'https://shimo.im/doc/lRPFODOw4CY7eHfv/'}</p>
+            <p><a style={{color:'#666'}} href="https://shimo.im/doc/lRPFODOw4CY7eHfv/">{'https://shimo.im/doc/lRPFODOw4CY7eHfv/'}</a></p>
             <br/>
           </div>
         </div>
@@ -60,5 +60,4 @@ export default class FeedBack extends React.Component<any,any>{
       </div>
     )
   }
-
 }
