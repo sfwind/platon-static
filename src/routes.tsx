@@ -38,51 +38,62 @@ import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
 import BannerArticle from 'modules/problem/BannerArticle'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
+import ForumBase from "./modules/forum/ForumBase";
+import Question from "./modules/forum/question/Question";
 
 const routes = (
-  <Route path="/rise/static" component={Base}>
-    <Route path="welcome" component={Welcome}/>
-    <Route path="problem/explore" component={Explore}/>
-    <Route path="problem/view" component={ProblemViewer}/>
-    <Route path="problem/more" component={MoreProblem}/>
-    <Route path="problem/package" component={BannerArticle}/>
-    <Route path="plan/main" component={PlanMain}/>
-    <Route path="plan/report" component={ImprovementReport}/>
-    <Route path="learn" component={PlanMain}/>
-    <Route path="practice/warmup" component={WarmUp}/>
-    <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
-    <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
-    <Route path="practice/warmup/result" component={WarmUpResult}/>
-    <Route path="practice/application" component={Application}/>
-    <Route path="practice/challenge" component={Challenge}/>
-    <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
-    <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
-    <Route path="practice/application/comment" component={ApplicationComment}/>
-    <Route path="practice/subject" component={Subject}/>
-    <Route path="practice/subject/submit" component={SubjectSubmit}/>
-    <Route path="practice/subject/comment" component={SubjectComment}/>
-    <Route path="practice/knowledge" component={KnowledgeViewer}/>
-    <Route path="practice/roadmap" component={RoadMap}/>
-    <Route path="practice/knowledge/review" component={KnowledgeReview}/>
-    <Route path="member/explain" component={RiseMemberExplain}/>
-    <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
-    <Route path="message/subject/reply" component={SubjectComment}/>
-    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
-    <Route path="message/comment/reply" component={ReplyCommentMessage}/>
-    <Route path="customer" component={Customer}>
-      <Route path="personal" component={Personal}/>
-      <Route path="profile" component={Profile}/>
-      <Route path="account" component={Account}/>
-      <Route path="point/tip" component={PointTip}/>
-      <Route path="problem" component={ProblemGallery}/>
-      <Route path="member" component={RiseMember}/>
-      <Route path="feedback" component={FeedBack}/>
-      <Route path="userprotocol" component={UserProtocol}/>
+  <Route >
+    <Route path="/rise/static" component={Base}>
+      <Route path="welcome" component={Welcome}/>
+      <Route path="problem/explore" component={Explore}/>
+      <Route path="problem/view" component={ProblemViewer}/>
+      <Route path="problem/more" component={MoreProblem}/>
+      <Route path="problem/package" component={BannerArticle}/>
+      <Route path="plan/main" component={PlanMain}/>
+      <Route path="plan/report" component={ImprovementReport}/>
+      <Route path="learn" component={PlanMain}/>
+      <Route path="practice/warmup" component={WarmUp}/>
+      <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
+      <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
+      <Route path="practice/warmup/result" component={WarmUpResult}/>
+      <Route path="practice/application" component={Application}/>
+      <Route path="practice/challenge" component={Challenge}/>
+      <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
+      <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
+      <Route path="practice/application/comment" component={ApplicationComment}/>
+      <Route path="practice/subject" component={Subject}/>
+      <Route path="practice/subject/submit" component={SubjectSubmit}/>
+      <Route path="practice/subject/comment" component={SubjectComment}/>
+      <Route path="practice/knowledge" component={KnowledgeViewer}/>
+      <Route path="practice/roadmap" component={RoadMap}/>
+      <Route path="practice/knowledge/review" component={KnowledgeReview}/>
+      <Route path="member/explain" component={RiseMemberExplain}/>
+      <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
+      <Route path="message/subject/reply" component={SubjectComment}/>
+      <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
+      <Route path="message/comment/reply" component={ReplyCommentMessage}/>
+      <Route path="customer" component={Customer}>
+        <Route path="personal" component={Personal}/>
+        <Route path="profile" component={Profile}/>
+        <Route path="account" component={Account}/>
+        <Route path="point/tip" component={PointTip}/>
+        <Route path="problem" component={ProblemGallery}/>
+        <Route path="member" component={RiseMember}/>
+        <Route path="feedback" component={FeedBack}/>
+        <Route path="userprotocol" component={UserProtocol}/>
+      </Route>
+      <Route path="message" component={Customer}>
+        <Route path="center" component={MessageCenter}/>
+      </Route>
+      <Route path="event/wall" component={EventWall}/>
+
+
+
+      <Route component={ForumBase}>
+        <Route path="/forum/question" component={Question}/>
+      </Route>
     </Route>
-    <Route path="message" component={Customer}>
-      <Route path="center" component={MessageCenter}/>
-    </Route>
-    <Route path="event/wall" component={EventWall}/>
+
   </Route>
 )
 
