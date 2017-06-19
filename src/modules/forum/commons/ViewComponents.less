@@ -31,3 +31,35 @@
 
 }
 
+// QuestionHead
+.question-head {
+  height: 30px;
+  position: relative;
+
+  .question-left {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    div {
+      font-size: @font_click;
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+  .question-right {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    display: inline-block;
+
+    .question-right-content {
+      color: @color_theme;
+    }
+    div {
+      font-size: @font_click;
+      display: inline-block;
+      margin-left: 5px;
+    }
+  }
+}
