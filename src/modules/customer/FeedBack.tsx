@@ -32,24 +32,28 @@ export default class FeedBack extends React.Component<any,any>{
             </div>
             <p style={{fontSize:'15px',fontWeight:'bolder'}}>常见问题</p><br/>
 
-            <p className="q">-巩固练习的选择题是单项还是多项呢？</p>
-            <p>-都是不定项选择，可能有1或多个答案</p><br/>
+            <p className="q">-如何进入小课的上／下一节？</p>
+            <p>-在屏幕下部「练习区」左右滑动即可</p><br/>
 
-            <p className="q">-做完巩固练习后有疑问，怎么办？</p>
-            <p>-下方的问答区可以提问，被回答后会在首页的消息中心通知你</p><br/>
-
-            <p className="q">-页面文字看起来太小/太大</p>
-            <p>-点击右上角三个点，可以调整文字大小</p><br/>
+            <p className="q">-我学完这节了，为什么还是启动不了下一节呢？</p>
+            <p>-每一节学完之后就直接能够进入下一节啦。但是需要保证上一节的「知识理解」和「巩固练习」的图标都标上了“√”哦（PS：「知识理解」务必点击“标记完成”哦）</p><br/>
 
             <p className="q">-可以在电脑端完成RISE练习吗？</p>
-            <p>-windows电脑可以在微信客户端—圈外训练营里打开RISE并完成练习，mac微信客户端暂不支持。小课论坛、应用练习和小目标，都可以登录www.iquanwai.com/community完成</p><br/>
+            <p>-Windows电脑可以在微信客户端—圈外训练营里打开RISE并完成练习，Mac微信客户端暂不支持。小课论坛、应用练习和小目标，都可以登录www.iquanwai.com/community完成</p><br/>
+
+            <p className="q">-为什么我的小课到期关闭了？</p>
+            <p>-书非借不能读，为了每个人能有动力坚持完成练习，每个小课的开放天数=30天(拖延症福利)，到期后自动关闭</p><br/>
 
 
-            <p className="q">-为什么我的练习任务显示锁定？</p>
-            <p>-之前的巩固练习或知识点没有完成</p><br/>
+            <p className="q">-课程的老师是谁啊？</p>
+            <p>-RISE的课程多数是圈圈设计、整个团队一同打磨出来的，另外的是和一些业界大V合作开发的</p><br/>
 
-            <p className="q"> -为什么我的小课到期关闭了？</p>
-            <p>-书非借不能读，为了每个人能有动力坚持完成练习，每个小课的开放天数=30天(拖延症福利)，到期后自动关闭</p>
+            <p className="q">-之前报名的是专业版，现在我想升级成精英版，可以吗？</p>
+            <p>-可以的，补差价即可。差价=（升级时RISE专业版或精英版的价格）－（您购买的价格）<br/>请微信添加圈外助手小Q完成付款（ID：quanwaizhushou）</p>
+            <br/>
+            <p className="q">啊哦～还想了解更多关于RISE使用的问题？戳链接直达吧——</p>
+            <p>{'https://shimo.im/doc/lRPFODOw4CY7eHfv/'}</p>
+            <br/>
           </div>
         </div>
         <div className="padding-footer"></div>
