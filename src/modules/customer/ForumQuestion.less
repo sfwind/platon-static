@@ -1,0 +1,24 @@
+@import "../../style/variable";
+
+.personal-forum-question{
+  position: relative;
+  width:100%;
+  height:100%;
+  overflow-y: scroll;
+  background-color:@color_weak_background;
+  .pfq-question,.pfq-answer{
+    background-color: #FFF;
+    .pfq-header {
+      font-size: @font_title;
+      color: @color_title;
+      height: 40px;
+      line-height: 40px;
+      border-bottom: 1px solid @color_weak_background;
+      padding-left:15px;
+    }
+    .pfq-body{
+      font-size: @font_context;
+      color: @color_context;
+    }
+  }
+}

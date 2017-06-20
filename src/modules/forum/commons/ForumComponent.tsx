@@ -1,12 +1,14 @@
-import  DialogBottom  from "./DialogBottom/DialogBottom";
-import DialogHead from "./DialogHead/DialogHead";
 import HeadArea from "./HeadArea/HeadArea";
+import DialogHead from "./DialogHead/DialogHead";
+import DialogBottom  from "./DialogBottom/DialogBottom";
+import SimpleQuestion from "./SimpleQuestion/SimpleQuestion";
 
 
 export {
-  DialogBottom,
+  HeadArea,
   DialogHead,
-  HeadArea
+  DialogBottom,
+  SimpleQuestion
 };
 
 
