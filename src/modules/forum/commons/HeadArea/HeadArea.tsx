@@ -1,12 +1,13 @@
 import * as React from "react"
-import "./ViewComponents.less"
+import "./HeadArea.less"
 
+// 当网页最上层导航
 interface HeadAreaProps {
   content: string;
   btnContent?: string;
   btnFunc?: object;
 }
-export class HeadArea extends React.Component<HeadAreaProps, any> {
+export default class HeadArea extends React.Component<HeadAreaProps, any> {
 
   constructor() {
     super()
@@ -31,17 +32,5 @@ export class HeadArea extends React.Component<HeadAreaProps, any> {
       </div>
     )
   }
-
-}
-
-interface QuestionHeadProps {
-  leftImgUrl: string;
-  quesUser: string;
-  quesTime: string;
-  rightImgUrl?: string;
-  rightContent?: string;
-  rightContentFunc?: object;
-}
-export class QuestionHead extends React.Component<QuestionHeadProps, any> {
 
 }

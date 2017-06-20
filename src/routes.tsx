@@ -40,6 +40,8 @@ import BannerArticle from 'modules/problem/BannerArticle'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
 import ForumBase from "./modules/forum/ForumBase";
 import Question from "./modules/forum/question/Question";
+import QuestionAnswer from "./modules/forum/question/QuestionAnswer";
+import AnswerComment from "./modules/forum/question/AnswerComment";
 import ForumQuestion from "./modules/customer/ForumQuestion";
 
 const routes = (
@@ -91,6 +93,8 @@ const routes = (
 
       <Route component={ForumBase}>
         <Route path="/forum/question" component={Question}/>
+        <Route path="/forum/answer" component={QuestionAnswer}/>
+        <Route path="/forum/answer/comment" component={AnswerComment}/>
       </Route>
     </Route>
 
