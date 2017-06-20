@@ -12,7 +12,6 @@ export default class ForumBase extends React.Component {
     const renderOtherComponents = () => {
       return (
         <div>
-          hello
         </div>
       )
     }

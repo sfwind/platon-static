@@ -1,0 +1,34 @@
+@import "../../variable.less";
+
+// DialogHead
+.dialog-head {
+  height: 30px;
+  position: relative;
+
+  .dialog-left {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    div {
+      font-size: @font_click;
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+  .dialog-right {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    display: inline-block;
+
+    .dialog-right-content {
+      color: @color_theme;
+    }
+    div {
+      font-size: @font_click;
+      display: inline-block;
+      margin-left: 5px;
+    }
+  }
+}
