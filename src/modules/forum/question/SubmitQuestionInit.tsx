@@ -1,7 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import { HeadArea } from "../commons/ViewComponents";
-import {SimpleQuestion} from "../commons/SimpleQuestion";
+import { HeadArea, SimpleQuestion } from "../commons/ForumComponent";
 import {loadQuestionByTag, loadTag} from "./async"
 import PullElement from "pull-element";
 import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";

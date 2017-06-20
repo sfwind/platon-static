@@ -7,7 +7,7 @@ interface SimpleQuestionProps {
     answer: number;
     onclickFunc: object;
 }
-export class SimpleQuestion extends React.Component<SimpleQuestionProps, any> {
+export default class SimpleQuestion extends React.Component<SimpleQuestionProps, any> {
 
     constructor() {
         super()
