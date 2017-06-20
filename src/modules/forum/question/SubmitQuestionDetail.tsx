@@ -1,10 +1,9 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import { HeadArea } from "../commons/ViewComponents";
+import { HeadArea } from "../commons/ForumComponent";
 import {submitQuestion} from "./async"
 import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
 import "./SubmitQuestionDetail.less"
-import _ from "lodash"
 
 @connect(state => state)
 export default class SubmitQuestionDetail extends React.Component<any, any> {
