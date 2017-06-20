@@ -40,6 +40,7 @@ import BannerArticle from 'modules/problem/BannerArticle'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
 import ForumBase from "./modules/forum/ForumBase";
 import Question from "./modules/forum/question/Question";
+import ForumQuestion from "./modules/customer/ForumQuestion";
 
 const routes = (
   <Route >
@@ -81,13 +82,12 @@ const routes = (
         <Route path="member" component={RiseMember}/>
         <Route path="feedback" component={FeedBack}/>
         <Route path="userprotocol" component={UserProtocol}/>
+        <Route path="forum/mine" component={ForumQuestion}/>
       </Route>
       <Route path="message" component={Customer}>
         <Route path="center" component={MessageCenter}/>
       </Route>
       <Route path="event/wall" component={EventWall}/>
-
-
 
       <Route component={ForumBase}>
         <Route path="/forum/question" component={Question}/>

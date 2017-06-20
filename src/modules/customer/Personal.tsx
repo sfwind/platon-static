@@ -66,7 +66,7 @@ export default class Personal extends React.Component<any,any>{
           </div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/problem')}} ><span>我的小课</span></div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/account')}} ><span>我的账户</span></div>
-          {/*<div className="personal-item" onClick={()=>{this.context.router.push('/rise/customer/courses')}} ><span>训练营</span></div>*/}
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/forum/mine')}} ><span>论坛</span></div>
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/feedback')}} ><span>帮助</span></div>
 
         </div>
