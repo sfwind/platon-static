@@ -48,7 +48,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         }
 
         dispatch(startLoad());
-        submitQuestion({title, detail, tagIds}).then(res=>{
+        submitQuestion({topic:title, description:detail, tagIds}).then(res=>{
             dispatch(endLoad());
             if(res.code === 200){
                 this.context.router.push('/forum/question');
