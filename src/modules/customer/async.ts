@@ -5,5 +5,5 @@ export function loadMineQuestions(){
 }
 
 export function loadMineAnswers(){
-  return pget("/rise/customer/forum/mine/questions");
+  return pget("/rise/customer/forum/mine/answers");
 }
