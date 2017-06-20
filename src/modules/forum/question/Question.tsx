@@ -1,9 +1,9 @@
 import * as React from "react";
 import AssetImg from "../../../components/AssetImg";
 import { DialogHead } from "../commons/ForumComponent";
+import { disFollow, follow, getAllQuestions } from "../async";
 
 import "./Question.less";
-import { getAllQuestions } from "../async";
 
 interface QuestionStates {
   questions: object;
@@ -12,14 +12,17 @@ export default class Question extends React.Component<any, QuestionStates> {
 
   constructor() {
     super()
-    this.state = { questions: [] }
+    this.state = {
+      questions: [],
+    }
   }
 
   componentWillMount() {
     getAllQuestions().then(res => {
+      console.log("getAllQuestions", res.msg.list)
       const { code, msg } = res
       if(code === 200) {
-        this.setState({ questions: msg })
+        this.setState({ questions: msg.list })
       }
     }).catch(e => {
       console.error(e)
@@ -29,20 +32,37 @@ export default class Question extends React.Component<any, QuestionStates> {
   render() {
     const { questions } = this.state
 
-    console.log(questions)
-
     const renderQuestionList = () => {
+
+      const changeFollowStatus = (tag) => {
+        if(tag) {
+          // 已关注的情况，则调用取消关注接口
+          disFollow(question.id).then(res => {
+            console.log(res)
+            if(res.code === 200) tag = !tag
+          })
+        } else {
+          // 未关注的情况，则调用关注接口
+          follow(question.id).then(res => {
+            console.log(res)
+            if(res.code === 200) tag = !tag
+          })
+        }
+        return tag ? '已关注' : '关注问题'
+      }
+
       return (
         <div className="ques-list">
           {
             questions.map((question, idx) => {
-              let rightContent = question.follow ? '已关注' : '关注问题'
-
+              // 如果是已关注，则显示已关注
+              let tag = question.follow
+              let rightContent = tag ? '已关注' : '关注问题'
               return (
                 <div className="ques-desc" key={idx}>
                   <DialogHead
                     leftImgUrl={question.authorHeadPic} user={question.authorUserName} time={question.addTimeStr}
-                    rightImgUrl={``} rightContent={rightContent} rightContentFunc={() => console.log(1) }
+                    rightImgUrl={``} rightContent={rightContent} rightContentFunc={changeFollowStatus(tag)}
                   />
                   <div className="ques-title">{question.topic}</div>
                   <div className="ques-content">{question.description}</div>
@@ -71,3 +91,4 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
 }
+

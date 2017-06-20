@@ -11,16 +11,27 @@ interface DialogHeadProps {
   rightContent?: string;
   rightContentFunc?: object;
 }
-export default class DialogHead extends React.Component<DialogHeadProps, any> {
+interface DialogHeadStates {
+  changeRightContent: string;
+}
+export default class DialogHead extends React.Component<DialogHeadProps, DialogHeadStates> {
 
   constructor() {
     super()
+    this.state = { rightContent: '' }
+  }
+
+  componentWillMount() {
+    if(this.props.rightContent) {
+      this.setState({ changeRightContent: this.props.rightContent })
+    }
   }
 
   render() {
     const {
       leftImgUrl, user, time, rightImgUrl, rightContent, rightContentFunc = () => {}
     } = this.props
+    const { changeRightContent } = this.state
 
     const renderQuestionLeft = () => {
       return (
@@ -38,7 +49,8 @@ export default class DialogHead extends React.Component<DialogHeadProps, any> {
         return (
           <div className="dialog-right">
             <div><AssetImg url={rightImgUrl} width={30} height={20}/></div>
-            <div onClick={() => rightContentFunc()} className="dialog-right-content">{rightContent}</div>
+            <div onClick={() => this.setState({ changeRightContent: rightContentFunc() })}
+                 className="dialog-right-content">{changeRightContent}</div>
           </div>
         )
       }
