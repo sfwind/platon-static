@@ -31,6 +31,7 @@ export class EventWall extends React.Component<any,any>{
   componentWillMount(){
     const {dispatch} = this.props;
     dispatch(startLoad());
+    mark({module:"打点",function:"活动墙",action:"进入活动墙页面"});
     queryEventList()
       .then(res=>{
         dispatch(endLoad());
