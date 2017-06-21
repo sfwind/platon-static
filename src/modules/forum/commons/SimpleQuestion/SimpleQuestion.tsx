@@ -5,7 +5,7 @@ interface SimpleQuestionProps {
     title: string;
     follow: number;
     answer: number;
-    onclickFunc: object;
+    onclickFunc?: object;
 }
 export default class SimpleQuestion extends React.Component<SimpleQuestionProps, any> {
 
