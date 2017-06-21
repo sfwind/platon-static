@@ -1,12 +1,18 @@
 import * as React from "react";
 import AssetImg from "../../../components/AssetImg";
+import PullElement from 'pull-element'
 import { DialogHead } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions } from "../async";
 
 import "./Question.less";
 
+// let pullElement = null
 interface QuestionStates {
   questions: object;
+  // 分页获取 Question 列表分页数
+  page: number;
+  // 是否已是最后一页
+  end: boolean;
 }
 export default class Question extends React.Component<any, QuestionStates> {
 
@@ -14,7 +20,9 @@ export default class Question extends React.Component<any, QuestionStates> {
     super()
     this.state = {
       questions: [],
+      page: 1
     }
+    this.pullElement=null
   }
 
   static contextTypes = {
@@ -31,6 +39,34 @@ export default class Question extends React.Component<any, QuestionStates> {
     }).catch(e => {
       console.error(e)
     })
+  }
+
+  componentDidUpdate() {
+    if(!this.pullElement) {
+      this.pullElement = new PullElement({
+        target: '.question-container',
+        scroller: '.question-container',
+        damping: 4,
+        detectScroll: true,
+        detectScrollOnStart: true,
+        onPullUpEnd: () => {
+          getAllQuestions(this.state.page + 1).then(res => {
+            const {code, msg} = res
+            if(code === 200) {
+              this.setState({
+                questions: this.state.questions.concat(msg.list),
+                page: this.state.page + 1,
+                end: msg.end
+              })
+            }
+          })
+        }
+      })
+      this.pullElement.init();
+    }
+    if(this.pullElement && this.state.end) {
+      this.pullElement.disable();
+    }
   }
 
   handleClickGoQuestionInitPage() {
