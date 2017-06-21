@@ -67,6 +67,7 @@ const routes = (
     <Route path="member/explain" component={RiseMemberExplain}/>
     <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
     <Route path="message/subject/reply" component={SubjectComment}/>
+    <Route path="message/application/reply" component={ApplicationComment}/>
     <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
     <Route path="message/comment/reply" component={ReplyCommentMessage}/>
     <Route path="customer" component={Customer}>
