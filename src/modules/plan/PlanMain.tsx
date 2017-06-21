@@ -129,6 +129,7 @@ export class PlanMain extends React.Component <any, any> {
 
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
+    mark({module:"打点",function:"首页",action:"打开学习页面"})
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res=>{
       if(res.code === 200){
@@ -172,7 +173,6 @@ export class PlanMain extends React.Component <any, any> {
     if(newProps){
         planId = newProps.location.query.planId
     }
-
     dispatch(startLoad())
     loadPlan(planId).then(res => {
       dispatch(endLoad())
@@ -368,6 +368,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   essenceShare(problemId, series) {
+    mark({module:"打点",function:"首页",action:"打开小课论坛",memo:"首页"})
     this.context.router.push({pathname: '/rise/static/practice/subject', query: {id: problemId, series}})
   }
 
@@ -446,7 +447,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips(){
-    mark({module:"打点",function:"升级专业版",action:"点击升级专业版按钮",memo:"首页"}).then(() =>{
+    mark({module:"打点",function:"首页",action:"点击升级专业版按钮",memo:"首页"}).then(() =>{
       window.location.href = `https://${window.location.hostname}/pay/pay`
     })
   }

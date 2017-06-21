@@ -15,7 +15,7 @@ export default class FeedBack extends React.Component<any,any>{
 
   componentWillMount(){
     changeTitle("帮助");
-    mark({module: "个人中心", function: "帮助", action: "打开帮助页面"})
+    mark({module: "打点", function: "帮助", action: "打开帮助页面"})
   }
 
   render(){

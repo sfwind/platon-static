@@ -104,6 +104,11 @@ export class Welcome extends React.Component <any, any> {
     this.setState({description:false},()=>{ scroll('.info', '.problem-list')})
   }
 
+  handleClickWhatIsVersion(){
+    mark({module:"打点",function:"首页",action:"点击什么是正式版",memo:"欢迎页"});
+    this.setState({description:true})
+  }
+
   render() {
     const {show,show2,show3,show4,show5,show6,show7,confirm,description} = this.state
 
@@ -186,7 +191,7 @@ export class Welcome extends React.Component <any, any> {
                   </div>: null
               }
               {show7?
-                  <div className="tips" onClick={()=>this.setState({description:true})}>
+                  <div className="tips" onClick={()=>this.handleClickWhatIsVersion()}>
                     <span>什么是正式版／试用版</span>
                     <AssetImg style={{margin:'-1px 0'}} size={12} url="https://static.iqycamp.com/images/fragment/question_rise.png"/>
                   </div>:null
