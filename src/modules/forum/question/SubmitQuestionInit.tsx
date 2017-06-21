@@ -158,7 +158,9 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                     {data.map((question, index)=>{
                         return (
                             <SimpleQuestion key={index} answer={question.answerCount} follow={question.followCount}
-                                title={question.topic} onclickFunc={()=>console.log(1)}/>
+                                title={question.topic}
+                                onclickFunc={()=>this.context.router.push({pathname:'/forum/answer',
+                                query:{questionId:question.id}})}/>
                         )
                     })}
                 </div>
