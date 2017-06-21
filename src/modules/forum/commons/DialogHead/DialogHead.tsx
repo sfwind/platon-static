@@ -10,6 +10,8 @@ interface DialogHeadProps {
   rightImgUrl?: string;
   rightContent?: string;
   rightContentFunc?: object;
+  // 当右侧值为下面值是，显示为灰色
+  disableContentValue?: string;
 }
 interface DialogHeadStates {
   changeRightContent: string;
@@ -29,8 +31,7 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
 
   render() {
     const {
-      leftImgUrl, user, time, rightImgUrl, rightContent, rightContentFunc = () => {
-      }
+      leftImgUrl, user, time, rightImgUrl, rightContent, rightContentFunc = () => {}, disableContentValue = ''
     } = this.props
     const { changeRightContent } = this.state
 
@@ -57,7 +58,7 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
         return (
           <div className="dialog-right">
             {/*<div><AssetImg url={rightImgUrl} width={30} height={20}/></div>*/}
-            <div className="dialog-right-content"
+            <div className={`dialog-right-content ${changeRightContent === disableContentValue ? 'disable' : ''}`}
                  onClick={() => changeRightContentFunc()}>
               {changeRightContent}
             </div>
