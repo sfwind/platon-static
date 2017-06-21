@@ -38,7 +38,12 @@ export class Comment extends React.Component<any, any> {
         loadCommentList(location.query.submitId, 1).then(res => {
           if(res.code === 200) {
             dispatch(endLoad());
-            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end, isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
+              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+            //从消息中心打开时，锚定到指定评论
+            if(location.query.commentId){
+              scroll('#comment-'+location.query.commentId, '.application-comment');
+            }
           } else {
             dispatch(endLoad());
             dispatch(alertMsg(res.msg));
@@ -217,9 +222,11 @@ export class Comment extends React.Component<any, any> {
         return (
           commentList.map((item, seq) => {
             return (
-              <DiscussShow discuss={item} reply={() => {
-                this.reply(item)
-              }} onDelete={this.onDelete.bind(this, item.id)}/>
+              <div id={'comment-'+item.id}>
+                <DiscussShow discuss={item} reply={() => {
+                  this.reply(item)
+                }} onDelete={this.onDelete.bind(this, item.id)}/>
+              </div>
             )
           })
         )
