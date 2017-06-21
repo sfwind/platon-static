@@ -35,9 +35,15 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         if(!title){
             dispatch(alertMsg('请填写问题标题'));
             return;
+        }else if(title.length>50){
+            dispatch(alertMsg('标题不能超过50个字哦'));
+            return;
         }
         if(!detail){
             dispatch(alertMsg('请填写问题描述'));
+            return;
+        }else if(detail.length>500){
+            dispatch(alertMsg('问题描述不能超过500个字哦'));
             return;
         }
 
@@ -86,11 +92,11 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
                 <div className="question-page">
                     {renderTagList()}
                     <div>
-                        <textarea className="question-title" placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（20字以内）"
+                        <textarea className="question-title" placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
                                   onChange={(e)=>this.setState({title:e.currentTarget.value})}/>
                     </div>
                     <div>
-                        <textarea className="question-detail" placeholder="写下问题的详细背景，帮助他人更好地分析和解答你的问题（xxx字以内）。"
+                        <textarea className="question-detail" placeholder="写下问题的详细背景，帮助他人更好地分析和解答你的问题（500字以内）。"
                                   onChange={(e)=>this.setState({detail:e.currentTarget.value})}/>
                     </div>
                 </div>
