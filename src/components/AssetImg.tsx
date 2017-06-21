@@ -28,7 +28,7 @@ export default class AssetImg extends React.Component<any, any> {
     }
 
     return (
-      <img className={`${loading?'loading':''}`} src={type ? require(`../../assets/img/${type}.png`) : url} onLoad={()=>this.setState({loading:false})} style={merge(_style, style)}/>
+      <img className={`${loading?'loading':'assetImg'}`} src={type ? require(`../../assets/img/${type}.png`) : url} onLoad={()=>this.setState({loading:false})} style={merge(_style, style)}/>
     )
   }
 }

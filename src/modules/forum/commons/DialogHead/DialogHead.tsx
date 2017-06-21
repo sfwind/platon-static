@@ -37,9 +37,11 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
     const renderQuestionLeft = () => {
       return (
         <div className="dialog-left">
-          <div><AssetImg url={leftImgUrl} width={30} height={20}/></div>
-          <div>{user}</div>
-          <div>{time}</div>
+          <div className="dialog-left-headpic"><AssetImg url={leftImgUrl} width={32} height={32.5}/></div>
+          <div className="dialog-left-content">
+            <span className="dialog-name">{user}</span>
+            <span className="dialog-time">{time}</span>
+          </div>
         </div>
       )
     }
@@ -54,7 +56,7 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
       if(renderRight) {
         return (
           <div className="dialog-right">
-            <div><AssetImg url={rightImgUrl} width={30} height={20}/></div>
+            {/*<div><AssetImg url={rightImgUrl} width={30} height={20}/></div>*/}
             <div className="dialog-right-content"
                  onClick={() => changeRightContentFunc()}>
               {changeRightContent}
