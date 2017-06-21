@@ -17,6 +17,10 @@ export default class Question extends React.Component<any, QuestionStates> {
     }
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   componentWillMount() {
     getAllQuestions().then(res => {
       console.log("getAllQuestions", res.msg.list)
@@ -29,6 +33,17 @@ export default class Question extends React.Component<any, QuestionStates> {
     })
   }
 
+  handleClickGoQuestionInitPage() {
+    this.context.router.push("/forum/question/init")
+  }
+
+  handleClickGoAnswerPage(questionId) {
+    this.context.router.push({
+      pathname: "/forum/answer",
+      query: { questionId }
+    })
+  }
+
   render() {
     const { questions } = this.state
 
@@ -36,21 +51,27 @@ export default class Question extends React.Component<any, QuestionStates> {
       return (
         <div className="ques-list">
           {
-            questions.map((question, idx) => {
+            questions.map((questionItem, idx) => {
+              console.log(questionItem)
+              const {
+                addTimeStr, answerCount, answerTips, authorHeadPic, authorUserName,
+                description, id, mine, topic
+              } = questionItem
+
               // 如果是已关注，则显示已关注
-              let tag = question.follow
+              let tag = questionItem.follow
               let rightContent = tag ? '已关注' : '关注问题'
               const changeFollowStatus = () => {
                 if(tag) {
                   // 已关注的情况，则调用取消关注接口
-                  disFollow(question.id).then(res => {
+                  disFollow(id).then(res => {
                     if(res.code === 200) {
                       tag = !tag
                     }
                   })
                 } else {
                   // 未关注的情况，则调用关注接口
-                  follow(question.id).then(res => {
+                  follow(id).then(res => {
                     if(res.code === 200) {
                       tag = !tag
                     }
@@ -61,13 +82,15 @@ export default class Question extends React.Component<any, QuestionStates> {
               return (
                 <div className="ques-desc" key={idx}>
                   <DialogHead
-                    leftImgUrl={question.authorHeadPic} user={question.authorUserName} time={question.addTimeStr}
+                    leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
                     rightImgUrl={``} rightContent={rightContent} rightContentFunc={changeFollowStatus}
                   />
-                  <div className="ques-title">{question.topic}</div>
-                  <div className="ques-content">{question.description}</div>
-                  <div className="ques-answer-persons" onClick={() => console.log(`question persons`)}>
-                    {question.answerTips}
+                  <div className="ques-title">{topic}</div>
+                  <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
+                    {description}
+                  </div>
+                  <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
+                    {answerTips}
                   </div>
                 </div>
               )
@@ -82,7 +105,7 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div className="question-page">
           <div className="ques-nav">
             <div className="ques-nav-img"><AssetImg url="" height={30} width={40}/></div>
-            <div className="ques-nav-desc">提问</div>
+            <div className="ques-nav-desc" onClick={this.handleClickGoQuestionInitPage.bind(this)}>提问</div>
           </div>
           {renderQuestionList()}
         </div>

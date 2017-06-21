@@ -35,3 +35,20 @@ export function disApproveAnswer(answerId) {
 export function getAnswer(answerId) {
   return pget(`/forum/answer/load/${answerId}`)
 }
+
+// 提交答案
+// 新增答案，则第三个参数不用传递
+// 修改答案，传递第三个修改 answerId
+export function submitAnswer(questionId, answer, answerId?) {
+  return ppost(`/forum/answer/submit`, { questionId, answer, answerId })
+}
+
+// 对答案进行评论
+export function commentAnswer(answerId, comment, repliedCommentId?) {
+  return ppost(`/forum/answer/comment`, { answerId, comment, repliedCommentId })
+}
+
+// 删除答案的评论
+export function commentAnswerDel(commentId) {
+  return ppost(`/forum/answer/delete/comment/${commentId}`)
+}

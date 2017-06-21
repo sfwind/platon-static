@@ -16,11 +16,29 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   componentWillMount() {
-    const questionId = 7
+    const questionId = this.props.location.query.questionId
     getQuestion(questionId).then(res => {
       console.log(res.msg)
       this.setState({ question: res.msg })
+    })
+  }
+
+  handleClickGoSubmitAnswerPage(questionId) {
+    this.context.router.push({
+      pathname: "/forum/answer/submit",
+      query: {questionId}
+    })
+  }
+
+  handleClickGoAnswerCommentPage(answerId) {
+    this.context.router.push({
+      pathname: "/forum/answer/comment",
+      query: {answerId}
     })
   }
 
@@ -67,7 +85,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <div className="ques-content">{description}</div>
           <DialogBottom
             leftContent={`${answerCount}讨论 ${followCount}关注`}
-            btn1ImgUrl={``} btn1Content={`回答`} btn1ContentFunc={() => console.log(`回答`)}
+            btn1ImgUrl={``} btn1Content={`回答`} btn1ContentFunc={this.handleClickGoSubmitAnswerPage.bind(this, id)}
             btn2ImgUrl={``} btn2Content={btn2Content} btn2ContentFunc={changeBtn2Content}
           />
         </div>
@@ -115,7 +133,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
                   <div className="answer-content">{answer}</div>
                   <DialogBottom
                     leftContent={`展开`} leftContentFunc={() => {console.log('展开')}}
-                    btn1ImgUrl={``} btn1Content={`评论`} btn1ContentFunc={() => console.log(`评论`)}
+                    btn1ImgUrl={``} btn1Content={`评论`} btn1ContentFunc={this.handleClickGoAnswerCommentPage.bind(this, answerItem.id)}
                     btn2ImgUrl={``} btn2Content={btn2Content} btn2ContentFunc={changeBtn2Content}
                   />
                 </div>
