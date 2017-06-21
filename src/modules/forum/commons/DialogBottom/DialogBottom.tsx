@@ -13,20 +13,32 @@ interface DialogBottomProps {
   btn2Content?: string;
   btn2ContentFunc?: object;
 }
-export default class DialogBottom extends React.Component<DialogBottomProps, any> {
+interface DialogBottomStates {
+  changeBtn2Content: string;
+}
+export default class DialogBottom extends React.Component<DialogBottomProps, DialogBottomStates> {
 
   constructor() {
     super()
+    this.state = { changeBtn2Content: '' }
+  }
+
+  componentWillMount() {
+    if(this.props.btn2Content) {
+      this.setState({ changeBtn2Content: this.props.btn2Content })
+    }
   }
 
   render() {
     const {
       leftContent, leftContentFunc = () => {
-      }, btn1ImgUrl, btn1Content, btn1ContentFunc = () => {
+      },
+      btn1ImgUrl, btn1Content, btn1ContentFunc = () => {
       },
       btn2ImgUrl, btn2Content, btn2ContentFunc = () => {
       }
     } = this.props
+    const { changeBtn2Content } = this.state
 
     const renderLeftContent = () => {
       return (
@@ -42,8 +54,8 @@ export default class DialogBottom extends React.Component<DialogBottomProps, any
       if(renderBtn1) {
         return (
           <div className="dialog-bottom-btnarea-1">
-            <AssetImg url={btn1ImgUrl} size={20}/>
-            <span onClick={() => btn1ContentFunc()}>{btn1Content}</span>
+            <div><AssetImg url={btn1ImgUrl} size={20}/></div>
+            <div className="btn1-right-content" onClick={() => btn1ContentFunc()}>{btn1Content}</div>
           </div>
         )
       }
@@ -51,11 +63,19 @@ export default class DialogBottom extends React.Component<DialogBottomProps, any
 
     const renderBtn2Kit = () => {
       const renderBtn2 = btn2ImgUrl || btn2Content
+      const changeBtn2ContentFunc = () => {
+        let funcReturnContent = btn2ContentFunc()
+        this.setState({ changeBtn2Content: funcReturnContent ? funcReturnContent : btn2Content })
+      }
+
       if(renderBtn2) {
         return (
           <div className="dialog-bottom-btnarea-2">
-            <AssetImg url={btn2ImgUrl} size={20}/>
-            <span onClick={() => btn2ContentFunc()}>{btn2Content}</span>
+            <div><AssetImg url={btn2ImgUrl} size={20}/></div>
+            <div className="btn2-right-content"
+                 onClick={() => changeBtn2ContentFunc()}>
+              {changeBtn2Content}
+            </div>
           </div>
         )
       }

@@ -18,7 +18,7 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
 
   constructor() {
     super()
-    this.state = { rightContent: '' }
+    this.state = { changeRightContent: '' }
   }
 
   componentWillMount() {
@@ -29,7 +29,8 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
 
   render() {
     const {
-      leftImgUrl, user, time, rightImgUrl, rightContent, rightContentFunc = () => {}
+      leftImgUrl, user, time, rightImgUrl, rightContent, rightContentFunc = () => {
+      }
     } = this.props
     const { changeRightContent } = this.state
 
@@ -45,12 +46,19 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
 
     const renderQuestionRight = () => {
       const renderRight = rightImgUrl || rightContent;
+      const changeRightContentFunc = () => {
+        let funcReturnContent = rightContentFunc()
+        this.setState({ changeRightContent: funcReturnContent ? funcReturnContent : rightContent })
+      }
+
       if(renderRight) {
         return (
           <div className="dialog-right">
             <div><AssetImg url={rightImgUrl} width={30} height={20}/></div>
-            <div onClick={() => this.setState({ changeRightContent: rightContentFunc() })}
-                 className="dialog-right-content">{changeRightContent}</div>
+            <div className="dialog-right-content"
+                 onClick={() => changeRightContentFunc()}>
+              {changeRightContent}
+            </div>
           </div>
         )
       }

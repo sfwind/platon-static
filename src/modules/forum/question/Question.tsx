@@ -33,24 +33,6 @@ export default class Question extends React.Component<any, QuestionStates> {
     const { questions } = this.state
 
     const renderQuestionList = () => {
-
-      const changeFollowStatus = (tag) => {
-        if(tag) {
-          // 已关注的情况，则调用取消关注接口
-          disFollow(question.id).then(res => {
-            console.log(res)
-            if(res.code === 200) tag = !tag
-          })
-        } else {
-          // 未关注的情况，则调用关注接口
-          follow(question.id).then(res => {
-            console.log(res)
-            if(res.code === 200) tag = !tag
-          })
-        }
-        return tag ? '已关注' : '关注问题'
-      }
-
       return (
         <div className="ques-list">
           {
@@ -58,11 +40,29 @@ export default class Question extends React.Component<any, QuestionStates> {
               // 如果是已关注，则显示已关注
               let tag = question.follow
               let rightContent = tag ? '已关注' : '关注问题'
+              const changeFollowStatus = () => {
+                if(tag) {
+                  // 已关注的情况，则调用取消关注接口
+                  disFollow(question.id).then(res => {
+                    if(res.code === 200) {
+                      tag = !tag
+                    }
+                  })
+                } else {
+                  // 未关注的情况，则调用关注接口
+                  follow(question.id).then(res => {
+                    if(res.code === 200) {
+                      tag = !tag
+                    }
+                  })
+                }
+                return tag ? '关注问题' : '已关注'
+              }
               return (
                 <div className="ques-desc" key={idx}>
                   <DialogHead
                     leftImgUrl={question.authorHeadPic} user={question.authorUserName} time={question.addTimeStr}
-                    rightImgUrl={``} rightContent={rightContent} rightContentFunc={changeFollowStatus(tag)}
+                    rightImgUrl={``} rightContent={rightContent} rightContentFunc={changeFollowStatus}
                   />
                   <div className="ques-title">{question.topic}</div>
                   <div className="ques-content">{question.description}</div>
@@ -91,4 +91,5 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
 }
+
 
