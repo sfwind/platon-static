@@ -4,6 +4,7 @@
 .dialog-bottom {
   position: relative;
   margin: 10px 0 15px 0;
+  bottom: 15px;
 
   .dialog-bottom-desc {
     width: 20%;
@@ -11,35 +12,40 @@
     line-height: 1.1em;
     color: @color_strong;
   }
-  .dialog-bottom-btnarea-1 {
-    height: 100%;
-    display: inline-block;
-    position: absolute;
-    right: 60px;
 
-    .btn1-right-content {
-      vertical-align: text-bottom;
-      font-size: 1.4em;
-      margin-left: 4px;
-    }
-    div {
-      display: inline-block;
-    }
-  }
-  .dialog-bottom-btnarea-2 {
-    height: 100%;
-    max-width: 80px;
-    display: inline-block;
+  .dialog-bottom-icon {
     position: absolute;
     right: 0;
 
-    .btn2-right-content {
-      vertical-align: text-bottom;
-      font-size: 1.4em;
-      margin-left: 4px;
-    }
-    div {
+    .dialog-bottom-btnarea-1 {
+      height: 100%;
       display: inline-block;
+      margin-right: 25px;
+      margin-bottom: 15px;
+
+      .btn1-right-content {
+        vertical-align: text-bottom;
+        font-size: 1.4em;
+        margin-left: 4px;
+      }
+      div {
+        display: inline-block;
+      }
+    }
+    .dialog-bottom-btnarea-2 {
+      height: 100%;
+      max-width: 80px;
+      display: inline-block;
+
+      .btn2-right-content {
+        vertical-align: text-bottom;
+        font-size: 1.4em;
+        margin-left: 4px;
+      }
+      div {
+        display: inline-block;
+      }
     }
   }
+
 }

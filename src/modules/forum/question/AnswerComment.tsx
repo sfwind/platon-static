@@ -1,9 +1,10 @@
 import * as React from "react";
 
 import "./AnswerComment.less"
-import { HeadArea, DialogHead, DialogBottomIcon, DialogBottomBtn } from "../commons/ForumComponent"
+import { HeadArea, DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import Discuss from "../../practice/components/Discuss";
+import {splitText} from "../../../utils/helpers";
 
 interface AnswerCommentState {
   answerInfo: object;
@@ -39,7 +40,8 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       repliedCommentId: null,
       commentId: null,
       placeholder: '',
-      showDiscussBox: false
+      showDiscussBox: false,
+      end: true,
     }
   }
 
@@ -144,10 +146,13 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       }
       let isExpand = false
       const expandComment = () => {
+        let node = this.refs.ansContent
         if(isExpand) {
           console.log('收起')
+          node.innerText = splitText(answer, 68)
         } else {
           console.log('展开')
+          node.innerText = answer
         }
         isExpand = !isExpand
         return isExpand ? "收起" : "展开"
@@ -168,9 +173,9 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       return (
         <div className="ans-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-          <div className="ans-content">{answer}</div>
+          <div className="ans-content" ref='ansContent'>{splitText(answer, 68)}</div>
           <DialogBottomIcon
-            leftContent={`展开`} leftContentFunc={expandComment}
+            leftContent={answer.length > 68 ? '展开' : false} leftContentFunc={expandComment}
             btn1ImgUrl={comment} btn1Content={commentCount}
             btn1ContentFunc={this.handleClickCommentAnswer.bind(this, this.state.answerId)}
             btn2ImgUrl={btn2ImgUrl} btn2Content={approvalCount} btn2ContentFunc={changeBtn2ImgUrl}
@@ -186,7 +191,6 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
         <div className="ans-comment-list" ref="commentlist">
           {
             commentlist.map((commentItem, idx) => {
-              console.log('commentItem', commentItem)
               const {
                 answerId, authorHeadPic, authorUserName, comment, id, mine,
                 publishTimeStr, repliedComment, repliedName
@@ -216,6 +220,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
               )
             })
           }
+          <PullSlideTip isEnd={this.state.end}/>
         </div>
       )
     }
