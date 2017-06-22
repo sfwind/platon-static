@@ -4,26 +4,20 @@
 .simple-question {
   width: 100%;
   background-color: @color_white;
-  padding: 2px 5px;
   border-bottom: 1px solid @color_weak;
 
-  .head-content {
-    height: 100%;
-    display: inline-block;
+  .question-topic {
     font-size: @font_context;
-    line-height: @font_context;
+    color: @color_context;
+    margin-top: 10px;
   }
-  .head-btn {
-    display: inline-block;
-    font-size: @font_index;
-    line-height: @font_index;
-    color: #FFF;
-    background-color: #169bd5;
-    position: absolute;
-    right: 15px;
-    top: 5px;
-    padding: 3px 13px;
-    border-radius: 3px;
+  .question-info {
+    margin-bottom: 10px;
+    margin-top: 7px;
+    span{
+      font-size: @font_help;
+      color: @color_help;
+    }
   }
 
 }
