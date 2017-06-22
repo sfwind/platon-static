@@ -19,7 +19,7 @@ import {loadOldCount} from '../message/async'
  * 1.在tabs里增加／删除导航项
  * 2.修改check url的部分
  * 3.增加handleChangeTab，增加点击事件
- *
+ * 导航项最少三个，最多五个
  */
 @connect(state=>state)
 export class ToolBar extends React.Component<any,any> {
