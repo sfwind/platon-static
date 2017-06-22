@@ -1,8 +1,9 @@
 import * as React from "react";
 import PullElement from 'pull-element';
 import { ToolBar } from "../../base/ToolBar";
-import { DialogHead, PullSlideTip} from "../commons/ForumComponent";
+import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions } from "../async";
+import { splitText } from "../../../utils/helpers"
 
 import "./Question.less";
 
@@ -81,14 +82,6 @@ export default class Question extends React.Component<any, QuestionStates> {
     })
   }
 
-  splitTopic(topic) {
-    return topic.length <= 38 ? topic : topic.slice(0, 38) + '...'
-  }
-
-  splitDescription(description) {
-    return description.length <= 20 ? description : description.slice(0, 20) + '...'
-  }
-
   // 特殊组件
   renderOtherComponents() {
     return (
@@ -141,9 +134,9 @@ export default class Question extends React.Component<any, QuestionStates> {
                       leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
                       disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
                     />
-                    <div className="ques-title">{this.splitTopic(topic)}</div>
+                    <div className="ques-title">{splitText(topic, 38)}</div>
                     <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                      {this.splitDescription(description)}
+                      {splitText(description, 20)}
                     </div>
                     <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
                       {answerTips}

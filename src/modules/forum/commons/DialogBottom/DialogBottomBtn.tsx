@@ -36,6 +36,19 @@ export default class DialogBottomBtn extends React.Component<DialogBottomProps, 
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('nextproprs', nextProps)
+    if(nextProps.leftContent) {
+      this.setState({ changeLeftContent: nextProps.leftContent })
+    }
+    if(nextProps.btn1Content) {
+      this.setState({ changeBtn1Content: nextProps.btn1Content })
+    }
+    if(nextProps.btn2Content) {
+      this.setState({ changeBtn2Content: nextProps.btn2Content })
+    }
+  }
+
   render() {
     const {
       leftContent, leftContentFunc = () => {},
@@ -76,11 +89,11 @@ export default class DialogBottomBtn extends React.Component<DialogBottomProps, 
     const renderBtn2Kit = () => {
       const changeBtn2ContentFunc = () => {
         let funcReturnContent = btn2ContentFunc()
+        console.log('方法返回的 btn2 的内容', funcReturnContent)
         this.setState({ changeBtn2Content: funcReturnContent ? funcReturnContent : btn2Content })
       }
 
       if(btn2Content) {
-        console.log('hellolo')
         console.log(changeBtn2Content)
         console.log(btn2DisableValue)
         return (

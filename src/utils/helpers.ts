@@ -102,3 +102,10 @@ export function NumberToChinese(num){
 
   return chnStr;
 }
+
+// 字符串截取方法
+export function splitText(text: string, length: number) {
+  if(text) {
+    return text.length <= length ? text : text.slice(0, length) + '...'
+  }
+}

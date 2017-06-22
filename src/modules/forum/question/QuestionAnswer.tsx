@@ -4,6 +4,7 @@ import "./QuestionAnswer.less"
 import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButton } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import Editor from "../../../components/editor/Editor";
+import { splitText } from "../../../utils/helpers"
 
 interface QuestionAnswerStates {
   question: object;
@@ -17,7 +18,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     super()
     this.state = {
       question: {},
-      questionWritable: false
+      questionWritable: false,
     }
   }
 
@@ -29,20 +30,23 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     const questionId = this.props.location.query.questionId
     getQuestion(questionId).then(res => {
       console.log(res.msg)
-      this.setState({ question: res.msg })
+      this.setState({
+        question: res.msg,
+
+      })
     })
   }
 
   // 添加新的回答
   handleClickAddNewAnswer() {
-    this.setState({
-
-    })
+    console.log('添加新的回答1111111')
+    this.setState({})
   }
 
   // 编辑自己的回答
   handleClickEditSelfAnswer() {
-
+    console.log('编辑自己的回答11111')
+    this.setState({})
   }
 
   handleClickGoAnswerCommentPage(answerId) {
@@ -52,13 +56,14 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
-  handleClickExpandQuestion() {
-    if(isExpandQuestion) {
-      console.log('收起了区域')
+  handleClickExpandQuestion(description) {
+    let node = this.refs.quesContent
+    if(!isExpandQuestion) {
+      node.innerText = description
     } else {
-      console.log('展开了区域')
+      node.innerText = splitText(description, 4)
     }
-    isExpandQuestion = !isExpandQuestion
+    isExpandQuestion = !isExpandQuestion;
     return isExpandQuestion ? "收起" : "展开"
   }
 
@@ -75,11 +80,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
     const {
       addTimeStr, answerCount = 0, answerList, answered, authorHeadPic, authorUserName,
-      description, followCount = 0, id, mine, topic
+      description = '', followCount = 0, id, mine, topic
     } = question
 
     const renderQuestion = () => {
-      if(!answerList) return
 
       // 折叠展开逻辑，默认折叠状态
       let isExpand = false
@@ -120,21 +124,48 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         }
       }
 
+      let btn2ContentTag = answered
+      let initBtn2Content = answered ? `编辑我的回答` : `回答`
+      const changeBtn2Content = () => {
+        // this.setState({questionWritable: !this.state.questionWritable})
+        console.log(`当前 tag 状态`, btn2ContentTag)
+        // if(btn2ContentTag) {
+        //   if(answered) {
+        //     console.log('已经回答了，编辑自己的回答')
+        //     this.handleClickEditSelfAnswer()
+        //   } else {
+        //     console.log('添加新的回答')
+        //     this.handleClickAddNewAnswer()
+        //   }
+        // } else {
+        //   console.log('取消编辑')
+        // }
+        btn2ContentTag = !btn2ContentTag
+        console.log(`更改后 tag 状态`, btn2ContentTag)
+        // return btn2ContentTag ? `取消编辑` : initBtn2Content
+        console.log(`外面组件返回的值`, btn2ContentTag ? initBtn2Content : `取消编辑`)
+        // initBtn2Content = btn2ContentTag ? initBtn2Content : `取消编辑`
+        return btn2ContentTag ? initBtn2Content : `取消编辑`
+      }
+
       return (
         <div className="ques-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
-          <div className="ques-content">{description}</div>
+          <div className="ques-content" ref="quesContent">{splitText(description, 4)}</div>
           <DialogBottomBtn
-            leftContent={`展开`} leftContentFunc={this.handleClickExpandQuestion.bind(this)}
-            btn1DisableValue={`已关注`} btn1Content={btn1Content} btn1ContentFunc={changeBtn1Content}
-            btn2Content={answered ? `编辑我的回答` : `回答`}
-            btn2ContentFunc={answered ? this.handleClickEditSelfAnswer.bind(this) : this.handleClickAddNewAnswer.bind(this)}
+            leftContent={description.length > 4 ? `展开` : false}
+            leftContentFunc={this.handleClickExpandQuestion.bind(this, description)}
+            btn1DisableValue={`已关注`} btn1Content={btn1Content}
+            btn1ContentFunc={changeBtn1Content}
+            btn2Content={initBtn2Content} btn2DisableValue="编辑我的回答"
+            btn2ContentFunc={changeBtn2Content}
           />
         </div>
       )
     }
 
     const renderAnswerTips = () => {
+      if(questionWritable) return
       return (
         <div className="answer-tips">
           <span>该问题还没有答案，你可以</span>
@@ -145,8 +176,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
 
     const renderAnswers = () => {
-      if(!answerList) return
-
+      if(!answerList || questionWritable) return
       return (
         <div className="answer-list">
           {
@@ -211,7 +241,6 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             ref="editor"
             moduleId="5"
             maxLength="1000"
-
             placeholder="写下该问题的答案呢（1000字以内）。"
           />
           <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>
@@ -231,7 +260,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <div className="grey-banner" style={{ height: 10 }}/>
           {/* 如果不存在任何评论，则展示 tips */}
           {
-            answerCount === 0 && !questionWritable ?
+            answerCount === 0 ?
               renderAnswerTips() :
               renderAnswers()
           }
