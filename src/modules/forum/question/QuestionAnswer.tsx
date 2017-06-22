@@ -4,6 +4,7 @@ import "./QuestionAnswer.less"
 import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButton } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import Editor from "../../../components/editor/Editor";
+import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 
 interface QuestionAnswerStates {
   question: object;
@@ -85,6 +86,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
   submitAnswer(questionId) {
     const answer = this.refs.editor.getValue();
+    const {dispatch} = this.props;
+    if(answer.length>10000){
+      dispatch(alertMsg('回答不能超过10000个字哦'));
+      return;
+    }
     submitAnswer(questionId, answer).then(res => {
       console.log(res)
     })
@@ -232,7 +238,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             moduleId="6"
             maxLength="10000"
 
-            placeholder="写下该问题的答案呢（1000字以内）。"
+            placeholder="写下该问题的答案呢（10000字以内）。"
           />
           <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>
         </div>
