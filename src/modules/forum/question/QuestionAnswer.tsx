@@ -209,8 +209,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         <div className="answer-editor">
           <Editor
             ref="editor"
-            moduleId="5"
-            maxLength="1000"
+            moduleId="6"
+            maxLength="10000"
 
             placeholder="写下该问题的答案呢（1000字以内）。"
           />

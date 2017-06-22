@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import "./AnswerComment.less"
-import { HeadArea, DialogHead, DialogBottomIcon, DialogBottomBtn } from "../commons/ForumComponent"
+import { HeadArea, DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import Discuss from "../../practice/components/Discuss";
 
@@ -39,7 +39,8 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       repliedCommentId: null,
       commentId: null,
       placeholder: '',
-      showDiscussBox: false
+      showDiscussBox: false,
+      end: true,
     }
   }
 
@@ -186,7 +187,6 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
         <div className="ans-comment-list" ref="commentlist">
           {
             commentlist.map((commentItem, idx) => {
-              console.log('commentItem', commentItem)
               const {
                 answerId, authorHeadPic, authorUserName, comment, id, mine,
                 publishTimeStr, repliedComment, repliedName
@@ -216,6 +216,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
               )
             })
           }
+          <PullSlideTip isEnd={this.state.end}/>
         </div>
       )
     }

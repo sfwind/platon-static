@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import { ForumButton, SimpleQuestion } from "../commons/ForumComponent";
+import { ForumButton, SimpleQuestion, PullSlideTip } from "../commons/ForumComponent";
 import {loadQuestionByTag, loadTag} from "./async"
 import PullElement from "pull-element";
 import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
@@ -149,8 +149,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     }
 
     render() {
-        const {data = [], tagList = []} = this.state;
-        const {end} = data;
+        const {data = [], tagList = [], end} = this.state;
 
         const renderQuestionList = () => {
             return (
@@ -212,10 +211,9 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
         }
 
         const renderShowMore = () => {
-            if (!_.isEmpty(data)){
+            if (!_.isEmpty(data)) {
                 return (
-                    end ? <div className="show-more">没有更多了</div> :
-                        <div className="show-more">上拉加载更多问题</div>
+                    <PullSlideTip isEnd={end}/>
                 )
             }
         }
@@ -232,10 +230,13 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                     <div className="page-title">
                         选择问题标签
                     </div>
+
                     {renderTagList()}
-                    <div className="question-title">
-                        相关的问题
-                    </div>
+                    { _.isEmpty(data)? null :
+                        <div className="question-title">
+                            相关的问题
+                        </div>
+                    }
                     {renderQuestionList()}
                     {renderShowMore()}
                     {renderButton()}
