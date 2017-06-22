@@ -17,7 +17,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     super()
     this.state = {
       question: {},
-      questionWritable: false
+      questionWritable: false,
+      btn2Content:'',
     }
   }
 
@@ -26,23 +27,43 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   componentWillMount() {
-    const questionId = this.props.location.query.questionId
+    const questionId = this.props.location.query.questionId;
     getQuestion(questionId).then(res => {
-      console.log(res.msg)
-      this.setState({ question: res.msg })
+      const question = res.msg;
+      let content = '';
+      if(question.answered){
+        content = '编辑我的回答';
+      }else{
+        content = '回答';
+      }
+      this.setState({ question: res.msg, btn2Content: content })
     })
   }
 
   // 添加新的回答
   handleClickAddNewAnswer() {
+    let content = '';
+    if(this.state.questionWritable){
+      content = '回答';
+    } else{
+      content = '取消回答';
+    }
     this.setState({
-
+      questionWritable:!this.state.questionWritable, btn2Content:content
     })
   }
 
   // 编辑自己的回答
   handleClickEditSelfAnswer() {
-
+    let content = '';
+    if(this.state.questionWritable){
+      content = '编辑我的回答';
+    } else{
+      content = '取消回答';
+    }
+    this.setState({
+      questionWritable:!this.state.questionWritable, btn2Content:content
+    })
   }
 
   handleClickGoAnswerCommentPage(answerId) {
@@ -63,20 +84,19 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   submitAnswer(questionId) {
-    const answer = this.refs.editor.getValue()
-    console.log('questionContent', answer)
+    const answer = this.refs.editor.getValue();
     submitAnswer(questionId, answer).then(res => {
       console.log(res)
     })
   }
 
   render() {
-    const { question, questionWritable } = this.state
+    const { question, questionWritable, btn2Content } = this.state;
 
     const {
       addTimeStr, answerCount = 0, answerList, answered, authorHeadPic, authorUserName,
       description, followCount = 0, id, mine, topic
-    } = question
+    } = question;
 
     const renderQuestion = () => {
       if(!answerList) return
@@ -127,7 +147,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <DialogBottomBtn
             leftContent={`展开`} leftContentFunc={this.handleClickExpandQuestion.bind(this)}
             btn1DisableValue={`已关注`} btn1Content={btn1Content} btn1ContentFunc={changeBtn1Content}
-            btn2Content={answered ? `编辑我的回答` : `回答`}
+            btn2Content={btn2Content}
             btn2ContentFunc={answered ? this.handleClickEditSelfAnswer.bind(this) : this.handleClickAddNewAnswer.bind(this)}
           />
         </div>
@@ -135,6 +155,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
 
     const renderAnswerTips = () => {
+      if(questionWritable) return
       return (
         <div className="answer-tips">
           <span>该问题还没有答案，你可以</span>
@@ -146,12 +167,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
     const renderAnswers = () => {
       if(!answerList) return
-
+      if(questionWritable) return
       return (
         <div className="answer-list">
           {
             answerList.map((answerItem, idx) => {
-              console.log(answerItem)
               const { answer, approval, approvalCount, authorHeadPic, authorUserName, commentCount, id, publishTimeStr } = answerItem
               let tag = approval
               let comment = 'https://static.iqycamp.com/images/fragment/comment.png?imageslim'
@@ -231,7 +251,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <div className="grey-banner" style={{ height: 10 }}/>
           {/* 如果不存在任何评论，则展示 tips */}
           {
-            answerCount === 0 && !questionWritable ?
+            answerCount === 0 ?
               renderAnswerTips() :
               renderAnswers()
           }
