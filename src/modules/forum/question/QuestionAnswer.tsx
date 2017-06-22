@@ -186,7 +186,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
 
     return (
-      <div className="answer-container" style={{ height: window.innerHeight }}>
+      <div className="answer-container">
         <div className="answer-page">
           <div className="answer-head-topic">{topic}</div>
           {renderQuestion()}

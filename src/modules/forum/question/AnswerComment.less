@@ -5,15 +5,19 @@
 
   .ans-comment-page {
     position: relative;
-    top: 30px;
+    padding: 15px;
 
     .ans-desc {
-      padding: 1px 8px;
       border-bottom: 1px solid @color_weak;
+      margin: 0 -15px;
+      padding: 0 15px 15px;
 
       .ans-content {
         color: @color_title;
-        font-size: @font_click;
+        font-size: 1.4em;
+        line-height: 1.4em;
+        margin-top: 20px;
+        margin-bottom: 20px;
       }
     }
 
@@ -21,11 +25,29 @@
     .ans-comment-list {
 
       .ans-comment-desc {
-        padding: 1px 8px;
         border-bottom: 1px solid @color_weak;
+        margin: 0 -15px;
+        padding: 15px;
+
+        .dialog-right-content  {
+          border: 0;
+          color: @color_strong;
+        }
 
         .ans-comment-content {
+          font-size: 1.4em;
+          line-height: 1.4em;
+          color: @color_title;
+          margin-top: 15px;
+          padding-left: 35.5px;
+        }
 
+        .ans-comment-replied {
+          font-size: @font_index;
+          line-height: @font_index;
+          color: @color_help;
+          margin-top: 15px;
+          padding-left: 35.5px;
         }
       }
     }

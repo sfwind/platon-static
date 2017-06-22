@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import "./AnswerComment.less"
-import { HeadArea, DialogHead, DialogBottom } from "../commons/ForumComponent"
+import { HeadArea, DialogHead, DialogBottomIcon, DialogBottomBtn } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import Discuss from "../../practice/components/Discuss";
 
@@ -21,7 +21,6 @@ interface AnswerCommentState {
   showDiscussBox: boolean
 }
 const initDiscussBoxState = {
-  answerId: null,
   comment: '',
   repliedCommentId: null,
   commentId: null,
@@ -46,6 +45,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
   componentWillMount() {
     const answerId = this.props.location.query.answerId
+    this.setState({ answerId: answerId })
     getAnswer(answerId).then(res => {
       console.log(res.msg)
       if(res.code === 200) {
@@ -61,8 +61,9 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       console.log('comment', res)
       if(res.code === 200) {
         commentlist.push(res.msg)
-        this.setState({ commentlist })
-        this.handleClickHideDiscussBox()
+        this.setState({ commentlist }, () => {
+          this.handleClickHideDiscussBox()
+        })
       }
     })
   }
@@ -72,8 +73,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       console.log(res)
       if(res.code === 200) {
         let removeNode = `commentRef${idx}`
-        let rootNode = this.refs.commentlist
-        rootNode.removeChild(this.refs[removeNode])
+        this.refs[removeNode].style.display = "None"
       }
     })
   }
@@ -82,7 +82,6 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   handleClickCommentAnswer(answerId) {
     this.setState(initDiscussBoxState, () => {
       this.setState({
-        answerId: answerId,
         placeholder: '回复 answer',
         showDiscussBox: true
       })
@@ -91,10 +90,9 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
   // 回复答案的某一条评论
   handleClickCommentReply(answerId, repliedCommentId) {
-    console.log('参数', {answerId, repliedCommentId})
+    console.log('参数', { answerId, repliedCommentId })
     this.setState(initDiscussBoxState, () => {
       this.setState({
-        answerId: answerId,
         repliedCommentId: repliedCommentId,
         placeholder: '回复 comment',
         showDiscussBox: true
@@ -120,12 +118,40 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       commentId, placeholder, showDiscussBox
     } = this.state
     const {
-      answer, approval, authorHeadPic, authorUserName, comments,
+      answer, approval, approvalCount, authorHeadPic, authorUserName, commentCount, comments,
       id, mine, publishTimeStr, questionId, topic
     } = answerInfo
     const renderAnswer = () => {
       if(!answer) return
       let tag = approval
+      let comment = 'https://static.iqycamp.com/images/fragment/comment.png?imageslim'
+      let unvote = 'https://static.iqycamp.com/images/fragment/unvote.png?imageslim'
+      let voted = 'https://static.iqycamp.com/images/fragment/voted.png?imageslim'
+      let btn2ImgUrl = approval ? voted : unvote
+      const changeBtn2ImgUrl = () => {
+        if(tag) {
+          // 已赞同，则取消赞同
+          disApproveAnswer(id).then(res => {
+            if(res.code === 200) tag = !tag
+          })
+        } else {
+          // 还未赞同，点击赞同
+          approveAnswer(id).then(res => {
+            if(res.code === 200) tag = !tag
+          })
+        }
+        return tag ? unvote : voted
+      }
+      let isExpand = false
+      const expandComment = () => {
+        if(isExpand) {
+          console.log('收起')
+        } else {
+          console.log('展开')
+        }
+        isExpand = !isExpand
+        return isExpand ? "收起" : "展开"
+      }
       let btn2Content = approval ? '已赞同' : '赞同'
       const changeBtn2Content = () => {
         if(tag) {
@@ -143,10 +169,11 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
         <div className="ans-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
           <div className="ans-content">{answer}</div>
-          <DialogBottom
-            leftContent={`收起`} leftContentFunc={() => console.log("收起")}
-            btn1ImgUrl={``} btn1Content={`回复`} btn1ContentFunc={this.handleClickCommentAnswer.bind(this, id)}
-            btn2ImgUrl={``} btn2Content={btn2Content} btn2ContentFunc={changeBtn2Content}
+          <DialogBottomIcon
+            leftContent={`展开`} leftContentFunc={expandComment}
+            btn1ImgUrl={comment} btn1Content={commentCount}
+            btn1ContentFunc={this.handleClickCommentAnswer.bind(this, this.state.answerId)}
+            btn2ImgUrl={btn2ImgUrl} btn2Content={approvalCount} btn2ContentFunc={changeBtn2ImgUrl}
           />
         </div>
       )
@@ -159,21 +186,32 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
         <div className="ans-comment-list" ref="commentlist">
           {
             commentlist.map((commentItem, idx) => {
+              console.log('commentItem', commentItem)
               const {
-                answerId, authorHeadPic, authorUserName, comment, id,
-                publishTimeStr
+                answerId, authorHeadPic, authorUserName, comment, id, mine,
+                publishTimeStr, repliedComment, repliedName
               } = commentItem
 
+              const renderRepliedComment = () => {
+                if(repliedName && repliedComment) {
+                  return (
+                    <div className="ans-comment-replied">
+                      回复{repliedName}：{repliedComment}
+                    </div>
+                  )
+                }
+              }
               return (
                 <div className="ans-comment-desc" ref={`commentRef${idx}`}>
-                  <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
+                  <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}
+                              rightContent={mine ? `删除` : `回复`}
+                              rightContentFunc={
+                                mine ?
+                                  this.commentAnswerDel.bind(this, commentItem.id, idx) :
+                                  this.handleClickCommentReply.bind(this, this.state.answerId, commentItem.id)
+                              }/>
                   <div className="ans-comment-content">{comment}</div>
-
-                  <DialogBottom
-                    btn1ImgUrl={``} btn1Content={`删除`}
-                    btn1ContentFunc={this.commentAnswerDel.bind(this, commentItem.id, idx)}
-                    btn2ImgUrl={``} btn2Content={`回复`}
-                    btn2ContentFunc={this.handleClickCommentReply.bind(this, this.state.answerInfo.id, commentItem.id)}/>
+                  {renderRepliedComment()}
                 </div>
               )
             })
@@ -195,7 +233,6 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
     return (
       <div className="ans-comment-container">
-        <HeadArea content={topic}/>
         <div className="ans-comment-page">
           {renderAnswer()}
           {renderAnswerComments()}
