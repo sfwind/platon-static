@@ -17,6 +17,13 @@ import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
 import {loadOldCount} from '../message/async'
 
+/**
+ * 修改方式：
+ * 1.在tabs里增加／删除导航项
+ * 2.修改check url的部分
+ * 3.增加handleChangeTab，增加点击事件
+ *
+ */
 @connect(state=>state)
 export class ToolBar extends React.Component<any,any> {
 
@@ -84,7 +91,7 @@ export class ToolBar extends React.Component<any,any> {
     // }
   }
 
-  changeTab(tabIndex){
+  handleChangeTab(tabIndex){
     const {dispatch} = this.props;
     dispatch(set('tabIndex',tabIndex))
     if(tabIndex === 0){
@@ -110,8 +117,9 @@ export class ToolBar extends React.Component<any,any> {
           if(item.key === 3){
             return (
               <TabBarItem
+                className={`tab_bar_count_${this.state.tabs.length}`}
                 active={tabIndex == item.key}
-                onClick={()=>this.changeTab(item.key)}
+                onClick={()=>this.handleChangeTab(item.key)}
               >
                 <TabBarIcon>
                     <img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>
@@ -125,8 +133,9 @@ export class ToolBar extends React.Component<any,any> {
             )
           } else {
             return <TabBarItem
+              className={`tab_bar_count_${this.state.tabs.length}`}
               active={tabIndex == item.key}
-              onClick={()=>this.changeTab(item.key)}
+              onClick={()=>this.handleChangeTab(item.key)}
               icon={<img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>}
               label={bar.label}
             />
