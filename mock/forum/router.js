@@ -218,7 +218,7 @@ router.get("/forum/question/load/*", (req, res) => {
 router.get("/forum/question/tag/load", (req, res) => {
     setTimeout(() =>
         res.status(200).json(
-            {"msg":[{"id":"1","name":"职场"},{"id":"2","name":"思维"}],"code":200}
+            {"msg":[{"id":"1","name":"职场"},{"id":"2","name":"思维"},{"id":"3","name":"练习"},{"id":"4","name":"职场2"},{"id":"5","name":"思维2"}],"code":200}
         ), Math.random() * 1500);
 });
 

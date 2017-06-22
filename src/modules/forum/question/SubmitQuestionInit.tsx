@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import { HeadArea, SimpleQuestion } from "../commons/ForumComponent";
+import { ForumButton, SimpleQuestion } from "../commons/ForumComponent";
 import {loadQuestionByTag, loadTag} from "./async"
 import PullElement from "pull-element";
 import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
@@ -110,7 +110,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                 item.selected = !tag.selected;
             }
         });
-
+        this.setState({tagList});
         dispatch(startLoad());
         loadQuestionByTag(tag.id).then(res=>{
             dispatch(endLoad());
@@ -154,7 +154,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
 
         const renderQuestionList = () => {
             return (
-                <div className="ques-list">
+                <div className="question-list">
                     {data.map((question, index)=>{
                         return (
                             <SimpleQuestion key={index} answer={question.answerCount} follow={question.followCount}
@@ -167,16 +167,46 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
             )
         }
 
-        const renderTagList = () => {
+        const renderLine = (tagLineList) =>{
             return (
-                <div className="tag-list">
-                    {tagList.map((tag, index)=>{
+                <div className="tag-line">
+                    {tagLineList.map((tag, idx)=>{
                         return (
-                            <div className="tag" key={index} onClick={()=>this.onClick(tag)}>
+                            <div className={`${tag.selected? 'tag-selected': 'tag'}`}  key={idx} onClick={()=>this.onClick(tag)}>
                                 {tag.name}
                             </div>
                         )
                     })}
+                </div>
+            )
+        }
+
+        const renderTagList = () => {
+            // 包含所有的行元素的数组
+            let tagAll = [];
+            // 一共渲染几行
+            let line = tagList.length / 3;
+            for(let j=0;j<line;j++){
+                // 一行标签的数组
+                let tagLineList = [];
+                for(let i=0;i<3;i++){
+                    if(j*3+i === tagList.length){
+                        break;
+                    }
+                    tagLineList.push(tagList[j*3+i]);
+                }
+                tagAll.push(tagLineList);
+            }
+
+            return (
+                <div className="tag-list">
+                    {
+                        tagAll.map((tagLineList, idx)=>{
+                            return (
+                                renderLine(tagLineList)
+                            )
+                        })
+                    }
                 </div>
             )
         }
@@ -190,13 +220,25 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
             }
         }
 
+        const renderButton = () => {
+            return (
+                <ForumButton content={'下一步'} clickFunc={()=>this.nextTask()}/>
+            )
+        }
+
         return (
             <div className="question-init-container">
-                <HeadArea content="一、选择问题标签" btnContent="下一步" btnFunc={() => this.nextTask()}/>
                 <div className="question-page">
+                    <div className="page-title">
+                        选择问题标签
+                    </div>
                     {renderTagList()}
+                    <div className="question-title">
+                        相关的问题
+                    </div>
                     {renderQuestionList()}
                     {renderShowMore()}
+                    {renderButton()}
                 </div>
             </div>
         )

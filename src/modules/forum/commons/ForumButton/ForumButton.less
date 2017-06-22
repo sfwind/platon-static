@@ -1,0 +1,36 @@
+@import "../../variable.less";
+
+// ForumButton
+.forum-button-div {
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  height: 49px;
+  border-top: 1px solid @color_weak;
+  background-color: @color_white;
+  .forum-button{
+    margin: 8px auto;
+    font-size: @font_context;
+    border-radius: @border-radius;
+    height: 30px;
+    line-height: 30px;
+    width: 150px;
+    &.normal{
+      color: @color_strong;
+      border: 1px solid @color_strong;
+      background-color: @color_white;
+    }
+    &.forbid{
+      color: @color_help;
+      border: 1px solid @color_help;
+      background-color: @color_white;
+    }
+    &.primary{
+      background-color: @color_strong;
+      color: @color_white;
+      border: 1px solid @color_strong;
+    }
+  }
+
+}

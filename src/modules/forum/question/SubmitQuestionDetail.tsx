@@ -1,8 +1,9 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import { HeadArea } from "../commons/ForumComponent";
+import { ForumButton } from "../commons/ForumComponent";
 import {submitQuestion} from "./async"
 import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
+import Editor from "../../../components/editor/Editor";
 import "./SubmitQuestionDetail.less"
 
 @connect(state => state)
@@ -20,6 +21,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
             end:true,
             title:'',
             detail:'',
+            length:0,
         }
     }
 
@@ -29,7 +31,8 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
     }
 
     submit(){
-        const {title, detail, selectedTagList} = this.state;
+        const {title, selectedTagList} = this.state;
+        const detail = this.refs.editor.getValue();
         let tagIds = [];
         const {dispatch} = this.props;
         if(!title){
@@ -68,15 +71,19 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         });
     }
 
-    render() {
-        const {data = [], selectedTagList = []} = this.state;
+    writeTitle(e){
+        this.setState({title:e.currentTarget.value, length: e.currentTarget.value.length})
+    }
 
-        const renderTagList = () => {
+    render() {
+        const {data = [], selectedTagList = [], length} = this.state;
+
+        const renderLine = (tagLineList) =>{
             return (
-                <div className="tag-list">
-                    {selectedTagList.map((tag, index)=>{
+                <div className="tag-line">
+                    {tagLineList.map((tag, idx)=>{
                         return (
-                            <div className="tag" key={index}>
+                            <div className='tag-selected'  key={idx} >
                                 {tag.name}
                             </div>
                         )
@@ -85,24 +92,80 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
             )
         }
 
+        const renderTagList = () => {
+            // 包含所有的行元素的数组
+            let tagAll = [];
+            // 一共渲染几行
+            let line = selectedTagList.length / 3;
+            for(let j=0;j<line;j++){
+                // 一行标签的数组
+                let tagLineList = [];
+                for(let i=0;i<3;i++){
+                    if(j*3+i === selectedTagList.length){
+                        break;
+                    }
+                    tagLineList.push(selectedTagList[j*3+i]);
+                }
+                tagAll.push(tagLineList);
+            }
+
+            return (
+                <div className="tag-list">
+                    {
+                        tagAll.map((tagLineList, idx)=>{
+                            return (
+                                renderLine(tagLineList)
+                            )
+                        })
+                    }
+                </div>
+            )
+        }
+
+        const renderButton = () => {
+            return (
+                <ForumButton content={'提交'} clickFunc={()=>this.submit()}/>
+            )
+        }
+
+        const renderEditor = () => {
+            return (
+                <div className="editor">
+                    <Editor
+                        ref="editor"
+                        moduleId="5"
+                        maxLength="1000"
+                        onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
+                        uploadStart={()=>{this.props.dispatch(startLoad())}}
+                        uploadEnd={()=>{this.props.dispatch(endLoad())}}
+                        placeholader="写下问题的详细背景，帮助他人更好地分析和解答你的问题（500字以内）。"
+                    />
+                </div>
+            )
+        }
 
         return (
             <div className="question-detail-container">
-                <HeadArea content="二、完善问题描述" btnContent="提交" btnFunc={() => this.submit()}/>
                 <div className="question-page">
+                    <div className="page-title">
+                        完善问题描述
+                    </div>
                     {renderTagList()}
-                    <div>
-                        <textarea className="question-title" placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
-                                  onChange={(e)=>this.setState({title:e.currentTarget.value})}/>
+                    <div className="question-title">
+                        <textarea placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
+                                  onChange={(e)=>this.writeTitle(e)} maxLength={50}/>
+                        <div className="length-div">
+                            <div className="length-tip">
+                                {length} / 50
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <textarea className="question-detail" placeholder="写下问题的详细背景，帮助他人更好地分析和解答你的问题（500字以内）。"
-                                  onChange={(e)=>this.setState({detail:e.currentTarget.value})}/>
+                    <div className="question-detail">
+                        {renderEditor()}
                     </div>
+                    {renderButton()}
                 </div>
             </div>
         )
-
     }
-
 }

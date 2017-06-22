@@ -22,7 +22,7 @@ export default class SimpleQuestion extends React.Component<SimpleQuestionProps,
             <div className="simple-question" onClick={()=>onclickFunc()}>
                 <div className="question-topic">{title}</div>
                 <div className="question-info">
-                    <span>{follow}{'人关注'}</span><span>{answer}{'个回答'}</span>
+                    <span>{follow}{'人关注，'}</span><span>{answer}{'个回答'}</span>
                 </div>
             </div>
         )
