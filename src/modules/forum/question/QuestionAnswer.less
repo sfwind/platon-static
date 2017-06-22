@@ -3,26 +3,42 @@
 .answer-container {
 
   .answer-page {
+    height: 100%;
     position: relative;
-    top: 30px;
+    padding: 15px;
+
+    .answer-head-topic {
+      font-size: 1.6em;
+      color: @color_context;
+    }
+
+    .grey-banner {
+      margin: 0 -15px;
+      background-color: @color_weak_background;
+    }
 
     .ques-desc {
-      padding: 1px 8px;
-      border-bottom: 1px solid @color_weak;
+      margin-top: 20px;
 
       .ques-content {
+        margin-top: 20px;
         color: @color_title;
-        font-size: @font_click;
+        font-size: 1.5em;
+        line-height: 1.5em;
       }
     }
 
     .answer-tips {
-      width: 60%;
-      margin: 40px auto;
+      margin: 0 -15px;
+      padding: 25px 15px;
+      height: 100%;
       color: @color_title;
-      line-height: 2em;
+      background-color: @color_weak_background;
+
 
       span {
+        font-size: @font_click;
+        line-height: 1.9em;
         display: block;
       }
     }
@@ -30,12 +46,17 @@
     .answer-list {
 
       .answer-desc {
-        padding: 1px 8px;
         border-bottom: 1px solid @color_weak;
+        margin: 0 -15px;
+        padding: 15px 15px;
 
         .answer-content {
+          font-size: 1.4em;
+          line-height: 1.4em;
           color: @color_title;
-          font-size: @font_click;
+          margin-top: 15px;
+          max-height: 5.2em;
+          overflow: hidden;
         }
       }
     }

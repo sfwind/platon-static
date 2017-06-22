@@ -1,13 +1,14 @@
 import HeadArea from "./HeadArea/HeadArea";
 import DialogHead from "./DialogHead/DialogHead";
-import DialogBottom  from "./DialogBottom/DialogBottom";
+import DialogBottomBtn from "./DialogBottom/DialogBottomBtn";
+import DialogBottomIcon from "./DialogBottom/DialogBottomIcon";
 import SimpleQuestion from "./SimpleQuestion/SimpleQuestion";
-
 
 export {
   HeadArea,
   DialogHead,
-  DialogBottom,
+  DialogBottomBtn,
+  DialogBottomIcon,
   SimpleQuestion
 };
 

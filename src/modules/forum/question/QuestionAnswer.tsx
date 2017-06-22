@@ -1,12 +1,13 @@
 import * as React from "react";
 
 import "./QuestionAnswer.less"
-import { DialogHead, DialogBottom, HeadArea } from "../commons/ForumComponent";
+import { DialogHead, DialogBottomBtn, DialogBottomIcon } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion } from "../async";
 
 interface QuestionAnswerStates {
   question: object;
 }
+let isExpandQuestion = false
 export default class QuestionAnswer extends React.Component<any, QuestionAnswerStates> {
 
   constructor() {
@@ -31,32 +32,55 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   handleClickGoSubmitAnswerPage(questionId) {
     this.context.router.push({
       pathname: "/forum/answer/submit",
-      query: {questionId}
+      query: { questionId }
     })
   }
 
   handleClickGoAnswerCommentPage(answerId) {
     this.context.router.push({
       pathname: "/forum/answer/comment",
-      query: {answerId}
+      query: { answerId }
     })
   }
 
+  handleClickExpandQuestion() {
+    if(isExpandQuestion) {
+      console.log('收起了区域')
+    } else {
+      console.log('展开了区域')
+    }
+    isExpandQuestion = !isExpandQuestion
+    return isExpandQuestion ? "收起" : "展开"
+  }
+
   render() {
-    console.log(this.state.question)
     const { question } = this.state
 
     const {
-      addTimeStr, answerCount = 0, answerList, authorHeadPic, authorUserName,
+      addTimeStr, answerCount = 0, answerList, answered, authorHeadPic, authorUserName,
       description, followCount = 0, id, mine, topic
     } = question
 
     const renderQuestion = () => {
       if(!answerList) return
-      let tag = question.follow
-      let btn2Content = tag ? '已关注' : '关注问题'
 
-      const changeBtn2Content = () => {
+      // 折叠展开逻辑，默认折叠状态
+      let isExpand = false
+      const changeLeftContent = () => {
+        // 展开状态，点击则折叠区域，并返回 `展开`
+        if(isExpand) {
+          console.log("收起了区域")
+        } else {
+          console.log("展开了区域")
+        }
+        isExpand = !isExpand
+        return isExpand ? "收起" : "展开"
+      }
+
+      // 是否已关注状态
+      let tag = question.follow
+      let btn1Content = tag ? '已关注' : '关注'
+      const changeBtn1Content = () => {
         if(mine) {
           return "编辑"
         } else {
@@ -75,7 +99,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               }
             })
           }
-          return tag ? '关注问题' : '已关注'
+          return tag ? '关注' : '已关注'
         }
       }
 
@@ -83,10 +107,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         <div className="ques-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
           <div className="ques-content">{description}</div>
-          <DialogBottom
-            leftContent={`${answerCount}讨论 ${followCount}关注`}
-            btn1ImgUrl={``} btn1Content={`回答`} btn1ContentFunc={this.handleClickGoSubmitAnswerPage.bind(this, id)}
-            btn2ImgUrl={``} btn2Content={btn2Content} btn2ContentFunc={changeBtn2Content}
+          <DialogBottomBtn
+            leftContent={`展开`} leftContentFunc={this.handleClickExpandQuestion.bind(this)}
+            btn1DisableValue={`已关注`} btn1Content={btn1Content} btn1ContentFunc={changeBtn1Content}
+            btn2DisableValue={`已回答`} btn2Content={answered ? `已回答` : `回答`}
+            btn2ContentFunc={answered ? undefined : this.handleClickGoSubmitAnswerPage.bind(this, id)}
           />
         </div>
       )
@@ -95,9 +120,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     const renderAnswerTips = () => {
       return (
         <div className="answer-tips">
-          <span>该问题还没有讨论，你可以：</span>
-          <span>1.回答作者</span>
-          <span>2.关注问题，有新的讨论会通知你</span>
+          <span>该问题还没有答案，你可以</span>
+          <span>1.回答问题</span>
+          <span>2.点击关注，有新的回答时会通知你</span>
         </div>
       )
     }
@@ -109,11 +134,14 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         <div className="answer-list">
           {
             answerList.map((answerItem, idx) => {
-              const {answer, approval, approvalCount, authorHeadPic, authorUserName, id, publishTimeStr} = answerItem
-
+              console.log(answerItem)
+              const { answer, approval, approvalCount, authorHeadPic, authorUserName, commentCount, id, publishTimeStr } = answerItem
               let tag = approval
-              let btn2Content = approval ? '已赞同' : '赞同'
-              const changeBtn2Content = () => {
+              let comment = 'https://static.iqycamp.com/images/fragment/comment.png?imageslim'
+              let unvote = 'https://static.iqycamp.com/images/fragment/unvote.png?imageslim'
+              let voted = 'https://static.iqycamp.com/images/fragment/voted.png?imageslim'
+              let btn2ImgUrl = approval ? voted : unvote
+              const changeBtn2ImgUrl = () => {
                 if(tag) {
                   // 已赞同，则取消赞同
                   disApproveAnswer(id).then(res => {
@@ -125,16 +153,29 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
                     if(res.code === 200) tag = !tag
                   })
                 }
-                return tag ? '赞同' : '已赞同'
+                return tag ? unvote : voted
               }
+
+              let isExpand = false
+              const expandComment = () => {
+                if(isExpand) {
+                  console.log('收起')
+                } else  {
+                  console.log('展开')
+                }
+                isExpand = !isExpand
+                return isExpand ? "收起" : "展开"
+              }
+
               return (
                 <div className="answer-desc" key={idx}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
                   <div className="answer-content">{answer}</div>
-                  <DialogBottom
-                    leftContent={`展开`} leftContentFunc={() => {console.log('展开')}}
-                    btn1ImgUrl={``} btn1Content={`评论`} btn1ContentFunc={this.handleClickGoAnswerCommentPage.bind(this, answerItem.id)}
-                    btn2ImgUrl={``} btn2Content={btn2Content} btn2ContentFunc={changeBtn2Content}
+                  <DialogBottomIcon
+                    leftContent={`展开`} leftContentFunc={expandComment}
+                    btn1ImgUrl={comment} btn1Content={commentCount}
+                    btn1ContentFunc={this.handleClickGoAnswerCommentPage.bind(this, answerItem.id)}
+                    btn2ImgUrl={btn2ImgUrl} btn2Content={approvalCount} btn2ContentFunc={changeBtn2ImgUrl}
                   />
                 </div>
               )
@@ -145,10 +186,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
 
     return (
-      <div className="answer-container">
-        <HeadArea content={topic}/>
+      <div className="answer-container" style={{ height: window.innerHeight }}>
         <div className="answer-page">
+          <div className="answer-head-topic">{topic}</div>
           {renderQuestion()}
+          <div className="grey-banner" style={{ height: 10 }}/>
           {/* 如果不存在任何评论，则展示 tips */}
           {
             answerCount === 0 ?

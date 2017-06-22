@@ -1,0 +1,51 @@
+@import "../../variable.less";
+
+// DialogBottomBtn
+.dialog-bottom-btn {
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 40px;
+
+  .dialog-bottom-desc {
+    font-size: 1.1em;
+    color: @color_strong;
+    height: 100%;
+  }
+
+  .btn1-right-content {
+    height: 23px;
+    width: 50px;
+    color: @color_orange;
+    border: 1px solid @color_orange;
+    display: inline-block;
+    font-size: @font_click;
+    text-align: center;
+    line-height: 23px;
+    border-radius: 5px;
+    position: absolute;
+    right: 77px;
+    &.disable {
+      color: @color_help;
+      border: 1px solid @color_help;
+    }
+  }
+  .btn2-right-content {
+    height: 23px;
+    width: 50px;
+    color: #FFF;
+    border: 1px solid @color_orange;
+    background-color: @color_orange;
+    display: inline-block;
+    font-size: @font_click;
+    text-align: center;
+    line-height: 23px;
+    border-radius: 5px;
+    position: absolute;
+    right: 0;
+    &.disable {
+      color: @color_help;
+      border: 1px solid @color_help;
+      background-color: #FFF;
+    }
+  }
+}
