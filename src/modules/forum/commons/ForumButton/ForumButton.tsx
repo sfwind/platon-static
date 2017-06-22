@@ -2,10 +2,7 @@ import * as React from "react"
 import AssetImg from "../../../../components/AssetImg";
 import "./ForumButton.less"
 
-// 问题概要 头部组件
 interface ForumButtonProps {
-  width: number;
-  height: number;
   content: string;
   clickFunc?: object;
   forbid?: boolean;

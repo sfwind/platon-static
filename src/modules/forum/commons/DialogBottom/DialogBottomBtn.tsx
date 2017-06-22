@@ -95,8 +95,10 @@ export default class DialogBottomBtn extends React.Component<DialogBottomProps, 
     return (
       <div className="dialog-bottom-btn">
         {renderLeftContent()}
-        {renderBtn1Kit()}
-        {renderBtn2Kit()}
+        <div className="dialog-bottom-btn-area">
+          {renderBtn1Kit()}
+          {renderBtn2Kit()}
+        </div>
       </div>
     )
   }

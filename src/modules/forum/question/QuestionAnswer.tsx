@@ -1,11 +1,14 @@
 import * as React from "react";
 
 import "./QuestionAnswer.less"
-import { DialogHead, DialogBottomBtn, DialogBottomIcon } from "../commons/ForumComponent";
-import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion } from "../async";
+import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButton } from "../commons/ForumComponent";
+import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
+import Editor from "../../../components/editor/Editor";
 
 interface QuestionAnswerStates {
   question: object;
+  // 弹出答案书写框
+  questionWritable: boolean;
 }
 let isExpandQuestion = false
 export default class QuestionAnswer extends React.Component<any, QuestionAnswerStates> {
@@ -13,7 +16,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   constructor() {
     super()
     this.state = {
-      question: {}
+      question: {},
+      questionWritable: false
     }
   }
 
@@ -29,11 +33,16 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
-  handleClickGoSubmitAnswerPage(questionId) {
-    this.context.router.push({
-      pathname: "/forum/answer/submit",
-      query: { questionId }
+  // 添加新的回答
+  handleClickAddNewAnswer() {
+    this.setState({
+
     })
+  }
+
+  // 编辑自己的回答
+  handleClickEditSelfAnswer() {
+
   }
 
   handleClickGoAnswerCommentPage(answerId) {
@@ -53,8 +62,16 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     return isExpandQuestion ? "收起" : "展开"
   }
 
+  submitAnswer(questionId) {
+    const answer = this.refs.editor.getValue()
+    console.log('questionContent', answer)
+    submitAnswer(questionId, answer).then(res => {
+      console.log(res)
+    })
+  }
+
   render() {
-    const { question } = this.state
+    const { question, questionWritable } = this.state
 
     const {
       addTimeStr, answerCount = 0, answerList, answered, authorHeadPic, authorUserName,
@@ -110,8 +127,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <DialogBottomBtn
             leftContent={`展开`} leftContentFunc={this.handleClickExpandQuestion.bind(this)}
             btn1DisableValue={`已关注`} btn1Content={btn1Content} btn1ContentFunc={changeBtn1Content}
-            btn2DisableValue={`已回答`} btn2Content={answered ? `已回答` : `回答`}
-            btn2ContentFunc={answered ? undefined : this.handleClickGoSubmitAnswerPage.bind(this, id)}
+            btn2Content={answered ? `编辑我的回答` : `回答`}
+            btn2ContentFunc={answered ? this.handleClickEditSelfAnswer.bind(this) : this.handleClickAddNewAnswer.bind(this)}
           />
         </div>
       )
@@ -160,7 +177,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               const expandComment = () => {
                 if(isExpand) {
                   console.log('收起')
-                } else  {
+                } else {
                   console.log('展开')
                 }
                 isExpand = !isExpand
@@ -181,9 +198,30 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               )
             })
           }
+          <PullSlideTip isEnd={true}/>
         </div>
       )
     }
+
+    const renderAnswerWriteBox = () => {
+      if(!questionWritable) return
+      return (
+        <div className="answer-editor">
+          <Editor
+            ref="editor"
+            moduleId="5"
+            maxLength="1000"
+
+            placeholder="写下该问题的答案呢（1000字以内）。"
+          />
+          <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>
+        </div>
+      )
+    }
+
+    // onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
+    // uploadStart={()=>{this.props.dispatch(startLoad())}}
+    // uploadEnd={()=>{this.props.dispatch(endLoad())}}
 
     return (
       <div className="answer-container">
@@ -193,10 +231,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <div className="grey-banner" style={{ height: 10 }}/>
           {/* 如果不存在任何评论，则展示 tips */}
           {
-            answerCount === 0 ?
+            answerCount === 0 && !questionWritable ?
               renderAnswerTips() :
               renderAnswers()
           }
+          {renderAnswerWriteBox()}
         </div>
       </div>
     )

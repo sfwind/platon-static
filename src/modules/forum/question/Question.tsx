@@ -1,8 +1,8 @@
 import * as React from "react";
 import PullElement from 'pull-element';
-import { DialogHead } from "../commons/ForumComponent";
+import { ToolBar } from "../../base/ToolBar";
+import { DialogHead, PullSlideTip} from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions } from "../async";
-import { ToolBar } from "../../base/ToolBar"
 
 import "./Question.less";
 
@@ -20,7 +20,8 @@ export default class Question extends React.Component<any, QuestionStates> {
     super()
     this.state = {
       questions: [],
-      page: 1
+      page: 1,
+      end: false
     }
     this.pullElement = null
   }
@@ -88,6 +89,16 @@ export default class Question extends React.Component<any, QuestionStates> {
     return description.length <= 20 ? description : description.slice(0, 20) + '...'
   }
 
+  // 特殊组件
+  renderOtherComponents() {
+    return (
+      <div>
+        <div style={{ height: '50px' }} className="padding-footer"/>
+        <ToolBar/>
+      </div>
+    )
+  }
+
   render() {
     const { questions } = this.state
 
@@ -125,19 +136,19 @@ export default class Question extends React.Component<any, QuestionStates> {
               }
               return (
                 <div>
-                <div className="ques-desc" key={idx}>
-                  <DialogHead
-                    leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
-                    disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
-                  />
-                  <div className="ques-title">{this.splitTopic(topic)}</div>
-                  <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                    {this.splitDescription(description)}
+                  <div className="ques-desc" key={idx}>
+                    <DialogHead
+                      leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
+                      disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
+                    />
+                    <div className="ques-title">{this.splitTopic(topic)}</div>
+                    <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
+                      {this.splitDescription(description)}
+                    </div>
+                    <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
+                      {answerTips}
+                    </div>
                   </div>
-                  <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                    {answerTips}
-                  </div>
-                </div>
                   <GreyBanner height="10px"/>
                 </div>
               )
@@ -157,9 +168,10 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
           <GreyBanner height={20}/>
           {renderQuestionList()}
+          {console.log('end state', this.state.end)}
+          <PullSlideTip isEnd={this.state.end}/>
         </div>
-        <div style={{height:'50px'}} className="padding-footer"/>
-        <ToolBar/>
+        {this.renderOtherComponents()}
       </div>
     )
   }

@@ -49,9 +49,13 @@
           margin-left: 35px;
           color: @color_context;
           font-size: @font_context;
-          line-height: 20px;
-          max-height: 2.5em;
+          line-height: @font_context;
           overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          -moz-box-orient: vertical;
         }
         .ques-content {
           margin-top: 15px;
@@ -59,8 +63,9 @@
           color: @color_help;
           font-size: @font_click;
           line-height: @font_click;
-          max-height: 1.3em;
           overflow: hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap
         }
         .ques-answer-persons {
           margin-top: 15px;
