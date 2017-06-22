@@ -10,9 +10,7 @@
     background-color:@color_weak_background;
     height:15px;
   }
-  .simple-question:last-of-type{
-    border-bottom:none;
-  }
+
   .pfq-question,.pfq-answer{
     background-color: #FFF;
     .pfq-header {
@@ -20,9 +18,27 @@
       color: @color_title;
       padding:15px 15px;
       border-bottom: 1px solid @color_weak;
+      &:before{
+        content: '';
+        display: inline-block;
+        width:3px;
+        height:16px;
+        border-radius:3px;
+        background-color: @color_strong;
+        vertical-align: sub;
+        margin-right:10px;
+      }
     }
     .pfq-body{
-      padding:15px;
+      margin:15px;
+      > .simple-question{
+        &:last-of-type{
+          border-bottom:none;
+        }
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
       .pfq-answer{
         .topic{
           font-size:@font_context;
