@@ -3,6 +3,7 @@
 .question-detail-container {
 
   .question-page {
+    padding-bottom: 55px;
     .page-title{
       font-size: @font_title;
       text-align: center;
@@ -31,23 +32,24 @@
 
     textarea{
       border-radius: @border-radius;
-      height: 65px;
-      width: ~"calc(100% - 20px)";
+      height: 74px;
+      width: ~"calc(100% - 26px)";
       display: inline-block;
       resize: none;
       border: 1px solid #cecece;
       font-size: @font_context;
-      padding: 2px 10px;
+      padding: 10px 12px;
       box-shadow:0 0 0 rgba(0,0,0,0);
       -webkit-appearance:none;
       &::-webkit-input-placeholder{
         color: @color_weak;
+        line-height: @font_context;
       }
     }
 
     .question-title{
-      width: ~"calc(100% - 12px)";
-      margin-left: 6px;
+      width: ~"calc(100% - 30px)";
+      margin-left: 15px;
       height: 65px;
       .length-div{
         margin-right: 10px;
@@ -61,9 +63,9 @@
     }
 
     .question-detail{
-      width: ~"calc(100% - 12px)";
-      margin-left: 6px;
-      margin-top: 30px;
+      width: ~"calc(100% - 30px)";
+      margin-left: 15px;
+      margin-top: 60px;
     }
   }
 }

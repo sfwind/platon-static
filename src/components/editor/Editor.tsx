@@ -119,7 +119,7 @@ export default class Editor extends React.Component<any,any>{
         </div>
         <div className="footer-btn">
           <div className="upload">
-            <i className="upload-img"><AssetImg type="uploadImgIcon" width="25" height="20"/></i>上传图片
+            <i className="upload-img"><AssetImg type="uploadImgIcon" width="27" height="19"/></i>上传图片
           </div>
           <input type="file" name="file" accept="image/*" style={{position:"absolute",left:0,top:0,marginTop:"5px",opacity:0,width:"100%",height:"100%"}} id="imageUpload" />
         </div>
