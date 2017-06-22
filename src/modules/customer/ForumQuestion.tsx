@@ -12,6 +12,11 @@ export default class ForumQuestion extends React.Component<any,any>{
     super();
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+
   componentWillMount(){
     const {dispatch} = this.props;
     dispatch(startLoad());
@@ -42,19 +47,35 @@ export default class ForumQuestion extends React.Component<any,any>{
     })
   }
 
+  handleClickQuestion(question){
+    console.log(question);
+    this.context.router.push({
+      pathname:"/forum/answer",
+      query:{questionId:question.id}
+    })
+  }
+
+  handleClickAnswer(answer){
+    console.log(answer);
+    this.context.router.push({
+      pathname:"/forum/answer",
+      query:{questionId:answer.questionId}
+    })
+  }
+
   render(){
     const {questions,answers} = this.state;
     const renderQuestions = (list = [])=> {
       return list.map((item,key)=>{
-        return <SimpleQuestion key={key} title={item.topic} follow={item.followCount} answer={item.answerCount}/>;
+        return <SimpleQuestion onclickFunc={()=>this.handleClickQuestion(item)} key={key} title={item.topic} follow={item.followCount} answer={item.answerCount}/>;
       })
     }
 
     const renderAnswers = (list = [])=>{
       return list.map((item,key)=>{
           return (
-            <div key={key} className="pfq-answer">
-              <div className="topic">{item.question}</div>
+            <div key={key} onClick={()=>this.handleClickAnswer(item)} className="pfq-answer hover-cursor">
+              <div className="topic">{item.topic}</div>
               <div className="answer">{item.answer}</div>
             </div>
           )
@@ -71,6 +92,7 @@ export default class ForumQuestion extends React.Component<any,any>{
             {renderQuestions(questions)}
           </div>
         </div>
+        <div className="pfq-gutter"></div>
         <div className="pfq-answer">
           <div className="pfq-header">
             我的回答
@@ -79,6 +101,7 @@ export default class ForumQuestion extends React.Component<any,any>{
             {renderAnswers(answers)}
           </div>
         </div>
+        <div className="padding-footer"></div>
       </div>
     )
   }
