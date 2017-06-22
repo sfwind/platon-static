@@ -2,6 +2,7 @@ import * as React from "react";
 import PullElement from 'pull-element';
 import { DialogHead } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions } from "../async";
+import { ToolBar } from "../../base/ToolBar"
 
 import "./Question.less";
 
@@ -157,6 +158,8 @@ export default class Question extends React.Component<any, QuestionStates> {
           <GreyBanner height={20}/>
           {renderQuestionList()}
         </div>
+        <div style={{height:'50px'}} className="padding-footer"/>
+        <ToolBar/>
       </div>
     )
   }

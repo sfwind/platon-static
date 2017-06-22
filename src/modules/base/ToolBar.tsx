@@ -29,38 +29,50 @@ export class ToolBar extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    this.state = {
-      tabs: [
-        {
-          key: 0,
-          bar: {
-            icon: 'https://static.iqycamp.com/images/tabbar_book.png?imageSlim',
-            activeIcon: 'https://static.iqycamp.com/images/tabbar_book_active.png?imageSlim',
-            label: '学习',
-          },
-        }, {
-          key: 1,
-          bar: {
-            icon: 'https://static.iqycamp.com/images/tabbar_team_study.png?imageSlim',
-            activeIcon: 'https://static.iqycamp.com/images/tabbar_team_study_active.png?imageSlim',
-            label: '活动'
-          }
-        }, {
-          key: 2,
-          bar: {
-            icon: 'https://static.iqycamp.com/images/tabbar_explore.png?imageSlim',
-            activeIcon: 'https://static.iqycamp.com/images/tabbar_explore_active.png?imageSlim',
-            label: '发现'
-          }
-        }, {
-          key: 3,
-          bar: {
-            icon: 'https://static.iqycamp.com/images/tabbar_mine.png?imageSlim',
-            activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active.png?imageSlim',
-            label: '我的'
-          }
+    let tabs = [
+      {
+        key: 0,
+        bar: {
+          icon: 'https://static.iqycamp.com/images/tabbar_book.png?imageSlim',
+          activeIcon: 'https://static.iqycamp.com/images/tabbar_book_active.png?imageSlim',
+          label: '学习',
         },
-      ]
+      }, {
+        key: 1,
+        bar: {
+          icon: 'https://static.iqycamp.com/images/tabbar_team_study.png?imageSlim',
+          activeIcon: 'https://static.iqycamp.com/images/tabbar_team_study_active.png?imageSlim',
+          label: '活动'
+        }
+      }, {
+        key: 2,
+        bar: {
+          icon: 'https://static.iqycamp.com/images/tabbar_explore.png?imageSlim',
+          activeIcon: 'https://static.iqycamp.com/images/tabbar_explore_active.png?imageSlim',
+          label: '发现'
+        }
+      }, {
+        key: 3,
+        bar: {
+          icon: 'https://static.iqycamp.com/images/tabbar_mine.png?imageSlim',
+          activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active.png?imageSlim',
+          label: '我的'
+        }
+      },
+    ];
+    if(window.ENV.showForum){
+      tabs.push({
+        key: 4,
+        bar: {
+          icon: 'https://static.iqycamp.com/images/tabbar_mine.png?imageSlim',
+          activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active.png?imageSlim',
+          label: '论坛'
+        }
+      })
+    }
+
+    this.state = {
+      tabs:tabs
     };
     // check url
     const { dispatch } = this.props;
@@ -76,6 +88,8 @@ export class ToolBar extends React.Component<any,any> {
         window.location.pathname.indexOf('/rise/static/message')!=-1){
       //消息中心和个人中心
       tabIndex = 3;
+    } else if(window.location.pathname.indexOf('/forum/') != -1){
+      tabIndex = 4;
     }
     dispatch(set('tabIndex',tabIndex))
     const { noticeMsgCount } = this.props;
@@ -101,6 +115,8 @@ export class ToolBar extends React.Component<any,any> {
       })
     } else if(tabIndex === 3){
       this.context.router.push("/rise/static/customer/personal");
+    } else if(tabIndex === 4){
+      this.context.router.push("/forum/question");
     }
   }
 
