@@ -138,7 +138,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
                         onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
                         uploadStart={()=>{this.props.dispatch(startLoad())}}
                         uploadEnd={()=>{this.props.dispatch(endLoad())}}
-                        placeholader="写下问题的详细背景，帮助他人更好地分析和解答你的问题（500字以内）。"
+                        placeholder="写下问题的详细背景，帮助他人更好地分析和解答你的问题（500字以内）。"
                     />
                 </div>
             )

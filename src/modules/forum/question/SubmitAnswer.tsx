@@ -1,9 +1,10 @@
 import * as React from "react";
 import Editor from "../../../components/editor/Editor";
 import { HeadArea, DialogHead } from "../commons/ForumComponent";
-
+import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import "./SubmitAnswer.less";
 import { getQuestion, submitAnswer } from "../async";
+import ForumButton from "../commons/ForumButton/ForumButton";
 
 interface SubmitAnswerStates {
   question: object;
@@ -44,7 +45,6 @@ export default class SubmitAnswer extends React.Component<any, SubmitAnswerState
   }
 
   render() {
-    console.log(this.state.question)
     const { question } = this.state
 
     const {
@@ -53,7 +53,6 @@ export default class SubmitAnswer extends React.Component<any, SubmitAnswerState
     } = question
 
     const renderQuestion = () => {
-      console.log('id', id)
       if(!id) return
 
       return (
@@ -70,15 +69,18 @@ export default class SubmitAnswer extends React.Component<any, SubmitAnswerState
           <Editor
             ref="editor"
             moduleId="4"
-            uploadStart={() => {
-            }}
-            uploadEnd={() => {
-            }}
-            uploadError={() => {
-            }}
+            onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
+            uploadStart={()=>{this.props.dispatch(startLoad())}}
+            uploadEnd={()=>{this.props.dispatch(endLoad())}}
             placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
           />
         </div>
+      )
+    }
+
+    const renderButton = () => {
+      return (
+          <ForumButton content={'提交'} clickFunc={()=>this.handleClickSubmitAnswer(id)}/>
       )
     }
 
@@ -88,9 +90,7 @@ export default class SubmitAnswer extends React.Component<any, SubmitAnswerState
         <div className="submit-answer-page">
           {renderQuestion()}
           {renderEditor()}
-          <div>
-            <div onClick={this.handleClickSubmitAnswer.bind(this, id)}>提交</div>
-          </div>
+          {renderButton()}
         </div>
       </div>
     )
