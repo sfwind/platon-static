@@ -10,9 +10,6 @@ import {
   Article
 } from 'react-weui';
 
-let IconExplore = 'https://static.iqycamp.com/images/tabbar_explore.png?imageSlim';
-let IconExploreActive = 'https://static.iqycamp.com/images/tabbar_explore_active.png?imageSlim';
-
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
 import {loadOldCount} from '../message/async'
@@ -51,8 +48,8 @@ export class ToolBar extends React.Component<any,any> {
         }, {
           key: 2,
           bar: {
-            icon: IconExplore,
-            activeIcon: IconExploreActive,
+            icon: 'https://static.iqycamp.com/images/tabbar_explore.png?imageSlim',
+            activeIcon: 'https://static.iqycamp.com/images/tabbar_explore_active.png?imageSlim',
             label: '发现'
           }
         }, {
