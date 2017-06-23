@@ -4,8 +4,7 @@ import "./QuestionAnswer.less"
 import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButton } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import Editor from "../../../components/editor/Editor";
-import { splitText } from "../../../utils/helpers"
-import { answer } from "../../practice/warmup/async";
+import { splitText, removeHtmlTags } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
 interface QuestionAnswerStates {
@@ -20,7 +19,7 @@ interface QuestionAnswerStates {
   myAnswer: object;
   selfAnswerContent: string;
 }
-let isExpandQuestion = false
+let isExpandQuestion = false;
 export default class QuestionAnswer extends React.Component<any, QuestionAnswerStates> {
 
   constructor() {
@@ -103,11 +102,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   handleClickExpandQuestion(description) {
-    let node = this.refs.quesContent
+    let node = this.refs.quesContent;
     if(!isExpandQuestion) {
-      node.innerText = description
+      node.innerHtml = description;
     } else {
-      node.innerText = splitText(description, 4)
+      node.innerHtml = splitText(description, 68);
     }
     isExpandQuestion = !isExpandQuestion;
     return isExpandQuestion ? "收起" : "展开"
@@ -135,14 +134,14 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     } else {
       submitAnswer(questionId, answer, myAnswer.id).then(res => {
         if(res.code === 200) {
-          let newAnswerList = []
+          let newAnswerList = [];
           answerList.map((answerItem, idx) => {
             if(!answerItem.mine) {
               newAnswerList.push(answerItem)
             } else {
               newAnswerList.push(res.msg)
             }
-          })
+          });
           this.setState({
             questionWritable: false,
             btn2Content: '编辑我的回答',
@@ -165,7 +164,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     const renderQuestion = () => {
       // if(!id) return
       // 是否已关注状态
-      let tag = question.follow
+      let tag = question.follow;
       let btn1Content = tag ? '已关注' : '关注'
       const changeBtn1Content = () => {
         if(mine) {
@@ -186,7 +185,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return (
         <div className="ques-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
-          <div className="ques-content" ref="quesContent">{splitText(description, 68)}</div>
+          <div className="ques-content" ref="quesContent" dangerouslySetInnerHTML={{__html:splitText(description, 68)}}></div>
           <DialogBottomBtn
             leftContent={description.length > 68 ? `展开` : false}
             leftContentFunc={this.handleClickExpandQuestion.bind(this, description)}
@@ -204,7 +203,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
 
     const renderAnswerTips = () => {
-      if(questionWritable) return
+      if(questionWritable) return;
       return (
         <div className="answer-tips">
           <span>该问题还没有答案，你可以</span>
@@ -215,8 +214,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
 
     const renderAnswers = () => {
-      if(!answerList) return
-      if(questionWritable) return
+      if(!answerList) return;
+      if(questionWritable) return;
       return (
         <div className="answer-list">
           {
@@ -243,9 +242,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               const expandComment = (idx) => {
                 let commentNode = this.refs[`ansComment${idx}`]
                 if(isExpand) {
-                  commentNode.innerText = splitText(answer, 69)
+                  commentNode.innerHtml = splitText(answer, 68);
                 } else {
-                  commentNode.innerText = answer
+                  commentNode.innerHtml = answer
                 }
                 isExpand = !isExpand
                 return isExpand ? "收起" : "展开"
@@ -254,9 +253,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               return (
                 <div className="answer-desc" key={idx}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-                  <div className="answer-content" ref={`ansComment${idx}`}>{splitText(answer, 69)}</div>
+                  <div className="answer-content" ref={`ansComment${idx}`} dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}></div>
                   <DialogBottomIcon
-                    leftContent={answer.length > 69 ? `展开` : false} leftContentFunc={() => expandComment(idx)}
+                    leftContent={removeHtmlTags(answer).length > 68 ? `展开` : false} leftContentFunc={() => expandComment(idx)}
                     btn1ImgUrl={comment} btn1Content={commentCount}
                     btn1ContentFunc={this.handleClickGoAnswerCommentPage.bind(this, answerItem.id)}
                     btn2ImgUrl={btn2ImgUrl} btn2Content={approvalCount} btn2ContentFunc={changeBtn2ImgUrl}
@@ -271,7 +270,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
 
     const renderAnswerWriteBox = () => {
-      if(!questionWritable) return
+      if(!questionWritable) return;
       return (
         <div className="answer-editor">
           <Editor

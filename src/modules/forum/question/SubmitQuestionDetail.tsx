@@ -59,7 +59,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         const {title, selectedTagList} = this.state;
         const detail = this.refs.editor.getValue();
         let tagIds = [];
-        const {dispatch} = this.props;
+        const {dispatch, location} = this.props;
         if(!title){
             dispatch(alertMsg('请填写问题标题'));
             return;
@@ -85,7 +85,12 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         submitQuestion({topic:title, description:detail, tagIds}).then(res=>{
             dispatch(endLoad());
             if(res.code === 200){
-                this.context.router.push('/forum/static/question');
+                const {questionId} = location.query;
+                if(questionId){
+                    this.context.router.goBack();
+                }else{
+                    this.context.router.push('/forum/static/question');
+                }
             }else{
                 dispatch(alertMsg(res.msg));
             }

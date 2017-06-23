@@ -106,6 +106,12 @@ export function NumberToChinese(num){
 // 字符串截取方法
 export function splitText(text: string, length: number) {
   if(text) {
-    return text.length <= length ? text : text.slice(0, length) + '...'
+    let cleanText = removeHtmlTags(text);
+    return cleanText.length <= length ? text : cleanText.slice(0, length) + '...'
   }
+}
+
+export function removeHtmlTags(str) {
+    str = str.replace(/<[^>]+>/g,"");
+    return str
 }
