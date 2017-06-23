@@ -7,7 +7,7 @@ import Discuss from "../../practice/components/Discuss";
 import { splitText, removeHtmlTags } from "../../../utils/helpers";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from "react-weui";
-const {Alert} = Dialog;
+const { Alert } = Dialog;
 
 interface AnswerCommentState {
   answerInfo: object;
@@ -75,11 +75,12 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     dispatch(startLoad())
     commentAnswer(answerId, comment, repliedCommentId).then(res => {
       dispatch(endLoad())
-      const {code, msg} = res
+      const { code, msg } = res
       if(code === 200) {
         commentlist.push(msg)
         this.setState({ commentlist }, () => {
           this.handleClickHideDiscussBox()
+          document.querySelector("#react-app").scrollTop = this.refs[`commentRef${msg.id}`].offsetTop
         })
       } else {
         dispatch(alertMsg(msg))
@@ -91,15 +92,15 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   commentAnswerDel() {
-    const {dispatch} = this.props;
-    const {commentId, idx} = this.state;
+    const { dispatch } = this.props;
+    const { commentId } = this.state;
     dispatch(startLoad())
     commentAnswerDel(commentId).then(res => {
       dispatch(endLoad());
-      this.setState({show:false});
-      const {code, msg} = res;
+      this.setState({ show: false });
+      const { code, msg } = res;
       if(code === 200) {
-        let removeNode = `commentRef${idx}`;
+        let removeNode = `commentRef${commentId}`;
         this.refs[removeNode].style.display = "None";
       } else {
         dispatch(alertMsg(msg))
@@ -114,18 +115,18 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   handleClickCommentAnswer(answerId) {
     this.setState(initDiscussBoxState, () => {
       this.setState({
-        placeholder: '回复 answer',
+        placeholder: '和答主互动一下吧~',
         showDiscussBox: true
       })
     })
   }
 
   // 回复答案的某一条评论
-  handleClickCommentReply(answerId, repliedCommentId) {
+  handleClickCommentReply(answerId, repliedCommentId, authorUserName) {
     this.setState(initDiscussBoxState, () => {
       this.setState({
         repliedCommentId: repliedCommentId,
-        placeholder: '回复 comment',
+        placeholder: `回复 ${authorUserName}：`,
         showDiscussBox: true
       })
     })
@@ -143,15 +144,15 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     })
   }
 
-  handleDelete(commentId, idx){
-    this.setState({commentId, show:true, idx})
+  handleDelete(commentId) {
+    this.setState({ commentId, show: true })
   }
 
   render() {
     const alertProps = {
       buttons: [
-        {label: '再想想', onClick: () => this.setState({show: false})},
-        {label: '确定', onClick: () => this.commentAnswerDel()}
+        { label: '再想想', onClick: () => this.setState({ show: false }) },
+        { label: '确定', onClick: () => this.commentAnswerDel() }
       ],
     }
 
@@ -227,13 +228,13 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
                 }
               }
               return (
-                <div className="ans-comment-desc" ref={`commentRef${idx}`}>
+                <div className="ans-comment-desc" ref={`commentRef${commentItem.id}`}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}
                               rightContent={mine ? `删除` : `回复`}
                               rightContentFunc={
                                 mine ?
-                                  this.handleDelete.bind(this, commentItem.id, idx)  :
-                                  this.handleClickCommentReply.bind(this, this.state.answerId, commentItem.id)
+                                  this.handleDelete.bind(this, commentItem.id) :
+                                  this.handleClickCommentReply.bind(this, this.state.answerId, commentItem.id, commentItem.authorUserName)
                               }/>
                   <div className="ans-comment-content">{comment}</div>
                   {renderRepliedComment()}
@@ -243,8 +244,8 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
           }
           <PullSlideTip isEnd={this.state.end}/>
           <Alert { ...alertProps }
-              show={show}>
-            <div className="global-pre" dangerouslySetInnerHTML={{__html: `确认要删除评论吗？`}}/>
+                 show={show}>
+            <div className="global-pre" dangerouslySetInnerHTML={{ __html: `确认要删除评论吗？` }}/>
           </Alert>
         </div>
       )
