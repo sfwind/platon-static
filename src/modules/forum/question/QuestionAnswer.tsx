@@ -118,9 +118,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   handleClickExpandQuestion(description) {
     let node = this.refs.quesContent;
     if(!isExpandQuestion) {
-      node.innerHtml = description;
+      node.innerHTML = description;
     } else {
-      node.innerHtml = splitText(description, 68);
+      node.innerHTML = splitText(description, 68);
     }
     isExpandQuestion = !isExpandQuestion;
     return isExpandQuestion ? "收起" : "展开"
@@ -272,9 +272,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               const expandComment = (idx) => {
                 let commentNode = this.refs[`ansComment${idx}`]
                 if(isExpand) {
-                  commentNode.innerHtml = splitText(answer, 68);
+                  commentNode.innerHTML = splitText(answer, 68);
                 } else {
-                  commentNode.innerHtml = answer
+                  commentNode.innerHTML = answer
                 }
                 isExpand = !isExpand
                 return isExpand ? "收起" : "展开"

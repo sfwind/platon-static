@@ -169,9 +169,9 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       const expandComment = () => {
         let node = this.refs.ansContent
         if(isExpand) {
-          node.innerHtml = splitText(answer, 68)
+          node.innerHTML = splitText(answer, 68)
         } else {
-          node.innerHtml = answer
+          node.innerHTML = answer
         }
         isExpand = !isExpand
         return isExpand ? "收起" : "展开"
