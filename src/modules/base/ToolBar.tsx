@@ -60,7 +60,7 @@ export class ToolBar extends React.Component<any,any> {
         }
       },
     ];
-    if(window.ENV.showForum){
+    if(window.ENV.showForum !== 'false'){
       tabs.push({
         key: 4,
         bar: {

@@ -50,6 +50,13 @@ export default class Question extends React.Component<any, QuestionStates> {
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
+        onPullUp: (data) => {
+          if(this.props.iNoBounce){
+            if(this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.disable();
+            }
+          }
+        },
         onPullUpEnd: () => {
           getAllQuestions(this.state.page + 1).then(res => {
             const { code, msg } = res
@@ -61,6 +68,11 @@ export default class Question extends React.Component<any, QuestionStates> {
               })
             }
           })
+          if(this.props.iNoBounce){
+            if(!this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.enable();
+            }
+          }
         }
       })
       this.pullElement.init();

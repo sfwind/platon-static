@@ -36,7 +36,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
                 dispatch(endLoad());
                 if(code === 200){
                     this.setState({title:msg.topic, detail:msg.description,
-                        selectedTagList: msg.questionTagList, length:msg.topic.length})
+                        selectedTagList: msg.forumTags, length:msg.topic.length})
                 }else{
                     dispatch(alertMsg(msg));
                 }
@@ -71,7 +71,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         if(!detail){
             dispatch(alertMsg('请填写问题描述'));
             return;
-        }else if(removeHtmlTags(detail.length)>1000){
+        }else if(removeHtmlTags(detail).length>1000){
             dispatch(alertMsg('问题描述不能超过1000个字哦'));
             return;
         }

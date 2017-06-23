@@ -115,7 +115,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   submitAnswer(questionId) {
     const answer = this.refs.editor.getValue();
     const { dispatch } = this.props;
-    if(removeHtmlTags(answer.length) > 10000) {
+    if(removeHtmlTags(answer).length > 10000) {
       dispatch(alertMsg('回答不能超过10000个字哦'));
       return;
     }
