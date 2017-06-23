@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import { ForumButton } from "../commons/ForumComponent";
 import {submitQuestion, getQuestion} from "../async"
 import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
+import { removeHtmlTags } from "../../../utils/helpers"
 import Editor from "../../../components/editor/Editor";
 import "./SubmitQuestionDetail.less"
 
@@ -70,7 +71,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         if(!detail){
             dispatch(alertMsg('请填写问题描述'));
             return;
-        }else if(detail.length>1000){
+        }else if(removeHtmlTags(detail.length)>1000){
             dispatch(alertMsg('问题描述不能超过1000个字哦'));
             return;
         }
