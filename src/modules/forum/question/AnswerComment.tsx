@@ -11,6 +11,7 @@ const { Alert } = Dialog;
 
 interface AnswerCommentState {
   answerInfo: object;
+  commentCount: number;
   // 评论列表
   commentlist: object;
   // 添加、回复评论
@@ -67,6 +68,10 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       dispatch(endLoad())
       dispatch(alertMsg(e))
     })
+  }
+
+  componentDidMount() {
+
   }
 
   commentAnswer() {

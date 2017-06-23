@@ -59,7 +59,7 @@ export default class Main extends React.Component<any, any> {
 	  // window.iNoBounce.disable();
 	  const { dispatch } = this.props;
 	  dispatch(set('iNoBounce',window.iNoBounce));
-    FastClick.attach(document.body);
+    // FastClick.attach(document.body);
   }
 
 	closeAnswer() {
