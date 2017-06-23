@@ -1,6 +1,6 @@
 import * as React from "react";
-
-import "./QuestionAnswer.less"
+import "./QuestionAnswer.less";
+import { connect } from "react-redux"
 import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButton } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import Editor from "../../../components/editor/Editor";
@@ -20,6 +20,7 @@ interface QuestionAnswerStates {
   selfAnswerContent: string;
 }
 let isExpandQuestion = false;
+@connect(state => state)
 export default class QuestionAnswer extends React.Component<any, QuestionAnswerStates> {
 
   constructor() {
@@ -40,32 +41,33 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   componentWillMount() {
-    const questionId = this.props.location.query.questionId;
+    const questionId = this.props.location.query.questionId
+    const { dispatch } = this.props
+    dispatch(startLoad())
     getQuestion(questionId).then(res => {
-      const question = res.msg;
-      let content = '';
-      if(question.answered) {
-        content = '编辑我的回答';
-      } else {
-        content = '回答';
-      }
-      res.msg.answerList.map((answerItem) => {
-        if(answerItem.mine) {
-          this.setState({ myAnswer: answerItem })
+      const { code, msg } = res
+      dispatch(endLoad())
+      if(code === 200) {
+        let content = '';
+        const question = msg
+        if(question.answered) {
+          content = '编辑我的回答';
+        } else {
+          content = '回答';
         }
-      })
-      this.setState({ question: res.msg, btn2Content: content, answerList: res.msg.answerList })
+        msg.answerList.map((answerItem) => {
+          if(answerItem.mine) {
+            this.setState({ myAnswer: answerItem })
+          }
+        })
+        this.setState({ question: res.msg, btn2Content: content, answerList: res.msg.answerList })
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
-  }
-
-  componentDidUpdate() {
-    let node = this.refs.answerTips
-    if(node) {
-      console.log(window.innerHeight)
-      console.log(node.offsetTop)
-      console.log('高度', window.innerHeight - node.offsetTop)
-      node.style.height = window.innerHeight - node.offsetTop
-    }
   }
 
   // 添加新的回答
@@ -104,6 +106,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
+  // 跳转到回答的评论页
   handleClickGoAnswerCommentPage(answerId) {
     this.context.router.push({
       pathname: "/forum/static/answer/comment",
@@ -111,17 +114,19 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
+  // 折叠或者展开答案
   handleClickExpandQuestion(description) {
     let node = this.refs.quesContent;
     if(!isExpandQuestion) {
-      node.innerHtml = description;
+      node.innerHTML = description
     } else {
-      node.innerHtml = splitText(description, 68);
+      node.innerHTML = splitText(description, 68)
     }
     isExpandQuestion = !isExpandQuestion;
     return isExpandQuestion ? "收起" : "展开"
   }
 
+  // 提交答案
   submitAnswer(questionId) {
     const answer = this.refs.editor.getValue();
     const { dispatch } = this.props;
@@ -130,20 +135,30 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return;
     }
     const { answerList, submitNewAnswer, myAnswer } = this.state
+    dispatch(startLoad())
     if(submitNewAnswer) {
       submitAnswer(questionId, answer).then(res => {
-        if(res.code === 200) {
+        dispatch(endLoad())
+        const { code, msg } = res
+        if(code === 200) {
           this.setState({
             questionWritable: false,
             btn2Content: '编辑我的回答',
-            answerList: answerList.concat(res.msg),
-            myAnswer: res.msg
+            answerList: answerList.concat(msg),
+            myAnswer: msg
           })
+        } else {
+          dispatch(alertMsg(msg))
         }
+      }).catch(e => {
+        dispatch(endLoad())
+        dispatch(alertMsg(e))
       })
     } else {
       submitAnswer(questionId, answer, myAnswer.id).then(res => {
-        if(res.code === 200) {
+        dispatch(endLoad)
+        const { code, msg } = res
+        if(code === 200) {
           let newAnswerList = [];
           answerList.map((answerItem, idx) => {
             if(!answerItem.mine) {
@@ -158,7 +173,12 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             answerList: newAnswerList,
             myAnswer: res.msg
           })
+        } else {
+          dispatch(alertMsg(msg))
         }
+      }).catch(e => {
+        dispatch(endLoad)
+        dispatch(alertMsg(e))
       })
     }
   }
@@ -172,8 +192,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     } = question;
 
     const renderQuestion = () => {
-      // if(!id) return
-      // 是否已关注状态
+      if(!id) return
       let tag = question.follow;
       let btn1Content = tag ? '已关注' : '关注'
       const changeBtn1Content = () => {
@@ -195,7 +214,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return (
         <div className="ques-desc" ref="quesDesc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
-          <div className="ques-content" ref="quesContent" dangerouslySetInnerHTML={{__html:splitText(description, 68)}}/>
+          <div className="ques-content" ref="quesContent"
+               dangerouslySetInnerHTML={{ __html: splitText(description, 68) }}/>
           <DialogBottomBtn
             leftContent={description.length > 68 ? `展开` : false}
             leftContentFunc={this.handleClickExpandQuestion.bind(this, description)}
@@ -252,9 +272,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               const expandComment = (idx) => {
                 let commentNode = this.refs[`ansComment${idx}`]
                 if(isExpand) {
-                  commentNode.innerHtml = splitText(answer, 68);
+                  commentNode.innerHTML = splitText(answer, 68);
                 } else {
-                  commentNode.innerHtml = answer
+                  commentNode.innerHTML = answer
                 }
                 isExpand = !isExpand
                 return isExpand ? "收起" : "展开"
@@ -263,9 +283,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               return (
                 <div className="answer-desc" key={idx}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-                  <div className="answer-content" ref={`ansComment${idx}`} dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}/>
+                  <div className="answer-content" ref={`ansComment${idx}`}
+                       dangerouslySetInnerHTML={{ __html: splitText(answer, 68) }}/>
                   <DialogBottomIcon
-                    leftContent={removeHtmlTags(answer).length > 68 ? `展开` : false} leftContentFunc={() => expandComment(idx)}
+                    leftContent={removeHtmlTags(answer).length > 68 ? `展开` : false}
+                    leftContentFunc={() => expandComment(idx)}
                     btn1ImgUrl={comment} btn1Content={commentCount}
                     btn1ContentFunc={this.handleClickGoAnswerCommentPage.bind(this, answerItem.id)}
                     btn2ImgUrl={btn2ImgUrl} btn2Content={approvalCount} btn2ContentFunc={changeBtn2ImgUrl}
@@ -284,36 +306,32 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return (
         <div className="answer-editor">
           <Editor
-            ref="editor"
-            moduleId="6"
-            maxLength="10000"
+            ref="editor" moduleId="6" maxLength="10000"
             defaultValue={this.state.myAnswer.answer}
             placeholder="写下该问题的答案呢（10000字以内）。"
+            uploadStart={() => {
+              this.props.dispatch(startLoad())
+            }}
+            uploadEnd={() => {
+              this.props.dispatch(endLoad())
+            }}
+            onUploadError={(res) => {
+              this.props.dispatch(alertMsg(res.msg))
+            }}
           />
           <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>
         </div>
       )
     }
 
-    // onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
-    // uploadStart={()=>{this.props.dispatch(startLoad())}}
-    // uploadEnd={()=>{this.props.dispatch(endLoad())}}
-
-
-    let node = document.querySelector(".answer-tips")
-    if(node) {
-      console.log(node.offsetParent)
-    }
-
     return (
       <div className="answer-container">
         <div className="answer-page">
-          <div style={{backgroundColor: "#FFF", padding: "15px 15px 0"}}>
+          <div style={{ backgroundColor: "#FFF", padding: "15px 15px 0" }}>
             <div className="answer-head-topic">{topic}</div>
             {renderQuestion()}
           </div>
           <div className="grey-banner" style={{ height: 10 }}/>
-          {/* 如果不存在任何评论，则展示 tips */}
           {
             answerList.length === 0 ?
               renderAnswerTips() :

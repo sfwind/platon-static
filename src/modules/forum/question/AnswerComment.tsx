@@ -1,10 +1,11 @@
 import * as React from "react";
-
+import { connect } from "react-redux"
 import "./AnswerComment.less"
 import { HeadArea, DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import Discuss from "../../practice/components/Discuss";
-import {splitText, removeHtmlTags} from "../../../utils/helpers";
+import { splitText, removeHtmlTags } from "../../../utils/helpers";
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
 interface AnswerCommentState {
   answerInfo: object;
@@ -28,6 +29,7 @@ const initDiscussBoxState = {
   placeholder: '',
   showDiscussBox: false
 }
+@connect(state => state)
 export default class AnswerComment extends React.Component<any, AnswerCommentState> {
 
   constructor() {
@@ -47,32 +49,59 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
   componentWillMount() {
     const answerId = this.props.location.query.answerId
+    const { dispatch } = this.props
     this.setState({ answerId: answerId })
+    dispatch(startLoad())
     getAnswer(answerId).then(res => {
-      if(res.code === 200) {
+      dispatch(endLoad())
+      const { code, msg } = res
+      if(code === 200) {
         this.setState({ answerInfo: res.msg, commentlist: res.msg.comments })
+      } else {
+        dispatch(alertMsg(msg))
       }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
   }
 
   commentAnswer() {
     const { commentlist, answerId, comment, repliedCommentId } = this.state
+    const { dispatch } = this.props
+    dispatch(startLoad())
     commentAnswer(answerId, comment, repliedCommentId).then(res => {
-      if(res.code === 200) {
-        commentlist.push(res.msg)
+      dispatch(endLoad())
+      const {code, msg} = res
+      if(code === 200) {
+        commentlist.push(msg)
         this.setState({ commentlist }, () => {
           this.handleClickHideDiscussBox()
         })
+      } else {
+        dispatch(alertMsg(msg))
       }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
   }
 
   commentAnswerDel(commentId, idx) {
+    const {dispatch} = this.props
+    dispatch(startLoad())
     commentAnswerDel(commentId).then(res => {
-      if(res.code === 200) {
+      dispatch(endLoad())
+      const {code, msg} = res
+      if(code === 200) {
         let removeNode = `commentRef${idx}`
         this.refs[removeNode].style.display = "None"
+      } else {
+        dispatch(alertMsg(msg))
       }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
   }
 
@@ -140,9 +169,9 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       const expandComment = () => {
         let node = this.refs.ansContent
         if(isExpand) {
-          node.innerHtml = splitText(answer, 68)
+          node.innerHTML = splitText(answer, 68)
         } else {
-          node.innerHtml = answer
+          node.innerHTML = answer
         }
         isExpand = !isExpand
         return isExpand ? "收起" : "展开"
@@ -150,7 +179,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       return (
         <div className="ans-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-          <div className="ans-content" ref='ansContent' dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}/>
+          <div className="ans-content" ref='ansContent' dangerouslySetInnerHTML={{ __html: splitText(answer, 68) }}/>
           <DialogBottomIcon
             leftContent={removeHtmlTags(answer).length > 68 ? '展开' : false} leftContentFunc={expandComment}
             btn1ImgUrl={comment} btn1Content={commentCount}
