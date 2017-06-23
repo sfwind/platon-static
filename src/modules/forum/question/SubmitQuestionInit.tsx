@@ -120,7 +120,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                 this.setState({data: msg.list,
                     index: 1, end: msg.end});
                 if(msg.end===true){
-                    if(!this.pullElement){
+                    if(this.pullElement){
                         this.pullElement.disable();
                     }
                 }
@@ -174,7 +174,8 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                 <div className="tag-line">
                     {tagLineList.map((tag, idx)=>{
                         return (
-                            <div className={`${tag.selected? 'tag-selected': 'tag'}`}  key={idx} onClick={()=>this.onClick(tag)}>
+                            <div className={`${tag.selected? 'tag-selected': 'tag'}`}
+                                 key={idx} onClick={()=>this.onClick(tag)}>
                                 {tag.name}
                             </div>
                         )
