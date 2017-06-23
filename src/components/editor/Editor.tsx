@@ -101,6 +101,7 @@ export default class Editor extends React.Component<any,any>{
   componentWillReceiveProps(nextProps){
     if(nextProps.defaultValue && !this.props.defaultValue){
       this.state.editor.setValue(nextProps.defaultValue);
+      this.calcValue(nextProps.defaultValue);
     }
   }
 

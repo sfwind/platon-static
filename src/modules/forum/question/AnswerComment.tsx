@@ -4,7 +4,7 @@ import "./AnswerComment.less"
 import { HeadArea, DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import Discuss from "../../practice/components/Discuss";
-import {splitText} from "../../../utils/helpers";
+import {splitText, removeHtmlTags} from "../../../utils/helpers";
 
 interface AnswerCommentState {
   answerInfo: object;
@@ -134,15 +134,15 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
           approveAnswer(id)
         }
         tag = !tag
-        return tag ? unvote : voted
+        return tag ? voted : unvote
       }
       let isExpand = false
       const expandComment = () => {
         let node = this.refs.ansContent
         if(isExpand) {
-          node.innerText = splitText(answer, 68)
+          node.innerHtml = splitText(answer, 68)
         } else {
-          node.innerText = answer
+          node.innerHtml = answer
         }
         isExpand = !isExpand
         return isExpand ? "收起" : "展开"
@@ -150,9 +150,9 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       return (
         <div className="ans-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-          <div className="ans-content" ref='ansContent'>{splitText(answer, 68)}</div>
+          <div className="ans-content" ref='ansContent' dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}/>
           <DialogBottomIcon
-            leftContent={answer.length > 68 ? '展开' : false} leftContentFunc={expandComment}
+            leftContent={removeHtmlTags(answer).length > 68 ? '展开' : false} leftContentFunc={expandComment}
             btn1ImgUrl={comment} btn1Content={commentCount}
             btn1ContentFunc={this.handleClickCommentAnswer.bind(this, this.state.answerId)}
             btn2ImgUrl={btn2ImgUrl} btn2Content={approvalCount} btn2ContentFunc={changeBtn2ImgUrl}

@@ -3,7 +3,7 @@ import PullElement from 'pull-element';
 import { ToolBar } from "../../base/ToolBar";
 import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions } from "../async";
-import { splitText } from "../../../utils/helpers"
+import { splitText ,removeHtmlTags} from "../../../utils/helpers"
 
 import "./Question.less";
 
@@ -49,6 +49,13 @@ export default class Question extends React.Component<any, QuestionStates> {
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
+        onPullUp: (data) => {
+          if(this.props.iNoBounce){
+            if(this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.disable();
+            }
+          }
+        },
         onPullUpEnd: () => {
           getAllQuestions(this.state.page + 1).then(res => {
             const { code, msg } = res
@@ -60,6 +67,11 @@ export default class Question extends React.Component<any, QuestionStates> {
               })
             }
           })
+          if(this.props.iNoBounce){
+            if(!this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.enable();
+            }
+          }
         }
       })
       this.pullElement.init();
@@ -124,9 +136,9 @@ export default class Question extends React.Component<any, QuestionStates> {
                       leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
                       disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
                     />
-                    <div className="ques-title" onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(topic, 38)}</div>
+                    <div className="ques-title" onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
                     <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                      {splitText(description, 20)}
+                      {splitText(removeHtmlTags(description), 20)}
                     </div>
                     <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
                       {answerTips}

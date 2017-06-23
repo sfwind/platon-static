@@ -110,7 +110,7 @@ router.get("/forum/question/load/*", (req, res) => {
             "msg": {
               "id": 7,
               "topic": "测22222试",
-              "description": "描述up2222date",
+              "description": "<img src=\"https://static.iqycamp.com/question-20170623111730-t7dzo9akm-.png\" style=\"max-width:90%\"><br>这个是内容",
               "profileId": null,
               "followCount": 2,
               "openCount": 118,

@@ -77,6 +77,8 @@ const routes = (
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
+      <Route path="message/question/answer" component={QuestionAnswer}/>
+      <Route path="message/answer/comment" component={AnswerComment}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="profile" component={Profile}/>

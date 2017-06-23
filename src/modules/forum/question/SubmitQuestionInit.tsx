@@ -66,12 +66,13 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
         target: '.question-init-container',
         scroller: '.question-init-container',
         damping: 4,
-        // onPullUp: (data) => {
-        //   if (data.translateY <= -40){
-        //   } else {
-        //     this.setState({opacity:(-data.translateY)/40});
-        //   }
-        // },
+        onPullUp: (data) => {
+          if(this.props.iNoBounce){
+            if(this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.disable();
+            }
+          }
+        },
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUpEnd: (data) => {
@@ -98,6 +99,11 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
           }).catch(ex => {
             dispatch(alertMsg(ex));
           });
+          if(this.props.iNoBounce){
+            if(!this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.enable();
+            }
+          }
         }
       })
       this.pullElement.init();
