@@ -134,7 +134,7 @@ export default class Question extends React.Component<any, QuestionStates> {
                       leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
                       disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
                     />
-                    <div className="ques-title">{splitText(topic, 38)}</div>
+                    <div className="ques-title" onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(topic, 38)}</div>
                     <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
                       {splitText(description, 20)}
                     </div>
