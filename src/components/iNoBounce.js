@@ -11,7 +11,6 @@ export default function(global) {
   var handleTouchmove = function(evt) {
     // Get the element that was scrolled upon
     var el = evt.target;
-    console.log(el)
 
     // Check all parent elements for scrollability
     while (el !== document.body) {
@@ -61,7 +60,6 @@ export default function(global) {
       // Test the next parent
       el = el.parentNode;
     }
-    console.log('no parent are scrollable');
     // Stop the bouncing -- no parents are scrollable
     // evt.preventDefault();
   };
@@ -99,7 +97,6 @@ export default function(global) {
   document.documentElement.removeChild(testDiv);
 
   if (scrollSupport) {
-    console.log('支持');
     enable();
   }
 

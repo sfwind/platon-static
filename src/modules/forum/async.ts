@@ -40,7 +40,6 @@ export function getAnswer(answerId) {
 // 新增答案，则第三个参数不用传递
 // 修改答案，传递第三个修改 answerId
 export function submitAnswer(questionId, answer, answerId?) {
-  console.log('答案提交参数', questionId, answer, answerId)
   return ppost(`/forum/answer/submit`, { questionId, answer, answerId })
 }
 

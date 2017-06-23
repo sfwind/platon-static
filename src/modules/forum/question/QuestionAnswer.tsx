@@ -6,7 +6,6 @@ import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submit
 import Editor from "../../../components/editor/Editor";
 import { splitText, removeHtmlTags } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import AssetImg from "../../../components/AssetImg";
 
 interface QuestionAnswerStates {
   question: object;
