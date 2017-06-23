@@ -70,8 +70,8 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         if(!detail){
             dispatch(alertMsg('请填写问题描述'));
             return;
-        }else if(detail.length>500){
-            dispatch(alertMsg('问题描述不能超过500个字哦'));
+        }else if(detail.length>1000){
+            dispatch(alertMsg('问题描述不能超过1000个字哦'));
             return;
         }
 
@@ -82,23 +82,34 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         }
 
         dispatch(startLoad());
-        submitQuestion({topic:title, description:detail, tagIds}).then(res=>{
-            dispatch(endLoad());
-            if(res.code === 200){
-                const {questionId} = location.query;
-                if(questionId){
-                    this.context.router.goBack();
-                }else{
-                    this.context.router.push('/forum/static/question');
+        const {questionId} = location.query;
+        if(questionId){
+            submitQuestion({topic:title, description:detail, tagIds, questionId}).then(res=>{
+                    dispatch(endLoad());
+                    if(res.code === 200){
+                        this.context.router.goBack();
+                    }else{
+                        dispatch(alertMsg(res.msg));
+                    }
                 }
-            }else{
-                dispatch(alertMsg(res.msg));
-            }
-          }
-        ).catch(ex => {
-            dispatch(endLoad());
-            dispatch(alertMsg(ex));
-        });
+            ).catch(ex => {
+                dispatch(endLoad());
+                dispatch(alertMsg(ex));
+            });
+        }else{
+            submitQuestion({topic:title, description:detail, tagIds}).then(res=>{
+                    dispatch(endLoad());
+                    if(res.code === 200){
+                        this.context.router.push('/forum/static/question');
+                    }else{
+                        dispatch(alertMsg(res.msg));
+                    }
+                }
+            ).catch(ex => {
+                dispatch(endLoad());
+                dispatch(alertMsg(ex));
+            });
+        }
     }
 
     writeTitle(e){
