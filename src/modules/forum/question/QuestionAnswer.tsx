@@ -6,7 +6,7 @@ import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submit
 import Editor from "../../../components/editor/Editor";
 import { splitText } from "../../../utils/helpers"
 import { answer } from "../../practice/warmup/async";
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
 interface QuestionAnswerStates {
   question: object;
@@ -87,6 +87,14 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
+  // 自己的提问，跳转问题修改页
+  handleCLickGoQuestionSubmitPage(questionId) {
+    this.context.router.push({
+      pathname: "/forum/static/question/detail",
+      query: { questionId }
+    })
+  }
+
   handleClickGoAnswerCommentPage(answerId) {
     this.context.router.push({
       pathname: "/forum/static/answer/comment",
@@ -107,8 +115,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
   submitAnswer(questionId) {
     const answer = this.refs.editor.getValue();
-    const {dispatch} = this.props;
-    if(answer.length>10000){
+    const { dispatch } = this.props;
+    if(answer.length > 10000) {
       dispatch(alertMsg('回答不能超过10000个字哦'));
       return;
     }
@@ -131,11 +139,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           answerList.map((answerItem, idx) => {
             if(!answerItem.mine) {
               newAnswerList.push(answerItem)
-            } else{
+            } else {
               newAnswerList.push(res.msg)
             }
           })
-          console.log('new answerlist', newAnswerList)
           this.setState({
             questionWritable: false,
             btn2Content: '编辑我的回答',
@@ -156,6 +163,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     } = question;
 
     const renderQuestion = () => {
+      // if(!id) return
       // 是否已关注状态
       let tag = question.follow
       let btn1Content = tag ? '已关注' : '关注'
@@ -182,9 +190,6 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         }
       }
 
-      let btn2ContentTag = answered
-      let initBtn2Content = answered ? `编辑我的回答` : `回答`
-
       return (
         <div className="ques-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
@@ -192,10 +197,14 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <DialogBottomBtn
             leftContent={description.length > 68 ? `展开` : false}
             leftContentFunc={this.handleClickExpandQuestion.bind(this, description)}
-            btn1Content={btn1Content} btn1DisableValue={`已关注`}
+            btn1Content={mine ? null : btn1Content} btn1DisableValue={`已关注`}
             btn1ContentFunc={changeBtn1Content}
-            btn2Content={btn2Content} btn2DisableValue={`回答`}
-            btn2ContentFunc={answered ? this.handleClickEditSelfAnswer.bind(this) : this.handleClickAddNewAnswer.bind(this)}
+            btn2Content={mine ? '编辑我的问题' : btn2Content} btn2DisableValue={`回答`}
+            btn2ContentFunc={
+              mine ?
+                this.handleCLickGoQuestionSubmitPage.bind(this, question.id) :
+                answered ? this.handleClickEditSelfAnswer.bind(this) : this.handleClickAddNewAnswer.bind(this)
+            }
           />
         </div>
       )
@@ -220,7 +229,6 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           {
             answerList.map((answerItem, idx) => {
               const { answer = '', approval, approvalCount, authorHeadPic, authorUserName, commentCount, id, publishTimeStr } = answerItem
-              console.log(answerItem)
               let tag = approval
               let comment = 'https://static.iqycamp.com/images/fragment/comment.png?imageslim'
               let unvote = 'https://static.iqycamp.com/images/fragment/unvote.png?imageslim'

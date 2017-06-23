@@ -36,17 +36,23 @@ export default class DialogBottomBtn extends React.Component<DialogBottomProps, 
     }
   }
 
-  componentWillReceiveProps(newProps){
-    if(newProps.btn2Content!==this.state.changeBtn2Content){
-      this.setState({changeBtn2Content:newProps.btn2Content})
+  componentWillReceiveProps(newProps) {
+    if(newProps.btn1Content !== this.state.changeBtn1Content) {
+      this.setState({ changeBtn1Content: newProps.btn1Content })
+    }
+    if(newProps.btn2Content !== this.state.changeBtn2Content) {
+      this.setState({ changeBtn2Content: newProps.btn2Content })
     }
   }
 
   render() {
     const {
-      leftContent, leftContentFunc = () => {},
-      btn1DisableValue = '', btn1Content, btn1ContentFunc = () => {},
-      btn2DisableValue = '', btn2Content, btn2ContentFunc = () => {}
+      leftContent, leftContentFunc = () => {
+      },
+      btn1DisableValue = '', btn1Content, btn1ContentFunc = () => {
+      },
+      btn2DisableValue = '', btn2Content, btn2ContentFunc = () => {
+      }
     } = this.props;
     const { changeLeftContent, changeBtn1Content, changeBtn2Content } = this.state;
 

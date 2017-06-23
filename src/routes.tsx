@@ -45,7 +45,6 @@ import AnswerComment from "./modules/forum/question/AnswerComment";
 import ForumQuestion from "./modules/customer/ForumQuestion";
 import SubmitQuestionInit from "./modules/forum/question/SubmitQuestionInit";
 import SubmitQuestionDetail from "./modules/forum/question/SubmitQuestionDetail";
-import SubmitAnswer from "./modules/forum/question/SubmitAnswer";
 
 const routes = (
   <Route >
@@ -97,7 +96,6 @@ const routes = (
       <Route component={ForumBase}>
         <Route path="/forum/static/question" component={Question}/>
         <Route path="/forum/static/answer" component={QuestionAnswer}/>
-        <Route path="/forum/static/answer/submit" component={SubmitAnswer}/>
         <Route path="/forum/static/answer/comment" component={AnswerComment}/>
         <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
