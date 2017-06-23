@@ -241,7 +241,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     }
 
     return (
-      <div className="question-init-container">
+      <div className="question-init-container" style={{height: window.innerHeight + 1 }}>
         <div className="question-page">
           <div className="page-title">
             选择问题标签
