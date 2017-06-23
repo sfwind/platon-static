@@ -10,6 +10,7 @@ const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 let iNoBounce = require('../../components/iNoBounce.js')
 const { Alert } = Dialog
+var FastClick = require('fastclick');
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -58,6 +59,7 @@ export default class Main extends React.Component<any, any> {
 	  // window.iNoBounce.disable();
 	  const { dispatch } = this.props;
 	  dispatch(set('iNoBounce',window.iNoBounce));
+    FastClick.attach(document.body);
   }
 
 	closeAnswer() {
