@@ -95,12 +95,12 @@ const routes = (
       <Route path="event/wall" component={EventWall}/>
 
       <Route component={ForumBase}>
-        <Route path="/forum/question" component={Question}/>
-        <Route path="/forum/answer" component={QuestionAnswer}/>
-        <Route path="/forum/answer/submit" component={SubmitAnswer}/>
-        <Route path="/forum/answer/comment" component={AnswerComment}/>
-        <Route path="/forum/question/init" component={SubmitQuestionInit}/>
-        <Route path="/forum/question/detail" component={SubmitQuestionDetail}/>
+        <Route path="/forum/static/question" component={Question}/>
+        <Route path="/forum/static/answer" component={QuestionAnswer}/>
+        <Route path="/forum/static/answer/submit" component={SubmitAnswer}/>
+        <Route path="/forum/static/answer/comment" component={AnswerComment}/>
+        <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
+        <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
     </Route>
 
