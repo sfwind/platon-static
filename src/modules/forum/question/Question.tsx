@@ -44,8 +44,9 @@ export default class Question extends React.Component<any, QuestionStates> {
   componentDidUpdate() {
     if(!this.pullElement) {
       this.pullElement = new PullElement({
-        target: '.question-container',
-        scroller: '.question-container',
+        target: '.question-page',
+        scroller: '.question-page',
+        // trigger: '.pull-slide-tips',
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
@@ -65,8 +66,11 @@ export default class Question extends React.Component<any, QuestionStates> {
       this.pullElement.init();
     }
     if(this.pullElement && this.state.end) {
-      this.pullElement.disable();
+      this.pullElement.destroy();
     }
+  }
+
+  componentDidMount() {
   }
 
   handleClickGoQuestionInitPage() {
@@ -144,7 +148,7 @@ export default class Question extends React.Component<any, QuestionStates> {
     return (
       <div className="question-container">
         <div className="question-feedback"><span>意见反馈&nbsp;&gt;</span></div>
-        <div className="question-page">
+        <div className="question-page" style={{height: window.innerHeight - 26 - 50}}>
           <div className="ques-nav">
             <div className="ques-nav-desc">看完还是没有解决你的疑问？点这里提问吧</div>
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>去提问</div>
