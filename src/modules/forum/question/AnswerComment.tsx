@@ -134,7 +134,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
           approveAnswer(id)
         }
         tag = !tag
-        return tag ? unvote : voted
+        return tag ? voted : unvote
       }
       let isExpand = false
       const expandComment = () => {
@@ -150,8 +150,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       return (
         <div className="ans-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-          <div className="ans-content" ref='ansContent'
-               dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}></div>
+          <div className="ans-content" ref='ansContent' dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}/>
           <DialogBottomIcon
             leftContent={removeHtmlTags(answer).length > 68 ? '展开' : false} leftContentFunc={expandComment}
             btn1ImgUrl={comment} btn1Content={commentCount}

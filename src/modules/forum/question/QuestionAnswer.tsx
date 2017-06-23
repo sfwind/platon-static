@@ -185,7 +185,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return (
         <div className="ques-desc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
-          <div className="ques-content" ref="quesContent" dangerouslySetInnerHTML={{__html:splitText(description, 68)}}></div>
+          <div className="ques-content" ref="quesContent" dangerouslySetInnerHTML={{__html:splitText(description, 68)}}/>
           <DialogBottomBtn
             leftContent={description.length > 68 ? `展开` : false}
             leftContentFunc={this.handleClickExpandQuestion.bind(this, description)}
@@ -235,7 +235,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
                   approveAnswer(id)
                 }
                 tag = !tag
-                return tag ? unvote : voted
+                return tag ? voted : unvote
               }
 
               let isExpand = false
@@ -253,7 +253,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               return (
                 <div className="answer-desc" key={idx}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-                  <div className="answer-content" ref={`ansComment${idx}`} dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}></div>
+                  <div className="answer-content" ref={`ansComment${idx}`} dangerouslySetInnerHTML={{__html:splitText(answer, 68)}}/>
                   <DialogBottomIcon
                     leftContent={removeHtmlTags(answer).length > 68 ? `展开` : false} leftContentFunc={() => expandComment(idx)}
                     btn1ImgUrl={comment} btn1Content={commentCount}
