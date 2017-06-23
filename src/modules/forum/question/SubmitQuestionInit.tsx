@@ -26,6 +26,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    console.log(this.props)
     const { dispatch, location } = this.props;
     const { tagId } = location.query;
     dispatch(startLoad());
