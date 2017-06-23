@@ -21,7 +21,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
             tagList:[],
             index:1,
             end:true,
-        }
+        };
         this.pullElement = null;
     }
 
@@ -58,7 +58,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
 
     componentDidUpdate(preProps,preState){
         const {dispatch, location} = this.props;
-        const {data = []} = this.state
+        const {data = []} = this.state;
         if(data.length>0 && !this.pullElement){
             // 有内容并且米有pullElement
             const {dispatch} = this.props;
@@ -120,7 +120,9 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                 this.setState({data: msg.list,
                     index: 1, end: msg.end});
                 if(msg.end===true){
-                    this.pullElement.disable();
+                    if(!this.pullElement){
+                        this.pullElement.disable();
+                    }
                 }
             } else {
                 dispatch(alertMsg(msg));
