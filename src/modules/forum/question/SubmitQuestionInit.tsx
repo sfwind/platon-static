@@ -165,6 +165,10 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       dispatch(alertMsg('请先选择问题标签'));
       return;
     }
+    if(selectedTagList.length > 3) {
+      dispatch(alertMsg('最多选择 3 个问题标签'));
+      return;
+    }
     dispatch(set('selectedTagList', selectedTagList));
     this.context.router.push('/forum/static/question/detail');
   }
