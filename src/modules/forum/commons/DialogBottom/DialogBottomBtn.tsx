@@ -37,6 +37,7 @@ export default class DialogBottomBtn extends React.Component<DialogBottomProps, 
   }
 
   componentWillReceiveProps(newProps) {
+    console.log(newProps.btn1Content)
     if(newProps.btn1Content !== this.state.changeBtn1Content) {
       this.setState({ changeBtn1Content: newProps.btn1Content })
     }

@@ -65,7 +65,7 @@ export default class DialogBottomIcon extends React.Component<DialogBottomProps,
       if(renderBtn1) {
         return (
           <div className="dialog-bottom-btnarea-1">
-            <div onClick={() => btn1ContentFunc()}><AssetImg url={btn1ImgUrl} size={16}/></div>
+            <div onClick={() => btn1ContentFunc()}><AssetImg url={btn1ImgUrl} size={20}/></div>
             <div className="btn1-right-content" onClick={() => btn1ContentFunc()}>{btn1Content}</div>
           </div>
         )
@@ -85,7 +85,7 @@ export default class DialogBottomIcon extends React.Component<DialogBottomProps,
       if(renderBtn2) {
         return (
           <div className="dialog-bottom-btnarea-2">
-            <div onClick={() => changeBtn2ImgUrlFunc()}><AssetImg url={changeBtn2ImgUrl} size={16}/></div>
+            <div onClick={() => changeBtn2ImgUrlFunc()}><AssetImg url={changeBtn2ImgUrl} size={20}/></div>
             <div className="btn2-right-content"
                  onClick={() => changeBtn2ImgUrlFunc()}>
               {changeBtn2Content}

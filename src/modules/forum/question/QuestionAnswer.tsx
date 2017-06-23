@@ -11,6 +11,7 @@ interface QuestionAnswerStates {
   question: object;
   // 弹出答案书写框
   questionWritable: boolean;
+  btn1Content: string;
   btn2Content: string;
   answerList: object;
   // 是否是新回答
@@ -18,6 +19,8 @@ interface QuestionAnswerStates {
   // 自己的答案
   myAnswer: object;
   selfAnswerContent: string;
+  // 提示高度
+  answerTipsHeight: number;
 }
 let isExpandQuestion = false;
 @connect(state => state)
@@ -28,11 +31,13 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     this.state = {
       question: {},
       questionWritable: false,
+      btn1Content: '',
       btn2Content: '',
       answerList: [],
       submitNewAnswer: false,
       myAnswer: {},
-      selfAnswerContent: ''
+      selfAnswerContent: '',
+      answerTipsHeight: '90'
     }
   }
 
@@ -48,19 +53,25 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       const { code, msg } = res
       dispatch(endLoad())
       if(code === 200) {
-        let content = '';
         const question = msg
-        if(question.answered) {
-          content = '编辑我的回答';
-        } else {
-          content = '回答';
-        }
         msg.answerList.map((answerItem) => {
           if(answerItem.mine) {
             this.setState({ myAnswer: answerItem })
           }
         })
-        this.setState({ question: res.msg, btn2Content: content, answerList: res.msg.answerList })
+        this.setState({
+          question: res.msg,
+          btn1Content: question.follow ? '已关注' : '关注',
+          btn2Content: question.answered ? '编辑我的回答' : '回答',
+          answerList: res.msg.answerList
+        }, () => {
+          let node = this.refs.quesDesc
+          if(node) {
+            const height = window.innerHeight - node.clientHeight - 70
+            console.log(`高度为${height}`)
+            this.setState({ answerTipsHeight: height })
+          }
+        })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -70,16 +81,13 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
+
   // 添加新的回答
   handleClickAddNewAnswer() {
-    let content = '';
-    if(this.state.questionWritable) {
-      content = '回答';
-    } else {
-      content = '取消回答';
-    }
     this.setState({
-      questionWritable: !this.state.questionWritable, btn2Content: content, submitNewAnswer: true
+      questionWritable: !this.state.questionWritable,
+      btn2Content: this.state.questionWritable ? '回答' : '取消回答',
+      submitNewAnswer: true
     })
   }
 
@@ -95,6 +103,22 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       questionWritable: !this.state.questionWritable,
       btn2Content: content, submitNewAnswer: false,
       selfAnswerContent: this.state.myAnswer.answer
+    })
+  }
+
+  // 关注
+  handleClickFollow(questionId) {
+    follow(questionId)
+    this.setState({
+      btn1Content: '已关注'
+    })
+  }
+
+  // 取消关注
+  handleClickFollowCancel(questionId) {
+    disFollow(questionId)
+    this.setState({
+      btn1Content: '关注'
     })
   }
 
@@ -156,7 +180,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       })
     } else {
       submitAnswer(questionId, answer, myAnswer.id).then(res => {
-        dispatch(endLoad)
+        dispatch(endLoad())
         const { code, msg } = res
         if(code === 200) {
           let newAnswerList = [];
@@ -177,39 +201,22 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           dispatch(alertMsg(msg))
         }
       }).catch(e => {
-        dispatch(endLoad)
+        dispatch(endLoad())
         dispatch(alertMsg(e))
       })
     }
   }
 
   render() {
-    const { question, questionWritable, btn2Content, answerList } = this.state;
+    const { question, questionWritable, btn1Content, btn2Content, answerList } = this.state
 
     const {
       addTimeStr, answerCount = 0, answered, authorHeadPic, authorUserName,
       description = '', followCount = 0, id, mine, topic
-    } = question;
+    } = question
 
     const renderQuestion = () => {
       if(!id) return
-      let tag = question.follow;
-      let btn1Content = tag ? '已关注' : '关注'
-      const changeBtn1Content = () => {
-        if(mine) {
-          return "编辑"
-        } else {
-          if(tag) {
-            // 已关注的情况，则调用取消关注接口
-            disFollow(question.id)
-          } else {
-            // 未关注的情况，则调用关注接口
-            follow(question.id)
-          }
-          tag = !tag
-          return tag ? '已关注' : '关注'
-        }
-      }
 
       return (
         <div className="ques-desc" ref="quesDesc">
@@ -217,10 +224,14 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <div className="ques-content" ref="quesContent"
                dangerouslySetInnerHTML={{ __html: splitText(description, 68) }}/>
           <DialogBottomBtn
-            leftContent={description.length > 68 ? `展开` : false}
+            leftContent={removeHtmlTags(description).length > 68 ? `展开` : false}
             leftContentFunc={this.handleClickExpandQuestion.bind(this, description)}
             btn1Content={mine ? null : btn1Content} btn1DisableValue={`已关注`}
-            btn1ContentFunc={changeBtn1Content}
+            btn1ContentFunc={
+              btn1Content === '已关注' ?
+                this.handleClickFollowCancel.bind(this, question.id) :
+                this.handleClickFollow.bind(this, question.id)
+            }
             btn2Content={mine ? '编辑我的问题' : btn2Content} btn2DisableValue={`回答`}
             btn2ContentFunc={
               mine ?
@@ -235,7 +246,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     const renderAnswerTips = () => {
       if(questionWritable) return;
       return (
-        <div className="answer-tips">
+        <div className="answer-tips" style={{ height: this.state.answerTipsHeight }}>
           <span>该问题还没有答案，你可以</span>
           <span>1.回答问题</span>
           <span>2.点击关注，有新的回答时会通知你</span>
@@ -327,10 +338,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     return (
       <div className="answer-container">
         <div className="answer-page">
-          <div style={{ backgroundColor: "#FFF", padding: "15px 15px 0" }}>
-            <div className="answer-head-topic">{topic}</div>
-            {renderQuestion()}
-          </div>
+          <div className="answer-head-topic">{topic}</div>
+          {renderQuestion()}
           <div className="grey-banner" style={{ height: 10 }}/>
           {
             answerList.length === 0 ?
