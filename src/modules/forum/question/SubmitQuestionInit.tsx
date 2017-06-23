@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { ForumButton, SimpleQuestion, PullSlideTip } from "../commons/ForumComponent";
-import { loadQuestionByTag, loadTag } from "./async"
+import { loadQuestionByTag, loadTag } from "../async"
 import PullElement from "pull-element";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./SubmitQuestionInit.less"
@@ -21,7 +21,8 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       tagList: [],
       index: 1,
       end: true,
-    }
+    };
+    this.pullElement = null;
   }
 
   componentWillMount() {
@@ -57,7 +58,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
 
   componentDidUpdate(preProps, preState) {
     const { dispatch, location } = this.props;
-    const { data = [] } = this.state
+    const { data = [] } = this.state;
     if(data.length > 0 && !this.pullElement) {
       // 有内容并且米有pullElement
       const { dispatch } = this.props;
@@ -123,7 +124,9 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
           index: 1, end: msg.end
         });
         if(msg.end === true) {
-          this.pullElement.disable();
+          if(this.pullElement) {
+            this.pullElement.disable();
+          }
         }
       } else {
         dispatch(alertMsg(msg));
@@ -177,7 +180,8 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
         <div className="tag-line">
           {tagLineList.map((tag, idx) => {
             return (
-              <div className={`${tag.selected ? 'tag-selected' : 'tag'}`} key={idx} onClick={() => this.onClick(tag)}>
+              <div className={`${tag.selected ? 'tag-selected' : 'tag'}`}
+                   key={idx} onClick={() => this.onClick(tag)}>
                 {tag.name}
               </div>
             )
