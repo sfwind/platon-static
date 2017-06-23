@@ -11,6 +11,7 @@ const { Alert } = Dialog;
 
 interface AnswerCommentState {
   answerInfo: object;
+  // 评论数
   commentCount: number;
   // 评论列表
   commentlist: object;
@@ -60,7 +61,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        this.setState({ answerInfo: res.msg, commentlist: res.msg.comments })
+        this.setState({ answerInfo: res.msg, commentlist: res.msg.comments, commentCount: res.msg.comments.length })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -75,7 +76,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   commentAnswer() {
-    const { commentlist, answerId, comment, repliedCommentId } = this.state
+    const { commentCount, commentlist, answerId, comment, repliedCommentId } = this.state
     const { dispatch } = this.props
     dispatch(startLoad())
     commentAnswer(answerId, comment, repliedCommentId).then(res => {
@@ -83,7 +84,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       const { code, msg } = res
       if(code === 200) {
         commentlist.push(msg)
-        this.setState({ commentlist }, () => {
+        this.setState({ commentlist, commentCount: commentCount + 1 }, () => {
           this.handleClickHideDiscussBox()
           document.querySelector("#react-app").scrollTop = this.refs[`commentRef${msg.id}`].offsetTop
         })
@@ -98,11 +99,11 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
   commentAnswerDel() {
     const { dispatch } = this.props;
-    const { commentId } = this.state;
+    const { commentCount, commentId } = this.state;
     dispatch(startLoad())
     commentAnswerDel(commentId).then(res => {
       dispatch(endLoad());
-      this.setState({ show: false });
+      this.setState({ show: false , commentCount: commentCount - 1});
       const { code, msg } = res;
       if(code === 200) {
         let removeNode = `commentRef${commentId}`;
@@ -162,10 +163,10 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     }
 
     const {
-      answerInfo, commentlist, comment, placeholder, showDiscussBox, show
+      answerInfo, commentlist, commentCount, comment, placeholder, showDiscussBox, show
     } = this.state;
     const {
-      answer, approval, approvalCount, authorHeadPic, authorUserName, commentCount, comments,
+      answer, approval, approvalCount, authorHeadPic, authorUserName, comments,
       id, mine, publishTimeStr, questionId, topic
     } = answerInfo;
     const renderAnswer = () => {
