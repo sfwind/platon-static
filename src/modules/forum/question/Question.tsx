@@ -1,9 +1,12 @@
 import * as React from "react";
+import {connect} from "react-redux";
 import PullElement from 'pull-element';
 import { ToolBar } from "../../base/ToolBar";
 import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
-import { disFollow, follow, getAllQuestions } from "../async";
+import { disFollow, follow, getAllQuestions, getQuestion } from "../async";
 import { splitText ,removeHtmlTags} from "../../../utils/helpers"
+import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
+import _ from "lodash";
 
 import "./Question.less";
 
@@ -15,6 +18,8 @@ interface QuestionStates {
   // 是否已是最后一页
   end: boolean;
 }
+
+@connect(state => state)
 export default class Question extends React.Component<any, QuestionStates> {
 
   constructor() {
@@ -32,16 +37,43 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   componentWillMount() {
+    const {dispatch, location} = this.props;
+    const {questionId} = location.query;
+    let questions = [];
+    dispatch(startLoad());
+    if(questionId){
+      getQuestion(questionId).then(res=>{
+        if(res.code===200){
+          questions.push(res.msg);
+        }else{
+          dispatch(alertMsg(res.msg));
+        }
+      }).catch(e => {
+        dispatch(alertMsg(e));
+      })
+    }
+
     getAllQuestions().then(res => {
-      const { code, msg } = res
+      dispatch(endLoad());
+      const { code, msg } = res;
       if(code === 200) {
-        this.setState({ questions: msg.list })
+        if(questionId){
+          _.remove(res.msg.list, (item) => {
+            return item.id == questionId;
+          });
+        }
+        this.setState({ questions: questions.concat(msg.list) })
+      }else{
+        dispatch(alertMsg(res.msg));
       }
     }).catch(e => {
+      dispatch(alertMsg(e));
+      dispatch(endLoad());
     })
   }
 
   componentDidUpdate() {
+    const {dispatch, location} = this.props;
     if(!this.pullElement) {
       this.pullElement = new PullElement({
         target: '.question-page',
@@ -59,14 +91,23 @@ export default class Question extends React.Component<any, QuestionStates> {
         },
         onPullUpEnd: () => {
           getAllQuestions(this.state.page + 1).then(res => {
-            const { code, msg } = res
+            const { code, msg } = res;
+            const {questionId} = location.query;
             if(code === 200) {
+              if(questionId){
+                _.remove(res.msg.list, (item) => {
+                  return item.id == questionId;
+                });
+              }
               this.setState({
                 questions: this.state.questions.concat(msg.list),
                 page: this.state.page + 1,
                 end: msg.end
               })
             }
+          }).catch(e => {
+            dispatch(alertMsg(e));
+            dispatch(endLoad());
           })
           if(this.props.iNoBounce){
             if(!this.props.iNoBounce.isEnabled()){
