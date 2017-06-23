@@ -118,9 +118,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   handleClickExpandQuestion(description) {
     let node = this.refs.quesContent;
     if(!isExpandQuestion) {
-      node.dangerouslySetInnerHTML = description;
+      node.innerHTML = description
     } else {
-      node.dangerouslySetInnerHTML = splitText(description, 68);
+      node.innerHTML = splitText(description, 68)
     }
     isExpandQuestion = !isExpandQuestion;
     return isExpandQuestion ? "收起" : "展开"
@@ -272,9 +272,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               const expandComment = (idx) => {
                 let commentNode = this.refs[`ansComment${idx}`]
                 if(isExpand) {
-                  commentNode.dangerouslySetInnerHTML = splitText(answer, 68);
+                  commentNode.innerHTML = splitText(answer, 68);
                 } else {
-                  commentNode.dangerouslySetInnerHTML = answer
+                  commentNode.innerHTML = answer
                 }
                 isExpand = !isExpand
                 return isExpand ? "收起" : "展开"
@@ -309,9 +309,15 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             ref="editor" moduleId="6" maxLength="10000"
             defaultValue={this.state.myAnswer.answer}
             placeholder="写下该问题的答案呢（10000字以内）。"
-            uploadStart={() => {this.props.dispatch(startLoad())}}
-            uploadEnd={() => {this.props.dispatch(endLoad())}}
-            onUploadError={(res) => {this.props.dispatch(alertMsg(res.msg))}}
+            uploadStart={() => {
+              this.props.dispatch(startLoad())
+            }}
+            uploadEnd={() => {
+              this.props.dispatch(endLoad())
+            }}
+            onUploadError={(res) => {
+              this.props.dispatch(alertMsg(res.msg))
+            }}
           />
           <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>
         </div>
