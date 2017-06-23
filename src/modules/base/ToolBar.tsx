@@ -13,6 +13,7 @@ import {
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
 import {loadOldCount} from '../message/async'
+var FastClick = require('fastclick');
 
 const tabItems = {
   learn:{
@@ -118,6 +119,10 @@ export class ToolBar extends React.Component<any,any> {
     // }
   }
 
+  componentDidMount(){
+    FastClick.attach(document.querySelector('#tool_bar'));
+  }
+
   handleChangeTab(tabIndex){
     const {dispatch} = this.props;
     dispatch(set('tabIndex',tabIndex))
@@ -139,7 +144,7 @@ export class ToolBar extends React.Component<any,any> {
   render() {
     const {tabIndex = 0,noticeMsgCount} = this.props;
     return (
-      this.props.hidden?null:<TabBar>
+      this.props.hidden?null:<TabBar ref="toolBar" id={"tool_bar"}>
         {this.state.tabs.map((item, idx) => {
           const {bar} = item;
           if(item.key === 3){
