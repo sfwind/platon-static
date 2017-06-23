@@ -6,6 +6,8 @@ import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAn
 import Discuss from "../../practice/components/Discuss";
 import { splitText, removeHtmlTags } from "../../../utils/helpers";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { Dialog } from "react-weui";
+const {Alert} = Dialog;
 
 interface AnswerCommentState {
   answerInfo: object;
@@ -44,6 +46,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       placeholder: '',
       showDiscussBox: false,
       end: true,
+      show: false,
     }
   }
 
@@ -87,15 +90,17 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     })
   }
 
-  commentAnswerDel(commentId, idx) {
-    const {dispatch} = this.props
+  commentAnswerDel() {
+    const {dispatch} = this.props;
+    const {commentId, idx} = this.state;
     dispatch(startLoad())
     commentAnswerDel(commentId).then(res => {
-      dispatch(endLoad())
-      const {code, msg} = res
+      dispatch(endLoad());
+      this.setState({show:false});
+      const {code, msg} = res;
       if(code === 200) {
-        let removeNode = `commentRef${idx}`
-        this.refs[removeNode].style.display = "None"
+        let removeNode = `commentRef${idx}`;
+        this.refs[removeNode].style.display = "None";
       } else {
         dispatch(alertMsg(msg))
       }
@@ -138,15 +143,25 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     })
   }
 
+  handleDelete(commentId, idx){
+    this.setState({commentId, show:true, idx})
+  }
+
   render() {
+    const alertProps = {
+      buttons: [
+        {label: '再想想', onClick: () => this.setState({show: false})},
+        {label: '确定', onClick: () => this.commentAnswerDel()}
+      ],
+    }
+
     const {
-      answerInfo, commentlist, answerId, comment, repliedCommentId,
-      commentId, placeholder, showDiscussBox
-    } = this.state
+      answerInfo, commentlist, comment, placeholder, showDiscussBox, show
+    } = this.state;
     const {
       answer, approval, approvalCount, authorHeadPic, authorUserName, commentCount, comments,
       id, mine, publishTimeStr, questionId, topic
-    } = answerInfo
+    } = answerInfo;
     const renderAnswer = () => {
       if(!answer) return
       let tag = approval
@@ -217,7 +232,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
                               rightContent={mine ? `删除` : `回复`}
                               rightContentFunc={
                                 mine ?
-                                  this.commentAnswerDel.bind(this, commentItem.id, idx) :
+                                  this.handleDelete.bind(this, commentItem.id, idx)  :
                                   this.handleClickCommentReply.bind(this, this.state.answerId, commentItem.id)
                               }/>
                   <div className="ans-comment-content">{comment}</div>
@@ -227,6 +242,10 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
             })
           }
           <PullSlideTip isEnd={this.state.end}/>
+          <Alert { ...alertProps }
+              show={show}>
+            <div className="global-pre" dangerouslySetInnerHTML={{__html: `确认要删除评论吗？`}}/>
+          </Alert>
         </div>
       )
     }

@@ -135,6 +135,10 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
             if(this.pullElement) {
               this.pullElement.disable();
             }
+          }else{
+            if(this.pullElement) {
+              this.pullElement.enable();
+            }
           }
         } else {
           dispatch(alertMsg(msg));
