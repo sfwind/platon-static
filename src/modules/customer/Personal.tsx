@@ -72,7 +72,7 @@ export default class Personal extends React.Component<any,any>{
             <span>我的账户</span></div>
           {
             ron(
-              window.ENV.showForum,
+              window.ENV.showForum !== 'false',
               <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/forum/mine')}}><span>论坛</span></div>
             )
           }
