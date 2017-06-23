@@ -28,6 +28,7 @@
     }
     background-color: rgba(252,251,253,0.9) !important;;
     .weui_tabbar_item{
+      position: relative;
       &.tab_bar_count_3{
         width:~'calc(100% / 3)' !important;
       }
@@ -37,17 +38,34 @@
       &.tab_bar_count_5{
         width:~'calc(100% / 5)' !important;
       }
+      .bigger_icon{
+        border-radius: 50px;
+        /* border: 1px solid; */
+        box-shadow: 1px 2px 10px rgba(200,200,200,0.3);
+        width: 49px;
+        height: 49px;
+        margin: 0 auto;
+        position: absolute;
+        top: -25px;
+        background-color: #FFF;
+        left: 50%;
+        transform: translate(-50%,0);
+        .bigger_img{
+          margin-top: 10px !important;
+          margin-left: 12px !important;
+        }
+      }
 
       display: inline-block !important;
       padding: 5px 0 0 !important;
       .weui_tabbar_icon{
         width:auto !important;
         position: relative !important;
-        height:25px !important;
+        height:30px !important;
         img {
           width:auto !important;;
           margin:0 auto !important;
-          height:25px !important;
+          height:30px !important;
         }
         span {
           position: absolute;
