@@ -77,8 +77,6 @@ const routes = (
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
-      <Route path="message/question/answer" component={QuestionAnswer}/>
-      <Route path="message/answer/comment" component={AnswerComment}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="profile" component={Profile}/>
@@ -96,6 +94,8 @@ const routes = (
       <Route path="event/wall" component={EventWall}/>
 
       <Route component={ForumBase}>
+        <Route path="/rise/static/message/question/answer" component={QuestionAnswer}/>
+        <Route path="/rise/static/message/answer/comment" component={AnswerComment}/>
         <Route path="/forum/static/question" component={Question}/>
         <Route path="/forum/static/answer" component={QuestionAnswer}/>
         <Route path="/forum/static/answer/comment" component={AnswerComment}/>

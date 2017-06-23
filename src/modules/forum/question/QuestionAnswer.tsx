@@ -58,6 +58,16 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
+  componentDidUpdate() {
+    let node = this.refs.answerTips
+    if(node) {
+      console.log(window.innerHeight)
+      console.log(node.offsetTop)
+      console.log('高度', window.innerHeight - node.offsetTop)
+      node.style.height = window.innerHeight - node.offsetTop
+    }
+  }
+
   // 添加新的回答
   handleClickAddNewAnswer() {
     let content = '';
@@ -183,7 +193,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       }
 
       return (
-        <div className="ques-desc">
+        <div className="ques-desc" ref="quesDesc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
           <div className="ques-content" ref="quesContent" dangerouslySetInnerHTML={{__html:splitText(description, 68)}}/>
           <DialogBottomBtn
@@ -289,11 +299,19 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     // uploadStart={()=>{this.props.dispatch(startLoad())}}
     // uploadEnd={()=>{this.props.dispatch(endLoad())}}
 
+
+    let node = document.querySelector(".answer-tips")
+    if(node) {
+      console.log(node.offsetParent)
+    }
+
     return (
       <div className="answer-container">
         <div className="answer-page">
-          <div className="answer-head-topic">{topic}</div>
-          {renderQuestion()}
+          <div style={{backgroundColor: "#FFF", padding: "15px 15px 0"}}>
+            <div className="answer-head-topic">{topic}</div>
+            {renderQuestion()}
+          </div>
           <div className="grey-banner" style={{ height: 10 }}/>
           {/* 如果不存在任何评论，则展示 tips */}
           {
