@@ -68,7 +68,6 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           let node = this.refs.quesDesc
           if(node) {
             const height = window.innerHeight - node.clientHeight - 70
-            console.log(`高度为${height}`)
             this.setState({ answerTipsHeight: height })
           }
         })

@@ -38,7 +38,6 @@ module.exports = function init($) {
               img = new Image();
             img.src = f.target.result;
             if (_this._opt.compressSize && Math.ceil(file.size / 1024 / 1024) > _this._opt.compressSize) {
-              console.log("压缩");
               data = _this.compressHandler(img);
             }
             if (_this._opt.showServer) {
