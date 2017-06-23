@@ -14,6 +14,50 @@ import {startLoad, endLoad, alertMsg,set} from "redux/actions";
 
 import {loadOldCount} from '../message/async'
 
+const tabItems = {
+  learn:{
+    key: 0,
+    bar: {
+      icon: 'https://static.iqycamp.com/images/tabbar_book_v2.png?imageSlim',
+      activeIcon: 'https://static.iqycamp.com/images/tabbar_book_active_v2.png?imageSlim',
+      label: '学习',
+    },
+  },
+  activity:{
+    key: 1,
+    bar: {
+      icon: 'https://static.iqycamp.com/images/tabbar_team_study_v2.png?imageSlim',
+      activeIcon: 'https://static.iqycamp.com/images/tabbar_team_study_active_v2.png?imageSlim',
+      label: '活动'
+    }
+  },
+  explore: {
+    key: 2,
+    bar: {
+      icon: 'https://static.iqycamp.com/images/tabbar_explore_v2.png?imageSlim',
+      activeIcon: 'https://static.iqycamp.com/images/tabbar_explore_active_v2.png?imageSlim',
+      label: '发现'
+    }
+  },
+  mine:{
+    key: 3,
+    bar: {
+      icon: 'https://static.iqycamp.com/images/tabbar_mine_v2.png?imageSlim',
+      activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active_v2.png?imageSlim',
+      label: '我的'
+    }
+  },
+  forum:{
+    key: 4,
+    bar: {
+      icon: 'https://static.iqycamp.com/images/tabbar_forum_v2.png?imageSlim',
+      activeIcon: 'https://static.iqycamp.com/images/tabbar_forum_active_v2.png?imageSlim',
+      label: '论坛'
+    }
+  }
+
+}
+
 /**
  * 修改方式：
  * 1.在tabs里增加／删除导航项
@@ -29,46 +73,18 @@ export class ToolBar extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    let tabs = [
-      {
-        key: 0,
-        bar: {
-          icon: 'https://static.iqycamp.com/images/tabbar_book.png?imageSlim',
-          activeIcon: 'https://static.iqycamp.com/images/tabbar_book_active.png?imageSlim',
-          label: '学习',
-        },
-      }, {
-        key: 1,
-        bar: {
-          icon: 'https://static.iqycamp.com/images/tabbar_team_study.png?imageSlim',
-          activeIcon: 'https://static.iqycamp.com/images/tabbar_team_study_active.png?imageSlim',
-          label: '活动'
-        }
-      }, {
-        key: 2,
-        bar: {
-          icon: 'https://static.iqycamp.com/images/tabbar_explore.png?imageSlim',
-          activeIcon: 'https://static.iqycamp.com/images/tabbar_explore_active.png?imageSlim',
-          label: '发现'
-        }
-      }, {
-        key: 3,
-        bar: {
-          icon: 'https://static.iqycamp.com/images/tabbar_mine.png?imageSlim',
-          activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active.png?imageSlim',
-          label: '我的'
-        }
-      },
-    ];
+    let tabs = [];
     if(window.ENV.showForum !== 'false'){
-      tabs.push({
-        key: 4,
-        bar: {
-          icon: 'https://static.iqycamp.com/images/tabbar_mine.png?imageSlim',
-          activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active.png?imageSlim',
-          label: '论坛'
-        }
-      })
+      tabs.push(tabItems.forum);
+      tabs.push(tabItems.activity);
+      tabs.push(tabItems.learn);
+      tabs.push(tabItems.explore);
+      tabs.push(tabItems.mine);
+    } else {
+      tabs.push(tabItems.learn);
+      tabs.push(tabItems.activity);
+      tabs.push(tabItems.explore);
+      tabs.push(tabItems.mine);
     }
 
     this.state = {
@@ -124,9 +140,8 @@ export class ToolBar extends React.Component<any,any> {
     const {tabIndex = 0,noticeMsgCount} = this.props;
     return (
       this.props.hidden?null:<TabBar>
-        {this.state.tabs.map((item, key) => {
+        {this.state.tabs.map((item, idx) => {
           const {bar} = item;
-
           if(item.key === 3){
             return (
               <TabBarItem
@@ -149,7 +164,7 @@ export class ToolBar extends React.Component<any,any> {
               className={`tab_bar_count_${this.state.tabs.length}`}
               active={tabIndex == item.key}
               onClick={()=>this.handleChangeTab(item.key)}
-              icon={<img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>}
+              icon={<div className={`${(this.state.tabs.length===5 && idx === 2)?'bigger_icon':''}`}><img className={`${(this.state.tabs.length===5 && idx === 2)?'bigger_img':''}`} src={tabIndex == item.key?bar.activeIcon:bar.icon}/></div>}
               label={bar.label}
             />
           }

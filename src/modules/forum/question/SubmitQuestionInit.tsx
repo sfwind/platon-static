@@ -120,27 +120,30 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       }
     });
     this.setState({ tagList });
-    dispatch(startLoad());
-    loadQuestionByTag(tag.id).then(res => {
-      dispatch(endLoad());
-      const { code, msg } = res;
-      if(code === 200) {
-        this.setState({
-          data: msg.list,
-          index: 1, end: msg.end
-        });
-        if(msg.end === true) {
-          if(this.pullElement) {
-            this.pullElement.disable();
+    //选中时加载，取消时不加载
+    if(tag.selected){
+      dispatch(startLoad());
+      loadQuestionByTag(tag.id).then(res => {
+        dispatch(endLoad());
+        const { code, msg } = res;
+        if(code === 200) {
+          this.setState({
+            data: msg.list,
+            index: 1, end: msg.end
+          });
+          if(msg.end === true) {
+            if(this.pullElement) {
+              this.pullElement.disable();
+            }
           }
+        } else {
+          dispatch(alertMsg(msg));
         }
-      } else {
-        dispatch(alertMsg(msg));
-      }
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
+      }).catch(ex => {
+        dispatch(endLoad());
+        dispatch(alertMsg(ex));
+      });
+    }
 
   }
 
@@ -241,7 +244,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     }
 
     return (
-      <div className="question-init-container">
+      <div className="question-init-container" style={{height: window.innerHeight + 1 }}>
         <div className="question-page">
           <div className="page-title">
             选择问题标签
