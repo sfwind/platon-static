@@ -10,7 +10,9 @@
     background-color:@color_weak_background;
     height:15px;
   }
-
+  .pfq-answer{
+    margin-bottom:10px;
+  }
   .pfq-question,.pfq-answer{
     background-color: #FFF;
     .pfq-header {
@@ -30,7 +32,7 @@
       }
     }
     .pfq-body{
-      margin:15px;
+      margin:10px 15px;
       > .simple-question{
         &:last-of-type{
           border-bottom:none;
@@ -43,13 +45,20 @@
         .topic{
           font-size:@font_context;
           color:@color_context;
-          padding-bottom:10px;
+          padding-bottom:5px;
         }
         .answer{
           color:@color_title;
           font-size:@font_click;
-          line-height: 1.3em;
-          padding-bottom:10px;
+          line-height: 1.4em;
+          margin-bottom:10px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          line-clamp: 4;
+          -webkit-box-orient: vertical;
+          -moz-box-orient: vertical;
         }
         &:not(:last-of-type){
           border-bottom: 1px solid @color_weak;

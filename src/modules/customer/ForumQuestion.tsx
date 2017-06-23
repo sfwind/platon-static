@@ -4,7 +4,7 @@ import "./ForumQuestion.less";
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import { loadMineQuestions,loadMineAnswers } from "./async";
 import SimpleQuestion from "../forum/commons/SimpleQuestion/SimpleQuestion"
-
+import { splitText,removeHtmlTags } from "../../utils/helpers"
 
 @connect(state=>state)
 export default class ForumQuestion extends React.Component<any,any>{
@@ -75,8 +75,8 @@ export default class ForumQuestion extends React.Component<any,any>{
       return list.map((item,key)=>{
           return (
             <div key={key} onClick={()=>this.handleClickAnswer(item)} className="pfq-answer hover-cursor">
-              <div className="topic">{item.topic}</div>
-              <div className="answer">{item.answer}</div>
+              <div className="topic">{splitText(removeHtmlTags(item.topic), 20)}</div>
+              <div className="answer">{splitText(removeHtmlTags(item.answer), 100)}</div>
             </div>
           )
       })
