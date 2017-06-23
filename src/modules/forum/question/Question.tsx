@@ -33,13 +33,11 @@ export default class Question extends React.Component<any, QuestionStates> {
 
   componentWillMount() {
     getAllQuestions().then(res => {
-      console.log("getAllQuestions", res.msg.list)
       const { code, msg } = res
       if(code === 200) {
         this.setState({ questions: msg.list })
       }
     }).catch(e => {
-      console.error(e)
     })
   }
 
@@ -100,7 +98,6 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div className="ques-list">
           {
             questions.map((questionItem, idx) => {
-              console.log(questionItem)
               const {
                 addTimeStr, answerCount, answerTips, authorHeadPic, authorUserName,
                 description, id, mine, topic
@@ -112,20 +109,13 @@ export default class Question extends React.Component<any, QuestionStates> {
               const changeFollowStatus = () => {
                 if(tag) {
                   // 已关注的情况，则调用取消关注接口
-                  disFollow(id).then(res => {
-                    if(res.code === 200) {
-                      tag = !tag
-                    }
-                  })
+                  disFollow(id)
                 } else {
                   // 未关注的情况，则调用关注接口
-                  follow(id).then(res => {
-                    if(res.code === 200) {
-                      tag = !tag
-                    }
-                  })
+                  follow(id)
                 }
-                return tag ? '关注' : '已关注'
+                tag = !tag
+                return tag ? '已关注' : '关注'
               }
               return (
                 <div>
@@ -161,7 +151,6 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
           <GreyBanner height={20}/>
           {renderQuestionList()}
-          {console.log('end state', this.state.end)}
           <PullSlideTip isEnd={this.state.end}/>
         </div>
         {this.renderOtherComponents()}

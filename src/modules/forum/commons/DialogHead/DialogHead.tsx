@@ -29,6 +29,12 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if(newProps.rightContent && newProps.rightContent != this.state.changeRightContent) {
+      this.setState({changeRightContent: newProps.rightContent})
+    }
+  }
+
   render() {
     const {
       leftImgUrl, user, time, rightImgUrl, rightContent, rightContentFunc = () => {}, disableContentValue = ''
@@ -57,7 +63,6 @@ export default class DialogHead extends React.Component<DialogHeadProps, DialogH
       if(renderRight) {
         return (
           <div className="dialog-right">
-            {/*<div><AssetImg url={rightImgUrl} width={30} height={20}/></div>*/}
             <div className={`dialog-right-content ${changeRightContent === disableContentValue ? 'disable' : ''}`}
                  onClick={() => changeRightContentFunc()}>
               {changeRightContent}

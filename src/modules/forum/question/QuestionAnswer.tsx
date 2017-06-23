@@ -173,20 +173,13 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         } else {
           if(tag) {
             // 已关注的情况，则调用取消关注接口
-            disFollow(question.id).then(res => {
-              if(res.code === 200) {
-                tag = !tag
-              }
-            })
+            disFollow(question.id)
           } else {
             // 未关注的情况，则调用关注接口
-            follow(question.id).then(res => {
-              if(res.code === 200) {
-                tag = !tag
-              }
-            })
+            follow(question.id)
           }
-          return tag ? '关注' : '已关注'
+          tag = !tag
+          return tag ? '已关注' : '关注'
         }
       }
 
@@ -237,15 +230,12 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               const changeBtn2ImgUrl = () => {
                 if(tag) {
                   // 已赞同，则取消赞同
-                  disApproveAnswer(id).then(res => {
-                    if(res.code === 200) tag = !tag
-                  })
+                  disApproveAnswer(id)
                 } else {
                   // 还未赞同，点击赞同
-                  approveAnswer(id).then(res => {
-                    if(res.code === 200) tag = !tag
-                  })
+                  approveAnswer(id)
                 }
+                tag = !tag
                 return tag ? unvote : voted
               }
 
@@ -262,7 +252,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               }
 
               return (
-                <div className="answer-desc" key={idx} id={answerItem.mine ? `myanswer${answerItem.id}` : null}>
+                <div className="answer-desc" key={idx}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
                   <div className="answer-content" ref={`ansComment${idx}`}>{splitText(answer, 69)}</div>
                   <DialogBottomIcon

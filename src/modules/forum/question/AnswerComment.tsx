@@ -49,7 +49,6 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     const answerId = this.props.location.query.answerId
     this.setState({ answerId: answerId })
     getAnswer(answerId).then(res => {
-      console.log(res.msg)
       if(res.code === 200) {
         this.setState({ answerInfo: res.msg, commentlist: res.msg.comments })
       }
@@ -57,10 +56,8 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   commentAnswer() {
-    console.log(this.state)
     const { commentlist, answerId, comment, repliedCommentId } = this.state
     commentAnswer(answerId, comment, repliedCommentId).then(res => {
-      console.log('comment', res)
       if(res.code === 200) {
         commentlist.push(res.msg)
         this.setState({ commentlist }, () => {
@@ -72,7 +69,6 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
   commentAnswerDel(commentId, idx) {
     commentAnswerDel(commentId).then(res => {
-      console.log(res)
       if(res.code === 200) {
         let removeNode = `commentRef${idx}`
         this.refs[removeNode].style.display = "None"
@@ -92,7 +88,6 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
   // 回复答案的某一条评论
   handleClickCommentReply(answerId, repliedCommentId) {
-    console.log('参数', { answerId, repliedCommentId })
     this.setState(initDiscussBoxState, () => {
       this.setState({
         repliedCommentId: repliedCommentId,
@@ -133,42 +128,24 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       const changeBtn2ImgUrl = () => {
         if(tag) {
           // 已赞同，则取消赞同
-          disApproveAnswer(id).then(res => {
-            if(res.code === 200) tag = !tag
-          })
+          disApproveAnswer(id)
         } else {
           // 还未赞同，点击赞同
-          approveAnswer(id).then(res => {
-            if(res.code === 200) tag = !tag
-          })
+          approveAnswer(id)
         }
+        tag = !tag
         return tag ? unvote : voted
       }
       let isExpand = false
       const expandComment = () => {
         let node = this.refs.ansContent
         if(isExpand) {
-          console.log('收起')
           node.innerText = splitText(answer, 68)
         } else {
-          console.log('展开')
           node.innerText = answer
         }
         isExpand = !isExpand
         return isExpand ? "收起" : "展开"
-      }
-      let btn2Content = approval ? '已赞同' : '赞同'
-      const changeBtn2Content = () => {
-        if(tag) {
-          disApproveAnswer(id).then(res => {
-            if(res.code === 200) tag = !tag
-          })
-        } else {
-          approveAnswer(id).then(res => {
-            if(res.code === 200) tag = !tag
-          })
-        }
-        return tag ? '赞同' : '已赞同'
       }
       return (
         <div className="ans-desc">
