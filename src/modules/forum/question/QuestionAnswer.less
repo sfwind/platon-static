@@ -1,11 +1,12 @@
 @import "../variable";
 
 .answer-container {
+  height: 100%;
+  background-color: @color_weak_background;
 
   .answer-page {
     height: 100%;
     position: relative;
-    padding: 15px;
 
     .answer-head-topic {
       font-size: 1.6em;
@@ -29,9 +30,7 @@
     }
 
     .answer-tips {
-      margin: 0 -15px;
-      padding: 25px 15px;
-      height: 100%;
+      padding: 25px 15px 0;
       color: @color_title;
       background-color: @color_weak_background;
 
@@ -44,6 +43,9 @@
     }
 
     .answer-list {
+      height: 100%;
+      background-color: #FFF;
+      padding: 15px;
 
       .answer-desc {
         border-bottom: 1px solid @color_weak;
