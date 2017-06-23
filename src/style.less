@@ -23,8 +23,11 @@
     position: fixed !important;
     display: inline-block !important;;
     z-index:700;
+    box-shadow: 0px -3px 10px rgba(0, 0, 0, .1);
     &:before {
-      border-top:1px solid #f5f5f5;
+      border-top:none;
+      //-webkit-box-shadow: 0px -3px 4px rgba(0, 0, 0, 0.1);
+      //-moz-box-shadow: 0px -3px 4px rgba(0, 0, 0, 0.1);
     }
     background-color: rgba(252,251,253,0.9) !important;;
     .weui_tabbar_item{
@@ -41,7 +44,9 @@
       .bigger_icon{
         border-radius: 50px;
         /* border: 1px solid; */
-        box-shadow: 1px 2px 10px rgba(220,220,220,0.3);
+        -webkit-box-shadow: 0px -3px 4px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: 0px -3px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: 0px -3px 4px rgba(0, 0, 0, 0.05);
         width: 49px;
         height: 49px;
         margin: 0 auto;
@@ -69,6 +74,10 @@
           height:30px !important;
           &.mine_icon{
             height:28px !important;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%,0);
+            top: 2px;
           }
         }
         span {
