@@ -150,7 +150,7 @@ export class ToolBar extends React.Component<any,any> {
                 onClick={()=>this.handleChangeTab(item.key)}
               >
                 <TabBarIcon>
-                    <img src={tabIndex == item.key?bar.activeIcon:bar.icon}/>
+                    <img className={`${item.key === 3?'mine_icon':''}`} src={tabIndex == item.key?bar.activeIcon:bar.icon}/>
                     {noticeMsgCount?<span>{noticeMsgCount>99?99:noticeMsgCount}</span>:null}
                 </TabBarIcon>
                 <TabBarLabel>
