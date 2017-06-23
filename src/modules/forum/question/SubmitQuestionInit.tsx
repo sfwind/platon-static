@@ -22,6 +22,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
             index:1,
             end:true,
         }
+        this.pullElement = null;
     }
 
     componentWillMount() {
