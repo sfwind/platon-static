@@ -53,3 +53,18 @@ export function commentAnswer(answerId, comment, repliedCommentId?) {
 export function commentAnswerDel(commentId) {
   return ppost(`/forum/answer/delete/comment/${commentId}`)
 }
+
+// 获取所有的提问标签
+export function loadTag() {
+  return pget('/forum/question/tag/load');
+}
+
+// 根据标签获取相关的问题
+export function loadQuestionByTag(tag){
+  return pget(`/forum/question/search/${tag}`);
+}
+
+// 提交问题
+export function submitQuestion(param){
+  return ppost(`/forum/question/submit`, param);
+}

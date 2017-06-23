@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import { ForumButton } from "../commons/ForumComponent";
-import {submitQuestion} from "./async"
+import {submitQuestion, getQuestion} from "../async"
 import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
 import Editor from "../../../components/editor/Editor";
 import "./SubmitQuestionDetail.less"
@@ -25,9 +25,34 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         }
     }
 
+    componentWillMount(){
+        const {dispatch, location} = this.props;
+        const {questionId} = location.query;
+        if(questionId){
+            dispatch(startLoad());
+            getQuestion(questionId).then(res => {
+                const {code, msg} = res;
+                dispatch(endLoad());
+                if(code === 200){
+                    this.setState({title:msg.topic, detail:msg.description,
+                        selectedTagList: msg.questionTagList, length:msg.topic.length})
+                }else{
+                    dispatch(alertMsg(msg));
+                }
+            }).catch(ex=>{
+                dispatch(endLoad());
+                dispatch(alertMsg(ex));
+            })
+        }
+    }
+
     componentDidMount(){
-        const {selectedTagList} = this.props;
-        this.setState({selectedTagList});
+        const {questionId} = this.props.location.query;
+        //提问时，从redux读取标签
+        if(!questionId) {
+            const {selectedTagList} = this.props;
+            this.setState({selectedTagList});
+        }
     }
 
     submit(){
@@ -135,6 +160,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
                         ref="editor"
                         moduleId="5"
                         maxLength="1000"
+                        defaultValue={this.state.detail}
                         onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
                         uploadStart={()=>{this.props.dispatch(startLoad())}}
                         uploadEnd={()=>{this.props.dispatch(endLoad())}}
@@ -153,7 +179,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
                     {renderTagList()}
                     <div className="question-title">
                         <textarea placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
-                                  onChange={(e)=>this.writeTitle(e)} maxLength={50}/>
+                                  onChange={(e)=>this.writeTitle(e)} maxLength={50} defaultValue={this.state.title}/>
                         <div className="length-div">
                             <div className="length-tip">
                                 {length} / 50

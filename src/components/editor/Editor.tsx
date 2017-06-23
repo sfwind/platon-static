@@ -80,6 +80,7 @@ export default class Editor extends React.Component<any,any>{
     });
     if(this.props.defaultValue){
       editor.setValue(this.props.defaultValue);
+      this.calcValue(this.props.defaultValue);
     }
     this.setState({editor:editor});
   }
@@ -89,8 +90,10 @@ export default class Editor extends React.Component<any,any>{
     return value === placeHolder?'':value;
   }
 
-  calcValue(){
-    let value = this.state.editor.getValue();
+  calcValue(value){
+    if(!value){
+      value = this.state.editor.getValue();
+    }
     value = value.replace(/<[^>]+>/g,"");
     this.setState({length:value.length})
   }
