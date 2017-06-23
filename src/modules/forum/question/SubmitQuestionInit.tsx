@@ -145,7 +145,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
             return;
         }
         dispatch(set('selectedTagList', selectedTagList));
-        this.context.router.push('/forum/question/detail');
+        this.context.router.push('/forum/static/question/detail');
     }
 
     render() {
@@ -158,7 +158,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                         return (
                             <SimpleQuestion key={index} answer={question.answerCount} follow={question.followCount}
                                 title={question.topic}
-                                onclickFunc={()=>this.context.router.push({pathname:'/forum/answer',
+                                onclickFunc={()=>this.context.router.push({pathname:'/forum/static/answer',
                                 query:{questionId:question.id}})}/>
                         )
                     })}

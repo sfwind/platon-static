@@ -89,7 +89,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
   handleClickGoAnswerCommentPage(answerId) {
     this.context.router.push({
-      pathname: "/forum/answer/comment",
+      pathname: "/forum/static/answer/comment",
       query: { answerId }
     })
   }

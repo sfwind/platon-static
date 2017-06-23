@@ -50,7 +50,7 @@ export default class ForumQuestion extends React.Component<any,any>{
   handleClickQuestion(question){
     console.log(question);
     this.context.router.push({
-      pathname:"/forum/answer",
+      pathname:"/forum/static/answer",
       query:{questionId:question.id}
     })
   }
@@ -58,7 +58,7 @@ export default class ForumQuestion extends React.Component<any,any>{
   handleClickAnswer(answer){
     console.log(answer);
     this.context.router.push({
-      pathname:"/forum/answer",
+      pathname:"/forum/static/answer",
       query:{questionId:answer.questionId}
     })
   }

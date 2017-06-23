@@ -37,7 +37,7 @@ export default class SubmitAnswer extends React.Component<any, SubmitAnswerState
       console.log(res)
       if(res.code === 200) {
         this.context.router.push({
-          pathname: "/forum/answer",
+          pathname: "/forum/static/answer",
           query: {questionId}
         })
       }

@@ -72,12 +72,12 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   handleClickGoQuestionInitPage() {
-    this.context.router.push("/forum/question/init")
+    this.context.router.push("/forum/static/question/init")
   }
 
   handleClickGoAnswerPage(questionId) {
     this.context.router.push({
-      pathname: "/forum/answer",
+      pathname: "/forum/static/answer",
       query: { questionId }
     })
   }

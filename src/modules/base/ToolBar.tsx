@@ -116,7 +116,7 @@ export class ToolBar extends React.Component<any,any> {
     } else if(tabIndex === 3){
       this.context.router.push("/rise/static/customer/personal");
     } else if(tabIndex === 4){
-      this.context.router.push("/forum/question");
+      this.context.router.push("/forum/static/question");
     }
   }
 
