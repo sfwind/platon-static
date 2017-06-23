@@ -35,7 +35,6 @@ export class EventWall extends React.Component<any,any>{
       .then(res=>{
         dispatch(endLoad());
         if(res.code === 200){
-          console.log(res.msg);
           let liveList=[],workList=[],offlineList=[],areaList=[],bannerList=[];
           for(let i=0; i<res.msg.length;i++){
             switch(res.msg[i].type){
@@ -63,10 +62,6 @@ export class EventWall extends React.Component<any,any>{
   goEvent(item){
     mark({module:"打点",function:"活动墙",action:"打开活动墙",memo:item.id});
     window.location.href=item.destUrl;
-  }
-
-  goBanner(id){
-    console.log('click',id);
   }
 
   renderTabBody(){
