@@ -24,7 +24,9 @@ interface AnswerCommentState {
   // 输入框提示
   placeholder: string;
   // 是否展示输入框
-  showDiscussBox: boolean
+  showDiscussBox: boolean;
+  // 待预览图片
+  previewImgs: object;
 }
 const initDiscussBoxState = {
   comment: '',
@@ -49,6 +51,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       showDiscussBox: false,
       end: true,
       show: false,
+      previewImgs: []
     }
   }
 
@@ -61,7 +64,12 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        this.setState({ answerInfo: res.msg, commentlist: res.msg.comments, commentCount: res.msg.comments.length })
+        this.setState({
+          answerInfo: res.msg, commentlist: res.msg.comments, commentCount: res.msg.comments.length
+        }, () => {
+          // 设置图片预览对象
+          this.setState({ previewImgs: document.getElementsByTagName('img') })
+        })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -73,6 +81,19 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
 
   componentDidMount() {
 
+  }
+
+  componentDidUpdate() {
+    // 添加图片预览功能
+    const { previewImgs } = this.state
+    for(let i = 0; i < previewImgs.length; i++) {
+      if(previewImgs[i].src.indexOf("answer-") > 0) {
+        let imgSrc = previewImgs[i].src
+        previewImgs[i].onclick = () => {
+          wx.previewImage({ current: imgSrc, urls: [imgSrc] });
+        }
+      }
+    }
   }
 
   commentAnswer() {
@@ -103,7 +124,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     dispatch(startLoad())
     commentAnswerDel(commentId).then(res => {
       dispatch(endLoad());
-      this.setState({ show: false , commentCount: commentCount - 1});
+      this.setState({ show: false, commentCount: commentCount - 1 });
       const { code, msg } = res;
       if(code === 200) {
         let removeNode = `commentRef${commentId}`;
