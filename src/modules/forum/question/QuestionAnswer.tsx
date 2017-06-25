@@ -21,6 +21,8 @@ interface QuestionAnswerStates {
   selfAnswerContent: string;
   // 提示高度
   answerTipsHeight: number;
+  // 待预览图片
+  previewImgs: object;
 }
 let isExpandQuestion = false;
 @connect(state => state)
@@ -37,7 +39,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       submitNewAnswer: false,
       myAnswer: {},
       selfAnswerContent: '',
-      answerTipsHeight: '90'
+      answerTipsHeight: '90',
+      previewImgs: []
     }
   }
 
@@ -70,6 +73,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             const height = window.innerHeight - node.clientHeight - 70
             this.setState({ answerTipsHeight: height })
           }
+          // 设置图片预览对象
+          this.setState({ previewImgs: document.getElementsByTagName('img') })
         })
       } else {
         dispatch(alertMsg(msg))
@@ -80,6 +85,18 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     })
   }
 
+  componentDidUpdate() {
+    // 添加图片预览功能
+    const { previewImgs } = this.state
+    for(let i = 0; i < previewImgs.length; i++) {
+      if(previewImgs[i].src.indexOf("answer-") > 0) {
+        let imgSrc = previewImgs[i].src
+        previewImgs[i].onclick = () => {
+          wx.previewImage({ current: imgSrc, urls: [imgSrc] });
+        }
+      }
+    }
+  }
 
   // 添加新的回答
   handleClickAddNewAnswer() {

@@ -123,9 +123,6 @@ export default class Question extends React.Component<any, QuestionStates> {
     }
   }
 
-  componentDidMount() {
-  }
-
   handleClickGoQuestionInitPage() {
     this.context.router.push("/forum/static/question/init")
   }
