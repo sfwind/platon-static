@@ -4,6 +4,7 @@ import { ForumButton } from "../commons/ForumComponent";
 import { submitQuestion, getQuestion } from "../async"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import { removeHtmlTags } from "../../../utils/helpers"
+import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
 import "./SubmitQuestionDetail.less"
 
@@ -27,6 +28,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "论坛", action: "打开写问题页面"});
     const { dispatch, location } = this.props;
     const { questionId } = location.query;
     if(questionId) {

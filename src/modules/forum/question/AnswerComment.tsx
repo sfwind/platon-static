@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import "./AnswerComment.less"
 import { HeadArea, DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
+import { mark } from "../../../utils/request"
 import Discuss from "../../practice/components/Discuss";
 import { splitText, removeHtmlTags } from "../../../utils/helpers";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
@@ -56,6 +57,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "论坛", action: "打开回答评论页"});
     const answerId = this.props.location.query.answerId
     const { dispatch } = this.props
     this.setState({ answerId: answerId })

@@ -9,6 +9,7 @@ import Discuss from "../components/Discuss"
 import _ from "lodash"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import {scroll} from "../../../utils/helpers"
+import { mark } from "../../../utils/request"
 
 const sequenceMap = {
   0: 'A',
@@ -40,6 +41,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   componentWillMount(){
+    mark({module: "打点", function: "学习", action: "打开知识点页面"});
     const {id,practicePlanId} = this.props.location.query
     const {dispatch} = this.props
     dispatch(startLoad())

@@ -3,6 +3,7 @@ import "./QuestionAnswer.less";
 import { connect } from "react-redux"
 import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButton } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
+import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
 import { splitText, removeHtmlTags } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
@@ -49,6 +50,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "论坛", action: "打开问题详情页"});
     const questionId = this.props.location.query.questionId
     const { dispatch } = this.props
     dispatch(startLoad())

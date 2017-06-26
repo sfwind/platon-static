@@ -4,6 +4,7 @@ import PullElement from 'pull-element';
 import { ToolBar } from "../../base/ToolBar";
 import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions, getQuestion } from "../async";
+import { mark } from "../../../utils/request"
 import { splitText ,removeHtmlTags} from "../../../utils/helpers"
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import _ from "lodash";
@@ -37,6 +38,7 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "论坛", action: "打开问题列表页"});
     const {dispatch, location} = this.props;
     const {questionId} = location.query;
     let questions = [];

@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { ForumButton, SimpleQuestion, PullSlideTip } from "../commons/ForumComponent";
 import { loadQuestionByTag, loadTag } from "../async"
+import { mark } from "../../../utils/request"
 import PullElement from "pull-element";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./SubmitQuestionInit.less"
@@ -26,7 +27,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    console.log(this.props)
+    mark({module: "打点", function: "论坛", action: "打开选择问题标签页面"});
     const { dispatch, location } = this.props;
     const { tagId } = location.query;
     dispatch(startLoad());
