@@ -191,47 +191,47 @@ export class Main extends React.Component <any, any> {
   componentDidMount() {
   }
 
-  componentDidUpdate(preProps, preState) {
-    const content = get(this.state, 'data.content');
-    if(content && !this.pullElement) {
-      // 有内容并且米有pullElement
-      const {dispatch} = this.props;
-      this.pullElement = new PullElement({
-        target: '.container',
-        scroller: '.container',
-        damping: 4,
-        detectScroll: true,
-        detectScrollOnStart: true,
-        onPullUpEnd: (data) => {
-          loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
-            if(res.code === 200) {
-              if(res.msg && res.msg.list && res.msg.list.length !== 0) {
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.otherList, item) !== -1;
-                })
-                this.setState({
-                  otherList: this.state.otherList.concat(res.msg.list),
-                  page: this.state.page + 1,
-                  end: res.msg.end
-                });
-              } else {
-                // dispatch(alertMsg('没有更多了'));
-                this.setState({end: res.msg.end});
-              }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      })
-      this.pullElement.init();
-    }
-    if(this.pullElement && this.state.end) {
-      this.pullElement.disable();
-    }
-  }
+  // componentDidUpdate(preProps, preState) {
+  //   const content = get(this.state, 'data.content');
+  //   if(content && !this.pullElement) {
+  //     // 有内容并且米有pullElement
+  //     const {dispatch} = this.props;
+  //     this.pullElement = new PullElement({
+  //       target: '.container',
+  //       scroller: '.container',
+  //       damping: 4,
+  //       detectScroll: true,
+  //       detectScrollOnStart: true,
+  //       onPullUpEnd: (data) => {
+  //         loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
+  //           if(res.code === 200) {
+  //             if(res.msg && res.msg.list && res.msg.list.length !== 0) {
+  //               remove(res.msg.list, (item) => {
+  //                 return findIndex(this.state.otherList, item) !== -1;
+  //               })
+  //               this.setState({
+  //                 otherList: this.state.otherList.concat(res.msg.list),
+  //                 page: this.state.page + 1,
+  //                 end: res.msg.end
+  //               });
+  //             } else {
+  //               // dispatch(alertMsg('没有更多了'));
+  //               this.setState({end: res.msg.end});
+  //             }
+  //           } else {
+  //             dispatch(alertMsg(res.msg));
+  //           }
+  //         }).catch(ex => {
+  //           dispatch(alertMsg(ex));
+  //         });
+  //       }
+  //     })
+  //     this.pullElement.init();
+  //   }
+  //   if(this.pullElement && this.state.end) {
+  //     this.pullElement.disable();
+  //   }
+  // }
 
   componentWillUnmount() {
     this.pullElement ? this.pullElement.destroy() : null;

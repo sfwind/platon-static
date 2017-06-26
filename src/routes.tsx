@@ -38,7 +38,7 @@ import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
 import BannerArticle from 'modules/problem/BannerArticle'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
-9import ForumBase from "./modules/forum/ForumBase";
+import ForumBase from "./modules/forum/ForumBase";
 import Question from "./modules/forum/question/Question";
 import QuestionAnswer from "./modules/forum/question/QuestionAnswer";
 import AnswerComment from "./modules/forum/question/AnswerComment";
