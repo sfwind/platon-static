@@ -103,10 +103,17 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   open(url, id, isRead){
+    const {list} = this.state;
     if(!isRead) {
       readMessage(id).then(res => {
-        const {code} = res
+        const {code} = res;
         if (code === 200) {
+          list.map((item)=>{
+            if(item.id === id){
+              item.isRead = true;
+            }
+          });
+          this.setState({list});
         } else {
           //静默加载 啥都不干
         }
@@ -115,16 +122,20 @@ export class MessageCenter extends React.Component <any, any> {
       })
     }
 
+    if(!url){
+      return;
+    }
+
     if(url.indexOf('?')===-1){
-      this.context.router.push({ pathname: url, state: {goBackUrl: '/rise/static/message/center'} })
+      this.context.router.push({ pathname: url })
     }else{
       //解析url
-      let index = url.indexOf('?')
-      let path = url.substring(0, index)
-      let query = url.substring(index+1)
+      let index = url.indexOf('?');
+      let path = url.substring(0, index);
+      let query = url.substring(index+1);
 
-      let param = {}
-      let params = query.split("&")
+      let param = {};
+      let params = query.split("&");
       for(let i=0;i<params.length;i++){
         let pos = params[i].indexOf("=");
         if(pos == -1) continue;
@@ -133,7 +144,7 @@ export class MessageCenter extends React.Component <any, any> {
 
         set(param, argName, argValue)
       }
-      this.context.router.push({pathname: path, query: param, state: {goBackUrl: '/rise/static/message/center'}})
+      this.context.router.push({pathname: path, query: param})
     }
 
   }
@@ -143,10 +154,10 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   render() {
-    const {list, no_message, end} = this.state
+    const {list, no_message, end} = this.state;
 
     const messageRender = (msg) => {
-      const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg
+      const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg;
       return (
         <div className="message-cell">
           <div className="message-avatar"><img className="message-avatar-img" src={fromUserAvatar} /></div>
@@ -176,8 +187,6 @@ export class MessageCenter extends React.Component <any, any> {
              <div className="show-more">上拉加载更多消息</div>
           }
         </div>}
-
-        {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
 
       </div>
     )
