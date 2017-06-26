@@ -6,7 +6,7 @@ import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions, getQuestion } from "../async";
 import { mark } from "../../../utils/request"
 import { splitText ,removeHtmlTags} from "../../../utils/helpers"
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
+import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
 import _ from "lodash";
 
 import "./Question.less";
@@ -72,6 +72,8 @@ export default class Question extends React.Component<any, QuestionStates> {
       dispatch(alertMsg(e));
       dispatch(endLoad());
     })
+
+    dispatch(set('selectedTagList', undefined));
   }
 
   componentDidUpdate() {
