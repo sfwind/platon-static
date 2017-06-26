@@ -207,7 +207,7 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div className="question-feedback" onClick={()=>this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
         <div className="question-page" style={{height: window.innerHeight - 26 - 50}}>
           <div className="ques-nav">
-            <div className="ques-nav-desc">看完还是没有解决你的疑问？点这里提问吧</div>
+            <div className="ques-nav-desc">有一个新问题？点这里提问吧</div>
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>去提问</div>
           </div>
           <GreyBanner height={20}/>

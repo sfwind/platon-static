@@ -1,14 +1,19 @@
 @import "../variable.less";
 
 .question-init-container {
+  height: 100%;
+  background-color: @color_weak_background;
   overflow: auto;
   .question-page {
-    padding-bottom: 55px;
+    &.selected{
+      padding-bottom: 50px;
+    }
+    background-color: white;
     .page-title{
       font-size: @font_title;
       text-align: center;
       color: @color_title;
-      margin: 15px 0;
+      padding: 15px 0;
     }
     .question-title{
       padding: 0 30px 9px;

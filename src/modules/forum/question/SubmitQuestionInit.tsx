@@ -22,6 +22,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       tagList: [],
       index: 1,
       end: true,
+      selected:true,
     };
     this.pullElement = null;
   }
@@ -178,20 +179,22 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     const { data = [], tagList = [], end } = this.state;
 
     const renderQuestionList = () => {
-      return (
-        <div className="question-list">
-          {data.map((question, index) => {
-            return (
-              <SimpleQuestion key={index} answer={question.answerCount} follow={question.followCount}
-                              title={question.topic}
-                              onclickFunc={() => this.context.router.push({
+      if(!_.isEmpty(data)) {
+        return (
+            <div className="question-list">
+              {data.map((question, index) => {
+                return (
+                    <SimpleQuestion key={index} answer={question.answerCount} follow={question.followCount}
+                                    title={question.topic}
+                                    onclickFunc={() => this.context.router.push({
                                 pathname: '/forum/static/answer',
                                 query: { questionId: question.id }
                               })}/>
-            )
-          })}
-        </div>
-      )
+                )
+              })}
+            </div>
+        )
+      }
     }
 
     const renderLine = (tagLineList) => {
@@ -255,7 +258,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
 
     return (
       <div className="question-init-container" style={{height: window.innerHeight + 1 }}>
-        <div className="question-page">
+        <div className={`question-page ${_.isEmpty(data)?'':'selected'}`}>
           <div className="page-title">
             选择问题标签
           </div>
