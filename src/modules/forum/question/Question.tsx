@@ -136,6 +136,11 @@ export default class Question extends React.Component<any, QuestionStates> {
     })
   }
 
+  handleClickFeedback(){
+    mark({module: "打点", function: "论坛", action: "点击意见反馈"});
+    window.location.href=`https://${window.location.hostname}/survey/wjx?activity=15135162 `
+  }
+
   // 特殊组件
   renderOtherComponents() {
     return (
@@ -199,7 +204,7 @@ export default class Question extends React.Component<any, QuestionStates> {
 
     return (
       <div className="question-container">
-        <div className="question-feedback"><span>意见反馈&nbsp;&gt;</span></div>
+        <div className="question-feedback" onClick={()=>this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
         <div className="question-page" style={{height: window.innerHeight - 26 - 50}}>
           <div className="ques-nav">
             <div className="ques-nav-desc">看完还是没有解决你的疑问？点这里提问吧</div>
