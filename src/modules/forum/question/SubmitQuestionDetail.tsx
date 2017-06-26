@@ -137,36 +137,6 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       )
     }
 
-    const renderTagList = () => {
-      // 包含所有的行元素的数组
-      let tagAll = [];
-      // 一共渲染几行
-      let line = selectedTagList.length / 3;
-      for(let j = 0; j < line; j++) {
-        // 一行标签的数组
-        let tagLineList = [];
-        for(let i = 0; i < 3; i++) {
-          if(j * 3 + i === selectedTagList.length) {
-            break;
-          }
-          tagLineList.push(selectedTagList[j * 3 + i]);
-        }
-        tagAll.push(tagLineList);
-      }
-
-      return (
-        <div className="tag-list">
-          {
-            tagAll.map((tagLineList, idx) => {
-              return (
-                renderLine(tagLineList)
-              )
-            })
-          }
-        </div>
-      )
-    }
-
     // 渲染文本样式 tag 列表
     const renderTagListText = () => {
       let tagContent = ''
@@ -220,8 +190,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
           <div className="page-title">
             完善问题描述
           </div>
-          {renderTagList()}
-          {/*{renderTagListText()}*/}
+          {renderTagListText()}
           <div className="question-title">
                         <textarea placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
                                   onChange={(e) => this.writeTitle(e)} maxLength={50} defaultValue={this.state.title}/>
