@@ -38,7 +38,7 @@ import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
 import BannerArticle from 'modules/problem/BannerArticle'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
-import ForumBase from "./modules/forum/ForumBase";
+9import ForumBase from "./modules/forum/ForumBase";
 import Question from "./modules/forum/question/Question";
 import QuestionAnswer from "./modules/forum/question/QuestionAnswer";
 import AnswerComment from "./modules/forum/question/AnswerComment";
@@ -75,7 +75,8 @@ const routes = (
       <Route path="member/explain" component={RiseMemberExplain}/>
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
-      <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
+      <Route path="message/application/reply" component={ApplicationComment}/>
+    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
@@ -103,7 +104,6 @@ const routes = (
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
     </Route>
-
   </Route>
 )
 

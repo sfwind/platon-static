@@ -150,11 +150,14 @@ export class Main extends React.Component <any, any> {
         answer({ practice: p }, practicePlanId).then(res => {
           dispatch(endLoad());
           const { code, msg } = res
-          if (code === 200)  this.context.router.push({
-            pathname: '/rise/static/practice/warmup/result',
-            query: merge(msg, this.props.location.query)
-          })
-          else dispatch(alertMsg(msg))
+          if (code === 200) {
+            this.context.router.push({
+              pathname: '/rise/static/practice/warmup/result',
+              query: merge(msg, this.props.location.query)
+            })
+          } else {
+            dispatch(alertMsg(msg))
+          }
         }).catch(ex => {
           dispatch(endLoad())
           dispatch(alertMsg(ex))

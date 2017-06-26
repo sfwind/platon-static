@@ -3,7 +3,7 @@ import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { connect } from 'react-redux';
 import { ToolBar } from '../base/ToolBar';
 import Banner from '../../components/Banner';
-import { loadUnChooseList } from './async';
+import { loadUnChooseList,mark } from './async';
 import {changeTitle} from '../../utils/helpers'
 import { merge } from 'lodash'
 
@@ -31,6 +31,7 @@ export class Explore extends React.Component<any,any>{
   componentWillMount(){
     changeTitle('发现')
     const { dispatch } = this.props;
+    mark({module:"打点",function:"发现",action:"打开发现页面"});
     dispatch(startLoad());
     loadUnChooseList().then(res => {
       dispatch(endLoad());

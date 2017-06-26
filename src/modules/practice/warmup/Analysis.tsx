@@ -54,61 +54,43 @@ export class Analysis extends React.Component <any, any> {
     // }
   }
 
-  // componentDidMount(){
-  //   if(this.props.iNoBounce){
-  //     if(!this.props.iNoBounce.isEnabled()){
-  //       this.props.iNoBounce.enable();
-  //     }
-  //   }
-  // }
-  //
-  // componentWillUnmount(){
-  //   const {dispatch} = this.props;
-  //   if(this.props.iNoBounce){
-  //     this.props.iNoBounce.disable();
-  //   }
-  // }
-
   componentWillMount(props) {
-    const {dispatch, location} = props || this.props
-    this.setState({currentIndex: 0})
-    const {practicePlanId, integrated} = location.query
-    this.setState({integrated})
-    dispatch(startLoad())
+    const {dispatch, location} = props || this.props;
+    this.setState({currentIndex: 0});
+    const {practicePlanId, integrated} = location.query;
+    this.setState({integrated});
+    dispatch(startLoad());
     loadWarmUpAnalysis(practicePlanId).then(res => {
-      dispatch(endLoad())
-      const {code, msg} = res
-      if (code === 200) this.setState({list: msg, practiceCount: msg.practice.length})
+      dispatch(endLoad());
+      const {code, msg} = res;
+      if (code === 200) {
+        this.setState({list: msg, practiceCount: msg.practice.length});
+      }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     })
   }
 
-
-
-
-
   next() {
-    const {dispatch} = this.props
-    const {currentIndex, practiceCount} = this.state
+    const {dispatch} = this.props;
+    const {currentIndex, practiceCount} = this.state;
     if (currentIndex < practiceCount - 1) {
       this.setState({currentIndex: currentIndex + 1})
     }
   }
 
   prev() {
-    const {dispatch} = this.props
-    const {currentIndex} = this.state
+    const {dispatch} = this.props;
+    const {currentIndex} = this.state;
     if (currentIndex > 0) {
       this.setState({currentIndex: currentIndex - 1})
     }
   }
 
   nextTask() {
-    const {dispatch} = this.props
-    const {series, planId} = this.props.location.query
+    const {series, planId} = this.props.location.query;
     this.context.router.push({
       pathname: '/rise/static/learn',
       query: {series,planId}
@@ -119,24 +101,24 @@ export class Analysis extends React.Component <any, any> {
     this.setState({showKnowledge: false})
   }
 
-  closeDiscussModal() {
-    const {dispatch} = this.props
-    let {list, currentIndex} = this.state
-    const {practice = []} = list
-    const {id} = practice[currentIndex]
+  reload() {
+    const {dispatch} = this.props;
+    let {list, currentIndex} = this.state;
+    const {practice = []} = list;
+    const {id} = practice[currentIndex];
 
     loadWarmUpDiscuss(id, 1).then(res => {
-      dispatch(endLoad())
-      const {code, msg} = res
+      dispatch(endLoad());
+      const {code, msg} = res;
       if (code === 200) {
-        _.set(list, `practice.${currentIndex}.discussList`, msg)
-        this.setState({showDiscuss: false, list})
-        scroll('.discuss', '.container')
+        _.set(list, `practice.${currentIndex}.discussList`, msg);
+        this.setState({showDiscuss: false, list, content:'', placeholder:'解答同学的提问（限300字）'});
+        scroll('.discuss', '.container');
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     })
   }
 
@@ -155,28 +137,28 @@ export class Analysis extends React.Component <any, any> {
   }
 
   onSubmit(){
-    const {dispatch} = this.props
-    const {repliedId, content,list, currentIndex} = this.state
-    const {practice = []} = list
-    const {id} = practice[currentIndex]
+    const {dispatch} = this.props;
+    const {repliedId, content,list, currentIndex} = this.state;
+    const {practice = []} = list;
+    const {id} = practice[currentIndex];
     if(content.length==0){
-      dispatch(alertMsg('请填写评论'))
+      dispatch(alertMsg('请填写评论'));
       return
     }
     if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'))
+      dispatch(alertMsg('您的评论字数已超过300字'));
       return
     }
 
-    let discussBody = {comment:content, referenceId: id}
+    let discussBody = {comment:content, referenceId: id};
     if (repliedId) {
       _.merge(discussBody, {repliedId: repliedId})
     }
 
     discuss(discussBody).then(res => {
-      const {code, msg} = res
+      const {code, msg} = res;
       if (code === 200) {
-        this.closeDiscussModal()
+        this.reload()
       }
       else {
         dispatch(alertMsg(msg))
@@ -187,23 +169,23 @@ export class Analysis extends React.Component <any, any> {
   }
 
   onDelete(discussId){
-    const {dispatch} = this.props
+    const {dispatch} = this.props;
 
     deleteComment(discussId).then(res=>{
-      let {list, currentIndex} = this.state
-      const {practice = []} = list
-      const {id} = practice[currentIndex]
+      let {list, currentIndex} = this.state;
+      const {practice = []} = list;
+      const {id} = practice[currentIndex];
 
       loadWarmUpDiscuss(id, 1).then(res => {
-        dispatch(endLoad())
-        const {code, msg} = res
+        dispatch(endLoad());
+        const {code, msg} = res;
         if (code === 200) {
-          _.set(list, `practice.${currentIndex}.discussList`, msg)
+          _.set(list, `practice.${currentIndex}.discussList`, msg);
           this.setState({showDiscuss: false, list})
         }
         else dispatch(alertMsg(msg))
       }).catch(ex => {
-        dispatch(endLoad())
+        dispatch(endLoad());
         dispatch(alertMsg(ex))
       })
     })
@@ -211,11 +193,11 @@ export class Analysis extends React.Component <any, any> {
 
   render() {
     const {list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, isReply, integrated, placeholder} = this.state
-    const {practice = []} = list
+      showKnowledge, showDiscuss, isReply, integrated, placeholder} = this.state;
+    const {practice = []} = list;
 
     const questionRender = (practice) => {
-      const {id, question, pic, choiceList = [], score = 0, discussList = []} = practice
+      const {id, question, pic, choiceList = [], score = 0, discussList = []} = practice;
       return (
         <div>
           <div className="intro-container">
@@ -258,7 +240,7 @@ export class Analysis extends React.Component <any, any> {
                 :
                 <div className="discuss-end">
                   <div className="discuss-end-img">
-                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}></AssetImg>
+                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}/>
                   </div>
                   <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
 
@@ -318,7 +300,7 @@ export class Analysis extends React.Component <any, any> {
                  submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                  cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
             </div>}
       </div>
     )

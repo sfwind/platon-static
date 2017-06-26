@@ -115,3 +115,7 @@ export function removeHtmlTags(str) {
     str = str.replace(/<[^>]+>/g,"");
     return str
 }
+
+export function filterHtmlTag(content){
+    return _.isString(content)?content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):"";
+}
