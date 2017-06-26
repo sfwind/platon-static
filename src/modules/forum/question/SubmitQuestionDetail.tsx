@@ -28,13 +28,13 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: "打点", function: "论坛", action: "打开写问题页面"});
+    mark({ module: "打点", function: "论坛", action: "打开写问题页面" });
     const { dispatch, location } = this.props;
     const { questionId } = location.query;
     if(questionId) {
       dispatch(startLoad());
       getQuestion(questionId).then(res => {
-        const {code, msg} = res
+        const { code, msg } = res
         dispatch(endLoad());
         if(code === 200) {
           this.setState({
@@ -165,7 +165,24 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
     const renderEditor = () => {
       return (
-        <div className="editor">
+        <div
+          className="editor"
+          onTouchStart={() => {
+            let node = document.getElementById("place")
+            node.parentNode.removeChild(node)
+            document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
+          }}
+          onTouchEnd={() => {
+            let node = document.getElementById("place")
+            node.parentNode.removeChild(node)
+            document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
+          }}
+          onClick={() => {
+            let node = document.getElementById("place")
+            node.parentNode.removeChild(node)
+            document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
+          }}
+        >
           <Editor
             ref="editor"
             moduleId="5"
@@ -194,8 +211,10 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
           </div>
           {renderTagListText()}
           <div className="question-title">
-                        <textarea placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
-                                  onChange={(e) => this.writeTitle(e)} maxLength={50} defaultValue={this.state.title}/>
+            <textarea
+              placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
+              id="textarea"
+              onChange={(e) => this.writeTitle(e)} maxLength={50} defaultValue={this.state.title}/>
             <div className="length-div">
               <div className="length-tip">
                 {length} / 50
