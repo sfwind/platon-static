@@ -68,6 +68,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           question: res.msg,
           btn1Content: question.follow ? '已关注' : '关注',
           btn2Content: question.answered ? '编辑我的回答' : '回答',
+          submitNewAnswer: question.answered ? false : true,
           answerList: res.msg.answerList
         }, () => {
           let node = this.refs.quesDesc
@@ -187,6 +188,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             questionWritable: false,
             btn2Content: '编辑我的回答',
             answerList: answerList.concat(msg),
+            submitNewAnswer: false,
             myAnswer: msg
           })
         } else {
@@ -226,7 +228,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   render() {
-    const { question, questionWritable, btn1Content, btn2Content, answerList } = this.state
+    const { question, questionWritable, btn1Content, btn2Content, submitNewAnswer, answerList } = this.state
 
     const {
       addTimeStr, answerCount = 0, answered, authorHeadPic, authorUserName,
@@ -254,7 +256,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             btn2ContentFunc={
               mine ?
                 this.handleCLickGoQuestionSubmitPage.bind(this, question.id) :
-                answered ? this.handleClickEditSelfAnswer.bind(this) : this.handleClickAddNewAnswer.bind(this)
+                submitNewAnswer ? this.handleClickAddNewAnswer.bind(this) : this.handleClickEditSelfAnswer.bind(this)
             }
           />
         </div>
