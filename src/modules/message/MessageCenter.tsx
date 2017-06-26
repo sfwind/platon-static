@@ -36,18 +36,21 @@ export class MessageCenter extends React.Component <any, any> {
         target:'.container',
         scroller:'.container',
         damping:4,
-        // onPullUp: (data) => {
-        //   if (data.translateY <= -40){
-        //   } else {
-        //     this.setState({opacity:(-data.translateY)/40});
-        //   }
-        // },
+        onPullUp: (data) => {
+          if(this.props.iNoBounce){
+            if(this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.disable();
+            }
+          }
+          this.setState({loading:true})
+        },
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
           loadMessage(this.state.index + 1).then(res=> {
-            const {code, msg} = res
+            const {code, msg} = res;
             if (code === 200) {
+              this.setState({loading:false})
               if (msg && msg.length !== 0) {
                 remove(msg.notifyMessageList,(item)=>{
                   return findIndex(this.state.list,item)!==-1
@@ -66,6 +69,11 @@ export class MessageCenter extends React.Component <any, any> {
           }).catch(ex => {
             dispatch(alertMsg(ex));
           });
+          if(this.props.iNoBounce){
+            if(!this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.enable();
+            }
+          }
         }
       })
       this.pullElement.init();
@@ -154,7 +162,7 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   render() {
-    const {list, no_message, end} = this.state;
+    const {list, no_message, end, loading} = this.state;
 
     const messageRender = (msg) => {
       const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg;
@@ -174,6 +182,25 @@ export class MessageCenter extends React.Component <any, any> {
       )
     }
 
+    const renderShowMore = ()=>{
+      if(loading){
+        return (
+            <div style={{textAlign:'center', margin: '5px 0'}}>
+              <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
+            </div>
+        )
+      }
+      if(end && !no_message){
+        return (
+            <div className="show-more">已经到最底部了</div>
+        )
+      }else{
+        return (
+            <div className="show-more">上拉加载更多消息</div>
+        )
+      }
+    }
+
     return (
       <div className="message_box">
         { no_message ? <div className="no_message">
@@ -183,9 +210,7 @@ export class MessageCenter extends React.Component <any, any> {
                         还没有消息提醒
           </div>: <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
-          { end && !no_message ? <div className="show-more">已经到最底部了</div> :
-             <div className="show-more">上拉加载更多消息</div>
-          }
+          { renderShowMore() }
         </div>}
 
       </div>
