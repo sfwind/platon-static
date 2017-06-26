@@ -16,7 +16,7 @@ export class RiseMemberExplain extends React.Component <any, any> {
   }
 
   componentWillMount() {
-    mark({module:"RISE",function:"打点",action:"打开rise会员说明页"});
+    mark({module:"打点",function:"RISE",action:"打开rise会员说明页"});
   }
 
 

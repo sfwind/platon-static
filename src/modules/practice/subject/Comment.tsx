@@ -1,15 +1,15 @@
 import * as React from "react";
 import "./Comment.less";
 import {connect} from "react-redux"
-import {loadCommentList,comment,commentReply, loadSubject} from "./async"
+import {loadCommentList,comment,commentReply, loadSubject, vote} from "./async"
 import {deleteComment} from "../application/async"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import PullElement from "pull-element"
-import {findIndex,remove} from "lodash";
+import {findIndex,remove, isString, truncate, merge} from "lodash";
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
-import {scroll} from "../../../utils/helpers"
+import {scroll, filterHtmlTag} from "../../../utils/helpers"
 
 @connect(state=>state)
 export class Comment extends React.Component<any,any>{
@@ -20,6 +20,7 @@ export class Comment extends React.Component<any,any>{
       editDisable:false,
       article: {},
       placeholder:'和作者切磋讨论一下吧',
+      filterContent:"",
     }
     this.commentHeight = window.innerHeight;
   }
@@ -33,7 +34,7 @@ export class Comment extends React.Component<any,any>{
     dispatch(startLoad());
     loadSubject(location.query.submitId).then(res => {
       if(res.code === 200) {
-        this.setState({article: res.msg})
+        this.setState({article: res.msg, filterContent:filterHtmlTag(res.msg.content)})
         loadCommentList(location.query.submitId, 1).then(res => {
           if (res.code === 200) {
             dispatch(endLoad())
@@ -87,8 +88,8 @@ export class Comment extends React.Component<any,any>{
                 dispatch(alertMsg(res.msg));
               }
             }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
+              dispatch(alertMsg(ex));
+            });
         }
       });
       this.pullElement.init();
@@ -235,9 +236,22 @@ export class Comment extends React.Component<any,any>{
     }
   }
 
+  show(showAll){
+    this.setState({showAll:!showAll})
+  }
+
+  voted(id, voteStatus, voteCount) {
+    if(!voteStatus) {
+      this.setState({article: merge(this.state.article, {voteCount: voteCount + 1, voteStatus: true})});
+      vote(id);
+    } else {
+    }
+  }
+
   render(){
-    const { commentList=[],showDiscuss,isReply,end,placeholder } = this.state;
-    const {title, content} = this.state.article;
+    const { commentList=[],showDiscuss,isReply,end,placeholder,filterContent,wordsCount=60,showAll } = this.state;
+    const {title, content, voteStatus, voteCount} = this.state.article;
+    const {submitId} = this.props.location.query;
     const renderCommentList = ()=>{
       if(commentList && commentList.length !== 0){
         return (
@@ -273,12 +287,38 @@ export class Comment extends React.Component<any,any>{
       }
     }
 
+    const renderWorkContent = ()=>{
+      if(isString(content)){
+        if(filterContent.length>wordsCount && !showAll){
+          return (
+              <div onClick={()=>this.show(showAll)} className="subject-content">
+                {truncate(filterContent,{length:wordsCount,omission:''})}
+                <span style={{letterSpacing:'-3px'}}>......</span>
+              </div>
+          )
+        } else {
+          return (
+              <pre className="subject-content" dangerouslySetInnerHTML={{__html:content}}/>
+          )
+        }
+      }
+      return null;
+    };
+
     return (
       <div>
         <div className="subject-comment">
           <div className="article">
             <div className="article-header">{title}</div>
-            <pre dangerouslySetInnerHTML={{__html: content}} className="description"></pre>
+            {renderWorkContent()}
+            {filterContent && filterContent.length>wordsCount?
+                <div onClick={()=>this.show(showAll)} className="show-all">{showAll?'收起':'展开'}</div>:null}
+            {content?
+                <div className={`operation-area`}>
+                  <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
+                    <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
+                  </div>
+                </div>:null}
             <div className="comment-header">
               当前评论
             </div>

@@ -2,11 +2,11 @@ import * as React from "react"
 import {connect} from "react-redux"
 import { isBoolean } from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {pget, ppost} from "utils/request"
+import {pget, ppost, mark} from "utils/request"
 import {changeTitle} from "utils/helpers"
 import "./PointTip.less"
 import { Button, ButtonArea, Dialog, Form, FormCell, CellHeader, CellBody, Checkbox } from "react-weui"
-import AssetImg from "../../components/AssetImg";
+import {mark} from "../problem/async"
 
 
 @connect(state => state)
@@ -21,6 +21,7 @@ export default class RiseMember extends React.Component<any,any> {
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "个人中心", action: "打开我的会员页面"});
     changeTitle("RISE");
     const {dispatch} = this.props;
     dispatch(startLoad());

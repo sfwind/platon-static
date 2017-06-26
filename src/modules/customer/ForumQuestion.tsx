@@ -5,6 +5,7 @@ import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import { loadMineQuestions,loadMineAnswers } from "./async";
 import SimpleQuestion from "../forum/commons/SimpleQuestion/SimpleQuestion"
 import { splitText,removeHtmlTags } from "../../utils/helpers"
+import { mark } from "../../utils/request"
 
 @connect(state=>state)
 export default class ForumQuestion extends React.Component<any,any>{
@@ -18,6 +19,7 @@ export default class ForumQuestion extends React.Component<any,any>{
 
 
   componentWillMount(){
+    mark({module: "打点", function: "个人中心", action: "我的论坛"});
     const {dispatch} = this.props;
     dispatch(startLoad());
     loadMineQuestions().then(res=>{

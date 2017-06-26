@@ -4,19 +4,63 @@
   overflow: auto;
   height: 100%;
   .article {
-    padding: 0 15px 0 15px;
+    padding: 0 15px;
     > .description {
       font-size: @font_context;
       padding: 10px 0;
     }
     > .article-header{
       width: 100%;
-      min-height: 45px;
       font-size: @font_title;
       border-bottom: 2px solid @color_strong;
       text-align: center;
-      line-height: 2.5em;
+      line-height: @font_title;
+      padding: 15px 0;
       color: @color_title;
+    }
+    > .show-all{
+      font-size:@font_click;
+      color:@color_strong;
+      position: relative;
+      z-index: 1;
+      width: 50px;
+    }
+    > .subject-content{
+      font-size: @font_context;
+      color: @color_context;
+      padding: 15px 0;
+    }
+
+    > .operation-area {
+      margin-top: -20px;
+      height: 40px;
+      position: relative;
+      > .vote {
+        display: inline-block;
+        height: 25px;
+        float: right;
+        > span{
+          &:before {
+            content: '';
+            display: inline-block;
+            vertical-align: bottom;
+            width: 25px;
+            height: 25px;
+            margin-right:5px;
+            margin-bottom: 2px;
+          }
+        }
+        > .disVote {
+          &:before {
+            background: url('https://static.iqycamp.com/images/fragment/unvote.png?imageslim') no-repeat bottom center/25px 25px;
+          }
+        }
+        > .voted {
+          &:before {
+            background: url('https://static.iqycamp.com/images/fragment/voted.png?imageslim') no-repeat bottom center/25px 25px;
+          }
+        }
+      }
     }
   }
   .comment-header{
@@ -35,7 +79,7 @@
       text-align: center;
       margin-top: 15px;
       > .no_comment{
-        margin-top: 125px;
+        margin-top: 50px;
       }
     }
   }

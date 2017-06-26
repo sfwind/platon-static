@@ -5,6 +5,11 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import "./RoadMap.less";
 import _ from 'lodash'
 
+/**
+ * @deprecated
+ * 该页面已废弃
+ * 没有到该页面的路由
+ */
 @connect(state => state)
 export class RoadMap extends React.Component <any, any> {
   constructor() {

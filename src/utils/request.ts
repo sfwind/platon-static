@@ -8,6 +8,11 @@ const config = {
   timeout: 10000,
 }
 
+export function mark(param){
+  return ppost('/rise/b/mark',param);
+}
+
+
 export function appendQs(query:Object):string {
   let queryCount = values(query).filter(item=> !isNull(item) && !(isUndefined(item))).length;
   return queryCount === 0 ? "" : `?${qs.stringify(merge(query, { debug: debug }))}`

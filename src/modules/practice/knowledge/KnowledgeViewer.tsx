@@ -9,6 +9,7 @@ import Discuss from "../components/Discuss"
 import _ from "lodash"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import {scroll} from "../../../utils/helpers"
+import { mark } from "../../../utils/request"
 
 const sequenceMap = {
   0: 'A',
@@ -40,6 +41,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   componentWillMount(){
+    mark({module: "打点", function: "学习", action: "打开知识点页面"});
     const {id,practicePlanId} = this.props.location.query
     const {dispatch} = this.props
     dispatch(startLoad())
@@ -95,7 +97,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
     loadDiscuss(knowledge.id,1)
       .then(res=>{
         if(res.code === 200){
-          this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,placeholder:'提出你的疑问或意见吧（限300字）'})
+          this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,
+            placeholder:'提出你的疑问或意见吧（限300字）', content:''})
           scroll('.discuss', '.container')
         }
       });
@@ -117,7 +120,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onSubmit(){
-
     const {dispatch} = this.props
     const {referenceId, repliedId, content} = this.state
     if(content.length==0){

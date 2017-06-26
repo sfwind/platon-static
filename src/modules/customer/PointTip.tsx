@@ -22,7 +22,7 @@ export default class PointTip extends React.Component<any,any> {
 
   componentWillMount() {
     changeTitle("积分规则");
-    mark({module: "个人中心", function: "帮助", action: "打开积分规则"})
+    mark({module: "打点", function: "帮助", action: "打开积分规则"})
   }
 
   render() {

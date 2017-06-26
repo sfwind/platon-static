@@ -6,6 +6,7 @@ import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import {set, findIndex, remove} from "lodash"
 import PullElement from "pull-element";
 import AssetImg from "../../components/AssetImg";
+import { mark } from "../../utils/request"
 import { changeTitle } from '../../utils/helpers'
 
 @connect(state => state)
@@ -25,6 +26,37 @@ export class MessageCenter extends React.Component <any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
+  }
+
+
+
+  componentWillMount(props) {
+    const {dispatch} = props || this.props
+    dispatch(startLoad())
+    loadMessage(1).then((res)=>{
+      dispatch(endLoad())
+      const {code, msg} = res
+
+      if (code === 200) {
+        let no_message = false
+        if(msg.notifyMessageList.length === 0){
+          no_message = true
+        }
+        this.setState({list: msg.notifyMessageList, no_message, end: msg.end})
+        if(msg.end===true && this.pullElement){
+          this.pullElement.disable()
+        }
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+  }
+
+  componentDidMount(){
+    mark({module: "打点", function: "消息中心", action: "打开消息中心页面"});
   }
 
   componentDidUpdate(preProps,preState){
@@ -74,32 +106,6 @@ export class MessageCenter extends React.Component <any, any> {
 
   componentWillUnmount(){
     this.pullElement?this.pullElement.destroy():null;
-  }
-
-  componentWillMount(props) {
-    const {dispatch} = props || this.props
-    dispatch(startLoad())
-    loadMessage(1).then((res)=>{
-      dispatch(endLoad())
-      const {code, msg} = res
-
-      if (code === 200) {
-        let no_message = false
-        if(msg.notifyMessageList.length === 0){
-          no_message = true
-        }
-        this.setState({list: msg.notifyMessageList, no_message, end: msg.end})
-        if(msg.end===true && this.pullElement){
-          this.pullElement.disable()
-        }
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-
   }
 
   open(url, id, isRead){
