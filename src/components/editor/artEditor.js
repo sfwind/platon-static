@@ -126,17 +126,28 @@ module.exports = function init($) {
         cache: false,
       }).then(function (res) {
         var src = _this._opt.uploadSuccess(res);
-        console.log('src', src);
+        // 新增 img 节点，赋予默认高度、宽度以及背景头像，并且增加 onload 事件，当图片加载完毕，去除原有高度和宽度
         if (src) {
-          var img = '<img src="' + src + '" style="max-width:90%" />';
+          let randomId = Math.floor(Math.random() * 10);
+          let tempUrl = 'https://static.iqycamp.com/images/imgLoading.png?imageslim'
+          var img = '<img id="'+randomId+'" src="'+src+'" class="editor-img" style="height: 175px; width: 375px; max-width: 90%; display: block; background-image: url(' + tempUrl + '); background-position: center; background-size: cover; margin: 0 auto" />';
           _this.insertImage(img);
+          let node = document.getElementById(randomId)
+          node.addEventListener("load", () => {
+            node.style.height = ''
+            node.style.width = ''
+          })
         } else {
           console.log('地址为空啊!大兄弟', src)
         }
       }, function (error) {
         _this._opt.uploadError(error.status, error);
       })
-
+    },
+    removeTempImg: function() {
+      console.log('chulichuli')
+      let node = document.getElementById('tempImg')
+      node.innerHTML = '';
     },
     insertImage: function (src) {
       $(this).focus();
