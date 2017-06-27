@@ -6,7 +6,7 @@
 module.exports = function init($) {
   $.fn.extend({
     _opt: {
-      placeholader: '<p>请输入文章正文内容</p>',
+      placeholader: '<span id="editor-placeholder">请输入文章正文内容</span>',
       validHtml: [],
       limitSize: 3,
       showServer: false

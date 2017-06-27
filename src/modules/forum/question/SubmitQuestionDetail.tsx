@@ -168,17 +168,17 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         <div
           className="editor"
           onTouchStart={() => {
-            let node = document.getElementById("place")
+            let node = document.getElementById("editor-placeholder")
             node.parentNode.removeChild(node)
             document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
           }}
           onTouchEnd={() => {
-            let node = document.getElementById("place")
+            let node = document.getElementById("editor-placeholder")
             node.parentNode.removeChild(node)
             document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
           }}
           onClick={() => {
-            let node = document.getElementById("place")
+            let node = document.getElementById("editor-placeholder")
             node.parentNode.removeChild(node)
             document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
           }}

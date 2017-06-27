@@ -5,7 +5,7 @@ import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import {isFunction} from "lodash";
 
-const placeHolder = '<p style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</p>';
+const placeHolder = '<span id="editor-placeholder" style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</span>';
 export default class Editor extends React.Component<any,any>{
   constructor(props){
     super(props);
@@ -25,7 +25,7 @@ export default class Editor extends React.Component<any,any>{
       uploadUrl: `/rise/file/editor/image/upload/${this.props.moduleId || 2}`,
       formInputId:'target',
       uploadField: 'file',
-      placeholader: this.props.placeholder?`<span id="place" style="color:#cccccc; z-index: -1">${this.props.placeholder}</span>`:placeHolder,
+      placeholader: this.props.placeholder?`<span id="editor-placeholder" style="color:#cccccc; z-index: -1">${this.props.placeholder}</span>`:placeHolder,
       // placeholader: this.props.placeholder?`${this.props.placeholder}`:placeHolder,
       validHtml: [],
       uploadStart:()=>{
