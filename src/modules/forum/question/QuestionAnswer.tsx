@@ -127,9 +127,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
   // 关注
   handleClickFollow(questionId) {
-    follow(questionId)
-    this.setState({
-      btn1Content: '已关注'
+    follow(questionId).then(() => {
+      this.setState({
+        btn1Content: '已关注'
+      })
     })
   }
 
