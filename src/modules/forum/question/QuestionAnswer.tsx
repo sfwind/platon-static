@@ -50,7 +50,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   componentWillMount() {
-    mark({module: "打点", function: "论坛", action: "打开问题详情页"});
+    mark({ module: "打点", function: "论坛", action: "打开问题详情页" });
     const questionId = this.props.location.query.questionId
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -190,6 +190,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             answerList: answerList.concat(msg),
             submitNewAnswer: false,
             myAnswer: msg
+          }, () => {
+            document.querySelector(".answer-container").scrollTop = document.querySelector("#myanswer").offsetTop
           })
         } else {
           dispatch(alertMsg(msg))
@@ -216,6 +218,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             btn2Content: '编辑我的回答',
             answerList: newAnswerList,
             myAnswer: res.msg
+          }, () => {
+            document.querySelector(".answer-container").scrollTop = document.querySelector("#myanswer").offsetTop
           })
         } else {
           dispatch(alertMsg(msg))
@@ -237,7 +241,6 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
     const renderQuestion = () => {
       if(!id) return
-
       return (
         <div className="ques-desc" ref="quesDesc">
           <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}/>
@@ -281,7 +284,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         <div className="answer-list">
           {
             answerList.map((answerItem, idx) => {
-              const { answer = '', approval, approvalCount, authorHeadPic, authorUserName, commentCount, id, publishTimeStr } = answerItem
+              const { answer = '', approval, approvalCount, authorHeadPic, authorUserName, commentCount, id, publishTimeStr, mine } = answerItem
               let tag = approval
               let comment = 'https://static.iqycamp.com/images/fragment/comment.png?imageslim'
               let unvote = 'https://static.iqycamp.com/images/fragment/unvote.png?imageslim'
@@ -312,7 +315,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
               }
 
               return (
-                <div className="answer-desc" key={idx}>
+                <div className="answer-desc" key={idx} id={mine ? 'myanswer' : null}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
                   <div className="answer-content" ref={`ansComment${idx}`}
                        dangerouslySetInnerHTML={{ __html: splitText(answer, 68) }}/>

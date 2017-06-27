@@ -98,6 +98,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     }
   }
 
+  // 提交答案
   commentAnswer() {
     const { commentCount, commentlist, answerId, comment, repliedCommentId } = this.state
     const { dispatch } = this.props
@@ -173,6 +174,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
     })
   }
 
+  // 初始化删除状态
   handleDelete(commentId) {
     this.setState({ commentId, show: true })
   }

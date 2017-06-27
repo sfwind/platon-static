@@ -37,7 +37,6 @@ export default class DialogBottomBtn extends React.Component<DialogBottomProps, 
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps.btn1Content)
     if(newProps.btn1Content !== this.state.changeBtn1Content) {
       this.setState({ changeBtn1Content: newProps.btn1Content })
     }
@@ -89,7 +88,6 @@ export default class DialogBottomBtn extends React.Component<DialogBottomProps, 
     const renderBtn2Kit = () => {
       const changeBtn2ContentFunc = () => {
         let funcReturnContent = btn2ContentFunc()
-        console.log('方法返回的 btn2 的内容', funcReturnContent)
         this.setState({ changeBtn2Content: funcReturnContent ? funcReturnContent : btn2Content })
       }
 
