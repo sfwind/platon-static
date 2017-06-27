@@ -275,7 +275,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             <div className="discuss">
               {_.isEmpty(discuss) ? null : discuss.map(item => {
                 return (
-                  <DiscussShow discuss={item} reply={() => {
+                  <DiscussShow discuss={item} showLength={50} reply={() => {
                     this.reply(item)
                   }} onDelete={() => this.onDelete(item.id)}/>
                 )
@@ -298,7 +298,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
           {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
         {practicePlanId&&!showDiscuss?<div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>:null}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
+        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>

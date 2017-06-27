@@ -5,7 +5,7 @@ import DiscussShow from "../practice/components/DiscussShow";
 import Discuss from "../practice/components/Discuss"
 import "./ReplyDiscussMessage.less";
 import { isString, truncate } from "lodash";
-import { commentReply, loadArticleData, deleteComment } from "./async";
+import { commentReply, loadArticleData } from "./async";
 
 @connect(state => state)
 export class ReplyCommentMessage extends React.Component<any, any> {
@@ -73,13 +73,6 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     }
   }
 
-  onDelete(id) {
-    deleteComment(id).then(res => {
-      if(res.code === 200) {
-        this.setState({comment: {}})
-      }
-    })
-  }
 
   goDetail() {
     const {moduleId, submitId} = this.props.location.query;
@@ -158,9 +151,9 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     const renderComments = () => {
       const {comment} = this.state;
       return (
-        <DiscussShow discuss={comment} reply={() => {
+        <DiscussShow discuss={comment} showLength={100} reply={() => {
           this.reply(comment);
-        }} onDelete={this.onDelete.bind(this, comment.id)}/>
+        }} />
       );
     };
 
@@ -173,7 +166,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
           <div className="discuss-title-bar"><span className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
           {renderComments()}
         </div>
-        {showDiscuss ? <Discuss isReply={true} placeholder={'回复 ' + comment.name + ':'}
+        {showDiscuss ? <Discuss isReply={true} placeholder={'回复 ' + comment.name + ':'} limit={10000}
                                 submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
                                 cancel={() => this.cancel()}/> : null}
       </div>

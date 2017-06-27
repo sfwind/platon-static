@@ -8,10 +8,17 @@
   padding: 6px;
   width: ~"calc(100% - 12px)";
   position: fixed;
-  //z-index: 5;
   bottom: 0;
   border-top: 1px solid @color_weak;
   background-color: #fff;
+  > .text-length{
+    margin-top: -25px;
+    margin-right: 72px;
+    text-align: right;
+    font-size: @font_help;
+    color: @color_help;
+    position: relative;
+  }
   >.comment-right-area{
     margin-left: 10px;
     display: inline-block;
@@ -44,7 +51,7 @@
     border: 1px solid #d0d0d0;
     font-size: @font_context;
     height: 80px;
-    padding: 0 2px;
+    padding: 0 2px 20px;
     box-shadow:0 0 0 rgba(0,0,0,0);
     -webkit-appearance:none;
   }

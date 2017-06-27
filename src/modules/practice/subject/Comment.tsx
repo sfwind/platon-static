@@ -257,7 +257,7 @@ export class Comment extends React.Component<any,any>{
         return (
           commentList.map((item,seq)=>{
             return (
-              <DiscussShow discuss={item} reply={() => {
+              <DiscussShow discuss={item} showLength={100} reply={() => {
                 this.reply(item)
               }} onDelete={this.onDelete.bind(this, item.id)}/>
             )
@@ -332,7 +332,7 @@ export class Comment extends React.Component<any,any>{
           {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
         {showDiscuss ?
-            <Discuss isReply={isReply} placeholder={placeholder}
+            <Discuss isReply={isReply} placeholder={placeholder} limit={10000}
                      submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                      cancel={()=>this.cancel()}
             />

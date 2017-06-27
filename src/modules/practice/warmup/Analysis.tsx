@@ -254,7 +254,7 @@ export class Analysis extends React.Component <any, any> {
 
     const discussRender = (discuss, idx) => {
       return (
-        <DiscussShow discuss={discuss} reply={()=>this.reply(discuss)} onDelete={this.onDelete.bind(this, discuss.id)}/>
+        <DiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)} onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
@@ -296,7 +296,7 @@ export class Analysis extends React.Component <any, any> {
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
         </div>}
         {showKnowledge ? <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
+        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                  submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                  cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>

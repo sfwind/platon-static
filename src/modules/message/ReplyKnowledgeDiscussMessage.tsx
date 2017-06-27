@@ -116,7 +116,7 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
 
     const renderDiscuss = (discuss) => {
         return (
-            <DiscussShow discuss={discuss} reply={()=>this.reply(discuss)}/>
+            <DiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}/>
         )
     }
     return (
@@ -127,7 +127,7 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
           <div className="discuss-title-bar"><span className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>
           {renderDiscuss(data)}
          </div>
-        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+data.name+':'}
+        {showDiscuss ?<Discuss isReply={true} placeholder={'回复 '+data.name+':'} limit={1000}
                                submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                                cancel={()=>this.cancel()}/> : null}
 
