@@ -128,7 +128,6 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   // 关注
   handleClickFollow(questionId) {
     follow(questionId).then(() => {
-      this.props.dispatch(alertMsg("关注后，有新回复会收到提醒哦"))
       this.setState({
         btn1Content: '已关注'
       })

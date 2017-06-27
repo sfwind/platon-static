@@ -1,12 +1,12 @@
 import * as React from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import PullElement from 'pull-element';
 import { ToolBar } from "../../base/ToolBar";
 import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions, getQuestion } from "../async";
 import { mark } from "../../../utils/request"
-import { splitText ,removeHtmlTags} from "../../../utils/helpers"
-import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
+import { splitText, removeHtmlTags } from "../../../utils/helpers"
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import _ from "lodash";
 
 import "./Question.less";
@@ -28,7 +28,8 @@ export default class Question extends React.Component<any, QuestionStates> {
     this.state = {
       questions: [],
       page: 1,
-      end: false
+      end: false,
+      showToast: false
     }
     this.pullElement = null
   }
@@ -38,16 +39,16 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   componentWillMount() {
-    mark({module: "打点", function: "论坛", action: "打开问题列表页"});
-    const {dispatch, location} = this.props;
-    const {questionId} = location.query;
+    mark({ module: "打点", function: "论坛", action: "打开问题列表页" });
+    const { dispatch, location } = this.props;
+    const { questionId } = location.query;
     let questions = [];
     dispatch(startLoad());
-    if(questionId){
-      getQuestion(questionId).then(res=>{
-        if(res.code===200){
+    if(questionId) {
+      getQuestion(questionId).then(res => {
+        if(res.code === 200) {
           questions.push(res.msg);
-        }else{
+        } else {
           dispatch(alertMsg(res.msg));
         }
       }).catch(e => {
@@ -59,13 +60,13 @@ export default class Question extends React.Component<any, QuestionStates> {
       dispatch(endLoad());
       const { code, msg } = res;
       if(code === 200) {
-        if(questionId){
+        if(questionId) {
           _.remove(res.msg.list, (item) => {
             return item.id == questionId;
           });
         }
         this.setState({ questions: questions.concat(msg.list) })
-      }else{
+      } else {
         dispatch(alertMsg(res.msg));
       }
     }).catch(e => {
@@ -77,7 +78,7 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   componentDidUpdate() {
-    const {dispatch, location} = this.props;
+    const { dispatch, location } = this.props;
     if(!this.pullElement) {
       this.pullElement = new PullElement({
         target: '.question-page',
@@ -87,8 +88,8 @@ export default class Question extends React.Component<any, QuestionStates> {
         detectScroll: true,
         detectScrollOnStart: true,
         onPullUp: (data) => {
-          if(this.props.iNoBounce){
-            if(this.props.iNoBounce.isEnabled()){
+          if(this.props.iNoBounce) {
+            if(this.props.iNoBounce.isEnabled()) {
               this.props.iNoBounce.disable();
             }
           }
@@ -96,9 +97,9 @@ export default class Question extends React.Component<any, QuestionStates> {
         onPullUpEnd: () => {
           getAllQuestions(this.state.page + 1).then(res => {
             const { code, msg } = res;
-            const {questionId} = location.query;
+            const { questionId } = location.query;
             if(code === 200) {
-              if(questionId){
+              if(questionId) {
                 _.remove(res.msg.list, (item) => {
                   return item.id == questionId;
                 });
@@ -113,8 +114,8 @@ export default class Question extends React.Component<any, QuestionStates> {
             dispatch(alertMsg(e));
             dispatch(endLoad());
           })
-          if(this.props.iNoBounce){
-            if(!this.props.iNoBounce.isEnabled()){
+          if(this.props.iNoBounce) {
+            if(!this.props.iNoBounce.isEnabled()) {
               this.props.iNoBounce.enable();
             }
           }
@@ -138,19 +139,9 @@ export default class Question extends React.Component<any, QuestionStates> {
     })
   }
 
-  handleClickFeedback(){
-    mark({module: "打点", function: "论坛", action: "点击意见反馈"});
-    window.location.href=`https://${window.location.hostname}/survey/wjx?activity=15135162 `
-  }
-
-  // 特殊组件
-  renderOtherComponents() {
-    return (
-      <div>
-        <div style={{ height: '50px' }} className="padding-footer"/>
-        <ToolBar/>
-      </div>
-    )
+  handleClickFeedback() {
+    mark({ module: "打点", function: "论坛", action: "点击意见反馈" });
+    window.location.href = `https://${window.location.hostname}/survey/wjx?activity=15135162 `
   }
 
   render() {
@@ -175,9 +166,7 @@ export default class Question extends React.Component<any, QuestionStates> {
                   disFollow(id)
                 } else {
                   // 未关注的情况，则调用关注接口
-                  follow(id).then(
-                    this.props.dispatch(alertMsg("关注后，有新回复会收到提醒哦"))
-                  )
+                  follow(id)
                 }
                 tag = !tag
                 return tag ? '已关注' : '关注'
@@ -189,7 +178,8 @@ export default class Question extends React.Component<any, QuestionStates> {
                       leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
                       disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
                     />
-                    <div className="ques-title" onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
+                    <div className="ques-title"
+                         onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
                     <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
                       {splitText(removeHtmlTags(description), 20)}
                     </div>
@@ -206,10 +196,20 @@ export default class Question extends React.Component<any, QuestionStates> {
       )
     }
 
+    // 特殊组件
+    const renderOtherComponents = () => {
+      return (
+        <div>
+          <div style={{ height: '50px' }} className="padding-footer"/>
+          <ToolBar/>
+        </div>
+      )
+    }
+
     return (
       <div className="question-container">
-        <div className="question-feedback" onClick={()=>this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
-        <div className="question-page" style={{height: window.innerHeight - 26 - 50}}>
+        <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
+        <div className="question-page" style={{ height: window.innerHeight - 26 - 50 }}>
           <div className="ques-nav">
             <div className="ques-nav-desc">有一个新问题？点这里提问吧</div>
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>去提问</div>
@@ -218,7 +218,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           {renderQuestionList()}
           <PullSlideTip isEnd={this.state.end}/>
         </div>
-        {this.renderOtherComponents()}
+        {renderOtherComponents()}
       </div>
     )
   }
