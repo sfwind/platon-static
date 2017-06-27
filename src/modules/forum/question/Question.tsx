@@ -175,7 +175,9 @@ export default class Question extends React.Component<any, QuestionStates> {
                   disFollow(id)
                 } else {
                   // 未关注的情况，则调用关注接口
-                  follow(id)
+                  follow(id).then(
+                    this.props.dispatch(alertMsg("关注后，有新回复会收到提醒哦"))
+                  )
                 }
                 tag = !tag
                 return tag ? '已关注' : '关注'
