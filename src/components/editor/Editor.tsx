@@ -119,6 +119,7 @@ export default class Editor extends React.Component<any, any> {
   render() {
     const { maxLength, scrollContainer } = this.props;
     const { length } = this.state;
+
     return (
       <div className="publish-article-content"
            onClick={() => {
@@ -126,7 +127,9 @@ export default class Editor extends React.Component<any, any> {
              if(node) {
                node.parentNode.removeChild(node)
              }
-             document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
+             if(window.navigator.userAgent.indexOf("Android") > 0) {
+               document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
+             }
            }}
       >
         <input type="hidden" id="target" value=""/>
