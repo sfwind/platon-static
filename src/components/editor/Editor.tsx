@@ -4,10 +4,8 @@ import $ from "jquery"
 import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import { isFunction } from "lodash";
-import { connect } from "react-redux"
 
 const placeHolder = '<span id="editor-placeholder" style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</span>';
-@connect(state => state)
 export default class Editor extends React.Component<any, any> {
   constructor(props) {
     super(props);
@@ -19,7 +17,9 @@ export default class Editor extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    window.iNoBounce.disable()
+    if(window.iNoBounce) {
+      window.iNoBounce.disable()
+    }
   }
 
   componentDidMount() {
@@ -32,7 +32,6 @@ export default class Editor extends React.Component<any, any> {
       formInputId: 'target',
       uploadField: 'file',
       placeholader: this.props.placeholder ? `<span id="editor-placeholder" style="color:#cccccc; z-index: -1">${this.props.placeholder}</span>` : placeHolder,
-      // placeholader: this.props.placeholder?`${this.props.placeholder}`:placeHolder,
       validHtml: [],
       uploadStart: () => {
         if(this.props.uploadStart) {
@@ -93,7 +92,9 @@ export default class Editor extends React.Component<any, any> {
   }
 
   componentWillUnmount() {
-    window.iNoBounce.enable()
+    if(window.iNoBounce) {
+      window.iNoBounce.enable()
+    }
   }
 
   getValue() {
