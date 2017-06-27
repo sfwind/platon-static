@@ -189,9 +189,7 @@ module.exports = function init($) {
     placeholderHandler: function() {
       var _this = this;
       $(this).on('focus', function() {
-        if($.trim($(this).html()) === _this._opt.placeholader) {
-          $(this).focus()
-        }
+        if($.trim($(this).html()) === _this._opt.placeholader) {}
       });
       $(this).on('blur', function() {
         if(!$(this).html()) {

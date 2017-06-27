@@ -165,28 +165,12 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
     const renderEditor = () => {
       return (
-        <div
-          className="editor"
-          onTouchStart={() => {
-            let node = document.getElementById("editor-placeholder")
-            node.parentNode.removeChild(node)
-            document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
-          }}
-          onTouchEnd={() => {
-            let node = document.getElementById("editor-placeholder")
-            node.parentNode.removeChild(node)
-            document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
-          }}
-          onClick={() => {
-            let node = document.getElementById("editor-placeholder")
-            node.parentNode.removeChild(node)
-            document.querySelector("#react-app").scrollTop = document.querySelector(".editor").offsetTop - 40
-          }}
-        >
+        <div className="editor">
           <Editor
             ref="editor"
             moduleId="5"
             maxLength="1000"
+            scrollContainer="question-detail-container"
             defaultValue={this.state.detail}
             onUploadError={(res) => {
               this.props.dispatch(alertMsg(res.msg))

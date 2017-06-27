@@ -76,7 +76,7 @@ const routes = (
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/application/reply" component={ApplicationComment}/>
-    <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
+      <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
@@ -104,6 +104,7 @@ const routes = (
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
     </Route>
+
   </Route>
 )
 

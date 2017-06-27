@@ -68,7 +68,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           question: res.msg,
           btn1Content: question.follow ? '已关注' : '关注',
           btn2Content: question.answered ? '编辑我的回答' : '回答',
-          submitNewAnswer: question.answered ? false : true,
+          submitNewAnswer: !question.answered,
           answerList: res.msg.answerList
         }, () => {
           let node = this.refs.quesDesc
@@ -337,7 +337,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return (
         <div className="answer-editor">
           <Editor
-            ref="editor" moduleId="6" maxLength="10000"
+            ref="editor" moduleId="6" maxLength="10000" scrollContainer="answer-container"
             defaultValue={this.state.myAnswer.answer}
             placeholder="回答问题时，可以试试以下的思路：<br/>1，澄清对问题的理解；<br/>2，分析可能的原因；<br/>3，提供建议和解决方案；<br/>4，说明使用的哪一门小课/知识点，帮助自己回顾学到的知识。"
             uploadStart={() => {
