@@ -337,6 +337,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
     const renderAnswerWriteBox = () => {
       if(!questionWritable) return;
+      let scrollContainer = '.answer-container'
       return (
         <div className="answer-editor">
           <Editor

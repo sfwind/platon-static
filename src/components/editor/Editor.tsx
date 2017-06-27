@@ -4,8 +4,10 @@ import $ from "jquery"
 import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import { isFunction } from "lodash";
+import { connect } from "react-redux"
 
 const placeHolder = '<span id="editor-placeholder" style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</span>';
+@connect(state => state)
 export default class Editor extends React.Component<any, any> {
   constructor(props) {
     super(props);
@@ -14,6 +16,10 @@ export default class Editor extends React.Component<any, any> {
       editor: null,
       length: 0,
     }
+  }
+
+  componentWillMount() {
+    window.iNoBounce.disable()
   }
 
   componentDidMount() {
@@ -86,6 +92,10 @@ export default class Editor extends React.Component<any, any> {
     this.setState({ editor: editor });
   }
 
+  componentWillUnmount() {
+    window.iNoBounce.enable()
+  }
+
   getValue() {
     let value = this.state.editor.getValue();
     return value === placeHolder ? '' : value;
@@ -111,33 +121,12 @@ export default class Editor extends React.Component<any, any> {
     const { length } = this.state;
     return (
       <div className="publish-article-content"
-           onTouchStart={() => {
-             let node = document.getElementById("editor-placeholder")
-             if(node) {
-               node.parentNode.removeChild(node)
-               document.querySelector(scrollContainer).scrollTop = document.querySelector(".editor").offsetTop - 40
-             }
-           }}
-           onTouchEnd={() => {
-             let node = document.getElementById("editor-placeholder")
-             if(node) {
-               node.parentNode.removeChild(node)
-               document.querySelector(scrollContainer).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
-             }
-           }}
            onClick={() => {
              let node = document.getElementById("editor-placeholder")
              if(node) {
                node.parentNode.removeChild(node)
-               document.querySelector(scrollContainer).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
              }
-           }}
-           onFocus={() => {
-             let node = document.getElementById("editor-placeholder")
-             if(node) {
-               node.parentNode.removeChild(node)
-               document.querySelector(scrollContainer).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
-             }
+             document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
            }}
       >
         <input type="hidden" id="target" value=""/>

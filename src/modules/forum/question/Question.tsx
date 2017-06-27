@@ -11,7 +11,6 @@ import _ from "lodash";
 
 import "./Question.less";
 
-// let pullElement = null
 interface QuestionStates {
   questions: object;
   // 分页获取 Question 列表分页数
