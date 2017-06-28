@@ -36,8 +36,8 @@ export class Comment extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({article: res.msg, filterContent:filterHtmlTag(res.msg.content)});
         loadCommentList(location.query.submitId, 1).then(res => {
+          dispatch(endLoad());
           if(res.code === 200) {
-            dispatch(endLoad());
             this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
               isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
             //从消息中心打开时，锚定到指定评论
@@ -45,7 +45,6 @@ export class Comment extends React.Component<any, any> {
               scroll('#comment-'+location.query.commentId, '.application-comment');
             }
           } else {
-            dispatch(endLoad());
             dispatch(alertMsg(res.msg));
           }
         }).catch(ex => {
@@ -176,16 +175,21 @@ export class Comment extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const {commentList = []} = this.state;
+    const {dispatch, location} = this.props;
     deleteComment(id).then(res => {
       if(res.code === 200) {
-        let newCommentList = [];
-        commentList.forEach((item) => {
-          if(item.id != id) {
-            newCommentList.push(item);
+        loadCommentList(location.query.submitId, 1).then(res => {
+          dispatch(endLoad());
+          if(res.code === 200) {
+            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
+              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+          } else {
+            dispatch(alertMsg(res.msg));
           }
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
         });
-        this.setState({commentList: newCommentList});
       }
     })
   }

@@ -29,6 +29,16 @@ export default class DiscussShow extends React.Component <any, any> {
 
   }
 
+  componentWillReceiveProps(props){
+    const {showLength, discuss} = props;
+    const {
+        comment, repliedComment
+    } = discuss;
+    this.setState({filterComment:this.filterText(comment, showLength),
+      filterReplied:this.filterText(repliedComment, showLength - comment.length),
+      filtered:!this.showAll(comment, repliedComment, showLength)})
+  }
+
   filterText(comment, limit){
     if(comment && limit>0){
       return comment.length > limit? comment.substring(0, limit) : comment;
