@@ -86,10 +86,6 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
       dispatch(alertMsg('请填写评论'))
       return
     }
-    if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'))
-      return
-    }
 
     let discussBody = {comment:content, referenceId: referenceId}
     if (repliedId) {
