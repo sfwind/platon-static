@@ -145,14 +145,16 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const {dispatch, location} = this.props;
+    const {dispatch} = this.props;
+    const {knowledge} = this.state;
     dispatch(startLoad());
     deleteKnowledgeDiscuss(id).then(res => {
-      loadDiscuss(location.query.id, 1)
+      loadDiscuss(knowledge.id, 1)
           .then(res=>{
             dispatch(endLoad());
             if(res.code === 200){
-              this.setState({discuss:res.msg})
+              this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,
+                placeholder:'提出你的疑问或意见吧（限1000字）', content:''})
             }
       });
     }).catch(ex => {
