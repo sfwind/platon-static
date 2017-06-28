@@ -47,9 +47,12 @@ export default class Discuss extends React.Component <any, any> {
 
     return (
         <div className="comment-dialog">
-          <textarea ref="input" placeholder={placeholder} maxLength={limit}
-                    onChange={(e)=>this.change(e.currentTarget.value)}>
-          </textarea>
+          <div className="textarea-div">
+            <textarea ref="input" placeholder={placeholder} maxLength={limit}
+               onChange={(e)=>this.change(e.currentTarget.value)}>
+            </textarea>
+          </div>
+
           <div className="comment-right-area">
             <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
             { editDisable ?
@@ -58,7 +61,11 @@ export default class Discuss extends React.Component <any, any> {
                 <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
             }
           </div>
-          <div className="text-length">{length} / {limit}</div>
+          <div className="length-div">
+            <div className="length-tip">
+              {length} / {limit}
+            </div>
+          </div>
         </div>
 
     )

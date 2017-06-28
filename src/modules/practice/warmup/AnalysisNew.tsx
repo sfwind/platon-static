@@ -31,7 +31,7 @@ export class AnalysisNew extends React.Component <any, any> {
       repliedId: 0,
       warmupPracticeId: 0,
       integrated:false,
-      placeholder:'解答同学的提问（限300字）',
+      placeholder:'解答同学的提问（限1000字）',
       isReply:false,
     }
   }
@@ -72,7 +72,7 @@ export class AnalysisNew extends React.Component <any, any> {
       const {code, msg} = res;
       if (code === 200) {
         _.set(data, 'discussList', msg.discussList);
-        this.setState({showDiscuss: false, data, content:'', placeholder:'解答同学的提问（限300字）'});
+        this.setState({showDiscuss: false, data, content:'', placeholder:'解答同学的提问（限1000字）'});
         scroll('.discuss', '.container');
       }
       else dispatch(alertMsg(msg));
@@ -118,7 +118,7 @@ export class AnalysisNew extends React.Component <any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false, showDiscuss:false})
+    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false})
   }
 
   onSubmit(){
@@ -126,10 +126,6 @@ export class AnalysisNew extends React.Component <any, any> {
     const {warmupPracticeId, repliedId, content} = this.state;
     if(content.length==0){
       dispatch(alertMsg('请填写评论'));
-      return
-    }
-    if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'));
       return
     }
 

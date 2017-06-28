@@ -30,7 +30,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       commentId:0,
       knowledge:{},
       discuss:{},
-      placeholder:'提出你的疑问或意见吧（限300字）',
+      placeholder:'提出你的疑问或意见吧（限1000字）',
       isReply:false,
     }
   }
@@ -96,7 +96,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       .then(res=>{
         if(res.code === 200){
           this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,
-            placeholder:'提出你的疑问或意见吧（限300字）', content:''})
+            placeholder:'提出你的疑问或意见吧（限1000字）', content:''})
           scroll('.discuss', '.container')
         }
       });
@@ -114,7 +114,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'提出你的疑问或意见吧（限300字）', isReply:false, showDiscuss:false,repliedId:0})
+    this.setState({placeholder:'提出你的疑问或意见吧（限1000字）', isReply:false, showDiscuss:false,repliedId:0})
   }
 
   onSubmit(){
@@ -122,10 +122,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const {referenceId, repliedId, content} = this.state
     if(content.length==0){
       dispatch(alertMsg('请填写评论'))
-      return
-    }
-    if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'))
       return
     }
 
