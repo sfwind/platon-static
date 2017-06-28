@@ -66,7 +66,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
         })
         this.setState({
           question: res.msg,
-          btn1Content: question.follow ? '已关注' : '关注',
+          btn1Content: question.follow ? '已关注' : '关注问题',
           btn2Content: question.answered ? '编辑我的回答' : '回答',
           submitNewAnswer: !question.answered,
           answerList: res.msg.answerList
@@ -138,7 +138,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   handleClickFollowCancel(questionId) {
     disFollow(questionId)
     this.setState({
-      btn1Content: '关注'
+      btn1Content: '关注问题'
     })
   }
 

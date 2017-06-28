@@ -158,7 +158,7 @@ export default class Question extends React.Component<any, QuestionStates> {
 
               // 如果是已关注，则显示已关注
               let tag = questionItem.follow
-              let rightContent = tag ? '已关注' : '关注'
+              let rightContent = tag ? '已关注' : '关注问题'
               const changeFollowStatus = () => {
                 if(tag) {
                   // 已关注的情况，则调用取消关注接口
@@ -168,7 +168,7 @@ export default class Question extends React.Component<any, QuestionStates> {
                   follow(id)
                 }
                 tag = !tag
-                return tag ? '已关注' : '关注'
+                return tag ? '已关注' : '关注问题'
               }
               return (
                 <div>

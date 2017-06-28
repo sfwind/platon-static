@@ -116,13 +116,22 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
   onClick(tag) {
     const { dispatch, location } = this.props;
     const { tagList } = this.state;
+    let selectedTagList = [];
     //已选中则删除，反之则选中
     tagList.forEach((item) => {
       if(item.id === tag.id) {
         item.selected = !tag.selected;
       }
+      if(item.selected) {
+        selectedTagList.push(item)
+      }
     });
+    if(selectedTagList.length > 3) {
+      dispatch(alertMsg("最多选择 3 个问题标签"))
+      this.onClick(tag)
+    }
     this.setState({ tagList });
+
     //选中时加载，取消时不加载
     if(tag.selected){
       dispatch(startLoad());
@@ -165,10 +174,6 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     });
     if(_.isEmpty(selectedTagList)) {
       dispatch(alertMsg('请先选择问题标签'));
-      return;
-    }
-    if(selectedTagList.length > 3) {
-      dispatch(alertMsg('最多选择 3 个问题标签'));
       return;
     }
     dispatch(set('selectedTagList', selectedTagList));
