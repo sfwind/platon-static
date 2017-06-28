@@ -145,22 +145,16 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const {dispatch} = this.props;
-    let newDiscuss = [];
-    let discuss = this.state.discuss;
+    const {dispatch, location} = this.props;
     dispatch(startLoad());
     deleteKnowledgeDiscuss(id).then(res => {
-      if(res.code === 200) {
-        discuss.map(disItem => {
-          if(disItem.id !== id) {
-            newDiscuss.push(disItem);
-          }
-        });
-        this.setState({
-          discuss: newDiscuss
-        });
-        dispatch(endLoad());
-      }
+      loadDiscuss(location.query.id, 1)
+          .then(res=>{
+            dispatch(endLoad());
+            if(res.code === 200){
+              this.setState({discuss:res.msg})
+            }
+      });
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
