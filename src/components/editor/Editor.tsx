@@ -5,7 +5,6 @@ import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import { isFunction } from "lodash";
 
-const placeHolder = '<span id="editor-placeholder" style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</span>';
 export default class Editor extends React.Component<any, any> {
   constructor(props) {
     super(props);
@@ -13,12 +12,18 @@ export default class Editor extends React.Component<any, any> {
     this.state = {
       editor: null,
       length: 0,
+      placeHolder: '<span id="editor-placeholder" style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</span>'
     }
   }
 
   componentWillMount() {
     if(window.iNoBounce) {
       window.iNoBounce.disable()
+    }
+    if(this.props.placeholder) {
+      this.setState({
+        placeHolder: `<span id="editor-placeholder" style="color:#cccccc;">${this.props.placeholder}</span>`
+      })
     }
   }
 
@@ -31,7 +36,7 @@ export default class Editor extends React.Component<any, any> {
       uploadUrl: `/rise/file/editor/image/upload/${this.props.moduleId || 2}`,
       formInputId: 'target',
       uploadField: 'file',
-      placeholader: this.props.placeholder ? `<span id="editor-placeholder" style="color:#cccccc; z-index: -1">${this.props.placeholder}</span>` : placeHolder,
+      placeholader: this.state.placeHolder,
       validHtml: [],
       uploadStart: () => {
         if(this.props.uploadStart) {
@@ -99,7 +104,7 @@ export default class Editor extends React.Component<any, any> {
 
   getValue() {
     let value = this.state.editor.getValue();
-    return value === placeHolder ? '' : value;
+    return value === this.state.placeHolder ? '' : value;
   }
 
   calcValue(value) {

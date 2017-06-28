@@ -72,10 +72,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       dispatch(alertMsg('标题不能超过50个字哦'));
       return;
     }
-    if(!detail) {
-      dispatch(alertMsg('请填写问题描述'));
-      return;
-    } else if(removeHtmlTags(detail).length > 1000) {
+    if(removeHtmlTags(detail).length > 1000) {
       dispatch(alertMsg('问题描述不能超过1000个字哦'));
       return;
     }
