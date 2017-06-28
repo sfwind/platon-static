@@ -277,10 +277,8 @@ export class Comment extends React.Component<any,any>{
             {filterContent && filterContent.length>wordsCount?
                 <div onClick={()=>this.show(showAll)} className="show-all">{showAll?'收起':'展开'}</div>:null}
             {content?
-                <div className={`operation-area`}>
-                  <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
-                    <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
-                  </div>
+                <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
+                  <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
                 </div>:null}
             <div className="comment-header">
               当前评论
