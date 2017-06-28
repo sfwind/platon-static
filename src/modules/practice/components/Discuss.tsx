@@ -10,6 +10,7 @@ export default class Discuss extends React.Component <any, any> {
       isReply: isReply,
       placeholder:placeholder,
       editDisable:false,
+      length:0,
     }
   }
 
@@ -29,19 +30,29 @@ export default class Discuss extends React.Component <any, any> {
   }
 
   onSubmit(){
-    this.setState({editDisable:true})
-    const { submit } = this.props
-    submit()
+    this.setState({editDisable:true});
+    const { submit } = this.props;
+    submit();
+  }
+
+  change(value){
+    const { onChange } = this.props;
+    this.setState({length:value.length})
+    onChange(value);
   }
 
   render() {
-    const { placeholder, editDisable} = this.state
-    const { onChange, cancel } = this.props
+    const { placeholder, editDisable, length} = this.state;
+    const { cancel, limit } = this.props;
 
     return (
         <div className="comment-dialog">
-          <textarea ref="input" placeholder={placeholder} onChange={(e)=>onChange(e.currentTarget.value)}>
-          </textarea>
+          <div className="textarea-div">
+            <textarea ref="input" placeholder={placeholder} maxLength={limit}
+               onChange={(e)=>this.change(e.currentTarget.value)}>
+            </textarea>
+          </div>
+
           <div className="comment-right-area">
             <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
             { editDisable ?
@@ -49,6 +60,11 @@ export default class Discuss extends React.Component <any, any> {
                 :
                 <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
             }
+          </div>
+          <div className="length-div">
+            <div className="length-tip">
+              {length} / {limit}
+            </div>
           </div>
         </div>
 

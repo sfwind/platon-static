@@ -35,7 +35,7 @@ export class Analysis extends React.Component <any, any> {
       pageIndex:1,
       integrated:false,
       isReply:false,
-      placeholder:'解答同学的提问（限300字）',
+      placeholder:'解答同学的提问（限1000字）',
     }
   }
 
@@ -112,7 +112,7 @@ export class Analysis extends React.Component <any, any> {
       const {code, msg} = res;
       if (code === 200) {
         _.set(list, `practice.${currentIndex}.discussList`, msg);
-        this.setState({showDiscuss: false, list, content:'', placeholder:'解答同学的提问（限300字）'});
+        this.setState({showDiscuss: false, list, content:'', placeholder:'解答同学的提问（限1000字）'});
         scroll('.discuss', '.container');
       }
       else dispatch(alertMsg(msg))
@@ -133,7 +133,7 @@ export class Analysis extends React.Component <any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'解答同学的提问（限300字）', isReply:false, showDiscuss:false})
+    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false})
   }
 
   onSubmit(){
@@ -143,10 +143,6 @@ export class Analysis extends React.Component <any, any> {
     const {id} = practice[currentIndex];
     if(content.length==0){
       dispatch(alertMsg('请填写评论'));
-      return
-    }
-    if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'));
       return
     }
 
@@ -254,7 +250,7 @@ export class Analysis extends React.Component <any, any> {
 
     const discussRender = (discuss, idx) => {
       return (
-        <DiscussShow discuss={discuss} reply={()=>this.reply(discuss)} onDelete={this.onDelete.bind(this, discuss.id)}/>
+        <DiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)} onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
@@ -296,7 +292,7 @@ export class Analysis extends React.Component <any, any> {
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
         </div>}
         {showKnowledge ? <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
+        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                  submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                  cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>

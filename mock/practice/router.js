@@ -536,13 +536,17 @@ router.get("/rise/practice/comment/*", (req, res) => {
                 "list":[
                     {
                         "id":1,
-                        "comment":"评论",
+                        "comment":"评论评论",
                         "name":"风之伤",
                         "discussTime":"2017-03-28",
                         "avatar":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488373052881&di=7a470b200f5f2f97d0d7fe5598c34cf9&imgtype=0&src=http%3A%2F%2Fci.xiaohongshu.com%2F5c3f7604-0ca9-4d7d-bcc3-8d8667399307%40r_640w_640h.jpg",
                         "signature":"签名",
                         "role":3,
+                        "del":0,
                         "isMine":true,
+                        "repliedComment":"balbal",
+                        "repliedName":"三十文",
+                        "repliedDel":0,
                     },
                 ]
             }
