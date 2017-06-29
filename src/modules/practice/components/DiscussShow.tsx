@@ -17,7 +17,7 @@ export default class DiscussShow extends React.Component <any, any> {
     super();
     const {showLength, discuss} = props;
     const {
-        comment, repliedComment
+        comment='', repliedComment=''
     } = discuss;
     this.state = {
       show: false,
@@ -32,7 +32,7 @@ export default class DiscussShow extends React.Component <any, any> {
   componentWillReceiveProps(props){
     const {showLength, discuss} = props;
     const {
-        comment, repliedComment
+        comment='', repliedComment=''
     } = discuss;
     this.setState({filterComment:this.filterText(comment, showLength),
       filterReplied:this.filterText(repliedComment, showLength - comment.length),
