@@ -44,7 +44,7 @@ export default class MobileBind extends React.Component<any,any>{
         }
         let param = {};
         // 中国的区号不下发
-        if(areaCode && areaCode !== '86'){
+        if(areaCode && areaCode !== '86' && areaCode !== '+86'){
             if(areaCode.indexOf('+') === 0){
                 areaCode = areaCode.substring(1);
             }
