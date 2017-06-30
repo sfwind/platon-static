@@ -11,6 +11,7 @@ const SHOW_MODAL_KEY = `${P}.showModal`
 let iNoBounce = require('../../components/iNoBounce.js')
 const { Alert } = Dialog
 import {pget} from "utils/request";
+import Activity from "../../components/Activity";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -29,16 +30,17 @@ export default class Main extends React.Component<any, any> {
 				]
 			},
 			windowsClient:false,
+			activityMsg:false,
 		}
 
 		config([])
 	}
 
 	componentWillMount(){
-		const { dispatch } = this.props;
 		pget('/rise/index/msg').then(res=>{
-			if(res.msg !== null){
-				dispatch(alertMsg(res.msg));
+			if(res.msg){
+				const {url, message} = res.msg;
+				this.setState({activityMsg:true, url, message});
 			}
 		})
 	}
@@ -71,8 +73,8 @@ export default class Main extends React.Component<any, any> {
   }
 
 	closeAnswer() {
-		const { dispatch } = this.props
-		dispatch(set(SHOW_MODAL_KEY, false))
+		const { dispatch } = this.props;
+		dispatch(set(SHOW_MODAL_KEY, false));
 	}
 
 	render() {
@@ -91,7 +93,11 @@ export default class Main extends React.Component<any, any> {
 						<AssetImg type="back_button" width={30} height={30} style={{opacity:0.3}}/>
 					</div>
 					:null}
-
+				{
+					this.state.activityMsg?
+						<Activity url={this.state.url} pic={this.state.message}/>
+						:null
+				}
 			</div>
 		)
 	}
