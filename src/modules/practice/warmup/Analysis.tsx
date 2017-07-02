@@ -112,7 +112,7 @@ export class Analysis extends React.Component <any, any> {
       const {code, msg} = res;
       if (code === 200) {
         _.set(list, `practice.${currentIndex}.discussList`, msg);
-        this.setState({showDiscuss: false, list, content:'', placeholder:'解答同学的提问（限1000字）'});
+        this.setState({showDiscuss: false, list, content:'', placeholder:'解答同学的提问（限1000字）',repliedId:0,isReply:false});
         scroll('.discuss', '.container');
       }
       else dispatch(alertMsg(msg))
@@ -133,7 +133,7 @@ export class Analysis extends React.Component <any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false})
+    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false,repliedId:0})
   }
 
   onSubmit(){
