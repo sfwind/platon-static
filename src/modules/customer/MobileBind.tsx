@@ -1,9 +1,9 @@
-import * as React from "react"
-import {connect} from "react-redux"
-import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {ppost} from "utils/request"
-import "./MobileBind.less"
-import _ from 'lodash'
+import * as React from "react";
+import {connect} from "react-redux";
+import {set, startLoad, endLoad, alertMsg} from "redux/actions";
+import {ppost} from "utils/request";
+import "./MobileBind.less";
+import _ from 'lodash';
 import Toast from "../../components/Toast";
 import AssetImg from "../../components/AssetImg";
 
@@ -52,9 +52,9 @@ export default class MobileBind extends React.Component<any,any>{
                 dispatch(alertMsg('请输入格式正确的国家/地区号'));
                 return;
             }
-            param = _.merge({}, {areaCode, phone})
+            param = _.merge({}, {areaCode, phone});
         } else {
-            param = _.merge({}, {phone})
+            param = _.merge({}, {phone});
         }
         if(this.intervalTrigger){
             clearInterval(this.intervalTrigger);
@@ -69,7 +69,7 @@ export default class MobileBind extends React.Component<any,any>{
         }, 1000);
         ppost('/rise/customer/send/valid/code', param).then(res=>{
             if(res.code !== 200){
-                dispatch(alertMsg('发送验证码失败'));
+                dispatch(alertMsg(res.msg));
             }
         })
     }
@@ -87,7 +87,7 @@ export default class MobileBind extends React.Component<any,any>{
             }else{
                 this.setState({show:true});
                 setTimeout(()=>{
-                    this.context.router.goBack();
+                    this.context.router.push('/rise/static/customer/account');
                 }, 2100);
             }
         })
