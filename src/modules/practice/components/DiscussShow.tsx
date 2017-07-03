@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import "./DiscussShow.less";
 import AssetImg from "../../../components/AssetImg";
 import { Dialog } from "react-weui"
 const {Alert} = Dialog
@@ -12,35 +13,97 @@ export default class DiscussShow extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  constructor() {
-    super()
+  constructor(props) {
+    super();
+    const {showLength, discuss} = props;
+    const {
+        comment='', repliedComment=''
+    } = discuss;
     this.state = {
       show: false,
+      filterComment:this.filterText(comment, showLength),
+      filterReplied:this.filterText(repliedComment, showLength - comment.length),
+      showAll:this.showAll(comment, repliedComment, showLength),
+      filtered:!this.showAll(comment, repliedComment, showLength),
+    }
+
+  }
+
+  componentWillReceiveProps(props){
+    const {showLength, discuss} = props;
+    const {
+        comment='', repliedComment=''
+    } = discuss;
+    this.setState({filterComment:this.filterText(comment, showLength),
+      filterReplied:this.filterText(repliedComment, showLength - comment.length),
+      filtered:!this.showAll(comment, repliedComment, showLength)})
+  }
+
+  filterText(comment, limit){
+    if(comment && limit>0){
+      return comment.length > limit? comment.substring(0, limit) : comment;
+    }else{
+      return '';
     }
   }
 
+  showAll(comment, repliedComment, limit){
+    let length = comment.length;
+    let repliedLength = repliedComment?repliedComment.length:0;
+    return limit>length+repliedLength;
+  }
+
   delete() {
-    const {onDelete} = this.props
-    this.setState({show: false})
+    const {onDelete} = this.props;
+    this.setState({show: false});
     if(onDelete) {
       onDelete()
     }
   }
 
+  show(showAll){
+    this.setState({showAll:!showAll})
+  }
+
   render() {
-    const {discuss, reply} = this.props
-    const {show} = this.state
+    const {discuss, reply} = this.props;
+    const {show, filterComment, filterReplied, showAll, filtered} = this.state;
     const {
       id, name, avatar, discussTime, priority, comment, repliedComment, repliedName,
       role, signature, isMine, repliedDel, del
-    } = discuss
-    const isDel = discuss.del
+    } = discuss;
     const alertProps = {
       buttons: [
         {label: '再想想', onClick: () => this.setState({show: false})},
         {label: '确定', onClick: () => this.delete()}
       ],
-    }
+    };
+
+    const renderComment = ()=>{
+      return (
+          <div className="comment-div">
+            <div className="comment-content">{showAll?comment:filterComment}</div>
+            {renderRepliedComment()}
+            {filtered?<div onClick={()=>this.show(showAll)} className="show-all">{showAll?'收起':'展开'}</div>:null}
+          </div>
+      )
+    };
+
+    const renderRepliedComment = () =>{
+      if(repliedComment && repliedDel != 1){
+        let replied = showAll?repliedComment:filterReplied;
+        if(replied){
+          return (
+              <div className="comment-replied-content">{'回复 '}{repliedName}:{showAll?repliedComment:filterReplied}</div>
+          )
+        }else{
+          return null;
+        }
+      }else{
+        return null;
+      }
+    };
+
     return (
       <div key={id} className="comment-cell">
         <div className="comment-avatar"><img className="comment-avatar-img" src={avatar}/></div>
@@ -70,10 +133,9 @@ export default class DiscussShow extends React.Component <any, any> {
             }
           </div>
           <div className="signature">{signature}</div>
-          <div className="comment-content">{comment}</div>
-          {repliedComment && repliedDel != 1 && !isDel ? <div className="comment-replied-content">{'回复 '}{repliedName}:{repliedComment}</div> : null}
+          {renderComment()}
           {
-            isDel ? null :
+            del === 1 ? null :
             <div className="function-area">
               {isMine ?
                 <div className="function-div" style={{marginRight: 5}}>

@@ -30,7 +30,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       commentId:0,
       knowledge:{},
       discuss:{},
-      placeholder:'提出你的疑问或意见吧（限300字）',
+      placeholder:'提出你的疑问或意见吧（限1000字）',
       isReply:false,
     }
   }
@@ -96,7 +96,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       .then(res=>{
         if(res.code === 200){
           this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,
-            placeholder:'提出你的疑问或意见吧（限300字）', content:''})
+            placeholder:'提出你的疑问或意见吧（限1000字）', content:''})
           scroll('.discuss', '.container')
         }
       });
@@ -114,7 +114,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   cancel(){
-    this.setState({placeholder:'提出你的疑问或意见吧（限300字）', isReply:false, showDiscuss:false,repliedId:0})
+    this.setState({placeholder:'提出你的疑问或意见吧（限1000字）', isReply:false, showDiscuss:false,repliedId:0})
   }
 
   onSubmit(){
@@ -122,10 +122,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const {referenceId, repliedId, content} = this.state
     if(content.length==0){
       dispatch(alertMsg('请填写评论'))
-      return
-    }
-    if(content.length>300){
-      dispatch(alertMsg('您的评论字数已超过300字'))
       return
     }
 
@@ -150,21 +146,17 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
   onDelete(id) {
     const {dispatch} = this.props;
-    let newDiscuss = [];
-    let discuss = this.state.discuss;
+    const {knowledge} = this.state;
     dispatch(startLoad());
     deleteKnowledgeDiscuss(id).then(res => {
-      if(res.code === 200) {
-        discuss.map(disItem => {
-          if(disItem.id !== id) {
-            newDiscuss.push(disItem);
-          }
-        });
-        this.setState({
-          discuss: newDiscuss
-        });
-        dispatch(endLoad());
-      }
+      loadDiscuss(knowledge.id, 1)
+          .then(res=>{
+            dispatch(endLoad());
+            if(res.code === 200){
+              this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,
+                placeholder:'提出你的疑问或意见吧（限1000字）', content:''})
+            }
+      });
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
@@ -275,7 +267,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             <div className="discuss">
               {_.isEmpty(discuss) ? null : discuss.map(item => {
                 return (
-                  <DiscussShow discuss={item} reply={() => {
+                  <DiscussShow discuss={item} showLength={50} reply={() => {
                     this.reply(item)
                   }} onDelete={() => this.onDelete(item.id)}/>
                 )
@@ -298,7 +290,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
           {showDiscuss ? <div className="padding-comment-dialog"/>:null}
         </div>
         {practicePlanId&&!showDiscuss?<div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>:null}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder}
+        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:
             <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>

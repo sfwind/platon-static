@@ -2,7 +2,7 @@
 
 .application-comment{
   overflow: auto;
-  height: 100%;
+  height: ~"calc(100% + 1px)";
   .article {
     padding: 0 15px;
     > .article-header{
@@ -17,9 +17,8 @@
     > .show-all{
       font-size:@font_click;
       color:@color_strong;
-      position: relative;
       width: 50px;
-      z-index: 1;
+      margin-bottom: 10px;
     }
     > .application-content{
       font-size: @font_context;
@@ -31,34 +30,30 @@
       padding: 10px 0;
     }
 
-    > .operation-area {
-      margin-top: -20px;
-      height: 40px;
-      position: relative;
-      > .vote {
-        display: inline-block;
-        height: 25px;
-        float: right;
-        > span{
-          &:before {
-            content: '';
-            display: inline-block;
-            vertical-align: bottom;
-            width: 25px;
-            height: 25px;
-            margin-right:5px;
-            margin-bottom: 2px;
-          }
+    > .vote {
+      display: inline-block;
+      height: 30px;
+      margin-top: -30px;
+      float: right;
+      > span{
+        &:before {
+          content: '';
+          display: inline-block;
+          vertical-align: bottom;
+          width: 25px;
+          height: 25px;
+          margin-right:5px;
+          margin-bottom: 2px;
         }
-        > .disVote {
-          &:before {
-            background: url('https://static.iqycamp.com/images/fragment/unvote.png?imageslim') no-repeat bottom center/25px 25px;
-          }
+      }
+      > .disVote {
+        &:before {
+          background: url('https://static.iqycamp.com/images/fragment/unvote.png?imageslim') no-repeat bottom center/25px 25px;
         }
-        > .voted {
-          &:before {
-            background: url('https://static.iqycamp.com/images/fragment/voted.png?imageslim') no-repeat bottom center/25px 25px;
-          }
+      }
+      > .voted {
+        &:before {
+          background: url('https://static.iqycamp.com/images/fragment/voted.png?imageslim') no-repeat bottom center/25px 25px;
         }
       }
     }

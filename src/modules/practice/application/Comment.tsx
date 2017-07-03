@@ -36,8 +36,8 @@ export class Comment extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({article: res.msg, filterContent:filterHtmlTag(res.msg.content)});
         loadCommentList(location.query.submitId, 1).then(res => {
+          dispatch(endLoad());
           if(res.code === 200) {
-            dispatch(endLoad());
             this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
               isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
             //从消息中心打开时，锚定到指定评论
@@ -45,7 +45,6 @@ export class Comment extends React.Component<any, any> {
               scroll('#comment-'+location.query.commentId, '.application-comment');
             }
           } else {
-            dispatch(endLoad());
             dispatch(alertMsg(res.msg));
           }
         }).catch(ex => {
@@ -176,16 +175,21 @@ export class Comment extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const {commentList = []} = this.state;
+    const {dispatch, location} = this.props;
     deleteComment(id).then(res => {
       if(res.code === 200) {
-        let newCommentList = [];
-        commentList.forEach((item) => {
-          if(item.id != id) {
-            newCommentList.push(item);
+        loadCommentList(location.query.submitId, 1).then(res => {
+          dispatch(endLoad());
+          if(res.code === 200) {
+            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
+              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+          } else {
+            dispatch(alertMsg(res.msg));
           }
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
         });
-        this.setState({commentList: newCommentList});
       }
     })
   }
@@ -223,7 +227,7 @@ export class Comment extends React.Component<any, any> {
           commentList.map((item, seq) => {
             return (
               <div id={'comment-'+item.id}>
-                <DiscussShow discuss={item} reply={() => {
+                <DiscussShow discuss={item} showLength={100} reply={() => {
                   this.reply(item)
                 }} onDelete={this.onDelete.bind(this, item.id)}/>
               </div>
@@ -281,10 +285,8 @@ export class Comment extends React.Component<any, any> {
             {filterContent && filterContent.length>wordsCount?
                 <div onClick={()=>this.show(showAll)} className="show-all">{showAll?'收起':'展开'}</div>:null}
             {content?
-                <div className={`operation-area`}>
-                  <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
-                    <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
-                  </div>
+                <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
+                  <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
                 </div>:null}
             <div className="comment-header">
               当前评论
@@ -307,7 +309,7 @@ export class Comment extends React.Component<any, any> {
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
         {showDiscuss ?
-          <Discuss isReply={isReply} placeholder={placeholder}
+          <Discuss isReply={isReply} placeholder={placeholder} limit={10000}
                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
                    cancel={() => this.cancel()}
           /> :
