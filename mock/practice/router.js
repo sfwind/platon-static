@@ -310,13 +310,14 @@ router.get("/rise/practice/application/start/*", (req, res) => {
 				"knowledgeId": 1,
 				"sceneId": 1,
 				"difficulty": null,
-        "content": "balbal",
-        "submitId": 1, //提交id
-        "submitUpdateTime": "2017-02-15" ,//最后提交时间
-        "voteCount": 0,
-        "commentCount": 0,
-        "voteStatus": 0,
-        "requestCommentCount":2,
+                "content": null,
+                "submitId": 1, //提交id
+                "submitUpdateTime": "2017-02-15" ,//最后提交时间
+                "voteCount": 0,
+                "commentCount": 0,
+                "voteStatus": 0,
+                "requestCommentCount":2,
+                "draft":"hahaha",
 			}
 		}), Math.random() * 1500)
 });
@@ -1013,6 +1014,18 @@ router.get("/rise/practice/knowledge/*",(req,res)=>{
                 }
             }
         });
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/application/autosave/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":127,"code":200});
+    },Math.random()*1500);
+});
+
+router.post("/rise/practice/application/autoupdate/*",(req,res)=>{
+    setTimeout(()=>{
+        res.status(200).json({"msg":"ok","code":200});
     },Math.random()*1500);
 });
 

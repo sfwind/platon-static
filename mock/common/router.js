@@ -37,4 +37,13 @@ router.post("/rise/b/mark", (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.get("/rise/index/msg", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json({
+            "msg": {"message": "https://static.iqycamp.com/images/bind_mobile3.png",
+                "url": "/rise/static/customer/mobile/check"},
+            "code": 200
+        }), Math.random() * 1500)
+});
+
 module.exports = router;

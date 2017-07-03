@@ -145,7 +145,7 @@ export class EventWall extends React.Component<any,any>{
             <span>线下活动</span>
           </div>
           <div style={{margin:`0 0 0 ${this.barItemPd}px`,width:`${this.barItemWidth}px`}} className={`navbar-item ${this.state.tab == 4?'active':''}`} onClick={e=>this.setState({tab:4})}>
-            <span>地域PK</span>
+            <span>更多精彩</span>
           </div>
         </div>
       </div>

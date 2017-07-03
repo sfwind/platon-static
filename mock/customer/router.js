@@ -104,6 +104,20 @@ router.get("/rise/customer/member", (req, res) => {
         ), Math.random() * 1500);
 })
 
+router.post("/rise/customer/send/valid/code", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json(
+            {"msg": true, "code": 200}
+        ), Math.random() * 1500);
+})
+
+router.post("/rise/customer/valid/sms", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json(
+            {"msg": true, "code": 200}
+        ), Math.random() * 1500);
+})
+
 router.get("/rise/customer/event/list", (req, res) => {
     setTimeout(() =>
         res.status(200).json(
