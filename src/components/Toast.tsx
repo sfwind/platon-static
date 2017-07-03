@@ -29,7 +29,9 @@ export default class Toast extends React.Component<any, any> {
 
   showoff(timeout){
     setTimeout(()=>{
-      this.refs.toast.style.opacity = 0;
+      if(this.refs.toast){
+        this.refs.toast.style.opacity = 0;
+      }
     }, timeout - 1000);
     setTimeout(()=>{
       this.setState({show:false});
