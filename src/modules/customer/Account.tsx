@@ -43,7 +43,7 @@ export default class Rise extends React.Component<any,any>{
      <div className="account">
        <div className="item" onClick={()=>this.context.router.push('/rise/static/customer/mobile/check')}>
            <div className="label">
-               修改手机号
+               {mobile?'修改手机号':'手机号'}
            </div>
            <div className='content'>
                {mobile?<span>{mobile}</span>:<span style={{color:'#ccc'}}>去绑定手机号</span>}
