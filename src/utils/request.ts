@@ -40,6 +40,7 @@ export function ppost(url:string, body:Object) {
 }
 
 function log(url, msg) {
+
   ppost('/rise/b/log', { url: url, result: msg, cookie: document.cookie })
 }
 
