@@ -41,7 +41,13 @@ export function ppost(url:string, body:Object) {
 }
 
 function log(url, msg) {
-  $.post('/rise/b/log', {url: url, result: msg, cookie: document.cookie});
+  $.ajax('/rise/b/log',{
+    type: "POST",
+    contentType:"application/json",
+    data: JSON.stringify({url: url, result: msg, cookie: document.cookie}),
+    dataType:"json",
+    success: function(e){console.log(e)},
+  });
   // ppost('/rise/b/log', {url: url, result: msg, cookie: document.cookie});
 }
 
