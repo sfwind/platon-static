@@ -136,6 +136,14 @@ export class MessageCenter extends React.Component <any, any> {
       }).catch(ex => {
         //静默加载 啥都不干
       })
+    } else {
+      if(url){
+        if(reg.test(url)){
+          window.location.href = url;
+        }else{
+          this.context.router.push(url);
+        }
+      }
     }
   }
 
