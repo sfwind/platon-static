@@ -41,7 +41,7 @@ export default class DiscussShow extends React.Component <any, any> {
 
   filterText(comment, limit){
     if(comment && limit>0){
-      return comment.length > limit? comment.substring(0, limit) : comment;
+      return comment.length > limit? comment.substring(0, limit) + '...': comment;
     }else{
       return '';
     }

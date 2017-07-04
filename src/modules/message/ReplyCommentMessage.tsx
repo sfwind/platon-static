@@ -134,7 +134,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
           return (
             <div className="description">
               {truncate(filterContent, {length: wordsCount, omission: ''})}
-              ......
+              <span style={{letterSpacing:'-3px'}}>...</span>
             </div>
           )
         } else {

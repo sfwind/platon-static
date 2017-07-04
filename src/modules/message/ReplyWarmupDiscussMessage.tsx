@@ -50,7 +50,7 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
       if(code === 200) {
         let {question} = msg
         if(question.length > 16) {
-          question = question.substring(0, 16) + "......"
+          question = question.substring(0, 16) + "..."
         }
         this.setState({question, warmupPracticeId})
 
