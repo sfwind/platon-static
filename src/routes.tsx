@@ -45,7 +45,7 @@ const routes = (
   <Route path="/rise/static" component={Base}>
     <Route path="welcome" component={Welcome}/>
     <Route path="problem/explore" component={Explore}/>
-    <Route path="problem/view" component={ProblemViewer}/>
+    <Route path="problem/view" component={ProblemIntroduction}/>
     <Route path="problem/view/new" component={ProblemIntroduction}/>
     <Route path="problem/more" component={MoreProblem}/>
     <Route path="problem/package" component={BannerArticle}/>
