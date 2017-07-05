@@ -11,7 +11,6 @@ import {
 } from 'react-weui';
 
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
-import { merge } from "lodash";
 import {loadOldCount} from '../message/async'
 var FastClick = require('fastclick');
 
