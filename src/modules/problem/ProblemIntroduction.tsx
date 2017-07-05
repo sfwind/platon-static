@@ -83,8 +83,21 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     })
   }
 
+  handleClickShow() {
+    const {dispatch} = this.props
+    checkCreatePlan(this.props.location.query.id).then(res=>{
+      if(res.code === 200){
+        this.setState({showAlert: true})
+      }else{
+        dispatch(alertMsg(res.msg))
+      }
+    })
+  }
+
   render(){
     const {data = {}} = this.state;
+    const {show} = this.props.location.query
+
     const { difficultyScore,catalog,subCatalog,pic, authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic, authorPic} = data;
 
     const renderCatalogName = (catalog,subCatalog) => {
@@ -238,6 +251,19 @@ export default class ProblemIntroduction extends React.Component<any,any>{
             </div>
           </div>
         </div>
+        {show?null:<div className="padding-footer" style={{height:'45px'}}/>}
+
+        { show ?
+          null
+          :
+          <div className="button-footer" onClick={()=>this.handleClickShow()}>
+            学习该小课
+          </div>
+        }
+        <Alert { ...this.state.alert }
+          show={this.state.showAlert}>
+          <div className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</div>
+        </Alert>
       </div>
     );
   }
