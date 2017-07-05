@@ -609,16 +609,23 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     const renderDeadline = (deadline) => {
-      if(deadline === 0) {
+      if(deadline < 0) {
+        // 不是会员，不显示
         return null;
-      } else if (deadline < 0){
-        return <div className="section">
-          <label>小课已关闭</label>
-        </div>
+      } else if (deadline === 0){
+        //是会员 已关闭
+        return (
+          <div className="section">
+            <label>小课已关闭</label>
+          </div>
+        )
       } else if(deadline > 0) {
-        return <div className="section">
-          <label>距关闭：</label> {deadline} 天
-        </div>
+        // 是会员 未关闭
+        return (
+          <div className="section">
+            <label>距关闭：</label> {deadline} 天
+          </div>
+        )
       }
     };
 
