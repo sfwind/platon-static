@@ -59,7 +59,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     this.headerContentTop = (window.innerWidth / (750 / 104)) > 52 ? 52 : (window.innerWidth/(750 / 104));
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25));
     this.whoFontSize = (window.innerWidth / (750 / 30)) > 15 ? 15 : (window.innerWidth / (750 / 30));
-
+    this.whoNumFontSize = (window.innerWidth / (750 / 48)) > 24 ? 24 : (window.innerWidth / (750 / 48));
   }
 
   handleClickClose() {
@@ -143,7 +143,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
           return whoArr.map((item,key)=>{
             return (
               <div className="who-item" key={key}>
-                <span style={{fontSize:`${this.whoFontSize}px`}} className="wi-sequence">{key+1}</span><span className="wi-text">{item}</span>
+                <span style={{fontSize:`${this.whoNumFontSize}px`}} className="wi-sequence">{key+1}</span><span style={{fontSize:`${this.whoFontSize}px`}} className="wi-text">{item}</span>
               </div>
             )
           });
