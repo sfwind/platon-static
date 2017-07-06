@@ -154,7 +154,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
 
     return (
       <div className="problem-introduction">
-        <div className="pi-header">
+        <div className="pi-header" style={{height:`${this.picHeight}px`}}>
           <img className="pi-h-bg" src={`${pic}`}/>
           <div className="pi-h-body">
             <div className="pi-h-b-icon"><AssetImg url="https://static.iqycamp.com/images/rise_icon_problem_introduction.png?imageslim" size={37}/></div>
