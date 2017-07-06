@@ -68,18 +68,21 @@ export class MessageCenter extends React.Component <any, any> {
         target:'.container',
         scroller:'.container',
         damping:4,
-        // onPullUp: (data) => {
-        //   if (data.translateY <= -40){
-        //   } else {
-        //     this.setState({opacity:(-data.translateY)/40});
-        //   }
-        // },
+        onPullUp: (data) => {
+          if(this.props.iNoBounce){
+            if(this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.disable();
+            }
+          }
+          this.setState({loading:true})
+        },
         detectScroll:true,
         detectScrollOnStart:true,
         onPullUpEnd:(data)=>{
           loadMessage(this.state.index + 1).then(res=> {
-            const {code, msg} = res
+            const {code, msg} = res;
             if (code === 200) {
+              this.setState({loading:false})
               if (msg && msg.length !== 0) {
                 remove(msg.notifyMessageList,(item)=>{
                   return findIndex(this.state.list,item)!==-1
@@ -98,6 +101,11 @@ export class MessageCenter extends React.Component <any, any> {
           }).catch(ex => {
             dispatch(alertMsg(ex));
           });
+          if(this.props.iNoBounce){
+            if(!this.props.iNoBounce.isEnabled()){
+              this.props.iNoBounce.enable();
+            }
+          }
         }
       })
       this.pullElement.init();
@@ -109,39 +117,40 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   open(url, id, isRead){
+    let reg = new RegExp("^(http|https):");
+    const {list} = this.state;
     if(!isRead) {
       readMessage(id).then(res => {
-        const {code} = res
+        const {code} = res;
+        if(url){
+          if(reg.test(url)){
+            window.location.href = url;
+          }else{
+            this.context.router.push(url);
+          }
+        }
         if (code === 200) {
+          list.map((item)=>{
+            if(item.id === id){
+              item.isRead = true;
+            }
+          });
+          this.setState({list});
         } else {
           //静默加载 啥都不干
         }
       }).catch(ex => {
         //静默加载 啥都不干
       })
-    }
-
-    if(url.indexOf('?')===-1){
-      this.context.router.push({ pathname: url, state: {goBackUrl: '/rise/static/message/center'} })
-    }else{
-      //解析url
-      let index = url.indexOf('?')
-      let path = url.substring(0, index)
-      let query = url.substring(index+1)
-
-      let param = {}
-      let params = query.split("&")
-      for(let i=0;i<params.length;i++){
-        let pos = params[i].indexOf("=");
-        if(pos == -1) continue;
-        let argName  = params[i].substring(0,pos);
-        let argValue = params[i].substring(pos+1);
-
-        set(param, argName, argValue)
+    } else {
+      if(url){
+        if(reg.test(url)){
+          window.location.href = url;
+        }else{
+          this.context.router.push(url);
+        }
       }
-      this.context.router.push({pathname: path, query: param, state: {goBackUrl: '/rise/static/message/center'}})
     }
-
   }
 
   back(){
@@ -149,10 +158,10 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   render() {
-    const {list, no_message, end} = this.state
+    const {list, no_message, end, loading} = this.state;
 
     const messageRender = (msg) => {
-      const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg
+      const {id, message, fromUserName, fromUserAvatar, url, isRead, sendTime} = msg;
       return (
         <div className="message-cell">
           <div className="message-avatar"><img className="message-avatar-img" src={fromUserAvatar} /></div>
@@ -169,6 +178,25 @@ export class MessageCenter extends React.Component <any, any> {
       )
     }
 
+    const renderShowMore = ()=>{
+      if(loading){
+        return (
+            <div style={{textAlign:'center', margin: '5px 0'}}>
+              <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
+            </div>
+        )
+      }
+      if(end && !no_message){
+        return (
+            <div className="show-more">已经到最底部了</div>
+        )
+      }else{
+        return (
+            <div className="show-more">上拉加载更多消息</div>
+        )
+      }
+    }
+
     return (
       <div className="message_box">
         { no_message ? <div className="no_message">
@@ -178,12 +206,8 @@ export class MessageCenter extends React.Component <any, any> {
                         还没有消息提醒
           </div>: <div className="container has-footer">
           {list.map((msg, idx) => messageRender(msg))}
-          { end && !no_message ? <div className="show-more">已经到最底部了</div> :
-             <div className="show-more">上拉加载更多消息</div>
-          }
+          { renderShowMore() }
         </div>}
-
-        {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
 
       </div>
     )

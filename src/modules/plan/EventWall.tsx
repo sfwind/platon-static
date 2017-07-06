@@ -1,7 +1,6 @@
 import * as React from "react"
 import "./EventWall.less"
 import {connect} from "react-redux"
-import {pget, ppost} from "utils/request"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {queryEventList,mark} from "./async";
 import {ToolBar} from "../base/ToolBar"
@@ -69,8 +68,8 @@ export class EventWall extends React.Component<any,any>{
     const {liveList,workList,offlineList,areaList,tab} = this.state;
     let tempList = null;
     switch(tab){
-      case 1:tempList = liveList;break;
-      case 2:tempList = workList;break;
+      case 2:tempList = liveList;break;
+      case 1:tempList = workList;break;
       case 3:tempList = offlineList;break;
       case 4:tempList = areaList;break;
       default:tempList = liveList;break;
@@ -91,8 +90,8 @@ export class EventWall extends React.Component<any,any>{
                 <div className="title">
                   {item.title}
                 </div>
-                {item.subHead?<div className="password">{item.subHead}</div>:null}
-                <div className="describe" style={{marginTop:`${item.subHead?6:24}px`}}>
+                <div className="password">{item.subHead}</div>
+                <div className="describe">
                   {item.publisher}
                 </div>
                 <div className="time">
@@ -132,17 +131,17 @@ export class EventWall extends React.Component<any,any>{
       {this.renderBanner()}
       <div className="event-wall-tab">
         <div className="navbar">
-          <div style={{margin:`0 ${this.barItemPd}px 0 0`,width:`${this.barItemWidth}px`}} className={`navbar-item ${this.state.tab == 1?'active':''}`} onClick={e=>this.setState({tab:1})}>
-            <span>大咖直播</span>
-          </div>
-          <div style={{margin:`0 ${this.barItemPd}px`,width:`${this.barItemWidth}px`}}  className={`navbar-item ${this.state.tab == 2?'active':''}`} onClick={e=>this.setState({tab:2})}>
+          <div style={{margin:`0 ${this.barItemPd}px 0 0`,width:`${this.barItemWidth}px`}}  className={`navbar-item ${this.state.tab == 1?'active':''}`} onClick={e=>this.setState({tab:1})}>
             <span>作业分析</span>
+          </div>
+          <div style={{margin:`0 ${this.barItemPd}px`,width:`${this.barItemWidth}px`}} className={`navbar-item ${this.state.tab == 2?'active':''}`} onClick={e=>this.setState({tab:2})}>
+            <span>大咖直播</span>
           </div>
           <div style={{margin:`0 ${this.barItemPd}px`,width:`${this.barItemWidth}px`}}  className={`navbar-item ${this.state.tab == 3?'active':''}`} onClick={e=>this.setState({tab:3})}>
             <span>线下活动</span>
           </div>
           <div style={{margin:`0 0 0 ${this.barItemPd}px`,width:`${this.barItemWidth}px`}} className={`navbar-item ${this.state.tab == 4?'active':''}`} onClick={e=>this.setState({tab:4})}>
-            <span>地域PK</span>
+            <span>更多精彩</span>
           </div>
         </div>
       </div>

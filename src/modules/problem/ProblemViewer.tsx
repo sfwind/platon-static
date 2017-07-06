@@ -189,7 +189,7 @@ export class ProblemViewer extends React.Component<any, any> {
           }
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
-          <p className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</p>
+          <div className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</div>
         </Alert>
       </div>
     )

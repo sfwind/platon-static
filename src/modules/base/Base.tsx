@@ -2,7 +2,7 @@ import * as React from "react"
 import { connect } from "react-redux"
 import { isPending } from "utils/helpers"
 import { Toast, Dialog } from "react-weui"
-import { set } from "redux/actions"
+import { set, alertMsg } from "redux/actions"
 import { config } from "../helpers/JsConfig"
 import AssetImg from "../../components/AssetImg";
 const P = "base"
@@ -10,6 +10,8 @@ const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 let iNoBounce = require('../../components/iNoBounce.js')
 const { Alert } = Dialog
+import {pget} from "utils/request";
+import Activity from "../../components/Activity";
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -28,9 +30,19 @@ export default class Main extends React.Component<any, any> {
 				]
 			},
 			windowsClient:false,
+			activityMsg:false,
 		}
 
 		config([])
+	}
+
+	componentWillMount(){
+		pget('/rise/index/msg').then(res=>{
+			if(res.msg){
+				const {url, message} = res.msg;
+				this.setState({activityMsg:true, url, message});
+			}
+		})
 	}
 
 	componentWillUpdate(){
@@ -61,8 +73,8 @@ export default class Main extends React.Component<any, any> {
   }
 
 	closeAnswer() {
-		const { dispatch } = this.props
-		dispatch(set(SHOW_MODAL_KEY, false))
+		const { dispatch } = this.props;
+		dispatch(set(SHOW_MODAL_KEY, false));
 	}
 
 	render() {
@@ -81,7 +93,11 @@ export default class Main extends React.Component<any, any> {
 						<AssetImg type="back_button" width={30} height={30} style={{opacity:0.3}}/>
 					</div>
 					:null}
-
+				{
+					this.state.activityMsg?
+						<Activity url={this.state.url} pic={this.state.message}/>
+						:null
+				}
 			</div>
 		)
 	}

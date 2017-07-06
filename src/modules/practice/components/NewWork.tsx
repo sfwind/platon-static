@@ -103,7 +103,10 @@ export default class Work extends React.Component<any,any> {
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
           return (
-            <div className={`${avatarStyle}`} onClick={()=>this.show(showAll)}>{truncate(filterContent,{length:wordsCount,omission:''})}<span style={{letterSpacing:'-3px'}}>......</span></div>
+            <div className={`${avatarStyle}`} onClick={()=>this.show(showAll)}>
+              {truncate(filterContent,{length:wordsCount,omission:''})}
+              <span style={{letterSpacing:'-3px'}}>...</span>
+            </div>
           )
         } else {
           return (

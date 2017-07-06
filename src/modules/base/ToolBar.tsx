@@ -11,7 +11,6 @@ import {
 } from 'react-weui';
 
 import {startLoad, endLoad, alertMsg,set} from "redux/actions";
-
 import {loadOldCount} from '../message/async'
 var FastClick = require('fastclick');
 
@@ -143,6 +142,21 @@ export class ToolBar extends React.Component<any,any> {
 
   render() {
     const {tabIndex = 0,noticeMsgCount} = this.props;
+
+    const renderIcon = (item,idx) => {
+      const {bar} = item;
+      if(item.key === 0) {
+        return (
+          <img className={`left ${(this.state.tabs.length===5 && idx === 2)?'bigger_img':''}`}  src={tabIndex == item.key?bar.activeIcon:bar.icon}/>
+        );
+      } else {
+        return (
+          <img className={`${(this.state.tabs.length===5 && idx === 2)?'bigger_img':''}`}
+               src={tabIndex == item.key?bar.activeIcon:bar.icon}/>
+        );
+      }
+    }
+
     return (
       this.props.hidden?null:<TabBar ref="toolBar" id={"tool_bar"}>
         {this.state.tabs.map((item, idx) => {
@@ -169,7 +183,7 @@ export class ToolBar extends React.Component<any,any> {
               className={`tab_bar_count_${this.state.tabs.length}`}
               active={tabIndex == item.key}
               onClick={()=>this.handleChangeTab(item.key)}
-              icon={<div className={`${(this.state.tabs.length===5 && idx === 2)?'bigger_icon':''}`}><img className={`${(this.state.tabs.length===5 && idx === 2)?'bigger_img':''}`} src={tabIndex == item.key?bar.activeIcon:bar.icon}/></div>}
+              icon={<div className={`${(this.state.tabs.length===5 && idx === 2)?'bigger_icon':''}`}>{renderIcon(item,idx)}</div>}
               label={bar.label}
             />
           }

@@ -227,7 +227,10 @@ export class Main extends React.Component <any, any> {
           <div>
             <div className="container has-footer" style={{height: window.innerHeight - 49}} ref={'warmup'}>
               <div className="warm-up">
-                {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
+                {practice[currentIndex] && practice[currentIndex].knowledge ?
+                    <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+                    <div className="page-header">综合练习</div>
+                }
                 {questionRender(practice[currentIndex] || {})}
               </div>
             </div>

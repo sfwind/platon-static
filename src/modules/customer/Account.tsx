@@ -1,6 +1,5 @@
 import * as React from "react"
 import {connect} from "react-redux"
-import * as _ from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {pget, ppost,mark } from "utils/request"
 import {changeTitle} from "utils/helpers"
@@ -39,10 +38,18 @@ export default class Rise extends React.Component<any,any>{
     })
   }
   render(){
-    const {data} = this.state
-    const {riseId, memberType} = data
+    const {data} = this.state;
+    const {riseId, memberType, mobile} = data;
     return (
      <div className="account">
+       <div className="item" onClick={()=>this.context.router.push('/rise/static/customer/mobile/check')}>
+           <div className="label">
+               {mobile?'修改手机号':'手机号'}
+           </div>
+           <div className='content'>
+               {mobile?<span>{mobile}</span>:<span style={{color:'#ccc'}}>去绑定手机号</span>}
+           </div>
+       </div>
        <div className="item">
          <div className="label">
            RISE ID

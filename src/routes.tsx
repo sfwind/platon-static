@@ -33,6 +33,7 @@ import ProblemGallery from "modules/customer/ProblemGallery"
 import RiseMember from "modules/customer/RiseMember"
 import FeedBack from "modules/customer/FeedBack"
 import UserProtocol from "modules/customer/UserProtocol"
+import MobileBind from "modules/customer/MobileBind"
 import { EventWall } from "modules/plan/EventWall";
 import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
@@ -87,6 +88,7 @@ const routes = (
         <Route path="member" component={RiseMember}/>
         <Route path="feedback" component={FeedBack}/>
         <Route path="userprotocol" component={UserProtocol}/>
+        <Route path="mobile/check" component={MobileBind}/>
         <Route path="forum/mine" component={ForumQuestion}/>
       </Route>
       <Route path="message" component={Customer}>

@@ -39,7 +39,7 @@ export default class FeedBack extends React.Component<any,any>{
             <p>-每一节学完之后就直接能够进入下一节啦。但是需要保证上一节的「知识理解」和「巩固练习」的图标都标上了“√”哦（PS：「知识理解」务必点击“标记完成”哦）</p><br/>
 
             <p className="q">-可以在电脑端完成RISE练习吗？</p>
-            <p>-Windows电脑可以在微信客户端—圈外训练营里打开RISE并完成练习，Mac微信客户端暂不支持。小课论坛、应用练习和小目标，都可以登录www.iquanwai.com/community完成</p><br/>
+            <p>-可以登录www.iquanwai.com/community完成</p><br/>
 
             <p className="q">-为什么我的小课到期关闭了？</p>
             <p>-书非借不能读，为了每个人能有动力坚持完成练习，每个小课的开放天数=30天(拖延症福利)，到期后自动关闭</p><br/>
