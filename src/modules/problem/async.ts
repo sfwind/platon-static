@@ -4,7 +4,7 @@ export function loadProblemList() {
   return pget(`/rise/problem/load`)
 }
 
-export function loadUnChooseList(){
+export function loadUnChooseList() {
   return pget(`/rise/problem/list/unchoose`)
 }
 
@@ -24,14 +24,18 @@ export function welcome() {
   return pget(`/rise/plan/welcome`)
 }
 
-export function mark(param){
-  return ppost('/rise/b/mark',param);
+export function mark(param) {
+  return ppost('/rise/b/mark', param);
 }
 
-export function loadAllProblems(){
+export function loadAllProblems() {
   return pget('/rise/problem/list/all');
 }
 
-export function loadCatalog(catalogId){
+export function loadCatalog(catalogId) {
   return pget(`/rise/problem/list/${catalogId}`);
+}
+// 获取小课扩展相关数据
+export function loadProblemExtension(problemId) {
+  return pget(`/rise/problem/extension/${problemId}`)
 }
