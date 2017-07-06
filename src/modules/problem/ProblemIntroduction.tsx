@@ -132,13 +132,21 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     const renderWho = (who) => {
       if(who){
         let whoArr = who.split(";");
-        return whoArr.map((item,key)=>{
+        if(whoArr.length === 1){
           return (
-            <div className="who-item" key={key}>
-              <span className="wi-sequence">{key+1}</span><span className="wi-text">{item}</span>
+            <div className="who-item">
+              <span className="wi-text just-one">{who}</span>
             </div>
-          )
-        });
+          );
+        } else {
+          return whoArr.map((item,key)=>{
+            return (
+              <div className="who-item" key={key}>
+                <span className="wi-sequence">{key+1}</span><span className="wi-text">{item}</span>
+              </div>
+            )
+          });
+        }
       } else {
         return null;
       }
@@ -178,8 +186,8 @@ export default class ProblemIntroduction extends React.Component<any,any>{
           <div className="pi-c-system white-content mg-25">
             <Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={"12px"} height={17}/>
             <div className="pi-c-s-content">
-              <AssetImg width={'100%'} url={descPic} />
               <pre className="pi-c-s-text" dangerouslySetInnerHTML={{__html:how}}/>
+              <AssetImg width={'100%'} url={descPic} />
             </div>
           </div>
           <div className="pi-c-learn white-content mg-25">

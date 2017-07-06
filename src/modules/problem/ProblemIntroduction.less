@@ -6,8 +6,8 @@
     background-color: #CCEAEB;
     overflow: hidden;
     .pi-h-bg{
-      height:100%;
-      width:auto;
+      height:auto;
+      width:100%;
       position: absolute;
       top:0;
       right:0;
@@ -85,7 +85,7 @@
         }
       }
       .pi-c-f-content {
-        color: @color_context;
+        color: @color_title;
         .context-audio {
           margin: 0;
           audio {
@@ -205,6 +205,10 @@
             white-space: nowrap;
             -ms-word-break: break-all;
             word-break: break-all;
+            &.just-one {
+              width:~'calc(100% - 10px)';
+              margin-left: 20px;
+            }
           }
         }
       }
@@ -216,7 +220,7 @@
           //background-color: green;
           font-size: 1.5em;
           padding:0 10px;
-          color: @color_context;
+          color: @color_title;
         }
         .pi-c-a-c-module {
           -webkit-box-shadow: 0 0 5px 5px rgba(0, 0, 0, .02);
@@ -259,6 +263,11 @@
     .pi-c-learn-term {
       .pi-c-l-t-text {
         position: relative;
+        font-size: 1.5em;
+        line-height: 1.5em;
+        padding: 8.5px 0 12px 25px;
+        color: @color_title;
+
         &.special {
           padding-top: 0;
           &:before {
@@ -282,11 +291,6 @@
         &:first-of-type {
           padding-top: 0;
         }
-        font-size: 1.5em;
-        line-height: 1.5em;
-        padding: 8.5px 0 12px 25px;
-
-        color: @color_context;
       }
     }
     .pi-c-tool {
