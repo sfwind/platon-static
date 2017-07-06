@@ -187,7 +187,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
             <Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={"12px"} height={17}/>
             <div className="pi-c-s-content">
               <pre className="pi-c-s-text" dangerouslySetInnerHTML={{__html:how}}/>
-              <AssetImg width={'100%'} url={descPic} />
+              <AssetImg width={'100%'} url={descPic} marginTop={"15px"}/>
             </div>
           </div>
           <div className="pi-c-learn white-content mg-25">
