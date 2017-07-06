@@ -58,6 +58,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350));
     this.headerContentTop = (window.innerWidth / (750 / 104)) > 52 ? 52 : (window.innerWidth/(750 / 104));
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25));
+    this.whoFontSize = (window.innerWidth / (750 / 30)) > 15 ? 15 : (window.innerWidth / (750 / 30));
 
   }
 
@@ -135,14 +136,14 @@ export default class ProblemIntroduction extends React.Component<any,any>{
         if(whoArr.length === 1){
           return (
             <div className="who-item">
-              <span className="wi-text just-one">{who}</span>
+              <span style={{fontSize:`${this.whoFontSize}px`}} className="wi-text just-one">{who}</span>
             </div>
           );
         } else {
           return whoArr.map((item,key)=>{
             return (
               <div className="who-item" key={key}>
-                <span className="wi-sequence">{key+1}</span><span className="wi-text">{item}</span>
+                <span style={{fontSize:`${this.whoFontSize}px`}} className="wi-sequence">{key+1}</span><span className="wi-text">{item}</span>
               </div>
             )
           });
