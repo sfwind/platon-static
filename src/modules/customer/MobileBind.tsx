@@ -52,9 +52,9 @@ export default class MobileBind extends React.Component<any,any>{
                 dispatch(alertMsg('请输入格式正确的国家/地区号'));
                 return;
             }
-            param = _.merge({}, {areaCode, phone});
+            param = _.merge({}, {areaCode, phone:_.trim(phone)});
         } else {
-            param = _.merge({}, {phone});
+            param = _.merge({}, {phone:_.trim(phone)});
         }
         if(this.intervalTrigger){
             clearInterval(this.intervalTrigger);
@@ -81,7 +81,7 @@ export default class MobileBind extends React.Component<any,any>{
             dispatch(alertMsg('请输入验证码'));
             return;
         }
-        ppost('/rise/customer/valid/sms', {code}).then(res=>{
+        ppost('/rise/customer/valid/sms', {code:_.trim(code)}).then(res=>{
             if(res.code !== 200){
                 dispatch(alertMsg('验证输入错误<br/>请重新输入'));
             }else{

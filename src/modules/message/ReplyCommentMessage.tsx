@@ -134,7 +134,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
           return (
             <div className="description">
               {truncate(filterContent, {length: wordsCount, omission: ''})}
-              ......
+              <span style={{letterSpacing:'-3px'}}>...</span>
             </div>
           )
         } else {
@@ -160,7 +160,7 @@ export class ReplyCommentMessage extends React.Component<any, any> {
     return (
       <div>
         <div className="container" onClick={() => this.cancel()}>
-          <div className="page-header">{topic}</div>
+          <div className="page-header" style={{height:'auto'}}>{topic}</div>
           {renderWorkContent()}
           <div className="origin-question-tip" onClick={() => this.goDetail()}>点击查看原题</div>
           <div className="discuss-title-bar"><span className="discuss-title">{this.state.data.del === 1 ? "该评论已删除" : "当前评论"}</span></div>

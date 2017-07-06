@@ -264,7 +264,7 @@ export class Comment extends React.Component<any, any> {
           return (
               <div onClick={()=>this.show(showAll)} className="application-content">
                 {truncate(filterContent,{length:wordsCount,omission:''})}
-                <span style={{letterSpacing:'-3px'}}>......</span>
+                <span style={{letterSpacing:'-3px'}}>...</span>
               </div>
           )
         } else {

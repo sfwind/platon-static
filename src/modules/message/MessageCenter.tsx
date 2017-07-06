@@ -111,10 +111,18 @@ export class MessageCenter extends React.Component <any, any> {
   }
 
   open(url, id, isRead){
+    let reg = new RegExp("^(http|https):");
     const {list} = this.state;
     if(!isRead) {
       readMessage(id).then(res => {
         const {code} = res;
+        if(url){
+          if(reg.test(url)){
+            window.location.href = url;
+          }else{
+            this.context.router.push(url);
+          }
+        }
         if (code === 200) {
           list.map((item)=>{
             if(item.id === id){
@@ -128,33 +136,15 @@ export class MessageCenter extends React.Component <any, any> {
       }).catch(ex => {
         //静默加载 啥都不干
       })
-    }
-
-    if(!url){
-      return;
-    }
-
-    if(url.indexOf('?')===-1){
-      this.context.router.push({ pathname: url })
-    }else{
-      //解析url
-      let index = url.indexOf('?');
-      let path = url.substring(0, index);
-      let query = url.substring(index+1);
-
-      let param = {};
-      let params = query.split("&");
-      for(let i=0;i<params.length;i++){
-        let pos = params[i].indexOf("=");
-        if(pos == -1) continue;
-        let argName  = params[i].substring(0,pos);
-        let argValue = params[i].substring(pos+1);
-
-        set(param, argName, argValue)
+    } else {
+      if(url){
+        if(reg.test(url)){
+          window.location.href = url;
+        }else{
+          this.context.router.push(url);
+        }
       }
-      this.context.router.push({pathname: path, query: param})
     }
-
   }
 
   back(){

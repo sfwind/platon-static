@@ -1,6 +1,7 @@
 import qs from "qs";
 import { merge,isUndefined,isNull,values } from "lodash";
 import { get, post } from "axios";
+import * as $ from "jquery";
 
 const debug = getQueryString('debug')
 
@@ -40,8 +41,14 @@ export function ppost(url:string, body:Object) {
 }
 
 function log(url, msg) {
-
-  ppost('/rise/b/log', { url: url, result: msg, cookie: document.cookie })
+ $.ajax('/rise/b/log',{
+    type: "POST",
+    contentType:"application/json",
+    data: JSON.stringify({url: url, result: msg, cookie: document.cookie}),
+    dataType:"json",
+    success: function(e){console.log(e)},
+  });
+  // ppost('/rise/b/log', { url: url, result: msg, cookie: document.cookie });
 }
 
 function getQueryString(name) {
