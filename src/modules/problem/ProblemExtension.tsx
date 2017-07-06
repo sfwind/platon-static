@@ -40,17 +40,20 @@ export default class ProblemExtension extends React.Component<any, any> {
   }
 
   render() {
-    console.log(1)
     const { data } = this.state
     const { extension, onlineActivities, offlineActivities } = data
     const { problemId, series } = this.props.location.query
 
-    const renderActivitiesHead = () => {
+    const renderActivities = () => {
       if((onlineActivities && onlineActivities.length > 0) || (offlineActivities && offlineActivities.length > 0)) {
         return (
-          <ExtensionHead
-            icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_book.png", width: 21, height: 20 }}
-            content={`学习活动`}/>
+          <div className="extension-activity">
+            <ExtensionHead
+              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_book.png", width: 21, height: 20 }}
+              content={`学习活动`}/>
+            {renderOnlineActivities()}
+            {renderOfflineActivities()}
+          </div>
         )
       }
     }
@@ -87,7 +90,7 @@ export default class ProblemExtension extends React.Component<any, any> {
     }
 
     return (
-      <div className="problem-extension-container">
+      <div className="problem-extension-container" style={{ minHeight: window.innerHeight }}>
         <div className="problem-extension-page">
           <div className="extension-head"/>
           <div className="extension-read">
@@ -96,11 +99,7 @@ export default class ProblemExtension extends React.Component<any, any> {
               content={`延伸阅读`}/>
             <div className="extension-read-content" dangerouslySetInnerHTML={{ __html: extension }}/>
           </div>
-          <div className="extension-activity">
-            {renderActivitiesHead()}
-            {renderOnlineActivities()}
-            {renderOfflineActivities()}
-          </div>
+          {renderActivities()}
           <div className="extension-share">
             <ExtensionHead
               icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 21 }}
@@ -160,7 +159,6 @@ class OnlineContentBox extends React.Component<{ description: string, password: 
 // 线下活动列表
 class OfflineContentBox extends React.Component<{ description: string, location: string, workshop: string, uri: string }, any> {
   render() {
-    {console.log(2)}
     const { description, location, workshop, uri } = this.props
     return (
       <div className="offline-content-box">
