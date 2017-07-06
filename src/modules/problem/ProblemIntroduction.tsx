@@ -302,11 +302,13 @@ class Header extends React.Component<HeaderProps,any>{
     };
     return (
       <div className="page-item-header">
-        <div className="pih-icon" style={{marginLeft:this.props.marginLeft,lineHeight:this.props.lineHeight?this.props.lineHeight:0}} >
-          <AssetImg type={this.props.icon} size={renderSize()} width={this.props.width} height={this.props.height}/>
-        </div>
-        <div className="pih-title">
-          {this.props.title}
+        <div className="pih-icon-container">
+          <div className="pih-icon" style={{marginLeft:this.props.marginLeft,lineHeight:this.props.lineHeight?this.props.lineHeight:0}} >
+            <AssetImg type={this.props.icon} size={renderSize()} width={this.props.width} height={this.props.height}/>
+          </div>
+          <div className="pih-title">
+            {this.props.title}
+          </div>
         </div>
       </div>
     );
