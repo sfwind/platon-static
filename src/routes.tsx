@@ -39,12 +39,14 @@ import { Explore } from 'modules/problem/Explore';
 import { MoreProblem } from 'modules/problem/MoreProblem'
 import BannerArticle from 'modules/problem/BannerArticle'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
+import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
 
 const routes = (
   <Route path="/rise/static" component={Base}>
     <Route path="welcome" component={Welcome}/>
     <Route path="problem/explore" component={Explore}/>
-    <Route path="problem/view" component={ProblemViewer}/>
+    <Route path="problem/view" component={ProblemIntroduction}/>
+    <Route path="problem/view/old" component={ProblemViewer}/>
     <Route path="problem/more" component={MoreProblem}/>
     <Route path="problem/package" component={BannerArticle}/>
     <Route path="plan/main" component={PlanMain}/>
