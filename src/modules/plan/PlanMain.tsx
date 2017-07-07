@@ -369,7 +369,7 @@ export class PlanMain extends React.Component <any, any> {
 
   essenceShare(problemId, series) {
     mark({module:"打点",function:"首页",action:"打开小课论坛",memo:"首页"})
-    this.context.router.push({pathname: '/rise/static/practice/subject', query: {id: problemId, series}})
+    this.context.router.push({pathname: '/rise/static/problem/extension', query: { problemId: problemId, series}})
   }
 
   problemReview(problemId) {
@@ -695,13 +695,13 @@ export class PlanMain extends React.Component <any, any> {
                   </div>
                 </div>
                 <div className="function-menu">
-                  <div className="left" onClick={() => this.essenceShare(problem.id, currentIndex)}>
-                    <span className="essence"><AssetImg type="essence" height={13} width={19}/></span>
-                    <span>小课论坛</span>
-                  </div>
-                  <div className="right" onClick={() => this.problemReview(problem.id)}>
+                  <div className="left" onClick={() => this.problemReview(problem.id)}>
                     <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
                     <span>小课介绍</span>
+                  </div>
+                  <div className="right" onClick={() => this.essenceShare(problem.id, currentIndex)}>
+                    <span className="essence"><AssetImg url="https://static.iqycamp.com/images/problem/extension_icon_main.png" height={15} width={15}/></span>
+                    <span>延伸学习</span>
                   </div>
                 </div>
                 {!isEmpty(planData) ?

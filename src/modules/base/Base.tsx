@@ -78,29 +78,27 @@ export default class Main extends React.Component<any, any> {
 	}
 
 	render() {
-    return (
-      <div className={`${isPending(this.props, LOAD_KEY)?'over-hidden':''}`}>
-        {this.props.children}
-        <Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
-          <div style={{fontSize:13, paddingTop:10}}>加载中...</div>
-        </Toast>
-        <Alert { ...this.state.alert }
-          show={this.props.base.showModal}>
-          <div className="global-pre" dangerouslySetInnerHTML={{__html:this.props.base.alertMsg}}/>
-        </Alert>
-        {this.state.windowsClient ?
-          <div
-            style={{position:'absolute', left:5, top:5, height: 30, width:30, zIndex:999, cursor:'pointer', transparency:'10%'}}
-            onClick={()=> this.context.router.goBack()}>
-            <AssetImg type="back_button" width={30} height={30} style={{opacity:0.3}}/>
-          </div>
-          : null}
-        {
-          this.state.activityMsg && this.state.message ?
-            <Activity url={this.state.url} pic={this.state.message}/>
-            : null
-        }
+		return (
+			<div className={`${isPending(this.props, LOAD_KEY)?'over-hidden':''}`}>
+				{this.props.children}
+				<Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
+					<div style={{fontSize:13, paddingTop:10}}>加载中...</div>
+				</Toast>
+				<Alert { ...this.state.alert }
+					show={this.props.base.showModal}>
+          			<div className="global-pre" dangerouslySetInnerHTML={{__html:this.props.base.alertMsg}}/>
+				</Alert>
+				{this.state.windowsClient?
+					<div style={{position:'absolute', left:5, top:5, height: 30, width:30, zIndex:999, cursor:'pointer', transparency:'10%'}} onClick={()=> this.context.router.goBack()}>
+						<AssetImg type="back_button" width={30} height={30} style={{opacity:0.3}}/>
+					</div>
+					:null}
+				{
+					this.state.activityMsg&& this.state.message?
+						<Activity url={this.state.url} pic={this.state.message}/>
+						:null
+				}
       </div>
-    );
+		)
 	}
 }
