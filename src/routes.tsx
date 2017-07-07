@@ -52,6 +52,7 @@ const routes = (
     <Route path="problem/more" component={MoreProblem}/>
     <Route path="problem/package" component={BannerArticle}/>
     <Route path="plan/main" component={PlanMain}/>
+    <Route path="plan/list" component={PlanList}/>
     <Route path="plan/report" component={ImprovementReport}/>
     <Route path="learn" component={PlanMain}/>
     <Route path="practice/warmup" component={WarmUp}/>
