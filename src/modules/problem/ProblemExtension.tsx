@@ -146,13 +146,12 @@ class OnlineContentBox extends React.Component<{ description: string, password: 
   render() {
     const { description, password, uri } = this.props
     return (
-      <div className="online-content-box" style={{ minHeight: password ? "155px" : "135px" }}>
+      <div className="online-content-box">
         <div className="online-content">{description}</div>
         {
           password ? <div className="online-password">直播间密码:{password}</div> : null
         }
-        <div className="online-view" style={{ bottom: password ? "25px" : "30px" }}
-             onClick={() => window.location.href = uri}>点击查看
+        <div className="online-view" onClick={() => window.location.href = uri}>点击查看
         </div>
       </div>
     )
