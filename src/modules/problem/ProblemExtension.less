@@ -104,14 +104,15 @@
     .online-content-box {
       background-image: url("https://static.iqycamp.com/images/problem/extension_card_2.png?imageslim");
       background-size: 100% 100%;
+        //padding-bottom: 20px;
       min-height: 130px;
       position: relative;
       margin-bottom: -10px;
       .online-content {
         padding: 28px 15px 10px 40px;
         font-size: 1.5em;
-        line-height: 20px;
-        max-height: 30px;
+        line-height: 25px;
+        max-height: 40px;
         color: @color_title;
         overflow: hidden;
         display: -webkit-box;
@@ -121,11 +122,15 @@
       .online-password {
         text-align: center;
         font-size: 1.4em;
-        margin-top: 8px;
+        margin: 0 auto 5px;
         color: #F87048;
       }
       .online-view {
-        margin: 7px auto 15px;
+        //margin: 0 auto 15px;
+        position: absolute;
+        bottom: 22px;
+        left: ~'calc(50% - 32px)';
+
         padding: 0 10px;
         border-radius: 5px;
         width: 64px;
@@ -154,7 +159,7 @@
           display: inline-block;
           font-size: 1.5em;
           line-height: 25px;
-          color: @color_strong;
+          color: @color_title;
         }
         .offline-left-icon {
           display: inline-block;
@@ -165,6 +170,7 @@
         }
       }
       .offline-right-area {
+        padding-top: 5px;
         position: absolute;
         width: 55%;
         height: 85px;
@@ -174,8 +180,7 @@
           text-align: center;
           color: @color_title;
           font-size: 1.7em;
-          line-height: 17px;
-          max-height: 34px;
+          line-height: 19px;
           overflow: hidden;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -185,7 +190,6 @@
           text-align: center;
           font-size: 1.3em;
           color: @color_help;
-          margin-top: 8px;
         }
         .offline-right-view {
           padding: 0 10px;
@@ -198,7 +202,7 @@
           text-align: center;
           border: 1px solid @color_strong;
           position: absolute;
-          bottom: 0;
+          bottom: 5px;
           left: 25%;
         }
       }
