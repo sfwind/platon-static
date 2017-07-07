@@ -24,7 +24,7 @@ export default class Editor extends React.Component<any, any> {
       uploadUrl: `/rise/file/editor/image/upload/${this.props.moduleId || 2}`,
       formInputId: 'target',
       uploadField: 'file',
-      placeholader: this.props.placeholder ? this.props.placeholder : placeHolder,
+      placeholader: placeHolder,
       validHtml: [],
       uploadStart: () => {
         if(this.props.uploadStart) {
