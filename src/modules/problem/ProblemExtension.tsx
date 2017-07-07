@@ -151,8 +151,7 @@ class OnlineContentBox extends React.Component<{ description: string, password: 
         {
           password ? <div className="online-password">直播间密码:{password}</div> : null
         }
-        <div className="online-view" onClick={() => window.location.href = uri}>点击查看
-        </div>
+        <div className="online-view" onClick={() => window.location.href = uri}>进入</div>
       </div>
     )
   }
@@ -173,7 +172,7 @@ class OfflineContentBox extends React.Component<{ description: string, location:
         <div className="offline-right-area">
           <div className="offline-right-description">{description}</div>
           <div className="offline-right-workshop">{workshop}</div>
-          <div className="offline-right-view" onClick={() => window.location.href = uri}>点击查看</div>
+          <div className="offline-right-view" onClick={() => window.location.href = uri}>进入</div>
         </div>
       </div>
     )
