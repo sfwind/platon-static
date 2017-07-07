@@ -19,6 +19,19 @@
     .tag-list{
       .tag-line{
         margin-bottom: 20px;
+        .tag{
+          display: inline-block;
+          margin-left: ~"calc((100% - 234px)/4)";
+          height: 24px;
+          width: 78px;
+          border: 1px solid @color_strong;
+          border-radius: @border-radius;
+          font-size: 1.3em;
+          line-height: 24px;
+          text-align: center;
+          color: @color_strong;
+          background-color: @color_white;
+        }
         .tag-selected{
           display: inline-block;
           margin-left: ~"calc((100% - 234px)/4)";
@@ -34,12 +47,13 @@
         }
       }
 
+      border-bottom: 10px solid @color_weak_background;
     }
 
     .question-title{
       width: ~"calc(100% - 30px)";
       margin-left: 15px;
-      height: 65px;
+      margin-top: 20px;
       .length-div{
         margin-right: 10px;
         margin-top: -25px;
@@ -70,7 +84,7 @@
     .question-detail{
       width: ~"calc(100% - 30px)";
       margin-left: 15px;
-      margin-top: 60px;
+      margin-top: 40px;
       .editor {
         padding-bottom: 120px;
       }

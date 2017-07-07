@@ -67,3 +67,8 @@ export function loadQuestionByTag(tag){
 export function submitQuestion(param){
   return ppost(`/forum/question/submit`, param);
 }
+
+// 搜索问题
+export function searchQuestion(content, page) {
+  return ppost(`/forum/question/search?page=${page}`, {content})
+}

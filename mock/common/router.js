@@ -40,8 +40,7 @@ router.post("/rise/b/mark", (req, res) => {
 router.get("/rise/index/msg", (req, res) => {
     setTimeout(() =>
         res.status(200).json({
-            "msg": {"message": "https://static.iqycamp.com/images/bind_mobile3.png",
-                "url": "/rise/static/customer/mobile/check"},
+            "msg": null,
             "code": 200
         }), Math.random() * 1500)
 });

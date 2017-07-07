@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { ForumButton, SimpleQuestion, PullSlideTip } from "../commons/ForumComponent";
-import { loadQuestionByTag, loadTag } from "../async"
+import { loadQuestionByTag, loadTag, searchQuestion } from "../async"
 import { mark } from "../../../utils/request"
 import PullElement from "pull-element";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
@@ -113,71 +113,26 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     }
   }
 
-  onClick(tag) {
-    const { dispatch, location } = this.props;
-    const { tagList } = this.state;
-    let selectedTagList = [];
-    //已选中则删除，反之则选中
-    tagList.forEach((item) => {
-      if(item.id === tag.id) {
-        item.selected = !tag.selected;
-      }
-      if(item.selected) {
-        selectedTagList.push(item)
-      }
-    });
-    if(selectedTagList.length > 3) {
-      dispatch(alertMsg("最多选择 3 个问题标签"))
-      this.onClick(tag)
-    }
-    this.setState({ tagList });
-
-    //选中时加载，取消时不加载
-    if(tag.selected){
-      dispatch(startLoad());
-      loadQuestionByTag(tag.id).then(res => {
-        dispatch(endLoad());
-        const { code, msg } = res;
-        if(code === 200) {
-          this.setState({
-            data: msg.list,
-            index: 1, end: msg.end
-          });
-          if(msg.end === true) {
-            if(this.pullElement) {
-              this.pullElement.disable();
-            }
-          }else{
-            if(this.pullElement) {
-              this.pullElement.enable();
-            }
-          }
-        } else {
-          dispatch(alertMsg(msg));
-        }
-      }).catch(ex => {
-        dispatch(endLoad());
-        dispatch(alertMsg(ex));
-      });
-    }
-
-  }
-
   nextTask() {
     const { dispatch } = this.props;
-    const { tagList } = this.state;
-    let selectedTagList = [];
-    tagList.forEach(item => {
-      if(item.selected) {
-        selectedTagList.push(item);
-      }
-    });
-    if(_.isEmpty(selectedTagList)) {
-      dispatch(alertMsg('请先选择问题标签'));
-      return;
-    }
-    dispatch(set('selectedTagList', selectedTagList));
+    const { title } = this.state;
+    dispatch(set('title', title));
     this.context.router.push('/forum/static/question/detail');
+  }
+
+  writeTitle(title) {
+    const { dispatch } = this.props;
+    this.setState({ title, length: title.length });
+    searchQuestion(title, 1).then(res => {
+      const { code, msg } = res;
+      if(code === 200) {
+        this.setState({ data: msg.list, page:1 })
+      } else {
+        dispatch(alertMsg(msg));
+      }
+    }).catch(e => {
+      dispatch(alertMsg(e));
+    });
   }
 
   render() {
@@ -202,51 +157,6 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       }
     }
 
-    const renderLine = (tagLineList) => {
-      return (
-        <div className="tag-line">
-          {tagLineList.map((tag, idx) => {
-            return (
-              <div className={`${tag.selected ? 'tag-selected' : 'tag'}`}
-                   key={idx} onClick={() => this.onClick(tag)}>
-                {tag.name}
-              </div>
-            )
-          })}
-        </div>
-      )
-    }
-
-    const renderTagList = () => {
-      // 包含所有的行元素的数组
-      let tagAll = [];
-      // 一共渲染几行
-      let line = tagList.length / 3;
-      for(let j = 0; j < line; j++) {
-        // 一行标签的数组
-        let tagLineList = [];
-        for(let i = 0; i < 3; i++) {
-          if(j * 3 + i === tagList.length) {
-            break;
-          }
-          tagLineList.push(tagList[j * 3 + i]);
-        }
-        tagAll.push(tagLineList);
-      }
-
-      return (
-        <div className="tag-list">
-          {
-            tagAll.map((tagLineList, idx) => {
-              return (
-                renderLine(tagLineList)
-              )
-            })
-          }
-        </div>
-      )
-    }
-
     const renderShowMore = () => {
       if(!_.isEmpty(data)) {
         return (
@@ -265,17 +175,26 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       <div className="question-init-container" style={{height: window.innerHeight + 1 }}>
         <div className={`question-page ${_.isEmpty(data)?'':'selected'}`}>
           <div className="page-title">
-            选择问题标签
+            写下问题标题
           </div>
-
-          {renderTagList()}
+          <div className="question-title">
+            <textarea
+                placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
+                id="textarea"
+                onCompositionEnd={(e) => this.writeTitle(e.currentTarget.value)} maxLength={50} defaultValue={this.state.title}/>
+            <div className="length-div">
+              <div className="length-tip">
+                {length} / 50
+              </div>
+            </div>
+          </div>
           { _.isEmpty(data) ? null :
-            <div className="question-title">
+            <div className="question-divide">
               相关的问题
             </div>
           }
           {renderQuestionList()}
-          {renderShowMore()}
+          {/*{renderShowMore()}*/}
           {renderButton()}
         </div>
       </div>

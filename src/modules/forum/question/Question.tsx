@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PullElement from 'pull-element';
 import { ToolBar } from "../../base/ToolBar";
 import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
-import { disFollow, follow, getAllQuestions, getQuestion } from "../async";
+import { disFollow, follow, getAllQuestions, getQuestion, searchQuestion } from "../async";
 import { mark } from "../../../utils/request"
 import { splitText, removeHtmlTags } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
@@ -28,7 +28,8 @@ export default class Question extends React.Component<any, QuestionStates> {
       questions: [],
       page: 1,
       end: false,
-      showToast: false
+      showToast: false,
+      content:"",
     }
     this.pullElement = null
   }
@@ -94,25 +95,41 @@ export default class Question extends React.Component<any, QuestionStates> {
           }
         },
         onPullUpEnd: () => {
-          getAllQuestions(this.state.page + 1).then(res => {
-            const { code, msg } = res;
-            const { questionId } = location.query;
-            if(code === 200) {
-              if(questionId) {
-                _.remove(res.msg.list, (item) => {
-                  return item.id == questionId;
-                });
+          if(this.state.content){
+            searchQuestion(this.state.content, this.state.page + 1).then(res => {
+              dispatch(endLoad());
+              const { code, msg } = res;
+              if(code === 200) {
+                this.setState({ questions: this.state.questions.concat(msg.list),
+                  page:this.state.page + 1 })
+              } else {
+                dispatch(alertMsg(res.msg));
               }
-              this.setState({
-                questions: this.state.questions.concat(msg.list),
-                page: this.state.page + 1,
-                end: msg.end
-              })
-            }
-          }).catch(e => {
-            dispatch(alertMsg(e));
-            dispatch(endLoad());
-          })
+            }).catch(e => {
+              dispatch(alertMsg(e));
+              dispatch(endLoad());
+            });
+          }else{
+            getAllQuestions(this.state.page + 1).then(res => {
+              const { code, msg } = res;
+              const { questionId } = location.query;
+              if(code === 200) {
+                if(questionId) {
+                  _.remove(res.msg.list, (item) => {
+                    return item.id == questionId;
+                  });
+                }
+                this.setState({
+                  questions: this.state.questions.concat(msg.list),
+                  page: this.state.page + 1,
+                  end: msg.end
+                })
+              }
+            }).catch(e => {
+              dispatch(alertMsg(e));
+              dispatch(endLoad());
+            })
+          }
           if(this.props.iNoBounce) {
             if(!this.props.iNoBounce.isEnabled()) {
               this.props.iNoBounce.enable();
@@ -141,6 +158,23 @@ export default class Question extends React.Component<any, QuestionStates> {
   handleClickFeedback() {
     mark({ module: "打点", function: "论坛", action: "点击意见反馈" });
     window.location.href = `https://${window.location.hostname}/survey/wjx?activity=15135162 `
+  }
+
+  handleSearch(value){
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    searchQuestion(value, 1).then(res => {
+      dispatch(endLoad());
+      const { code, msg } = res;
+      if(code === 200) {
+        this.setState({ questions: res.msg.list, content:value, page:1 })
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(e => {
+      dispatch(alertMsg(e));
+      dispatch(endLoad());
+    });
   }
 
   render() {
@@ -210,7 +244,7 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
         <div className="question-page" style={{ height: window.innerHeight - 26 - 50 }}>
           <div className="ques-nav">
-            <div className="ques-nav-desc">有一个新问题？点这里提问吧</div>
+            <input type="text" className="search-input" onCompositionEnd={(e)=> this.handleSearch(e.currentTarget.value)}></input>
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>去提问</div>
           </div>
           <GreyBanner height={20}/>

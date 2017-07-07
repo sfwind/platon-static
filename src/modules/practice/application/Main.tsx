@@ -452,12 +452,11 @@ export class Main extends React.Component <any, any> {
     }
 
     return (
-      <div>
+      <div className="application">
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
-          <div className="application">
             <div className="page-header">{topic}</div>
             <div className="intro-container">
               <div className="context-img">
@@ -512,7 +511,6 @@ export class Main extends React.Component <any, any> {
               {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
               {renderEnd()}
             </div>
-          </div>
         </div>
         {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
 

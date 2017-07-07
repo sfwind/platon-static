@@ -215,20 +215,112 @@ router.get("/forum/question/load/*", (req, res) => {
         ), Math.random() * 1500)
 });
 
+router.post("/forum/question/search", (req, res) => {
+    setTimeout(() =>
+        res.status(200).json(
+            {
+                "msg": {
+                    "list": [{
+                        "id": 7,
+                        "topic": "解锁的垃圾袋垃圾",
+                        "description": "描述up2222date",
+                        "profileId": null,
+                        "followCount": 2,
+                        "openCount": 118,
+                        "answerCount": 4,
+                        "weight": 124,
+                        "addTime": 1497957893000,
+                        "answerTips": "查看三十文、薛定谔的猫等2人的回答",
+                        "addTimeStr": "2017-06-20",
+                        "authorUserName": "薛定谔的猫",
+                        "authorHeadPic": "https://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
+                        "follow": true,
+                        "mine": true,
+                        "answerList": null,
+                        "questionTagList": null
+                    }, {
+                        "id": 2,
+                        "topic": "cm.cxmz.cm.11",
+                        "description": "你不能巴拉巴拉巴拉巴拉巴拉这么做。。。你不能巴拉巴拉巴拉巴拉巴拉这么做。。。你要巴拉巴拉巴拉巴拉巴拉这么做。。。",
+                        "profileId": null,
+                        "followCount": 0,
+                        "openCount": 37,
+                        "answerCount": 2,
+                        "weight": 37,
+                        "addTime": 1497926416000,
+                        "answerTips": "查看薛定谔的猫、三十文等2人的回答",
+                        "addTimeStr": "2017-06-20",
+                        "authorUserName": "?雷立风行",
+                        "authorHeadPic": "https://wx.qlogo.cn/mmopen/PiajxSqBRaEI6Ett47SE95j62d8rLN0FIcgAFdUXpBqosmXDpZzDOQ8TMNX92DP3icZqEXQtcoicnezvvFINTIlaw/0",
+                        "follow": false,
+                        "mine": false,
+                        "answerList": null,
+                        "questionTagList": null
+                    }, {
+                        "id": 1,
+                        "topic": "如何成为有用的人",
+                        "description": "你要巴拉巴拉巴拉巴拉巴拉这么做。。。你要巴拉巴拉巴拉巴拉巴拉这么做。。。你要巴拉巴拉巴拉巴拉巴拉这么做。。。",
+                        "profileId": null,
+                        "followCount": 2,
+                        "openCount": 9,
+                        "answerCount": 1,
+                        "weight": 15,
+                        "addTime": 1497926353000,
+                        "answerTips": "查看三十文的回答",
+                        "addTimeStr": "2017-06-20",
+                        "authorUserName": "缪能达",
+                        "authorHeadPic": "https://wx.qlogo.cn/mmopen/ajNVdqHZLLDAbh37MBYIQNJfT256gPjftKiaQYu3QFGqgEGS3UBGcJAZMz784z5Fo7iapkUsMMJMicaASlsOqM7ibm6iaz4vO1VzAkibNrjrwqKJ0/0",
+                        "follow": true,
+                        "mine": false,
+                        "answerList": null,
+                        "questionTagList": null
+                    }, {
+                        "id": 6,
+                        "topic": "这个是标题",
+                        "description": "这个是内容",
+                        "profileId": null,
+                        "followCount": 22,
+                        "openCount": 11,
+                        "answerCount": 2333,
+                        "weight": 9,
+                        "addTime": 1497953740000,
+                        "answerTips": "成为第一个回答者",
+                        "addTimeStr": "2017-06-20",
+                        "authorUserName": "薛定谔的猫",
+                        "authorHeadPic": "https://wx.qlogo.cn/mmopen/Q3auHgzwzM7wkhob9zgicD3IJxG1tLVSSe9qdzR1qUGXz6BwPv73sr67iaTEibcA1sNic3Roib4DgXCVG4IWe0zPAKJnlo5r4NibezssS6naic6dkM/0",
+                        "follow": false,
+                        "mine": true,
+                        "answerList": null,
+                        "questionTagList": null
+                    }, {
+                        "id": 4,
+                        "topic": "思维问题",
+                        "description": "思维问题描述",
+                        "profileId": null,
+                        "followCount": 1,
+                        "openCount": 3,
+                        "answerCount": 0,
+                        "weight": 6,
+                        "addTime": 1497944430000,
+                        "answerTips": "成为第一个回答者",
+                        "addTimeStr": "2017-06-20",
+                        "authorUserName": "风之伤",
+                        "authorHeadPic": "https://wx.qlogo.cn/mmopen/Q3auHgzwzM4j579r72ltlZK0uBEz3klv57pOrqolSjZONIIlyffo4ib5p7sneIH4MgXyCKzKOKBiaCTkQUyu15XKiaeSppaJ0U3j1OBLIOrxrk/0",
+                        "follow": false,
+                        "mine": false,
+                        "answerList": null,
+                        "questionTagList": null
+                    }], "end": true
+                }, "code": 200
+            }
+        ), Math.random() * 1500);
+});
+
 router.get("/forum/question/tag/load", (req, res) => {
     setTimeout(() =>
         res.status(200).json(
             {"msg":[{"id":"1","name":"职场"},{"id":"2","name":"思维"},{"id":"3","name":"练习"},{"id":"4","name":"职场2"},{"id":"5","name":"思维2"}],"code":200}
         ), Math.random() * 1500);
-});
-
-router.get("/forum/question/search/*", (req, res) => {
-    setTimeout(() =>
-        res.status(200).json(
-            {"msg":{"end":false,"list":[{"id":1,"topic":"问题1","description":"问题描述","profileId":null,"followCount":15,openCount:123,"answerCount":1},
-                {"id":2,"topic":"问题2","description":"问题描述2","profileId":null,"followCount":3,openCount:135,"answerCount":1}]
-            },"code":200}
-        ), Math.random() * 1500)
 });
 
 router.post("/forum/question/submit", (req, res) => {

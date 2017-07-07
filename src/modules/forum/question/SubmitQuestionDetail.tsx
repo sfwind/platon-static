@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { ForumButton } from "../commons/ForumComponent";
-import { submitQuestion, getQuestion } from "../async"
+import { submitQuestion, getQuestion, loadTag } from "../async"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import { removeHtmlTags } from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
@@ -32,9 +32,10 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
     const { dispatch, location } = this.props;
     const { questionId } = location.query;
     if(questionId) {
+      //修改提问
       dispatch(startLoad());
       getQuestion(questionId).then(res => {
-        const { code, msg } = res
+        const { code, msg } = res;
         dispatch(endLoad());
         if(code === 200) {
           this.setState({
@@ -45,6 +46,21 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
           dispatch(alertMsg(msg));
         }
       }).catch(ex => {
+        dispatch(endLoad());
+        dispatch(alertMsg(ex));
+      })
+    }else{
+      //提问
+      loadTag().then(
+          res => {
+            dispatch(endLoad());
+            if(res.code === 200) {
+              this.setState({ tagList:res.msg, title:this.props.title });
+            } else {
+              dispatch(alertMsg(res.msg));
+            }
+          }
+      ).catch(ex => {
         dispatch(endLoad());
         dispatch(alertMsg(ex));
       })
@@ -61,7 +77,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
   }
 
   submit() {
-    const { title, selectedTagList } = this.state;
+    const { title, selectedTagList, tagList } = this.state;
     const detail = this.refs.editor.getValue();
     let tagIds = [];
     const { dispatch, location } = this.props;
@@ -115,24 +131,75 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
     }
   }
 
+  onClick(tag) {
+    const { dispatch, location } = this.props;
+    const { tagList } = this.state;
+    let selectedTagList = [];
+    //已选中则删除，反之则选中
+    tagList.forEach((item) => {
+      if(item.id === tag.id) {
+        item.selected = !tag.selected;
+      }
+      if(item.selected) {
+        selectedTagList.push(item)
+      }
+    });
+    if(selectedTagList.length > 3) {
+      dispatch(alertMsg("最多选择 3 个问题标签"))
+      this.onClick(tag)
+    }
+    this.setState({ tagList });
+  }
+
   writeTitle(e) {
     this.setState({ title: e.currentTarget.value, length: e.currentTarget.value.length })
   }
 
   render() {
-    const { data = [], selectedTagList = [], length } = this.state;
+    const { data = [], selectedTagList = [], length, tagList = [] } = this.state;
 
     const renderLine = (tagLineList) => {
       return (
-        <div className="tag-line">
-          {tagLineList.map((tag, idx) => {
-            return (
-              <div className='tag-selected' key={idx}>
-                {tag.name}
-              </div>
-            )
-          })}
-        </div>
+          <div className="tag-line">
+            {tagLineList.map((tag, idx) => {
+              return (
+                  <div className={`${tag.selected ? 'tag-selected' : 'tag'}`}
+                       key={idx} onClick={() => this.onClick(tag)}>
+                    {tag.name}
+                  </div>
+              )
+            })}
+          </div>
+      )
+    }
+
+    const renderTagList = () => {
+      // 包含所有的行元素的数组
+      let tagAll = [];
+      // 一共渲染几行
+      let line = tagList.length / 3;
+      for(let j = 0; j < line; j++) {
+        // 一行标签的数组
+        let tagLineList = [];
+        for(let i = 0; i < 3; i++) {
+          if(j * 3 + i === tagList.length) {
+            break;
+          }
+          tagLineList.push(tagList[j * 3 + i]);
+        }
+        tagAll.push(tagLineList);
+      }
+
+      return (
+          <div className="tag-list">
+            {
+              tagAll.map((tagLineList, idx) => {
+                return (
+                    renderLine(tagLineList)
+                )
+              })
+            }
+          </div>
       )
     }
 
@@ -147,11 +214,14 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
           } else {
             tagContent = tagContent.concat(` | ${tag.name}`)
           }
-        })
+        });
+        return (
+            <div className="tag-list-text">{tagContent}</div>
+        )
+      }else{
+        return renderTagList();
       }
-      return (
-        <div className="tag-list-text">{tagContent}</div>
-      )
+
     }
 
     const renderButton = () => {
