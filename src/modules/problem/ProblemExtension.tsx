@@ -29,9 +29,6 @@ export default class ProblemExtension extends React.Component<any, any> {
         this.setState({ data: res.msg, extension: res.msg.extension })
       } else {
         dispatch(alertMsg("当前小课暂无延伸学习相关内容"))
-        setTimeout(() => {
-          this.context.router.goBack()
-        }, 2000)
       }
     }).catch(e => {
       dispatch(endLoad())
