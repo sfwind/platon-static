@@ -49,7 +49,7 @@ export default class ProblemExtension extends React.Component<any, any> {
         return (
           <div className="extension-activity">
             <ExtensionHead
-              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_book.png", width: 21, height: 20 }}
+              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_bag.png", width: 21, height: 20 }}
               content={`学习活动`}/>
             {renderOnlineActivities()}
             {renderOfflineActivities()}
@@ -102,7 +102,7 @@ export default class ProblemExtension extends React.Component<any, any> {
           {renderActivities()}
           <div className="extension-share">
             <ExtensionHead
-              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 21 }}
+              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 20 }}
               content={`小课分享`}/>
             <div className="extension-share-content">深度好文&nbsp;遇见大咖&nbsp;分享心得</div>
             <div className="extension-share-view"
