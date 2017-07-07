@@ -279,7 +279,10 @@ export class Analysis extends React.Component <any, any> {
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-            {practice[currentIndex]? <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div>:null}
+            {practice[currentIndex] && practice[currentIndex].knowledge ?
+                <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+                <div className="page-header">综合练习</div>
+            }
             {questionRender(practice[currentIndex] || {})}
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/>:null}

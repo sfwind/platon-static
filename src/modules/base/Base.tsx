@@ -79,7 +79,6 @@ export default class Main extends React.Component<any, any> {
 
 	render() {
 		return (
-		  <div>
 			<div className={`${isPending(this.props, LOAD_KEY)?'over-hidden':''}`}>
 				{this.props.children}
 				<Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
@@ -95,12 +94,10 @@ export default class Main extends React.Component<any, any> {
 					</div>
 					:null}
 				{
-					this.state.activityMsg && this.state.message?
+					this.state.activityMsg&& this.state.message?
 						<Activity url={this.state.url} pic={this.state.message}/>
 						:null
 				}
-			</div>
-      </div>
-		)
+		</div>);
 	}
 }
