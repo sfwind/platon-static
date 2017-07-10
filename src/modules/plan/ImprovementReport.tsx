@@ -232,7 +232,7 @@ export class ImprovementReport extends React.Component<any,any> {
 
           <div className="body" style={{marginTop:'36px'}}>
             <div className="header">
-              <span className="title">应用练习&综合练习</span>
+              <span className="title">应用练习&amp;综合练习</span>
               {/*<span className="question">?</span>*/}
             </div>
             {this.renderApplicationScores()}
