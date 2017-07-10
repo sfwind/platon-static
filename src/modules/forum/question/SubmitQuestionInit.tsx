@@ -28,7 +28,6 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       searchData:[],
       length:0,
     };
-    this.pullElement = null;
     this.timer = null;
   }
 
@@ -54,60 +53,6 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
 
     //解决android键盘遮挡，改变频幕高度问题
     this.timer = setInterval(()=>this.handleKeyboardUp(), 200);
-  }
-
-  componentDidUpdate(preProps, preState) {
-    const { dispatch, location } = this.props;
-    const { data = [] } = this.state;
-    if(data.length > 0 && !this.pullElement) {
-      // 有内容并且米有pullElement
-      const { dispatch } = this.props;
-      this.pullElement = new PullElement({
-        target: '.question-init-container',
-        scroller: '.question-init-container',
-        damping: 4,
-        onPullUp: (data) => {
-          if(this.props.iNoBounce){
-            if(this.props.iNoBounce.isEnabled()){
-              this.props.iNoBounce.disable();
-            }
-          }
-        },
-        detectScroll: true,
-        detectScrollOnStart: true,
-        onPullUpEnd: (data) => {
-          loadQuestionByTag(this.state.index + 1).then(res => {
-            const { code, msg } = res;
-            if(code === 200) {
-              if(msg && msg.list.length !== 0) {
-                _.remove(msg.list, (item) => {
-                  return _.findIndex(this.state.data, item) !== -1
-                });
-                this.setState({
-                  data: this.state.data.concat(msg.list),
-                  index: this.state.index + 1, end: msg.end
-                });
-                if(msg.end === true) {
-                  this.pullElement.disable();
-                }
-              } else {
-                dispatch(alertMsg(msg));
-              }
-            } else {
-              dispatch(alertMsg(msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-          if(this.props.iNoBounce){
-            if(!this.props.iNoBounce.isEnabled()){
-              this.props.iNoBounce.enable();
-            }
-          }
-        }
-      })
-      this.pullElement.init();
-    }
   }
 
   componentWillUnmount(){
