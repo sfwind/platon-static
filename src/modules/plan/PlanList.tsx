@@ -23,7 +23,6 @@ export default class PlanList extends React.Component<any,any> {
     if(window.innerWidth > 350){
       gup = 30;
     }
-    console.log(gup)
     this.completedLeftTextWidth = window.innerWidth - 56 - 84 - 8 - gup - 15 - 45 ;
   }
 
@@ -37,7 +36,6 @@ export default class PlanList extends React.Component<any,any> {
     loadPlanList().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        console.log(res);
         const { runningPlans } = res.msg;
         let showEmptyPage = false;
         if(!runningPlans || runningPlans.length === 0){
@@ -97,13 +95,12 @@ export default class PlanList extends React.Component<any,any> {
           { showEmptyPage?
             <div className="plp-empty-container">
               <div className="plp-empty-img">
-                <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" style={{height: '150'}}/>
+                <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" width={55} height={56}/>
               </div>
-              <div className="empty-text">
-                <span>没有正在学习的小课哦，</span><br/>
-                <span>点击按钮去选课吧！</span>
+              <div className="plp-empty-text">
+                <span>还没有学习中的课程哦</span>
               </div>
-              <div className="empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
+              <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
               </div>
             :
             runningPlans.map((item,key) => {

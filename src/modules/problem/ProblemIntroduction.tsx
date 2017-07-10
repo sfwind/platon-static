@@ -75,7 +75,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/learn',query:{planId:res.msg}});
+        this.context.router.push({pathname: '/rise/static/plan/list'});
       } else {
         dispatch(alertMsg(msg))
       }

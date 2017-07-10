@@ -52,7 +52,7 @@ const routes = (
     <Route path="welcome" component={Welcome}/>
     <Route path="problem/explore" component={Explore}/>
     <Route path="problem/view" component={ProblemIntroduction}/>
-    <Route path="problem/view/old" component={ProblemViewer}/>
+    {/*<Route path="problem/view/old" component={ProblemViewer}/>*/}
     <Route path="problem/more" component={MoreProblem}/>
     <Route path="problem/package" component={BannerArticle}/>
     <Route path="problem/extension" component={ProblemExtension}/>
@@ -62,8 +62,8 @@ const routes = (
     <Route path="learn" component={PlanMain}/>
     {/*<Route path="practice/warmup" component={WarmUp}/>*/}
     <Route path="practice/warmup" component={WarmUpNew}/>
-    <Route path="practice/Warmup/new" component={WarmUpNew}/>
-    <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
+    {/*<Route path="practice/Warmup/new" component={WarmUpNew}/>*/}
+    {/*<Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>*/}
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
     <Route path="practice/warmup/result" component={WarmUpResult}/>
     <Route path="practice/application" component={Application}/>
