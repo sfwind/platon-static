@@ -145,7 +145,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   // 自己的提问，跳转问题修改页
   handleCLickGoQuestionSubmitPage(questionId) {
     this.context.router.push({
-      pathname: "/forum/static/question/detail",
+      pathname: "/forum/static/question/init",
       query: { questionId }
     })
   }

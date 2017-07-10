@@ -10,6 +10,7 @@ import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import _ from "lodash";
 
 import "./Question.less";
+import AssetImg from "../../../components/AssetImg";
 
 interface QuestionStates {
   questions: object;
@@ -17,6 +18,8 @@ interface QuestionStates {
   page: number;
   // 是否已是最后一页
   end: boolean;
+  searching: boolean;
+  init: boolean;
 }
 
 @connect(state => state)
@@ -30,8 +33,14 @@ export default class Question extends React.Component<any, QuestionStates> {
       end: false,
       showToast: false,
       content:"",
+      searching:false,
+      init:true,
+      searchData:[],
+      searchWord:'',
+      innerHeight: window.innerHeight,
     }
-    this.pullElement = null
+    this.pullElement = null;
+    this.timer = null;
   }
 
   static contextTypes = {
@@ -72,9 +81,12 @@ export default class Question extends React.Component<any, QuestionStates> {
     }).catch(e => {
       dispatch(alertMsg(e));
       dispatch(endLoad());
-    })
+    });
 
-    dispatch(set('selectedTagList', undefined));
+    //解决android键盘遮挡，改变频幕高度问题
+    this.timer = setInterval(()=>this.handleKeyboardUp(), 200);
+
+    dispatch(set('title', undefined));
   }
 
   componentDidUpdate() {
@@ -144,6 +156,12 @@ export default class Question extends React.Component<any, QuestionStates> {
     }
   }
 
+  componentWillUnmount(){
+    if(this.timer){
+      clearInterval(this.timer);
+    }
+  }
+
   handleClickGoQuestionInitPage() {
     this.context.router.push("/forum/static/question/init")
   }
@@ -162,70 +180,112 @@ export default class Question extends React.Component<any, QuestionStates> {
 
   handleSearch(value){
     const { dispatch } = this.props;
-    dispatch(startLoad());
-    searchQuestion(value, 1).then(res => {
-      dispatch(endLoad());
-      const { code, msg } = res;
-      if(code === 200) {
-        this.setState({ questions: res.msg.list, content:value, page:1 })
-      } else {
-        dispatch(alertMsg(res.msg));
-      }
-    }).catch(e => {
-      dispatch(alertMsg(e));
-      dispatch(endLoad());
-    });
+    const { searchWord } = this.state;
+    if(searchWord === value){
+      return;
+    }
+    //不含字母时搜索
+    let lastChar = value.charAt(value.length - 1);
+    if(!/[A-Za-z]/.test(lastChar)){
+      dispatch(startLoad());
+      searchQuestion(value, 1).then(res => {
+        dispatch(endLoad());
+        const { code, msg } = res;
+        if(code === 200) {
+          this.setState({ searchData: res.msg.list, content:value, page:1, searchWord:value })
+        } else {
+          dispatch(alertMsg(res.msg));
+        }
+      }).catch(e => {
+        dispatch(alertMsg(e));
+        dispatch(endLoad());
+      });
+    }
+  }
+
+  handleCancel(){
+    this.setState({searching:false, init:true, searchData:[], searchWord:""});
+    this.refs.searchInput.value = '';
+  }
+
+  handleKeyboardUp(){
+    const {windowInnerHeight, searchData=[]} = this.state;
+
+    if(window.innerHeight > windowInnerHeight){
+      this.setState({searchData});
+    }
+    this.setState({windowInnerHeight:window.innerHeight});
   }
 
   render() {
-    const { questions } = this.state
+    const { questions=[], init, searchData=[] } = this.state;
 
-    const renderQuestionList = () => {
+    const renderSimpleQuestionList = () => {
       return (
-        <div className="ques-list">
+        <div className="ques-list" style={{ minHeight: window.innerHeight - 26 - 27 - 35 }}>
           {
-            questions.map((questionItem, idx) => {
+            searchData.map((questionItem, idx) => {
               const {
-                addTimeStr, answerCount, answerTips, authorHeadPic, authorUserName,
-                description, id, mine, topic
+                id, topic
               } = questionItem
-
-              // 如果是已关注，则显示已关注
-              let tag = questionItem.follow
-              let rightContent = tag ? '已关注' : '关注问题'
-              const changeFollowStatus = () => {
-                if(tag) {
-                  // 已关注的情况，则调用取消关注接口
-                  disFollow(id)
-                } else {
-                  // 未关注的情况，则调用关注接口
-                  follow(id)
-                }
-                tag = !tag
-                return tag ? '已关注' : '关注问题'
-              }
               return (
-                <div>
-                  <div className="ques-desc" key={idx}>
-                    <DialogHead
-                      leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
-                      disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
-                    />
-                    <div className="ques-title"
+                  <div className="simple-ques-desc" key={idx}>
+                    <div className="simple-ques-title"
                          onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
-                    <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                      {splitText(removeHtmlTags(description), 20)}
-                    </div>
-                    <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                      {answerTips}
-                    </div>
                   </div>
-                  <GreyBanner height="10px"/>
-                </div>
               )
             })
           }
         </div>
+      )
+    }
+
+    const renderQuestionList = () => {
+      return (
+          <div className="ques-list">
+            {
+              questions.map((questionItem, idx) => {
+                const {
+                    addTimeStr, answerTips, authorHeadPic, authorUserName,
+                    description, id, topic
+                } = questionItem
+
+                // 如果是已关注，则显示已关注
+                let tag = questionItem.follow
+                let rightContent = tag ? '已关注' : '关注问题'
+                const changeFollowStatus = () => {
+                  if(tag) {
+                    // 已关注的情况，则调用取消关注接口
+                    disFollow(id)
+                  } else {
+                    // 未关注的情况，则调用关注接口
+                    follow(id)
+                  }
+                  tag = !tag
+                  return tag ? '已关注' : '关注问题'
+                }
+                return (
+                    <div>
+                      <div className="ques-desc" key={idx}>
+                        <DialogHead
+                            leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
+                            disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
+                        />
+                        <div className="ques-title"
+                             onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
+                        <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
+                          {splitText(removeHtmlTags(description), 20)}
+                        </div>
+                        <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
+                          {answerTips}
+                        </div>
+                      </div>
+                      <GreyBanner height="10px"/>
+                    </div>
+                )
+              })
+            }
+          </div>
       )
     }
 
@@ -243,13 +303,34 @@ export default class Question extends React.Component<any, QuestionStates> {
       <div className="question-container">
         <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
         <div className="question-page" style={{ height: window.innerHeight - 26 - 50 }}>
-          <div className="ques-nav">
-            <input type="text" className="search-input" onCompositionEnd={(e)=> this.handleSearch(e.currentTarget.value)}></input>
-            <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>去提问</div>
+          <div className="search-nav">
+            <div className="search">
+              <input type="text" className="search-input" placeholder='搜索' ref="searchInput"
+                     onClick={()=>this.setState({init:false})}
+                     onChange={(e)=> this.handleSearch(e.currentTarget.value)}
+                     onBlur={(e)=>this.handleSearch(e.currentTarget.value)}/>
+            </div>
           </div>
-          <GreyBanner height={20}/>
-          {renderQuestionList()}
-          <PullSlideTip isEnd={this.state.end}/>
+          { init?
+              <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>
+                <AssetImg url="https://static.iqycamp.com/images/fragment/go_question.png" height={32} width={35}
+                          style={{ verticalAlign: 'middle' }}/>
+              </div> :
+              <div className="ques-nav-btn" onClick={()=>this.handleCancel()}>
+                <div className="ques-btn">取消</div>
+              </div>
+          }
+          {init ? <GreyBanner height="20px"/> : <GreyBanner height="35px" content={'相关问题'}/>}
+          {init ?
+              <div>
+                {renderQuestionList()}
+                <PullSlideTip isEnd={this.state.end}/>
+              </div> :
+              <div style={{backgroundColor: '#f5f5f5'}}>
+                {renderSimpleQuestionList()}
+              </div>
+          }
+
         </div>
         {renderOtherComponents()}
       </div>
@@ -258,14 +339,16 @@ export default class Question extends React.Component<any, QuestionStates> {
 
 }
 
-class GreyBanner extends React.Component<{ height: number }, any> {
+class GreyBanner extends React.Component<{ height: number, content?: string }, any> {
   constructor() {
     super()
   }
 
   render() {
     return (
-      <div className="grey-banner" style={{ height: this.props.height }}/>
+      <div className="grey-banner" style={{ height: this.props.height, lineHeight: this.props.height, paddingLeft: 15 }}>
+        {this.props.content}
+      </div>
     )
   }
 }

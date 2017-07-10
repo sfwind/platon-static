@@ -23,13 +23,12 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       end: true,
       title: '',
       detail: '',
-      length: 0,
     }
   }
 
   componentWillMount() {
     mark({ module: "打点", function: "论坛", action: "打开写问题页面" });
-    const { dispatch, location } = this.props;
+    const { dispatch, location, title } = this.props;
     const { questionId } = location.query;
     if(questionId) {
       //修改提问
@@ -39,9 +38,9 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         dispatch(endLoad());
         if(code === 200) {
           this.setState({
-            title: msg.topic, detail: msg.description,
-            selectedTagList: msg.forumTags, length: msg.topic.length
-          })
+            title, detail: msg.description,
+            selectedTagList: msg.forumTags
+          });
         } else {
           dispatch(alertMsg(msg));
         }
@@ -54,8 +53,9 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       loadTag().then(
           res => {
             dispatch(endLoad());
+            const {title} = this.props;
             if(res.code === 200) {
-              this.setState({ tagList:res.msg, title:this.props.title });
+              this.setState({ tagList:res.msg, title});
             } else {
               dispatch(alertMsg(res.msg));
             }
@@ -81,13 +81,6 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
     const detail = this.refs.editor.getValue();
     let tagIds = [];
     const { dispatch, location } = this.props;
-    if(!title) {
-      dispatch(alertMsg('请填写问题标题'));
-      return;
-    } else if(title.length > 50) {
-      dispatch(alertMsg('标题不能超过50个字哦'));
-      return;
-    }
     if(removeHtmlTags(detail).length > 1000) {
       dispatch(alertMsg('问题描述不能超过1000个字哦'));
       return;
@@ -141,22 +134,19 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         item.selected = !tag.selected;
       }
       if(item.selected) {
-        selectedTagList.push(item)
+        selectedTagList.push(item);
       }
     });
     if(selectedTagList.length > 3) {
-      dispatch(alertMsg("最多选择 3 个问题标签"))
-      this.onClick(tag)
+      dispatch(alertMsg("最多选择 3 个问题标签"));
+      this.onClick(tag);
     }
     this.setState({ tagList });
   }
 
-  writeTitle(e) {
-    this.setState({ title: e.currentTarget.value, length: e.currentTarget.value.length })
-  }
 
   render() {
-    const { data = [], selectedTagList = [], length, tagList = [] } = this.state;
+    const { data = [], selectedTagList = [], tagList = [], title } = this.state;
 
     const renderLine = (tagLineList) => {
       return (
@@ -205,7 +195,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
     // 渲染文本样式 tag 列表
     const renderTagListText = () => {
-      let tagContent = ''
+      let tagContent = '';
       if(selectedTagList.length > 0) {
         tagContent = tagContent.concat('已选标签：')
         selectedTagList.map((tag, idx) => {
@@ -258,20 +248,9 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       <div className="question-detail-container">
         <div className="question-page">
           <div className="page-title">
-            完善问题描述
+            {title}
           </div>
-          {renderTagListText()}
-          <div className="question-title">
-            <textarea
-              placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
-              id="textarea"
-              onChange={(e) => this.writeTitle(e)} maxLength={50} defaultValue={this.state.title}/>
-            <div className="length-div">
-              <div className="length-tip">
-                {length} / 50
-              </div>
-            </div>
-          </div>
+          {renderTagList()}
           <div className="question-detail">
             {renderEditor()}
           </div>

@@ -1,8 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { ForumButton, SimpleQuestion, PullSlideTip } from "../commons/ForumComponent";
-import { loadQuestionByTag, loadTag, searchQuestion } from "../async"
+import { ForumButton, PullSlideTip } from "../commons/ForumComponent";
+import { loadQuestionByTag, searchQuestion, getQuestion } from "../async"
 import { mark } from "../../../utils/request"
+import { splitText, removeHtmlTags } from "../../../utils/helpers"
 import PullElement from "pull-element";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./SubmitQuestionInit.less"
@@ -23,40 +24,36 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       index: 1,
       end: true,
       selected:true,
+      searchWord:'',
+      searchData:[],
+      length:0,
     };
     this.pullElement = null;
+    this.timer = null;
   }
 
   componentWillMount() {
     mark({module: "打点", function: "论坛", action: "打开选择问题标签页面"});
     const { dispatch, location } = this.props;
-    const { tagId } = location.query;
-    dispatch(startLoad());
-    loadTag().then(
-      res => {
-        dispatch(endLoad());
-        if(res.code === 200) {
-          let tagList = res.msg;
-          const { selectedTagList } = this.props;
-          tagList.forEach(tag => {
-            tag.selected = false;
-            if(selectedTagList) {
-              selectedTagList.forEach(selected => {
-                if(selected.id === tag.id) {
-                  tag.selected = true;
-                }
-              })
-            }
+    const {questionId} = location.query;
+    if(questionId){
+      getQuestion(questionId).then(res=>{
+        const {msg, code} = res;
+        if(code === 200){
+          console.log(msg.topic);
+          this.setState({
+            title: msg.topic, length: msg.topic.length
           });
-          this.setState({ tagList });
-        } else {
-          dispatch(alertMsg(res.msg));
+        }else{
+          dispatch(alertMsg(msg));
         }
-      }
-    ).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    })
+      }).catch(e=>{
+        dispatch(alertMsg(e));
+      })
+    }
+
+    //解决android键盘遮挡，改变频幕高度问题
+    this.timer = setInterval(()=>this.handleKeyboardUp(), 200);
   }
 
   componentDidUpdate(preProps, preState) {
@@ -113,45 +110,84 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     }
   }
 
+  componentWillUnmount(){
+    if(this.timer){
+      clearInterval(this.timer);
+    }
+  }
+
   nextTask() {
-    const { dispatch } = this.props;
+    const { dispatch,location } = this.props;
     const { title } = this.state;
+    const {questionId} = location.query;
     dispatch(set('title', title));
-    this.context.router.push('/forum/static/question/detail');
+    if(questionId){
+      this.context.router.push({pathname:'/forum/static/question/detail', query:{questionId}});
+    }else{
+      this.context.router.push('/forum/static/question/detail');
+    }
+
   }
 
   writeTitle(title) {
     const { dispatch } = this.props;
+    const { searchWord } = this.state;
+    if(searchWord === title){
+      return;
+    }
+    //不含字母时搜索
+    let lastChar = title.charAt(title.length - 1);
     this.setState({ title, length: title.length });
-    searchQuestion(title, 1).then(res => {
-      const { code, msg } = res;
-      if(code === 200) {
-        this.setState({ data: msg.list, page:1 })
-      } else {
-        dispatch(alertMsg(msg));
-      }
-    }).catch(e => {
-      dispatch(alertMsg(e));
-    });
+    if(!/[A-Za-z]/.test(lastChar)) {
+      searchQuestion(title, 1).then(res => {
+        const {code, msg} = res;
+        if (code === 200) {
+          this.setState({data: msg.list, page: 1})
+        } else {
+          dispatch(alertMsg(msg));
+        }
+      }).catch(e => {
+        dispatch(alertMsg(e));
+      });
+    }
+  }
+
+  handleKeyboardUp(){
+    const {windowInnerHeight, searchData=[]} = this.state;
+
+    if(window.innerHeight > windowInnerHeight){
+      this.setState({searchData});
+    }
+    this.setState({windowInnerHeight:window.innerHeight});
+  }
+
+  handleClickGoAnswerPage(questionId) {
+    this.context.router.push({
+      pathname: "/forum/static/answer",
+      query: { questionId }
+    })
   }
 
   render() {
-    const { data = [], tagList = [], end } = this.state;
+    const { data = [], end, length, title } = this.state;
 
     const renderQuestionList = () => {
       if(!_.isEmpty(data)) {
         return (
-            <div className="question-list">
-              {data.map((question, index) => {
-                return (
-                    <SimpleQuestion key={index} answer={question.answerCount} follow={question.followCount}
-                                    title={question.topic}
-                                    onclickFunc={() => this.context.router.push({
-                                pathname: '/forum/static/answer',
-                                query: { questionId: question.id }
-                              })}/>
-                )
-              })}
+            <div className="ques-list" style={{ minHeight: window.innerHeight - 96 - 57 }}>
+              {
+                data.map((questionItem, idx) => {
+                  const {
+                      id, topic
+                  } = questionItem;
+                  return (
+                      <div className="simple-ques-desc" key={idx}>
+                        <div className="simple-ques-title"
+                             onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
+                      </div>
+                  )
+                })
+              }
             </div>
         )
       }
@@ -180,8 +216,9 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
           <div className="question-title">
             <textarea
                 placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
-                id="textarea"
-                onCompositionEnd={(e) => this.writeTitle(e.currentTarget.value)} maxLength={50} defaultValue={this.state.title}/>
+                id="textarea" maxLength={50} defaultValue={title}
+                onChange={(e)=>this.writeTitle(e.currentTarget.value)}
+                />
             <div className="length-div">
               <div className="length-tip">
                 {length} / 50
@@ -189,9 +226,9 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
             </div>
           </div>
           { _.isEmpty(data) ? null :
-            <div className="question-divide">
-              相关的问题
-            </div>
+              <div className="question-divide">
+                相关的问题
+              </div>
           }
           {renderQuestionList()}
           {/*{renderShowMore()}*/}
