@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import "./PlanMain.less";
 import { loadPlan, completePlan, updateOpenRise, markPlan,
-  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList} from "./async";
+  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList,closePlan} from "./async";
 import { startLoad, endLoad, alertMsg, set } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import Tutorial from "../../components/Tutorial"
@@ -179,7 +179,12 @@ export class PlanMain extends React.Component <any, any> {
       let {code, msg} = res
       if (code === 200) {
         if (msg !== null) {
-          this.setState({planData: msg, currentIndex: msg.currentSeries, selectProblem:msg.problem})
+          this.setState({
+            planData: msg,
+            currentIndex: msg.currentSeries,
+            selectProblem: msg.problem,
+            mustStudyDays: msg.mustStudyDays
+          });
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
           if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
              this.setState({expired:true})
@@ -289,48 +294,58 @@ export class PlanMain extends React.Component <any, any> {
     }
   }
 
+  handleClickGoReport() {
+    const {planId} = this.props.location.query
+    this.context.router.push({
+      pathname:'/rise/static/plan/report',
+      query:{planId:planId}
+    });
+  }
+
+  handleClickUnComplete() {
+    const { dispatch } = this.props
+    dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+  }
+
+  handleClickUnMinStudy() {
+    const {dispatch} = this.props;
+    const { mustStudyDays} = this.state
+    dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`));
+  }
+
+  handleClickUnReport() {
+    const { dispatch } = this.props
+    dispatch(alertMsg("糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告"))
+  }
+
   complete() {
-    const { dispatch,location } = this.props
-    const { planData = {} } = this.state;
+    const {dispatch, location} = this.props
+    const {planData = {}} = this.state;
     const {planId} = location.query
-    const {status,reportStatus} = planData;
-    if(reportStatus === 3){
-      this.context.router.push({
-        pathname:'/rise/static/plan/report',
-        query:{planId:planId}
-      });
-    } else if(reportStatus === -1){
-      dispatch(alertMsg("糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告"))
-    } else {
-      dispatch(startLoad());
-      completePlan(planId).then(res => {
-        dispatch(endLoad());
-        const { code, msg } = res;
-        if (code === 200) {
-          // 设置完成
-          if (planData.hasProblemScore) {
-            // 已经评分
-            //
-            // this.setState({defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays},()=>{
-            //   this.confirmComplete();
-            // })
-            this.confirmComplete();
-          } else {
-            // 未评分
-            this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
-          }
+    const {status, reportStatus} = planData;
+    dispatch(startLoad());
+    closePlan(planId).then(res => {
+      dispatch(endLoad());
+      const {code, msg} = res;
+      if (code === 200) {
+        // 设置完成
+        if (planData.hasProblemScore) {
+          this.confirmComplete();
         } else {
-          if(code===-1){
-            dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
-          } else {
-            dispatch(alertMsg(msg))
-          }
+          // 未评分
+          this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
         }
-      }).catch(ex=>{
-        dispatch(endLoad());
-        dispatch(alertMsg(ex));
-      })
-    }
+      } else {
+        if (code === -1) {
+            dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+        } else {
+          dispatch(alertMsg(msg))
+        }
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
   }
 
   confirmComplete(force) {
@@ -346,13 +361,6 @@ export class PlanMain extends React.Component <any, any> {
       pathname:'/rise/static/plan/report',
       query:{planId:planId}
     });
-    // if (!mustStudyDays) {
-    //
-    //     // this.setState({showCompleteModal: true, showWarningModal: false})
-    // } else {
-    //   this.setState({showCompleteModal: false, showWarningModal: false})
-    //   dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
-    // }
   }
 
   confirmNextPlan() {
@@ -458,6 +466,9 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goSection(series) {
+    if(series<=0){
+      return ;
+    }
     this.setState({currentIndex:series},()=>this.updateSectionChoose(series));
   }
 
@@ -483,6 +494,8 @@ export class PlanMain extends React.Component <any, any> {
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries,reportStatus
     } = planData
+
+
     const practiceRender = (list = []) => {
       if (!list) {
         return null
@@ -578,6 +591,84 @@ export class PlanMain extends React.Component <any, any> {
       )
     }
 
+    const renderBtnFooter = (item, idx) => {
+      let preSection = "";
+      if(item.series === 1){
+        preSection = <div className={`left origin disabled`}>上一节</div>
+      } else {
+        preSection = <div className={`left origin`} onClick={()=>this.goSection(item.series-1)}>上一节</div>
+      }
+
+      if(windowsClient){
+        return (
+          <div className="submit-btn-footer">
+            <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
+            </div>
+            { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
+            { item.series === totalSeries ? <div className={`right ${reportStatus<0?'grey':''}`} onClick={()=>this.complete()}>
+              学习报告</div> : null }
+          </div>
+        )
+      } else {
+        if(item.series === totalSeries){
+          // 最后一节，显示完成按钮
+          // 对最后一个按钮的渲染
+          let lastBtn = '';
+          if(reportStatus === 1){
+            // 可以点击完成按钮
+            lastBtn = (
+              <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
+            )
+          } else if(reportStatus === 3) {
+            // 已经完成，直接打开学习报告
+            lastBtn = (
+              <div className={`right`} onClick={()=>this.handleClickGoReport()}>学习报告</div>
+            )
+          } else if (reportStatus === 2) {
+            // 未完成最小学习天数
+            lastBtn = (
+              <div className={`right disabled`} onClick={()=>this.handleClickUnMinStudy()}>完成小课</div>
+            )
+          } else if(reportStatus === -2){
+            // 没有完成，需要先完成
+            lastBtn = (
+              <div className={`right disabled`} onClick={()=>this.handleClickUnComplete()}>完成小课</div>
+            )
+          } else if(reportStatus === -1){
+            // 开放时间没完成，不能查看学习报告
+            lastBtn = (
+              <div className={`right disabled`} onClick={()=>this.handleClickUnReport()}>完成小课</div>
+            )
+          } else {
+            // 默认去调用一下complete接口
+            lastBtn = (
+              <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
+            )
+          }
+
+          return (
+          <div className="submit-btn-footer">
+            {preSection}
+            {lastBtn}
+          </div>
+          )
+        } else {
+          let nextSection = null;
+
+          if(item.series !== totalSeries){
+            nextSection = <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div>;
+          }
+
+          return (
+            <div className="submit-btn-footer">
+              { preSection }
+              { nextSection }
+            </div>
+          );
+        }
+      }
+    };
+
     const renderSection = (item, idx) => {
       return (
         <div key={idx}>
@@ -592,17 +683,7 @@ export class PlanMain extends React.Component <any, any> {
             <div className="list">
               {practiceRender(item.practices)}
             </div>
-            {windowsClient?
-              <div className="submit-btn-footer">
-                  <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
-                  </div>
-                  { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
-                  { item.series === totalSeries ? <div className={`right ${reportStatus<0?'grey':''}`} onClick={()=>this.complete()}>
-                          学习报告</div> : null }
-              </div>
-            : null}
-            { item.series === totalSeries && !windowsClient?
-                <div className={`submit-btn-footer ${reportStatus<0?'grey':''}`}  onClick={()=>this.complete()}>学习报告</div>:null}
+            { renderBtnFooter(item, idx) }
             <div className="padding-footer"></div>
           </div>
       </div>)
@@ -631,7 +712,7 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div className="rise-main">
-        <ToolBar />
+        {/*<ToolBar />*/}
         {showScoreModal ?<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
                                      onClose={()=>this.setState({  showScoreModal: false },()=>{this.confirmComplete()})}
                                      questionList={this.state.questionList}/>: null}

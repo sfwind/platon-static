@@ -91,10 +91,11 @@ export class Analysis extends React.Component <any, any> {
 
   nextTask() {
     const {series, planId} = this.props.location.query;
-    this.context.router.push({
-      pathname: '/rise/static/learn',
-      query: {series,planId}
-    })
+    window.history.back();
+    // this.context.router.push({
+    //   pathname: '/rise/static/learn',
+    //   query: {series,planId}
+    // })
   }
 
   closeModal() {

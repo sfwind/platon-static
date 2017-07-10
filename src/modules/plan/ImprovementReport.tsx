@@ -28,6 +28,7 @@ export class ImprovementReport extends React.Component<any,any> {
     queryReport(planId).then((res) => {
       dispatch(endLoad());
       if (res.code === 200) {
+        console.log(res.msg);
         this.setState({planData: res.msg});
       } else {
         dispatch(alertMsg(res.msg));
@@ -142,6 +143,10 @@ export class ImprovementReport extends React.Component<any,any> {
     this.setState({showConfirmModal: false});
   }
 
+  handleClickClose(){
+    this.context.router.push("/rise/static/plan/list")
+  }
+
   renderBtns() {
     const {planData = {}, showConfirmModal} = this.state;
     const {
@@ -152,10 +157,10 @@ export class ImprovementReport extends React.Component<any,any> {
     // if(showNextBtn){
     return (
       <div className="button-footer">
-        <div className="left" onClick={this.chooseNew.bind(this)}>选择新小课</div>
-        <div className="right" onClick={this.goBack.bind(this)}>返回本小课</div>
+        <div className="left" onClick={()=>this.handleClickClose()}>点击关闭</div>
+        <div className="right" onClick={this.goBack.bind(this)}>点击返回</div>
       </div>
-    )
+    );
     // } else {
     //   return (
     //     <div className="button-footer">
@@ -172,8 +177,19 @@ export class ImprovementReport extends React.Component<any,any> {
     const {
       problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
       integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn,votedScore
+      applicationScore, applicationCompleteCount, pic, showNextBtn,votedScore,doneAllApps
     } = planData;
+
+
+    const renderTips = () => {
+      console.log(doneAllApps);
+      if(doneAllApps){
+        return "您已经完成所有练习，开始下一门小课吧！"
+      } else {
+        return "不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！";
+      }
+    };
+
     return (
       <div className="improvement-report">
         <Modal show={showConfirmModal}
@@ -226,7 +242,7 @@ export class ImprovementReport extends React.Component<any,any> {
               获得  <span className="big-point">{votedScore}</span> 积分 <span className="tips">（1被赞=2积分）</span>
             </div>
           </div>
-          <div className="tips">不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！</div>
+          <div className="tips">{renderTips()}</div>
           <div className="padding-footer" style={{height:'80px'}}/>
         </div>
         {this.renderBtns()}

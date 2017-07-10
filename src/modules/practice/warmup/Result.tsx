@@ -39,10 +39,11 @@ export class Result extends React.Component <any, any> {
   nextTask() {
     const { dispatch } = this.props
     const { series, planId } = this.props.location.query
-    this.context.router.push({
-      pathname: '/rise/static/learn',
-      query: {series,planId}
-    })
+    window.history.back();
+    // this.context.router.push({
+    //   pathname: '/rise/static/learn',
+    //   query: {series,planId}
+    // })
   }
 
   render() {

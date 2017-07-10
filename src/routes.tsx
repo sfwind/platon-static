@@ -61,14 +61,14 @@ const routes = (
     <Route path="practice/warmup/result" component={WarmUpResult}/>
     <Route path="practice/application" component={Application}/>
     <Route path="practice/challenge" component={Challenge}/>
-    <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
+    {/*<Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>*/}
     <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
     <Route path="practice/application/comment" component={ApplicationComment}/>
     <Route path="practice/subject" component={Subject}/>
     <Route path="practice/subject/submit" component={SubjectSubmit}/>
     <Route path="practice/subject/comment" component={SubjectComment}/>
     <Route path="practice/knowledge" component={KnowledgeViewer}/>
-    <Route path="practice/roadmap" component={RoadMap}/>
+    {/*<Route path="practice/roadmap" component={RoadMap}/>*/}
     <Route path="practice/knowledge/review" component={KnowledgeReview}/>
     <Route path="member/explain" component={RiseMemberExplain}/>
     <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>

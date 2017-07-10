@@ -4,7 +4,6 @@
   background: #efefef;
   min-height: 100%;
   .plp-running {
-
     .p-r-header {
       padding: 14px 0;
       .p-r-h-title {
@@ -24,7 +23,17 @@
         }
       }
     }
+    .plp-empty-container {
+      text-align: center;
+    }
     .p-r-block {
+      margin:15px auto;
+      &.last {
+        margin-bottom:0;
+      }
+      &.first {
+        margin-top:0;
+      }
       .p-r-b-item {
         background-color: #FFF;
         padding:15px 5px 15px 15px;
@@ -73,6 +82,153 @@
             line-height: @font_context;
             color: @color_title;
             word-wrap: break-word;
+          }
+        }
+      }
+    }
+  }
+
+  .plp-completed {
+     .p-c-header {
+       padding: 14px 0;
+       .p-c-h-title {
+         font-size: @font_title;
+         color: #9a9a9a;
+         &:before {
+           content: "";
+           width: 5px;
+           height: 22px;
+           margin-top: -3px;
+           border-radius: 10px;
+           display: inline-block;
+           background-color: @color_strong;
+           margin-left: 10px;
+           margin-right: 5px;
+           vertical-align: middle;
+         }
+       }
+     }
+    .p-c-container {
+      background:rgb(88,177,223);
+      background: -webkit-gradient(linear,center top, center bottom, from(yellow), to(#58b1df));
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+      .p-c-c-left {
+        width:56px;
+        height:100%;
+        float: left;
+        .color-generator {
+
+        }
+      }
+      .p-c-c-right{
+        float: right;
+        &:before {
+          width: 20px;
+          height: 100%;
+          display: block;
+          content: '';
+        }
+        .p-c-c-r-block {
+          position: relative;
+          background-color:#FFFFFF;
+          padding:12.5px 13px 12.5px 0;
+          height:53px;
+          &.first {
+            padding-top: 25px;
+          }
+          .p-c-c-r-b-icon {
+            position: absolute;
+            top: 0;
+            left: -56px;
+            height: 100%;
+            width:56px;
+            .gap{
+              &.first {
+                height: 26px;
+                background:#FFF;
+              }
+              &.bottom{
+                height:56px;
+                &.last {
+                  background:#FFF;
+                  height:43.5px;
+                }
+              }
+              height:13px;
+              background: url("../../../assets/img/rise_icon_hr.png") repeat-y center center/100% auto ;
+            }
+            .hr {
+              &.last {
+                background:#FFF;
+                height:0;
+              }
+              background: url("../../../assets/img/rise_icon_hr.png") repeat-y center center/100% auto ;
+            }
+            .tick {
+              background: url("../../../assets/img/rise_icon_tick.png") no-repeat center center/100% auto ;
+              height:22px;
+            }
+          }
+
+          .p-c-b-pic {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            vertical-align: top;
+            float: left;
+            width:84px;
+            height:53px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            .p-c-b-p-img {
+              width: auto;
+              height: 100%;
+              position: absolute;
+              right: 0;
+              top: 0;
+            }
+          }
+          .p-c-b-text {
+            &:after {
+              content: '';
+              display: block;
+              clear: both;
+            }
+            .p-c-b-t-left {
+              float: left;
+              margin-left:8px;
+              .p-c-b-t-l-title {
+                font-size: 1.5em;
+                line-height: 1.5em;
+                color: @color_title;
+                margin-top:-4px;
+              }
+              .p-c-b-t-l-close {
+                font-size: @font_index;
+                line-height: @font_index;
+                color:#f7c310;
+                margin-top:-2px;
+              }
+            }
+            .p-c-b-t-right {
+              float: right;
+              .p-c-b-t-tip {
+                margin-top:-2px;
+                color:#42afe7;
+                font-size:@font_index;
+                line-height:@font_index;
+              }
+              .p-c-b-t-point {
+                color:#42afe7;
+                font-size:1.8em;
+                line-height:1.8em;
+              }
+            }
           }
         }
       }
