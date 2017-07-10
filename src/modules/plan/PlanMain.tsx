@@ -21,6 +21,7 @@ const {Alert} = Dialog
 
 
 
+
 const typeMap = {
   1: '巩固练习',
   2: '巩固练习',
@@ -244,17 +245,17 @@ export class PlanMain extends React.Component <any, any> {
       if (type === 1) {
         integrated = false
       }
-      if (item.status === 1) {
-        this.context ? this.context.router.push({
-              pathname: '/rise/static/practice/warmup/analysis',
-              query: { practicePlanId, currentIndex, integrated ,planId}
-            }):null;
-      } else {
+      // if (item.status === 1) {
+      //   this.context ? this.context.router.push({
+      //         pathname: '/rise/static/practice/warmup/analysis',
+      //         query: { practicePlanId, currentIndex, integrated ,planId}
+      //       }):null;
+      // } else {
         this.context?this.context.router.push({
               pathname: '/rise/static/practice/warmup',
               query: { practicePlanId, currentIndex, integrated ,planId}
             }):null;
-      }
+      // }
     } else if (type === 11) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined));
       dispatch(set('applicationId', undefined));

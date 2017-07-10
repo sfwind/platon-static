@@ -33,13 +33,14 @@ export class Result extends React.Component <any, any> {
   }
 
   onSubmit() {
-    this.context.router.push({ pathname: '/rise/static/practice/warmup/analysis', query: this.props.location.query })
+    // this.context.router.push({ pathname: '/rise/static/practice/warmup/analysis', query: this.props.location.query })
+    window.history.back();
   }
 
   nextTask() {
     const { dispatch } = this.props
     const { series, planId } = this.props.location.query
-    window.history.back();
+    window.history.go(-2);
     // this.context.router.push({
     //   pathname: '/rise/static/learn',
     //   query: {series,planId}

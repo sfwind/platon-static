@@ -41,6 +41,8 @@ import BannerArticle from 'modules/problem/BannerArticle'
 import {ImprovementReport} from 'modules/plan/ImprovementReport'
 import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
 import PlanList from "modules/plan/PlanList";
+import  WarmUpNew from "modules/practice/warmup/Warumup"
+
 
 
 const routes = (
@@ -55,7 +57,9 @@ const routes = (
     <Route path="plan/list" component={PlanList}/>
     <Route path="plan/report" component={ImprovementReport}/>
     <Route path="learn" component={PlanMain}/>
-    <Route path="practice/warmup" component={WarmUp}/>
+    {/*<Route path="practice/warmup" component={WarmUp}/>*/}
+    <Route path="practice/warmup" component={WarmUpNew}/>
+    <Route path="practice/Warmup/new" component={WarmUpNew}/>
     <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
     <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
     <Route path="practice/warmup/result" component={WarmUpResult}/>
