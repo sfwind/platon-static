@@ -168,7 +168,7 @@ export class ImprovementReport extends React.Component<any,any> {
 
     const renderTips = () => {
       if(doneAllApps){
-        return "哇哦！你完成了全部的【应用练习】和【综合练习】，这是赤裸裸秒杀99%同学的节奏！";
+        return <span>哇哦！你完成了全部的【应用练习】和【综合练习】，这是赤裸裸秒杀99%同学的节奏！</span>;
       } else {
         return <span>不要在小课完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
       }
@@ -227,7 +227,7 @@ export class ImprovementReport extends React.Component<any,any> {
             </div>
           </div>
           <div className="tips">{renderTips()}</div>
-          <div className="padding-footer" style={{height:'80px'}}/>
+          <div className="padding-footer" style={{height:'50px'}}/>
         </div>
         {this.renderBtns()}
       </div>
