@@ -79,6 +79,7 @@ export class Analysis extends React.Component <any, any> {
     if (currentIndex < practiceCount - 1) {
       this.setState({currentIndex: currentIndex + 1})
     }
+    scroll('.container', '.container');
   }
 
   prev() {
@@ -87,6 +88,7 @@ export class Analysis extends React.Component <any, any> {
     if (currentIndex > 0) {
       this.setState({currentIndex: currentIndex - 1})
     }
+    scroll('.container', '.container');
   }
 
   nextTask() {
