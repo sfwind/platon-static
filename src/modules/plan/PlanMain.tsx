@@ -599,7 +599,7 @@ export class PlanMain extends React.Component <any, any> {
       let preSection = null;
       if (currentIndex === 1) {
         preSection = (
-          <div className="psbf-w-pre-btn">
+          <div className="psbf-w-pre-btn disabled">
             上一节
           </div>
         );
@@ -633,7 +633,7 @@ export class PlanMain extends React.Component <any, any> {
         } else if (reportStatus === 2) {
           // 未完成最小学习天数
           lastBtn = (
-            <div className="psbf-w-next-btn complete" onClick={()=>this.handleClickUnMinStudy()}>
+            <div className="psbf-w-next-btn complete disabled" onClick={()=>this.handleClickUnMinStudy()}>
               完成小课
             </div>
           );
@@ -643,7 +643,7 @@ export class PlanMain extends React.Component <any, any> {
         } else if (reportStatus === -2) {
           // 没有完成，需要先完成
           lastBtn = (
-            <div className="psbf-w-next-btn complete" onClick={()=>this.handleClickUnComplete()}>
+            <div className="psbf-w-next-btn complete disabled" onClick={()=>this.handleClickUnComplete()}>
               完成小课
             </div>
           );
@@ -654,7 +654,7 @@ export class PlanMain extends React.Component <any, any> {
         } else if (reportStatus === -1) {
           // 开放时间没完成，不能查看学习报告
           lastBtn = (
-            <div className="psbf-w-next-btn complete" onClick={()=>this.handleClickUnReport()}>
+            <div className="psbf-w-next-btn complete disabled" onClick={()=>this.handleClickUnReport()}>
               完成小课
             </div>
           );

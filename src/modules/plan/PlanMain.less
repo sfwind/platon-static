@@ -316,12 +316,19 @@
         float: left;
         .psbf-w-pre-btn {
           font-size:1.4em;
-          height:30px;
+          height:18px;
+          line-height:0;
           color:@color_strong;
+          &.disabled {
+            color: @color_help;
+            &:before {
+              background: url("../../../assets/img/rise_icon_pre_section_disabled.png") no-repeat center center/100% auto;
+            }
+          }
           &:before {
             content: '';
             width:14px;
-            height:30px;
+            height:18px;
             display: inline-block;
             background: url("../../../assets/img/rise_icon_pre_section.png") no-repeat center center/100% auto;
             vertical-align: middle;
@@ -332,7 +339,7 @@
       .psbf-w-series-wrapper {
         padding: 18px 0;
         width: 30%;
-        height: 30px;
+        height: 18px;
         text-align: center;
         top:0;
         left:50%;
@@ -344,7 +351,7 @@
         position: absolute;
         span {
           height: 100%;
-          line-height: 66px;
+          line-height: 54px;
           font-size: 1.4em;
           color: @color_title;
           position: absolute;
@@ -358,16 +365,23 @@
         float:right;
         .psbf-w-next-btn{
           font-size:1.4em;
-          height:30px;
+          line-height:0;
+          height:18px;
           color:@color_strong;
           &.complete {
             &:after{
               display: none;
             }
+            &.disabled {
+              color: @color_help;
+              &:before {
+                background: url("../../../assets/img/rise_icon_compete_plan_disabled.png") no-repeat center center/100% auto;
+              }
+            }
             &:before {
               content: '';
               width:14px;
-              height:30px;
+              height:18px;
               display: inline-block;
               background: url("../../../assets/img/rise_icon_compete_plan.png") no-repeat center center/100% auto;
               vertical-align: middle;
@@ -378,10 +392,16 @@
             &:after {
               display: none;
             }
+            &.disabled {
+              color: @color_help;
+              &:before {
+                background: url("../../../assets/img/rise_icon_report_disabled.png") no-repeat center center/100% auto;
+              }
+            }
             &:before {
               content: '';
               width:14px;
-              height:30px;
+              height:18px;
               display: inline-block;
               background: url("../../../assets/img/rise_icon_report.png") no-repeat center center/100% auto;
               vertical-align: middle;
@@ -391,7 +411,7 @@
           &:after {
             content: '';
             width:14px;
-            height:30px;
+            height:18px;
             display: inline-block;
             background: url("../../../assets/img/rise_icon_next_section.png") no-repeat center center/100% auto;
             vertical-align: middle;
