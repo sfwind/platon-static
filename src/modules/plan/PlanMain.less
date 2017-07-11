@@ -14,53 +14,52 @@
       animation: riseMember-left-show 1s alternate forwards;
     }
   }
+  .submit-btn-footer {
+    &.grey {
+      background: #afafaf;
+    }
+    display: block;
+    border-radius: @border-radius;
+    font-size: @font_title;
+    width: 100%;
+    height: @button_footer_height;
+    text-align: center;
+    line-height: @button_footer_height;
+    background-size: 100% 100%;
+    background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
+    color: #fff;
+    > .left {
+      border-radius: 0;
+      display: inline-block;
+      width: ~"calc(50% - 1px)";
+      border-right: 1px solid white;
+      background-size: 100% 100%;
+      background-image: url('https://static.iqycamp.com/images/left_button_bg2.png?imageslim');
+      &.disabled {
+        background: #cccccc;
+      }
+    }
+    > .right {
+      &.grey {
+        background: #afafaf;
+      }
+      border-radius: 0;
+      display: inline-block;
+      width: 50%;
+      background-image: url('https://static.iqycamp.com/images/right_button_bg2.png?imageslim');
+      background-size: 100% 100%;
+      &.disabled {
+        background: #cccccc;
+      }
+    }
+    &.disabled {
+      background: #cccccc;
+    }
+  }
 
   .plan-main {
     > .list {
       margin-bottom: 10px;
-    }
-    > .submit-btn-footer {
-      &.grey {
-        background: #afafaf;
-      }
-      margin-top: 30px;
-      display: block;
-      border-radius: @border-radius;
-      font-size: @font_title;
-      width: 100%;
-      height: @button_footer_height;
-      text-align: center;
-      line-height: @button_footer_height;
-      background-size: 100% 100%;
-      background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
-      color: #fff;
-      > .left {
-        border-radius: 0;
-        display: inline-block;
-        width: ~"calc(50% - 1px)";
-        border-right: 1px solid white;
-        background-size: 100% 100%;
-        background-image: url('https://static.iqycamp.com/images/left_button_bg2.png?imageslim');
-        &.disabled {
-          background: #cccccc;
-        }
-      }
-      > .right {
-        &.grey {
-          background: #afafaf;
-        }
-        border-radius: 0;
-        display: inline-block;
-        width: 50%;
-        background-image: url('https://static.iqycamp.com/images/right_button_bg2.png?imageslim');
-        background-size: 100% 100%;
-        &.disabled {
-          background: #cccccc;
-        }
-      }
-      &.disabled {
-        background: #cccccc;
-      }
     }
     .practice-card {
       position: relative;
@@ -293,6 +292,113 @@
     .intro-section {
       margin-top: 5px;
       color: @color_title;
+    }
+  }
+
+  .plan-study-btn-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width:100%;
+    height:auto;
+    background-color:#FFFFFF;
+
+    .psbf-wrapper {
+      padding:0 17px;
+      position: relative;
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+      .psbf-w-pre-wrapper {
+        padding:18px 15px 18px 0;
+        float: left;
+        .psbf-w-pre-btn {
+          font-size:1.4em;
+          height:30px;
+          color:@color_strong;
+          &:before {
+            content: '';
+            width:14px;
+            height:30px;
+            display: inline-block;
+            background: url("../../../assets/img/rise_icon_pre_section.png") no-repeat center center/100% auto;
+            vertical-align: middle;
+            margin-right: 15px;
+          }
+        }
+      }
+      .psbf-w-series-wrapper {
+        padding: 18px 0;
+        width: 30%;
+        height: 30px;
+        text-align: center;
+        top:0;
+        left:50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+        position: absolute;
+        span {
+          height: 100%;
+          line-height: 66px;
+          font-size: 1.4em;
+          color: @color_title;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+        }
+      }
+      .psbf-w-next-wrapper {
+        padding:18px 0 18px 15px;
+        float:right;
+        .psbf-w-next-btn{
+          font-size:1.4em;
+          height:30px;
+          color:@color_strong;
+          &.complete {
+            &:after{
+              display: none;
+            }
+            &:before {
+              content: '';
+              width:14px;
+              height:30px;
+              display: inline-block;
+              background: url("../../../assets/img/rise_icon_compete_plan.png") no-repeat center center/100% auto;
+              vertical-align: middle;
+              margin-right: 15px;
+            }
+          }
+          &.report {
+            &:after {
+              display: none;
+            }
+            &:before {
+              content: '';
+              width:14px;
+              height:30px;
+              display: inline-block;
+              background: url("../../../assets/img/rise_icon_report.png") no-repeat center center/100% auto;
+              vertical-align: middle;
+              margin-right: 15px;
+            }
+          }
+          &:after {
+            content: '';
+            width:14px;
+            height:30px;
+            display: inline-block;
+            background: url("../../../assets/img/rise_icon_next_section.png") no-repeat center center/100% auto;
+            vertical-align: middle;
+            margin-left: 15px;
+          }
+        }
+      }
     }
   }
 

@@ -468,6 +468,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goSection(series) {
+    console.log("click")
     if(series<=0){
       return ;
     }
@@ -594,69 +595,118 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     const renderBtnFooter = (item, idx) => {
-      let preSection = "";
-      if (item.series === 1) {
-        preSection = <div className={`left origin disabled`}>上一节</div>
+      let lastBtn = null;
+      let preSection = null;
+      if (currentIndex === 1) {
+        preSection = (
+          <div className="psbf-w-pre-btn">
+            上一节
+          </div>
+        );
+        {/*preSection = <div className={`left origin disabled`}>上一节</div>*/}
       } else {
-        preSection = <div className={`left origin`} onClick={()=>this.goSection(item.series-1)}>上一节</div>
+        preSection = (
+          <div className="psbf-w-pre-btn" onClick={()=>this.goSection(currentIndex-1)}>
+            上一节
+          </div>
+        )
+        // preSection = <div className={`left origin`} onClick={()=>this.goSection(currentIndex-1)}>上一节</div>
       }
 
-      if (item.series === totalSeries) {
+      if (currentIndex === totalSeries) {
         // 最后一节，显示完成按钮
         // 对最后一个按钮的渲染
-        let lastBtn = '';
         if (reportStatus === 1) {
           // 可以点击完成按钮
           lastBtn = (
-            <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
-          )
+            <div className="psbf-w-next-btn complete" onClick={()=>this.complete()}>
+              完成小课
+            </div>
+          );
         } else if (reportStatus === 3) {
           // 已经完成，直接打开学习报告
           lastBtn = (
-            <div className={`right`} onClick={()=>this.handleClickGoReport()}>学习报告</div>
-          )
+            <div className="psbf-w-next-btn report" onClick={()=>this.handleClickGoReport()}>
+              学习报告
+            </div>
+          );
         } else if (reportStatus === 2) {
           // 未完成最小学习天数
           lastBtn = (
-            <div className={`right disabled`} onClick={()=>this.handleClickUnMinStudy()}>完成小课</div>
-          )
+            <div className="psbf-w-next-btn complete" onClick={()=>this.handleClickUnMinStudy()}>
+              完成小课
+            </div>
+          );
+          // lastBtn = (
+          //   <div className={`right disabled`} onClick={()=>this.handleClickUnMinStudy()}>完成小课</div>
+          // )
         } else if (reportStatus === -2) {
           // 没有完成，需要先完成
           lastBtn = (
-            <div className={`right disabled`} onClick={()=>this.handleClickUnComplete()}>完成小课</div>
-          )
+            <div className="psbf-w-next-btn complete" onClick={()=>this.handleClickUnComplete()}>
+              完成小课
+            </div>
+          );
+
+          // lastBtn = (
+          //   <div className={`right disabled`} onClick={()=>this.handleClickUnComplete()}>完成小课</div>
+          // )
         } else if (reportStatus === -1) {
           // 开放时间没完成，不能查看学习报告
           lastBtn = (
-            <div className={`right disabled`} onClick={()=>this.handleClickUnReport()}>完成小课</div>
-          )
+            <div className="psbf-w-next-btn complete" onClick={()=>this.handleClickUnReport()}>
+              完成小课
+            </div>
+          );
+          //
+          // lastBtn = (
+          //   <div className={`right disabled`} onClick={()=>this.handleClickUnReport()}>完成小课</div>
+          // )
         } else {
           // 默认去调用一下complete接口
           lastBtn = (
-            <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
-          )
+            <div className="psbf-w-next-btn complete" onClick={()=>this.complete()}>
+              完成小课
+            </div>
+          );
+          // lastBtn = (
+          //   <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
+          // )
         }
-
-        return (
-          <div className="submit-btn-footer">
-            {preSection}
-            {lastBtn}
-          </div>
-        )
       } else {
-        let nextSection = null;
-
-        if (item.series !== totalSeries) {
-          nextSection = <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div>;
+        if (currentIndex !== totalSeries) {
+          lastBtn = (
+            <div className="psbf-w-next-btn" onClick={()=>this.goSection(currentIndex+1)}>
+              下一节
+            </div>
+          );
+          // lastBtn = <div className={`right`} onClick={()=>this.goSection(currentIndex+1)}>下一节</div>;
         }
-
-        return (
-          <div className="submit-btn-footer">
-            { preSection }
-            { nextSection }
-          </div>
-        );
       }
+
+
+
+      // return (
+      //   <div className="submit-btn-footer">
+      //     {preSection}
+      //     {lastBtn}
+      //   </div>
+      // )
+      return (
+        <div className="plan-study-btn-footer">
+          <div className="psbf-wrapper">
+            <div className="psbf-w-pre-wrapper">
+              {preSection}
+            </div>
+            <div className="psbf-w-next-wrapper">
+              {lastBtn}
+            </div>
+            <div className="psbf-w-series-wrapper">
+              <span>{`${currentIndex?currentIndex:0}/${totalSeries?totalSeries:0}`}&nbsp;节</span>
+            </div>
+          </div>
+        </div>
+      );
     };
 
     const renderSection = (item, idx) => {
@@ -673,7 +723,7 @@ export class PlanMain extends React.Component <any, any> {
             <div className="list">
               {practiceRender(item.practices)}
             </div>
-            { renderBtnFooter(item, idx) }
+            {/*{ renderBtnFooter(item, idx) }*/}
             <div className="padding-footer"></div>
           </div>
       </div>)
@@ -786,6 +836,7 @@ export class PlanMain extends React.Component <any, any> {
                     </SwipeableViews>
                   </div>
                   : null}
+                {renderBtnFooter()}
               </Sidebar>
             </div>
           )}

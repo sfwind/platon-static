@@ -37,7 +37,6 @@ export default class Main extends React.Component<any, any> {
 	}
 
 	componentWillMount(){
-	  return;
 		pget('/rise/index/msg').then(res=>{
 			if(res.msg){
 				const {url, message} = res.msg;
