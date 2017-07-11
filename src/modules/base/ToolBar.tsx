@@ -94,7 +94,7 @@ export class ToolBar extends React.Component<any,any> {
     const { dispatch } = this.props;
     let tabIndex = 0;
     if(window.location.pathname === '/rise/static/plan/main' ||
-        window.location.pathname === '/rise/static/learn' || window.location.pathname === '/rise/static/plan/study'){
+        window.location.pathname === '/rise/static/learn'){
       tabIndex = 0;
     } else if(window.location.pathname === '/rise/static/event/wall'){
       tabIndex = 1;
