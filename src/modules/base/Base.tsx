@@ -94,11 +94,11 @@ export default class Main extends React.Component<any, any> {
 					</div>
 					:null}
 				{
-					this.state.activityMsg?
+					this.state.activityMsg&& this.state.message?
 						<Activity url={this.state.url} pic={this.state.message}/>
 						:null
 				}
-			</div>
+      </div>
 		)
 	}
 }

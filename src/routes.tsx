@@ -1,4 +1,5 @@
 import * as React from "react";
+import { config } from "modules/helpers/JsConfig"
 import { Route } from "react-router";
 import Base from "modules/base/Base";
 import { Welcome } from "modules/problem/Welcome";
@@ -43,18 +44,21 @@ import ForumBase from "./modules/forum/ForumBase";
 import Question from "./modules/forum/question/Question";
 import QuestionAnswer from "./modules/forum/question/QuestionAnswer";
 import AnswerComment from "./modules/forum/question/AnswerComment";
-import ForumQuestion from "./modules/customer/ForumQuestion";
 import SubmitQuestionInit from "./modules/forum/question/SubmitQuestionInit";
 import SubmitQuestionDetail from "./modules/forum/question/SubmitQuestionDetail";
+import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
+import ProblemExtension from "./modules/problem/ProblemExtension";
 
 const routes = (
-  <Route >
-    <Route path="/rise/static" component={Base}>
+  <Route>
+    <Route path="/rise/static" component={Base}  onChange={()=>{config([]);}}>
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>
-      <Route path="problem/view" component={ProblemViewer}/>
+      <Route path="problem/view" component={ProblemIntroduction}/>
+      <Route path="problem/view/old" component={ProblemViewer}/>
       <Route path="problem/more" component={MoreProblem}/>
       <Route path="problem/package" component={BannerArticle}/>
+      <Route path="problem/extension" component={ProblemExtension}/>
       <Route path="plan/main" component={PlanMain}/>
       <Route path="plan/report" component={ImprovementReport}/>
       <Route path="learn" component={PlanMain}/>
@@ -89,7 +93,6 @@ const routes = (
         <Route path="feedback" component={FeedBack}/>
         <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
-        <Route path="forum/mine" component={ForumQuestion}/>
       </Route>
       <Route path="message" component={Customer}>
         <Route path="center" component={MessageCenter}/>
@@ -106,7 +109,6 @@ const routes = (
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
     </Route>
-
   </Route>
 )
 

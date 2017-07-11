@@ -13,7 +13,6 @@ import _ from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from "lodash";
-// import { Toast } from "react-weui"
 import Tutorial from "../../../components/Tutorial"
 import Editor from "../../../components/editor/Editor";
 import { mark } from "../../../utils/request"
@@ -84,7 +83,6 @@ export class Main extends React.Component <any, any> {
                   end: res.msg.end
                 });
               } else {
-                // dispatch(alertMsg('没有更多了'));
                 this.setState({ end: res.msg.end });
               }
             } else {
@@ -385,12 +383,6 @@ export class Main extends React.Component <any, any> {
       if(edit) {
         return (
           <div className="no-comment">
-            {/*<AssetImg type="mobile" height={65} marginTop={15}/>*/}
-            {/*<div className="submit-btn" onClick={this.onEdit.bind(this)}>手机提交</div>*/}
-            {/*<div className="content">*/}
-            {/*<div className="text">windows微信客户端也适用</div>*/}
-            {/*</div>*/}
-            {/*<AssetImg type="pc" height={65} marginTop={15}/>*/}
             <div className="content">
               <div className="text">更喜欢电脑上提交?</div>
               <div className="text">登录www.iquanwai.com/community</div>
@@ -485,9 +477,6 @@ export class Main extends React.Component <any, any> {
                     }}
                   />
                 </div> : null}
-              {/*{showOthers && !isEmpty(otherHighlightList) ? <div>*/}
-              {/*<div className="submit-bar">{'管理员推荐'}</div>*/}
-              {/*{renderList(otherHighlightList)}</div> : null}*/}
               {showOthers && !isEmpty(otherList) ? <div>
                 <div className="submit-bar">{'最新文章'}</div>
                 {renderList(otherList)}</div> : null}

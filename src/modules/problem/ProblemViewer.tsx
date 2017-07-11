@@ -7,7 +7,10 @@ import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {loadProblem, createPlan, checkCreatePlan} from "./async";
 import { Toast, Dialog } from "react-weui";
 const { Alert } = Dialog
-
+/**
+ * @descripted
+ * TODO 稳定后删除
+ */
 @connect(state => state)
 export class ProblemViewer extends React.Component<any, any> {
 

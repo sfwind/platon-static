@@ -1,10 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { ForumButton, PullSlideTip } from "../commons/ForumComponent";
-import { loadQuestionByTag, searchQuestion, getQuestion } from "../async"
+import { searchQuestion, getQuestion } from "../async"
 import { mark } from "../../../utils/request"
 import { splitText, removeHtmlTags } from "../../../utils/helpers"
-import PullElement from "pull-element";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./SubmitQuestionInit.less"
 import _ from "lodash"
@@ -80,6 +79,11 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     if(searchWord === title){
       return;
     }
+
+    if(!title){
+      this.setState({data: [], page: 1, length:0});
+      return;
+    }
     //不含字母时搜索
     let lastChar = title.charAt(title.length - 1);
     this.setState({ title, length: title.length });
@@ -87,7 +91,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       searchQuestion(title, 1).then(res => {
         const {code, msg} = res;
         if (code === 200) {
-          this.setState({data: msg.list, page: 1})
+          this.setState({data: msg.list, page: 1});
         } else {
           dispatch(alertMsg(msg));
         }

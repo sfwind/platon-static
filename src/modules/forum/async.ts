@@ -58,11 +58,6 @@ export function loadTag() {
   return pget('/forum/question/tag/load');
 }
 
-// 根据标签获取相关的问题
-export function loadQuestionByTag(tag){
-  return pget(`/forum/question/search/${tag}`);
-}
-
 // 提交问题
 export function submitQuestion(param){
   return ppost(`/forum/question/submit`, param);
@@ -70,5 +65,5 @@ export function submitQuestion(param){
 
 // 搜索问题
 export function searchQuestion(content, page) {
-  return ppost(`/forum/question/search?page=${page}`, {content})
+  return ppost(`/forum/question/search?page=${page}`, {query:content})
 }
