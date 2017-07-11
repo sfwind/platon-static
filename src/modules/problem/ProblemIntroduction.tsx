@@ -24,6 +24,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     this.state = {
       data:{},
       showAlert: false,
+      showConfirm:false,
       showTip: false,
       tipMsg:"",
       alert: {
@@ -35,6 +36,18 @@ export default class ProblemIntroduction extends React.Component<any,any>{
           {
             label: '想好了',
             onClick: this.handleClickSubmitProblem.bind(this),
+          }
+        ]
+      },
+      confirm: {
+        buttons: [
+          {
+            label:"取消",
+            onClick: this.handleClickCloseConfirm.bind(this)
+          },
+          {
+            label:"确定",
+            onClick: this.handleClickConfirm.bind(this)
           }
         ]
       },
@@ -85,10 +98,20 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     })
   }
 
+  handleClickCloseConfirm(){
+    this.setState({showConfirm:false});
+  }
+
+  handleClickConfirm() {
+    this.context.router.push({pathname: '/rise/static/plan/list'});
+  }
+
   handleClickShow() {
     const {dispatch} = this.props
     checkCreatePlan(this.props.location.query.id).then(res=>{
-      if(res.code === 201){
+      if(res.code === 202){
+        this.setState({showConfirm: true,confirmMsg:res.msg});
+      } else if(res.code === 201){
         // 选第二门了，需要提示
         this.setState({showAlert: true,tipMsg:res.msg})
       } else if(res.code === 200) {
@@ -277,6 +300,9 @@ export default class ProblemIntroduction extends React.Component<any,any>{
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
+        </Alert>
+        <Alert { ...this.state.confirm } show={this.state.showConfirm}>
+          <div className="global-pre">{this.state.confirmMsg}</div>
         </Alert>
       </div>
     );
