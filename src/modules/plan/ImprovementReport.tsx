@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import './ImprovementReport.less'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
-import { queryReport } from './async'
+import { loadRecommendations, queryReport } from './async'
 import { Modal } from '../../components/Modal'
 import { isNumber, merge } from 'lodash';
 import { startLoad, endLoad, alertMsg } from "redux/actions";
@@ -23,7 +23,7 @@ export class ImprovementReport extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const { planId } = this.props.location.query;
+    const { planId, problemId } = this.props.location.query;
     const { dispatch } = this.props;
     dispatch(startLoad());
     queryReport(planId).then((res) => {
@@ -37,6 +37,15 @@ export class ImprovementReport extends React.Component<any, any> {
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
+    })
+    loadRecommendations(problemId).then(res => {
+      if(res.code === 200) {
+        this.setState({recommendations: res.msg})
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(e => {
+      dispatch(alertMsg(e))
     })
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
   }
@@ -155,11 +164,11 @@ export class ImprovementReport extends React.Component<any, any> {
   }
 
   render() {
-    const { planData = {}, showConfirmModal } = this.state;
+    const { planData = {}, showConfirmModal, recommendations } = this.state;
     const {
       problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
       integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore, recommendations
+      applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore
     } = planData;
 
     const renderRecommendation = () => {
