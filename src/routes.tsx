@@ -45,6 +45,7 @@ import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
 import ProblemExtension from "./modules/problem/ProblemExtension";
 import PlanList from "modules/plan/PlanList";
 import  WarmUpNew from "modules/practice/warmup/Warumup"
+import ForumQuestion from "modules/customer/ForumQuestion";
 
 const routes = (
   <Route>
@@ -87,6 +88,7 @@ const routes = (
         <Route path="feedback" component={FeedBack}/>
         <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
+        <Route path="forum/mine" component={ForumQuestion}/>
       </Route>
       <Route path="message" component={Customer}>
         <Route path="center" component={MessageCenter}/>
