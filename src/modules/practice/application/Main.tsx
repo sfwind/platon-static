@@ -134,7 +134,7 @@ export class Main extends React.Component <any, any> {
           draft = storageDraft.content;
           const storageId = storageDraft.id;
           if(storageId == this.props.location.query.id){
-            if(msg.draftId) {
+            if(!msg.draftId) {
               const planId = this.state.planId;
               const applicationId = this.props.location.query.id;
               autoSaveApplicationDraft(planId, applicationId).then(res => {
@@ -143,7 +143,7 @@ export class Main extends React.Component <any, any> {
                 autoUpdateApplicationDraft(res.msg, { draft });
               })
             } else {
-              autoUpdateApplicationDraft(res.msg.draftId, { draft });
+              autoUpdateApplicationDraft(msg.draftId, { draft });
               this.clearStorage();
             }
           }
@@ -220,7 +220,7 @@ export class Main extends React.Component <any, any> {
     timer = setInterval(() => {
       const draft = this.refs.editor.getValue();
       if(draft.trim().length > 0) {
-        if(this.state.draftId == -1) {
+        if(this.state.draftId === -1) {
           const planId = this.state.planId;
           const applicationId = this.props.location.query.id;
           autoSaveApplicationDraft(planId, applicationId).then(res => {
