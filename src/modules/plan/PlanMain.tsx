@@ -716,7 +716,7 @@ export class PlanMain extends React.Component <any, any> {
         // 是会员 未关闭
         return (
           <div className="section">
-            <label>距关闭：</label>{deadline} 天
+            <label>距关闭:</label> {deadline} 天
           </div>
         )
       }
