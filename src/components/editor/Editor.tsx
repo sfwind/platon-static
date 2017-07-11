@@ -5,13 +5,25 @@ import init from "./artEditor.js"
 import AssetImg from "../AssetImg"
 import { isFunction } from "lodash";
 
-const placeHolder = '<p style="color:#cccccc; ">离开页面前请提交，以免内容丢失。</p>';
 export default class Editor extends React.Component<any, any> {
   constructor(props) {
     super(props);
     init($);
     this.state = {
-      editor: null
+      editor: null,
+      length: 0,
+      placeHolder: '<span id="editor-placeholder" style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</span>'
+    }
+  }
+
+  componentWillMount() {
+    if(window.iNoBounce) {
+      window.iNoBounce.disable()
+    }
+    if(this.props.placeholder) {
+      this.setState({
+        placeHolder: `<span id="editor-placeholder" style="color:#cccccc;">${this.props.placeholder}</span>`
+      })
     }
   }
 
@@ -24,7 +36,7 @@ export default class Editor extends React.Component<any, any> {
       uploadUrl: `/rise/file/editor/image/upload/${this.props.moduleId || 2}`,
       formInputId: 'target',
       uploadField: 'file',
-      placeholader: placeHolder,
+      placeholader: this.state.placeHolder,
       validHtml: [],
       uploadStart: () => {
         if(this.props.uploadStart) {
@@ -79,30 +91,74 @@ export default class Editor extends React.Component<any, any> {
     });
     if(this.props.defaultValue) {
       editor.setValue(this.props.defaultValue);
+      this.calcValue(this.props.defaultValue);
     }
     this.setState({ editor: editor });
   }
 
+  componentWillUnmount() {
+    if(window.iNoBounce) {
+      window.iNoBounce.enable()
+    }
+  }
+
   getValue() {
     let value = this.state.editor.getValue();
-    return value === placeHolder ? '' : value;
+    return value === this.state.placeHolder ? '' : value;
   }
+
+  calcValue(value) {
+    if(!value) {
+      value = this.state.editor.getValue();
+    }
+    value = value.replace(/<[^>]+>/g, "");
+    this.setState({ length: value.length });
+    //自动保存
+    if(this.props.autoSave){
+      this.props.autoSave(value);
+    }
+  }
+
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.defaultValue && !this.props.defaultValue) {
       this.state.editor.setValue(nextProps.defaultValue);
+      this.calcValue(nextProps.defaultValue);
     }
   }
 
   render() {
+    const { maxLength, scrollContainer } = this.props;
+    const { length } = this.state;
+
     return (
-      <div className="publish-article-content">
+      <div className="publish-article-content"
+           onClick={() => {
+             let node = document.getElementById("editor-placeholder")
+             if(node) {
+               node.parentNode.removeChild(node)
+             }
+             if(scrollContainer){
+               if(window.navigator.userAgent.indexOf("Android") > 0) {
+                 document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
+               }
+             }
+           }}
+      >
         <input type="hidden" id="target" value=""/>
-        <div ref="editor" className="article-content" id="content">
+        <div ref="editor" className="article-content" id="content" onChange={() => this.calcValue()}>
+        </div>
+        <div className="length-div">
+          {maxLength ?
+            <div className="length-tip">
+              {length} / {maxLength}
+            </div>
+            : null
+          }
         </div>
         <div className="footer-btn">
           <div className="upload">
-            <i className="upload-img"><AssetImg type="uploadImgIcon" width="25" height="20"/></i>上传图片
+            <i className="upload-img"><AssetImg type="uploadImgIcon" width="27" height="19"/></i>上传图片
           </div>
           <input type="file" name="file" accept="image/*" style={{
             position: "absolute",

@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import "./ProblemGallery.less"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {pget, ppost} from "utils/request"
+import { mark } from "utils/request"
 import {changeTitle} from "utils/helpers"
 
 
@@ -20,6 +21,7 @@ export default class ProblemGallery extends React.Component<any,any>{
   }
 
   componentWillMount(){
+    mark({module: "打点", function: "个人中心", action: "打开我的小课页面"});
     changeTitle("我的小课");
     const {dispatch} = this.props;
     dispatch(startLoad());

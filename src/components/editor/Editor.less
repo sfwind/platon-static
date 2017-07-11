@@ -13,31 +13,39 @@
 }
 
 .publish-article-content {
-  padding: 15px;
+  padding: 10px 12px;
   background: #fff;
   border: 1px solid #ccc;
+  border-radius: @border-radius;
   color:@color_title;
-  //font-size:@font_context;
   font-size:16px;
   height:100%;
   .article-content{
-    height: 450px;
-    border-bottom: 1px solid #ccc;
+    z-index: 100;
+    height: 280px;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
     ol,ul{
       padding-left:20px;
     }
   }
+  .length-div{
+    border-bottom: 1px solid #ccc;
+    .length-tip{
+      color: @color_help;
+      font-size: 11px;
+      text-align: right;
+    }
+  }
   .footer-btn {
     text-align: center;
-    padding-top: 10px;
+    padding-top: 6px;
     position: relative;
     .upload-img {
       display: inline-block;
       vertical-align: middle;
       width: 25px;
       height: 20px;
-      margin-right: 10px;
-      //background: url(../img/img.png) 0 no-repeat;
+      margin-right: 15px;
       background-size: 100%;
     }
   }

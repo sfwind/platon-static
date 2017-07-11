@@ -2,6 +2,7 @@ import * as React from "react"
 import {connect} from "react-redux"
 import "./KnowledgeReview.less"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
+import { mark } from "../../../utils/request"
 import {loadProblem} from "./async"
 
 @connect(state=>state)
@@ -21,6 +22,7 @@ export class KnowledgeReview extends React.Component<any,any>{
   }
 
   componentWillMount(){
+    mark({module: "打点", function: "学习", action: "打开知识点回顾页面"});
     const {dispatch,location} = this.props;
     dispatch(startLoad())
     loadProblem(location.query.problemId).then(res=>{
