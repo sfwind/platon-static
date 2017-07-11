@@ -709,7 +709,6 @@ export class PlanMain extends React.Component <any, any> {
             <div className="list">
               {practiceRender(item.practices)}
             </div>
-            {/*{ renderBtnFooter(item, idx) }*/}
             <div className="padding-footer"></div>
           </div>
       </div>)
