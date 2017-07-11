@@ -63,7 +63,7 @@ export default class PlanList extends React.Component<any,any> {
 
   handleClickPlan(plan){
     this.context.router.push({
-      pathname:'/rise/static/learn',
+      pathname:'/rise/static/plan/study',
       query:{planId:plan.id}
     })
   }
