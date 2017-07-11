@@ -77,7 +77,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
   }
 
   submit() {
-    const { title, selectedTagList, tagList } = this.state;
+    const { title, selectedTagList } = this.state;
     const detail = this.refs.editor.getValue();
     let tagIds = [];
     const { dispatch, location } = this.props;
@@ -125,7 +125,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
   }
 
   onClick(tag) {
-    const { dispatch, location } = this.props;
+    const { dispatch } = this.props;
     const { tagList } = this.state;
     let selectedTagList = [];
     //已选中则删除，反之则选中
@@ -146,7 +146,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
 
   render() {
-    const { data = [], selectedTagList = [], tagList = [], title } = this.state;
+    const { tagList = [], title } = this.state;
 
     const renderLine = (tagLineList) => {
       return (
@@ -193,27 +193,6 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       )
     }
 
-    // 渲染文本样式 tag 列表
-    const renderTagListText = () => {
-      let tagContent = '';
-      if(selectedTagList.length > 0) {
-        tagContent = tagContent.concat('已选标签：')
-        selectedTagList.map((tag, idx) => {
-          if(idx === 0) {
-            tagContent = tagContent.concat(tag.name)
-          } else {
-            tagContent = tagContent.concat(` | ${tag.name}`)
-          }
-        });
-        return (
-            <div className="tag-list-text">{tagContent}</div>
-        )
-      }else{
-        return renderTagList();
-      }
-
-    }
-
     const renderButton = () => {
       return (
         <ForumButton content={'提交'} clickFunc={() => this.submit()}/>
@@ -249,6 +228,9 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         <div className="question-page">
           <div className="page-title">
             {title}
+          </div>
+          <div className="tag-divide">
+            选择标签
           </div>
           {renderTagList()}
           <div className="question-detail">

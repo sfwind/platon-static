@@ -32,13 +32,12 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
 
   componentWillMount() {
     mark({module: "打点", function: "论坛", action: "打开选择问题标签页面"});
-    const { dispatch, location } = this.props;
+    const { dispatch, location,title } = this.props;
     const {questionId} = location.query;
     if(questionId){
       getQuestion(questionId).then(res=>{
         const {msg, code} = res;
         if(code === 200){
-          console.log(msg.topic);
           this.setState({
             title: msg.topic, length: msg.topic.length
           });
@@ -50,8 +49,14 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       })
     }
 
+    if(title){
+      this.setState({
+        title, length: title.length
+      });
+    }
+
     //解决android键盘遮挡，改变频幕高度问题
-    this.timer = setInterval(()=>this.handleKeyboardUp(), 200);
+    this.timer = setInterval(()=>this.handleKeyboardUp(), 20);
   }
 
   componentWillUnmount(){
@@ -102,19 +107,26 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
   }
 
   handleKeyboardUp(){
-    const {windowInnerHeight, searchData=[]} = this.state;
-
+    const {windowInnerHeight} = this.state;
     if(window.innerHeight > windowInnerHeight){
-      this.setState({searchData});
+      this.render();
     }
     this.setState({windowInnerHeight:window.innerHeight});
   }
 
   handleClickGoAnswerPage(questionId) {
-    this.context.router.push({
-      pathname: "/forum/static/answer",
-      query: { questionId }
-    })
+    const { dispatch } = this.props;
+    const { title } = this.state;
+    dispatch(set('title', title));
+    //保证android的屏幕恢复后再跳转
+    dispatch(startLoad());
+    setTimeout(()=>{
+      dispatch(endLoad());
+      this.context.router.push({
+        pathname: "/forum/static/answer",
+        query: { questionId }
+      })
+    }, 1000);
   }
 
   render() {
@@ -180,7 +192,6 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
               </div>
           }
           {renderQuestionList()}
-          {/*{renderShowMore()}*/}
           {renderButton()}
         </div>
       </div>
