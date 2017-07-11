@@ -149,27 +149,12 @@ export class ImprovementReport extends React.Component<any,any> {
   }
 
   renderBtns() {
-    const {planData = {}, showConfirmModal} = this.state;
-    const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn
-    } = planData;
-    // if(showNextBtn){
     return (
       <div className="button-footer">
-        <div className="left" onClick={()=>this.handleClickClose()}>点击关闭</div>
-        <div className="right" onClick={this.goBack.bind(this)}>点击返回</div>
+        <div className="left" onClick={()=>this.handleClickClose()}>关闭</div>
+        <div className="right" onClick={this.goBack.bind(this)}>返回</div>
       </div>
     );
-    // } else {
-    //   return (
-    //     <div className="button-footer">
-    //       <div  onClick={this.goBack.bind(this)}>返回本小课</div>
-    //     </div>
-    //   )
-    // }
-
   }
 
 
