@@ -56,10 +56,10 @@ const routes = (
     <Route path="problem/more" component={MoreProblem}/>
     <Route path="problem/package" component={BannerArticle}/>
     <Route path="problem/extension" component={ProblemExtension}/>
-    <Route path="plan/main" component={PlanMain}/>
-    <Route path="plan/list" component={PlanList}/>
+    <Route path="plan/main" component={PlanList}/>
+    <Route path="plan/study" component={PlanMain}/>
     <Route path="plan/report" component={ImprovementReport}/>
-    <Route path="learn" component={PlanMain}/>
+    <Route path="learn" component={PlanList}/>
     {/*<Route path="practice/warmup" component={WarmUp}/>*/}
     <Route path="practice/warmup" component={WarmUpNew}/>
     {/*<Route path="practice/Warmup/new" component={WarmUpNew}/>*/}

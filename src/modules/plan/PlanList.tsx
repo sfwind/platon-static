@@ -36,12 +36,20 @@ export default class PlanList extends React.Component<any,any> {
     loadPlanList().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        const { runningPlans } = res.msg;
+        const { runningPlans = [],completedPlans = [] } = res.msg;
         let showEmptyPage = false;
         if(!runningPlans || runningPlans.length === 0){
            showEmptyPage = true;
         }
-
+        if((!runningPlans || runningPlans.length === 0) && (!completedPlans || completedPlans.length === 0)) {
+          if(location.pathname !== '/rise/static/learn') {
+            // 没有小课练习，并且不是从导航栏点进来的
+            this.context.router.push({
+              pathname: '/rise/static/welcome'
+            })
+            return;
+          }
+        }
         this.setState({planList:res.msg,showEmptyPage:showEmptyPage});
       } else {
         dispatch(alertMsg(res.msg));

@@ -144,7 +144,7 @@ export class ImprovementReport extends React.Component<any,any> {
   }
 
   handleClickClose(){
-    this.context.router.push("/rise/static/plan/list")
+    this.context.router.push("/rise/static/learn")
   }
 
   renderBtns() {

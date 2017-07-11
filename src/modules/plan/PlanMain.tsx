@@ -186,21 +186,22 @@ export class PlanMain extends React.Component <any, any> {
             selectProblem: msg.problem,
             mustStudyDays: msg.mustStudyDays
           });
+          //@Deprecated
           //从微信菜单按钮进入且已过期，弹出选新小课弹窗
-          if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
-             this.setState({expired:true})
-          }
+          // if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
+          //    this.setState({expired:true})
+          // }
         } else {
           // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
-          if(location.pathname === '/rise/static/learn') {
+          // if(location.pathname === '/rise/static/learn') {
             this.setState({
               showEmptyPage: true
             })
-          } else {
-            this.context.router.push({
-              pathname: '/rise/static/welcome'
-            })
-          }
+          // } else {
+          //   this.context.router.push({
+          //     pathname: '/rise/static/welcome'
+          //   })
+          // }
         }
       }
       else dispatch(alertMsg(msg))

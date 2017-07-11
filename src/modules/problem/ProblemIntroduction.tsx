@@ -88,7 +88,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/plan/list'});
+        this.context.router.push({pathname: '/rise/static/learn'});
       } else {
         dispatch(alertMsg(msg))
       }
@@ -103,7 +103,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
   }
 
   handleClickConfirm() {
-    this.context.router.push({pathname: '/rise/static/plan/list'});
+    this.context.router.push({pathname: '/rise/static/learn'});
   }
 
   handleClickShow() {
