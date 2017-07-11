@@ -4,10 +4,10 @@ import { remove, set, merge,get,findIndex,isBoolean } from "lodash";
 import "./Main.less";
 import { answer,loadWarmUpAnalysis,getOpenStatus,openConsolidation } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import Audio from "../../../components/Audio";
 import KnowledgeViewer from "../components/KnowledgeModal";
 import Tutorial from "../../../components/Tutorial"
 import AssetImg from "../../../components/AssetImg";
+import {scroll} from "../../../utils/helpers"
 
 const sequenceMap = {
   0: 'A',
@@ -115,7 +115,7 @@ export class Main extends React.Component <any, any> {
       const selected = list.practice[`${currentIndex-1}`].choice
       this.setState({currentIndex:currentIndex-1, selected})
     }
-    this.refs.warmup.scrollTop = 0
+    scroll('.container', '.container');
   }
 
   next(){
@@ -133,7 +133,7 @@ export class Main extends React.Component <any, any> {
       }
       this.setState({currentIndex:currentIndex+1, selected})
     }
-    this.refs.warmup.scrollTop = 0
+    scroll('.container', '.container');
   }
 
   onSubmit() {
@@ -225,7 +225,7 @@ export class Main extends React.Component <any, any> {
       <div>
         {showKnowledge ? <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
           <div>
-            <div className="container has-footer" style={{height: window.innerHeight - 49}} ref={'warmup'}>
+            <div className="container has-footer" style={{height: window.innerHeight - 49}}>
               <div className="warm-up">
                 {practice[currentIndex] && practice[currentIndex].knowledge ?
                     <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
