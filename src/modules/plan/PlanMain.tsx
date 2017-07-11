@@ -17,6 +17,8 @@ import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 const {Alert} = Dialog
+var FastClick = require('fastclick');
+
 
 const typeMap = {
   1: '巩固练习',
@@ -139,6 +141,9 @@ export class PlanMain extends React.Component <any, any> {
         });
       }
     })
+
+    FastClick.attach(document.querySelector('#plan-study-btn-footer'));
+
   }
 
  componentWillUnmount() {
@@ -673,7 +678,7 @@ export class PlanMain extends React.Component <any, any> {
       }
 
       return (
-        <div className="plan-study-btn-footer">
+        <div className="plan-study-btn-footer" id="plan-study-btn-footer">
           <div className="mask"></div>
           <div className="psbf-wrapper">
             <div className="psbf-w-pre-wrapper">
