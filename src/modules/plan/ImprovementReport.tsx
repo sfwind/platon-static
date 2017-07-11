@@ -123,14 +123,15 @@ export class ImprovementReport extends React.Component<any,any> {
 
 
   goBack() {
-    const {planId} = this.props.location.query;
-    const {planData = {}} = this.state;
-    this.context.router.push({
-      pathname: '/rise/static/learn',
-      query: {
-        planId: planId ? planId : planData.planId
-      }
-    });
+    // const {planId} = this.props.location.query;
+    // const {planData = {}} = this.state;
+    // this.context.router.push({
+    //   pathname: '/rise/static/learn',
+    //   query: {
+    //     planId: planId ? planId : planData.planId
+    //   }
+    // });
+    window.history.back();
   }
 
   nextPlan() {

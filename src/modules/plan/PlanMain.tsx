@@ -595,79 +595,67 @@ export class PlanMain extends React.Component <any, any> {
 
     const renderBtnFooter = (item, idx) => {
       let preSection = "";
-      if(item.series === 1){
+      if (item.series === 1) {
         preSection = <div className={`left origin disabled`}>上一节</div>
       } else {
         preSection = <div className={`left origin`} onClick={()=>this.goSection(item.series-1)}>上一节</div>
       }
 
-      if(windowsClient){
-        return (
-          <div className="submit-btn-footer">
-            <div className={`left origin ${item.series === 1 ? ' disabled' : ''}`} onClick={()=>this.goSection(item.series-1)}>上一节
-            </div>
-            { item.series !== totalSeries ? <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div> : null }
-            { item.series === totalSeries ? <div className={`right ${reportStatus<0?'grey':''}`} onClick={()=>this.complete()}>
-              学习报告</div> : null }
-          </div>
-        )
-      } else {
-        if(item.series === totalSeries){
-          // 最后一节，显示完成按钮
-          // 对最后一个按钮的渲染
-          let lastBtn = '';
-          if(reportStatus === 1){
-            // 可以点击完成按钮
-            lastBtn = (
-              <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
-            )
-          } else if(reportStatus === 3) {
-            // 已经完成，直接打开学习报告
-            lastBtn = (
-              <div className={`right`} onClick={()=>this.handleClickGoReport()}>学习报告</div>
-            )
-          } else if (reportStatus === 2) {
-            // 未完成最小学习天数
-            lastBtn = (
-              <div className={`right disabled`} onClick={()=>this.handleClickUnMinStudy()}>完成小课</div>
-            )
-          } else if(reportStatus === -2){
-            // 没有完成，需要先完成
-            lastBtn = (
-              <div className={`right disabled`} onClick={()=>this.handleClickUnComplete()}>完成小课</div>
-            )
-          } else if(reportStatus === -1){
-            // 开放时间没完成，不能查看学习报告
-            lastBtn = (
-              <div className={`right disabled`} onClick={()=>this.handleClickUnReport()}>完成小课</div>
-            )
-          } else {
-            // 默认去调用一下complete接口
-            lastBtn = (
-              <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
-            )
-          }
+      if (item.series === totalSeries) {
+        // 最后一节，显示完成按钮
+        // 对最后一个按钮的渲染
+        let lastBtn = '';
+        if (reportStatus === 1) {
+          // 可以点击完成按钮
+          lastBtn = (
+            <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
+          )
+        } else if (reportStatus === 3) {
+          // 已经完成，直接打开学习报告
+          lastBtn = (
+            <div className={`right`} onClick={()=>this.handleClickGoReport()}>学习报告</div>
+          )
+        } else if (reportStatus === 2) {
+          // 未完成最小学习天数
+          lastBtn = (
+            <div className={`right disabled`} onClick={()=>this.handleClickUnMinStudy()}>完成小课</div>
+          )
+        } else if (reportStatus === -2) {
+          // 没有完成，需要先完成
+          lastBtn = (
+            <div className={`right disabled`} onClick={()=>this.handleClickUnComplete()}>完成小课</div>
+          )
+        } else if (reportStatus === -1) {
+          // 开放时间没完成，不能查看学习报告
+          lastBtn = (
+            <div className={`right disabled`} onClick={()=>this.handleClickUnReport()}>完成小课</div>
+          )
+        } else {
+          // 默认去调用一下complete接口
+          lastBtn = (
+            <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
+          )
+        }
 
-          return (
+        return (
           <div className="submit-btn-footer">
             {preSection}
             {lastBtn}
           </div>
-          )
-        } else {
-          let nextSection = null;
+        )
+      } else {
+        let nextSection = null;
 
-          if(item.series !== totalSeries){
-            nextSection = <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div>;
-          }
-
-          return (
-            <div className="submit-btn-footer">
-              { preSection }
-              { nextSection }
-            </div>
-          );
+        if (item.series !== totalSeries) {
+          nextSection = <div className={`right`} onClick={()=>this.goSection(item.series+1)}>下一节</div>;
         }
+
+        return (
+          <div className="submit-btn-footer">
+            { preSection }
+            { nextSection }
+          </div>
+        );
       }
     };
 
