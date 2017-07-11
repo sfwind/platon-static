@@ -51,7 +51,7 @@ export class Main extends React.Component <any, any> {
       }
     }
     dispatch(startLoad())
-    loadChallengePractice(location.query.id).then(res => {
+    loadChallengePractice(location.query.id,location.query.planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
@@ -101,7 +101,7 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if (code === 200) {
         dispatch(startLoad());
-        loadChallengePractice(location.query.id).then(res => {
+        loadChallengePractice(location.query.id,location.query.planId).then(res => {
           dispatch(endLoad());
           const {code, msg} = res
           if (code === 200) {

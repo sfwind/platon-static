@@ -33,16 +33,18 @@ export class Result extends React.Component <any, any> {
   }
 
   onSubmit() {
-    this.context.router.push({ pathname: '/rise/static/practice/warmup/analysis', query: this.props.location.query })
+    // this.context.router.push({ pathname: '/rise/static/practice/warmup/analysis', query: this.props.location.query })
+    window.history.back();
   }
 
   nextTask() {
     const { dispatch } = this.props
     const { series, planId } = this.props.location.query
-    this.context.router.push({
-      pathname: '/rise/static/learn',
-      query: {series,planId}
-    })
+    window.history.go(-2);
+    // this.context.router.push({
+    //   pathname: '/rise/static/learn',
+    //   query: {series,planId}
+    // })
   }
 
   render() {
@@ -60,8 +62,8 @@ export class Result extends React.Component <any, any> {
                 <div className="count-circle">
                   <div className="context-img">
                     <div className="answer-pic">
-                      {rightNumber===total ? <AssetImg width={300} height={210} style={{margin:'0 auto'}} url="https://static.iqycamp.com/images/answer_allright.png" />
-                      :<AssetImg style={{margin:'0 auto'}}  width={300} height={210} url="https://static.iqycamp.com/images/answer_not_allright.png" />}
+                      {rightNumber===total ? <AssetImg width="100%"  style={{margin:'0 auto'}} url="https://static.iqycamp.com/images/answer_allright.png" />
+                      :<AssetImg style={{margin:'0 auto'}}  width="100%"  url="https://static.iqycamp.com/images/answer_not_allright.png" />}
                       <div className="answer-word"><span className="answer-right">{rightNumber}</span><span className="answer-total">{'/ '}{total}</span></div>
                     </div>
                   </div>

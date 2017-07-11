@@ -1,31 +1,26 @@
 import * as React from "react";
 import { config } from "modules/helpers/JsConfig"
-import { Route } from "react-router";
+import {Route} from "react-router";
 import Base from "modules/base/Base";
-import { Welcome } from "modules/problem/Welcome";
-import { ProblemViewer } from "modules/problem/ProblemViewer";
-import { PlanMain } from "modules/plan/PlanMain";
-import { KnowledgeViewer } from "modules/practice/knowledge/KnowledgeViewer";
-import { Main as WarmUp } from "modules/practice/warmup/Main";
-import { Analysis as WarmUpAnalysis } from "modules/practice/warmup/Analysis";
-import { Result as WarmUpResult } from "modules/practice/warmup/Result";
-import { Main as Application } from "modules/practice/application/Main";
-import { Main as Challenge } from "modules/practice/challenge/Main";
-import { Main as Subject } from "modules/practice/subject/Main"
-import { Submit as ApplicationPracticeSubmit } from "modules/practice/application/Submit";
-import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
-import { Submit as SubjectSubmit } from "modules/practice/subject/Submit";
-import { ReplyDiscussMessage } from "modules/message/ReplyWarmupDiscussMessage";
-import { MessageCenter } from "modules/message/MessageCenter";
-import { ReplyKnowledgeDiscussMessage } from "modules/message/ReplyKnowledgeDiscussMessage"
-import { AnalysisNew } from "modules/practice/warmup/AnalysisNew";
-import { Comment as ApplicationComment } from "modules/practice/application/Comment";
-import { Comment as SubjectComment } from "modules/practice/subject/Comment"
-import { RiseMemberExplain } from "modules/plan/RiseMemberExplain"
-import { RoadMap } from "modules/practice/knowledge/RoadMap"
-import { KnowledgeReview } from "modules/practice/knowledge/KnowledgeReview"
-import { ReplyCommentMessage } from "modules/message/ReplyCommentMessage";
-import { Customer } from "modules/customer/Customer"
+import {Welcome} from "modules/problem/Welcome";
+import {PlanMain} from "modules/plan/PlanMain";
+import {KnowledgeViewer} from "modules/practice/knowledge/KnowledgeViewer";
+import {Result as WarmUpResult} from "modules/practice/warmup/Result";
+import {Main as Application} from "modules/practice/application/Main";
+import {Main as Challenge} from "modules/practice/challenge/Main";
+import {Main as Subject} from "modules/practice/subject/Main"
+import {Submit as ChallengePracticeSubmit} from "modules/practice/challenge/Submit";
+import {Submit as SubjectSubmit} from "modules/practice/subject/Submit";
+import {ReplyDiscussMessage} from "modules/message/ReplyWarmupDiscussMessage";
+import {MessageCenter} from "modules/message/MessageCenter";
+import {ReplyKnowledgeDiscussMessage} from "modules/message/ReplyKnowledgeDiscussMessage"
+import {AnalysisNew} from "modules/practice/warmup/AnalysisNew";
+import {Comment as ApplicationComment} from "modules/practice/application/Comment";
+import {Comment as SubjectComment} from "modules/practice/subject/Comment"
+import {RiseMemberExplain} from "modules/plan/RiseMemberExplain"
+import {KnowledgeReview} from "modules/practice/knowledge/KnowledgeReview"
+import {ReplyCommentMessage} from "modules/message/ReplyCommentMessage";
+import {Customer} from "modules/customer/Customer"
 import Personal from "modules/customer/Personal"
 import PointTip from "modules/customer/PointTip"
 import Profile from "modules/customer/Profile"
@@ -35,19 +30,21 @@ import RiseMember from "modules/customer/RiseMember"
 import FeedBack from "modules/customer/FeedBack"
 import UserProtocol from "modules/customer/UserProtocol"
 import MobileBind from "modules/customer/MobileBind"
-import { EventWall } from "modules/plan/EventWall";
-import { Explore } from 'modules/problem/Explore';
-import { MoreProblem } from 'modules/problem/MoreProblem'
+import {EventWall} from "modules/plan/EventWall";
+import {Explore} from 'modules/problem/Explore';
+import {MoreProblem} from 'modules/problem/MoreProblem'
 import BannerArticle from 'modules/problem/BannerArticle'
-import { ImprovementReport } from 'modules/plan/ImprovementReport'
 import ForumBase from "./modules/forum/ForumBase";
 import Question from "./modules/forum/question/Question";
 import QuestionAnswer from "./modules/forum/question/QuestionAnswer";
 import AnswerComment from "./modules/forum/question/AnswerComment";
 import SubmitQuestionInit from "./modules/forum/question/SubmitQuestionInit";
 import SubmitQuestionDetail from "./modules/forum/question/SubmitQuestionDetail";
+import {ImprovementReport} from 'modules/plan/ImprovementReport'
 import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
 import ProblemExtension from "./modules/problem/ProblemExtension";
+import PlanList from "modules/plan/PlanList";
+import  WarmUpNew from "modules/practice/warmup/Warumup"
 
 const routes = (
   <Route>
@@ -55,27 +52,24 @@ const routes = (
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/view" component={ProblemIntroduction}/>
-      <Route path="problem/view/old" component={ProblemViewer}/>
       <Route path="problem/more" component={MoreProblem}/>
       <Route path="problem/package" component={BannerArticle}/>
       <Route path="problem/extension" component={ProblemExtension}/>
-      <Route path="plan/main" component={PlanMain}/>
+      <Route path="plan/main" component={PlanList}/>
+      <Route path="plan/study" component={PlanMain}/>
       <Route path="plan/report" component={ImprovementReport}/>
-      <Route path="learn" component={PlanMain}/>
-      <Route path="practice/warmup" component={WarmUp}/>
-      <Route path="practice/warmup/analysis" component={WarmUpAnalysis}/>
+      <Route path="learn" component={PlanList}/>
+      <Route path="practice/warmup" component={WarmUpNew}/>
       <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
       <Route path="practice/warmup/result" component={WarmUpResult}/>
       <Route path="practice/application" component={Application}/>
       <Route path="practice/challenge" component={Challenge}/>
-      <Route path="practice/application/submit" component={ApplicationPracticeSubmit}/>
       <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
       <Route path="practice/application/comment" component={ApplicationComment}/>
       <Route path="practice/subject" component={Subject}/>
       <Route path="practice/subject/submit" component={SubjectSubmit}/>
       <Route path="practice/subject/comment" component={SubjectComment}/>
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
-      <Route path="practice/roadmap" component={RoadMap}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
       <Route path="member/explain" component={RiseMemberExplain}/>
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
