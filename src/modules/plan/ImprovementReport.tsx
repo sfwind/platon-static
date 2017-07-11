@@ -170,9 +170,9 @@ export class ImprovementReport extends React.Component<any,any> {
     const renderTips = () => {
       console.log(doneAllApps);
       if(doneAllApps){
-        return "您已经完成所有练习，开始下一门小课吧！"
+        return "哇哦！你完成了全部的【应用练习】和【综合练习】，这是赤裸裸秒杀99%同学的节奏！";
       } else {
-        return "不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！";
+        return <span>不要在小课完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
       }
     };
 

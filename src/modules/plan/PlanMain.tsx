@@ -328,10 +328,17 @@ export class PlanMain extends React.Component <any, any> {
       if (code === 200) {
         // 设置完成
         if (planData.hasProblemScore) {
+          // 已经评分
           this.confirmComplete();
+          this.setState({planData: merge({}, planData, {reportStatus: 3})});
         } else {
           // 未评分
-          this.setState({showScoreModal: true, defeatPercent: msg.percent, mustStudyDays: msg.mustStudyDays})
+          this.setState({
+            showScoreModal: true,
+            defeatPercent: msg.percent,
+            mustStudyDays: msg.mustStudyDays,
+            planData: merge({}, planData, {reportStatus: 3})
+          });
         }
       } else {
         if (code === -1) {
@@ -601,10 +608,13 @@ export class PlanMain extends React.Component <any, any> {
         );
       } else {
         preSection = (
-          <div className="psbf-w-pre-btn" onClick={()=>this.goSection(currentIndex-1)}>
+          <div className="psbf-w-pre-btn" onClick={()=>{
+            this.goSection(currentIndex-1);
+
+          }}>
             上一节
           </div>
-        )
+        );
       }
 
       if (currentIndex === totalSeries) {
@@ -642,7 +652,7 @@ export class PlanMain extends React.Component <any, any> {
           // 开放时间没完成，不能查看学习报告
           lastBtn = (
             <div className="psbf-w-next-btn complete disabled" onClick={()=>this.handleClickUnReport()}>
-              完成小课
+              学习报告
             </div>
           );
         } else {
