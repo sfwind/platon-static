@@ -19,7 +19,6 @@ const sequenceMap = {
   6: 'G',
 }
 
-@connect(state => state)
 export class Main extends React.Component <any, any> {
   constructor() {
     super()
@@ -34,61 +33,39 @@ export class Main extends React.Component <any, any> {
     }
   }
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
 
   componentWillMount() {
-    const { dispatch, location } = this.props
-    const { practicePlanId, integrated } = location.query
+    const {dispatch, location, res} = this.props
+    const {practicePlanId, integrated} = location.query
     this.setState({integrated})
-    dispatch(startLoad())
-    loadWarmUpAnalysis(practicePlanId).then(res=>{
-      dispatch(endLoad())
-      const { code, msg } = res
-      if (code === 200){
-        const { practice } = msg;
-        if(practice){
-          let idx = findIndex(practice,(item)=>{
-            const {choiceList} = item;
-            if(choiceList){
-              return choiceList.filter(choice=>choice.selected).length > 0;
-            } else {
-              return false;
-            }
-          })
-          if(idx !== -1){
-            this.context.router.push({
-              pathname: '/rise/static/practice/warmup/analysis',
-              query: location.query,
-            })
+    dispatch(endLoad())
+    const {code, msg} = res
+    if (code === 200) {
+      const {practice} = msg;
+      if (practice) {
+        let idx = findIndex(practice, (item) => {
+          const {choiceList} = item;
+          if (choiceList) {
+            return choiceList.filter(choice => choice.selected).length > 0;
           } else {
-            this.setState({ list: msg, practiceCount: msg.practice.length })
+            return false;
           }
+        })
+        if (idx === -1) {
+          this.setState({list: msg, practiceCount: msg.practice.length})
         }
       }
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    } else dispatch(alertMsg(msg));
 
-    getOpenStatus().then(res=>{
-      if(res.code === 200){
-        this.setState({openStatus:res.msg});
+    getOpenStatus().then(res => {
+      if (res.code === 200) {
+        this.setState({openStatus: res.msg});
       }
     })
-
   }
 
   onChoiceSelected(choiceId) {
     const { list, currentIndex, selected } = this.state
-    const curPractice = list.practice[currentIndex]
-    // 暂时没有单选了
-    // if (curPractice.type === 1) {
-    //   // 单选
-    //   this.setState({ selected: [choiceId] })
-    // } else if (curPractice.type === 2) {
     let _list = selected
     if (_list.indexOf(choiceId) > -1) {
       remove(_list, n => n === choiceId)
@@ -96,7 +73,6 @@ export class Main extends React.Component <any, any> {
       _list.push(choiceId)
     }
     this.setState({ selected: _list })
-    // }
   }
 
   setChoice(cb) {
@@ -151,7 +127,7 @@ export class Main extends React.Component <any, any> {
           dispatch(endLoad());
           const { code, msg } = res
           if (code === 200) {
-            this.context.router.push({
+            this.props.router.push({
               pathname: '/rise/static/practice/warmup/result',
               query: merge(msg, this.props.location.query)
             })

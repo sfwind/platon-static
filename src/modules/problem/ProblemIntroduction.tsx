@@ -24,7 +24,9 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     this.state = {
       data:{},
       showAlert: false,
+      showConfirm:false,
       showTip: false,
+      tipMsg:"",
       alert: {
         buttons: [
           {
@@ -34,6 +36,18 @@ export default class ProblemIntroduction extends React.Component<any,any>{
           {
             label: '想好了',
             onClick: this.handleClickSubmitProblem.bind(this),
+          }
+        ]
+      },
+      confirm: {
+        buttons: [
+          {
+            label:"取消",
+            onClick: this.handleClickCloseConfirm.bind(this)
+          },
+          {
+            label:"确定",
+            onClick: this.handleClickConfirm.bind(this)
           }
         ]
       },
@@ -50,7 +64,6 @@ export default class ProblemIntroduction extends React.Component<any,any>{
       const {msg, code} = res
       if(code === 200){
         this.setState({data:msg})
-        console.log(msg);
       }else{
         dispatch(alertMsg(msg))
       }
@@ -74,7 +87,7 @@ export default class ProblemIntroduction extends React.Component<any,any>{
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/learn'})
+        this.context.router.push({pathname: '/rise/static/learn'});
       } else {
         dispatch(alertMsg(msg))
       }
@@ -84,12 +97,25 @@ export default class ProblemIntroduction extends React.Component<any,any>{
     })
   }
 
+  handleClickCloseConfirm(){
+    this.setState({showConfirm:false});
+  }
+
+  handleClickConfirm() {
+    this.context.router.push({pathname: '/rise/static/learn'});
+  }
+
   handleClickShow() {
     const {dispatch} = this.props
     checkCreatePlan(this.props.location.query.id).then(res=>{
-      if(res.code === 200){
-        this.setState({showAlert: true})
-      }else{
+      if(res.code === 202){
+        this.setState({showConfirm: true,confirmMsg:res.msg});
+      } else if(res.code === 201){
+        // 选第二门了，需要提示
+        this.setState({showAlert: true,tipMsg:res.msg})
+      } else if(res.code === 200) {
+        this.handleClickSubmitProblem();
+      } else {
         dispatch(alertMsg(res.msg))
       }
     })
@@ -269,9 +295,13 @@ export default class ProblemIntroduction extends React.Component<any,any>{
             学习该小课
           </div>
         }
+
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
-          <div className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</div>
+          <div className="global-pre">{this.state.tipMsg}</div>
+        </Alert>
+        <Alert { ...this.state.confirm } show={this.state.showConfirm}>
+          <div className="global-pre">{this.state.confirmMsg}</div>
         </Alert>
       </div>
     );

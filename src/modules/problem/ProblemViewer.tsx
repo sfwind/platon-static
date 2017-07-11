@@ -24,6 +24,7 @@ export class ProblemViewer extends React.Component<any, any> {
       data:{},
       showAlert: false,
       showTip: false,
+      tipMsg:"",
       alert: {
         buttons: [
           {
@@ -63,7 +64,8 @@ export class ProblemViewer extends React.Component<any, any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/learn'})
+        return;
+        this.context.router.push({pathname: '/rise/static/learn',query:{planId:res.msg}});
       } else {
         dispatch(alertMsg(msg))
       }
@@ -76,9 +78,12 @@ export class ProblemViewer extends React.Component<any, any> {
   show() {
     const {dispatch} = this.props
     checkCreatePlan(this.props.location.query.id).then(res=>{
-      if(res.code === 200){
-        this.setState({showAlert: true})
-      }else{
+      if(res.code === 201){
+        // 选第二门了，需要提示
+        this.setState({showAlert: true,tipMsg:res.msg})
+      } else if(res.code === 200) {
+        this.submitProblem();
+      } else {
         dispatch(alertMsg(res.msg))
       }
     })
@@ -192,7 +197,7 @@ export class ProblemViewer extends React.Component<any, any> {
           }
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
-          <div className="global-pre">选择后，需要先学完该小课，才能选择下一小课，想好了吗？</div>
+          <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
       </div>
     )

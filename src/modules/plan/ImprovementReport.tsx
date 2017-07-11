@@ -122,14 +122,15 @@ export class ImprovementReport extends React.Component<any,any> {
 
 
   goBack() {
-    const {planId} = this.props.location.query;
-    const {planData = {}} = this.state;
-    this.context.router.push({
-      pathname: '/rise/static/learn',
-      query: {
-        planId: planId ? planId : planData.planId
-      }
-    });
+    // const {planId} = this.props.location.query;
+    // const {planData = {}} = this.state;
+    // this.context.router.push({
+    //   pathname: '/rise/static/learn',
+    //   query: {
+    //     planId: planId ? planId : planData.planId
+    //   }
+    // });
+    window.history.back();
   }
 
   nextPlan() {
@@ -142,28 +143,17 @@ export class ImprovementReport extends React.Component<any,any> {
     this.setState({showConfirmModal: false});
   }
 
+  handleClickClose(){
+    this.context.router.push("/rise/static/learn")
+  }
+
   renderBtns() {
-    const {planData = {}, showConfirmModal} = this.state;
-    const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn
-    } = planData;
-    // if(showNextBtn){
     return (
       <div className="button-footer">
-        <div className="left" onClick={this.chooseNew.bind(this)}>选择新小课</div>
-        <div className="right" onClick={this.goBack.bind(this)}>返回本小课</div>
+        <div className="left" onClick={()=>this.handleClickClose()}>关闭</div>
+        <div className="right" onClick={this.goBack.bind(this)}>返回</div>
       </div>
-    )
-    // } else {
-    //   return (
-    //     <div className="button-footer">
-    //       <div  onClick={this.goBack.bind(this)}>返回本小课</div>
-    //     </div>
-    //   )
-    // }
-
+    );
   }
 
 
@@ -172,8 +162,18 @@ export class ImprovementReport extends React.Component<any,any> {
     const {
       problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
       integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn,votedScore
+      applicationScore, applicationCompleteCount, pic, showNextBtn,votedScore,doneAllApps
     } = planData;
+
+
+    const renderTips = () => {
+      if(doneAllApps){
+        return <span>哇哦！你完成了全部的【应用练习】和【综合练习】，这是赤裸裸秒杀99%同学的节奏！</span>;
+      } else {
+        return <span>不要在小课完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
+      }
+    };
+
     return (
       <div className="improvement-report">
         <Modal show={showConfirmModal}
@@ -226,8 +226,8 @@ export class ImprovementReport extends React.Component<any,any> {
               获得  <span className="big-point">{votedScore}</span> 积分 <span className="tips">（1被赞=2积分）</span>
             </div>
           </div>
-          <div className="tips">不错！你还可以拿到更多积分，点击右下角按钮，返回小课完成更多练习吧！</div>
-          <div className="padding-footer" style={{height:'80px'}}/>
+          <div className="tips">{renderTips()}</div>
+          <div className="padding-footer" style={{height:'50px'}}/>
         </div>
         {this.renderBtns()}
       </div>

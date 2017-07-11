@@ -169,7 +169,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
     learnKnowledge(location.query.practicePlanId).then(res => {
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/learn', query: this.props.location.query})
+        window.history.back();
+        // this.context.router.push({pathname: '/rise/static/learn', query: this.props.location.query})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {

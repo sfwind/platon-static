@@ -39,38 +39,19 @@ export class Analysis extends React.Component <any, any> {
     }
   }
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (this.props.location.query.practicePlanId !== newProps.location.query.practicePlanId) {
-      this.componentWillMount(newProps)
-    }
-    // if(!this.props.iNoBounce && newProps.iNoBounce){
-    //   if(!newProps.iNoBounce.isEnabled()){
-    //     newProps.iNoBounce.enable();
-    //   }
-    // }
-  }
 
   componentWillMount(props) {
-    const {dispatch, location} = props || this.props;
+    const {dispatch, location} = this.props;
     this.setState({currentIndex: 0});
+
     const {practicePlanId, integrated} = location.query;
     this.setState({integrated});
-    dispatch(startLoad());
-    loadWarmUpAnalysis(practicePlanId).then(res => {
-      dispatch(endLoad());
-      const {code, msg} = res;
-      if (code === 200) {
-        this.setState({list: msg, practiceCount: msg.practice.length});
-      }
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    })
+    const {res} = this.props;
+    const {code, msg} = res;
+    if (code === 200) {
+      this.setState({list: msg, practiceCount: msg.practice.length});
+    }
+    else dispatch(alertMsg(msg))
   }
 
   next() {
@@ -91,10 +72,7 @@ export class Analysis extends React.Component <any, any> {
 
   nextTask() {
     const {series, planId} = this.props.location.query;
-    this.context.router.push({
-      pathname: '/rise/static/learn',
-      query: {series,planId}
-    })
+    window.history.back();
   }
 
   closeModal() {
@@ -260,7 +238,6 @@ export class Analysis extends React.Component <any, any> {
         <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
             {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
-            {/*{choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx]}*/}
           </span>
           <span className={`text`}>{subject}</span>
         </div>
