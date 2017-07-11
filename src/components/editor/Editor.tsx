@@ -112,7 +112,11 @@ export default class Editor extends React.Component<any, any> {
       value = this.state.editor.getValue();
     }
     value = value.replace(/<[^>]+>/g, "");
-    this.setState({ length: value.length })
+    this.setState({ length: value.length });
+    //自动保存
+    if(this.props.autoSave){
+      this.props.autoSave(value);
+    }
   }
 
   componentWillReceiveProps(nextProps) {

@@ -16,11 +16,12 @@ import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from "lodas
 // import { Toast } from "react-weui"
 import Tutorial from "../../../components/Tutorial"
 import Editor from "../../../components/editor/Editor";
-import Toast from "../../../components/Toast";
 import { mark } from "../../../utils/request"
 import { scroll } from "../../../utils/helpers"
 
 let timer;
+
+const APPLICATION_AUTO_SAVING = 'rise_application_autosaving';
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -128,27 +129,37 @@ export class Main extends React.Component <any, any> {
         if(res.msg.draftId) {
           this.setState({ draftId: res.msg.draftId })
         }
+        let draft = msg.draft;
+        let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING));
+        //保存上次未自动保存的草稿
+        if(storageDraft){
+          draft = storageDraft.content;
+          const storageId = storageDraft.id;
+          if(storageId == this.props.location.query.id){
+            if(msg.draftId) {
+              const planId = this.state.planId;
+              const applicationId = this.props.location.query.id;
+              autoSaveApplicationDraft(planId, applicationId).then(res => {
+                this.clearStorage();
+                this.setState({ draftId: res.msg });
+                autoUpdateApplicationDraft(res.msg, { draft });
+              })
+            } else {
+              autoUpdateApplicationDraft(res.msg.draftId, { draft });
+              this.clearStorage();
+            }
+          }
+        }
         this.setState({
-          data: msg, submitId: msg.submitId, planId: msg.planId, draft: res.msg.draft,
-          editorValue: res.msg.content == null ? res.msg.draft : res.msg.content
+          data: msg, submitId: msg.submitId, planId: msg.planId, draft: draft,
+          editorValue: msg.content == null ? draft : msg.content
         });
         const isSubmitted = res.msg.content != null;
+        //如果已经提交，则不启动自动保存
         if(!isSubmitted) {
           this.autoSaveApplicationDraft();
         }
         dispatch(endLoad());
-        // 如果存在未提交的草稿，则显示提醒toast
-        if(res.msg.draft) {
-          this.setState({ showDraftToast: true }, () => {
-            setTimeout(() => {
-              let draftToast = document.getElementById("main-toast-draft");
-              draftToast.style.opacity = 0;
-            }, 1500);
-            setTimeout(() => {
-              this.setState({ showDraftToast: false });
-            }, 3000);
-          });
-        }
 
         const { content } = msg;
         if(integrated == 'false') {
@@ -161,7 +172,7 @@ export class Main extends React.Component <any, any> {
             }
           })
         }
-
+        //看评论的请求，锚定到评论区
         if(content !== null) {
           if(isUndefined(otherApplicationPracticeSubmitId) || id != applicationId) {
             let node = this.refs.submitBar
@@ -189,54 +200,21 @@ export class Main extends React.Component <any, any> {
     });
   }
 
-  componentDidMount() {
-  }
-
-  // componentDidUpdate(preProps, preState) {
-  //   const content = get(this.state, 'data.content');
-  //   if(content && !this.pullElement) {
-  //     // 有内容并且米有pullElement
-  //     const {dispatch} = this.props;
-  //     this.pullElement = new PullElement({
-  //       target: '.container',
-  //       scroller: '.container',
-  //       damping: 4,
-  //       detectScroll: true,
-  //       detectScrollOnStart: true,
-  //       onPullUpEnd: (data) => {
-  //         loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
-  //           if(res.code === 200) {
-  //             if(res.msg && res.msg.list && res.msg.list.length !== 0) {
-  //               remove(res.msg.list, (item) => {
-  //                 return findIndex(this.state.otherList, item) !== -1;
-  //               })
-  //               this.setState({
-  //                 otherList: this.state.otherList.concat(res.msg.list),
-  //                 page: this.state.page + 1,
-  //                 end: res.msg.end
-  //               });
-  //             } else {
-  //               // dispatch(alertMsg('没有更多了'));
-  //               this.setState({end: res.msg.end});
-  //             }
-  //           } else {
-  //             dispatch(alertMsg(res.msg));
-  //           }
-  //         }).catch(ex => {
-  //           dispatch(alertMsg(ex));
-  //         });
-  //       }
-  //     })
-  //     this.pullElement.init();
-  //   }
-  //   if(this.pullElement && this.state.end) {
-  //     this.pullElement.disable();
-  //   }
-  // }
 
   componentWillUnmount() {
     this.pullElement ? this.pullElement.destroy() : null;
     clearInterval(timer)
+  }
+
+  autoSave(value){
+    if(value && value !== this.state.data.content){
+      window.localStorage.setItem(APPLICATION_AUTO_SAVING,
+          JSON.stringify({id:this.props.location.query.id, content:value}));
+    }
+  }
+
+  clearStorage(){
+    window.localStorage.removeItem(APPLICATION_AUTO_SAVING);
   }
 
   // 定时保存方法
@@ -248,11 +226,13 @@ export class Main extends React.Component <any, any> {
           const planId = this.state.planId;
           const applicationId = this.props.location.query.id;
           autoSaveApplicationDraft(planId, applicationId).then(res => {
-            this.setState({ draftId: res.msg })
-            autoUpdateApplicationDraft(res.msg, { draft })
+            this.clearStorage();
+            this.setState({ draftId: res.msg });
+            autoUpdateApplicationDraft(res.msg, { draft });
           })
         } else {
-          autoUpdateApplicationDraft(this.state.draftId, { draft })
+          autoUpdateApplicationDraft(this.state.draftId, { draft });
+          this.clearStorage();
         }
       }
     }, 10000);
@@ -500,6 +480,9 @@ export class Main extends React.Component <any, any> {
                     }}
                     defaultValue={this.state.editorValue}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
+                    autoSave = {(value) => {
+                      this.autoSave(value)
+                    }}
                   />
                 </div> : null}
               {/*{showOthers && !isEmpty(otherHighlightList) ? <div>*/}
@@ -522,15 +505,6 @@ export class Main extends React.Component <any, any> {
             :
             null
         }
-        <div className="main-toast">
-          <Toast
-            show={this.state.showDraftToast}
-            id="main-toast-draft"
-          >
-            <div>上次输入的内容未提交哦</div>
-            <div>已自动保存，可以继续编辑啦</div>
-          </Toast>
-        </div>
       </div>
     )
   }
