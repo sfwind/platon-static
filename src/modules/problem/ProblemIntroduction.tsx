@@ -64,7 +64,6 @@ export default class ProblemIntroduction extends React.Component<any,any>{
       const {msg, code} = res
       if(code === 200){
         this.setState({data:msg})
-        console.log(msg);
       }else{
         dispatch(alertMsg(msg))
       }

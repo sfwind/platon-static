@@ -63,7 +63,6 @@ export class ProblemViewer extends React.Component<any, any> {
     createPlan(location.query.id).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
-      console.log(msg)
       if (code === 200) {
         return;
         this.context.router.push({pathname: '/rise/static/learn',query:{planId:res.msg}});

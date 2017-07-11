@@ -471,7 +471,6 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goSection(series) {
-    console.log("click")
     if(series<=0){
       return ;
     }

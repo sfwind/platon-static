@@ -28,7 +28,6 @@ export class ImprovementReport extends React.Component<any,any> {
     queryReport(planId).then((res) => {
       dispatch(endLoad());
       if (res.code === 200) {
-        console.log(res.msg);
         this.setState({planData: res.msg});
       } else {
         dispatch(alertMsg(res.msg));
@@ -168,7 +167,6 @@ export class ImprovementReport extends React.Component<any,any> {
 
 
     const renderTips = () => {
-      console.log(doneAllApps);
       if(doneAllApps){
         return "哇哦！你完成了全部的【应用练习】和【综合练习】，这是赤裸裸秒杀99%同学的节奏！";
       } else {

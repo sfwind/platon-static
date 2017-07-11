@@ -93,6 +93,19 @@ export default class PlanList extends React.Component<any,any> {
       }
     };
 
+    const renderDeadline = (deadline) => {
+      if(deadline <0 ){
+        return null;
+      } else {
+        return (
+          <div className="p-r-b-i-text-close">
+            距关闭：{deadline}&nbsp;天
+          </div>
+        );
+      }
+
+    };
+
     return (
       <div className="plan-list-page">
         <ToolBar />
@@ -126,9 +139,7 @@ export default class PlanList extends React.Component<any,any> {
                     <div className="p-r-b-i-text-done">
                       已完成：{`${item.completeSeries}/${item.totalSeries}节`}
                     </div>
-                    <div className="p-r-b-i-text-close">
-                      距关闭：{item.deadline}&nbsp;天
-                    </div>
+                    {renderDeadline(item.deadline)}
                   </div>
                 </div>
               </div>
