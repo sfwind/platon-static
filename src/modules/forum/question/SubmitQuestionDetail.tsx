@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { ForumButton } from "../commons/ForumComponent";
 import { submitQuestion, getQuestion, loadTag } from "../async"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
-import { removeHtmlTags } from "../../../utils/helpers"
+import {removeHtmlTags} from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
+import _ from "lodash";
 import "./SubmitQuestionDetail.less"
 
 @connect(state => state)
@@ -28,7 +29,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
   componentWillMount() {
     mark({ module: "打点", function: "论坛", action: "打开写问题页面" });
-    const { dispatch, location, title } = this.props;
+    const { dispatch, location } = this.props;
     const { questionId } = location.query;
     if(questionId) {
       //修改提问
@@ -38,7 +39,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         dispatch(endLoad());
         if(code === 200) {
           this.setState({
-            title, detail: msg.description,
+            title:msg.topic , detail: msg.description,
             selectedTagList: msg.forumTags
           });
         } else {
@@ -64,15 +65,6 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         dispatch(endLoad());
         dispatch(alertMsg(ex));
       })
-    }
-  }
-
-  componentDidMount() {
-    const { questionId } = this.props.location.query;
-    //提问时，从redux读取标签
-    if(!questionId) {
-      const { selectedTagList } = this.props;
-      this.setState({ selectedTagList });
     }
   }
 
@@ -146,7 +138,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
 
   render() {
-    const { tagList = [], title } = this.state;
+    const { tagList = [], title, selectedTagList=[] } = this.state;
 
     const renderLine = (tagLineList) => {
       return (
@@ -161,7 +153,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
             })}
           </div>
       )
-    }
+    };
 
     const renderTagList = () => {
       // 包含所有的行元素的数组
@@ -179,7 +171,6 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
         }
         tagAll.push(tagLineList);
       }
-
       return (
           <div className="tag-list">
             {
@@ -191,13 +182,31 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
             }
           </div>
       )
-    }
+    };
+
+    // 渲染文本样式 tag 列表
+    const renderTagListText = () => {
+      let tagContent = '';
+      if(selectedTagList.length > 0) {
+        tagContent = tagContent.concat('已选标签：');
+        selectedTagList.map((tag, idx) => {
+          if(idx === 0) {
+            tagContent = tagContent.concat(tag.name)
+          } else {
+            tagContent = tagContent.concat(` | ${tag.name}`)
+          }
+        })
+      }
+      return (
+          <div className="tag-list-text">{tagContent}</div>
+      )
+    };
 
     const renderButton = () => {
       return (
         <ForumButton content={'提交'} clickFunc={() => this.submit()}/>
       )
-    }
+    };
 
     const renderEditor = () => {
       return (
@@ -221,7 +230,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
           />
         </div>
       )
-    }
+    };
 
     return (
       <div className="question-detail-container">
@@ -232,7 +241,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
           <div className="tag-divide">
             选择标签
           </div>
-          {renderTagList()}
+          {_.isEmpty(selectedTagList)? renderTagList(): renderTagListText() }
           <div className="question-detail">
             {renderEditor()}
           </div>

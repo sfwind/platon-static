@@ -189,23 +189,20 @@ router.get("/forum/question/load/*", (req, res) => {
                   "topic": null
                 }
               ],
-              "questionTagList": [
+              "forumTags": [
                 {
                   "id": 8,
-                  "questionId": 7,
-                  "tagId": 1,
+                  "name": '职场',
                   "del": false
                 },
                 {
                   "id": 10,
-                  "questionId": 7,
-                  "tagId": 3,
+                  "name": '沟通',
                   "del": false
                 },
                 {
                   "id": 15,
-                  "questionId": 7,
-                  "tagId": 7,
+                  "name": '领导力',
                   "del": false
                 }
               ]
