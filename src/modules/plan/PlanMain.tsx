@@ -18,10 +18,6 @@ import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 const {Alert} = Dialog
 
-
-
-
-
 const typeMap = {
   1: '巩固练习',
   2: '巩固练习',
@@ -603,14 +599,12 @@ export class PlanMain extends React.Component <any, any> {
             上一节
           </div>
         );
-        {/*preSection = <div className={`left origin disabled`}>上一节</div>*/}
       } else {
         preSection = (
           <div className="psbf-w-pre-btn" onClick={()=>this.goSection(currentIndex-1)}>
             上一节
           </div>
         )
-        // preSection = <div className={`left origin`} onClick={()=>this.goSection(currentIndex-1)}>上一节</div>
       }
 
       if (currentIndex === totalSeries) {
@@ -637,9 +631,6 @@ export class PlanMain extends React.Component <any, any> {
               完成小课
             </div>
           );
-          // lastBtn = (
-          //   <div className={`right disabled`} onClick={()=>this.handleClickUnMinStudy()}>完成小课</div>
-          // )
         } else if (reportStatus === -2) {
           // 没有完成，需要先完成
           lastBtn = (
@@ -647,10 +638,6 @@ export class PlanMain extends React.Component <any, any> {
               完成小课
             </div>
           );
-
-          // lastBtn = (
-          //   <div className={`right disabled`} onClick={()=>this.handleClickUnComplete()}>完成小课</div>
-          // )
         } else if (reportStatus === -1) {
           // 开放时间没完成，不能查看学习报告
           lastBtn = (
@@ -658,10 +645,6 @@ export class PlanMain extends React.Component <any, any> {
               完成小课
             </div>
           );
-          //
-          // lastBtn = (
-          //   <div className={`right disabled`} onClick={()=>this.handleClickUnReport()}>完成小课</div>
-          // )
         } else {
           // 默认去调用一下complete接口
           lastBtn = (
@@ -669,9 +652,6 @@ export class PlanMain extends React.Component <any, any> {
               完成小课
             </div>
           );
-          // lastBtn = (
-          //   <div className={`right`} onClick={()=>this.complete()}>完成小课</div>
-          // )
         }
       } else {
         if (currentIndex !== totalSeries) {
@@ -680,20 +660,12 @@ export class PlanMain extends React.Component <any, any> {
               下一节
             </div>
           );
-          // lastBtn = <div className={`right`} onClick={()=>this.goSection(currentIndex+1)}>下一节</div>;
         }
       }
 
-
-
-      // return (
-      //   <div className="submit-btn-footer">
-      //     {preSection}
-      //     {lastBtn}
-      //   </div>
-      // )
       return (
         <div className="plan-study-btn-footer">
+          <div className="mask"></div>
           <div className="psbf-wrapper">
             <div className="psbf-w-pre-wrapper">
               {preSection}
@@ -744,7 +716,7 @@ export class PlanMain extends React.Component <any, any> {
         // 是会员 未关闭
         return (
           <div className="section">
-            <label>距关闭：</label> {deadline} 天
+            <label>距关闭：</label>{deadline} 天
           </div>
         )
       }
@@ -809,10 +781,10 @@ export class PlanMain extends React.Component <any, any> {
                     <div className="section">
                       <label>已完成:</label> {completeSeries}/{totalSeries}节训练
                     </div>
-                    {renderDeadline(deadline)}
                     <div className="section">
                       <label>总得分:</label> {point} 分
                     </div>
+                    {renderDeadline(deadline)}
                   </div>
                 </div>
                 <div className="function-menu">

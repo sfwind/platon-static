@@ -127,7 +127,7 @@ export default class PlanList extends React.Component<any,any> {
                       已完成：{`${item.completeSeries}/${item.totalSeries}节`}
                     </div>
                     <div className="p-r-b-i-text-close">
-                      距关闭：{item.deadline}
+                      距关闭：{item.deadline}&nbsp;天
                     </div>
                   </div>
                 </div>
