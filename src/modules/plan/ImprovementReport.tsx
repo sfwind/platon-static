@@ -27,7 +27,6 @@ export class ImprovementReport extends React.Component<any, any> {
     const { dispatch } = this.props;
     dispatch(startLoad());
     queryReport(planId).then((res) => {
-      console.log(res)
       dispatch(endLoad());
       if(res.code === 200) {
         this.setState({ planData: res.msg });
