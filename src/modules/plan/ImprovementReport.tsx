@@ -38,15 +38,16 @@ export class ImprovementReport extends React.Component<any, any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
-    loadRecommendations(problemId).then(res => {
-      if(res.code === 200) {
-        this.setState({recommendations: res.msg})
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(e => {
-      dispatch(alertMsg(e))
-    })
+    // 小课推荐测试用，可保留
+    // loadRecommendations(problemId).then(res => {
+    //   if(res.code === 200) {
+    //     this.setState({recommendations: res.msg})
+    //   } else {
+    //     dispatch(alertMsg(res.msg))
+    //   }
+    // }).catch(e => {
+    //   dispatch(alertMsg(e))
+    // })
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
   }
 
@@ -164,11 +165,11 @@ export class ImprovementReport extends React.Component<any, any> {
   }
 
   render() {
-    const { planData = {}, showConfirmModal, recommendations } = this.state;
+    const { planData = {}, showConfirmModal } = this.state;
     const {
       problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
       integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore
+      applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore, recommendations
     } = planData;
 
     const renderRecommendation = () => {

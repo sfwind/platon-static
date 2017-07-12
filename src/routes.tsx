@@ -42,7 +42,6 @@ import BannerArticle from 'modules/problem/BannerArticle'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
 import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
 import ProblemExtension from "./modules/problem/ProblemExtension";
-import CanvasTest from "./modules/test/CanvasTest";
 
 const routes = (
   <Route path="/rise/static" component={Base} onChange={() => {
@@ -94,7 +93,6 @@ const routes = (
       <Route path="center" component={MessageCenter}/>
     </Route>
     <Route path="event/wall" component={EventWall}/>
-    <Route path="/test" component={CanvasTest}/>
   </Route>
 )
 
