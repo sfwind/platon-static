@@ -1,0 +1,70 @@
+@import "../variable";
+
+.answer-container {
+  overflow: scroll;
+  height: ~"calc(100% + 1px)";
+
+  .answer-page {
+    height: 100%;
+    position: relative;
+    padding: 15px 15px 0;
+
+    .answer-head-topic {
+      font-size: 1.6em;
+      color: @color_context;
+    }
+
+    .grey-banner {
+      margin: 0 -15px;
+      background-color: @color_weak_background;
+    }
+
+    .ques-desc {
+      margin-top: 15px;
+
+      .ques-content {
+        margin-top: 20px;
+        color: @color_title;
+        font-size: 1.5em;
+        line-height: 1.5em;
+      }
+    }
+
+    .answer-tips {
+      color: @color_help;
+      background-color: @color_weak_background;
+      margin: 0 -15px;
+      padding: 15px;
+
+      span {
+        font-size: @font_click;
+        line-height: 1.9em;
+        display: block;
+      }
+    }
+
+    .answer-list {
+      height: 100%;
+
+      .answer-desc {
+        border-bottom: 1px solid @color_weak_background;
+        margin: 0 -15px;
+        padding: 15px 15px 30px;
+
+        .answer-content {
+          font-size: 1.4em;
+          line-height: 1.4em;
+          color: @color_title;
+          margin-top: 15px;
+          overflow: hidden;
+        }
+      }
+    }
+
+    .answer-editor {
+      margin-top: 15px;
+      padding-bottom: 120px;
+    }
+
+  }
+}
