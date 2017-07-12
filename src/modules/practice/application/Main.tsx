@@ -131,16 +131,16 @@ export class Main extends React.Component <any, any> {
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING));
         //保存上次未自动保存的草稿
         if(storageDraft){
-          draft = storageDraft.content;
           const storageId = storageDraft.id;
-          if(storageId == this.props.location.query.id){
+          if(storageId == id){
+            draft = storageDraft.content;
             if(!msg.draftId) {
-              const planId = this.state.planId;
-              const applicationId = this.props.location.query.id;
-              autoSaveApplicationDraft(planId, applicationId).then(res => {
-                this.clearStorage();
-                this.setState({ draftId: res.msg });
-                autoUpdateApplicationDraft(res.msg, { draft });
+              autoSaveApplicationDraft(planId, id).then(res => {
+                if( res.code === 200){
+                  this.clearStorage();
+                  this.setState({ draftId: res.msg });
+                  autoUpdateApplicationDraft(res.msg, { draft });
+                }
               })
             } else {
               autoUpdateApplicationDraft(msg.draftId, { draft });
