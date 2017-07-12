@@ -6,6 +6,7 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import Editor from "../../../components/editor/Editor"
 import {merge} from 'lodash'
+import { mark } from "../../../utils/request"
 import AssetImg from "../../../components/AssetImg";
 
 
@@ -38,6 +39,8 @@ export class Main extends React.Component <any, any> {
   }
 
   componentWillMount() {
+    mark({module: "打点", function: "学习", action: "打开小目标页"});
+
     const { dispatch, location } = this.props
     const {state} = location
     if(state)
@@ -48,7 +51,7 @@ export class Main extends React.Component <any, any> {
       }
     }
     dispatch(startLoad())
-    loadChallengePractice(location.query.id).then(res => {
+    loadChallengePractice(location.query.id,location.query.planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
@@ -98,7 +101,7 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if (code === 200) {
         dispatch(startLoad());
-        loadChallengePractice(location.query.id).then(res => {
+        loadChallengePractice(location.query.id,location.query.planId).then(res => {
           dispatch(endLoad());
           const {code, msg} = res
           if (code === 200) {

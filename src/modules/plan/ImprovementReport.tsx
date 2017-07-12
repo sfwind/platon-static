@@ -128,14 +128,7 @@ export class ImprovementReport extends React.Component<any, any> {
   }
 
   goBack() {
-    const { planId } = this.props.location.query;
-    const { planData = {} } = this.state;
-    this.context.router.push({
-      pathname: '/rise/static/learn',
-      query: {
-        planId: planId ? planId : planData.planId
-      }
-    });
+    window.history.back();
   }
 
   nextPlan() {
@@ -148,17 +141,15 @@ export class ImprovementReport extends React.Component<any, any> {
     this.setState({ showConfirmModal: false });
   }
 
+  handleClickClose(){
+    this.context.router.push("/rise/static/learn")
+  }
+
   renderBtns() {
-    const { planData = {}, showConfirmModal } = this.state;
-    const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn
-    } = planData;
     return (
       <div className="button-footer">
-        <div className="left" onClick={this.chooseNew.bind(this)}>选择新小课</div>
-        <div className="right" onClick={this.goBack.bind(this)}>返回本小课</div>
+        <div className="left" onClick={()=>this.handleClickClose()}>关闭</div>
+        <div className="right" onClick={this.goBack.bind(this)}>返回</div>
       </div>
     )
   }
@@ -168,7 +159,7 @@ export class ImprovementReport extends React.Component<any, any> {
     const {
       problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
       integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore, recommendations
+      applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore, recommendations, doneAllApps
     } = planData;
 
     const renderRecommendation = () => {
@@ -204,6 +195,16 @@ export class ImprovementReport extends React.Component<any, any> {
         })
       )
     }
+
+
+
+    const renderTips = () => {
+      if(doneAllApps){
+        return <span>哇哦！你完成了全部的【应用练习】和【综合练习】，这是赤裸裸秒杀99%同学的节奏！</span>;
+      } else {
+        return <span>不要在小课完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
+      }
+    };
 
     return (
       <div className="improvement-report">
@@ -254,12 +255,8 @@ export class ImprovementReport extends React.Component<any, any> {
             <div className="header"><span className="title">推荐学习</span></div>
             {renderRecommendation()}
           </div>
-
-          <div className="tips">
-            不要在小课完成后，就放松对这些知识的学习哦！<br/>
-            你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分~）
-          </div>
-          <div className="padding-footer" style={{ height: '80px' }}/>
+          <div className="tips">{renderTips()}</div>
+          <div className="padding-footer" style={{height:'50px'}}/>
         </div>
         {this.renderBtns()}
       </div>

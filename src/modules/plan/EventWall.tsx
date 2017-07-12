@@ -64,10 +64,6 @@ export class EventWall extends React.Component<any,any>{
     window.location.href=item.destUrl;
   }
 
-  goBanner(id){
-    console.log('click',id);
-  }
-
   renderTabBody(){
     const {liveList,workList,offlineList,areaList,tab} = this.state;
     let tempList = null;

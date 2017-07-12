@@ -46,7 +46,6 @@ export default class UpMind extends React.Component<any,any> {
 
   render() {
     const {showId} = this.props.location.query;
-    console.log(showId, 1, isEqual(Number(showId), 1));
     const {problems } = this.state;
 
     const renderHeader = (showId) => {

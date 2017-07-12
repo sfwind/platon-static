@@ -31,7 +31,6 @@ export default class DropDownList extends React.Component<any,any> {
         defaultValue[i].id = defaultValue[i].id+"";
       }
     }
-    console.log("defaualt:",defaultValue);
 
     return _.merge(options,
       {

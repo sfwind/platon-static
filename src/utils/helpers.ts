@@ -1,6 +1,24 @@
 import * as _ from "lodash"
 // import UA from "ua-device"
 
+export function ron(flag, render, normal) {
+  if(flag) {
+    if(_.isFunction(render)) {
+      return render();
+    } else {
+      return render;
+    }
+  } else {
+    if(_.isFunction(normal)) {
+      return normal();
+    } else if(_.isUndefined(normal)) {
+      return null;
+    } else {
+      return normal;
+    }
+  }
+}
+
 export function isPending(state, key): boolean {
 	return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[key] : false
 }
@@ -83,6 +101,19 @@ export function NumberToChinese(num){
   }
 
   return chnStr;
+}
+
+// 字符串截取方法
+export function splitText(text: string, length: number) {
+  if(text) {
+    let cleanText = removeHtmlTags(text);
+    return cleanText.length <= length ? text : cleanText.slice(0, length) + '...'
+  }
+}
+
+export function removeHtmlTags(str) {
+    str = str.replace(/<[^>]+>/g,"");
+    return str
 }
 
 export function filterHtmlTag(content){

@@ -9,6 +9,7 @@ import { findIndex, remove, isString, truncate, merge } from "lodash";
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
 import {scroll, filterHtmlTag} from "../../../utils/helpers"
+import { mark } from "../../../utils/request"
 
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
@@ -30,6 +31,7 @@ export class Comment extends React.Component<any, any> {
   };
 
   componentWillMount() {
+    mark({module: "打点", function: "学习", action: "打开应用题评论页"});
     const {dispatch, location} = this.props;
     dispatch(startLoad());
     getApplicationPractice(location.query.submitId).then(res => {

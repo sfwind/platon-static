@@ -4,7 +4,7 @@ import "./Profile.less"
 import * as _ from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import DropDownList from  "./components/DropDownList"
-import {pget, ppost} from "utils/request"
+import {pget, ppost, mark} from "utils/request"
 import {changeTitle} from "utils/helpers"
 import { ButtonArea, Button } from "react-weui"
 
@@ -62,6 +62,7 @@ export default class Profile extends React.Component<any,any> {
 
 
   componentWillMount() {
+    mark({module: "打点", function: "个人中心", action: "打开我的信息页面"});
     changeTitle("个人信息");
     const {dispatch,region}= this.props;
     dispatch(startLoad());

@@ -1,7 +1,7 @@
 import * as React from "react"
 import {connect} from "react-redux"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
-import {pget, ppost} from "utils/request"
+import {pget, ppost,mark } from "utils/request"
 import {changeTitle} from "utils/helpers"
 import "./Account.less"
 
@@ -20,6 +20,7 @@ export default class Rise extends React.Component<any,any>{
   }
 
   componentWillMount(){
+    mark({module: "打点", function: "个人中心", action: "打开我的账户页面"});
     changeTitle("我的账户");
     const {dispatch} = this.props;
     dispatch(startLoad());

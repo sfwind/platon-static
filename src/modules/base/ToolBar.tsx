@@ -74,7 +74,7 @@ export class ToolBar extends React.Component<any,any> {
 
   componentWillMount() {
     let tabs = [];
-    if(false){
+    if(window.ENV.showForum !== 'false'){
       tabs.push(tabItems.forum);
       tabs.push(tabItems.activity);
       tabs.push(tabItems.learn);

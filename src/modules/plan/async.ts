@@ -63,3 +63,7 @@ export function queryReport(planId){
 export function loadRecommendations(problemId) {
   return pget(`/rise/plan/improvement/report/recommendation/${problemId}`)
 }
+
+export function loadPlanList(){
+  return pget("/rise/plan/list");
+}

@@ -6,12 +6,12 @@
 module.exports = function init($) {
   $.fn.extend({
     _opt: {
-      placeholader: '<p>请输入文章正文内容</p>',
+      placeholader: '<span id="editor-placeholder">请输入文章正文内容</span>',
       validHtml: [],
       limitSize: 3,
       showServer: false
     },
-    artEditor: function (options) {
+    artEditor: function(options) {
       var _this = this,
         styles = {
           "-webkit-user-select": "text",
@@ -24,24 +24,23 @@ module.exports = function init($) {
       $(this).css(styles).attr("contenteditable", true);
       _this._opt = $.extend(_this._opt, options);
       try {
-        $(_this._opt.imgTar).on('change', function (e) {
+        $(_this._opt.imgTar).on('change', function(e) {
           var file = e.target.files[0];
           e.target.value = '';
-          if (Math.ceil(file.size / 1024 / 1024) > _this._opt.limitSize) {
+          if(Math.ceil(file.size / 1024 / 1024) > _this._opt.limitSize) {
             console.error('文件太大');
             return;
           }
           var reader = new FileReader();
           reader.readAsDataURL(file);
-          reader.onload = function (f) {
+          reader.onload = function(f) {
             var data = f.target.result,
               img = new Image();
             img.src = f.target.result;
-            if (_this._opt.compressSize && Math.ceil(file.size / 1024 / 1024) > _this._opt.compressSize) {
-              console.log("压缩");
+            if(_this._opt.compressSize && Math.ceil(file.size / 1024 / 1024) > _this._opt.compressSize) {
               data = _this.compressHandler(img);
             }
-            if (_this._opt.showServer) {
+            if(_this._opt.showServer) {
               console.log(file);
               _this.upload(file);
               // _this.upload(data);
@@ -53,16 +52,16 @@ module.exports = function init($) {
         });
         _this.placeholderHandler();
         _this.pasteHandler();
-      } catch (e) {
+      } catch(e) {
         console.log(e);
       }
-      if (_this._opt.formInputId && $('#' + _this._opt.formInputId)[0]) {
-        $(_this).on('input', function () {
+      if(_this._opt.formInputId && $('#' + _this._opt.formInputId)[0]) {
+        $(_this).on('input', function() {
           $('#' + _this._opt.formInputId).val(_this.getValue());
         });
       }
     },
-    compressHandler: function (img) {
+    compressHandler: function(img) {
       var canvas = document.createElement("canvas");
       var ctx = canvas.getContext('2d');
       var tCanvas = document.createElement("canvas");
@@ -71,7 +70,7 @@ module.exports = function init($) {
       var width = img.width;
       var height = img.height;
       var ratio;
-      if ((ratio = width * height / 4000000) > 1) {
+      if((ratio = width * height / 4000000) > 1) {
         ratio = Math.sqrt(ratio);
         width /= ratio;
         height /= ratio;
@@ -83,14 +82,14 @@ module.exports = function init($) {
       ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       var count;
-      if ((count = width * height / 1000000) > 1) {
+      if((count = width * height / 1000000) > 1) {
         count = ~~(Math.sqrt(count) + 1);
         var nw = ~~(width / count);
         var nh = ~~(height / count);
         tCanvas.width = nw;
         tCanvas.height = nh;
-        for (var i = 0; i < count; i++) {
-          for (var j = 0; j < count; j++) {
+        for(var i = 0; i < count; i++) {
+          for(var j = 0; j < count; j++) {
             tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
             ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
           }
@@ -102,19 +101,19 @@ module.exports = function init($) {
       tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
       return ndata;
     },
-    upload: function (data) {
+    upload: function(data) {
       var _this = this, filed = _this._opt.uploadField;
       var formData = new FormData();
       formData.append(filed, data);
-      if (_this._opt.data) {
-        for (key in _this._opt.data) {
-          if (_this._opt.data.hasOwnProperty(key)) {
+      if(_this._opt.data) {
+        for(key in _this._opt.data) {
+          if(_this._opt.data.hasOwnProperty(key)) {
             console.log(key, _this._opt.data[key]);
             formData.append(key, _this._opt.data[key]);
           }
         }
       }
-      if(_this._opt.uploadStart){
+      if(_this._opt.uploadStart) {
         _this._opt.uploadStart();
       }
       $.ajax({
@@ -125,25 +124,31 @@ module.exports = function init($) {
         processData: false,
         contentType: false,
         cache: false,
-      }).then(function (res) {
+      }).then(function(res) {
         var src = _this._opt.uploadSuccess(res);
-        console.log('src', src);
-        if (src) {
-          var img = '<img src="' + src + '" style="max-width:90%" />';
+        // 新增 img 节点，赋予默认高度、宽度以及背景头像，并且增加 onload 事件，当图片加载完毕，去除原有高度和宽度
+        if(src) {
+          let randomId = Math.floor(Math.random() * 10);
+          let tempUrl = 'https://static.iqycamp.com/images/imgLoading.png?imageslim'
+          var img = '<img id="' + randomId + '" src="' + src + '" class="editor-img" style="height: 175px; width: 375px; max-width: 90%; display: block; background-image: url(' + tempUrl + '); background-position: center; background-size: cover; margin: 0 auto" />';
           _this.insertImage(img);
+          let node = document.getElementById(randomId)
+          node.addEventListener("load", () => {
+            node.style.height = ''
+            node.style.width = ''
+          })
         } else {
           console.log('地址为空啊!大兄弟', src)
         }
-      }, function (error) {
+      }, function(error) {
         _this._opt.uploadError(error.status, error);
       })
-
     },
-    insertImage: function (src) {
+    insertImage: function(src) {
       $(this).focus();
       var selection = window.getSelection ? window.getSelection() : document.selection;
       var range = selection.createRange ? selection.createRange() : selection.getRangeAt(0);
-      if (!window.getSelection) {
+      if(!window.getSelection) {
         range.pasteHTML(src);
         range.collapse(false);
         range.select();
@@ -151,57 +156,54 @@ module.exports = function init($) {
         range.collapse(false);
         var hasR = range.createContextualFragment(src);
         var hasLastChild = hasR.lastChild;
-        while (hasLastChild && hasLastChild.nodeName.toLowerCase() == "br" && hasLastChild.previousSibling && hasLastChild.previousSibling.nodeName.toLowerCase() == "br") {
+        while(hasLastChild && hasLastChild.nodeName.toLowerCase() == "br" && hasLastChild.previousSibling && hasLastChild.previousSibling.nodeName.toLowerCase() == "br") {
           var e = hasLastChild;
           hasLastChild = hasLastChild.previousSibling;
           hasR.removeChild(e);
         }
         range.insertNode(range.createContextualFragment("<br/>"));
         range.insertNode(hasR);
-        if (hasLastChild) {
+        if(hasLastChild) {
           range.setEndAfter(hasLastChild);
           range.setStartAfter(hasLastChild);
         }
         selection.removeAllRanges();
         selection.addRange(range);
       }
-      if (this._opt.formInputId && $('#' + this._opt.formInputId)[0]) {
+      if(this._opt.formInputId && $('#' + this._opt.formInputId)[0]) {
         $('#' + this._opt.formInputId).val(this.getValue());
       }
     },
-    pasteHandler: function () {
+    pasteHandler: function() {
       var _this = this;
-      $(this).on("paste", function (e) {
+      $(this).on("paste", function(e) {
         var content = $(this).html();
         let valiHTML = _this._opt.validHtml;
         content = content.replace(/_moz_dirty=""/gi, "").replace(/\[/g, "[[-").replace(/\]/g, "-]]").replace(/<\/ ?tr[^>]*>/gi, "[br]").replace(/<\/ ?td[^>]*>/gi, "&nbsp;&nbsp;").replace(/<(ul|dl|ol)[^>]*>/gi, "[br]").replace(/<(li|dd)[^>]*>/gi, "[br]").replace(/<p [^>]*>/gi, "[br]").replace(new RegExp("<(/?(?:" + valiHTML.join("|") + ")[^>]*)>", "gi"), "[$1]").replace(new RegExp('<span([^>]*class="?at"?[^>]*)>', "gi"), "[span$1]").replace(/<[^>]*>/g, "").replace(/\[\[\-/g, "[").replace(/\-\]\]/g, "]").replace(new RegExp("\\[(/?(?:" + valiHTML.join("|") + "|img|span)[^\\]]*)\\]", "gi"), "<$1>");
-        if (!/firefox/.test(navigator.userAgent.toLowerCase())) {
+        if(!/firefox/.test(navigator.userAgent.toLowerCase())) {
           content = content.replace(/\r?\n/gi, "<br>");
         }
         $(this).html(content);
       });
     },
-    placeholderHandler: function () {
+    placeholderHandler: function() {
       var _this = this;
-      $(this).on('focus', function () {
-        if ($.trim($(this).html()) === _this._opt.placeholader) {
-          $(this).html('');
+      $(this).on('focus', function() {
+        if($.trim($(this).html()) === _this._opt.placeholader) {}
+      });
+      $(this).on('blur', function() {
+        if(!$(this).html()) {
+          $(this).html(_this._opt.placeholader);
         }
-      })
-        .on('blur', function () {
-          if (!$(this).html()) {
-            $(this).html(_this._opt.placeholader);
-          }
-        });
-
-      if (!$.trim($(this).html())) {
+      });
+      if(!$.trim($(this).html())) {
         $(this).html(_this._opt.placeholader);
       }
     },
-    getValue: function () {
+    getValue: function() {
       return $(this).html();
     },
-    setValue: function (str) {
+    setValue: function(str) {
       $(this).html(str);
     }
   });

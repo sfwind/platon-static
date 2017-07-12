@@ -12,7 +12,7 @@ export function config(apiList) {
 				hideOptionMenu()
 			})
 			wx.error(function (e) {
-				console.log(e)
+				console.error(e)
 			})
 		} else {
 		}
