@@ -41,7 +41,7 @@ export default class ProblemGallery extends React.Component<any,any>{
 
   goPlanView(item){
     let query = {planId:item.planId}
-    this.context.router.push({pathname:"/rise/static/learn",query})
+    this.context.router.push({pathname:"/rise/static/plan/study",query})
   }
 
   render(){
