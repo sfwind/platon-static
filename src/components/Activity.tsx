@@ -18,10 +18,6 @@ export default class Activity extends React.Component<any, any> {
     }
   }
 
-  componentWillMount() {
-
-  }
-
   activityPage() {
     const { url } = this.state;
     const reg = new RegExp('^http|https');
@@ -36,20 +32,16 @@ export default class Activity extends React.Component<any, any> {
   render() {
     const { pic, show } = this.state;
 
-    // TODO 莫名异常，记得取消注释
     return (
-      <div></div>
+      show ?
+        <div className="activity-modal">
+          <div className="close" onClick={() => this.setState({ show: false })}>
+            <AssetImg type='white_close_btn' size={36}/>
+          </div>
+          <div className="activity-pic" onClick={() => this.activityPage()}>
+            <AssetImg url={pic} width={'100%'}/>
+          </div>
+        </div> : null
     )
-    // return (
-    //     show ?
-    //     <div className="activity-modal">
-    //         <div className="close" onClick={()=>this.setState({show:false})}>
-    //             <AssetImg type='white_close_btn' size={36}/>
-    //         </div>
-    //         <div className="activity-pic" onClick={()=>this.activityPage()}>
-    //             <AssetImg url={pic} width={'100%'}/>
-    //         </div>
-    //     </div>:null
-    // )
   }
 }

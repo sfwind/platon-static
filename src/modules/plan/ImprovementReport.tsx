@@ -301,4 +301,5 @@ class Progress extends React.Component<any, any> {
       </div>
     )
   }
+
 }
