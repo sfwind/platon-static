@@ -135,13 +135,15 @@ export class Main extends React.Component <any, any> {
           if(storageId == id){
             draft = storageDraft.content;
             if(!msg.draftId) {
-              autoSaveApplicationDraft(planId, id).then(res => {
-                if( res.code === 200){
-                  this.clearStorage();
-                  this.setState({ draftId: res.msg });
-                  autoUpdateApplicationDraft(res.msg, { draft });
-                }
-              })
+              if(planId){
+                autoSaveApplicationDraft(planId, id).then(res => {
+                  if( res.code === 200){
+                    this.clearStorage();
+                    this.setState({ draftId: res.msg });
+                    autoUpdateApplicationDraft(res.msg, { draft });
+                  }
+                })
+              }
             } else {
               autoUpdateApplicationDraft(msg.draftId, { draft });
               this.clearStorage();
@@ -223,11 +225,13 @@ export class Main extends React.Component <any, any> {
         if(this.state.draftId === -1) {
           const planId = this.state.planId;
           const applicationId = this.props.location.query.id;
-          autoSaveApplicationDraft(planId, applicationId).then(res => {
-            this.clearStorage();
-            this.setState({ draftId: res.msg });
-            autoUpdateApplicationDraft(res.msg, { draft });
-          })
+          if(planId){
+            autoSaveApplicationDraft(planId, applicationId).then(res => {
+              this.clearStorage();
+              this.setState({ draftId: res.msg });
+              autoUpdateApplicationDraft(res.msg, { draft });
+            })
+          }
         } else {
           autoUpdateApplicationDraft(this.state.draftId, { draft });
           this.clearStorage();
