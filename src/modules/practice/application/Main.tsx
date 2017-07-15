@@ -482,7 +482,7 @@ export class Main extends React.Component <any, any> {
                   />
                 </div> : null}
               {showOthers && !isEmpty(otherList) ? <div>
-                <div className="submit-bar">{'最新文章'}</div>
+                <div className="submit-bar">{'同学的作业'}</div>
                 {renderList(otherList)}</div> : null}
               {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
               {renderEnd()}
