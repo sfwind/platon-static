@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { remove, set, merge,get,findIndex,isBoolean } from "lodash";
+import { remove, set, merge, get, findIndex, isBoolean } from "lodash";
 import "./Main.less";
-import { answer,loadWarmUpAnalysis,getOpenStatus,openConsolidation } from "./async";
+import { answer,getOpenStatus,openConsolidation } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import KnowledgeViewer from "../components/KnowledgeModal";
 import Tutorial from "../../../components/Tutorial"
@@ -19,6 +19,9 @@ const sequenceMap = {
   6: 'G',
 }
 
+const WARMUP_AUTO_SAVING = 'rise_warmup_autosaving';
+
+@connect(state => state)
 export class Main extends React.Component <any, any> {
   constructor() {
     super()
@@ -35,25 +38,27 @@ export class Main extends React.Component <any, any> {
 
 
   componentWillMount() {
-    const {dispatch, location, res} = this.props
-    const {practicePlanId, integrated} = location.query
-    this.setState({integrated})
-    dispatch(endLoad())
-    const {code, msg} = res
+    const {dispatch, location, res} = this.props;
+    const {integrated, practicePlanId} = location.query;
+    this.setState({integrated});
+    dispatch(endLoad());
+    const {code, msg} = res;
+    let list = msg;
     if (code === 200) {
       const {practice} = msg;
+      let currentIndex = 0;
+      let selected = [];
       if (practice) {
-        let idx = findIndex(practice, (item) => {
-          const {choiceList} = item;
-          if (choiceList) {
-            return choiceList.filter(choice => choice.selected).length > 0;
-          } else {
-            return false;
-          }
-        })
-        if (idx === -1) {
-          this.setState({list: msg, practiceCount: msg.practice.length})
+        let storageDraft = JSON.parse(window.localStorage.getItem(WARMUP_AUTO_SAVING));
+        if(storageDraft && storageDraft.id == practicePlanId){
+          const selectedChoices = storageDraft.selectedChoices;
+          selectedChoices.map((choiceSelected, questionIdx)=>{
+            set(list, `practice.${questionIdx}.choice`, choiceSelected);
+          });
+          selected = get(list, `practice.${selectedChoices.length - 1}.choice`);
+          currentIndex = selectedChoices.length - 1;
         }
+        this.setState({list, practiceCount: msg.practice.length, currentIndex, selected});
       }
     } else dispatch(alertMsg(msg));
 
@@ -65,22 +70,39 @@ export class Main extends React.Component <any, any> {
   }
 
   onChoiceSelected(choiceId) {
-    const { list, currentIndex, selected } = this.state
-    let _list = selected
+    const {practicePlanId} = this.props.location.query;
+    const { list, currentIndex, selected } = this.state;
+    let _list = selected;
     if (_list.indexOf(choiceId) > -1) {
-      remove(_list, n => n === choiceId)
+      remove(_list, n => n === choiceId);
     } else {
-      _list.push(choiceId)
+      _list.push(choiceId);
     }
-    this.setState({ selected: _list })
+    // 临时保存到localstorage
+    let storageDraft = JSON.parse(window.localStorage.getItem(WARMUP_AUTO_SAVING));
+    if(storageDraft && storageDraft.id == practicePlanId){
+      let {selectedChoices} = storageDraft;
+      if(selectedChoices.length >= currentIndex+1){
+        selectedChoices[currentIndex] = _list;
+      }else{
+        selectedChoices.push(_list);
+      }
+      console.log(selectedChoices);
+    } else {
+      // 初始化
+      storageDraft = {id:practicePlanId, selectedChoices: [_list]};
+      console.log(storageDraft);
+    }
+    window.localStorage.setItem(WARMUP_AUTO_SAVING, JSON.stringify(storageDraft));
+    this.setState({ selected: _list });
   }
 
   setChoice(cb) {
-    let { list, currentIndex, selected } = this.state
-    set(list, `practice.${currentIndex}.choice`, selected)
-    this.setState({ list })
+    let { list, currentIndex, selected } = this.state;
+    set(list, `practice.${currentIndex}.choice`, selected);
+    this.setState({ list });
     if (cb) {
-      cb(list.practice)
+      cb(list.practice);
     }
   }
 
@@ -113,11 +135,11 @@ export class Main extends React.Component <any, any> {
   }
 
   onSubmit() {
-    const { dispatch } = this.props
-    const { selected, practice, currentIndex, practiceCount } = this.state
-    const { practicePlanId } = this.props.location.query
+    const { dispatch } = this.props;
+    const { selected, practice, currentIndex, practiceCount } = this.state;
+    const { practicePlanId } = this.props.location.query;
     if (selected.length === 0) {
-      dispatch(alertMsg("你还没有选择答案哦"))
+      dispatch(alertMsg("你还没有选择答案哦"));
       return
     }
     if (currentIndex === practiceCount - 1) {
@@ -125,8 +147,9 @@ export class Main extends React.Component <any, any> {
         dispatch(startLoad());
         answer({ practice: p }, practicePlanId).then(res => {
           dispatch(endLoad());
-          const { code, msg } = res
+          const { code, msg } = res;
           if (code === 200) {
+            this.clearStorage();
             this.props.router.push({
               pathname: '/rise/static/practice/warmup/result',
               query: merge(msg, this.props.location.query)
@@ -157,6 +180,10 @@ export class Main extends React.Component <any, any> {
         dispatch(alertMsg(msg))
       }
     })
+  }
+
+  clearStorage(){
+    window.localStorage.removeItem(WARMUP_AUTO_SAVING);
   }
 
   render() {
