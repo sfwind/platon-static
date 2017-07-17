@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./PlanMain.less";
 import {
   loadPlan, completePlan, updateOpenRise, markPlan,
-  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan
+  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard
 } from "./async";
 import { startLoad, endLoad, alertMsg, set } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
@@ -127,6 +127,72 @@ export class PlanMain extends React.Component <any, any> {
     })
   }
 
+  componentWillMount(newProps) {
+    this.resize();
+    const { dispatch, location } = this.props
+    let { planId } = location.query
+    if(newProps) {
+      planId = newProps.location.query.planId
+    }
+    dispatch(startLoad())
+    loadPlan(planId).then(res => {
+      dispatch(endLoad())
+      let { code, msg } = res
+      if(code === 200) {
+        if(msg !== null) {
+          this.setState({
+            planData: msg,
+            currentIndex: msg.currentSeries,
+            selectProblem: msg.problem,
+            mustStudyDays: msg.mustStudyDays
+          });
+          //@Deprecated
+          //从微信菜单按钮进入且已过期，弹出选新小课弹窗
+          // if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
+          //    this.setState({expired:true})
+          // }
+        } else {
+          // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
+          // if(location.pathname === '/rise/static/learn') {
+          this.setState({
+            showEmptyPage: true
+          })
+          // } else {
+          //   this.context.router.push({
+          //     pathname: '/rise/static/welcome'
+          //   })
+          // }
+        }
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    }).then(() => {
+      this.riseMemberCheck()
+    }).then(() => {
+      let completePracticePlanId = this.props.CompletePracticePlanId
+      console.log('completePracticePlanId', completePracticePlanId)
+      // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
+      if(completePracticePlanId) {
+        // TODO 待画图
+        loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
+          dispatch(set("CompletePracticePlanId", undefined))
+          console.log('chapterCard', res)
+          if(res.code === 200) {
+
+          }
+        })
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+    if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
+      this.setState({ windowsClient: true })
+    } else {
+      this.setState({ windowsClient: false })
+    }
+  }
+
   componentDidMount() {
     window.addEventListener('resize', this.resize.bind(this));
     mark({ module: "打点", function: "首页", action: "打开学习页面" })
@@ -166,57 +232,6 @@ export class PlanMain extends React.Component <any, any> {
         dispatch(alertMsg(res.msg));
       }
     });
-  }
-
-  componentWillMount(newProps) {
-    this.resize();
-    const { dispatch, location } = this.props
-
-    let { planId } = location.query
-    if(newProps) {
-      planId = newProps.location.query.planId
-    }
-    dispatch(startLoad())
-    loadPlan(planId).then(res => {
-      dispatch(endLoad())
-      let { code, msg } = res
-      if(code === 200) {
-        if(msg !== null) {
-          this.setState({
-            planData: msg,
-            currentIndex: msg.currentSeries,
-            selectProblem: msg.problem,
-            mustStudyDays: msg.mustStudyDays
-          });
-          //@Deprecated
-          //从微信菜单按钮进入且已过期，弹出选新小课弹窗
-          // if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
-          //    this.setState({expired:true})
-          // }
-        } else {
-          // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
-          // if(location.pathname === '/rise/static/learn') {
-          this.setState({
-            showEmptyPage: true
-          })
-          // } else {
-          //   this.context.router.push({
-          //     pathname: '/rise/static/welcome'
-          //   })
-          // }
-        }
-      }
-      else dispatch(alertMsg(msg))
-    }).then(() => this.riseMemberCheck()).catch(ex => {
-        dispatch(endLoad())
-        dispatch(alertMsg(ex))
-      }
-    )
-    if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
-      this.setState({ windowsClient: true })
-    } else {
-      this.setState({ windowsClient: false })
-    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -397,6 +412,11 @@ export class PlanMain extends React.Component <any, any> {
     this.context.router.push({ pathname: '/rise/static/problem/view', query: { id: problemId, show: true } });
   }
 
+  goCardsCollection(problemId) {
+    mark({ module: "打点", function: "首页", action: "打开小课卡包", memo: problemId });
+    this.context.router.push({ pathname: '/rise/static/problem/cards', query: { probelmid: problemId } })
+  }
+
   goReport() {
     const { planData = {} } = this.state;
     const { status, reportStatus } = planData;
@@ -504,7 +524,7 @@ export class PlanMain extends React.Component <any, any> {
     } = this.state
     const { location } = this.props
     const {
-      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus
+      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus, free
     } = planData
 
     const practiceRender = (list = []) => {
@@ -839,14 +859,29 @@ export class PlanMain extends React.Component <any, any> {
                   </div>
                 </div>
                 <div className="function-menu">
-                  <div className="left" onClick={() => this.problemReview(problem.id)}>
+                  <div className="menu" onClick={() => this.problemReview(problem.id)}>
                     <span className="problem_detail"><AssetImg type="problem_detail" height={12} width={14}/></span>
                     <span>小课介绍</span>
                   </div>
-                  <div className="right" onClick={() => this.essenceShare(problem.id, currentIndex)}>
-                    <span className="essence"><AssetImg
-                      url="https://static.iqycamp.com/images/problem/extension_icon_main.png" height={15}
-                      width={15}/></span>
+                  <div className="menu-split-line"/>
+                  <div className="menu" onClick={() => this.goCardsCollection(problem.id)}>
+                    <span className="problem_detail">
+                      <AssetImg size={15}
+                                url={
+                                  free ?
+                                    "https://static.iqycamp.com/images/fragment/free_limit_gift.png?imageslim" :
+                                    "https://static.iqycamp.com/images/fragment/free_limit_package.png?imageslim"
+                                }/>
+                    </span>
+                    <span>小课卡包</span>
+                  </div>
+                  <div className="menu-split-line"/>
+                  <div className="menu" onClick={() => this.essenceShare(problem.id, currentIndex)}>
+                    <span className="problem_detail">
+                      <AssetImg
+                        url="https://static.iqycamp.com/images/problem/extension_icon_main.png?imageslim" height={15}
+                        width={15}/>
+                    </span>
                     <span>延伸学习</span>
                   </div>
                 </div>

@@ -40,9 +40,10 @@ export class Welcome extends React.Component <any, any> {
       dispatch(endLoad());
       if(res.code === 200){
         if(res.msg){
-          this.context.router.push({
-            pathname: '/rise/static/problem/explore'
-          })
+          // TODO 临时注释，测试防止跳转
+          // this.context.router.push({
+          //   pathname: '/rise/static/problem/explore'
+          // })
         }
       }
     }).catch(ex=>{
