@@ -175,7 +175,7 @@ export class ImprovementReport extends React.Component<any, any> {
                   return (
                     <div className="recommend-problem" key="idx">
                       <div className="problem-img">
-                        <AssetImg url={problem.pic} width={100} height={63}/>
+                        <AssetImg url={problem.pic} height={63}/>
                       </div>
                       <div className="problem-problem">{problem.problem}</div>
                       <div className="problem-view"
