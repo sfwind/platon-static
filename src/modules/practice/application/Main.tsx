@@ -365,7 +365,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { data, otherList, otherHighlightList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated, loading } = this.state
+    const { data, otherList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated, loading } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus } = data
 
     const renderList = (list) => {
@@ -437,8 +437,7 @@ export class Main extends React.Component <any, any> {
             <div className="intro-container">
               <div className="context-img">
                 <AssetImg
-                  url={integrated == 'false' ? 'https://static.iqycamp.com/images/fragment/application_practice_2.png' : 'https://static.iqycamp.com/images/fragment/integrated_practice.png'}
-                  alt=""/>
+                  url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>
               </div>
               <div className="application-context">
                 <div className="section1">

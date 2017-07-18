@@ -254,25 +254,39 @@ export class PlanMain extends React.Component <any, any> {
             query: { id: item.practiceIdList[0], practicePlanId, currentIndex ,planId, complete}
           }):null;
     } else if (type === 31) {
-        learnKnowledge(practicePlanId).then(res => {
-            const {code, msg} = res
-            if (code === 200) {
-                this.context ? this.context.router.push({
-                        pathname: '/rise/static/practice/knowledge',
-                        query: {practicePlanId, currentIndex, planId, complete}
-                    }) : null;
-            }
-        })
+        if(!complete){
+            learnKnowledge(practicePlanId).then(res => {
+                const {code, msg} = res
+                if (code === 200) {
+                    this.context ? this.context.router.push({
+                            pathname: '/rise/static/practice/knowledge',
+                            query: {practicePlanId, currentIndex, planId, complete}
+                        }) : null;
+                }
+            })
+        } else {
+            this.context ? this.context.router.push({
+                    pathname: '/rise/static/practice/knowledge',
+                    query: {practicePlanId, currentIndex, planId, complete}
+                }) : null;
+        }
     } else if (type === 32) {
-        learnKnowledge(practicePlanId).then(res => {
-            const {code, msg} = res
-            if (code === 200) {
-                this.context ? this.context.router.push({
-                        pathname: '/rise/static/practice/knowledge/review',
-                        query: {problemId, planId, currentIndex, practicePlanId, complete}
-                    }) : null;
-            }
-        })
+        if(!complete) {
+            learnKnowledge(practicePlanId).then(res => {
+                const {code, msg} = res
+                if (code === 200) {
+                    this.context ? this.context.router.push({
+                            pathname: '/rise/static/practice/knowledge/review',
+                            query: {problemId, planId, currentIndex, practicePlanId, complete}
+                        }) : null;
+                }
+            })
+        } else {
+            this.context ? this.context.router.push({
+                    pathname: '/rise/static/practice/knowledge/review',
+                    query: {problemId, planId, currentIndex, practicePlanId, complete}
+                }) : null;
+        }
     }
   }
 
