@@ -145,7 +145,7 @@ export default class Profile extends React.Component<any,any> {
           if (res.code === 200) {
             //从rise付款页跳转过来的，填完个人信息后引导去学习页面
             if(location.query.goRise){
-              this.context.router.push('/rise/static/learn')
+              this.context.router.push({pathname:'/rise/static/customer/mobile/check',query:{goRise:true}})
             }else{
               dispatch(alertMsg("提交成功"));
               this.setState({isFull: true});

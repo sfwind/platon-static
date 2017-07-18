@@ -210,7 +210,9 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     afterPayDone(productId).then(res => {
       dispatch(endLoad())
       if (res.code === 200) {
-        this.context.router.push('/pay/risemember/success');
+        this.context.router.push({pathname:'/rise/static/customer/profile',query:{
+          goRise:true
+        }});
       } else {
         dispatch(alertMsg(res.msg))
       }

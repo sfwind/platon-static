@@ -76,7 +76,7 @@ export default class MobileBind extends React.Component<any,any>{
 
     onSubmit(){
         const {code} = this.state;
-        const {dispatch} = this.props;
+        const {dispatch,location} = this.props;
         if(!code){
             dispatch(alertMsg('请输入验证码'));
             return;
@@ -87,7 +87,11 @@ export default class MobileBind extends React.Component<any,any>{
             }else{
                 this.setState({show:true});
                 setTimeout(()=>{
+                  if(location.query.goRise){
+                    this.context.router.push('/rise/static/learn');
+                  } else {
                     this.context.router.push('/rise/static/customer/account');
+                  }
                 }, 2100);
             }
         })
