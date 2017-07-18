@@ -12,13 +12,18 @@ export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }
 
+export function openProblemIntroduction(id){
+  return pget(`/rise/problem/open/${id}`)
+}
+
 export function createPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
 
-export function checkCreatePlan(problemId) {
-  return ppost(`/rise/plan/choose/problem/check/${problemId}`)
+export function checkCreatePlan(problemId,type) {
+  return ppost(`/rise/plan/choose/problem/check/${problemId}/${type}`)
 }
+
 
 export function welcome() {
   return pget(`/rise/plan/welcome`)
@@ -38,4 +43,18 @@ export function loadCatalog(catalogId) {
 // 获取小课扩展相关数据
 export function loadProblemExtension(problemId) {
   return pget(`/rise/problem/extension/${problemId}`)
+}
+
+export function calculateCoupon(couponId,problemId){
+  return ppost(`/signup/coupon/course/calculate`, {couponId: couponId, problemId: problemId})
+}
+
+export function loadUserCoupons(){
+  return ppost(`/signup/coupon/list`);
+  // return Promise.resolve({code:200,msg:[]});
+}
+
+export function loadPayParam(param){
+  // return Promise.resolve({code:200,msg:{fee:200, free:false, signParams:{}, productId:'ff'}})
+  return ppost('/signup/rise/course/pay', param);
 }

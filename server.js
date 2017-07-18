@@ -25,6 +25,19 @@ var serverConfig = {
 // 所有的配置 https://github.com/nodejitsu/node-http-proxy#options
 if (Boolean(PROXY)) {
   serverConfig.proxy = {
+    "/rise/*": (function() {
+      var config = {
+        target: 'http://0.0.0.0:8081/',
+        secure: false,
+        bypass: function(req) {
+          if (req.headers.accept && req.headers.accept.indexOf("html") !== -1) {
+            console.log(chalk.cyan("Bypass the proxy - " + req.headers.accept));
+            return "/index.html";
+          }
+        }
+      }
+      return config
+    })(),
     "/": (function() {
         var config = {
           target: PROXY,
