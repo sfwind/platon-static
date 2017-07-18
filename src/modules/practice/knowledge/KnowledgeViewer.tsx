@@ -63,7 +63,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
       })
 
       if (complete == 'false') {
-        console.log(practicePlanId);
         dispatch(set('completePracticePlanId', practicePlanId));
       }
     }else if(id){
@@ -172,18 +171,18 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
 
   complete() {
-    const {dispatch, location} = this.props
-    learnKnowledge(location.query.practicePlanId).then(res => {
-      const {code, msg} = res
-      if (code === 200) {
-        window.history.back();
-        // this.context.router.push({pathname: '/rise/static/learn', query: this.props.location.query})
-      }
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    const {dispatch, location} = this.props;
+    window.history.back();
+    // learnKnowledge(location.query.practicePlanId).then(res => {
+    //   const {code, msg} = res
+    //   if (code === 200) {
+    //     window.history.back();
+    //   }
+    //   else dispatch(alertMsg(msg))
+    // }).catch(ex => {
+    //   dispatch(endLoad())
+    //   dispatch(alertMsg(ex))
+    // })
   }
 
   render() {

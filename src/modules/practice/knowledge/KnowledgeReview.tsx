@@ -27,7 +27,6 @@ export class KnowledgeReview extends React.Component<any,any>{
     const {id,practicePlanId,complete} = location.query;
     dispatch(startLoad());
     if (complete == 'false') {
-      console.log(practicePlanId);
       dispatch(set('completePracticePlanId', practicePlanId));
     }
     loadProblem(location.query.problemId).then(res=>{
