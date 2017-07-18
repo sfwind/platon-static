@@ -1,9 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { remove, set, merge, get, findIndex, isBoolean } from "lodash";
+import _ from "lodash";
 import "./Main.less";
 import { answer,getOpenStatus,openConsolidation } from "./async";
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import KnowledgeViewer from "../components/KnowledgeModal";
 import Tutorial from "../../../components/Tutorial"
 import AssetImg from "../../../components/AssetImg";
@@ -53,9 +53,9 @@ export class Main extends React.Component <any, any> {
         if(storageDraft && storageDraft.id == practicePlanId){
           const selectedChoices = storageDraft.selectedChoices;
           selectedChoices.map((choiceSelected, questionIdx)=>{
-            set(list, `practice.${questionIdx}.choice`, choiceSelected);
+            _.set(list, `practice.${questionIdx}.choice`, choiceSelected);
           });
-          selected = get(list, `practice.${selectedChoices.length - 1}.choice`);
+          selected = _.get(list, `practice.${selectedChoices.length - 1}.choice`);
           currentIndex = selectedChoices.length - 1;
         }
         this.setState({list, practiceCount: msg.practice.length, currentIndex, selected});
@@ -74,7 +74,7 @@ export class Main extends React.Component <any, any> {
     const { list, currentIndex, selected } = this.state;
     let _list = selected;
     if (_list.indexOf(choiceId) > -1) {
-      remove(_list, n => n === choiceId);
+      _.remove(_list, n => n === choiceId);
     } else {
       _list.push(choiceId);
     }
@@ -87,11 +87,9 @@ export class Main extends React.Component <any, any> {
       }else{
         selectedChoices.push(_list);
       }
-      console.log(selectedChoices);
     } else {
       // 初始化
       storageDraft = {id:practicePlanId, selectedChoices: [_list]};
-      console.log(storageDraft);
     }
     window.localStorage.setItem(WARMUP_AUTO_SAVING, JSON.stringify(storageDraft));
     this.setState({ selected: _list });
@@ -99,7 +97,7 @@ export class Main extends React.Component <any, any> {
 
   setChoice(cb) {
     let { list, currentIndex, selected } = this.state;
-    set(list, `practice.${currentIndex}.choice`, selected);
+    _.set(list, `practice.${currentIndex}.choice`, selected);
     this.setState({ list });
     if (cb) {
       cb(list.practice);
@@ -149,10 +147,11 @@ export class Main extends React.Component <any, any> {
           dispatch(endLoad());
           const { code, msg } = res;
           if (code === 200) {
+            dispatch(set('completePracticePlanId', practicePlanId));
             this.clearStorage();
             this.props.router.push({
               pathname: '/rise/static/practice/warmup/result',
-              query: merge(msg, this.props.location.query)
+              query: _.merge(msg, this.props.location.query)
             })
           } else {
             dispatch(alertMsg(msg))
@@ -175,7 +174,7 @@ export class Main extends React.Component <any, any> {
     openConsolidation().then(res => {
       const {code,msg} = res
       if(code === 200){
-        this.setState({openStatus:merge({},openStatus,{openConsolidation:true})})
+        this.setState({openStatus:_.merge({},openStatus,{openConsolidation:true})})
       } else {
         dispatch(alertMsg(msg))
       }
@@ -246,7 +245,7 @@ export class Main extends React.Component <any, any> {
             </div>
           </div>
         }
-        <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']} show={isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation} onShowEnd={()=>this.tutorialEnd()}/>
+        <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']} show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation} onShowEnd={()=>this.tutorialEnd()}/>
       </div>
     )
   }

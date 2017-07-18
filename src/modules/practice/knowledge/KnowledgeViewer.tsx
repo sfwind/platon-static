@@ -7,7 +7,7 @@ import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledg
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
 import _ from "lodash"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import {scroll} from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
 
@@ -42,7 +42,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
   componentWillMount(){
     mark({module: "打点", function: "学习", action: "打开知识点页面"});
-    const {id,practicePlanId} = this.props.location.query
+    const {id,practicePlanId,complete} = this.props.location.query
     const {dispatch} = this.props
     dispatch(startLoad())
     if(practicePlanId){
@@ -61,6 +61,11 @@ export class KnowledgeViewer extends React.Component<any, any> {
           dispatch(alertMsg(res.msg))
         }
       })
+
+      if (complete == 'false') {
+        console.log(practicePlanId);
+        dispatch(set('completePracticePlanId', practicePlanId));
+      }
     }else if(id){
       loadKnowledge(id).then(res=>{
         if(res.code === 200){

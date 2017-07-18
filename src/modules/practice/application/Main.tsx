@@ -316,19 +316,22 @@ export class Main extends React.Component <any, any> {
   }
 
   onSubmit() {
-    const { dispatch, location } = this.props
-    const { data, planId } = this.state
+    const { dispatch, location } = this.props;
+    const { data, planId } = this.state;
     const answer = this.refs.editor.getValue();
-    const { submitId } = data
+    const { complete, practicePlanId } = location.query;
     if(answer == null || answer.length === 0) {
-      dispatch(alertMsg('请填写作业'))
+      dispatch(alertMsg('请填写作业'));
       return
     }
-    this.setState({ showDisable: true })
+    this.setState({ showDisable: true });
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
+      dispatch(endLoad());
+      const { code, msg } = res;
       if(code === 200) {
+        if (complete == 'false') {
+          dispatch(set('completePracticePlanId', practicePlanId));
+        }
         dispatch(startLoad());
         loadApplicationPractice(location.query.id, planId).then(res => {
           dispatch(endLoad())
@@ -344,19 +347,19 @@ export class Main extends React.Component <any, any> {
           }
           else dispatch(alertMsg(msg))
         }).catch(ex => {
-          dispatch(endLoad())
+          dispatch(endLoad());
           dispatch(alertMsg(ex))
         })
         this.setState({ showDisable: false })
       }
 
       else {
-        dispatch(alertMsg(msg))
+        dispatch(alertMsg(msg));
         this.setState({ showDisable: false })
       }
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
       this.setState({ showDisable: false })
     })
   }

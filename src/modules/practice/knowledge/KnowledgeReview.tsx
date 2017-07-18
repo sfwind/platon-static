@@ -24,16 +24,21 @@ export class KnowledgeReview extends React.Component<any,any>{
   componentWillMount(){
     mark({module: "打点", function: "学习", action: "打开知识点回顾页面"});
     const {dispatch,location} = this.props;
-    dispatch(startLoad())
+    const {id,practicePlanId,complete} = location.query;
+    dispatch(startLoad());
+    if (complete == 'false') {
+      console.log(practicePlanId);
+      dispatch(set('completePracticePlanId', practicePlanId));
+    }
     loadProblem(location.query.problemId).then(res=>{
-      const {code, msg} = res
+      const {code, msg} = res;
       if (code === 200) {
-        dispatch(endLoad())
+        dispatch(endLoad());
         this.setState({ data: msg})
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
-      dispatch(endLoad())
+      dispatch(endLoad());
       dispatch(alertMsg(ex))
     })
   }

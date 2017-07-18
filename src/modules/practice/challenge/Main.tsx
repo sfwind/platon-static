@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
 import { loadChallengePractice,submitChallengePractice } from "./async";
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import Editor from "../../../components/editor/Editor"
 import {merge} from 'lodash'
@@ -21,7 +21,6 @@ export class Main extends React.Component <any, any> {
       page:1,
       otherList:[],
       opacity:0,
-      goBackUrl: '',
       edit:true,
     }
     this.pullElement=null;
@@ -42,14 +41,6 @@ export class Main extends React.Component <any, any> {
     mark({module: "打点", function: "学习", action: "打开小目标页"});
 
     const { dispatch, location } = this.props
-    const {state} = location
-    if(state)
-    {
-      const {goBackUrl} = state
-      if (goBackUrl) {
-        this.setState({goBackUrl})
-      }
-    }
     dispatch(startLoad())
     loadChallengePractice(location.query.id,location.query.planId).then(res => {
       dispatch(endLoad())
@@ -69,41 +60,35 @@ export class Main extends React.Component <any, any> {
   }
 
   onEdit() {
-    // const { location } = this.props
-    // const { goBackUrl } = this.state
-    // this.context.router.push({
-    //   pathname: '/rise/static/practice/challenge/submit',
-    //   query: { id: location.query.id, series: location.query.series},
-    //   state: {goBackUrl}
-    // })
     this.setState({edit:true})
   }
 
   goComment(submitId){
-    const { goBackUrl } = this.state
     this.context.router.push({pathname:"/rise/static/practice/challenge/comment",
-      query:merge({submitId:submitId},this.props.location.query),
-      state: {goBackUrl}})
+      query:merge({submitId:submitId},this.props.location.query)})
   }
 
 
   onSubmit(){
-    const { dispatch, location} = this.props
-    const { data,planId } = this.state
+    const { dispatch, location} = this.props;
+    const { data,planId } = this.state;
+    const { complete, practicePlanId } = location.query;
     const answer = this.refs.editor.getValue();
-    const { submitId } = data
     if(answer == null || answer.length === 0){
-      dispatch(alertMsg('请填写作业'))
+      dispatch(alertMsg('请填写作业'));
       return
     }
-    this.setState({showDisable: true})
+    this.setState({showDisable: true});
     submitChallengePractice(planId,location.query.id, {answer}).then(res => {
-      const { code, msg } = res
+      const { code, msg } = res;
       if (code === 200) {
         dispatch(startLoad());
+        if (complete == 'false') {
+          dispatch(set('completePracticePlanId', practicePlanId));
+        }
         loadChallengePractice(location.query.id,location.query.planId).then(res => {
           dispatch(endLoad());
-          const {code, msg} = res
+          const {code, msg} = res;
           if (code === 200) {
             this.setState({data: msg, submitId: msg.submitId, planId: msg.planId, edit: false})
           }
@@ -112,12 +97,12 @@ export class Main extends React.Component <any, any> {
         this.setState({showDisable: false})
       }
       else {
-        dispatch(alertMsg(msg))
+        dispatch(alertMsg(msg));
         this.setState({showDisable: false})
       }
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
       this.setState({showDisable: false})
     })
   }
