@@ -78,14 +78,16 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             data: problemMsg.problem,
             buttonStatus: problemMsg.buttonStatus,
             coupons: msg,
-            fee: problemMsg.fee
+            fee: problemMsg.fee,
+            currentPlanId:problemMsg.planId,
           });
         } else {
           this.setState({
             data: problemMsg.problem,
             buttonStatus: problemMsg.buttonStatus,
             coupons: [],
-            fee: problemMsg.fee
+            fee: problemMsg.fee,
+            currentPlanId:problemMsg.planId,
           });
           dispatch(alertMsg(msg));
         }
@@ -123,7 +125,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/learn'});
+        this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
       } else {
         dispatch(alertMsg(msg))
       }
@@ -144,7 +146,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
    * 确认去完成小课，跳过去
    */
   handleClickConfirm() {
-    this.context.router.push({pathname: '/rise/static/learn'});
+    const { currentPlanId } = this.state;
+    this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:currentPlanId}});
   }
 
   /**
@@ -347,6 +350,24 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     })
   }
 
+  handleClickPayMember(){
+    window.location.href=`https://${window.location.hostname}/pay/pay`
+  }
+  handleClickGoReview(){
+    const { currentPlanId } = this.state;
+    this.context.router.push({pathname: '/rise/static/learn',query:{completedPlanId:currentPlanId}});
+  }
+  handleClickGoStudy(){
+    const { currentPlanId } = this.state;
+    this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:currentPlanId}});
+    // const {location} = this.props;
+    // const {id} = location.query;
+    // this.context.router.push({
+    //   pathname:'/rise/static/plan/study',
+    //   query:{planId:id}
+    // })
+  }
+
 
   render() {
     const {data = {}, buttonStatus, showPayInfo, final, fee, coupons} = this.state;
@@ -454,7 +475,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             }
             case 5: {
               list.push(
-                <div className="button-footer" onClick={()=>this.handleClickShow()}>
+                <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
                   限时免费，立即开始学习
                 </div>
               );

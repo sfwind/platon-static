@@ -6,6 +6,7 @@ import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {loadProblem, createPlan, checkCreatePlan} from "./async";
 import AssetImg from "../../components/AssetImg";
 import {ToolBar} from "../base/ToolBar"
+import * as $ from "jquery";
 
 
 /**
@@ -31,8 +32,9 @@ export default class PlanList extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    const { dispatch,location } = this.props;
     dispatch(startLoad());
+    const {runningPlanId,completedPlanId} = location.query;
     loadPlanList().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
@@ -50,7 +52,25 @@ export default class PlanList extends React.Component<any,any> {
             return;
           }
         }
-        this.setState({planList:res.msg,showEmptyPage:showEmptyPage});
+        this.setState({planList:res.msg,showEmptyPage:showEmptyPage},()=>{
+          // 第一次选课动画效果
+          if(runningPlanId){
+            let planDom = document.querySelector(`#problem-${runningPlanId}`);
+            if(planDom){
+              planDom.style.cssText = `transform:translateY(-${planDom.offsetTop + planDom.offsetHeight}px)`;
+              setTimeout(()=>{
+                planDom.style.cssText = "";
+              },0);
+            }
+          }
+          if(completedPlanId){
+            let planDom = document.querySelector(`#problem-${completedPlanId}`);
+            if(planDom) {
+              let box = document.querySelector('.plan-list-page');
+              box.scrollTop = planDom.offsetTop;
+            }
+          }
+        });
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -77,22 +97,8 @@ export default class PlanList extends React.Component<any,any> {
   render() {
     const { planList={},showEmptyPage } = this.state;
     const { completedPlans = [],runningPlans =[]} = planList;
-
-
-    const renderCompletedPlans = () => {
-      if(completedPlans){
-        return completedPlans.map((plan, key) => {
-
-          return (
-            <div className={`p-c-block ${key === 0 ?'first':''}`} key={key}>
-            </div>
-          );
-        });
-      } else {
-        return null;
-      }
-    };
-
+    const { location } = this.props;
+    const { runningPlanId,completedPlanId } = location.query;
     const renderDeadline = (deadline) => {
       if(deadline <0 ){
         return null;
@@ -127,8 +133,18 @@ export default class PlanList extends React.Component<any,any> {
               :
               runningPlans.map((item,key) => {
                 const { problem } = item;
+                let style = {};
+                if(runningPlanId==item.id){
+                  style = {
+                    transform:`translateY(${-window.innerHeight}px)`
+                  }
+                } else {
+                  style = {
+                    transform:'0'
+                  }
+                }
                 return (
-                  <div className={`p-r-block ${key === 0 ?'first':''} ${key === runningPlans.length - 1 ?'last':''}`} key={key} onClick={()=>this.handleClickPlan(item)}>
+                  <div id={`problem-${item.id}`} style={style} className={`p-r-block ${key === 0 ?'first':''} ${key === runningPlans.length - 1 ?'last':''}`} key={key} onClick={()=>this.handleClickPlan(item)}>
                     <div className="p-r-b-item">
                       <div className="p-r-b-i-pic" style={{width:`${this.runPicWidth}px`}}>
                         <img className="p-r-b-i-pic-img" src={`${problem.pic}`}/>
@@ -163,7 +179,7 @@ export default class PlanList extends React.Component<any,any> {
                   { completedPlans.map((plan,key)=>{
                     const { problem } = plan;
                     return (
-                      <div className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
+                      <div id={`problem-${plan.id}`} className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
                         <div className={`p-c-c-r-b-icon`}>
                           <div className={`gap ${key === 0 ? 'first':''}`} />
                           <div className={`tick  ${key === 0 ? 'first':''}`}/>
