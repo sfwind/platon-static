@@ -17,6 +17,10 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     }
   }
 
+  componentWillMount() {
+
+  }
+
   handleClickCard() {
     const { showCard } = this.state
     this.setState({ showCard: !showCard })
@@ -45,6 +49,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       <div className="cards-container">
         <div className={`cards-page ${showCard ? 'blur' : ''}`}>
           <div className="cards-header">找到本质问题，减少无效努力</div>
+          <div className="cards-call" style={{height: 0.366 * window.innerWidth}}/>
           <div className="cards-box">
             <Card lock={false} img={''} chapter={0} knowledge={'以梦为马'}
                   id="card1"

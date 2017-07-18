@@ -2,7 +2,7 @@ import * as React from "react";
 import { config } from "modules/helpers/JsConfig"
 import { Route } from "react-router";
 import Base from "modules/base/Base";
-import { Welcome } from "modules/problem/Welcome";
+import Welcome from "modules/problem/Welcome";
 import { PlanMain } from "modules/plan/PlanMain";
 import { KnowledgeViewer } from "modules/practice/knowledge/KnowledgeViewer";
 import { Result as WarmUpResult } from "modules/practice/warmup/Result";
