@@ -50,11 +50,15 @@ export function calculateCoupon(couponId,problemId){
 }
 
 export function loadUserCoupons(){
-  return ppost(`/signup/coupon/list`);
+  return pget(`/signup/coupon/list`);
   // return Promise.resolve({code:200,msg:[]});
 }
 
 export function loadPayParam(param){
   // return Promise.resolve({code:200,msg:{fee:200, free:false, signParams:{}, productId:'ff'}})
   return ppost('/signup/rise/course/pay', param);
+}
+
+export function afterPayDone(productId){
+  return ppost(`/signup/paid/rise/${productId}`);
 }

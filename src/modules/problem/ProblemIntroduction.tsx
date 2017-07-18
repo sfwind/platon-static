@@ -5,11 +5,12 @@ import Audio from "../../components/Audio";
 import AssetImg from "../../components/AssetImg";
 import PayInfo from "./components/PayInfo";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
-import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam} from "./async";
+import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone} from "./async";
 import { Toast, Dialog } from "react-weui";
 import { merge,isNumber } from "lodash";
 const { Alert } = Dialog
 const numeral = require('numeral');
+import { config } from "../helpers/JsConfig"
 
 
 @connect(state => state)
@@ -72,7 +73,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         dispatch(endLoad())
         const {msg} = res;
         if (res.code === 200) {
-          console.log(problemMsg);
           this.setState({
             data: problemMsg.problem,
             buttonStatus: problemMsg.buttonStatus,
@@ -196,7 +196,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
    */
   handlePayDone() {
     const {dispatch} = this.props
-    // const {selectMember} = this.state;
+    const { productId } = this.state;
     if (this.state.err) {
       dispatch(alertMsg("支付失败：" + this.state.err));
       return;
@@ -204,7 +204,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     dispatch(startLoad())
     console.log("pay done");
 
-    ppost(`/signup/paid/risemember/${selectMember.productId}`).then(res => {
+    afterPayDone(productId).then(res => {
       dispatch(endLoad())
       if (res.code === 200) {
         this.context.router.push('/pay/risemember/success');
@@ -275,7 +275,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     }
     dispatch(startLoad());
 
-    loadPayParam().then(res => {
+    loadPayParam(param).then(res => {
       dispatch(endLoad());
       if (res.code === 200) {
         const {fee, free, signParams, productId} = res.msg;
