@@ -1,19 +1,40 @@
 import { pget } from "utils/request"
 import * as _ from "lodash"
 
-export function config(apiList) {
-	pget(`/rise/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
+export function config(apiList,callback) {
+	pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
 		if (res.code === 200) {
 			wx.config(_.merge({
 				debug: false,
 				jsApiList: ['hideOptionMenu'].concat(apiList),
 			}, res.msg))
 			wx.ready(() => {
-				hideOptionMenu()
+				hideOptionMenu();
+        if (callback && _.isFunction(callback)) {
+          callback();
+        }
 			})
-			wx.error(function (e) {
-				console.error(e)
-			})
+      wx.error(function (e) {
+        pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
+          if (res.code === 200) {
+            wx.config(_.merge({
+              debug: false,
+              jsApiList: ['hideOptionMenu'].concat(apiList),
+            }, res.msg))
+            wx.ready(() => {
+              hideOptionMenu();
+              if(callback && _.isFunction(callback)){
+                callback();
+              }
+            })
+            wx.error(function (e) {
+              console.log("error");
+            })
+          } else {
+          }
+        }).catch((err) => {
+        })
+      })
 		} else {
 		}
 	}).catch((err) => {
@@ -36,13 +57,25 @@ export function hideOptionMenu(current, picList) {
 	wx.hideOptionMenu();
 }
 
-export function pay(config, success) {
-	wx.chooseWXPay({
-		timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-		nonceStr: '', // 支付签名随机串，不长于 32 位
-		package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
-		signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-		paySign: '', // 支付签名
-		success: success
-	})
+export function pay(config, success, cancel, error) {
+  WeixinJSBridge.invoke(
+    'getBrandWCPayRequest', config,
+    (res) => {
+      if (res.err_msg == "get_brand_wcpay_request:ok") {
+        if (success && _.isFunction(success)) {
+          success();
+        }
+      }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+      else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+        if (cancel && _.isFunction(cancel)) {
+          cancel(res);
+        }
+      } else {
+        if (_.isFunction(error)) {
+          error(res);
+        }
+      }
+    }
+  );
 }
+

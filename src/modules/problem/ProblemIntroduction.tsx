@@ -5,12 +5,13 @@ import Audio from "../../components/Audio";
 import AssetImg from "../../components/AssetImg";
 import PayInfo from "./components/PayInfo";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
-import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone} from "./async";
+import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone,logPayError} from "./async";
 import { Toast, Dialog } from "react-weui";
-import { merge,isNumber } from "lodash";
+import { merge,isNumber,isObjectLike } from "lodash";
 const { Alert } = Dialog
 const numeral = require('numeral');
-import { config } from "../helpers/JsConfig"
+import { config,pay } from "../helpers/JsConfig"
+import { log } from "utils/request"
 
 
 @connect(state => state)
@@ -202,7 +203,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       return;
     }
     dispatch(startLoad())
-    console.log("pay done");
 
     afterPayDone(productId).then(res => {
       dispatch(endLoad())
@@ -319,7 +319,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       return;
     }
     this.setState({showPayInfo: false});
-
     config(['chooseWXPay'],()=> {
       pay({
           "appId": signParams.appId,     //公众号名称，由商户传入
@@ -330,22 +329,19 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           "paySign": signParams.paySign //微信签名
         },
         () => {
-          console.log('done');
           this.handlePayDone();
         },
         (res) => {
-          pget(`/signup/mark/pay/cancel`)
           this.setState({showErr: true});
-          _.isObjectLike(res) ?
-            log(JSON.stringify(res), window.location.href + "--" + window.ENV.configUrl, JSON.stringify(getBrowser())) :
-            log(res, window.location.href + "--" + window.ENV.configUrl, JSON.stringify(getBrowser()));
+          isObjectLike(res) ?
+            log(window.location.href + "--" + window.ENV.configUrl, JSON.stringify(res)) :
+            log(window.location.href + "--" + window.ENV.configUrl, res);
         },
         (res) => {
-          pget(`/signup/mark/pay/error`)
-          _.isObjectLike(res) ?
-            log(JSON.stringify(res), window.location.href + "--" + window.ENV.configUrl, JSON.stringify(getBrowser())) :
-            log(res, window.location.href + "--" + window.ENV.configUrl, JSON.stringify(getBrowser()));
-          this.help();
+          logPayError()
+          isObjectLike(res) ?
+            log(window.location.href + "--" + window.ENV.configUrl, JSON.stringify(res)) :
+            log(window.location.href + "--" + window.ENV.configUrl, res);
         }
       )
     })

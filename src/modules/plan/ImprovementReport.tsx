@@ -180,7 +180,7 @@ export class ImprovementReport extends React.Component<any, any> {
                       <div className="problem-problem">{problem.problem}</div>
                       <div className="problem-view"
                            onClick={() => this.context.router.push({
-                             pathname: `/rise/static/problem/view`,
+                             pathname: `/rise/static/plan/view`,
                              query: {
                                id: problem.id
                              }

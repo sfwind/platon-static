@@ -49,7 +49,7 @@ export class MoreProblem extends React.Component<any,any> {
     if(this.props.location.query.show){
       merge(param,{show:true});
     }
-    this.context.router.push({pathname: '/rise/static/problem/view', query: param});
+    this.context.router.push({pathname: '/rise/static/plan/view', query: param});
   }
 
   render() {

@@ -52,7 +52,7 @@ const routes = (
     <Route path="/rise/static" component={Base}  onChange={()=>{config([]);}}>
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>
-      <Route path="problem/view" component={ProblemIntroduction}/>
+      <Route path="plan/view" component={ProblemIntroduction}/>
       <Route path="problem/more" component={MoreProblem}/>
       <Route path="problem/package" component={BannerArticle}/>
       <Route path="problem/extension" component={ProblemExtension}/>

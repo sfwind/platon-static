@@ -44,7 +44,7 @@ export class KnowledgeReview extends React.Component<any,any>{
 
   goProblemIntro(){
     const {data} = this.state
-    this.context.router.push({pathname:"/rise/static/problem/view",query:{id:data.id, show:true}})
+    this.context.router.push({pathname:"/rise/static/plan/view",query:{id:data.id, show:true}})
   }
 
   render(){

@@ -32,8 +32,8 @@ export default class Main extends React.Component<any, any> {
 			windowsClient:false,
 			activityMsg:false,
 		}
-
-		config([])
+    window.ENV.configUrl = window.location.href;
+    config(['chooseWXPay'])
 	}
 
 	componentWillMount(){
