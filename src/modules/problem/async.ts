@@ -63,6 +63,6 @@ export function afterPayDone(productId){
   return ppost(`/signup/paid/rise/${productId}`);
 }
 
-export function logPayError(){
-  pget(`/signup/mark/pay/error`);
+export function logPay(type){
+  pget(`/signup/mark/pay/${type}`);
 }

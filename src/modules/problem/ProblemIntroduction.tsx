@@ -5,7 +5,7 @@ import Audio from "../../components/Audio";
 import AssetImg from "../../components/AssetImg";
 import PayInfo from "./components/PayInfo";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
-import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone,logPayError} from "./async";
+import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone,logPay,mark} from "./async";
 import { Toast, Dialog } from "react-weui";
 import { merge,isNumber,isObjectLike } from "lodash";
 const { Alert } = Dialog
@@ -59,6 +59,19 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   }
 
   componentWillMount() {
+    // ios／安卓微信支付兼容性
+    if(window.ENV.configUrl!== window.location.href){
+      mark({
+        module: "RISE",
+        function: "打点",
+        action: "刷新支付页面",
+        memo: window.ENV.configUrl + "++++++++++" + window.location.href
+      });
+      window.location.href = window.location.href;
+      return;
+    }
+
+
     const {dispatch, location} = this.props
     const {id} = location.query
     dispatch(startLoad())
@@ -314,7 +327,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   handleH5Pay(signParams) {
     const {dispatch} = this.props;
     if (!signParams) {
-      pget(`/signup/mark/pay/paramerror`);
+      logPay("paramerror");
       dispatch(alertMsg("支付信息错误，请刷新"));
       return;
     }
@@ -343,7 +356,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             log(window.location.href + "--" + window.ENV.configUrl, res);
         },
         (res) => {
-          logPayError()
+          logPay("error")
           isObjectLike(res) ?
             log(window.location.href + "--" + window.ENV.configUrl, JSON.stringify(res)) :
             log(window.location.href + "--" + window.ENV.configUrl, res);
