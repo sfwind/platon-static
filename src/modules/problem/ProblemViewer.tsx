@@ -182,7 +182,7 @@ export class ProblemViewer extends React.Component<any, any> {
                 <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/where_2.png"/>
               </div>
               <div className="text">随时随地，多客户端</div>
-              <div className="text"><b>手机微信：</b>圈外同学-学习小课</div>
+              <div className="text"><b>手机微信：</b>圈外同学-上课啦</div>
               <div className="text"><b>网站：</b>www.iquanwai.com，点击圈外同学</div>
               {/*<div className="text"><b>电脑微信（仅windows客户端）：</b>圈外学习号-RISE</div>*/}
             </div>
