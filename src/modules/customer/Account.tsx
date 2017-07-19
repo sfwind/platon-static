@@ -52,7 +52,7 @@ export default class Rise extends React.Component<any,any>{
        </div>
        <div className="item">
          <div className="label">
-           RISE ID
+           圈外 ID
          </div>
          <div className="content-no-cut">
            {riseId}
@@ -61,7 +61,7 @@ export default class Rise extends React.Component<any,any>{
 
        <div className="item" onClick={()=>{this.context.router.push("/rise/static/customer/member")}}>
          <div className="label">
-           RISE会员
+           圈外会员
          </div>
          <div className="content">
              {memberType}

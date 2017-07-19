@@ -103,7 +103,7 @@ export default class ProblemGallery extends React.Component<any,any>{
             </div>
           </div>
           <div className="problem-galley-header arrow" style={{marginTop:"10px"}} onClick={()=>{window.location.href = "http://mp.weixin.qq.com/s/8VIQPI_MYgJA6BrseIsr0Q"}}>
-            RISE介绍
+            【圈外小课】介绍
           </div>
           <div className="padding-footer"></div>
         </div>

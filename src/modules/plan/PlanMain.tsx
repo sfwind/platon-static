@@ -98,7 +98,7 @@ export class PlanMain extends React.Component <any, any> {
       showEmptyPage: false,
     }
 
-    changeTitle('RISE');
+    changeTitle('圈外同学');
   }
 
   static contextTypes = {
@@ -133,7 +133,9 @@ export class PlanMain extends React.Component <any, any> {
 
   }
 
- componentWillUnmount() {
+  componentWillUnmount() {
+    const {dispatch} = this.props;
+    dispatch(set("completePracticePlanId", undefined));
     window.removeEventListener('resize', this.resize);
   }
 
@@ -499,7 +501,7 @@ export class PlanMain extends React.Component <any, any> {
         if(completePracticePlanId && completePracticePlanId == item.practicePlanId){
             return (
                 <div className="practice-complete">
-                    <AssetImg url={`https://static.iqycamp.com/images/complete.gif?_t=${_t}`} size={50}/>
+                    <img src={`https://static.iqycamp.com/images/complete.gif?_t=${_t}`} width={50}/>
                 </div>
             )
         } else {
@@ -580,7 +582,7 @@ export class PlanMain extends React.Component <any, any> {
                   <div className="cell">
                     <div className="chapter">
                       <div>
-                        <div className="label">{NumberToChinese(item.chapterId)}、</div>
+                        <div className="label">{'第'+NumberToChinese(item.chapterId)+'章'}</div>
                         <div className="str"
                              style={{maxWidth: `${window.innerWidth * 0.7 - 50}px`}}>{item.chapter}</div>
                       </div>
@@ -708,7 +710,7 @@ export class PlanMain extends React.Component <any, any> {
         <div key={idx}>
           <div className="plan-progress">
             <div className="intro">
-              <div className="intro-chapter">{NumberToChinese(item.chapter)}{'、 '}{item.chapterName}</div>
+              <div className="intro-chapter">{'第'+NumberToChinese(item.chapter)+'章'}{'、 '}{item.chapterName}</div>
               <div className="bar"/>
             </div>
             <div className="intro-section">{item.chapter + '.' + item.section}{' '}{item.name}</div>

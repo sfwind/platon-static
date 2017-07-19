@@ -59,7 +59,7 @@ export default class UpMind extends React.Component<any,any> {
         case 4:
           return '如何让你的话更有力量';
         default:
-          return 'RISE';
+          return '圈外同学';
       }
     }
     return (
