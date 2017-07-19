@@ -41,7 +41,7 @@ export function loadProblemExtension(problemId) {
 }
 // 获取小课卡包页面所有数据
 export function loadProblemCards(planId) {
-
+  return pget(`/rise/problem/cards/${planId}`)
 }
 // 获取活动卡片 Base64 值
 export function loadEssenceCard() {
