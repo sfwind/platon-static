@@ -366,7 +366,7 @@ export class Main extends React.Component <any, any> {
 
   render() {
     const { data, otherList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated, loading } = this.state
-    const { topic, description, content, voteCount, submitId, voteStatus } = data
+    const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
 
     const renderList = (list) => {
       if(list) {
@@ -436,8 +436,9 @@ export class Main extends React.Component <any, any> {
             <div className="page-header">{topic}</div>
             <div className="intro-container">
               <div className="context-img">
-                <AssetImg
-                  url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>
+                {pic ? <AssetImg url={pic}/> :
+                    <AssetImg
+                        url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>}
               </div>
               <div className="application-context">
                 <div className="section1">
