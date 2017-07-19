@@ -126,7 +126,7 @@ export class Welcome extends React.Component <any, any> {
                       <div>
                         <img className="description-logo" src="https://static.iqycamp.com/images/fragment/description_logo.png?imageslim"/>
                         <div className="guide-msg">
-                          Hi，你来啦！我是你的移动端RISE教练
+                          Hi，你来啦！我是你的移动端圈外教练
                         </div>
                       </div>:null}
                 </div>
@@ -135,7 +135,7 @@ export class Welcome extends React.Component <any, any> {
                       <div>
                         <img className="description-logo" src="https://static.iqycamp.com/images/fragment/description_logo.png?imageslim"/>
                         <div className="guide-msg">
-                          相信你也知道，我们从了解知识概念、到用它来解决问题，中间还差一个刻意练习的距离。RISE就提供这样的刻意练习
+                          相信你也知道，我们从了解知识概念、到用它来解决问题，中间还差一个刻意练习的距离。【圈外同学】就提供这样的刻意练习
                         </div>
                       </div>:null}
                 </div>
@@ -157,7 +157,7 @@ export class Welcome extends React.Component <any, any> {
                     <div>
                       <img className="description-logo" src="https://static.iqycamp.com/images/fragment/description_logo.png?imageslim"/>
                       <div className="guide-msg" id="welcome2">
-                        你可以根据需要，选择要学习的RISE小课，我会据此制定你的练习计划，来帮助你学习知识、实践应用、解决问题
+                        你可以根据需要，选择要学习的圈外小课，我会据此制定你的练习计划，来帮助你学习知识、实践应用、解决问题
                       </div>
                     </div>:null
                 }

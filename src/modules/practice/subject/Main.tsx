@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadSubjects,vote,loadSubjectDesc } from "./async";
+import { loadSubjects,vote } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
@@ -103,17 +103,6 @@ export class Main extends React.Component <any, any> {
     const { dispatch, location } = this.props;
     mark({module:"打点",function:"小课论坛",action:"打开小课论坛",memo:location.query.id});
     dispatch(startLoad());
-    loadSubjectDesc(location.query.id).then(res=>{
-      let {code, msg} = res;
-      if(code === 200){
-        this.setState({desc:msg});
-      } else {
-        dispatch(alertMsg("获取描述失败"));
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
     loadSubjects(location.query.id,1).then(res => {
       dispatch(endLoad())
       let { code, msg } = res;
@@ -232,7 +221,8 @@ export class Main extends React.Component <any, any> {
               <div className="main-tip" style={{paddingTop:`${this.paddingTop}px`}}>小课分享</div>
               <div className="sec-tip">深度好文•遇见大咖•分享心得</div>
             </div>
-            <div className="intro" dangerouslySetInnerHTML={{__html:desc}}>
+            <div className="intro">
+              学习是为了更好地实践。不妨跟大家分享一下，你是如何应用小课所学的知识，解决实际问题的。好的分享能有机会获得圈外教练的点评，其他童鞋的点赞，以及被收录为精华！
             </div>
             {renderArticles()}
           </div>

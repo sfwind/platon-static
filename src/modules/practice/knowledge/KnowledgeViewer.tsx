@@ -7,7 +7,7 @@ import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledg
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
 import _ from "lodash"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import {scroll} from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
 
@@ -42,7 +42,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
   componentWillMount(){
     mark({module: "打点", function: "学习", action: "打开知识点页面"});
-    const {id,practicePlanId} = this.props.location.query
+    const {id,practicePlanId,complete} = this.props.location.query
     const {dispatch} = this.props
     dispatch(startLoad())
     if(practicePlanId){
@@ -61,6 +61,10 @@ export class KnowledgeViewer extends React.Component<any, any> {
           dispatch(alertMsg(res.msg))
         }
       })
+
+      if (complete == 'false') {
+        dispatch(set('completePracticePlanId', practicePlanId));
+      }
     }else if(id){
       loadKnowledge(id).then(res=>{
         if(res.code === 200){
@@ -167,23 +171,24 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
 
   complete() {
-    const {dispatch, location} = this.props
-    learnKnowledge(location.query.practicePlanId).then(res => {
-      const {code, msg} = res
-      if (code === 200) {
-        window.history.back();
-        // this.context.router.push({pathname: '/rise/static/learn', query: this.props.location.query})
-      }
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    const {dispatch, location} = this.props;
+    window.history.back();
+    // learnKnowledge(location.query.practicePlanId).then(res => {
+    //   const {code, msg} = res
+    //   if (code === 200) {
+    //     window.history.back();
+    //   }
+    //   else dispatch(alertMsg(msg))
+    // }).catch(ex => {
+    //   dispatch(endLoad())
+    //   dispatch(alertMsg(ex))
+    // })
   }
 
   render() {
     const { showTip,showDiscuss,knowledge,discuss=[],isReply,placeholder } = this.state
-    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic } = knowledge
+    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,
+        analysisAudio, meansAudio, keynoteAudio } = knowledge
     const {location} = this.props
     const {practicePlanId} = location.query
 
@@ -214,6 +219,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                   <div className="context-title-img">
                     <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                   </div>
+                  { analysisAudio ? <div className="context-audio"><Audio url={analysisAudio}/></div> : null }
                   <div className="text">
                     <pre>{analysis}</pre>
                   </div>
@@ -225,6 +231,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                   <div className="context-title-img">
                     <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                   </div>
+                  { meansAudio ? <div className="context-audio"><Audio url={meansAudio}/></div> : null }
                   <div className="text">
                     <pre>{means}</pre>
                   </div>
@@ -236,6 +243,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                 </div>
+                { keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}/></div> : null }
                 <div className="text">
                   <pre>{keynote}</pre>
                 </div>
