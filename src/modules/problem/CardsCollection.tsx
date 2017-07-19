@@ -18,7 +18,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     super()
     this.state = {
       showCard: false,
-      testImg: '',
+      essenceCard: '',
       problem: '',
       cards: []
     }
@@ -37,19 +37,6 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     })
   }
 
-  handleClickCard() {
-    const { showCard } = this.state
-    this.setState({ showCard: !showCard })
-    if(!showCard) {
-      loadEssenceCard().then(res => {
-        console.log(res)
-        if(res.code === 200) {
-          this.setState({ essenceCard: res.msg })
-        }
-      })
-    }
-  }
-
   render() {
     const { showCard, essenceCard, problem, cards } = this.state
 
@@ -65,7 +52,8 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
                         this.setState({
                           showCard: true,
                           essenceCard: card.essenceImgBase
-                        })}}/>
+                        })
+                      }}/>
               )
             })
 
@@ -75,9 +63,8 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     }
 
     const renderCardView = () => {
-      if(!showCard) return null
       return (
-        <div className={`card-essence`}>
+        <div className={`card-essence`} onClick={() => this.setState({showCard: false})}>
           <img className={`${showCard ? 'img-transition' : ''}`} src={essenceCard}/>
         </div>
       )
