@@ -44,6 +44,10 @@ export function loadCatalog(catalogId) {
 export function loadProblemExtension(problemId) {
   return pget(`/rise/problem/extension/${problemId}`)
 }
+// 获取活动卡片 Base64 值
+export function loadEssenceCard() {
+  return pget(`/operation/free/card`)
+}
 
 export function calculateCoupon(couponId,problemId){
   return ppost(`/signup/coupon/course/calculate`, {couponId: couponId, problemId: problemId})
