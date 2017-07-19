@@ -44,9 +44,17 @@ export function loadCatalog(catalogId) {
 export function loadProblemExtension(problemId) {
   return pget(`/rise/problem/extension/${problemId}`)
 }
+// 获取小课卡包页面所有数据
+export function loadProblemCards(planId) {
+  return pget(`/rise/problem/cards/${planId}`)
+}
 // 获取活动卡片 Base64 值
 export function loadEssenceCard() {
   return pget(`/operation/free/card`)
+}
+// 将 svgBase64 转换成 pngBase64
+export function convertSvgToPng(svgBase64) {
+  return ppost(`/rise/problem/card/convert?svgBase64=${svgBase64}`)
 }
 
 export function calculateCoupon(couponId,problemId){

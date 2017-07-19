@@ -1,10 +1,14 @@
 import * as React from 'react'
 import './CardsCollection.less'
 import AssetImg from "../../components/AssetImg";
-import { loadEssenceCard } from "./async";
+import { convertSvgToPng, loadEssenceCard, loadProblemCards } from "./async";
+import escape = require("lodash/escape");
+import unescape = require("lodash/unescape");
 
 // 小课卡包
 interface CardsCollectionStates {
+  problem: string;
+  cards: object;
   showCard: boolean;
   essenceCard: string;
 }
@@ -13,8 +17,24 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
   constructor() {
     super()
     this.state = {
-      showCard: false
+      showCard: false,
+      testImg: '',
+      problem: '',
+      cards: []
     }
+  }
+
+  componentWillMount() {
+    loadProblemCards(7002).then(res => {
+      const { code, msg } = res
+      if(code === 200) {
+        this.setState({ problem: msg.problem, cards: msg.cards })
+      } else {
+        console.error(msg)
+      }
+    }).catch(e => {
+      console.error(e)
+    })
   }
 
   handleClickCard() {
@@ -31,9 +51,31 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
   }
 
   render() {
-    const { showCard, essenceCard } = this.state
+    const { showCard, essenceCard, problem, cards } = this.state
+
+    const renderCards = () => {
+      return (
+        <div className="cards-box">
+          {
+            cards.map((card, index) => {
+              return (
+                <Card img={card.essenceImgBase} chapterNo={card.chapterNo} key={index}
+                      chaper={card.chapter} completed={card.completed}
+                      onClick={() => {
+                        this.setState({
+                          showCard: true,
+                          essenceCard: card.essenceImgBase
+                        })}}/>
+              )
+            })
+
+          }
+        </div>
+      )
+    }
 
     const renderCardView = () => {
+      if(!showCard) return null
       return (
         <div className={`card-essence`}>
           <img className={`${showCard ? 'img-transition' : ''}`} src={essenceCard}/>
@@ -44,15 +86,9 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     return (
       <div className="cards-container">
         <div className={`cards-page ${showCard ? 'blur' : ''}`}>
-          <div className="cards-header">找到本质问题，减少无效努力</div>
-          <div className="cards-box">
-            <Card lock={false} img={''} chapter={0} knowledge={'以梦为马'}
-                  id="card1"
-                  onClick={this.handleClickCard.bind(this)}/>
-            <Card lock={false} img={''} chapter={1} knowledge={'以梦为马'}
-                  onClick={() => console.log(2222)}/>
-            <Card lock={true} img={''} chapter={2} knowledge={'以梦为马'}/>
-          </div>
+          <div className="cards-header">{problem}</div>
+          <div className="cards-call" style={{ height: 0.366 * window.innerWidth }}/>
+          {renderCards()}
         </div>
         {renderCardView()}
       </div>
@@ -63,42 +99,31 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
 
 interface CardProps {
   img: string;
-  chapter: string;
-  knowledge: string;
-  lock: boolean;
-}
-const numberCharacter = {
-  0: '一',
-  1: '二',
-  2: '三',
-  3: '四',
-  4: '五',
-  5: '六',
-  6: '七',
-  7: '八',
-  8: '九',
-  9: '十'
+  chapterNo: string;
+  chaper: string;
+  completed: boolean;
 }
 class Card extends React.Component<CardProps, any> {
   render() {
-    const { img, chapter, knowledge, lock } = this.props
+    console.log(this.props)
+    const { img, chapterNo, chaper, completed } = this.props
     // 卡片盒子高度
     const boxSize = (window.innerWidth - 6 * 15) / 3
     return (
       <div className="card" {...this.props}>
         <div className="card-top">
-          <div className={`card-img ${lock ? 'lock' : ''}`} style={{ height: boxSize, width: boxSize }}>
+          <div className={`card-img ${completed ? '' : 'lock'}`} style={{ height: boxSize, width: boxSize }}>
             {
-              lock
-                ? <div className="lock-img">
-                <AssetImg url={require('../../../assets/img/card-lock.png')} width={20} height={26}/>
-              </div>
-                : <AssetImg url={img} size={boxSize}/>
+              completed ?
+                <AssetImg url={img} width={boxSize}/> :
+                <div className="lock-img">
+                  <AssetImg url={require('../../../assets/img/card-lock.png')} width={20} height={26}/> :
+                </div>
             }
           </div>
-          <div className={`card-chapter ${lock ? 'lock' : ''}`}>第{numberCharacter[chapter]}章</div>
+          <div className={`card-chapter ${completed ? '' : 'lock'}`}>{chapterNo}</div>
         </div>
-        <div className={`card-bottom ${lock ? 'lock' : ''}`} style={{ width: boxSize }}>{knowledge}</div>
+        <div className={`card-bottom ${completed ? '' : 'lock'}`} style={{ width: boxSize }}>{chaper}</div>
       </div>
     )
   }
