@@ -59,8 +59,8 @@ export default class PlanList extends React.Component<any,any> {
             if(planDom){
               planDom.style.cssText = `transform:translateY(-${planDom.offsetTop + planDom.offsetHeight}px)`;
               setTimeout(()=>{
-                planDom.style.cssText = "";
-              },0);
+                planDom.style.cssText = "transform:translateY(0)";
+              },1);
             }
           }
           if(completedPlanId){

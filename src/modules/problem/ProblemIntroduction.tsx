@@ -23,6 +23,18 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
   constructor() {
     super();
+    // ios／安卓微信支付兼容性
+    if(window.ENV.configUrl!== window.location.href){
+      mark({
+        module: "RISE",
+        function: "打点",
+        action: "刷新支付页面",
+        memo: window.ENV.configUrl + "++++++++++" + window.location.href
+      });
+      window.location.href = window.location.href;
+      return;
+    }
+
     this.state = {
       data: {},
       showAlert: false,
@@ -56,21 +68,11 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       show: true,
       showPayInfo: false,
     };
+
+
   }
 
   componentWillMount() {
-    // ios／安卓微信支付兼容性
-    if(window.ENV.configUrl!== window.location.href){
-      mark({
-        module: "RISE",
-        function: "打点",
-        action: "刷新支付页面",
-        memo: window.ENV.configUrl + "++++++++++" + window.location.href
-      });
-      window.location.href = window.location.href;
-      return;
-    }
-
 
     const {dispatch, location} = this.props
     const {id} = location.query
@@ -133,12 +135,16 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   handleSubmitProblemChoose() {
     this.setState({showAlert: false});
     const {dispatch, location} = this.props
+
     dispatch(startLoad())
     createPlan(location.query.id).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
+        this.context.router.push({pathname:'/rise/static/customer/profile',query:{
+          goRise:true
+        }});
+        // this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
       } else {
         dispatch(alertMsg(msg))
       }
@@ -375,12 +381,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   handleClickGoStudy(){
     const { currentPlanId } = this.state;
     this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:currentPlanId}});
-    // const {location} = this.props;
-    // const {id} = location.query;
-    // this.context.router.push({
-    //   pathname:'/rise/static/plan/study',
-    //   query:{planId:id}
-    // })
   }
 
 
