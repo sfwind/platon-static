@@ -42,7 +42,8 @@ export class Main extends React.Component <any, any> {
     this.setState({integrated});
     dispatch(endLoad());
     const {code, msg} = res;
-    let list = msg;if (code === 200) {
+    let list = msg;
+    if (code === 200) {
       const {practice} = msg;
       let currentIndex = 0;
       let selected = [];if (practice) {
@@ -55,6 +56,7 @@ export class Main extends React.Component <any, any> {
             selected = get(list, `practice.${selectedChoices.length- 1}.choice`);
           currentIndex = selectedChoices.length - 1;
         }
+        this.setState({list, practiceCount: msg.practice.length, currentIndex, selected});
       }
     } else dispatch(alertMsg(msg));
 
