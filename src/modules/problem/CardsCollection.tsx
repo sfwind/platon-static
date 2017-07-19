@@ -1,9 +1,9 @@
 import * as React from 'react'
 import './CardsCollection.less'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import { convertSvgToPng, loadEssenceCard, loadProblemCards } from "./async";
-import escape = require("lodash/escape");
-import unescape = require("lodash/unescape");
 
 // 小课卡包
 interface CardsCollectionStates {
@@ -12,6 +12,7 @@ interface CardsCollectionStates {
   showCard: boolean;
   essenceCard: string;
 }
+@connect(state => state)
 export default class CardsCollection extends React.Component<any, CardsCollectionStates> {
 
   constructor() {
@@ -25,15 +26,20 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
   }
 
   componentWillMount() {
-    loadProblemCards(7002).then(res => {
+    const { planId } = this.props.location.query
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    loadProblemCards(planId).then(res => {
+      dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         this.setState({ problem: msg.problem, cards: msg.cards })
       } else {
-        console.error(msg)
+        dispatch(alertMsg(msg))
       }
     }).catch(e => {
-      console.error(e)
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
     })
   }
 
@@ -64,7 +70,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
 
     const renderCardView = () => {
       return (
-        <div className={`card-essence`} onClick={() => this.setState({showCard: false})}>
+        <div className={`card-essence`} onClick={() => this.setState({ showCard: false })}>
           <img className={`${showCard ? 'img-transition' : ''}`} src={essenceCard}/>
         </div>
       )
