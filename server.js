@@ -4,7 +4,7 @@ var WebpackDevServer = require("webpack-dev-server")
 var devConfig = require("./webpack-dev.config")
 
 var PROXY = process.env.PROXY
-
+var RISE_PROXY = process.env.RISE_PROXY
 var serverConfig = {
   publicPath: devConfig.output.publicPath,
   hot: true,
@@ -27,7 +27,7 @@ if (Boolean(PROXY)) {
   serverConfig.proxy = {
     "/rise/*": (function() {
       var config = {
-        target: 'http://0.0.0.0:8081/',
+        target: RISE_PROXY || PROXY,
         secure: false,
         bypass: function(req) {
           if (req.headers.accept && req.headers.accept.indexOf("html") !== -1) {

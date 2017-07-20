@@ -1,0 +1,51 @@
+.work-step-choice-dot-container{
+  background-color:#FFFFFF;
+  width:100%;
+  height:60px;
+  .work-step-choice-list-wrapper{
+    position: relative;
+    margin:8px 35px 0;
+    display: flex;
+    justify-content: space-between;
+    //background: rgb(88, 177, 223);
+    //background: -webkit-gradient(linear, center left, center right, from(#55cbcb), to(#42afe7));
+    .work-step-choice-bg-hr{
+      position: absolute;
+      width:100%;
+      height:1px;
+      top:11px;
+      background: #6cf;
+      z-index: 1;
+    }
+    .work-step-choice {
+      position: relative;
+      width:24px;
+      display: inline-block;
+      z-index: 10;
+      .work-step-mask {
+        background:#FFFFFF;
+      }
+      .work-step-dot {
+        width: 20px;
+        height: 20px;
+        background: url("../../assets/img/rise_icon_small_dot.png") no-repeat 4px center/12px;
+        border: 2px solid #66ccff;
+        -webkit-border-radius: 22px;
+        -moz-border-radius: 22px;
+        border-radius: 22px;;
+        &.work-step-done{
+          background: url("../../assets/img/rise_icon_tick.png") no-repeat 4px center/12px;
+        }
+      }
+      .work-step-text {
+        position: absolute;
+        display: block;
+        width:50px;
+        text-align: center;
+        bottom:-25px;
+        left:-60%;
+        @color_context: #333;
+      }
+    }
+  }
+}
