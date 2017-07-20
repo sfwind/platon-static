@@ -1,4 +1,4 @@
-import { pget } from "utils/request"
+import { pget,mark } from "utils/request"
 import * as _ from "lodash"
 
 export function config(apiList,callback) {
@@ -16,6 +16,13 @@ export function config(apiList,callback) {
           }
         })
         wx.error(function (e) {
+          mark({
+            module: "JSSDK",
+            function: "ios",
+            action: "签名失败",
+            memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl + ",os:" + window.ENV.systemInfo
+          });
+          // TODO 上线前删掉
           alert("还是注册错了:"+e.errMsg);
         })
       } else {
@@ -23,7 +30,6 @@ export function config(apiList,callback) {
     }).catch((err) => {
     })
   } else {
-    alert("安卓注册")
     pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
       if (res.code === 200) {
         wx.config(_.merge({
@@ -37,6 +43,17 @@ export function config(apiList,callback) {
           }
         })
         wx.error(function (e) {
+          // TODO 上线前删掉
+          wx.error(function (e) {
+            mark({
+              module: "JSSDK",
+              function: "notios",
+              action: "签名失败",
+              memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl + ",os:" + window.ENV.systemInfo
+            });
+            // TODO 上线前删掉
+            alert("还是注册错了:"+e.errMsg);
+          })
           alert("还是注册错了"+e.errMsg);
         })
       } else {
