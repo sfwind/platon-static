@@ -352,7 +352,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     const { id } = location.query;
     mark({
       module: "支付",
-      function: "小课单买",
+      function: "小课单卖",
       action: "开始支付",
       memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
     });
@@ -361,7 +361,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     if (!signParams) {
       mark({
         module: "支付",
-        function: "小课单买",
+        function: "小课单卖",
         action: "没有支付参数",
         memo: "url:"+window.location.href+",os:"+window.ENV.systemInfo
       });
@@ -372,7 +372,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     if (this.state.err) {
       mark({
         module: "支付",
-        function: "小课单买",
+        function: "小课单卖",
         action: "支付异常,禁止支付",
         memo: "error:"+this.state.err+","+ "url:"+window.location.href+",os:"+window.ENV.systemInfo
       });
@@ -386,7 +386,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         // windows客户端
         mark({
           module: "支付",
-          function: "小课单买",
+          function: "小课单卖",
           action: "windows-pay",
           memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
         });
@@ -403,7 +403,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         () => {
           mark({
             module: "支付",
-            function: "小课单买",
+            function: "小课单卖",
             action: "success",
             memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
           });
@@ -412,7 +412,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         (res) => {
           mark({
             module: "支付",
-            function: "小课单买",
+            function: "小课单卖",
             action: "cancel",
             memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
           });
@@ -421,7 +421,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         (res) => {
           mark({
             module: "支付",
-            function: "小课单买",
+            function: "小课单卖",
             action: "error",
             memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo + "error:"+(isObjectLike(res) ? JSON.stringify(res): res)
           });
@@ -434,7 +434,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   handleClickPayMember(){
     mark({
       module: "支付",
-      function: "小课单买",
+      function: "小课单卖",
       action: "点击加入会员",
       memo:"os:" + window.ENV.systemInfo
     });
