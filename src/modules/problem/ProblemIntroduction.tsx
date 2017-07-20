@@ -6,8 +6,9 @@ import AssetImg from "../../components/AssetImg";
 import PayInfo from "./components/PayInfo";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone,logPay,mark} from "./async";
+import { Stop } from "../../utils/request"
 import { Toast, Dialog } from "react-weui";
-import { merge,isNumber,isObjectLike } from "lodash";
+import { merge,isNumber,isObjectLike,toLower,get } from "lodash";
 const { Alert } = Dialog
 const numeral = require('numeral');
 import { config,pay } from "../helpers/JsConfig"
@@ -23,17 +24,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
   constructor() {
     super();
-    // ios／安卓微信支付兼容性
-    if(window.ENV.configUrl!== window.location.href){
-      mark({
-        module: "RISE",
-        function: "打点",
-        action: "刷新支付页面",
-        memo: window.ENV.configUrl + "++++++++++" + window.location.href
-      });
-      window.location.href = window.location.href;
-      return;
-    }
 
     this.state = {
       data: {},
@@ -80,6 +70,20 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     openProblemIntroduction(id).then(res => {
       const {msg, code} = res
       if (code === 200) {
+        if(msg.buttonStatus === 1) {
+          // 当前url未注册bug修复，主要是ios，因为ios在config时用的是第一个url,window.ENV.configUrl
+          // 但是安卓也有可能出问题，所以干脆全部刷新页面（如果configUrl!==）
+          if(window.ENV.configUrl !== window.location.href){
+            mark({
+              module: "RISE",
+              function: "打点",
+              action: "刷新支付页面",
+              memo: window.ENV.configUrl + "++++++++++" + window.location.href
+            });
+            window.location.href = window.location.href;
+            throw new Stop();
+          }
+        }
         return res.msg;
       } else {
         return Promise.reject(msg);
@@ -111,8 +115,12 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(endLoad())
       dispatch(alertMsg(reason));
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex));
+      if(!ex instanceof Stop){
+        dispatch(endLoad())
+        dispatch(alertMsg(ex));
+      } else {
+        // ignore
+      }
     })
 
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350));
@@ -155,7 +163,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   }
 
   /**
-   * 关闭确认但窗
+   * 关闭确认弹窗
    */
   handleClickCloseConfirm() {
     this.setState({showConfirm: false});
@@ -175,7 +183,9 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   handleClickChooseProblem() {
     const {dispatch} = this.props
     const {buttonStatus} = this.state;
+    dispatch(startLoad());
     checkCreatePlan(this.props.location.query.id, buttonStatus).then(res => {
+      dispatch(endLoad());
       if (res.code === 202) {
         this.setState({showConfirm: true, confirmMsg: res.msg});
       } else if (res.code === 201) {
@@ -186,13 +196,16 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       } else {
         dispatch(alertMsg(res.msg))
       }
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     })
   }
 
   /**
    * 选择优惠券
-   * @param coupon
-   * @param close
+   * @param coupon 优惠券
+   * @param close 关闭回调函数，用来关闭选择优惠券的列表
    */
   handleClickChooseCoupon(coupon, close) {
     const {dispatch, location} = this.props;
@@ -211,7 +224,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
       close();
-    })
+    });
   }
 
   /**
@@ -221,11 +234,16 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     const {dispatch} = this.props
     const { productId } = this.state;
     if (this.state.err) {
+      mark({
+        module: "打点",
+        function: "支付",
+        action: "支付异常",
+        memo: window.location.href
+      });
       dispatch(alertMsg("支付失败：" + this.state.err));
       return;
     }
     dispatch(startLoad())
-
     afterPayDone(productId).then(res => {
       dispatch(endLoad())
       if (res.code === 200) {
@@ -331,19 +349,50 @@ export default class ProblemIntroduction extends React.Component<any,any> {
    * @param signParams
    */
   handleH5Pay(signParams) {
+    const {location} = this.props;
+    const { id } = location.query;
+    mark({
+      module: "支付",
+      function: "小课单买",
+      action: "开始支付",
+      memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
+    });
+
     const {dispatch} = this.props;
     if (!signParams) {
-      logPay("paramerror");
+      mark({
+        module: "支付",
+        function: "小课单买",
+        action: "没有支付参数",
+        memo: "url:"+window.location.href+",os:"+window.ENV.systemInfo
+      });
       dispatch(alertMsg("支付信息错误，请刷新"));
       return;
     }
 
     if (this.state.err) {
+      mark({
+        module: "支付",
+        function: "小课单买",
+        action: "支付异常,禁止支付",
+        memo: "error:"+this.state.err+","+ "url:"+window.location.href+",os:"+window.ENV.systemInfo
+      });
       dispatch(alertMsg(this.state.err));
       return;
     }
+
     this.setState({showPayInfo: false});
     config(['chooseWXPay'],()=> {
+      if(window.ENV.osName === 'windows'){
+        // windows客户端
+        mark({
+          module: "支付",
+          function: "小课单买",
+          action: "windows-pay",
+          memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
+        });
+        dispatch(alertMsg("Windows的微信客户端不能支付哦，请在手机端购买小课～"));
+      }
       pay({
           "appId": signParams.appId,     //公众号名称，由商户传入
           "timeStamp": signParams.timeStamp,         //时间戳，自1970年以来的秒数
@@ -353,25 +402,43 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           "paySign": signParams.paySign //微信签名
         },
         () => {
+          mark({
+            module: "支付",
+            function: "小课单买",
+            action: "success",
+            memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
+          });
           this.handlePayDone();
         },
         (res) => {
+          mark({
+            module: "支付",
+            function: "小课单买",
+            action: "cancel",
+            memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
+          });
           this.setState({showErr: true});
-          isObjectLike(res) ?
-            log(window.location.href + "--" + window.ENV.configUrl, JSON.stringify(res)) :
-            log(window.location.href + "--" + window.ENV.configUrl, res);
         },
         (res) => {
-          logPay("error")
-          isObjectLike(res) ?
-            log(window.location.href + "--" + window.ENV.configUrl, JSON.stringify(res)) :
-            log(window.location.href + "--" + window.ENV.configUrl, res);
+          mark({
+            module: "支付",
+            function: "小课单买",
+            action: "error",
+            memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo + "error:"+(isObjectLike(res) ? JSON.stringify(res): res)
+          });
+          alert("error config:"+JSON.stringify(res));
         }
       )
     })
   }
 
   handleClickPayMember(){
+    mark({
+      module: "支付",
+      function: "小课单买",
+      action: "点击加入会员",
+      memo:"os:" + window.ENV.systemInfo
+    });
     window.location.href=`https://${window.location.hostname}/pay/pay`
   }
   handleClickGoReview(){

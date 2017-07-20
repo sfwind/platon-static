@@ -1,6 +1,7 @@
 import * as React from "react";
 import { config } from "modules/helpers/JsConfig"
 import { Route } from "react-router";
+import { toLower,get } from "lodash"
 import Base from "modules/base/Base";
 import Welcome from "modules/problem/Welcome";
 import { PlanMain } from "modules/plan/PlanMain";
@@ -51,7 +52,9 @@ import CardsCollection from "./modules/problem/CardsCollection";
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={() => {
-      config([]);
+      if(window.ENV.osName !== 'ios') {
+        config(['chooseWXPay']);
+      }
     }}>
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>

@@ -45,6 +45,10 @@ export function ppost(url:string, body:Object) {
   })
 }
 
+export class Stop {
+
+}
+
 export function log(url, msg) {
  $.ajax('/rise/b/log',{
     type: "POST",
