@@ -10,6 +10,7 @@ const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 let iNoBounce = require('../../components/iNoBounce.js')
 const { Alert } = Dialog
+import {toLower,get } from "lodash";
 import {pget} from "utils/request";
 import Activity from "../../components/Activity";
 import UA from "ua-device";
