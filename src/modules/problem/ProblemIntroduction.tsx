@@ -81,7 +81,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               memo: window.ENV.configUrl + "++++++++++" + window.location.href
             });
             window.location.href = window.location.href;
-            throw new Stop();
+            return Promise.reject("refresh");
           }
         }
         return res.msg;
@@ -113,14 +113,13 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       })
     }, reason => {
       dispatch(endLoad())
-      dispatch(alertMsg(reason));
-    }).catch(ex => {
-      if(!ex instanceof Stop){
-        dispatch(endLoad())
-        dispatch(alertMsg(ex));
-      } else {
-        // ignore
+      if(reason!=='refresh'){
+        dispatch(alertMsg(reason));
       }
+
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg("error" + ex));
     })
 
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350));
