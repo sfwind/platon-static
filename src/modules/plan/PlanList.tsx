@@ -35,7 +35,7 @@ export default class PlanList extends React.Component<any,any> {
     mark({
       module: "打点",
       function: "学习",
-      action: "打开学习列表页面",
+      action: "打开学习页面",
       memo: window.ENV.osName
     });
 
@@ -45,12 +45,12 @@ export default class PlanList extends React.Component<any,any> {
     loadPlanList().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        const { runningPlans = [],completedPlans = [] } = res.msg;
+        const { runningPlans = [],completedPlans = [], trialClosedPlans= [] } = res.msg;
         let showEmptyPage = false;
         if(!runningPlans || runningPlans.length === 0){
            showEmptyPage = true;
         }
-        if((!runningPlans || runningPlans.length === 0) && (!completedPlans || completedPlans.length === 0)) {
+        if((!runningPlans || runningPlans.length === 0) && (!completedPlans || completedPlans.length === 0) && (!trialClosedPlans || trialClosedPlans.length === 0)) {
           if(location.pathname !== '/rise/static/learn') {
             // 没有小课练习，并且不是从导航栏点进来的
             this.context.router.push({
@@ -91,7 +91,7 @@ export default class PlanList extends React.Component<any,any> {
   handleClickPlan(plan){
     this.context.router.push({
       pathname:'/rise/static/plan/study',
-      query:{planId:plan.id}
+      query:{planId:plan.planId}
     })
   }
 
@@ -103,9 +103,9 @@ export default class PlanList extends React.Component<any,any> {
 
   render() {
     const { planList={},showEmptyPage } = this.state;
-    const { completedPlans = [],runningPlans =[]} = planList;
+    const { completedPlans = [],runningPlans = [],trialClosedPlans = []} = planList;
     const { location } = this.props;
-    const { runningPlanId,completedPlanId } = location.query;
+    const { runningPlanId,completedPlanId,trialClosedId } = location.query;
     const renderDeadline = (deadline) => {
       if(deadline <0 ){
         return null;
@@ -139,9 +139,8 @@ export default class PlanList extends React.Component<any,any> {
               </div>
               :
               runningPlans.map((item,key) => {
-                const { problem } = item;
                 let style = {};
-                if(runningPlanId==item.id){
+                if(runningPlanId==item.planId){
                   style = {
                     transform:`translateY(${-window.innerHeight}px)`
                   }
@@ -151,14 +150,14 @@ export default class PlanList extends React.Component<any,any> {
                   }
                 }
                 return (
-                  <div id={`problem-${item.id}`} style={style} className={`p-r-block ${key === 0 ?'first':''} ${key === runningPlans.length - 1 ?'last':''}`} key={key} onClick={()=>this.handleClickPlan(item)}>
+                  <div id={`problem-${item.planId}`} style={style} className={`p-r-block ${key === 0 ?'first':''} ${key === runningPlans.length - 1 ?'last':''}`} key={key} onClick={()=>this.handleClickPlan(item)}>
                     <div className="p-r-b-item">
                       <div className="p-r-b-i-pic" style={{width:`${this.runPicWidth}px`}}>
-                        <img className="p-r-b-i-pic-img" src={`${problem.pic}`}/>
+                        <img className="p-r-b-i-pic-img" src={`${item.pic}`}/>
                       </div>
                       <div className="p-r-b-i-text" style={{width:`${this.runTextWidth}px`}}>
                         <div className="p-r-b-i-text-title">
-                          {problem.problem}
+                          {item.name}
                         </div>
                         <div className="p-r-b-i-text-done">
                           已完成：{`${item.completeSeries}/${item.totalSeries}节`}
@@ -171,6 +170,60 @@ export default class PlanList extends React.Component<any,any> {
               })}
           </div>
 
+
+
+          { trialClosedPlans && trialClosedPlans.length !== 0?
+            <div className="plp-completed plp-block">
+              <div className="p-c-header">
+                <span className="p-c-h-title">已到期</span>
+              </div>
+              <div className="p-c-container none">
+                <div className="p-c-c-left">
+                  <div className="color-generator">
+                  </div>
+                </div>
+                <div className="p-c-c-right" style={{width:`${window.innerWidth - 56}px`}}>
+                  { trialClosedPlans.map((plan,key)=>{
+                    return (
+                      <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
+                        <div className={`p-c-c-r-b-icon`}>
+                          {/*<div className={`gap ${key === 0 ? 'first':''}`} />*/}
+                          {/*<div className={`tick  ${key === 0 ? 'first':''}`}/>*/}
+                          {/*<div className={`hr ${key === completedPlans.length-1 ? 'last':''}`}/>*/}
+                          {/*<div className={`bottom gap ${key === completedPlans.length -1?'last':'' }`}/>*/}
+                        </div>
+                        <div className="p-c-b-pic">
+                          <img className="p-c-b-p-img" src={`${plan.pic}`}>
+                          </img>
+                        </div>
+                        <div className="p-c-b-text">
+                          <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
+                            <div className="p-c-b-t-l-title">
+                              {plan.name}
+                            </div>
+                            <div className="p-c-b-t-l-close">
+                              {plan.closeTime}
+                            </div>
+                          </div>
+                          <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
+                            <div className="p-c-b-t-tip">
+                              得分：
+                            </div>
+                            <div className="p-c-b-t-point">
+                              {plan.point}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }) }
+                </div>
+              </div>
+            </div>:null}
+
+
+
+
           { completedPlans && completedPlans.length !== 0?
             <div className="plp-completed plp-block">
               <div className="p-c-header">
@@ -179,14 +232,12 @@ export default class PlanList extends React.Component<any,any> {
               <div className="p-c-container">
                 <div className="p-c-c-left">
                   <div className="color-generator">
-
                   </div>
                 </div>
                 <div className="p-c-c-right" style={{width:`${window.innerWidth - 56}px`}}>
                   { completedPlans.map((plan,key)=>{
-                    const { problem } = plan;
                     return (
-                      <div id={`problem-${plan.id}`} className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
+                      <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
                         <div className={`p-c-c-r-b-icon`}>
                           <div className={`gap ${key === 0 ? 'first':''}`} />
                           <div className={`tick  ${key === 0 ? 'first':''}`}/>
@@ -194,13 +245,13 @@ export default class PlanList extends React.Component<any,any> {
                           <div className={`bottom gap ${key === completedPlans.length -1?'last':'' }`}/>
                         </div>
                         <div className="p-c-b-pic">
-                          <img className="p-c-b-p-img" src={`${problem.pic}`}>
+                          <img className="p-c-b-p-img" src={`${plan.pic}`}>
                           </img>
                         </div>
                         <div className="p-c-b-text">
                           <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
                             <div className="p-c-b-t-l-title">
-                              {problem.problem}
+                              {plan.name}
                             </div>
                             <div className="p-c-b-t-l-close">
                               {plan.closeTime}
@@ -226,4 +277,15 @@ export default class PlanList extends React.Component<any,any> {
       </div>
     );
   }
+}
+
+interface CardListProps {
+  pic:String,
+  title:String,
+  completeSeries?:String,
+  dayToClose?:String,
+  closeTime?:String,
+}
+class CardList extends React.Component<CardListProps,any>{
+
 }

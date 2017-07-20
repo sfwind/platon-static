@@ -6,7 +6,7 @@ export function config(apiList,callback) {
     pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
       if (res.code === 200) {
         wx.config(_.merge({
-          debug: true,
+          debug: false,
           jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
         }, res.msg))
         wx.ready((res) => {

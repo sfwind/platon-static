@@ -417,12 +417,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           this.setState({showErr: true});
         },
         (res) => {
-          mark({
-            module: "支付",
-            function: "小课单卖",
-            action: "error",
-            memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo + ",error:"+(isObjectLike(res) ? JSON.stringify(res): res)
-          });
+          logPay('小课单卖','error', "url:" + window.location.href + ",os:" + window.ENV.systemInfo + ",error:" + (isObjectLike(res) ? JSON.stringify(res) : res));
           alert("error config:"+JSON.stringify(res));
         }
       )

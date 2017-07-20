@@ -75,6 +75,6 @@ export function afterPayDone(productId){
   return ppost(`/signup/paid/rise/${productId}`);
 }
 
-export function logPay(type){
-  pget(`/signup/mark/pay/${type}`);
+export function logPay(functionValue,type,param){
+  pget(`/signup/mark/pay/${functionValue}/${type}${param?'?param='+param:''}`);
 }
