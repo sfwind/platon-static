@@ -11,7 +11,6 @@ import Tutorial from "../../components/Tutorial"
 import DropChoice from "../../components/DropChoice"
 import { merge, isBoolean, get, isEmpty } from "lodash"
 import { Toast, Dialog } from "react-weui"
-import { ToolBar } from "../base/ToolBar"
 import { Sidebar } from '../../components/Sidebar';
 import { Modal } from '../../components/Modal'
 import { NumberToChinese, changeTitle } from "../../utils/helpers"
@@ -174,7 +173,14 @@ export class PlanMain extends React.Component <any, any> {
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {
         // TODO 待画图
-        loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
+        // loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
+        //   dispatch(set("CompletePracticePlanId", undefined))
+        //   console.log('chapterCard', res)
+        //   if(res.code === 200) {
+        //
+        //   }
+        // })
+        loadChapterCard(9, 306781).then(res => {
           dispatch(set("CompletePracticePlanId", undefined))
           console.log('chapterCard', res)
           if(res.code === 200) {
