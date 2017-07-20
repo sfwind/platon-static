@@ -3,7 +3,7 @@ import './CardsCollection.less'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
-import { convertSvgToPng, loadEssenceCard, loadProblemCards } from "./async";
+import { loadCardData, loadEssenceCard, loadProblemCards } from "./async";
 
 // 小课卡包
 interface CardsCollectionStates {
@@ -11,6 +11,7 @@ interface CardsCollectionStates {
   cards: object;
   showCard: boolean;
   essenceCard: string;
+  essenceCardMap: object;
 }
 @connect(state => state)
 export default class CardsCollection extends React.Component<any, CardsCollectionStates> {
@@ -19,9 +20,10 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     super()
     this.state = {
       showCard: false,
-      essenceCard: '',
-      problem: '',
-      cards: []
+      essenceCard: 'https://static.iqycamp.com/images/imgLoading.png?imageslim',
+      problem: {},
+      cards: [],
+      essenceCardMap: new Map()
     }
   }
 
@@ -29,7 +31,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     const { planId } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
-    loadProblemCards(planId).then(res => {
+    loadCardData(planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -43,6 +45,34 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     })
   }
 
+  handleClickLoadCard(problemId, chapterId, completed) {
+    if(!completed) {
+      console.log('未解锁')
+      return
+    }
+    const { dispatch } = this.props
+    const { essenceCardMap } = this.state
+    let tempCard = essenceCardMap.get(chapterId)
+    if(tempCard) {
+      this.setState({ showCard: true, essenceCard: tempCard })
+    } else {
+      dispatch(startLoad())
+      loadEssenceCard(problemId, chapterId).then(res => {
+        dispatch(endLoad())
+        console.log(res)
+        if(res.code === 200) {
+          essenceCardMap.set(chapterId, res.msg)
+          this.setState({ showCard: true, essenceCard: res.msg, essenceCardMap: essenceCardMap })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(e => {
+        dispatch(endLoad())
+        dispatch(alertMsg(e))
+      })
+    }
+  }
+
   render() {
     const { showCard, essenceCard, problem, cards } = this.state
 
@@ -52,14 +82,9 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
           {
             cards.map((card, index) => {
               return (
-                <Card img={card.essenceImgBase} chapterNo={card.chapterNo} key={index}
+                <Card img={card.thumbnail} chapterNo={card.chapterNo} key={index}
                       chaper={card.chapter} completed={card.completed}
-                      onClick={() => {
-                        this.setState({
-                          showCard: true,
-                          essenceCard: card.essenceImgBase
-                        })
-                      }}/>
+                      onClick={() => this.handleClickLoadCard(card.problemId, card.chapterId, card.completed)}/>
               )
             })
 
@@ -69,11 +94,35 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     }
 
     const renderCardView = () => {
+      let imgHeight = window.innerHeight
+      let imgWidth = 750 * window.innerHeight / 1334
+      let imgLeft = (window.innerWidth - imgWidth) / 2
+      let startTime;
+      let endTime;
       return (
-        <div className={`card-essence`} onClick={() => this.setState({ showCard: false })}>
-          <img className={`${showCard ? 'img-transition' : ''}`} src={essenceCard}/>
+        <div className={`card-essence`}
+             onTouchStart={() => {
+               startTime = new Date();
+             }}
+             onTouchEnd={() => {
+               endTime = new Date();
+               if(endTime.getTime() - startTime.getTime() < 500) {
+                 this.setState({ showCard: false })
+               }
+             }}
+        >
+          <img className={`${showCard ? 'img-transition' : ''}`} src={essenceCard}
+               style={{ height: imgHeight, width: imgWidth, left: imgLeft }}/>
         </div>
       )
+    }
+
+    const renderShadow = () => {
+      if(showCard) {
+        return (
+          <div className="card-container-shadow" style={{ width: window.innerWidth, height: window.innerHeight }}/>
+        )
+      }
     }
 
     return (
@@ -84,6 +133,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
           {renderCards()}
         </div>
         {renderCardView()}
+        {renderShadow()}
       </div>
     )
   }
@@ -98,7 +148,6 @@ interface CardProps {
 }
 class Card extends React.Component<CardProps, any> {
   render() {
-    console.log(this.props)
     const { img, chapterNo, chaper, completed } = this.props
     // 卡片盒子高度
     const boxSize = (window.innerWidth - 6 * 15) / 3
@@ -110,7 +159,7 @@ class Card extends React.Component<CardProps, any> {
               completed ?
                 <AssetImg url={img} width={boxSize}/> :
                 <div className="lock-img">
-                  <AssetImg url={require('../../../assets/img/card-lock.png')} width={20} height={26}/> :
+                  <AssetImg url={require('../../../assets/img/card-lock.png')} width={20} height={26}/>
                 </div>
             }
           </div>

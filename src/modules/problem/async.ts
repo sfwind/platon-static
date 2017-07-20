@@ -40,12 +40,12 @@ export function loadProblemExtension(problemId) {
   return pget(`/rise/problem/extension/${problemId}`)
 }
 // 获取小课卡包页面所有数据
-export function loadProblemCards(planId) {
+export function loadCardData(planId) {
   return pget(`/rise/problem/cards/${planId}`)
 }
-// 获取活动卡片 Base64 值
-export function loadEssenceCard() {
-  return pget(`/operation/free/card`)
+// 获取卡片大图
+export function loadEssenceCard(problemId, chapterId) {
+  return pget(`/rise/problem/card/${problemId}/${chapterId}`)
 }
 // 将 svgBase64 转换成 pngBase64
 export function convertSvgToPng(svgBase64) {
