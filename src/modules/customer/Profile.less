@@ -10,11 +10,8 @@
   background-color: @color_weak_background;
 
   > .go-rise {
-    > img{
-      display:block;
-      margin:0 auto;
-      padding:20px 0;
-    }
+    margin-bottom:20px;
+
     > span{
       display: block;
       text-align: left;
@@ -143,6 +140,57 @@
       border-radius:5px;
       &.disabled {
         background: #cccccc;
+      }
+    }
+  }
+}
+
+
+.choice-dot-container{
+  background-color:#FFFFFF;
+  width:100%;
+  height:60px;
+  .choice-bg-hr{
+    position: absolute;
+    width:~'calc(100% - 70px)';
+    left:35px;
+    height:1px;
+    background: #42afe7;
+    top:20px;
+    z-index: 1;
+  }
+  .choice-list-wrapper{
+    padding:8px 35px 0;
+    display: flex;
+    justify-content: space-between;
+    .mask {
+      background: #FFF;
+    }
+    .choice {
+      position: relative;
+      width:22px;
+      display: inline-block;
+      z-index: 10;
+      .dot {
+        width: 20px;
+        height: 20px;
+        background: url("../../../assets/img/rise_icon_small_dot.png") no-repeat 4px center/12px;
+        border: 2px solid #66ccff;
+        -webkit-border-radius: 22px;
+        -moz-border-radius: 22px;
+        border-radius: 22px;;
+        &.done{
+          background: url("../../../assets/img/rise_icon_tick.png") no-repeat 4px center/12px;
+        }
+      }
+      .text {
+        position: absolute;
+        display: block;
+        width:50px;
+        text-align: center;
+        bottom:-25px;
+        left:-60%;
+        @color_context: #333;
       }
     }
   }

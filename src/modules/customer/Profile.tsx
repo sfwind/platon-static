@@ -244,12 +244,11 @@ export default class Profile extends React.Component<any,any> {
     }
     return (
       <div className="profile">
-        {this.props.location.query.goRise?(
+        {this.props.location.query.goRise ? (
           <div className="go-rise">
-            <img src="https://www.iqycamp.com/images/personal_gorise_bg.png" width="25%" height="auto"/>
-            <span>完善你的个人信息，成为分舵一员，学习的路上不孤单！</span>
+            <WorkStep works={[{text:'选课',done:true},{text:'填写信息',done:false},{text:'绑定手机',done:false},{text:'去上课',done:false}]}/>
           </div>
-        ):(
+        ) : (
           <div className="profile-header">
             {renderProfileHeader()}
           </div>
@@ -289,11 +288,49 @@ export default class Profile extends React.Component<any,any> {
           </div>
         </div>
         <div className="profile-bottom">
-          <div className={`submit-btn ${isFull?'':'disabled'}`}  style={{width:`${this.btnWidth}px`}} onClick={this.submitProfile.bind(this)}>
+          <div className={`submit-btn ${isFull?'':'disabled'}`} style={{width:`${this.btnWidth}px`}}
+               onClick={this.submitProfile.bind(this)}>
             完成
           </div>
         </div>
         <div className="padding-footer"></div>
+      </div>
+    );
+  }
+}
+
+
+interface WorkStepProps {
+  works:Array<WorkItem>,
+}
+interface WorkItem {
+  done:Boolean,
+  text:String,
+}
+class WorkStep extends React.Component<WorkStepProps,any>{
+  constructor(props){
+    super(props);
+    this.sate = {};
+  }
+
+  render(){
+    return (
+      <div className="choice-dot-container">
+        <div className="choice-bg-hr"></div>
+        <div className="choice-list-wrapper">
+          {
+            this.props.works?this.props.works.map((work,key)=>{
+              return (
+                <div className="choice">
+                  <div className="mask">
+                    <div className={`dot ${work.done?'done':''}`}></div>
+                    <div className="text">{work.text}</div>
+                  </div>
+                </div>
+              )
+            }):null
+          }
+        </div>
       </div>
     )
   }
