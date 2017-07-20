@@ -3,7 +3,7 @@ import "./PlanList.less";
 import {connect} from "react-redux";
 import {loadPlanList} from "./async";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
-import {loadProblem, createPlan, checkCreatePlan} from "./async";
+import {loadProblem, createPlan, checkCreatePlan,mark} from "./async";
 import AssetImg from "../../components/AssetImg";
 import {ToolBar} from "../base/ToolBar"
 import * as $ from "jquery";
@@ -32,6 +32,13 @@ export default class PlanList extends React.Component<any,any> {
   }
 
   componentWillMount() {
+    mark({
+      module: "打点",
+      function: "学习",
+      action: "打开学习列表页面",
+      memo: window.ENV.osName
+    });
+
     const { dispatch,location } = this.props;
     dispatch(startLoad());
     const {runningPlanId,completedPlanId} = location.query;

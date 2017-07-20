@@ -6,13 +6,11 @@ import AssetImg from "../../components/AssetImg";
 import PayInfo from "./components/PayInfo";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone,logPay,mark} from "./async";
-import { Stop } from "../../utils/request"
 import { Toast, Dialog } from "react-weui";
 import { merge,isNumber,isObjectLike,toLower,get } from "lodash";
 const { Alert } = Dialog
 const numeral = require('numeral');
 import { config,pay } from "../helpers/JsConfig"
-import { log } from "utils/request"
 
 
 @connect(state => state)
