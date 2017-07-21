@@ -1,75 +1,43 @@
-@import "../../style/variable";
 
-.problem-list {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-  background: url("https://static.iqycamp.com/images/rise_welcome_bg_5.png?imageslim");
-  background-size:100% auto;
-  .tips {
-    position: relative;
-    bottom: 60px;
-    left: 10px;
-    font-size: 13px;
-    color: #efefef;
-  }
+.welcome-container {
+  background-image: url("https://static.iqycamp.com/images/fragment/free_limit_welcome.jpg?imageslim");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  position: relative;
 
-  .little-bg {
-    position: relative;
-    left: 55%;
-    margin-top: 30px;
-  }
-  .info {
+  .welcome-page {
 
-    .button-div{
-      text-align: center;
-      height: 56px;
-    }
-    .right-div{
-      text-align: right;
-    }
+    .welcome-botton {
+      width: 100%;
+      height: 40px;
+      position: relative;
+      padding-bottom: 30px;
 
-    .description-logo{
-      vertical-align: bottom;
-      margin-left: 10px;
-      width: 30px;
-      height: 30px;
-      border-radius: 30px;
-    }
-
-    .guide-msg{
-      display: inline-block;
-      width: 70%;
-      border-radius: 10px 10px 10px 0;
-      background-color: #fff;
-      line-height: 31px;
-      font-size: @font_context;
-      padding: 10px;
-      margin-left: 10px;
-      margin-top: 30px;
-    }
-    .reply-msg{
-      display: inline-block;
-      border-radius: 10px 10px 0 10px;
-      background-color: #dcf1fc;
-      line-height: 31px;
-      font-size: @font_context;
-      padding: 10px;
-      margin-right: 10px;
-      margin-top: 30px;
-    }
-    img {
-      margin-top: 30px;
-      &.head{
-        vertical-align: bottom;
-        margin-right: 10px;
-        width: 30px;
-        height: 30px;
-        border-radius: 30px;
+      .button-left {
+        margin-left: 15%;
       }
-      &.button{
-        width: 176px;
+      .button-right {
+        margin-left: 10%;
+        margin-right: 15%;
+      }
+
+      div {
+        width: ~"calc(30% - 2px)";
+        height: 38px;
+        //display: inline-block;
+        font-size: 20px;
+        line-height: 40px;
+        text-align: center;
+        color: #55CBCB;
+        border: 1px solid #55CBCB;
+        border-radius: 5px;
+        box-shadow: 1px -1px 0 #55CBCB;
+        -webkit-box-shadow: 1px -1px 0 #55CBCB;
+        -moz-box-shadow: 1px -1px 0 #55CBCB;
+        -o-box-shadow: 1px -1px 0 #55CBCB;
       }
     }
+
   }
+
 }
