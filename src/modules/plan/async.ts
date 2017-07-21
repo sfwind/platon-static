@@ -73,8 +73,7 @@ export function loadChapterCard(problemId, practicePlanId) {
   return pget(`/rise/plan/chapter/card/${problemId}/${practicePlanId}`)
 }
 
-
-// 章节结束获取章节精华图片
+// 章节结束返回是否弹出精华卡片
 export function loadChapterCardAccess(problemId, practicePlanId) {
   return pget(`/rise/plan/chapter/card/access/${problemId}/${practicePlanId}`)
 }
