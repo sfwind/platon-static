@@ -114,7 +114,7 @@ export default class MobileBind extends React.Component<any,any> {
         this.setState({show: true});
         setTimeout(() => {
           if (location.query.goRise) {
-            this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:location.query.runningPlanId}});
+            this.context.router.push({pathname: '/rise/static/learn'});
           } else {
             this.context.router.push('/rise/static/customer/account');
           }

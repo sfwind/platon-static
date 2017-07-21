@@ -264,19 +264,19 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         if(!isFull){
           // 没有填写过
           this.context.router.push({pathname:'/rise/static/customer/profile',query:{
-            goRise:true,runningPlanId:msg
+            goRise:true,runningPlanId:res.msg
           }});
           return;
         }
         if(!bindMobile){
           // 没有填过手机号
           this.context.router.push({pathname:'/rise/static/customer/mobile/check',query:{
-            goRise:true,runningPlanId:msg
+            goRise:true,runningPlanId:res.msg
           }});
           return;
         }
         // 都填写过
-        this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
+        this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:res.msg}});
       } else {
         dispatch(alertMsg(res.msg))
       }
