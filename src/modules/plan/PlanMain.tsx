@@ -24,7 +24,7 @@ const typeMap = {
   1: '巩固练习',
   2: '巩固练习',
   11: '应用练习',
-  12: '综合练习',
+  12: '应用练习',
   21: '小目标',
   31: '知识理解',
   32: '知识回顾',
@@ -46,6 +46,7 @@ export class PlanMain extends React.Component <any, any> {
       selectProblem: {},
       defeatPercent: 0,
       expired: false,
+      _t: Math.random(),
       questionList: [
         {
           id: 1,
@@ -93,24 +94,12 @@ export class PlanMain extends React.Component <any, any> {
         }
       ],
       showedPayTip: false,
-      // nextSeriesModal: {
-      //   buttons: [
-      //     {label: '我不听', onClick: () => this.next(true)},
-      //     {label: '做本节练习', onClick: () => this.setState({showNextSeriesModal: false})}
-      //   ],
-      // },
-      nextModal: {
-        buttons: [
-          { label: '我不听', onClick: () => this.confirmComplete(true) },
-          { label: '好的', onClick: () => this.setState({ showWarningModal: false }) }
-        ],
-      },
 
       sidebarOpen: false,
       showEmptyPage: false,
     }
 
-    changeTitle('RISE');
+    changeTitle('圈外同学');
   }
 
   static contextTypes = {
@@ -120,11 +109,33 @@ export class PlanMain extends React.Component <any, any> {
   resize() {
     this.setState({
       style: {
-        // picWidth:window.innerWidth,
+        cardWrapperHeight: (window.innerHeight - 197),
         picHeight: (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350)),
-        cardWrapperHeight: (window.innerHeight - 197)
       }
     })
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(set("completePracticePlanId", undefined));
+    window.removeEventListener('resize', this.resize);
+  }
+
+  riseMemberCheck() {
+    const { dispatch } = this.props
+    return isRiseMember().then(res => {
+      if(res.code === 200) {
+        this.setState({ riseMember: res.msg });
+        if(!res.msg) {
+          setTimeout(() => {
+            this.setState({ riseMemberTips: true });
+          }, 10)
+
+        }
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    });
   }
 
   componentWillMount(newProps) {
@@ -147,53 +158,46 @@ export class PlanMain extends React.Component <any, any> {
             selectProblem: msg.problem,
             mustStudyDays: msg.mustStudyDays
           });
-          //@Deprecated
-          //从微信菜单按钮进入且已过期，弹出选新小课弹窗
-          // if(location.pathname === '/rise/static/plan/main' && msg.status === 3) {
-          //    this.setState({expired:true})
-          // }
         } else {
-          // 当点击导航栏进入学习页面，如果当前无小课，展示空页面
-          // if(location.pathname === '/rise/static/learn') {
           this.setState({
             showEmptyPage: true
           })
-          // } else {
-          //   this.context.router.push({
-          //     pathname: '/rise/static/welcome'
-          //   })
-          // }
         }
-      } else {
-        dispatch(alertMsg(msg))
-      }
+      } else dispatch(alertMsg(msg))
     }).then(() => {
       this.riseMemberCheck()
     }).then(() => {
-      let completePracticePlanId = this.props.CompletePracticePlanId
+      let completePracticePlanId = this.props.CompleteChapterPracticePlanId
       console.log(this.state)
       console.log('completePracticePlanId', completePracticePlanId)
       // console.log('completePracticePlanId', completePracticePlanId)
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {
         loadChapterCardAccess(this.state.planData.problemId, completePracticePlanId).then(res => {
-          this.setState({ displayCard: true })
+          if(res.code === 200) {
+            if(res.msg) {
+              this.setState({ displayCard: true })
+            }
+          }
         })
         loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
-          dispatch(set("CompletePracticePlanId", undefined))
           if(res.code === 200) {
+            dispatch(set("CompleteChapterPracticePlanId", undefined))
             this.setState({ cardUrl: res.msg }, () => {
               setTimeout(() => {
                 this.setState({ showCard: true });
               }, 1)
             });
           }
+        }).catch(e => {
+          dispatch(alertMsg(e))
         })
       }
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      }
+    )
     if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
       this.setState({ windowsClient: true })
     } else {
@@ -203,14 +207,12 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   componentDidMount() {
-    console.log("didmount ok");
     window.addEventListener('resize', this.resize.bind(this));
     mark({ module: "打点", function: "首页", action: "打开学习页面" })
     const { planId } = this.props.location.query;
     queryChapterList(planId).then(res => {
       if(res.code === 200) {
         this.setState({ chapterList: res.msg }, () => {
-          // this.scrollbar = Scrollbar.init(this.refs.sideContent,{overscrollEffect:'bounce'});
           Ps.initialize(this.refs.sideContent, {
             swipePropagation: false,
             handlers: ['wheel', 'touch']
@@ -221,7 +223,15 @@ export class PlanMain extends React.Component <any, any> {
     FastClick.attach(document.querySelector('#plan-study-btn-footer'));
   }
 
+  componentWillReceiveProps(newProps) {
+    if(this.props.location.query.planId !== newProps.location.query.planId) {
+      this.componentWillMount(newProps)
+    }
+  }
+
   componentWillUnmount() {
+    const { dispatch } = this.props;
+    dispatch(set("completePracticePlanId", undefined));
     window.removeEventListener('resize', this.resize);
   }
 
@@ -243,12 +253,6 @@ export class PlanMain extends React.Component <any, any> {
     });
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   if(this.props.location.query.planId !== newProps.location.query.planId) {
-  //     this.componentWillMount(newProps)
-  //   }
-  // }
-
   onPracticeSelected(item) {
     const { dispatch } = this.props
     const { planData, currentIndex } = this.state
@@ -267,30 +271,29 @@ export class PlanMain extends React.Component <any, any> {
       }
       return
     }
+    // 是否完成
+    let complete = false;
+    if(item.status === 1) {
+      complete = true;
+    }
+
     //已解锁状态
     if(type === 1 || type === 2) {
-      let integrated = true
+      let integrated = true;
       if(type === 1) {
-        integrated = false
+        integrated = false;
       }
-      // if (item.status === 1) {
-      //   this.context ? this.context.router.push({
-      //         pathname: '/rise/static/practice/warmup/analysis',
-      //         query: { practicePlanId, currentIndex, integrated ,planId}
-      //       }):null;
-      // } else {
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/warmup',
-        query: { practicePlanId, currentIndex, integrated, planId }
+        query: { practicePlanId, currentIndex, integrated, planId, complete }
       }) : null;
-      // }
     } else if(type === 11) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined));
       dispatch(set('applicationId', undefined));
       dispatch(set('articlePage', undefined));
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], currentIndex, integrated: false, planId }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: false, planId, complete }
       }) : null;
     } else if(type === 12) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined));
@@ -298,28 +301,47 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined));
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], currentIndex, integrated: true, planId }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: true, planId, complete }
       }) : null;
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[0], currentIndex, planId }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
       }) : null;
     } else if(type === 31) {
-      this.context ? this.context.router.push({
-        pathname: '/rise/static/practice/knowledge',
-        query: { practicePlanId, currentIndex, planId }
-      }) : null;
+      if(!complete) {
+        learnKnowledge(practicePlanId).then(res => {
+          const { code, msg } = res
+          if(code === 200) {
+            this.context ? this.context.router.push({
+              pathname: '/rise/static/practice/knowledge',
+              query: { practicePlanId, currentIndex, planId, complete }
+            }) : null;
+          }
+        })
+      } else {
+        this.context ? this.context.router.push({
+          pathname: '/rise/static/practice/knowledge',
+          query: { practicePlanId, currentIndex, planId, complete }
+        }) : null;
+      }
     } else if(type === 32) {
-      learnKnowledge(practicePlanId).then(res => {
-        const { code, msg } = res
-        if(code === 200) {
-          this.context ? this.context.router.push({
-            pathname: '/rise/static/practice/knowledge/review',
-            query: { problemId, planId }
-          }) : null;
-        }
-      })
+      if(!complete) {
+        learnKnowledge(practicePlanId).then(res => {
+          const { code, msg } = res
+          if(code === 200) {
+            this.context ? this.context.router.push({
+              pathname: '/rise/static/practice/knowledge/review',
+              query: { problemId, planId, currentIndex, practicePlanId, complete }
+            }) : null;
+          }
+        })
+      } else {
+        this.context ? this.context.router.push({
+          pathname: '/rise/static/practice/knowledge/review',
+          query: { problemId, planId, currentIndex, practicePlanId, complete }
+        }) : null;
+      }
     }
   }
 
@@ -332,13 +354,13 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   handleClickUnComplete() {
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
   }
 
   handleClickUnMinStudy() {
     const { dispatch } = this.props;
-    const { mustStudyDays } = this.state
+    const { mustStudyDays } = this.state;
     dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`));
   }
 
@@ -384,15 +406,10 @@ export class PlanMain extends React.Component <any, any> {
     })
   }
 
-  confirmComplete(force) {
+  confirmComplete() {
     const { dispatch, location } = this.props;
-    const { planData, mustStudyDays } = this.state
-    const { planId } = location.query
-    const { doneAllIntegrated } = planData
-    if(!force && !doneAllIntegrated) {
-      this.setState({ showCompleteModal: false, showWarningModal: true })
-      return
-    }
+    const { planData, mustStudyDays } = this.state;
+    const { planId } = location.query;
     this.context.router.push({
       pathname: '/rise/static/plan/report',
       query: { planId: planId }
@@ -440,16 +457,15 @@ export class PlanMain extends React.Component <any, any> {
     } else {
       this.context.router.push({
         pathname: "/rise/static/problem/explore",
-        // query:this.props.location.query
       })
     }
 
   }
 
   onTransitionEnd() {
-    const { location } = this.props
-    const { planId } = location.query
-    const { currentIndex } = this.state
+    const { location } = this.props;
+    const { planId } = location.query;
+    const { currentIndex } = this.state;
     markPlan(currentIndex, planId)
   }
 
@@ -486,7 +502,7 @@ export class PlanMain extends React.Component <any, any> {
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad());
       this.setState({ showScoreModal: false, planData: merge({}, planData, { hasProblemScore: true }) }, () => {
-          this.confirmComplete()
+          this.confirmComplete();
         }
       );
     }).catch(ex => {
@@ -531,13 +547,33 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal, showCompleteModal, showConfirmModal, windowsClient, showEmptyPage,
-      selectProblem, riseMember, riseMemberTips, defeatPercent, showWarningModal, chapterList, expired
-    } = this.state
-    const { location } = this.props
+      currentIndex, planData, showScoreModal, showEmptyPage,
+      selectProblem, riseMember, riseMemberTips, chapterList, expired, _t
+    } = this.state;
+    const { location, completePracticePlanId, dispatch } = this.props;
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus, free
-    } = planData
+    } = planData;
+
+    const completePracticeRender = (item) => {
+      if(item.status !== 1) {
+        return null;
+      }
+      if(completePracticePlanId && completePracticePlanId == item.practicePlanId) {
+        return (
+          <div className="practice-complete">
+            <img src={`https://static.iqycamp.com/images/complete_practice.gif?_t=${_t}`} width={50}/>
+          </div>
+        )
+      } else {
+        return (
+          <div className="practice-complete">
+            <AssetImg type="complete" size={50}/>
+          </div>
+        )
+      }
+
+    }
 
     const practiceRender = (list = []) => {
       if(!list) {
@@ -548,26 +584,28 @@ export class PlanMain extends React.Component <any, any> {
             <div key={index} className="practice-card"
                  onClick={() => this.onPracticeSelected(item)}>
               <div className="header">
-                {item.type === 1 || item.type === 2 ? item.status !== 1 ?
-                  <AssetImg type="warmup" size={50}/> :
-                  <AssetImg type="warmup_complete" size={50}/> : null
+                <div className="practice-thumb">
+                  {item.type === 1 || item.type === 2 ? item.status !== 1 ?
+                    <AssetImg type="warmup" size={50}/> :
+                    <AssetImg type="warmup_complete" size={50}/> : null
+                  }
+                  {item.type === 11 || item.type === 12 ? item.status !== 1 ?
+                    <AssetImg type="application" size={50}/> :
+                    <AssetImg type="application_complete" size={50}/> : null
+                  }
+                  {item.type === 21 ? item.status !== 1 ?
+                    <AssetImg type="challenge" size={50}/> :
+                    <AssetImg type="challenge_complete" size={50}/> : null
+                  }
+                  {item.type === 31 || item.type === 32 ? item.status !== 1 ?
+                    <AssetImg type="knowledge" size={50}/> :
+                    <AssetImg type="knowledge_complete" size={50}/> : null
+                  }
+                </div>
+                {
+                  completePracticeRender(item)
                 }
-                {item.type === 11 ? item.status !== 1 ?
-                  <AssetImg type="application" size={50}/> :
-                  <AssetImg type="application_complete" size={50}/> : null
-                }
-                {item.type === 12 ? item.status !== 1 ?
-                  <AssetImg type="integrated" size={50}/> :
-                  <AssetImg type="integrated_complete" size={50}/> : null
-                }
-                {item.type === 21 ? item.status !== 1 ?
-                  <AssetImg type="challenge" size={50}/> :
-                  <AssetImg type="challenge_complete" size={50}/> : null
-                }
-                {item.type === 31 || item.type === 32 ? item.status !== 1 ?
-                  <AssetImg type="knowledge" size={50}/> :
-                  <AssetImg type="knowledge_complete" size={50}/> : null
-                }
+
               </div>
               {item.unlocked === false ?
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null
@@ -577,7 +615,6 @@ export class PlanMain extends React.Component <any, any> {
               </div>
               <div className="footer">
                 {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
-                {item.type === 12 ? <AssetImg type="recommend" width={45} height={12}/> : null}
               </div>
             </div>
           )
@@ -606,7 +643,7 @@ export class PlanMain extends React.Component <any, any> {
                   <div className="cell">
                     <div className="chapter">
                       <div>
-                        <div className="label">{NumberToChinese(item.chapterId)}、</div>
+                        <div className="label">{'第' + NumberToChinese(item.chapterId) + '章'}</div>
                         <div className="str"
                              style={{ maxWidth: `${window.innerWidth * 0.7 - 50}px` }}>{item.chapter}</div>
                       </div>
@@ -635,7 +672,7 @@ export class PlanMain extends React.Component <any, any> {
       )
     }
 
-    const renderBtnFooter = (item, idx) => {
+    const renderBtnFooter = () => {
       let lastBtn = null;
       let preSection = null;
       if(currentIndex === 1) {
@@ -734,7 +771,7 @@ export class PlanMain extends React.Component <any, any> {
         <div key={idx}>
           <div className="plan-progress">
             <div className="intro">
-              <div className="intro-chapter">{NumberToChinese(item.chapter)}{'、 '}{item.chapterName}</div>
+              <div className="intro-chapter">{'第' + NumberToChinese(item.chapter) + '章'}{'、 '}{item.chapterName}</div>
               <div className="bar"/>
             </div>
             <div className="intro-section">{item.chapter + '.' + item.section}{' '}{item.name}</div>
@@ -853,32 +890,6 @@ export class PlanMain extends React.Component <any, any> {
     }
     return (
       <div className="rise-main">
-        {/* TODO 页面改造
-         {showScoreModal ?
-         <DropChoice
-         onSubmit={(questionList) => this.submitScore(questionList)}
-         onClose={() => this.setState({ showScoreModal: false }, () => {
-         this.confirmComplete()
-         })}
-         questionList={this.state.questionList}/> : null}
-         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
-         <Modal show={expired}
-         buttons={[{ click: () => this.goReport(), content: `${reportStatus < 0 ? '选择新小课' : '学习报告'}` }]}>
-         <div className="content">
-         <div className="text">糟糕！好久没学，小课到期了！</div>
-         </div>
-         <div className="content2">
-         <div className="text">你完成了<span className="number">{completeSeries}</span>节</div>
-         <div className="text">获得了<span className="number">{point}</span>积分</div>
-         </div>
-         </Modal>
-
-         <Alert { ...this.state.nextModal }
-         show={showWarningModal}>
-         <div className="global-pre"
-         dangerouslySetInnerHTML={{ __html: "我们发现你的综合练习还没有完成，这会影响你的学习报告内容<br/>建议先返回完成它们" }}/>
-         </Alert>
-         */}
         {renderCard()}
         <div>
           {showEmptyPage ? (

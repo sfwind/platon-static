@@ -53,9 +53,7 @@ export class ImprovementReport extends React.Component<any, any> {
   renderChapterScores() {
     const { planData = {} } = this.state;
     const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
-      applicationScore, applicationCompleteCount, checkStatus
+      chapterList
     } = planData;
     if(chapterList) {
       return chapterList.map((item, key) => {
@@ -79,8 +77,7 @@ export class ImprovementReport extends React.Component<any, any> {
   renderApplicationScores() {
     const { planData = {} } = this.state;
     const {
-      problem, studyDays, percent, receiveVoteCount, shareVoteCount, totalScore, integratedTotalScore, integratedShouldCount,
-      integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
+      applicationTotalScore, applicationShouldCount,
       applicationScore, applicationCompleteCount
     } = planData;
     let renderArr = [];
@@ -98,22 +95,8 @@ export class ImprovementReport extends React.Component<any, any> {
       </div>
     )
 
-    let integrates = (
-      <div className="complete-item first">
-        <div className="info">
-          <span className="name">综合练习完成 <span
-            className="big-point">{integratedCompleteCount}</span> / {integratedShouldCount} 份，得分：</span>
-          <div className="clear"/>
-        </div>
-        <Progress holderClass="article" progressStyle={{ width: `${window.innerWidth - 170}px` }}
-                  score={integratedScore}
-                  totalScore={integratedTotalScore}/>
-      </div>
-    );
     renderArr.push(applications);
-    renderArr.push(integrates);
     return renderArr;
-
   }
 
   chooseNew() {
@@ -200,7 +183,7 @@ export class ImprovementReport extends React.Component<any, any> {
 
     const renderTips = () => {
       if(doneAllApps){
-        return <span>哇哦！你完成了全部的【应用练习】和【综合练习】，这是赤裸裸秒杀99%同学的节奏！</span>;
+        return <span>哇哦！你完成了全部的【应用练习】，这是赤裸裸秒杀99%同学的节奏！</span>;
       } else {
         return <span>不要在小课完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
       }
@@ -241,7 +224,7 @@ export class ImprovementReport extends React.Component<any, any> {
 
           <div className="body" style={{ marginTop: '36px' }}>
             <div className="header">
-              <span className="title">应用练习&amp;综合练习</span>
+              <span className="title">应用练习</span>
             </div>
             {this.renderApplicationScores()}
             <div className="vote-info">
