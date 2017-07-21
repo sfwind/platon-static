@@ -164,13 +164,7 @@ class Card extends React.Component<CardProps, any> {
       <div className="card" {...this.props}>
         <div className="card-top">
           <div className={`card-img ${completed ? '' : 'lock'}`} style={{ height: boxSize, width: boxSize }}>
-            {
-              completed ?
-                <AssetImg url={img} width={boxSize}/> :
-                <div className="lock-img">
-                  <AssetImg url={lockImg} width={boxSize}/>
-                </div>
-            }
+            <AssetImg url={completed ? img : lockImg} width={boxSize}/>
           </div>
           <div className={`card-chapter ${completed ? '' : 'lock'}`}>{chapterNo}</div>
         </div>
