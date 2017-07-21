@@ -7,6 +7,7 @@ import { loadCardData, loadEssenceCard, loadProblemCards } from "./async";
 
 // 小课卡包
 interface CardsCollectionStates {
+  problemId: number;
   problem: string;
   cards: object;
   showCard: boolean;
@@ -21,7 +22,8 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     this.state = {
       showCard: false,
       essenceCard: 'https://static.iqycamp.com/images/imgLoading.png?imageslim',
-      problem: {},
+      problemId: 0,
+      problem: '',
       cards: [],
       essenceCardMap: new Map()
     }
@@ -32,10 +34,11 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     const { dispatch } = this.props
     dispatch(startLoad())
     loadCardData(planId).then(res => {
+      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        this.setState({ problem: msg.problem, cards: msg.cards })
+        this.setState({ problemId: msg.problemId, problem: msg.problem, cards: msg.cards })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -74,7 +77,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
   }
 
   render() {
-    const { showCard, essenceCard, problem, cards } = this.state
+    const { showCard, essenceCard, problemId, problem, cards } = this.state
 
     const renderCards = () => {
       return (
@@ -129,7 +132,12 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       <div className="cards-container">
         <div className={`cards-page ${showCard ? 'blur' : ''}`}>
           <div className="cards-header">{problem}</div>
-          <div className="cards-call" style={{ height: 0.366 * window.innerWidth }}/>
+          {
+            // TODO 限免活动取消，记得删除这行代码
+            problemId === 9 ?
+              <div className="cards-call" style={{ height: 0.366 * window.innerWidth }}/> :
+              null
+          }
           {renderCards()}
         </div>
         {renderCardView()}
