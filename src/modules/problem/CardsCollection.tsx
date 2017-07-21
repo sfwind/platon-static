@@ -85,7 +85,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
           {
             cards.map((card, index) => {
               return (
-                <Card img={card.thumbnail} chapterNo={card.chapterNo} key={index}
+                <Card img={card.thumbnail} lockImg={card.thumbnailLock} chapterNo={card.chapterNo} key={index}
                       chaper={card.chapter} completed={card.completed}
                       onClick={() => this.handleClickLoadCard(card.problemId, card.chapterId, card.completed)}/>
               )
@@ -150,26 +150,21 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
 
 interface CardProps {
   img: string;
+  lockImg: string;
   chapterNo: string;
   chaper: string;
   completed: boolean;
 }
 class Card extends React.Component<CardProps, any> {
   render() {
-    const { img, chapterNo, chaper, completed } = this.props
+    const { img, lockImg, chapterNo, chaper, completed } = this.props
     // 卡片盒子高度
     const boxSize = (window.innerWidth - 6 * 15) / 3
     return (
       <div className="card" {...this.props}>
         <div className="card-top">
           <div className={`card-img ${completed ? '' : 'lock'}`} style={{ height: boxSize, width: boxSize }}>
-            {
-              completed ?
-                <AssetImg url={img} width={boxSize}/> :
-                <div className="lock-img">
-                  <AssetImg url={require('../../../assets/img/card-lock.png')} width={20} height={26}/>
-                </div>
-            }
+            <AssetImg url={completed ? img : lockImg} width={boxSize}/>
           </div>
           <div className={`card-chapter ${completed ? '' : 'lock'}`}>{chapterNo}</div>
         </div>

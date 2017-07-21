@@ -171,6 +171,8 @@ export class PlanMain extends React.Component <any, any> {
       this.riseMemberCheck()
     }).then(() => {
       let completePracticePlanId = this.props.CompletePracticePlanId
+      console.log(this.state)
+      console.log('completePracticePlanId', completePracticePlanId)
       // console.log('completePracticePlanId', completePracticePlanId)
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {

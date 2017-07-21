@@ -1,14 +1,21 @@
 import * as React from "react";
-import {connect} from "react-redux"
+import { connect } from "react-redux"
 import "./KnowledgeViewer.less";
 import AssetImg from "../../../components/AssetImg";
 import Audio from "../../../components/Audio";
-import {loadDiscuss,discussKnowledge,loadKnowledge, learnKnowledge, loadKnowledges, deleteKnowledgeDiscuss} from "./async"
+import {
+  loadDiscuss,
+  discussKnowledge,
+  loadKnowledge,
+  learnKnowledge,
+  loadKnowledges,
+  deleteKnowledgeDiscuss
+} from "./async"
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
 import _ from "lodash"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import {scroll} from "../../../utils/helpers"
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
+import { scroll } from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
 
 const sequenceMap = {
@@ -21,18 +28,18 @@ const sequenceMap = {
   6: 'G',
 }
 
-@connect(state=>state)
+@connect(state => state)
 export class KnowledgeViewer extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      showTip:false,
-      showDiscuss:false,
-      commentId:0,
-      knowledge:{},
-      discuss:{},
-      placeholder:'提出你的疑问或意见吧（限1000字）',
-      isReply:false,
+      showTip: false,
+      showDiscuss: false,
+      commentId: 0,
+      knowledge: {},
+      discuss: {},
+      placeholder: '提出你的疑问或意见吧（限1000字）',
+      isReply: false,
     }
   }
 
@@ -40,46 +47,45 @@ export class KnowledgeViewer extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount(){
-    mark({module: "打点", function: "学习", action: "打开知识点页面"});
-    const {id,practicePlanId} = this.props.location.query
-    const {dispatch} = this.props
+  componentWillMount() {
+    mark({ module: "打点", function: "学习", action: "打开知识点页面" });
+    const { id, practicePlanId } = this.props.location.query
+    const { dispatch } = this.props
     dispatch(startLoad())
-    if(practicePlanId){
-      loadKnowledges(practicePlanId).then(res =>{
-        if(res.code === 200){
-          this.setState({knowledge:res.msg[0], referenceId:res.msg[0].id})
+    if(practicePlanId) {
+      loadKnowledges(practicePlanId).then(res => {
+        if(res.code === 200) {
+          this.setState({ knowledge: res.msg[0], referenceId: res.msg[0].id })
           dispatch(endLoad())
-          loadDiscuss(res.msg[0].id,1)
-              .then(res=>{
-                if(res.code === 200){
-                  this.setState({discuss:res.msg})
-                }
-              });
-        }else{
+          loadDiscuss(res.msg[0].id, 1)
+          .then(res => {
+            if(res.code === 200) {
+              this.setState({ discuss: res.msg })
+            }
+          });
+        } else {
           dispatch(endLoad())
           dispatch(alertMsg(res.msg))
         }
       })
-    }else if(id){
-      loadKnowledge(id).then(res=>{
-        if(res.code === 200){
-          this.setState({knowledge:res.msg})
+    } else if(id) {
+      loadKnowledge(id).then(res => {
+        if(res.code === 200) {
+          this.setState({ knowledge: res.msg })
           dispatch(endLoad())
-          loadDiscuss(id,1)
-              .then(res=>{
-                if(res.code === 200){
-                  this.setState({discuss:res.msg})
-                }
-              });
-        }else{
+          loadDiscuss(id, 1)
+          .then(res => {
+            if(res.code === 200) {
+              this.setState({ discuss: res.msg })
+            }
+          });
+        } else {
           dispatch(endLoad())
           dispatch(alertMsg(res.msg))
         }
       })
     }
   }
-
 
   reply(item) {
     this.setState({
@@ -92,50 +98,54 @@ export class KnowledgeViewer extends React.Component<any, any> {
     })
   }
 
-  reload(){
-    const {knowledge} = this.state;
-    loadDiscuss(knowledge.id,1)
-      .then(res=>{
-        if(res.code === 200){
-          this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,
-            placeholder:'提出你的疑问或意见吧（限1000字）', content:''})
-          scroll('.discuss', '.container')
-        }
-      });
+  reload() {
+    const { knowledge } = this.state;
+    loadDiscuss(knowledge.id, 1)
+    .then(res => {
+      if(res.code === 200) {
+        this.setState({
+          discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
+          placeholder: '提出你的疑问或意见吧（限1000字）', content: ''
+        })
+        scroll('.discuss', '.container')
+      }
+    });
   }
 
-  writeDiscuss(){
-    this.setState({showDiscuss: true, repliedId:0},()=>{scroll(0,0)});
-    if(this.props.trigger){
+  writeDiscuss() {
+    this.setState({ showDiscuss: true, repliedId: 0 }, () => {
+      scroll(0, 0)
+    });
+    if(this.props.trigger) {
       this.props.trigger();
     }
   }
 
-  onChange(value){
-    this.setState({content:value})
+  onChange(value) {
+    this.setState({ content: value })
   }
 
-  cancel(){
-    this.setState({placeholder:'提出你的疑问或意见吧（限1000字）', isReply:false, showDiscuss:false,repliedId:0})
+  cancel() {
+    this.setState({ placeholder: '提出你的疑问或意见吧（限1000字）', isReply: false, showDiscuss: false, repliedId: 0 })
   }
 
-  onSubmit(){
-    const {dispatch} = this.props
-    const {referenceId, repliedId, content} = this.state
-    if(content.length==0){
+  onSubmit() {
+    const { dispatch } = this.props
+    const { referenceId, repliedId, content } = this.state
+    if(content.length == 0) {
       dispatch(alertMsg('请填写评论'))
       return
     }
 
-    let discussBody = {comment: content, referenceId: this.state.knowledge.id};
+    let discussBody = { comment: content, referenceId: this.state.knowledge.id };
 
-    if (repliedId) {
-      _.merge(discussBody, {repliedId: repliedId})
+    if(repliedId) {
+      _.merge(discussBody, { repliedId: repliedId })
     }
 
     discussKnowledge(discussBody).then(res => {
-      const {code, msg} = res
-      if (code === 200) {
+      const { code, msg } = res
+      if(code === 200) {
         this.reload()
       }
       else {
@@ -147,17 +157,19 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const {dispatch} = this.props;
-    const {knowledge} = this.state;
+    const { dispatch } = this.props;
+    const { knowledge } = this.state;
     dispatch(startLoad());
     deleteKnowledgeDiscuss(id).then(res => {
       loadDiscuss(knowledge.id, 1)
-          .then(res=>{
-            dispatch(endLoad());
-            if(res.code === 200){
-              this.setState({discuss:res.msg,showDiscuss:false,repliedId:0,isReply:false,
-                placeholder:'提出你的疑问或意见吧（限1000字）', content:''})
-            }
+      .then(res => {
+        dispatch(endLoad());
+        if(res.code === 200) {
+          this.setState({
+            discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
+            placeholder: '提出你的疑问或意见吧（限1000字）', content: ''
+          })
+        }
       });
     }).catch(ex => {
       dispatch(endLoad());
@@ -165,12 +177,13 @@ export class KnowledgeViewer extends React.Component<any, any> {
     });
   }
 
-
   complete() {
-    const {dispatch, location} = this.props
+    const { dispatch, location } = this.props
+    const { practicePlanId } = this.props.location.query
     learnKnowledge(location.query.practicePlanId).then(res => {
-      const {code, msg} = res
-      if (code === 200) {
+      dispatch(set('CompletePracticePlanId', practicePlanId));
+      const { code, msg } = res
+      if(code === 200) {
         window.history.back();
         // this.context.router.push({pathname: '/rise/static/learn', query: this.props.location.query})
       }
@@ -182,55 +195,55 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   render() {
-    const { showTip,showDiscuss,knowledge,discuss=[],isReply,placeholder } = this.state
+    const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic } = knowledge
-    const {location} = this.props
-    const {practicePlanId} = location.query
+    const { location } = this.props
+    const { practicePlanId } = location.query
 
     const choiceRender = (choice, idx) => {
-      const {id, subject} = choice
+      const { id, subject } = choice
       return (
-          <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
+        <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
             {sequenceMap[idx]}
           </span>
-            <span className={`subject`}>{subject}</span>
-          </div>
+          <span className={`subject`}>{subject}</span>
+        </div>
       )
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight? sequenceMap[idx]+' ' :'')
+      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
     }
     return (
       <div className={`knowledge-page`}>
-        <div className={`container ${practicePlanId?'has-footer':''}`}>
+        <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
             { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
             { pic ? <div className="context-img"><img src={pic}/></div> : null }
-            { analysis?
-                <div>
-                  <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
-                  </div>
-                  <div className="text">
-                    <pre>{analysis}</pre>
-                  </div>
-                  { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
+            { analysis ?
+              <div>
+                <div className="context-title-img">
+                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
-                : null}
-            { means?
-                <div>
-                  <div className="context-title-img">
-                    <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
-                  </div>
-                  <div className="text">
-                    <pre>{means}</pre>
-                  </div>
-                  { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
+                <div className="text">
+                  <pre>{analysis}</pre>
                 </div>
-                : null}
+                { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
+              </div>
+              : null}
+            { means ?
+              <div>
+                <div className="context-title-img">
+                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
+                </div>
+                <div className="text">
+                  <pre>{means}</pre>
+                </div>
+                { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
+              </div>
+              : null}
             {keynote ?
               <div>
                 <div className="context-title-img">
@@ -248,22 +261,24 @@ export class KnowledgeViewer extends React.Component<any, any> {
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
                 </div>
                 <div className="question">
-                  <div className="context" dangerouslySetInnerHTML={{__html: example.question}}></div>
+                  <div className="context" dangerouslySetInnerHTML={{ __html: example.question }}></div>
                 </div>
                 <div className="choice-list">
                   {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
                 </div>
 
-                {showTip?
+                {showTip ?
                   <div className="analysis">
                     <div className="title-bar">解析</div>
                     <div className="context">
                       正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
                     </div>
                     <div className="context"
-                         dangerouslySetInnerHTML={{__html: example.analysis}}></div>
+                         dangerouslySetInnerHTML={{ __html: example.analysis }}></div>
                   </div>
-                  :<div className="analysis"><div className="analysis-tip" onClick={() => this.setState({showTip:true})}>点击查看解析</div></div>}
+                  : <div className="analysis">
+                    <div className="analysis-tip" onClick={() => this.setState({ showTip: true })}>点击查看解析</div>
+                  </div>}
               </div>
               : null}
             <div className="title-bar">问答</div>
@@ -290,15 +305,16 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 : null}
             </div>
           </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
+          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {practicePlanId&&!showDiscuss?<div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>:null}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                              submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
-                              cancel={()=>this.cancel()}/>:
-            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-            </div>}
+        {practicePlanId && !showDiscuss ?
+          <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> : null}
+        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                cancel={() => this.cancel()}/> :
+          <div className="writeDiscuss" onClick={() => this.setState({ showDiscuss: true })}>
+            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+          </div>}
       </div>
     )
   }
