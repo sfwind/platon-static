@@ -15,12 +15,12 @@ export function config(apiList,callback) {
             callback();
           }
         })
-        wx.error(function (e) {
+        wx.error((e)=>{
           mark({
             module: "JSSDK",
             function: "ios",
             action: "签名失败",
-            memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl + ",os:" + window.ENV.systemInfo
+            memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl + ",os:" + window.ENV.systemInfo +",signature:"+(res?res.msg:'空')
           });
           // TODO 上线前删掉
           alert("还是注册错了:"+e.errMsg);
@@ -42,19 +42,16 @@ export function config(apiList,callback) {
             callback();
           }
         })
-        wx.error(function (e) {
+        wx.error((e) => {
           // TODO 上线前删掉
-          wx.error(function (e) {
-            mark({
-              module: "JSSDK",
-              function: "notios",
-              action: "签名失败",
-              memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl + ",os:" + window.ENV.systemInfo
-            });
-            // TODO 上线前删掉
-            alert("还是注册错了:"+e.errMsg);
-          })
-          alert("还是注册错了"+e.errMsg);
+          mark({
+            module: "JSSDK",
+            function: "notios",
+            action: "签名失败",
+            memo: "url:" + window.location.href + ",configUrl:" + window.ENV.configUrl + ",os:" + window.ENV.systemInfo + ",signature:" + (res?res.msg:'空')
+          });
+          // TODO 上线前删掉
+          alert("还是注册错了:" + e.errMsg);
         })
       } else {
       }
