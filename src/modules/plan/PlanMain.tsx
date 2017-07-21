@@ -169,6 +169,7 @@ export class PlanMain extends React.Component <any, any> {
       this.riseMemberCheck()
     }).then(() => {
       let completePracticePlanId = this.props.CompletePracticePlanId
+      console.log(this.state)
       console.log('completePracticePlanId', completePracticePlanId)
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {
@@ -180,7 +181,7 @@ export class PlanMain extends React.Component <any, any> {
         //
         //   }
         // })
-        loadChapterCard(9, 306781).then(res => {
+        loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
           dispatch(set("CompletePracticePlanId", undefined))
           console.log('chapterCard', res)
           if(res.code === 200) {
