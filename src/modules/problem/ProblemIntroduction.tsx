@@ -577,7 +577,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               );
               return list;
             }
-            case 5: {
+            case 5:case 6: {
               list.push(
                 <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
                   限时免费，立即开始学习
