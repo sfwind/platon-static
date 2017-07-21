@@ -20,7 +20,8 @@ export function config(apiList,callback) {
             module: "JSSDK",
             function: "ios",
             action: "签名失败",
-            memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl + ",os:" + window.ENV.systemInfo +",signature:"+(res?res.msg:'空')
+            memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
+            + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
           });
           // TODO 上线前删掉
           alert("还是注册错了:"+e.errMsg);
@@ -48,7 +49,8 @@ export function config(apiList,callback) {
             module: "JSSDK",
             function: "notios",
             action: "签名失败",
-            memo: "url:" + window.location.href + ",configUrl:" + window.ENV.configUrl + ",os:" + window.ENV.systemInfo + ",signature:" + (res?res.msg:'空')
+            memo: "url:" + window.location.href + ",configUrl:" + window.ENV.configUrl
+            + ",os:" + window.ENV.systemInfo + ",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
           });
           // TODO 上线前删掉
           alert("还是注册错了:" + e.errMsg);

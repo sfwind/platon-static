@@ -82,6 +82,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             return Promise.reject("refresh");
           }
         }
+        console.log(res.msg);
         return res.msg;
       } else {
         return Promise.reject(msg);
@@ -140,16 +141,28 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   handleSubmitProblemChoose() {
     this.setState({showAlert: false});
     const {dispatch, location} = this.props
-
+    const { isFull,bindMobile } = this.state;
     dispatch(startLoad())
     createPlan(location.query.id).then(res => {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
-        this.context.router.push({pathname:'/rise/static/customer/profile',query:{
-          goRise:true
-        }});
-        // this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
+        if(!isFull){
+          // 没有填写过
+          this.context.router.push({pathname:'/rise/static/customer/profile',query:{
+            goRise:true,runningPlanId:msg
+          }});
+          return;
+        }
+        if(!bindMobile){
+          // 没有填过手机号
+          this.context.router.push({pathname:'/rise/static/customer/mobile/check',query:{
+            goRise:true,runningPlanId:msg
+          }});
+          return;
+        }
+        // 都填写过
+        this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
       } else {
         dispatch(alertMsg(msg))
       }

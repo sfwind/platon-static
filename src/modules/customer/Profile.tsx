@@ -143,8 +143,9 @@ export default class Profile extends React.Component<any,any> {
 
   submitProfile() {
     const {dispatch, location}= this.props;
-    const {city, province, industry, workingLife} = this.state;
+    const {city, province, industry, workingLife,bindMobile} = this.state;
     const functionValue = _.get(this.state, "function");
+    const {runningPlanId,goRise} = location.query;
     if (city && province && industry && workingLife && functionValue) {
       dispatch(startLoad());
       ppost("/rise/customer/profile", {
@@ -153,13 +154,19 @@ export default class Profile extends React.Component<any,any> {
         industry: industry,
         workingLife: workingLife,
         function: functionValue
-      })
-        .then(res => {
+      }).then(res => {
           dispatch(endLoad());
           if (res.code === 200) {
             //从rise付款页跳转过来的，填完个人信息后引导去学习页面
-            if (location.query.goRise) {
-              this.context.router.push({pathname: '/rise/static/customer/mobile/check', query: {goRise: true}})
+            if (goRise) {
+              // 是否mobile已经绑定
+              if(!bindMobile){
+                // 没有绑定过
+                this.context.router.push({pathname: '/rise/static/customer/mobile/check', query: {goRise: true,runningPlanId:runningPlanId}})
+              } else {
+                // 绑定过
+                this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:runningPlanId}});
+              }
             } else {
               dispatch(alertMsg("提交成功"));
               this.setState({isFull: true});
