@@ -98,6 +98,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             coupons: msg,
             fee: problemMsg.fee,
             currentPlanId:problemMsg.planId,
+            bindMobile: problemMsg.bindMobile,
+            isFull:problemMsg.isFull
           });
         } else {
           this.setState({
@@ -106,6 +108,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             coupons: [],
             fee: problemMsg.fee,
             currentPlanId:problemMsg.planId,
+            bindMobile: problemMsg.bindMobile,
+            isFull:problemMsg.isFull
           });
           dispatch(alertMsg(msg));
         }
@@ -242,7 +246,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
    */
   handlePayDone() {
     const {dispatch} = this.props
-    const { productId } = this.state;
+    const { productId,isFull,bindMobile } = this.state;
     if (this.state.err) {
       mark({
         module: "打点",
@@ -257,9 +261,22 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     afterPayDone(productId).then(res => {
       dispatch(endLoad())
       if (res.code === 200) {
-        this.context.router.push({pathname:'/rise/static/customer/profile',query:{
-          goRise:true
-        }});
+        if(!isFull){
+          // 没有填写过
+          this.context.router.push({pathname:'/rise/static/customer/profile',query:{
+            goRise:true,runningPlanId:msg
+          }});
+          return;
+        }
+        if(!bindMobile){
+          // 没有填过手机号
+          this.context.router.push({pathname:'/rise/static/customer/mobile/check',query:{
+            goRise:true,runningPlanId:msg
+          }});
+          return;
+        }
+        // 都填写过
+        this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
       } else {
         dispatch(alertMsg(res.msg))
       }
