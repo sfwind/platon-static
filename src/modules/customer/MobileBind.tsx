@@ -154,7 +154,7 @@ export default class MobileBind extends React.Component<any,any> {
 
   render() {
     const {sending, seconds,bindMobile,isFull,showArea} = this.state;
-
+    const { location } = this.props;
     const renderAreaCode = ()=>{
       if(showArea){
         return <TextInput placeholder="请填写" value={this.state.areaCode} label="区号" onChange={(e)=>this.setState({areaCode:e.currentTarget.value})}/>;
@@ -180,8 +180,8 @@ export default class MobileBind extends React.Component<any,any> {
     return (
       <div className="mobile-bind">
         <div className="go-rise">
-          <WorkStep
-            works={[{text:'选课',done:true},{text:'填写信息',done:!!isFull},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
+          {location.query.goRise?<WorkStep
+            works={[{text:'选课',done:true},{text:'填写信息',done:!!isFull},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>:null}
         </div>
         <div className={`item ${!showArea?'show-area':''}`} onClick={()=>{
           this.setState({showArea:true})
