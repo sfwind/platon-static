@@ -49,7 +49,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
   componentWillMount() {
     mark({ module: "打点", function: "学习", action: "打开知识点页面" });
-    const { id, practicePlanId } = this.props.location.query
+    const { id, practicePlanId, complete } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
     if(practicePlanId) {
@@ -68,6 +68,13 @@ export class KnowledgeViewer extends React.Component<any, any> {
           dispatch(alertMsg(res.msg))
         }
       })
+
+      if(complete == 'false') {
+        // 章节完成，供弹出卡片使用
+        dispatch(set('CompleteChapterPracticePlanId', practicePlanId));
+        // 完成练习动效
+        dispatch(set('completePracticePlanId', practicePlanId));
+      }
     } else if(id) {
       loadKnowledge(id).then(res => {
         if(res.code === 200) {
@@ -178,25 +185,25 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   complete() {
-    const { dispatch, location } = this.props
-    const { practicePlanId } = this.props.location.query
-    learnKnowledge(location.query.practicePlanId).then(res => {
-      dispatch(set('CompletePracticePlanId', practicePlanId));
-      const { code, msg } = res
-      if(code === 200) {
-        window.history.back();
-        // this.context.router.push({pathname: '/rise/static/learn', query: this.props.location.query})
-      }
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    window.history.back();
+    // learnKnowledge(location.query.practicePlanId).then(res => {
+    //   const {code, msg} = res
+    //   if (code === 200) {
+    //     window.history.back();
+    //   }
+    //   else dispatch(alertMsg(msg))
+    // }).catch(ex => {
+    //   dispatch(endLoad())
+    //   dispatch(alertMsg(ex))
+    // })
   }
 
   render() {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
-    const { analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic } = knowledge
+    const {
+      analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,
+      analysisAudio, meansAudio, keynoteAudio
+    } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
 
@@ -227,6 +234,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
+                { analysisAudio ? <div className="context-audio"><Audio url={analysisAudio}/></div> : null }
                 <div className="text">
                   <pre>{analysis}</pre>
                 </div>
@@ -238,6 +246,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                 </div>
+                { meansAudio ? <div className="context-audio"><Audio url={meansAudio}/></div> : null }
                 <div className="text">
                   <pre>{means}</pre>
                 </div>
@@ -249,6 +258,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                 </div>
+                { keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}/></div> : null }
                 <div className="text">
                   <pre>{keynote}</pre>
                 </div>

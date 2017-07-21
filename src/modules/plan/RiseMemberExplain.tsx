@@ -26,7 +26,7 @@ export class RiseMemberExplain extends React.Component <any, any> {
     return (
       <div>
         <div className="container member-container">
-          <h4>选择正式版，你可以学习RISE所有的小课，并收获：</h4>
+          <h4>选择正式版，你可以学习【圈外同学】所有的小课，并收获：</h4>
           <ul>
             <li>系统学习所有知识</li>
             <li>将知识内化为能力</li>
