@@ -24,9 +24,9 @@ export default class Welcome extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         // TODO 记得取消注释
-        // if(res.code === 200 && res.msg) {
-        //   this.context.router.push("/rise/static/problem/explore")
-        // }
+        if(res.code === 200 && res.msg) {
+          this.context.router.push("/rise/static/problem/explore")
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -53,10 +53,9 @@ export default class Welcome extends React.Component<any, any> {
   render() {
     return (
       <div className="welcome-container"
-           style={{ minHeight: (window.innerWidth / 375) * 667 }}>
+           style={{ minHeight: (window.innerWidth / 375) * 667 - 50}}>
         <div className="welcome-page">
-          <div className="welcome-botton"
-               style={{ top: (window.innerWidth / 375) * 667 - window.innerWidth / 375 * 82 }}>
+          <div className="welcome-botton">
             <div style={{margin: "0 auto"}} onClick={() => this.handleClickGoPayPage()}>正式版本</div>
           </div>
         </div>
