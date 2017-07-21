@@ -837,9 +837,9 @@ export class PlanMain extends React.Component <any, any> {
                 <div className="printer-push-port">
                   <div className="mask-port"></div>
                   <div className="chapter-card-wrapper" style={{height:`${this.state.style.cardWrapperHeight}px`}}>
-                    <div className={`${this.state.showCard?'show':''} card-pic`}>
-                      <img src={this.state.cardUrl}/>
-                    </div>
+                    {/*<div >*/}
+                      <img className={`${this.state.showCard?'show':''} card-pic`} src={this.state.cardUrl}/>
+                    {/*</div>*/}
                   </div>
                 </div>
               </div>
