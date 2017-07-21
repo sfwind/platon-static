@@ -94,9 +94,9 @@ export class PlanMain extends React.Component <any, any> {
         }
       ],
       showedPayTip: false,
-
       sidebarOpen: false,
       showEmptyPage: false,
+      showExpiredDateWarning: false
     }
 
     changeTitle('圈外同学');
@@ -147,7 +147,6 @@ export class PlanMain extends React.Component <any, any> {
     }
     dispatch(startLoad())
     loadPlan(planId).then(res => {
-      console.log("loadplan ok");
       dispatch(endLoad())
       let { code, msg } = res
       if(code === 200) {
@@ -168,9 +167,6 @@ export class PlanMain extends React.Component <any, any> {
       this.riseMemberCheck()
     }).then(() => {
       let completePracticePlanId = this.props.CompleteChapterPracticePlanId
-      console.log(this.state)
-      console.log('completePracticePlanId', completePracticePlanId)
-      // console.log('completePracticePlanId', completePracticePlanId)
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {
         loadChapterCardAccess(this.state.planData.problemId, completePracticePlanId).then(res => {
@@ -203,7 +199,6 @@ export class PlanMain extends React.Component <any, any> {
     } else {
       this.setState({ windowsClient: false })
     }
-    console.log("mount ok");
   }
 
   componentDidMount() {
@@ -238,7 +233,6 @@ export class PlanMain extends React.Component <any, any> {
   riseMemberCheck() {
     const { dispatch } = this.props
     return isRiseMember().then(res => {
-      console.log("risemember ok");
       if(res.code === 200) {
         this.setState({ riseMember: res.msg });
         if(!res.msg) {
@@ -256,10 +250,13 @@ export class PlanMain extends React.Component <any, any> {
   onPracticeSelected(item) {
     const { dispatch } = this.props
     const { planData, currentIndex } = this.state
-    const { problemId, lockedStatus } = planData
+    const { problemId, lockedStatus, status } = planData
     const { type, practicePlanId, planId, unlocked } = item
-
     if(!unlocked) {
+      if(status === 4) {
+        this.setState({showExpiredDateWarning: true})
+        return
+      }
       if(lockedStatus === -1) {
         dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
       }
@@ -807,38 +804,20 @@ export class PlanMain extends React.Component <any, any> {
     };
 
     const renderOtherComponents = () => {
+      const alertProps = {
+        buttons: [
+          { label: '取消', onClick: () => this.setState({ showExpiredDateWarning: false }) },
+          { label: '确定', onClick: () => this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`) }
+        ],
+      }
       let others = []
       others.push(
-        showScoreModal ? <DropChoice
-          onSubmit={(questionList) => this.submitScore(questionList)}
-          onClose={() => this.setState({ showScoreModal: false }, () => {
-            this.confirmComplete()
-          })}
-          questionList={this.state.questionList}/> : null
-      )
-      others.push(<Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>)
-      others.push(
-        <Modal show={expired}
-               buttons={[{
-                 click: () => this.goReport(),
-                 content: `${reportStatus < 0 ? '选择新小课' : '学习报告'}`
-               }]}>
-          <div className="content">
-            <div className="text">糟糕！好久没学，小课到期了！</div>
-          </div>
-          <div className="content2">
-            <div className="text">你完成了<span className="number">{completeSeries}</span>节</div>
-            <div className="text">获得了<span className="number">{point}</span>积分</div>
-          </div>
-        </Modal>
-      )
-      others.push(
-        <Alert { ...this.state.nextModal }
-               show={showWarningModal}>
+        <Alert show={this.state.showExpiredDateWarning} {...alertProps}>
           <div className="global-pre"
-               dangerouslySetInnerHTML={{ __html: "我们发现你的综合练习还没有完成，这会影响你的学习报告内容<br/>建议先返回完成它们" }}/>
+               dangerouslySetInnerHTML={{ __html: "限免小课已到期，请购买正式版解锁未完成任务" }}/>
         </Alert>
       )
+      return others
     }
     const renderCard = () => {
       const { cardUrl, displayCard } = this.state;
@@ -910,8 +889,7 @@ export class PlanMain extends React.Component <any, any> {
               <Sidebar sidebar={ renderSidebar() }
                        open={this.state.sidebarOpen}
                        onSetOpen={(open) => this.onSetSidebarOpen(open)}
-                       trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}
-              >
+                       trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
                 <div className="header-img">
                   <AssetImg url={problem.pic} style={{ height: this.state.style.picHeight, float: 'right' }}/>
                   {isBoolean(riseMember) && !riseMember ?
@@ -972,6 +950,7 @@ export class PlanMain extends React.Component <any, any> {
             </div>
           )}
         </div>
+        {renderOtherComponents()}
       </div>
     )
   }
