@@ -162,9 +162,9 @@ export class PlanMain extends React.Component <any, any> {
             showEmptyPage: true
           })
         }
-      } else dispatch(alertMsg(msg))
-    }).then(() => {
-      this.riseMemberCheck()
+      } else {
+        dispatch(alertMsg(msg))
+      }
     }).then(() => {
       let completePracticePlanId = this.props.CompleteChapterPracticePlanId
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
@@ -216,12 +216,17 @@ export class PlanMain extends React.Component <any, any> {
       }
     })
     FastClick.attach(document.querySelector('#plan-study-btn-footer'));
-  }
+    isRiseMember().then(res => {
+      if(res.code === 200) {
+        this.setState({ riseMember: res.msg });
+        if(!res.msg) {
+          setTimeout(() => {
+            this.setState({ riseMemberTips: true });
+          }, 10)
+        }
+      }
+    });
 
-  componentWillReceiveProps(newProps) {
-    if(this.props.location.query.planId !== newProps.location.query.planId) {
-      this.componentWillMount(newProps)
-    }
   }
 
   componentWillUnmount() {
@@ -239,12 +244,13 @@ export class PlanMain extends React.Component <any, any> {
           setTimeout(() => {
             this.setState({ riseMemberTips: true });
           }, 10)
-
         }
-      } else {
-        dispatch(alertMsg(res.msg));
       }
     });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resize);
   }
 
   onPracticeSelected(item) {
