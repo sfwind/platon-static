@@ -175,7 +175,7 @@ export default class PlanList extends React.Component<any,any> {
           { trialClosedPlans && trialClosedPlans.length !== 0?
             <div className="plp-completed plp-block">
               <div className="p-c-header">
-                <span className="p-c-h-title">已到期</span>
+                <span className="p-c-h-title">试用到期</span>
               </div>
               <div className="p-c-container none">
                 <div className="p-c-c-left">
