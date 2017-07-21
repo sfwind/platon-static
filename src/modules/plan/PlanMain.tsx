@@ -122,7 +122,7 @@ export class PlanMain extends React.Component <any, any> {
       style: {
         // picWidth:window.innerWidth,
         picHeight: (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350)),
-        cardWrapperHeight : (window.innerHeight - 228)
+        cardWrapperHeight : (window.innerHeight -197)
       }
     })
   }
@@ -170,10 +170,10 @@ export class PlanMain extends React.Component <any, any> {
     }).then(() => {
       this.riseMemberCheck()
     }).then(() => {
-      // let completePracticePlanId = this.props.CompletePracticePlanId
+      let completePracticePlanId = this.props.CompletePracticePlanId
       // console.log('completePracticePlanId', completePracticePlanId)
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
-      // if(completePracticePlanId) {
+      if(completePracticePlanId) {
       // TODO 待画图
       // loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
       //   dispatch(set("CompletePracticePlanId", undefined))
@@ -182,7 +182,7 @@ export class PlanMain extends React.Component <any, any> {
       //
       //   }
       // })
-      loadChapterCard(9, 306781).then(res => {
+      loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
         console.log("risecard ok");
         dispatch(set("CompletePracticePlanId", undefined))
         console.log('chapterCard', res)
@@ -196,7 +196,7 @@ export class PlanMain extends React.Component <any, any> {
           //ignore
         }
       })
-      // }
+      }
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
