@@ -56,7 +56,8 @@ export class Main extends React.Component <any, any> {
           selected = _.get(list, `practice.${selectedChoices.length - 1}.choice`);
           currentIndex = selectedChoices.length - 1;
         }
-        this.setState({list, practiceCount: msg.practice.length, currentIndex, selected});
+        this.setState({list, practiceCount: msg.practice.length, currentIndex, selected,
+          knowledgeId:msg.practice[0].knowledge.id});
       }
     } else dispatch(alertMsg(msg));
 
@@ -148,7 +149,6 @@ export class Main extends React.Component <any, any> {
             dispatch(set('completePracticePlanId', practicePlanId));
             this.clearStorage();
             // redux 存储弹卡片弹出区分变量
-            console.log(practicePlanId)
             dispatch(set('CompleteChapterPracticePlanId', practicePlanId));
             this.props.router.push({
               pathname: '/rise/static/practice/warmup/result',
@@ -187,7 +187,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated } = this.state
+    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus = {}, integrated, knowledgeId } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -208,8 +208,8 @@ export class Main extends React.Component <any, any> {
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
           {integrated == 'false' ?
-            <div className="knowledge-link" onClick={() => this.setState({ showKnowledge: true })}>不确定?
-              瞄一眼知识点</div> : null}
+            <div className="knowledge-link"
+                 onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>不确定?瞄一眼知识点</div> : null}
         </div>
       )
     }

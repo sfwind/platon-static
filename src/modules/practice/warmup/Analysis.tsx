@@ -36,6 +36,7 @@ export class Analysis extends React.Component <any, any> {
       integrated:false,
       isReply:false,
       placeholder:'解答同学的提问（限1000字）',
+      knowledgeId:0,
     }
   }
 
@@ -49,7 +50,7 @@ export class Analysis extends React.Component <any, any> {
     const {res} = this.props;
     const {code, msg} = res;
     if (code === 200) {
-      this.setState({list: msg, practiceCount: msg.practice.length});
+      this.setState({list: msg, practiceCount: msg.practice.length, knowledgeId: msg.practice[0].knowledge.id});
     }
     else dispatch(alertMsg(msg))
   }
@@ -169,7 +170,7 @@ export class Analysis extends React.Component <any, any> {
 
   render() {
     const {list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, isReply, integrated, placeholder} = this.state;
+      showKnowledge, showDiscuss, isReply, integrated, placeholder, knowledgeId} = this.state;
     const {practice = []} = list;
 
     const questionRender = (practice) => {
@@ -201,7 +202,8 @@ export class Analysis extends React.Component <any, any> {
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
               {integrated=='false' ?
-                  <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null
+                  <div className="knowledge-link"
+                       onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>点击查看相关知识</div>:null
               }
             </div>
           </div>

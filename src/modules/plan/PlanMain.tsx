@@ -7,8 +7,6 @@ import {
 } from "./async";
 import { startLoad, endLoad, alertMsg, set } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
-import Tutorial from "../../components/Tutorial"
-import DropChoice from "../../components/DropChoice"
 import { merge, isBoolean, get, isEmpty } from "lodash"
 import { Toast, Dialog } from "react-weui"
 import { Sidebar } from '../../components/Sidebar';
@@ -229,12 +227,6 @@ export class PlanMain extends React.Component <any, any> {
 
   }
 
-  componentWillUnmount() {
-    const { dispatch } = this.props;
-    dispatch(set("completePracticePlanId", undefined));
-    window.removeEventListener('resize', this.resize);
-  }
-
   riseMemberCheck() {
     const { dispatch } = this.props
     return isRiseMember().then(res => {
@@ -247,10 +239,6 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
     });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.resize);
   }
 
   onPracticeSelected(item) {

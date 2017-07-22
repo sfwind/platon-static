@@ -452,7 +452,8 @@ export class Main extends React.Component <any, any> {
                 </div>
               </div>
               {integrated == 'false' ?
-                <div className="knowledge-link" onClick={() => this.setState({ showKnowledge: true })}>
+                <div className="knowledge-link"
+                     onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
                   点击查看知识点</div> : null
               }
             </div>
