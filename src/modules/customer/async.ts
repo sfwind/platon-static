@@ -7,3 +7,7 @@ export function loadMineQuestions(){
 export function loadMineAnswers(){
   return pget("/rise/customer/forum/mine/answers");
 }
+
+export function loadUserProfileInfo(){
+  return pget('/rise/customer/profile');
+}
