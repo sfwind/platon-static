@@ -56,8 +56,10 @@ export class Main extends React.Component <any, any> {
           selected = _.get(list, `practice.${selectedChoices.length - 1}.choice`);
           currentIndex = selectedChoices.length - 1;
         }
-        this.setState({list, practiceCount: msg.practice.length, currentIndex, selected,
-          knowledgeId:msg.practice[0].knowledge.id});
+        this.setState({list, practiceCount: msg.practice.length, currentIndex, selected});
+        if(msg.practice[0].knowledge){
+          this.setState({knowledgeId: msg.practice[0].knowledge.id})
+        }
       }
     } else dispatch(alertMsg(msg));
 

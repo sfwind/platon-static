@@ -50,7 +50,10 @@ export class Analysis extends React.Component <any, any> {
     const {res} = this.props;
     const {code, msg} = res;
     if (code === 200) {
-      this.setState({list: msg, practiceCount: msg.practice.length, knowledgeId: msg.practice[0].knowledge.id});
+      this.setState({list: msg, practiceCount: msg.practice.length});
+      if(msg.practice[0].knowledge){
+        this.setState({knowledgeId: msg.practice[0].knowledge.id})
+      }
     }
     else dispatch(alertMsg(msg))
   }
