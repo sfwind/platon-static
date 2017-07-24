@@ -5,6 +5,7 @@ import {loadPlanList} from "./async";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {loadProblem, createPlan, checkCreatePlan,mark} from "./async";
 import AssetImg from "../../components/AssetImg";
+import { changeTitle } from "../../utils/helpers"
 import {ToolBar} from "../base/ToolBar"
 import * as $ from "jquery";
 
@@ -25,6 +26,7 @@ export default class PlanList extends React.Component<any,any> {
       gup = 30;
     }
     this.completedLeftTextWidth = window.innerWidth - 56 - 84 - 8 - gup - 15 - 45 ;
+    changeTitle("圈外同学");
   }
 
   static contextTypes = {
