@@ -7,6 +7,7 @@ import {
 } from "./async";
 import { startLoad, endLoad, alertMsg, set } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
+import DropChoice from "../../components/DropChoice"
 import { merge, isBoolean, get, isEmpty } from "lodash"
 import { Toast, Dialog } from "react-weui"
 import { Sidebar } from '../../components/Sidebar';
@@ -813,6 +814,12 @@ export class PlanMain extends React.Component <any, any> {
                dangerouslySetInnerHTML={{ __html: "限免小课已到期，请购买正式版解锁未完成任务" }}/>
         </Alert>
       )
+      if(showScoreModal){
+        others.push(<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
+                                onClose={()=>this.setState({  showScoreModal: false },()=>{this.confirmComplete()})}
+                                questionList={this.state.questionList}/>);
+      }
+
       return others
     }
     const renderCard = () => {
