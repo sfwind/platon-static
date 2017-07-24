@@ -830,7 +830,7 @@ export class PlanMain extends React.Component <any, any> {
       let problemId = get(planData,'problem.id');
       console.log(problemId);
       const renderCardBody = ()=>{
-        if(problemId === 2 && false){
+        if(problemId === 2){
           return (
             <div className="printer-body">
               <div className="save-tip">
@@ -859,7 +859,7 @@ export class PlanMain extends React.Component <any, any> {
           )
         }
       }
-      if(displayCard || true) {
+      if(displayCard) {
         return (
           <div className="chapter-card-container">
             <div className="printer-machine">
