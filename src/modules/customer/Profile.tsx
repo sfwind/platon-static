@@ -95,9 +95,9 @@ export default class Profile extends React.Component<any,any> {
   componentDidMount(){
     const {location,triggerTab } = this.props;
     const { goRise } = location.query;
-    if(goRise){
+    // if(goRise){
       triggerTab();
-    }
+    // }
   }
 
 
