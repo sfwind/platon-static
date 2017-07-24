@@ -183,7 +183,8 @@ export default class MobileBind extends React.Component<any,any> {
           {location.query.goRise?<WorkStep
             works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull},{text:'绑定手机',done:!!bindMobile,cur:true},{text:'去上课',done:false}]}/>:null}
         </div>
-        <div className={`item ${!showArea?'show-area':''}`} onClick={()=>{
+        {/*${!showArea?'show-area':''}*/}
+        <div className={`item `} onClick={()=>{
           this.setState({showArea:true})
         }}>
           <div className="label">
