@@ -10,7 +10,6 @@ import AssetImg from "../../components/AssetImg";
 import { merge, isBoolean, get, isEmpty } from "lodash"
 import { Toast, Dialog } from "react-weui"
 import { Sidebar } from '../../components/Sidebar';
-import { Modal } from '../../components/Modal'
 import { NumberToChinese, changeTitle } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
@@ -180,7 +179,7 @@ export class PlanMain extends React.Component <any, any> {
             this.setState({ cardUrl: res.msg }, () => {
               setTimeout(() => {
                 this.setState({ showCard: true });
-              }, 1)
+              }, 300)
             });
           }
         }).catch(e => {
