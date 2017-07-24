@@ -60,23 +60,23 @@ export default class PlanList extends React.Component<any,any> {
           }
         }
         this.setState({planList:res.msg,showEmptyPage:showEmptyPage},()=>{
-          // 第一次选课动画效果
-          if(runningPlanId){
-            let planDom = document.querySelector(`#problem-${runningPlanId}`);
-            if(planDom){
-              planDom.style.cssText = `transform:translateY(-${planDom.offsetTop + planDom.offsetHeight}px)`;
-              setTimeout(()=>{
-                planDom.style.cssText = "transform:translateY(0)";
-              },1);
-            }
-          }
-          if(completedPlanId){
-            let planDom = document.querySelector(`#problem-${completedPlanId}`);
-            if(planDom) {
-              let box = document.querySelector('.plan-list-page');
-              box.scrollTop = planDom.offsetTop;
-            }
-          }
+          // // 第一次选课动画效果,ios有问题
+          // if(runningPlanId){
+          //   let planDom = document.querySelector(`#problem-${runningPlanId}`);
+          //   if(planDom){
+          //     planDom.style.cssText = `transform:translateY(-${planDom.offsetTop + planDom.offsetHeight}px)`;
+          //     setTimeout(()=>{
+          //       planDom.style.cssText = "transform:translateY(0)";
+          //     },1);
+          //   }
+          // }
+          // if(completedPlanId){
+          //   let planDom = document.querySelector(`#problem-${completedPlanId}`);
+          //   if(planDom) {
+          //     let box = document.querySelector('.plan-list-page');
+          //     box.scrollTop = planDom.offsetTop;
+          //   }
+          // }
         });
       } else {
         dispatch(alertMsg(res.msg));
@@ -140,7 +140,7 @@ export default class PlanList extends React.Component<any,any> {
               :
               runningPlans.map((item,key) => {
                 let style = {};
-                if(runningPlanId==item.planId){
+                if(runningPlanId==item.planId && false){
                   style = {
                     transform:`translateY(${-window.innerHeight}px)`
                   }
