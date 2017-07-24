@@ -24,7 +24,7 @@ export function config(apiList,callback) {
             + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
           });
           // TODO 上线前删掉
-          alert("还是注册错了:"+e.errMsg);
+          // alert("还是注册错了:"+e.errMsg);
         })
       } else {
       }
@@ -53,7 +53,7 @@ export function config(apiList,callback) {
             + ",os:" + window.ENV.systemInfo + ",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
           });
           // TODO 上线前删掉
-          alert("还是注册错了:" + e.errMsg);
+          // alert("还是注册错了:" + e.errMsg);
         })
       } else {
       }
