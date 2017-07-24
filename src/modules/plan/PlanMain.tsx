@@ -527,7 +527,9 @@ export class PlanMain extends React.Component <any, any> {
     for(let i = 0; i < sectionArr.length; i++) {
       sectionArr[i].setAttribute('class', 'section');
     }
-    section.setAttribute('class', 'section open');
+    if(section) {
+      section.setAttribute('class', 'section open');
+    }
   }
 
   onClickProblemChoose() {
