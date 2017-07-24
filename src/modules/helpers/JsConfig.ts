@@ -16,15 +16,15 @@ export function config(apiList,callback) {
           }
         })
         wx.error((e)=>{
-          mark({
-            module: "JSSDK",
-            function: "ios",
-            action: "签名失败",
-            memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
-          });
+          // mark({
+          //   module: "JSSDK",
+          //   function: "ios",
+          //   action: "签名失败",
+          //   memo: "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
+          //   + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
+          // });
           // TODO 上线前删掉
-          alert("还是注册错了:"+e.errMsg);
+          // alert("还是注册错了:"+e.errMsg);
         })
       } else {
       }
@@ -45,15 +45,15 @@ export function config(apiList,callback) {
         })
         wx.error((e) => {
           // TODO 上线前删掉
-          mark({
-            module: "JSSDK",
-            function: "notios",
-            action: "签名失败",
-            memo: "url:" + window.location.href + ",configUrl:" + window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo + ",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
-          });
+          // mark({
+          //   module: "JSSDK",
+          //   function: "notios",
+          //   action: "签名失败",
+          //   memo: "url:" + window.location.href + ",configUrl:" + window.ENV.configUrl
+          //   + ",os:" + window.ENV.systemInfo + ",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空')
+          // });
           // TODO 上线前删掉
-          alert("还是注册错了:" + e.errMsg);
+          // alert("还是注册错了:" + e.errMsg);
         })
       } else {
       }
