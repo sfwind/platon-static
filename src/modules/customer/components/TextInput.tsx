@@ -12,7 +12,7 @@ interface TextInputProps{
 export default class TextInput extends React.Component<TextInputProps,any>{
   constructor(props){
     super(props);
-    this.state = {};
+    this.state = {placeholder:props.placeholder};
   }
 
   getValue(e) {
@@ -30,13 +30,14 @@ export default class TextInput extends React.Component<TextInputProps,any>{
         <div className="text-input-label">
           {this.props.label}
         </div>
-        <div className={`text-input-content ${this.props.inline?'inline':''}`}>
+        {this.props.children}
+        {/*${this.props.inline?'inline':''}*/}
+        <div className={`text-input-content ${this.props.children?'has-child':''} `} >
           <div className={this.props.value?"select-wrapper-has-no-cut":"select-wrapper"}>
-            <input id="functionInput" placeholder={`${this.props.placeholder}`} type="text"
-                   onChange={(e)=>this.onChange(e)} value={this.props.value} />
+            <input id="functionInput" placeholder={`${this.state.placeholder}`} type="text"
+                   onChange={(e)=>this.onChange(e)} value={this.props.value} onFocus={()=>this.setState({placeholder:''})} onBlur={()=>this.setState({placeholder:this.props.placeholder})}/>
           </div>
         </div>
-        {this.props.children}
       </div>
     )
   }

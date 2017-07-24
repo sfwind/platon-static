@@ -71,7 +71,7 @@ export default class Profile extends React.Component<any,any> {
     loadUserProfileInfo().then(res => {
         dispatch(endLoad());
         if (res.code === 200) {
-          this.setState(res.msg);
+          this.setState(_.merge({},{defaultIsFull:res.msg.defaultIsFull},res.msg));
         } else {
           dispatch(alertMsg(res.msg));
         }
@@ -194,7 +194,7 @@ export default class Profile extends React.Component<any,any> {
     const {region} = this.props;
     const provinceList = _.get(region, "provinceList");
     const cityList = _.get(region, "cityList");
-    const {city, province, cityId, provinceId, industry, workingLife, isFull,bindMobile} = this.state;
+    const {city, province, cityId, provinceId, industry, workingLife, isFull,bindMobile,defaultIsFull} = this.state;
     const functionValue = _.get(this.state, "function");
     const renderFunction = () => {
       return (
@@ -268,7 +268,7 @@ export default class Profile extends React.Component<any,any> {
         {this.props.location.query.goRise ? (
           <div className="go-rise">
             <WorkStep
-              works={[{text:'选课',done:true},{text:'填写信息',done:!!isFull,cur:true},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
+              works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull,cur:true},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
           </div>
         ) : (
           <div className="profile-header">
