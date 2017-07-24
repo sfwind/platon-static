@@ -69,35 +69,35 @@ export default class Profile extends React.Component<any,any> {
     const {dispatch, region}= this.props;
     dispatch(startLoad());
     loadUserProfileInfo().then(res => {
-        dispatch(endLoad());
-        if (res.code === 200) {
-          this.setState(res.msg);
-        } else {
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(err => {
+      dispatch(endLoad());
+      if (res.code === 200) {
+        this.setState(_.merge({},{defaultIsFull:res.msg.isFull},res.msg));
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(err => {
       dispatch(endLoad());
       dispatch(alertMsg(err + ""));
     });
 
     if (!region) {
       pget('/rise/customer/region')
-        .then(res => {
-          if (res.code === 200) {
-            dispatch(set("region", res.msg));
-          } else {
-            dispatch(alertMsg(res.msg));
-          }
-        }).catch(err => dispatch(alertMsg(err.msg)));
+          .then(res => {
+            if (res.code === 200) {
+              dispatch(set("region", res.msg));
+            } else {
+              dispatch(alertMsg(res.msg));
+            }
+          }).catch(err => dispatch(alertMsg(err.msg)));
     }
   }
 
   componentDidMount(){
     const {location,triggerTab } = this.props;
     const { goRise } = location.query;
-    if(goRise){
-      triggerTab();
-    }
+    // if(goRise){
+    triggerTab();
+    // }
   }
 
 
@@ -155,26 +155,27 @@ export default class Profile extends React.Component<any,any> {
         workingLife: workingLife,
         function: functionValue
       }).then(res => {
-          dispatch(endLoad());
-          if (res.code === 200) {
-            //从rise付款页跳转过来的，填完个人信息后引导去学习页面
-            if (goRise) {
-              // 是否mobile已经绑定
-              if(!bindMobile){
-                // 没有绑定过
-                this.context.router.push({pathname: '/rise/static/customer/mobile/check', query: {goRise: true,runningPlanId:runningPlanId}})
-              } else {
-                // 绑定过
-                this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:runningPlanId}});
-              }
+        dispatch(endLoad());
+        if (res.code === 200) {
+          //从rise付款页跳转过来的，填完个人信息后引导去学习页面
+          if (goRise) {
+            // 是否mobile已经绑定
+            if(!bindMobile){
+              // 没有绑定过
+              this.context.router.push({pathname: '/rise/static/customer/mobile/check',
+                query: {goRise: true,runningPlanId:runningPlanId}})
             } else {
-              dispatch(alertMsg("提交成功"));
-              this.setState({isFull: true});
+              // 绑定过
+              this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:runningPlanId}});
             }
           } else {
-            dispatch(alertMsg(res.msg));
+            dispatch(alertMsg("提交成功"));
+            this.setState({isFull: true});
           }
-        }).catch(err => {
+        } else {
+          dispatch(alertMsg(res.msg));
+        }
+      }).catch(err => {
         dispatch(endLoad());
         dispatch(alertMsg(err + ""));
       });
@@ -194,23 +195,23 @@ export default class Profile extends React.Component<any,any> {
     const {region} = this.props;
     const provinceList = _.get(region, "provinceList");
     const cityList = _.get(region, "cityList");
-    const {city, province, cityId, provinceId, industry, workingLife, isFull,bindMobile} = this.state;
+    const {city, province, cityId, provinceId, industry, workingLife, isFull,bindMobile,defaultIsFull} = this.state;
     const functionValue = _.get(this.state, "function");
     const renderFunction = () => {
       return (
-        <div className={functionValue?"select-wrapper-has-no-cut":"select-wrapper"}>
-          <input id="functionInput" placeholder="请填写" type="text" {...this.bind('function', this.getInputValue)}/>
-        </div>
+          <div className={functionValue?"select-wrapper-has-no-cut":"select-wrapper"}>
+            <input id="functionInput" placeholder="请填写" type="text" {...this.bind('function', this.getInputValue)}/>
+          </div>
       )
     }
 
     const renderRegion = () => {
       const userData = [{value: province, id: provinceId}, {value: city, id: cityId}];
       return (
-        <div className={provinceId && cityId?"select-wrapper-has":"select-wrapper"}>
-          <DropDownList level={2} data={[provinceList,cityList]} userData={userData[1].id?userData:null}
-                        onChoice={(one,two)=>this.onChoiceRegion(one,two)}/>
-        </div>
+          <div className={provinceId && cityId?"select-wrapper-has":"select-wrapper"}>
+            <DropDownList level={2} data={[provinceList,cityList]} userData={userData[1].id?userData:null}
+                          onChoice={(one,two)=>this.onChoiceRegion(one,two)}/>
+          </div>
       )
     }
 
@@ -224,10 +225,10 @@ export default class Profile extends React.Component<any,any> {
       }
 
       return (
-        <div className={industry?"select-wrapper-has":"select-wrapper"}>
-          <DropDownList level={1} data={[industryList]} userData={myIndustry.id?[myIndustry]:null}
-                        onChoice={(one)=>this.onChoiceIndustry(one)}/>
-        </div>
+          <div className={industry?"select-wrapper-has":"select-wrapper"}>
+            <DropDownList level={1} data={[industryList]} userData={myIndustry.id?[myIndustry]:null}
+                          onChoice={(one)=>this.onChoiceIndustry(one)}/>
+          </div>
       )
     }
 
@@ -241,82 +242,87 @@ export default class Profile extends React.Component<any,any> {
       }
 
       return (
-        <div className={workingLife?"select-wrapper-has":"select-wrapper"}>
-          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id?[myWorkingLife]:null}
-                        onChoice={(one)=>this.onChoiceWorkingLife(one)}/>
-        </div>
+          <div className={workingLife?"select-wrapper-has":"select-wrapper"}>
+            <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id?[myWorkingLife]:null}
+                          onChoice={(one)=>this.onChoiceWorkingLife(one)}/>
+          </div>
       )
     }
 
     const renderProfileHeader = () => {
       if (isFull) {
         return (
-          <div className="profile-header-tip" style={{color:"#f7a466",backgroundColor:"#FFFFFF"}}>
-            个人资料完整，30积分get！
-          </div>
+            <div className="profile-header-tip" style={{color:"#f7a466",backgroundColor:"#FFFFFF"}}>
+              个人资料完整，30积分get！
+            </div>
         )
       } else {
         return (
-          <div className="profile-header-tip" style={{color:"#FFFFFF",backgroundColor:"#f9b685"}}>
-            完整的个人资料=30积分
-          </div>
+            <div className="profile-header-tip" style={{color:"#FFFFFF",backgroundColor:"#f9b685"}}>
+              完整的个人资料=30积分
+            </div>
         )
       }
     }
     return (
-      <div className="profile">
-        {this.props.location.query.goRise ? (
-          <div className="go-rise">
-            <WorkStep
-              works={[{text:'选课',done:true},{text:'填写信息',done:!!isFull},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
+        <div className="profile">
+          {this.props.location.query.goRise ? (
+                  <div className="go-rise">
+                    <WorkStep
+                        works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull,cur:true},
+                        {text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
+                    <div className="guide">
+                      <div className="first-guide">完善信息，才有机会认识同行的小伙伴，参加圈外线下活动哦！</div>
+                      <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
+                    </div>
+                  </div>
+              ) : (
+                  <div className="profile-header">
+                    {renderProfileHeader()}
+                  </div>
+              )}
+          <div className="profile-container">
+            <div className="profile-item">
+              <div className="item-label">
+                工作年限
+              </div>
+              <div className="item-content">
+                {renderWorkingLife()}
+              </div>
+            </div>
+            <div className="profile-item">
+              <div className="item-label">
+                行业
+              </div>
+              <div className="item-content">
+                {renderIndustry()}
+              </div>
+            </div>
+            <div className="profile-item" style={{marginBottom:"10px",borderBottom:"none"}}>
+              <div className="item-label">
+                职业
+              </div>
+              <div className="item-content">
+                {renderFunction()}
+              </div>
+            </div>
+            <div className="profile-item" style={{borderBottom:"none"}}>
+              <div className="item-label">
+                省份/城市
+              </div>
+              <div className="item-content" id="region-select">
+                {renderRegion()}
+              </div>
+            </div>
           </div>
-        ) : (
-          <div className="profile-header">
-            {renderProfileHeader()}
-          </div>
-        )}
-        <div className="profile-container">
-          <div className="profile-item">
-            <div className="item-label">
-              工作年限
-            </div>
-            <div className="item-content">
-              {renderWorkingLife()}
+          <div className="profile-bottom">
+            <div className={`submit-btn ${isFull?'':'disabled'}`} style={{width:`${this.btnWidth}px`}}
+                 onClick={this.submitProfile.bind(this)}>
+              完成
             </div>
           </div>
-          <div className="profile-item">
-            <div className="item-label">
-              行业
-            </div>
-            <div className="item-content">
-              {renderIndustry()}
-            </div>
-          </div>
-          <div className="profile-item" style={{marginBottom:"10px",borderBottom:"none"}}>
-            <div className="item-label">
-              职业
-            </div>
-            <div className="item-content">
-              {renderFunction()}
-            </div>
-          </div>
-          <div className="profile-item" style={{borderBottom:"none"}}>
-            <div className="item-label">
-              省份/城市
-            </div>
-            <div className="item-content" id="region-select">
-              {renderRegion()}
-            </div>
-          </div>
+          <div className="padding-footer"></div>
         </div>
-        <div className="profile-bottom">
-          <div className={`submit-btn ${isFull?'':'disabled'}`} style={{width:`${this.btnWidth}px`}}
-               onClick={this.submitProfile.bind(this)}>
-            完成
-          </div>
-        </div>
-        <div className="padding-footer"></div>
-      </div>
     );
   }
 }

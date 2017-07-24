@@ -37,7 +37,7 @@ export default class MobileBind extends React.Component<any,any> {
     loadUserProfileInfo().then(res => {
       dispatch(endLoad());
       if (res.code === 200) {
-        this.setState(_.merge({},this.state,res.msg));
+        this.setState(_.merge({defaultIsFull:res.msg.isFull},this.state,res.msg));
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -153,72 +153,63 @@ export default class MobileBind extends React.Component<any,any> {
   }
 
   render() {
-    const {sending, seconds,bindMobile,isFull,showArea} = this.state;
+    const {sending, seconds,bindMobile,isFull,showArea,defaultIsFull} = this.state;
     const { location } = this.props;
-    const renderAreaCode = ()=>{
-      if(showArea){
-        return <TextInput placeholder="请填写" value={this.state.areaCode} label="区号" onChange={(e)=>this.setState({areaCode:e.currentTarget.value})}/>;
-        // return (
-        //   <div className="item">
-        //     <div className="label">
-        //       国家/地区号
-        //     </div>
-        //     <div className='input'>
-        //       <input placeholder="中国 +86" type="text" style={{width:75}} ref="areaCode"
-        //              onChange={(e)=>this.setState({areaCode:e.currentTarget.value})}/>
-        //       <div className="clean" onClick={()=>this.cleanAreaCode()}>
-        //         <AssetImg type="clean" width={18}/>
-        //       </div>
-        //     </div>
-        //   </div>
-        // )
-      } else {
-        return null;
-      }
-    }
 
     return (
-      <div className="mobile-bind">
-        <div className="go-rise">
-          {location.query.goRise?<WorkStep
-            works={[{text:'选课',done:true},{text:'填写信息',done:!!isFull},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>:null}
-        </div>
-        <div className={`item ${!showArea?'show-area':''}`} onClick={()=>{
+        <div className="mobile-bind">
+          {location.query.goRise?
+              <div className="go-rise">
+                <WorkStep
+                  works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull},
+                  {text:'绑定手机',done:!!bindMobile,cur:true},{text:'去上课',done:false}]}/>
+                <div className="guide">
+                  <div className="first-guide">绑定手机号，让自己的学习数据永不丢失！</div>
+                  <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
+                </div>
+              </div>
+              :null}
+
+          {/*${!showArea?'show-area':''}*/}
+          <div className={`item `} onClick={()=>{
           this.setState({showArea:true})
         }}>
-          <div className="label">
-            海外用户点此添加区号
+            <div className="label">
+              海外用户点此添加区号
+            </div>
           </div>
-        </div>
-        {
-          renderAreaCode()
-        }
-
-        <TextInput placeholder="请填写手机号" value={this.state.phone} label="手机号" onChange={(e)=>this.handleChangePhone(e)}/>
-
-        <TextInput placeholder="请填写" value={this.state.code} inline={true} label="验证码" onChange={(e)=>this.handleChangeCode(e)}>
           {
-            sending ?
-              <div className={`send-code sending`}>
-                {seconds}秒后重新发送
-              </div>:
-              <div className={`send-code free`} onClick={()=>this.onClick()}>
-                发送验证码
-              </div>
+            showArea?<TextInput placeholder={'请填写'} value={this.state.areaCode} label="区号"
+                                onChange={(e)=>this.setState({areaCode:e.currentTarget.value})}/>:null
           }
-        </TextInput>
+
+          <TextInput placeholder={"请填写手机号"} value={this.state.phone} label="手机号"
+                     onChange={(e)=>this.handleChangePhone(e)}/>
+
+          <TextInput placeholder="请填写" value={this.state.code} inline={true} label="验证码"
+                     onChange={(e)=>this.handleChangeCode(e)}>
+            {
+              sending ?
+                  <div className={`send-code sending`}>
+                    {seconds}秒后重新发送
+                  </div>:
+                  <div className={`send-code free`} onClick={()=>this.onClick()}>
+                    发送验证码
+                  </div>
+            }
+          </TextInput>
 
 
-        <div className="submit-div">
-          <div className={`submit-button ${this.state.disable?'disable':''}`} onClick={()=>this.onSubmit()}>
-            提交
+          <div className="submit-div">
+            <div className={`submit-button ${this.state.disable?'disable':''}`} onClick={()=>this.onSubmit()}>
+              提交
+            </div>
           </div>
+          <Toast show={this.state.show} timeout={2000} height={220} width={200} top={160}>
+            <AssetImg type="success" width={60} style={{marginTop:60}}/>
+            <div className="text">绑定成功</div>
+          </Toast>
         </div>
-        <Toast show={this.state.show} timeout={2000} height={220} width={200} top={160}>
-          <AssetImg type="success" width={60} style={{marginTop:60}}/>
-          <div className="text">绑定成功</div>
-        </Toast>
-      </div>
     )
   }
 }

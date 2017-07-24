@@ -811,7 +811,8 @@ export class PlanMain extends React.Component <any, any> {
                     <span>小课介绍</span>
                   </div>
                   <div className="right" onClick={() => this.essenceShare(problem.id, currentIndex)}>
-                    <span className="essence"><AssetImg url="https://static.iqycamp.com/images/problem/extension_icon_main.png" height={15} width={15}/></span>
+                    <span className="essence">
+                      <AssetImg url="https://static.iqycamp.com/images/problem/extension_icon_main.png" height={15} width={15}/></span>
                     <span>延伸学习</span>
                   </div>
                 </div>

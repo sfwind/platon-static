@@ -28,6 +28,10 @@ export function updateOpenRise(){
   return ppost(`/rise/plan/openrise`)
 }
 
+export function updateOpenNavigator(){
+  return ppost(`/rise/plan/open/navigator`)
+}
+
 export function checkPractice(series, planId){
   return ppost(`/rise/plan/check/${series}${planId?'?planId='+planId:''}`)
 }
