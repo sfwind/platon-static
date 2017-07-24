@@ -268,7 +268,7 @@ export default class Profile extends React.Component<any,any> {
         {this.props.location.query.goRise ? (
           <div className="go-rise">
             <WorkStep
-              works={[{text:'选课',done:true},{text:'填写信息',done:!!isFull},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
+              works={[{text:'选课',done:true},{text:'填写信息',done:!!isFull,cur:true},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
           </div>
         ) : (
           <div className="profile-header">
