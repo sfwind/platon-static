@@ -145,6 +145,7 @@ export class PlanMain extends React.Component <any, any> {
     }
     dispatch(startLoad())
     loadPlan(planId).then(res => {
+      console.log(res)
       dispatch(endLoad())
       let { code, msg } = res
       if(code === 200) {
@@ -686,6 +687,7 @@ export class PlanMain extends React.Component <any, any> {
       }
 
       if(currentIndex === totalSeries) {
+
         // 最后一节，显示完成按钮
         // 对最后一个按钮的渲染
         if(reportStatus === 1) {
