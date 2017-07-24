@@ -4,7 +4,7 @@ var router = new Router();
 router.get("/rise/customer/profile", (req, res) => {
     setTimeout(() =>
         res.status(200).json(
-            {"msg":{"industry":null,"function":null,"workingLife":null,"city":"","cityId":null,"province":"","provinceId":null,"isFull":false},"code":200}
+            {"msg":{"industry":null,"function":null,"workingLife":true,"city":"","cityId":null,"province":"","provinceId":null,"isFull":true},"code":200}
         ), Math.random() * 1500)
 });
 
