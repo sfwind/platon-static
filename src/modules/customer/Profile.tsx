@@ -71,7 +71,7 @@ export default class Profile extends React.Component<any,any> {
     loadUserProfileInfo().then(res => {
         dispatch(endLoad());
         if (res.code === 200) {
-          this.setState(_.merge({},{defaultIsFull:res.msg.defaultIsFull},res.msg));
+          this.setState(_.merge({},{defaultIsFull:res.msg.isFull},res.msg));
         } else {
           dispatch(alertMsg(res.msg));
         }

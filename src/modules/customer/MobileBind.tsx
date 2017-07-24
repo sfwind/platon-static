@@ -37,7 +37,7 @@ export default class MobileBind extends React.Component<any,any> {
     loadUserProfileInfo().then(res => {
       dispatch(endLoad());
       if (res.code === 200) {
-        this.setState(_.merge({defaultIsFull:res.msg.isFUll},this.state,res.msg));
+        this.setState(_.merge({defaultIsFull:res.msg.isFull},this.state,res.msg));
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -181,7 +181,7 @@ export default class MobileBind extends React.Component<any,any> {
       <div className="mobile-bind">
         <div className="go-rise">
           {location.query.goRise?<WorkStep
-            works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull},{text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>:null}
+            works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull},{text:'绑定手机',done:!!bindMobile,cur:true},{text:'去上课',done:false}]}/>:null}
         </div>
         <div className={`item ${!showArea?'show-area':''}`} onClick={()=>{
           this.setState({showArea:true})
