@@ -109,6 +109,7 @@ export class PlanMain extends React.Component <any, any> {
       style: {
         cardWrapperHeight: (window.innerHeight - 197),
         picHeight: (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350)),
+        cardTipFontSize:(window.innerWidth / (750 / 28)) > 28 ? 28 : (window.innerWidth / (750 / 28)),
       }
     })
   }
@@ -847,9 +848,9 @@ export class PlanMain extends React.Component <any, any> {
                 长按卡片保存到相册
               </div>
               <div className="share-tip">
-                <div className="card-tips" style={{marginTop:'-15px'}}>退出当前页面，在朋友圈分享给好友哦～</div>
-                <div className="card-tips small" style={{marginTop:'0px'}}>好友扫码即可免费学习本小课</div>
-                <div className="card-tips small" style={{display:'inline-block'}}>集齐9个好友学习，你还会得到
+                <div className="card-tips" style={{marginTop:'-15px',color:'#333',fontSize:`${this.state.style.cardTipFontSize}px`,fontWeight:'100'}}>退出当前页面，在朋友圈分享给好友哦～</div>
+                <div className="card-tips small" style={{marginTop:'3px',color:'#000',fontSize:`${this.state.style.cardTipFontSize}px`}}>好友扫码即可免费学习本小课</div>
+                <div className="card-tips small" style={{display:'inline-block',color:'#000',fontSize:`${this.state.style.cardTipFontSize}px`}}>集齐9个好友学习，你还会得到
                   <div className="card-moenty"></div>
                 </div>
               </div>
