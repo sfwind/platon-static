@@ -836,14 +836,16 @@ export class PlanMain extends React.Component <any, any> {
                   <AssetImg type="white_close_btn" size="24px" style={{ float: 'right', marginRight: '30px' }}/>
                 </div>
               </div>
-              <div className="printer-top"/>
+              <div className="printer-top">
+                <span>棒！你已完成本章知识学习，获得一张知识卡</span>
+              </div>
               <div className="printer-body">
                 <div className="save-tip">
                   长按卡片保存到相册
                 </div>
                 <div className="share-tip">
-                  <div className="card-tips">如果觉得有启发</div>
-                  <div className="card-tips">记得分享给好友哦</div>
+                  <div className="card-tips">如果觉得有启发，记得分享给好友哦！</div>
+                  <div className="card-tips small">（返回朋友圈，选择相册中的图片。暂不支持一键分享/(ToT)/）</div>
                 </div>
               </div>
               <div className="printer-gap"/>
