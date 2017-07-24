@@ -118,6 +118,7 @@ export class PlanMain extends React.Component <any, any> {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(set("completePracticePlanId", undefined));
+    dispatch(set('warmupCurrentIndex', undefined));
     window.removeEventListener('resize', this.resize);
   }
 
