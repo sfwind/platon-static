@@ -49,11 +49,11 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
   }
 
   handleClickLoadCard(problemId, chapterId, completed) {
+    const { dispatch } = this.props
     if(!completed) {
-      console.log('未解锁')
+      dispatch(alertMsg('快完成这一章学习<br/>解锁神秘知识卡吧'))
       return
     }
-    const { dispatch } = this.props
     const { essenceCardMap } = this.state
     let tempCard = essenceCardMap.get(chapterId)
     if(tempCard) {

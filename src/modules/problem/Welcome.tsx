@@ -56,8 +56,8 @@ export default class Welcome extends React.Component<any, any> {
            style={{ minHeight: (window.innerWidth / 375) * 667 - 50 }}>
         <div className="welcome-page">
           <div className="welcome-botton">
-            <div className="button-left" onClick={() => this.handleClickGoTrailPage()}>免费试用</div>
-            <div className="button-right" onClick={() => this.handleClickGoExplorePage()}>正式版本</div>
+            <div className="button-left" onClick={() => this.handleClickGoTrailPage()}>限时免费</div>
+            <div className="button-right" onClick={() => this.handleClickGoExplorePage()}>全部小课</div>
           </div>
         </div>
       </div>
