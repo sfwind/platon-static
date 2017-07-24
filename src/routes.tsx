@@ -1,7 +1,7 @@
 import * as React from "react";
 import { config } from "modules/helpers/JsConfig"
 import { Route } from "react-router";
-import { toLower,get } from "lodash"
+import { toLower, get } from "lodash"
 import Base from "modules/base/Base";
 import Welcome from "modules/problem/Welcome";
 import { PlanMain } from "modules/plan/PlanMain";
@@ -45,7 +45,7 @@ import { ImprovementReport } from 'modules/plan/ImprovementReport'
 import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
 import ProblemExtension from "./modules/problem/ProblemExtension";
 import PlanList from "modules/plan/PlanList";
-import  WarmUpNew from "modules/practice/warmup/Warumup"
+import WarmUpNew from "modules/practice/warmup/Warumup"
 import ForumQuestion from "modules/customer/ForumQuestion";
 import CardsCollection from "./modules/problem/CardsCollection";
 
