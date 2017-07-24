@@ -15,6 +15,7 @@ import { NumberToChinese, changeTitle } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
+import Tutorial from "../../components/Tutorial";
 const { Alert } = Dialog
 var FastClick = require('fastclick');
 
@@ -900,6 +901,7 @@ export class PlanMain extends React.Component <any, any> {
     }
     return (
       <div className="rise-main">
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
         {renderCard()}
         <div>
           {showEmptyPage ? (
