@@ -825,6 +825,38 @@ export class PlanMain extends React.Component <any, any> {
     }
     const renderCard = () => {
       const { cardUrl, displayCard } = this.state;
+      let problemId = get(planData,'problem.id');
+      console.log(problemId);
+      const renderCardBody = ()=>{
+        if(problemId === 2){
+          return (
+            <div className="printer-body">
+              <div className="save-tip">
+                长按卡片保存到相册
+              </div>
+              <div className="share-tip">
+                <div className="card-tips">如果觉得有启发，记得分享给好友哦！</div>
+                <div className="card-tips small">（返回朋友圈，选择相册中的图片。暂不支持一键分享/(ToT)/）</div>
+              </div>
+            </div>
+          )
+        } else {
+          return (
+            <div className="printer-body trial">
+              <div className="save-tip">
+                长按卡片保存到相册
+              </div>
+              <div className="share-tip">
+                <div className="card-tips" style={{marginTop:'-15px'}}>退出当前页面，在朋友圈分享给好友哦～</div>
+                <div className="card-tips small" style={{marginTop:'0px'}}>好友扫码即可免费学习本小课</div>
+                <div className="card-tips small" style={{display:'inline-block'}}>集齐9个好友学习，你还会得到
+                  <div className="card-moenty"></div>
+                </div>
+              </div>
+            </div>
+          )
+        }
+      }
       if(displayCard) {
         return (
           <div className="chapter-card-container">
@@ -839,15 +871,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="printer-top">
                 <span>棒！你已完成本章知识学习，获得一张知识卡</span>
               </div>
-              <div className="printer-body">
-                <div className="save-tip">
-                  长按卡片保存到相册
-                </div>
-                <div className="share-tip">
-                  <div className="card-tips">如果觉得有启发，记得分享给好友哦！</div>
-                  <div className="card-tips small">（返回朋友圈，选择相册中的图片。暂不支持一键分享/(ToT)/）</div>
-                </div>
-              </div>
+              {renderCardBody()}
               <div className="printer-gap"/>
               <div className="printer-port">
                 <div className="clear-mg"/>
