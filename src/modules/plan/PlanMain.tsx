@@ -489,7 +489,7 @@ export class PlanMain extends React.Component <any, any> {
   render() {
     const { currentIndex, planData,showScoreModal, showEmptyPage,
         selectProblem,riseMember,riseMemberTips,chapterList,expired, _t } = this.state;
-    const {location, completePracticePlanId, dispatch} = this.props;
+    const {completePracticePlanId} = this.props;
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries,reportStatus
     } = planData;
@@ -754,7 +754,11 @@ export class PlanMain extends React.Component <any, any> {
 
 
 
-        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
+                  bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_1.jpg?imageslim',
+                  'https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_2.jpg?imageslim',
+                  'https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_4.jpg?imageslim']}
+        />
 
         <Modal show={expired}
                buttons={[{click: () => this.goReport(), content: `${reportStatus < 0?'选择新小课':'学习报告'}`}]}
