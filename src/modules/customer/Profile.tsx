@@ -93,10 +93,10 @@ export default class Profile extends React.Component<any,any> {
   }
 
   componentDidMount(){
-    const {location,triggerTab } = this.props;
+    const {location,hiddenTab } = this.props;
     const { goRise } = location.query;
     // if(goRise){
-    triggerTab();
+    hiddenTab();
     // }
   }
 
@@ -269,7 +269,7 @@ export default class Profile extends React.Component<any,any> {
           {this.props.location.query.goRise ? (
                   <div className="go-rise">
                     <WorkStep
-                        works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull,cur:true},
+                        works={[{text:'填写信息',done:!!defaultIsFull,cur:true},
                         {text:'绑定手机',done:!!bindMobile},{text:'去上课',done:false}]}/>
                     <div className="guide">
                       <div className="first-guide">完善信息，才有机会认识同行的小伙伴，参加圈外线下活动哦！</div>

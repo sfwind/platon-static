@@ -56,7 +56,7 @@ export default class Welcome extends React.Component<any, any> {
            style={{ minHeight: (window.innerWidth / 375) * 667 - 50}}>
         <div className="welcome-page">
           <div className="welcome-botton">
-            <div style={{margin: "0 auto"}} onClick={() => this.handleClickGoPayPage()}>正式版本</div>
+            <div style={{margin: "0 auto"}} onClick={() => this.handleClickGoPayPage()}>加入会员</div>
           </div>
         </div>
       </div>

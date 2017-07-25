@@ -27,6 +27,12 @@ export default class Personal extends React.Component<any,any>{
       mark({module: "打点", function: "个人中心", action: "打开个人中心"})
   }
 
+  componentDidMount(){
+    const { showTab } = this.props;
+    if(showTab){
+      showTab();
+    }
+  }
   goMessage() {
     const {dispatch} = this.props;
     dispatch(startLoad());

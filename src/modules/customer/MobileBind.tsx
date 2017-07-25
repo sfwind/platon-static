@@ -48,10 +48,10 @@ export default class MobileBind extends React.Component<any,any> {
   }
 
   componentDidMount() {
-    const {location, triggerTab} = this.props;
+    const {location, hiddenTab} = this.props;
     const {goRise} = location.query;
     if (goRise) {
-      triggerTab();
+      hiddenTab();
     }
   }
 
@@ -161,7 +161,7 @@ export default class MobileBind extends React.Component<any,any> {
           {location.query.goRise?
               <div className="go-rise">
                 <WorkStep
-                  works={[{text:'选课',done:true},{text:'填写信息',done:!!defaultIsFull},
+                  works={[{text:'填写信息',done:!!defaultIsFull},
                   {text:'绑定手机',done:!!bindMobile,cur:true},{text:'去上课',done:false}]}/>
                 <div className="guide">
                   <div className="first-guide">绑定手机号，让自己的学习数据永不丢失！</div>
