@@ -148,7 +148,7 @@ router.get("/rise/plan/load", (req, res) => {
                         }]
                     }
 				],
-        		"openRise":true,
+        		"openRise":false,
                 "openConsolidation":true,
                 "openApplication":true,
 				"deadline":7,

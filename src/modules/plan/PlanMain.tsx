@@ -902,7 +902,9 @@ export class PlanMain extends React.Component <any, any> {
     }
     return (
       <div className="rise-main">
-        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
+          bgList={['https://static.iqycamp.com/images/problem20.png']} topList={[0]} bottomList={[80]}
+        />
         {renderCard()}
         <div>
           {showEmptyPage ? (
