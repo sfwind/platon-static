@@ -12,7 +12,8 @@ interface TextInputProps{
 export default class TextInput extends React.Component<TextInputProps,any>{
   constructor(props){
     super(props);
-    this.state = {};
+    console.log('构造器',props.placeholder,props.label);
+    this.state = {showPlaceHolder:true};
   }
 
   getValue(e) {
@@ -23,6 +24,7 @@ export default class TextInput extends React.Component<TextInputProps,any>{
     this.props.onChange(e);
   }
 
+
   render(){
 
     return (
@@ -30,13 +32,16 @@ export default class TextInput extends React.Component<TextInputProps,any>{
         <div className="text-input-label">
           {this.props.label}
         </div>
-        <div className={`text-input-content ${this.props.inline?'inline':''}`}>
+        {this.props.children}
+        {/*${this.props.inline?'inline':''}*/}
+        <div className={`text-input-content ${this.props.children?'has-child':''} `} >
           <div className={this.props.value?"select-wrapper-has-no-cut":"select-wrapper"}>
-            <input id="functionInput" placeholder={`${this.props.placeholder}`} type="text"
-                   onChange={(e)=>this.onChange(e)} value={this.props.value} />
+            <input id="functionInput" placeholder={`${this.state.showPlaceHolder?this.props.placeholder:''}`} type="text"
+                   onChange={(e)=>this.onChange(e)} value={this.props.value} onFocus={()=>this.setState({showPlaceHolder:false})} onBlur={()=>{
+                     this.setState({showPlaceHolder:true})
+                   }}/>
           </div>
         </div>
-        {this.props.children}
       </div>
     )
   }
