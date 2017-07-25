@@ -32,6 +32,10 @@ export function checkPractice(series, planId) {
   return ppost(`/rise/plan/check/${series}${planId ? '?planId=' + planId : ''}`)
 }
 
+export function updateOpenNavigator(){
+  return ppost(`/rise/plan/open/navigator`)
+}
+
 export function gradeProblem(problemScores, problemId) {
   return ppost(`/rise/problem/grade/${problemId}`, problemScores);
 }

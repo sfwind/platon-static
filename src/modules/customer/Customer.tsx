@@ -28,7 +28,7 @@ export class Customer extends React.Component<any,any>{
     return (
       <div>
         {this.props.children && React.cloneElement(this.props.children,{
-          triggerTab:()=>this.triggerTab()
+          triggerTab:()=>this.triggerTab(),showTab:()=>this.setState({hiddenTab:false}),hiddenTab:()=>this.setState({hiddenTab:true})
         })}
         {this.state.hiddenTab?null:<ToolBar/>}
         <div style={{width:'100%',height:'1px'}}></div>

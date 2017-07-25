@@ -1,14 +1,15 @@
 import * as React from "react";
 import "./PlanList.less";
 import {connect} from "react-redux";
-import {loadPlanList} from "./async";
+import {loadPlanList, updateOpenNavigator} from "./async";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {loadProblem, createPlan, checkCreatePlan,mark} from "./async";
 import AssetImg from "../../components/AssetImg";
 import { changeTitle } from "../../utils/helpers"
 import {ToolBar} from "../base/ToolBar"
-import * as $ from "jquery";
 
+import Tutorial from "../../components/Tutorial"
+import {isBoolean,merge} from "lodash"
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -17,7 +18,9 @@ import * as $ from "jquery";
 export default class PlanList extends React.Component<any,any> {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      openNavigator:true,
+    };
     this.runPicWidth = (window.innerWidth / (750 / 270)) > 135 ? 135 : (window.innerWidth / (750 / 270));
     this.runTextWidth = (window.innerWidth - 30 - this.runPicWidth - 5);
     this.completedRightTextWidth = 45;
@@ -80,6 +83,7 @@ export default class PlanList extends React.Component<any,any> {
           //   }
           // }
         });
+        this.setState({planList:res.msg,showEmptyPage:showEmptyPage, openNavigator});
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -103,11 +107,39 @@ export default class PlanList extends React.Component<any,any> {
     })
   }
 
+  tutorialEnd() {
+    const {dispatch} = this.props
+    updateOpenNavigator().then(res => {
+      const {code, msg} = res
+      if (code === 200) {
+        this.setState({openNavigator: true})
+      } else {
+        dispatch(alertMsg(msg))
+      }
+    })
+  }
+
   render() {
-    const { planList={},showEmptyPage } = this.state;
     const { completedPlans = [],runningPlans = [],trialClosedPlans = []} = planList;
     const { location } = this.props;
     const { runningPlanId,completedPlanId,trialClosedId } = location.query;
+    const { planList={},showEmptyPage, openNavigator } = this.state;
+
+
+    const renderCompletedPlans = () => {
+      if(completedPlans){
+        return completedPlans.map((plan, key) => {
+
+          return (
+            <div className={`p-c-block ${key === 0 ?'first':''}`} key={key}>
+            </div>
+          );
+        });
+      } else {
+        return null;
+      }
+    };
+
     const renderDeadline = (deadline) => {
       if(deadline <0 ){
         return null;
@@ -125,6 +157,10 @@ export default class PlanList extends React.Component<any,any> {
       <div>
         <div className="plan-list-page">
           <ToolBar />
+          <Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}
+                    bgList={['https://www.iqycamp.com/images/fragment/rise_tutorial_pl_0726_1.jpg',
+                  'https://www.iqycamp.com/images/fragment/rise_tutorial_pl_0726_2.jpg']}
+          />
           <div className="plp-running plp-block">
             <div className="p-r-header">
               <span className="p-r-h-title">进行中</span>
@@ -163,12 +199,12 @@ export default class PlanList extends React.Component<any,any> {
                         </div>
                         <div className="p-r-b-i-text-done">
                           已完成：{`${item.completeSeries}/${item.totalSeries}节`}
+
                         </div>
-                        {renderDeadline(item.deadline)}
                       </div>
                     </div>
                   </div>
-                );
+                  );
               })}
           </div>
 
@@ -258,19 +294,35 @@ export default class PlanList extends React.Component<any,any> {
                             <div className="p-c-b-t-l-close">
                               {plan.closeTime}
                             </div>
-                          </div>
-                          <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
-                            <div className="p-c-b-t-tip">
-                              得分：
+                            <div className="p-c-b-pic">
+                              <img className="p-c-b-p-img" src={`${problem.pic}`}>
+                              </img>
                             </div>
-                            <div className="p-c-b-t-point">
-                              {plan.point}
+                            <div className="p-c-b-text">
+                              <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
+                                <div className="p-c-b-t-l-title">
+                                  {problem.problem}
+                                </div>
+                                <div className="p-c-b-t-l-close">
+                                  {plan.closeTime}
+                                </div>
+                              </div>
+                              <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
+                                <div className="p-c-b-t-tip">
+                                  得分：
+                                </div>
+                                <div className="p-c-b-t-point">
+                                  {plan.point}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    );
-                  }) }
+                      );
+                    }
+                    )
+                  }
                 </div>
               </div>
             </div>:null}
