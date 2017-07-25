@@ -755,9 +755,9 @@ export class PlanMain extends React.Component <any, any> {
 
 
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
-                  bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_1.jpg?imageslim',
-                  'https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_2.jpg?imageslim',
-                  'https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_4.jpg?imageslim']}
+                  bgList={['https://www.iqycamp.com/images/fragment/rise_tutorial_main_0726_1.jpg',
+                  'https://www.iqycamp.com/images/fragment/rise_tutorial_main_0726_2.jpg',
+                  'https://www.iqycamp.com/images/fragment/rise_tutorial_main_0726_4.jpg']}
         />
 
         <Modal show={expired}
