@@ -14,6 +14,7 @@
       width:100%;
       height:1px;
       top:11px;
+      left:0;
       background: #6cf;
       z-index: 1;
     }
@@ -28,13 +29,16 @@
       .work-step-dot {
         width: 20px;
         height: 20px;
-        background: url("../../assets/img/rise_icon_small_dot.png") no-repeat 4px center/12px;
+        background: none;
         border: 2px solid #66ccff;
         -webkit-border-radius: 22px;
         -moz-border-radius: 22px;
         border-radius: 22px;;
         &.work-step-done{
           background: url("../../assets/img/rise_icon_tick_colored.png") no-repeat 4px center/12px;
+        }
+        &.work-step-cur {
+          background: url("../../assets/img/rise_icon_small_dot.png") no-repeat 4px center/12px;
         }
       }
       .work-step-text {

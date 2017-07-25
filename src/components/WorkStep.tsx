@@ -7,6 +7,7 @@ interface WorkStepProps {
 interface WorkItem {
   done:Boolean,
   text:String,
+  cur:Boolean,
 }
 export default class WorkStep extends React.Component<WorkStepProps,any>{
   constructor(props){
@@ -24,7 +25,7 @@ export default class WorkStep extends React.Component<WorkStepProps,any>{
               return (
                 <div className="work-step-choice">
                   <div className="work-step-mask">
-                    <div className={`work-step-dot ${work.done?'work-step-done':''}`}></div>
+                    <div className={`work-step-dot ${work.done?'work-step-done':''} ${work.cur && !work.done?'work-step-cur':''}`}></div>
                     <div className="work-step-text">{work.text}</div>
                   </div>
                 </div>
