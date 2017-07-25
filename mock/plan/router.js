@@ -193,7 +193,7 @@ router.post("/rise/plan/close", (req, res) => {
 		}), Math.random() * 1500)
 });
 
-router.post('/rise/plan/openrise',(req,res)=>{
+router.post('/rise/open/rise',(req,res)=>{
   setTimeout(()=>
     res.status(200).json({
       "code":200,
@@ -201,7 +201,7 @@ router.post('/rise/plan/openrise',(req,res)=>{
     }),Math.random() * 1500)
 });
 
-router.post('/rise/plan/open/navigator',(req,res)=>{
+router.post('/rise/open/navigator',(req,res)=>{
     setTimeout(()=>
         res.status(200).json({
             "code":200,
@@ -332,7 +332,7 @@ router.get("/rise/plan/promote", (req, res) => {
         }), Math.random() * 1500)
 });
 
-router.get('/rise/plan/open/status', (req, res) => {
+router.get('/rise/open/status', (req, res) => {
     setTimeout(() =>
         res.status(200).json({
             "code": 200,

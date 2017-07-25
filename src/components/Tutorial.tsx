@@ -6,9 +6,9 @@ export default class Tutorial extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      bgList: props.bgList,
-      topList:props.topList,
-      bottomList:props.bottomList,
+      bgList: props.bgList,//图片列表
+      topList:props.topList, //图片离顶部的距离
+      bottomList:props.bottomList, //图片离底部的距离
       index: 0,
       onShowEnd: props.onShowEnd || function () {
       },
@@ -58,7 +58,7 @@ export default class Tutorial extends React.Component<any,any> {
     const {index, bgList, topList, bottomList} = this.state;
 
     const renderTutorialImage = (item, seq) =>{
-      if(topList[seq]){
+      if(topList && topList[seq]){
         let top = topList[seq];
         return (
             <div className="item" style={{top, height:window.innerHeight, position:'relative'}}>
@@ -66,7 +66,7 @@ export default class Tutorial extends React.Component<any,any> {
             </div>
         )
 
-      }else if(bottomList[seq]){
+      }else if(bottomList && bottomList[seq]){
         let bottom = bottomList[seq];
         return (
             <div className="item" style={{top:0, height:window.innerHeight-bottom, position:'relative'}}>
@@ -74,7 +74,7 @@ export default class Tutorial extends React.Component<any,any> {
             </div>
         )
       }else{
-        return (<div className="item">
+        return (<div className="item" style={{height:window.innerHeight}}>
           <img key={seq} src={item}/>
         </div>)
       }
@@ -91,14 +91,6 @@ export default class Tutorial extends React.Component<any,any> {
             return renderTutorialImage(item, seq);
           })}
         </SwipeableViews>
-        {<div className="sequence-dot" style={{marginLeft:`-${bgList.length * 18 / 2}px`}}>
-          {bgList.length > 1 && bgList.map((item, seq) => {
-            return (<button className="dot-box">
-              <div className="dot"
-                   style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>
-            </button>)
-          })}
-        </div>}
       </div>
       </div>:null
     )

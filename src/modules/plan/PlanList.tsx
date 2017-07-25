@@ -50,7 +50,7 @@ export default class PlanList extends React.Component<any,any> {
     loadPlanList().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        const { runningPlans = [],completedPlans = [], trialClosedPlans= [] } = res.msg;
+        const { runningPlans = [],completedPlans = [], trialClosedPlans= [], openNavigator } = res.msg;
         let showEmptyPage = false;
         if(!runningPlans || runningPlans.length === 0){
            showEmptyPage = true;
@@ -120,11 +120,10 @@ export default class PlanList extends React.Component<any,any> {
   }
 
   render() {
-    const { completedPlans = [],runningPlans = [],trialClosedPlans = []} = planList;
     const { location } = this.props;
     const { runningPlanId,completedPlanId,trialClosedId } = location.query;
     const { planList={},showEmptyPage, openNavigator } = this.state;
-
+    const { completedPlans = [],runningPlans = [],trialClosedPlans = []} = planList;
 
     const renderCompletedPlans = () => {
       if(completedPlans){
@@ -158,8 +157,9 @@ export default class PlanList extends React.Component<any,any> {
         <div className="plan-list-page">
           <ToolBar />
           <Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}
-                    bgList={['https://www.iqycamp.com/images/fragment/rise_tutorial_pl_0726_1.jpg',
-                  'https://www.iqycamp.com/images/fragment/rise_tutorial_pl_0726_2.jpg']}
+                    bgList={['https://www.iqycamp.com/images/fragment/rise_pl_0727_1.png',
+                  'https://www.iqycamp.com/images/fragment/rise_pl_0727_2.png']}
+                    topList={[0, 169]} bottomList={[55, 0]}
           />
           <div className="plp-running plp-block">
             <div className="p-r-header">
@@ -177,6 +177,7 @@ export default class PlanList extends React.Component<any,any> {
               </div>
               :
               runningPlans.map((item,key) => {
+                const { problem } = item;
                 let style = {};
                 if(runningPlanId==item.planId && false){
                   style = {
@@ -295,13 +296,13 @@ export default class PlanList extends React.Component<any,any> {
                               {plan.closeTime}
                             </div>
                             <div className="p-c-b-pic">
-                              <img className="p-c-b-p-img" src={`${problem.pic}`}>
+                              <img className="p-c-b-p-img" src={`${plan.pic}`}>
                               </img>
                             </div>
                             <div className="p-c-b-text">
                               <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
                                 <div className="p-c-b-t-l-title">
-                                  {problem.problem}
+                                  {plan.problem}
                                 </div>
                                 <div className="p-c-b-t-l-close">
                                   {plan.closeTime}

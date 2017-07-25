@@ -52,11 +52,11 @@ export function commentReply(submitId, comment, replyedCommentId) {
 }
 
 export function openApplication() {
-  return ppost('/rise/plan/open/application');
+  return ppost('/rise/open/application');
 }
 
 export function getOpenStatus() {
-  return pget('/rise/plan/open/status');
+  return pget('/rise/open/status');
 }
 
 export function getApplicationPractice(submitId) {

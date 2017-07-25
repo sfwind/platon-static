@@ -904,9 +904,10 @@ export class PlanMain extends React.Component <any, any> {
       <div className="rise-main">
         {/*<ToolBar />*/}
         <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
-                  bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_1.jpg',
-                'https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_2.jpg',
-                'https://static.iqycamp.com/images/fragment/rise_tutorial_main_0726_4.jpg']}
+                  bgList={['https://static.iqycamp.com/images/fragment/rise_main_0727_1.png',
+                'https://static.iqycamp.com/images/fragment/rise_main_0727_2.png',
+                'https://static.iqycamp.com/images/fragment/rise_main_0727_3.png']}
+                topList={[0, 0, 0]} bottomList={[window.innerHeight-301, 0, 0]}
         />
         {renderCard()}
         <div>
