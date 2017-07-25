@@ -1,0 +1,102 @@
+@import "../../../style/variable";
+.text-input {
+  height: 55px;
+  line-height: 55px;
+  font-size: 14px;
+  padding: 0 15px;
+  color: @color_context;
+  border-bottom: 1px solid #f5f5f5;
+  overflow: hidden;
+  vertical-align: middle;
+  background-color:#ffffff;
+
+  > .text-input-label {
+    float: left;
+  }
+  > .text-input-content {
+    float: right;
+    width:60%;
+    &.inline{
+      float: none;
+      display: inline-block;
+    }
+    &.has-child{
+      width:30%;
+    }
+    input {
+      height:55px;
+      width:100%;
+    }
+    position: relative;
+    font-size: 14px;
+    text-align: right;
+    > .select-wrapper {
+      color: @color_strong;
+
+      &-has {
+        &:after {
+          content: ' ';
+          display: inline-block;
+          background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+          width: 6px;
+          height: 11.5px;
+          float: right;
+          margin-top: 21.75px;
+          margin-left: 4px;
+        }
+        > .form-item {
+          display: inline-block;
+          color: @color_title;
+          > .pc-box{
+            > span{
+            }
+          }
+        }
+        > input {
+          font-size: 14px !important;
+          color: @color_title;
+          text-align: right;
+          border: none;
+        }
+        &-no-cut {
+          margin-right:10px;
+          > .form-item {
+            display: inline-block;
+            color: @color_title;
+            > .pc-box{
+              > span{
+              }
+            }
+          }
+          > input {
+            font-size: 14px !important;
+            color: @color_title;
+            text-align: right;
+            border: none;
+          }
+        }
+      }
+      > .form-item {
+        display: inline-block;
+      }
+      > input {
+        font-size: 14px;
+        color: @color_strong;
+        text-align: right;
+        border: none;
+        &::-webkit-input-placeholder { /* WebKit browsers */
+          color: @color_strong;
+        }
+        &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+          color: @color_strong;
+        }
+        &::-moz-placeholder { /* Mozilla Firefox 19+ */
+          color: @color_strong;
+        }
+        &::-ms-input-placeholder { /* Internet Explorer 10+ */
+          color: @color_strong;
+        }
+      }
+    }
+  }
+}

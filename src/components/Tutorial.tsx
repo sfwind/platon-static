@@ -6,11 +6,7 @@ export default class Tutorial extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      bgList: props.bgList || ["https://static.iqycamp.com/images/fragment/rise_tutorial_1_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/fragment/rise_tutorial_2_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/fragment/rise_tutorial_3_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/fragment/rise_tutorial_4_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/rise_tutorial_2_0516.png?imageslim"],
+      bgList: props.bgList,
       index: 0,
       onShowEnd: props.onShowEnd || function () {
       },
@@ -60,10 +56,10 @@ export default class Tutorial extends React.Component<any,any> {
     const {index, bgList} = this.state;
 
     return (
-      this.props.show?<div className="tutorial-mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
+      this.props.show?<div className="tutorial-mask" style={{position:'fixed',top:0,left:0}}>
 
       <div className="tutorial" onClick={()=>this.next()}>
-        <SwipeableViews style={{height:'100%',width:'100%'}} slideStyle={{height:"100%",width:"100%",overflow:'hidden'}} containerStyle={{height:'100%',width:'100%'}}
+        <SwipeableViews style={{width:'100%'}} slideStyle={{width:"100%"}} containerStyle={{width:'100%'}}
                         index={index} onSwitching={(index,type)=>this.onSwitching(index,type)} resistance={true}>
           {this.state.bgList.map((item, seq) => {
             return (<div className="item">
@@ -71,14 +67,14 @@ export default class Tutorial extends React.Component<any,any> {
             </div>)
           })}
         </SwipeableViews>
-        {<div className="sequence-dot" style={{marginLeft:`-${this.state.bgList.length * 18 / 2}px`}}>
-          {this.state.bgList.length > 1 && this.state.bgList.map((item, seq) => {
-            return (<button className="dot-box">
-              <div className="dot"
-                   style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>
-            </button>)
-          })}
-        </div>}
+        {/*{<div className="sequence-dot" style={{marginLeft:`-${this.state.bgList.length * 18 / 2}px`}}>*/}
+          {/*{this.state.bgList.length > 1 && this.state.bgList.map((item, seq) => {*/}
+            {/*return (<button className="dot-box">*/}
+              {/*<div className="dot"*/}
+                   {/*style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>*/}
+            {/*</button>)*/}
+          {/*})}*/}
+        {/*</div>}*/}
       </div>
       </div>:null
     )

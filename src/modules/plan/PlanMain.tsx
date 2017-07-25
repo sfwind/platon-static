@@ -489,7 +489,7 @@ export class PlanMain extends React.Component <any, any> {
   render() {
     const { currentIndex, planData,showScoreModal, showEmptyPage,
         selectProblem,riseMember,riseMemberTips,chapterList,expired, _t } = this.state;
-    const {location, completePracticePlanId, dispatch} = this.props;
+    const {completePracticePlanId} = this.props;
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries,reportStatus
     } = planData;
@@ -754,7 +754,11 @@ export class PlanMain extends React.Component <any, any> {
 
 
 
-        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}/>
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
+                  bgList={['https://www.iqycamp.com/images/fragment/rise_tutorial_main_0726_1.jpg',
+                  'https://www.iqycamp.com/images/fragment/rise_tutorial_main_0726_2.jpg',
+                  'https://www.iqycamp.com/images/fragment/rise_tutorial_main_0726_4.jpg']}
+        />
 
         <Modal show={expired}
                buttons={[{click: () => this.goReport(), content: `${reportStatus < 0?'选择新小课':'学习报告'}`}]}
@@ -811,7 +815,8 @@ export class PlanMain extends React.Component <any, any> {
                     <span>小课介绍</span>
                   </div>
                   <div className="right" onClick={() => this.essenceShare(problem.id, currentIndex)}>
-                    <span className="essence"><AssetImg url="https://static.iqycamp.com/images/problem/extension_icon_main.png" height={15} width={15}/></span>
+                    <span className="essence">
+                      <AssetImg url="https://static.iqycamp.com/images/problem/extension_icon_main.png" height={15} width={15}/></span>
                     <span>延伸学习</span>
                   </div>
                 </div>
