@@ -157,8 +157,8 @@ export default class PlanList extends React.Component<any,any> {
         <div className="plan-list-page">
           <ToolBar />
           <Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}
-                    bgList={['https://www.iqycamp.com/images/fragment/rise_pl_0727_1.png',
-                  'https://www.iqycamp.com/images/fragment/rise_pl_0727_2.png']}
+                    bgList={['https://static.iqycamp.com/images/fragment/rise_pl_0727_1_2.png',
+                  'https://static.iqycamp.com/images/fragment/rise_pl_0727_2.png']}
                     topList={[0, 169]} bottomList={[55, 0]}
           />
           <div className="plp-running plp-block">
