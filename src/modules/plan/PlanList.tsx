@@ -295,35 +295,19 @@ export default class PlanList extends React.Component<any,any> {
                             <div className="p-c-b-t-l-close">
                               {plan.closeTime}
                             </div>
-                            <div className="p-c-b-pic">
-                              <img className="p-c-b-p-img" src={`${plan.pic}`}>
-                              </img>
+                          </div>
+                          <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
+                            <div className="p-c-b-t-tip">
+                              得分：
                             </div>
-                            <div className="p-c-b-text">
-                              <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
-                                <div className="p-c-b-t-l-title">
-                                  {plan.problem}
-                                </div>
-                                <div className="p-c-b-t-l-close">
-                                  {plan.closeTime}
-                                </div>
-                              </div>
-                              <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
-                                <div className="p-c-b-t-tip">
-                                  得分：
-                                </div>
-                                <div className="p-c-b-t-point">
-                                  {plan.point}
-                                </div>
-                              </div>
+                            <div className="p-c-b-t-point">
+                              {plan.point}
                             </div>
                           </div>
                         </div>
                       </div>
-                      );
-                    }
-                    )
-                  }
+                    );
+                  }) }
                 </div>
               </div>
             </div>:null}
