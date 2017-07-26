@@ -130,7 +130,7 @@ export function configTest(apiList,callback,configUrl) {
             callback();
           }
         })
-        wx.error((e)=>{
+        wx.error(function(e){
           // TODO 上线前删掉
           // 支付页面报错\
           alert(JSON.stringify(e));
@@ -166,7 +166,7 @@ export function configTest(apiList,callback,configUrl) {
             callback();
           }
         })
-        wx.error((e) => {
+        wx.error(function(e){
           // TODO 上线前删掉
           // 支付页面报错\
           alert(JSON.stringify(e));
