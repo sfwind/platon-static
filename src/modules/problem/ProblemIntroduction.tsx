@@ -5,13 +5,17 @@ import Audio from "../../components/Audio";
 import AssetImg from "../../components/AssetImg";
 import PayInfo from "./components/PayInfo";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
-import {openProblemIntroduction, createPlan, checkCreatePlan,loadUserCoupons,loadPayParam,afterPayDone,logPay,mark} from "./async";
+import {
+  openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
+  calculateCoupon
+} from "./async";
 import { Toast, Dialog } from "react-weui";
 import { merge,isNumber,isObjectLike,toLower,get } from "lodash";
 const { Alert } = Dialog
 const numeral = require('numeral');
 import { config,pay } from "../helpers/JsConfig"
 
+const FREE_PROBLEM_ID = 9
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any,any> {
@@ -151,6 +155,12 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(endLoad())
       const {code, msg} = res
       if (code === 200) {
+        // 限免小课跳过填写信息
+        if(location.query.id == FREE_PROBLEM_ID){
+          this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:msg}});
+          return;
+        }
+
         if(!isFull){
           // 没有填写过
           this.context.router.push({pathname:'/rise/static/customer/profile',query:{
@@ -477,7 +487,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     const {data = {}, buttonStatus, showPayInfo, final, fee, coupons} = this.state;
     const {show} = this.props.location.query
 
-    const {difficultyScore, catalog, subCatalog, pic, authorDesc, length, why, how, what, who, descPic, audio, chapterList, problem, categoryPic, authorPic} = data;
+    const {difficultyScore, catalog, subCatalog, pic, why, how, what, who,
+        descPic, audio, chapterList, problem, categoryPic, authorPic} = data;
 
     const renderCatalogName = (catalog, subCatalog) => {
       if (catalog && subCatalog) {
