@@ -6,15 +6,13 @@ export default class Tutorial extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      bgList: props.bgList || ["https://static.iqycamp.com/images/fragment/rise_tutorial_1_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/fragment/rise_tutorial_2_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/fragment/rise_tutorial_3_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/fragment/rise_tutorial_4_0522.jpg?imageslim",
-        "https://static.iqycamp.com/images/rise_tutorial_2_0516.png?imageslim"],
+      bgList: props.bgList,//图片列表
+      topList:props.topList, //图片离顶部的距离
+      bottomList:props.bottomList, //图片离底部的距离
       index: 0,
       onShowEnd: props.onShowEnd || function () {
       },
-      close:false
+      close:false,
     }
   }
 
@@ -57,28 +55,42 @@ export default class Tutorial extends React.Component<any,any> {
   }
 
   render() {
-    const {index, bgList} = this.state;
+    const {index, bgList, topList, bottomList} = this.state;
+
+    const renderTutorialImage = (item, seq) =>{
+      if(topList && topList[seq]){
+        let top = topList[seq];
+        return (
+            <div className="item" style={{top, height:window.innerHeight - top- 53, position:'relative'}}>
+              <img key={seq} src={item}/>
+            </div>
+        )
+
+      }else if(bottomList && bottomList[seq]){
+        let bottom = bottomList[seq];
+        return (
+            <div className="item" style={{top:0, height:window.innerHeight-bottom, position:'relative'}}>
+              <img key={seq} src={item} style={{position:'absolute', bottom:0}}/>
+            </div>
+        )
+      }else{
+        return (<div className="item" style={{height:window.innerHeight}}>
+          <img key={seq} src={item}/>
+        </div>)
+      }
+
+    }
 
     return (
-      this.props.show?<div className="tutorial-mask" style={{backgroundColor: 'rgba(0, 0, 0, 0.0)',position:'fixed',top:0,left:0}}>
+      this.props.show?<div className="tutorial-mask" style={{position:'fixed',top:0,left:0}}>
 
       <div className="tutorial" onClick={()=>this.next()}>
-        <SwipeableViews style={{height:'100%',width:'100%'}} slideStyle={{height:"100%",width:"100%",overflow:'hidden'}} containerStyle={{height:'100%',width:'100%'}}
+        <SwipeableViews style={{width:'100%'}} slideStyle={{width:"100%"}} containerStyle={{width:'100%'}}
                         index={index} onSwitching={(index,type)=>this.onSwitching(index,type)} resistance={true}>
-          {this.state.bgList.map((item, seq) => {
-            return (<div className="item">
-              <img key={seq} src={item}/>
-            </div>)
+          {bgList.map((item, seq) => {
+            return renderTutorialImage(item, seq);
           })}
         </SwipeableViews>
-        {<div className="sequence-dot" style={{marginLeft:`-${this.state.bgList.length * 18 / 2}px`}}>
-          {this.state.bgList.length > 1 && this.state.bgList.map((item, seq) => {
-            return (<button className="dot-box">
-              <div className="dot"
-                   style={{backgroundColor:`${index==seq?'rgb(49, 159, 214)':'rgb(228, 230, 231)'}`}}></div>
-            </button>)
-          })}
-        </div>}
       </div>
       </div>:null
     )

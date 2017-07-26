@@ -1,10 +1,9 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import "./Main.less";
-import {loadWarmUpAnalysis, loadWarmUpDiscuss,discuss, deleteComment} from "./async";
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
+import {loadWarmUpDiscuss,discuss, deleteComment} from "./async";
+import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeModal from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import DiscussShow from "../components/DiscussShow";
 import _ from "lodash"
@@ -28,7 +27,6 @@ export class Analysis extends React.Component <any, any> {
       list: [],
       currentIndex: 0,
       practiceCount: 0,
-      showKnowledge: false,
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
@@ -42,14 +40,17 @@ export class Analysis extends React.Component <any, any> {
 
 
   componentWillMount(props) {
-    const {dispatch, location} = this.props;
+    const {dispatch, location, warmupCurrentIndex} = this.props;
     this.setState({currentIndex: 0});
 
-    const {practicePlanId, integrated} = location.query;
+    const {integrated} = location.query;
     this.setState({integrated});
     const {res} = this.props;
     const {code, msg} = res;
     if (code === 200) {
+      if(warmupCurrentIndex){
+        this.setState({currentIndex:warmupCurrentIndex})
+      }
       this.setState({list: msg, practiceCount: msg.practice.length});
       if(msg.practice[0].knowledge){
         this.setState({knowledgeId: msg.practice[0].knowledge.id})
@@ -63,6 +64,8 @@ export class Analysis extends React.Component <any, any> {
     const {currentIndex, practiceCount} = this.state;
     if (currentIndex < practiceCount - 1) {
       this.setState({currentIndex: currentIndex + 1})
+      //保存当前解析的题目index
+      dispatch(set('warmupCurrentIndex', currentIndex + 1))
     }
     scroll('.container', '.container');
   }
@@ -72,6 +75,8 @@ export class Analysis extends React.Component <any, any> {
     const {currentIndex} = this.state;
     if (currentIndex > 0) {
       this.setState({currentIndex: currentIndex - 1})
+      //保存当前解析的题目index
+      dispatch(set('warmupCurrentIndex', currentIndex - 1))
     }
     scroll('.container', '.container');
   }
@@ -79,10 +84,6 @@ export class Analysis extends React.Component <any, any> {
   nextTask() {
     const {series, planId} = this.props.location.query;
     window.history.back();
-  }
-
-  closeModal() {
-    this.setState({showKnowledge: false})
   }
 
   reload() {
@@ -173,7 +174,7 @@ export class Analysis extends React.Component <any, any> {
 
   render() {
     const {list, currentIndex, selected, practiceCount,
-      showKnowledge, showDiscuss, isReply, integrated, placeholder, knowledgeId} = this.state;
+      showDiscuss, isReply, integrated, placeholder, knowledgeId} = this.state;
     const {practice = []} = list;
 
     const questionRender = (practice) => {
@@ -278,7 +279,6 @@ export class Analysis extends React.Component <any, any> {
             <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
             <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
         </div>}
-        {showKnowledge ? <KnowledgeModal knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> : null}
         {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                  submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                  cancel={()=>this.cancel()}/>:

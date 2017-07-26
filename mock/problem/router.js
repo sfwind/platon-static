@@ -96,4 +96,370 @@ router.post("/rise/problem/grade/*", (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.get("/rise/problem/open/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      {
+        "msg": {
+          "problem": {
+            "id": 9,
+            "problem": "找到本质问题，减少无效努力",
+            "pic": "https://static.iqycamp.com/images/problem9_4.jpg",
+            "length": 6,
+            "description": null,
+            "catalogId": 1,
+            "subCatalogId": 3,
+            "author": "孙圈圈",
+            "authorDesc": null,
+            "authorPic": "https://static.iqycamp.com/images/rise_problem_author_pic_sunquanquanV2.png?imageslim",
+            "difficultyScore": 3.0208,
+            "subjectDesc": null,
+            "descPic": "https://static.iqycamp.com/images/problem_desc_9.png",
+            "audio": "https://www.iqycamp.com/audio/rise_p9_2.m4a",
+            "who": "希望提升洞察力，看穿问题本质的人;想要提高工作和学习效率的人",
+            "what": null,
+            "how": "通过以下4个步骤，就可以发现问题本质，从而不做无效努力：\n\n1、首先，针对这个问题，搞清楚问题中关键词的概念、定义。\n2、当问题与他人有关时，判断对方是否隐瞒了真实意图，挖掘他真实诉求。\n3、确定了真实需求之后，通过不断提问，找到造成这个问题的根本原因。\n4、最后，即便找到了根本原因，也不要急着去解决；而是要确定，问题是关键且可被解决的。因为，并非所有问题都是有答案的，在一些无法改变的问题上面花费时间来困扰，也是浪费精力的表现",
+            "why": "爱因斯坦说：如果给我1个小时解答一道决定我生死的问题，我会花55分钟来弄清楚这道题到底是在问什么。一旦清楚了它到底在问什么，剩下的5分钟足够回答这个问题。\n\n即便是在咨询行业，刚入行的分析师，70%的时间可能做得都是无用功。因为他们关注于完成任务，而没有把主要精力集中在找到本质问题上。",
+            "del": false,
+            "newProblem": false,
+            "trial": false,
+            "categoryPic": "https://static.iqycamp.com/images/fragment/category2_2.jpeg",
+            "done": null,
+            "status": null,
+            "hasProblemScore": false,
+            "chapterList": [{
+              "chapter": 1,
+              "sections": [{
+                "section": 1,
+                "knowledgeId": 44,
+                "name": "澄清问题的理解偏差",
+                "series": 1,
+                "chapter": 1,
+                "integrated": false,
+                "chapterName": "澄清问题描述",
+                "practices": [{
+                  "type": 31,
+                  "status": 1,
+                  "unlocked": true,
+                  "practiceIdList": [44],
+                  "series": 1,
+                  "sequence": 1,
+                  "practicePlanId": 309348,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 1,
+                  "status": 0,
+                  "unlocked": true,
+                  "practiceIdList": [394, 395, 396, 397, 398, 399, 968],
+                  "series": 1,
+                  "sequence": 2,
+                  "practicePlanId": 309354,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": true,
+                  "practiceIdList": [125],
+                  "series": 1,
+                  "sequence": 3,
+                  "practicePlanId": 309360,
+                  "optional": true,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": true,
+                  "practiceIdList": [126],
+                  "series": 1,
+                  "sequence": 4,
+                  "practicePlanId": 309361,
+                  "optional": true,
+                  "planId": 10490
+                }, {
+                  "type": 21,
+                  "status": 0,
+                  "unlocked": true,
+                  "practiceIdList": [9],
+                  "series": 0,
+                  "sequence": 5,
+                  "practicePlanId": 309370,
+                  "optional": true,
+                  "planId": 10490
+                }]
+              }],
+              "name": "澄清问题描述",
+              "myWarmScore": null,
+              "totalWarmScore": null,
+              "integrated": false
+            }, {
+              "chapter": 2,
+              "sections": [{
+                "section": 1,
+                "knowledgeId": 45,
+                "name": "澄清背后的隐藏偏差",
+                "series": 2,
+                "chapter": 2,
+                "integrated": false,
+                "chapterName": "挖掘背后诉求",
+                "practices": [{
+                  "type": 31,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [45],
+                  "series": 2,
+                  "sequence": 1,
+                  "practicePlanId": 309349,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 1,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [408, 409, 410, 412, 414, 415, 416],
+                  "series": 2,
+                  "sequence": 2,
+                  "practicePlanId": 309355,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [128],
+                  "series": 2,
+                  "sequence": 3,
+                  "practicePlanId": 309362,
+                  "optional": true,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [129],
+                  "series": 2,
+                  "sequence": 4,
+                  "practicePlanId": 309363,
+                  "optional": true,
+                  "planId": 10490
+                }]
+              }],
+              "name": "挖掘背后诉求",
+              "myWarmScore": null,
+              "totalWarmScore": null,
+              "integrated": false
+            }, {
+              "chapter": 3,
+              "sections": [{
+                "section": 1,
+                "knowledgeId": 46,
+                "name": "用5个为什么找原因",
+                "series": 3,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "找到根本原因",
+                "practices": [{
+                  "type": 31,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [46],
+                  "series": 3,
+                  "sequence": 1,
+                  "practicePlanId": 309350,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 1,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [422, 423, 424, 428, 969, 970],
+                  "series": 3,
+                  "sequence": 2,
+                  "practicePlanId": 309356,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [131],
+                  "series": 3,
+                  "sequence": 3,
+                  "practicePlanId": 309364,
+                  "optional": true,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [132],
+                  "series": 3,
+                  "sequence": 4,
+                  "practicePlanId": 309365,
+                  "optional": true,
+                  "planId": 10490
+                }]
+              }],
+              "name": "找到根本原因",
+              "myWarmScore": null,
+              "totalWarmScore": null,
+              "integrated": false
+            }, {
+              "chapter": 4,
+              "sections": [{
+                "section": 1,
+                "knowledgeId": 47,
+                "name": "用矩阵确定关键-可行",
+                "series": 4,
+                "chapter": 4,
+                "integrated": false,
+                "chapterName": "确定关键可行",
+                "practices": [{
+                  "type": 31,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [47],
+                  "series": 4,
+                  "sequence": 1,
+                  "practicePlanId": 309351,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 1,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [435, 436, 437, 438, 440, 443, 445],
+                  "series": 4,
+                  "sequence": 2,
+                  "practicePlanId": 309357,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [134],
+                  "series": 4,
+                  "sequence": 3,
+                  "practicePlanId": 309366,
+                  "optional": true,
+                  "planId": 10490
+                }, {
+                  "type": 11,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [135],
+                  "series": 4,
+                  "sequence": 4,
+                  "practicePlanId": 309367,
+                  "optional": true,
+                  "planId": 10490
+                }]
+              }],
+              "name": "确定关键可行",
+              "myWarmScore": null,
+              "totalWarmScore": null,
+              "integrated": false
+            }, {
+              "chapter": 5,
+              "sections": [{
+                "section": 1,
+                "knowledgeId": 57,
+                "name": "内容回顾 & 案例应用1",
+                "series": 5,
+                "chapter": 5,
+                "integrated": true,
+                "chapterName": "综合案例",
+                "practices": [{
+                  "type": 32,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [57],
+                  "series": 5,
+                  "sequence": 1,
+                  "practicePlanId": 309352,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 2,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [405, 406, 417, 432, 441, 971],
+                  "series": 5,
+                  "sequence": 2,
+                  "practicePlanId": 309358,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 12,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [224],
+                  "series": 5,
+                  "sequence": 3,
+                  "practicePlanId": 309368,
+                  "optional": true,
+                  "planId": 10490
+                }]
+              }, {
+                "section": 2,
+                "knowledgeId": 58,
+                "name": "内容回顾 & 案例应用2",
+                "series": 6,
+                "chapter": 5,
+                "integrated": true,
+                "chapterName": "综合案例",
+                "practices": [{
+                  "type": 32,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [58],
+                  "series": 6,
+                  "sequence": 1,
+                  "practicePlanId": 309353,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 2,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [407, 419, 433, 442, 444, 972, 973],
+                  "series": 6,
+                  "sequence": 2,
+                  "practicePlanId": 309359,
+                  "optional": false,
+                  "planId": 10490
+                }, {
+                  "type": 12,
+                  "status": 0,
+                  "unlocked": false,
+                  "practiceIdList": [136],
+                  "series": 6,
+                  "sequence": 3,
+                  "practicePlanId": 309369,
+                  "optional": true,
+                  "planId": 10490
+                }]
+              }],
+              "name": "综合案例",
+              "myWarmScore": null,
+              "totalWarmScore": null,
+              "integrated": true
+            }],
+            "subCatalog": "思考能力",
+            "catalog": "打造自己"
+          }, "fee": 0.01, "buttonStatus": 5, "planId": 10496, "bindMobile": true, "isFull": true
+        }, "code": 200
+      }
+    ), Math.random() * 1500);
+});
+
+router.get("/signup/coupon/list", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      {"msg":[],"code":200}
+    ), Math.random() * 1500)
+});
+
 module.exports = router;

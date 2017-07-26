@@ -48,6 +48,14 @@ export default class Welcome extends React.Component<any, any> {
     })
   }
 
+  handleClickGoPayPage() {
+    mark({ module: "打点", function: "付费相关", action: "点击成为RISER", memo: "欢迎页" }).then(() => {
+      window.location.href = `https://${window.location.hostname}/pay/pay`
+    }).catch(() => {
+      window.location.href = `https://${window.location.hostname}/pay/pay`
+    })
+  }
+
   render() {
     return (
       <div className="welcome-container"
@@ -55,7 +63,7 @@ export default class Welcome extends React.Component<any, any> {
         <div className="welcome-page">
           <div className="welcome-botton">
             <div className="button-left" onClick={() => this.handleClickGoTrailPage()}>限时免费</div>
-            <div className="button-right" onClick={() => this.handleClickGoExplorePage()}>全部小课</div>
+            <div className="button-right" onClick={() => this.handleClickGoExplorePage()}>加入会员</div>
           </div>
         </div>
       </div>

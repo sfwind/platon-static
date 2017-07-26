@@ -8,10 +8,6 @@ export function loadPlan(planId) {
   return pget(`/rise/plan/load`, param)
 }
 
-export function loadPlanIntro(planId) {
-  return pget(`/rise/plan/play/${planId}`)
-}
-
 export function completePlan(planId) {
   return ppost(`/rise/plan/complete${planId ? '?planId=' + planId : ''}`)
 }
@@ -25,11 +21,15 @@ export function closePlan(planId) {
 }
 
 export function updateOpenRise() {
-  return ppost(`/rise/plan/openrise`)
+  return ppost(`/rise/open/rise`)
 }
 
 export function checkPractice(series, planId) {
   return ppost(`/rise/plan/check/${series}${planId ? '?planId=' + planId : ''}`)
+}
+
+export function updateOpenNavigator(){
+  return ppost(`/rise/open/navigator`)
 }
 
 export function gradeProblem(problemScores, problemId) {

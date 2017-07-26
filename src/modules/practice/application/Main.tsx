@@ -8,7 +8,6 @@ import {
 } from "./async";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeViewer from "../components/KnowledgeModal";
 import _ from "lodash";
 import Work from "../components/NewWork"
 import PullElement from 'pull-element'
@@ -29,7 +28,6 @@ export class Main extends React.Component <any, any> {
     this.state = {
       data: {},
       knowledge: {},
-      showKnowledge: false,
       submitId: 0,
       page: 1,
       otherList: [],
@@ -241,10 +239,6 @@ export class Main extends React.Component <any, any> {
     this.setState({ edit: true })
   }
 
-  closeModal() {
-    this.setState({ showKnowledge: false })
-  }
-
   goComment(submitId) {
     const { dispatch } = this.props;
     dispatch(set('otherApplicationPracticeSubmitId', submitId));
@@ -365,7 +359,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { data, otherList, knowledge = {}, showKnowledge, end, openStatus = {}, showOthers, edit, showDisable, integrated, loading } = this.state
+    const { data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, integrated, loading } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
 
     const renderList = (list) => {
@@ -489,7 +483,6 @@ export class Main extends React.Component <any, any> {
               {renderEnd()}
             </div>
         </div>
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
 
         { showDisable ?
           <div className="button-footer disabled">提交中</div>

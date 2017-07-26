@@ -17,9 +17,15 @@
     .printer-machine {
       position: relative;
       z-index: 800;
-      .printer-close {
-        padding-top: 5px;
-        overflow: hidden;
+      .printer-close{
+        padding-top:5px;
+        position: relative;
+        height:20px;
+        div{
+          position: absolute;
+          top:15px;
+          right:-10px;
+        }
       }
       .printer-top {
         text-align: center;
@@ -73,7 +79,7 @@
           top: -60px;
           transition: transform 1s;
         }
-        .save-tip {
+        .save-tip{
           padding-top: 10px;
           text-align: center;
           font-size: 18px;

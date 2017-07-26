@@ -16,6 +16,7 @@ export function config(apiList,callback) {
           }
         })
         wx.error((e)=>{
+          // TODO 上线前删掉
           mark({
             module: "JSSDK",
             function: "ios",

@@ -15,6 +15,7 @@ import { NumberToChinese, changeTitle } from "../../utils/helpers"
 import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
+import Tutorial from "../../components/Tutorial";
 import { mark } from "../../utils/request";
 const { Alert } = Dialog
 var FastClick = require('fastclick');
@@ -28,6 +29,8 @@ const typeMap = {
   31: '知识理解',
   32: '知识回顾',
 }
+
+const FREE_PROBLEM_ID = 9;
 
 @connect(state => state)
 export class PlanMain extends React.Component <any, any> {
@@ -46,6 +49,7 @@ export class PlanMain extends React.Component <any, any> {
       defeatPercent: 0,
       expired: false,
       _t: Math.random(),
+      freeProblem: false,
       questionList: [
         {
           id: 1,
@@ -110,6 +114,7 @@ export class PlanMain extends React.Component <any, any> {
       style: {
         cardWrapperHeight: (window.innerHeight - 197),
         picHeight: (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350)),
+        cardTipFontSize:(window.innerWidth / (750 / 28)) > 28 ? 28 : (window.innerWidth / (750 / 28)),
       }
     })
   }
@@ -117,6 +122,7 @@ export class PlanMain extends React.Component <any, any> {
   componentWillUnmount() {
     const { dispatch } = this.props;
     dispatch(set("completePracticePlanId", undefined));
+    dispatch(set('warmupCurrentIndex', undefined));
     window.removeEventListener('resize', this.resize);
   }
 
@@ -146,16 +152,18 @@ export class PlanMain extends React.Component <any, any> {
     }
     dispatch(startLoad())
     loadPlan(planId).then(res => {
-      console.log(res)
       dispatch(endLoad())
       let { code, msg } = res
       if(code === 200) {
         if(msg !== null) {
+          // 是否是限免小课
+          const freeProblem = msg.problem.id === FREE_PROBLEM_ID;
           this.setState({
             planData: msg,
             currentIndex: msg.currentSeries,
             selectProblem: msg.problem,
-            mustStudyDays: msg.mustStudyDays
+            mustStudyDays: msg.mustStudyDays,
+            freeProblem,
           });
         } else {
           this.setState({
@@ -555,7 +563,7 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal, showEmptyPage,
+      currentIndex, planData, showScoreModal, showEmptyPage, freeProblem,
       selectProblem, riseMember, riseMemberTips, chapterList, expired, _t
     } = this.state;
     const { location, completePracticePlanId, dispatch } = this.props;
@@ -946,8 +954,22 @@ export class PlanMain extends React.Component <any, any> {
         return null;
       }
     }
+
+    let bgList = ['https://static.iqycamp.com/images/fragment/rise_main_0727_1.png',
+      'https://static.iqycamp.com/images/fragment/rise_main_0727_2.png',
+      'https://static.iqycamp.com/images/fragment/rise_main_0727_3.png'];
+    if(!freeProblem){
+      bgList = ['https://static.iqycamp.com/images/fragment/rise_main_0727_1.png',
+        'https://static.iqycamp.com/images/fragment/rise_main_0727_2.png',
+        'https://static.iqycamp.com/images/fragment/rise_main_0727_4.png'];
+    }
     return (
       <div className="rise-main">
+        {/*<ToolBar />*/}
+
+        <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
+                  bgList={bgList} topList={[0, 0, 0]} bottomList={[window.innerHeight-301, 0, 0]}
+        />
         {renderCard()}
         <div>
           {showEmptyPage ? (
