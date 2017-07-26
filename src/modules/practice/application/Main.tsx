@@ -128,12 +128,12 @@ export class Main extends React.Component <any, any> {
         let draft = msg.draft;
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING));
         //保存上次未自动保存的草稿
-        if(storageDraft && id == storageDraft.id){
+        if(storageDraft && id == storageDraft.id) {
           draft = storageDraft.content;
           if(!msg.draftId) {
-            if(planId){
+            if(planId) {
               autoSaveApplicationDraft(planId, id).then(res => {
-                if( res.code === 200){
+                if(res.code === 200) {
                   this.clearStorage();
                   this.setState({ draftId: res.msg });
                   autoUpdateApplicationDraft(res.msg, { draft });
@@ -195,20 +195,19 @@ export class Main extends React.Component <any, any> {
     });
   }
 
-
   componentWillUnmount() {
     this.pullElement ? this.pullElement.destroy() : null;
     clearInterval(timer)
   }
 
-  autoSave(value){
-    if(value && value !== this.state.data.content){
+  autoSave(value) {
+    if(value && value !== this.state.data.content) {
       window.localStorage.setItem(APPLICATION_AUTO_SAVING,
-          JSON.stringify({id:this.props.location.query.id, content:value}));
+        JSON.stringify({ id: this.props.location.query.id, content: value }));
     }
   }
 
-  clearStorage(){
+  clearStorage() {
     window.localStorage.removeItem(APPLICATION_AUTO_SAVING);
   }
 
@@ -220,7 +219,7 @@ export class Main extends React.Component <any, any> {
         if(this.state.draftId === -1) {
           const planId = this.state.planId;
           const applicationId = this.props.location.query.id;
-          if(planId){
+          if(planId) {
             autoSaveApplicationDraft(planId, applicationId).then(res => {
               this.clearStorage();
               this.setState({ draftId: res.msg });
@@ -323,7 +322,7 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad());
       const { code, msg } = res;
       if(code === 200) {
-        if (complete == 'false') {
+        if(complete == 'false') {
           dispatch(set('completePracticePlanId', practicePlanId));
         }
         dispatch(startLoad());
@@ -378,16 +377,7 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderTip = () => {
-      if(edit) {
-        return (
-          <div className="no-comment">
-            <div className="content">
-              <div className="text">更喜欢电脑上提交?</div>
-              <div className="text">登录www.iquanwai.com/community</div>
-            </div>
-          </div>
-        )
-      } else {
+      if(!edit) {
         return (
           <div>
             <Work onVoted={() => this.voted(submitId, voteStatus, voteCount, true)} onEdit={() => this.onEdit()}
@@ -427,61 +417,53 @@ export class Main extends React.Component <any, any> {
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
-            <div className="page-header">{topic}</div>
-            <div className="intro-container">
-              <div className="context-img">
-                {pic ? <AssetImg url={pic}/> :
-                    <AssetImg
-                        url='https://static.iqycamp.com/images/fragment/application_practice_2.png'/>}
+          <div className="page-header">{topic}</div>
+          <div className="intro-container">
+            <div className="application-context">
+              <div className="application-title">
+                <AssetImg type="app" size={15}/><span>今日应用</span>
               </div>
-              <div className="application-context">
-                <div className="section1">
-                  <p>输入是为了更好地输出！结合相关知识点，思考下面的问题，并提交你的答案吧</p>
-                  <p>优质答案有机会入选精华作业，并获得更多积分；占坑帖会被删除，并扣除更多积分</p>
-                </div>
-                <div className="application-title">
-                  <AssetImg type="app" size={15}/><span>今日应用</span>
-                </div>
-                <div className="section2" dangerouslySetInnerHTML={{ __html: description }}>
-                </div>
-              </div>
+              <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
               {integrated == 'false' ?
                 <div className="knowledge-link"
                      onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
-                  点击查看知识点</div> : null
+                  点击查看相关知识点</div> : null
               }
             </div>
-            <div ref="workContainer" className="work-container">
-              <div ref="submitBar" className="submit-bar">{ content === null ? '提交方式' : '我的作业'}</div>
-              {renderTip()}
+          </div>
+          <div ref="workContainer" className="work-container">
+            <div ref="submitBar" className="submit-bar">{ content === null ?
+              '好了，学以致用一下吧！结合相关知识点，思考并实践下面的任务。在圈外社区里记录下你的经历，还会收获积分。'
+              : '我的作业'}</div>
+            {renderTip()}
 
-              {edit ?
-                <div className="editor">
-                  <Editor
-                    ref="editor"
-                    moduleId={3}
-                    onUploadError={(res) => {
-                      this.props.dispatch(alertMsg(res.msg))
-                    }}
-                    uploadStart={() => {
-                      this.props.dispatch(startLoad())
-                    }}
-                    uploadEnd={() => {
-                      this.props.dispatch(endLoad())
-                    }}
-                    defaultValue={this.state.editorValue}
-                    placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
-                    autoSave = {(value) => {
-                      this.autoSave(value)
-                    }}
-                  />
-                </div> : null}
-              {showOthers && !isEmpty(otherList) ? <div>
-                <div className="submit-bar">{'同学的作业'}</div>
-                {renderList(otherList)}</div> : null}
-              {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
-              {renderEnd()}
-            </div>
+            {edit ?
+              <div className="editor">
+                <Editor
+                  ref="editor"
+                  moduleId={3}
+                  onUploadError={(res) => {
+                    this.props.dispatch(alertMsg(res.msg))
+                  }}
+                  uploadStart={() => {
+                    this.props.dispatch(startLoad())
+                  }}
+                  uploadEnd={() => {
+                    this.props.dispatch(endLoad())
+                  }}
+                  defaultValue={this.state.editorValue}
+                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
+                  autoSave={(value) => {
+                    this.autoSave(value)
+                  }}
+                />
+              </div> : null}
+            {showOthers && !isEmpty(otherList) ? <div>
+              <div className="submit-bar">{'同学的作业'}</div>
+              {renderList(otherList)}</div> : null}
+            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
+            {renderEnd()}
+          </div>
         </div>
 
         { showDisable ?
