@@ -49,18 +49,21 @@ import WarmUpNew from "modules/practice/warmup/Warumup"
 import ForumQuestion from "modules/customer/ForumQuestion";
 import CardsCollection from "./modules/problem/CardsCollection";
 
+import TestBase from "modules/base/TestBase"
 import A from "modules/test/A";
 import B from "modules/test/B";
 
 const routes = (
   <Route>
+    <Route component={TestBase} >
+      <Route path="/rise/static/a" component={A}/>
+      <Route path="/rise/static/b" component={B}/>
+    </Route>
     <Route path="/rise/static" component={Base} onChange={() => {
       if(window.ENV.osName !== 'ios') {
         config(['chooseWXPay']);
       }
     }}>
-      <Route path="a" component={A}/>
-      <Route path="b" component={B}/>
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
