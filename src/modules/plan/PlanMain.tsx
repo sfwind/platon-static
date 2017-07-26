@@ -993,7 +993,7 @@ export class PlanMain extends React.Component <any, any> {
                        trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
                 <div className="header-img">
                   <AssetImg url={problem.pic} style={{ height: this.state.style.picHeight, float: 'right' }}/>
-                  {isBoolean(riseMember) && !riseMember ?
+                  {riseMember != 1 ?
                     <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
                          onClick={() => this.goRiseMemberTips()}>
                     </div> : null}
