@@ -131,7 +131,7 @@ export class PlanMain extends React.Component <any, any> {
     return isRiseMember().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg });
-        if(!res.msg) {
+        if(res.msg!=1) {
           setTimeout(() => {
             this.setState({ riseMemberTips: true });
           }, 10)
@@ -240,7 +240,7 @@ export class PlanMain extends React.Component <any, any> {
     isRiseMember().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg });
-        if(!res.msg) {
+        if(res.msg!=1) {
           setTimeout(() => {
             this.setState({ riseMemberTips: true });
           }, 10)
@@ -255,7 +255,7 @@ export class PlanMain extends React.Component <any, any> {
     return isRiseMember().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg });
-        if(!res.msg) {
+        if(res.msg !=1) {
           setTimeout(() => {
             this.setState({ riseMemberTips: true });
           }, 10)
