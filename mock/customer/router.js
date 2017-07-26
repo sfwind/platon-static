@@ -14,6 +14,15 @@ router.get("/rise/customer/region", (req, res) => {
             {"msg":{"provinceList":[{"id":"1","value":"北京市","parentId":"1000000"},{"id":"2","value":"上海市","parentId":"1000000"}]},"code":200}
         ), Math.random() * 1500);
 })
+router.get("/rise/plan/welcome", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      {
+        msg:false,
+        code:200
+      }
+    ), Math.random() * 1500);
+})
 
 router.post("/rise/customer/profile/region", (req, res) => {
     setTimeout(() =>
