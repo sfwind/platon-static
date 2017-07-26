@@ -63,7 +63,7 @@ export default class Welcome extends React.Component<any, any> {
         <div className="welcome-page">
           <div className="welcome-botton">
             <div className="button-left" onClick={() => this.handleClickGoTrailPage()}>限时免费</div>
-            <div className="button-right" onClick={() => this.handleClickGoExplorePage()}>加入会员</div>
+            <div className="button-right" onClick={() => this.handleClickGoExplorePage()}>所有小课</div>
           </div>
         </div>
       </div>

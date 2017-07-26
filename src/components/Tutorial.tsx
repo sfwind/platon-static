@@ -61,7 +61,7 @@ export default class Tutorial extends React.Component<any,any> {
       if(topList && topList[seq]){
         let top = topList[seq];
         return (
-            <div className="item" style={{top, height:window.innerHeight - top- 53, position:'relative'}}>
+            <div className="item" style={{top, height:window.innerHeight - top, position:'relative'}}>
               <img key={seq} src={item}/>
             </div>
         )
@@ -85,7 +85,7 @@ export default class Tutorial extends React.Component<any,any> {
       this.props.show?<div className="tutorial-mask" style={{position:'fixed',top:0,left:0}}>
 
       <div className="tutorial" onClick={()=>this.next()}>
-        <SwipeableViews style={{width:'100%'}} slideStyle={{width:"100%"}} containerStyle={{width:'100%'}}
+        <SwipeableViews style={{width:'100%',height:'100%'}} slideStyle={{width:"100%"}} containerStyle={{width:'100%',height:'100%'}}
                         index={index} onSwitching={(index,type)=>this.onSwitching(index,type)} resistance={true}>
           {bgList.map((item, seq) => {
             return renderTutorialImage(item, seq);

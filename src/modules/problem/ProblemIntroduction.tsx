@@ -547,8 +547,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             case 1: {
               list.push(
                 <div className="button-footer">
-                  <div className={`left origin`} onClick={()=>this.handleClickPayImmediately()}>立即购买</div>
-                  <div className={`right`} onClick={()=>this.handleClickPayMember()}>加入会员</div>
+                  <div className={`left pay`} onClick={()=>this.handleClickPayImmediately()}>¥99&nbsp;立即学习</div>
+                  <div className={`right pay`} onClick={()=>this.handleClickPayMember()}>6折买课</div>
                 </div>
               );
               return list;
@@ -581,7 +581,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               list.push(
                 <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
                   <div>
-                    <AssetImg size="29px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" /><span>限时免费，立即开始学习</span>
+                    <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" /><span style={{    fontWeight: 'bolder'}}>限时免费，立即开始学习</span>
                   </div>
                 </div>
               );
