@@ -61,7 +61,7 @@ export default class Tutorial extends React.Component<any,any> {
       if(topList && topList[seq]){
         let top = topList[seq];
         return (
-            <div className="item" style={{top, height:window.innerHeight, position:'relative'}}>
+            <div className="item" style={{top, height:window.innerHeight - top- 53, position:'relative'}}>
               <img key={seq} src={item}/>
             </div>
         )
