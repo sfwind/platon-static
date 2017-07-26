@@ -23,9 +23,8 @@ export default class Welcome extends React.Component<any, any> {
       console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
-        // TODO 记得取消注释
         if(res.code === 200 && res.msg) {
-          // this.context.router.push("/rise/static/problem/explore")
+          this.context.router.push("/rise/static/problem/explore")
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -37,7 +36,6 @@ export default class Welcome extends React.Component<any, any> {
 
   handleClickGoTrailPage() {
     mark({ module: "打点", function: "付费相关", action: "点击试用版", memo: "欢迎页" }).then(() => {
-      // TODO 配置限免小课跳转，后期删除
       this.context.router.push('/rise/static/plan/view?id=9')
     })
   }

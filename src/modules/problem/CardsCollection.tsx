@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import AssetImg from "../../components/AssetImg";
 import { loadCardData, loadEssenceCard, loadProblemCards } from "./async";
+import { mark } from "../../utils/request";
 
 // 小课卡包
 interface CardsCollectionStates {
@@ -111,6 +112,8 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
                endTime = new Date();
                if(endTime.getTime() - startTime.getTime() < 500) {
                  this.setState({ showCard: false })
+               } else {
+                 mark({module: "打点", function: "卡包中心", action: "长按保存"});
                }
              }}
         >
