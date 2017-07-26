@@ -916,7 +916,7 @@ export class PlanMain extends React.Component <any, any> {
                 this.setState({ displayCard: false })
               }}>
                 <div style={{ display: 'inline-block', float: 'right' }}>
-                  <AssetImg type="white_close_btn" size="24px" style={{ float: 'right', marginRight: '30px' }}/>
+                  <AssetImg type="white_close_btn" size="24px" style={{ float: 'right', marginRight: '10px' }}/>
                 </div>
               </div>
               {renderCardBody()}
