@@ -32,6 +32,8 @@ const typeMap = {
 
 const FREE_PROBLEM_ID = 9;
 
+let printerWaitingTimer = null;
+
 @connect(state => state)
 export class PlanMain extends React.Component <any, any> {
   constructor() {
@@ -101,7 +103,6 @@ export class PlanMain extends React.Component <any, any> {
       showEmptyPage: false,
       showExpiredDateWarning: false
     }
-
     changeTitle('圈外同学');
   }
 
@@ -193,6 +194,16 @@ export class PlanMain extends React.Component <any, any> {
                 let printHeaderNode = document.getElementById("print-header")
                 if(printHeaderNode) printHeaderNode.style.display = "none"
               })
+              let waitingNode = document.getElementById("printer-waiting")
+              if(waitingNode) {
+                // clearInterval(printerWaitingTimer)
+                printerWaitingTimer = setInterval(() => {
+                  waitingNode.style.opacity = 1
+                  setTimeout(() => {
+                    waitingNode.style.opacity = 0
+                  }, 500)
+                }, 1000)
+              }
             }
           }
         })
@@ -212,6 +223,7 @@ export class PlanMain extends React.Component <any, any> {
                 }, 300)
                 let changedNode = document.getElementById("changed")
                 if(changedNode) changedNode.style.opacity = 1
+                clearInterval(printerWaitingTimer)
               }, 1000)
             });
           }
@@ -915,6 +927,9 @@ export class PlanMain extends React.Component <any, any> {
           )
         }
       }
+
+      // TODO
+      // displayCard = true
       if(displayCard) {
         return (
           <div className="chapter-card-container">
@@ -950,6 +965,7 @@ export class PlanMain extends React.Component <any, any> {
                       null
                   }
                 </div>
+                <div id="printer-waiting" className="printer-waiting"/>
               </div>
               <div className="printer-bottom">
               </div>
