@@ -19,11 +19,11 @@ export default class A extends React.Component<any,any>{
         <div>url:{window.location.href}</div>
         <br/><br/><br/>
         <div onClick={()=>{
-          configTest([],false,'ios')
+          configTest([],false,true)
         }}>试用configUrl注册</div>
         <br/><br/><br/>
         <div onClick={()=>{
-          configTest([],false,'android')
+          configTest([],false,false)
         }}>试用Url注册</div>
         <br/><br/><br/>
         <div onClick={()=>{
