@@ -581,7 +581,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               list.push(
                 <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
                   <div>
-                    <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" /><span>限时免费，立即开始学习</span>
+                    <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" /><span style={{    fontWeight: 'bolder'}}>限时免费，立即开始学习</span>
                   </div>
                 </div>
               );
