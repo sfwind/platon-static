@@ -16,6 +16,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 import Tutorial from "../../components/Tutorial";
+import { mark } from "../../utils/request";
 const { Alert } = Dialog
 var FastClick = require('fastclick');
 
@@ -179,7 +180,10 @@ export class PlanMain extends React.Component <any, any> {
         loadChapterCardAccess(this.state.planData.problemId, completePracticePlanId).then(res => {
           if(res.code === 200) {
             if(res.msg) {
-              this.setState({ displayCard: true })
+              this.setState({ displayCard: true }, () => {
+                let printHeaderNode = document.getElementById("print-header")
+                if(printHeaderNode) printHeaderNode.style.display = "none"
+              })
             }
           }
         })
@@ -187,9 +191,19 @@ export class PlanMain extends React.Component <any, any> {
           if(res.code === 200) {
             dispatch(set("CompleteChapterPracticePlanId", undefined))
             this.setState({ cardUrl: res.msg }, () => {
+              let printHeaderNode = document.getElementById("print-header")
+              if(printHeaderNode) printHeaderNode.style.display = ""
+              let printAwardNode = document.getElementById("printer-award")
+              if(printAwardNode) printAwardNode.style.transform = "scale(.6, .6)"
+              let originNode = document.getElementById("origin")
+              if(originNode) originNode.style.opacity = 0
               setTimeout(() => {
-                this.setState({ showCard: true });
-              }, 300)
+                setTimeout(() => {
+                  this.setState({ showCard: true });
+                }, 300)
+                let changedNode = document.getElementById("changed")
+                changedNode.style.opacity = 1
+              }, 1000)
             });
           }
         }).catch(e => {
@@ -257,7 +271,7 @@ export class PlanMain extends React.Component <any, any> {
     const { type, practicePlanId, planId, unlocked } = item
     if(!unlocked) {
       if(status === 4) {
-        this.setState({showExpiredDateWarning: true})
+        this.setState({ showExpiredDateWarning: true })
         return
       }
       if(lockedStatus === -1) {
@@ -813,7 +827,10 @@ export class PlanMain extends React.Component <any, any> {
       const alertProps = {
         buttons: [
           { label: '取消', onClick: () => this.setState({ showExpiredDateWarning: false }) },
-          { label: '确定', onClick: () => this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`) }
+          {
+            label: '确定',
+            onClick: () => this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)
+          }
         ],
       }
       let others = []
@@ -823,59 +840,84 @@ export class PlanMain extends React.Component <any, any> {
                dangerouslySetInnerHTML={{ __html: "限免小课已到期，请购买正式版解锁未完成任务" }}/>
         </Alert>
       )
-      if(showScoreModal){
-        others.push(<DropChoice onSubmit={(questionList)=>this.submitScore(questionList)}
-                                onClose={()=>this.setState({  showScoreModal: false },()=>{this.confirmComplete()})}
+      if(showScoreModal) {
+        others.push(<DropChoice onSubmit={(questionList) => this.submitScore(questionList)}
+                                onClose={() => this.setState({ showScoreModal: false }, () => {
+                                  this.confirmComplete()
+                                })}
                                 questionList={this.state.questionList}/>);
       }
-
       return others
     }
+
     const renderCard = () => {
-      const { cardUrl, displayCard } = this.state;
-      const renderCardBody = ()=>{
-        if(freeProblem){
+      let { cardUrl, displayCard } = this.state;
+      let problemId = get(planData, 'problem.id');
+      console.log(problemId);
+      const renderCardBody = () => {
+        if(problemId === 9) {
           return (
-            <div className="printer-body">
-              <div className="save-tip">
-                长按卡片保存到相册
+            <div>
+              <div className="printer-top">
+                <div id="print-header" className="printer-header">
+                  <div className="header-left">邀请好友</div>
+                  <div className="header-right">一起学习</div>
+                </div>
               </div>
-              <div className="share-tip">
-                <div className="card-tips">如果觉得有启发，记得分享给好友哦！</div>
-                <div className="card-tips small">（返回朋友圈，选择相册中的图片。暂不支持一键分享/(ToT)/）</div>
+              <div className="printer-body">
+                <img id="printer-award"
+                     src="https://www.iqycamp.com/images/fragment/free_limit_printer_award.png?imageslim"/>
+                <div className="share-tip">
+                  <div id="origin" className="share-tip-origin">
+                    <div className="card-tips">邀请好友一起学习</div>
+                    <div className="card-tips small">得50元奖学金</div>
+                  </div>
+                  <div id="changed" className="share-tip-changed">
+                    <div className="step-one">
+                      <img src="https://www.iqycamp.com/images/fragment/free_limit_printer_left.jpg?imageslim" alt=""/>
+                      <span>长按卡片保存到相册<br/>在朋友圈分享该卡片</span>
+                    </div>
+                    <div className="step-two">
+                      <img src="https://www.iqycamp.com/images/fragment/free_limit_printer_right.jpg?imageslim" alt=""/>
+                      <span>6个好友扫码上课<br/>￥50 奖学金 get！</span>
+                    </div>
+                    <div className="changed-tip">详情见“小课卡包”页面</div>
+                  </div>
+                </div>
               </div>
             </div>
           )
         } else {
           return (
-            <div className="printer-body trial">
-              <div className="save-tip">
-                长按卡片保存到相册
+            <div>
+              <div className="printer-top">
+                <div className="printer-header">
+                  <div className="header-normal">棒！你已完成本章知识学习，获得一张知识卡
+                  </div>
+                </div>
               </div>
-              <div className="share-tip">
-                <div className="card-tips" style={{marginTop:'-10px',color:'#333',fontSize:`${this.state.style.cardTipFontSize}px`,fontWeight:'100'}}>退出当前页面，在朋友圈分享给好友哦～</div>
-                <div className="card-tips small" style={{marginTop:'6px',color:'#000',fontSize:`${this.state.style.cardTipFontSize}px`}}>好友扫码即可免费学习本小课</div>
-                <div className="card-tips small" style={{display:'inline-block',color:'#000',fontSize:`${this.state.style.cardTipFontSize}px`}}>集齐9个好友学习，你还会得到
-                  <div className="card-moenty"></div>
+              <div className="printer-body" style={{height: 95}}>
+                <div className="share-tip-normal">
+                  <div className="tip-normal-top">如果觉得有启发，记得分享给好友哦！</div>
+                  <div className="tip-normal-bottom">长按卡片保存到相册，在朋友圈分享该卡片</div>
                 </div>
               </div>
             </div>
           )
         }
       }
+      // TODO 记得删除
+      // displayCard = true
       if(displayCard) {
         return (
           <div className="chapter-card-container">
             <div className="printer-machine">
-              <div className="printer-close">
-                <div style={{ display: 'inline-block', float: 'right' }} onClick={() => {
-                  this.setState({ displayCard: false })
-                }}>
-                  <AssetImg type="white_close_btn" size="24px" style={{ float: 'right', marginRight: '30px' }}/>
+              <div className="printer-close" onClick={() => {
+                this.setState({ displayCard: false })
+              }}>
+                <div style={{ display: 'inline-block', float: 'right' }}>
+                  <AssetImg type="white_close_btn" size="24px" style={{ float: 'right', marginRight: '10px' }}/>
                 </div>
-              </div>
-              <div className="printer-top">
-                <span>棒！你已完成本章知识学习，获得一张知识卡</span>
               </div>
               {renderCardBody()}
               <div className="printer-gap"/>
@@ -886,7 +928,16 @@ export class PlanMain extends React.Component <any, any> {
                   {
                     cardUrl ?
                       <div className="chapter-card-wrapper"
-                           style={{ height: `${this.state.style.cardWrapperHeight}px` }}>
+                           style={{ height: `${this.state.style.cardWrapperHeight}px` }}
+                           onTouchStart={() => {
+                             startTime = new Date();
+                           }}
+                           onTouchEnd={() => {
+                             endTime = new Date();
+                             if(endTime.getTime() - startTime.getTime() >= 500) {
+                               mark({ module: "打点", function: "弹窗卡片", action: "长按保存" });
+                             }
+                           }}>
                         <img className={`${this.state.showCard ? 'show' : ''} card-pic`} src={this.state.cardUrl}/>
                       </div> :
                       null
@@ -896,7 +947,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="printer-bottom">
               </div>
             </div>
-            <div className="card-mask"></div>
+            <div className="card-mask"/>
           </div>
         )
       } else {
