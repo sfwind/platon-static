@@ -49,6 +49,8 @@ import WarmUpNew from "modules/practice/warmup/Warumup"
 import ForumQuestion from "modules/customer/ForumQuestion";
 import CardsCollection from "./modules/problem/CardsCollection";
 
+import A from "modules/test/A";
+import B from "modules/test/B";
 
 const routes = (
   <Route>
@@ -57,6 +59,8 @@ const routes = (
         config(['chooseWXPay']);
       }
     }}>
+      <Route path="a" component={A}/>
+      <Route path="b" component={B}/>
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
