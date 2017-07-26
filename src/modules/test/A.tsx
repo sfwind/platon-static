@@ -21,6 +21,7 @@ export default class A extends React.Component<any,any>{
         <div onClick={()=>{
           configTest([],false,'ios')
         }}>试用configUrl注册</div>
+        <br/><br/><br/>
         <div onClick={()=>{
           configTest([],false,'android')
         }}>试用Url注册</div>
