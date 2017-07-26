@@ -132,6 +132,7 @@ export function configTest(apiList,callback,configUrl) {
         wx.error((e)=>{
           // TODO 上线前删掉
           // 支付页面报错\
+          alert(JSON.stringify(e));
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
             + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
           if(e){
@@ -143,7 +144,6 @@ export function configTest(apiList,callback,configUrl) {
             action: "签名失败",
             memo: memo
           });
-          alert(JSON.stringify(e));
           // TODO 上线前删掉
           // alert("还是注册错了:"+e.errMsg);
         })
@@ -167,6 +167,7 @@ export function configTest(apiList,callback,configUrl) {
         wx.error((e) => {
           // TODO 上线前删掉
           // 支付页面报错\
+          alert(JSON.stringify(e));
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
             + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
           if(e){
@@ -178,7 +179,6 @@ export function configTest(apiList,callback,configUrl) {
             action: "签名失败",
             memo: memo
           });
-          alert(JSON.stringify(e));
           // TODO 上线前删掉
           // alert("还是注册错了:" + e.errMsg);
         })
