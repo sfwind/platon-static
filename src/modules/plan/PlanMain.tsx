@@ -49,7 +49,7 @@ export class PlanMain extends React.Component <any, any> {
       defeatPercent: 0,
       expired: false,
       _t: Math.random(),
-      freeProblem: false,
+      bgList: [],
       questionList: [
         {
           id: 1,
@@ -157,13 +157,22 @@ export class PlanMain extends React.Component <any, any> {
       if(code === 200) {
         if(msg !== null) {
           // 是否是限免小课
-          const freeProblem = msg.problem.id === FREE_PROBLEM_ID;
+          const freeProblem = msg.problemId === FREE_PROBLEM_ID;
+          let bgList = ['https://static.iqycamp.com/images/fragment/rise_main_0727_1.png',
+            'https://static.iqycamp.com/images/fragment/rise_main_0727_2.png',
+            'https://static.iqycamp.com/images/fragment/rise_main_0727_3.png'];
+          if(!freeProblem){
+            bgList = ['https://static.iqycamp.com/images/fragment/rise_main_0727_1.png',
+              'https://static.iqycamp.com/images/fragment/rise_main_0727_2.png',
+              'https://static.iqycamp.com/images/fragment/rise_main_0727_4.png'];
+          }
           this.setState({
             planData: msg,
             currentIndex: msg.currentSeries,
             selectProblem: msg.problem,
             mustStudyDays: msg.mustStudyDays,
             freeProblem,
+            bgList,
           });
         } else {
           this.setState({
@@ -563,7 +572,7 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal, showEmptyPage, freeProblem,
+      currentIndex, planData, showScoreModal, showEmptyPage, bgList,
       selectProblem, riseMember, riseMemberTips, chapterList, expired, _t
     } = this.state;
     const { location, completePracticePlanId, dispatch } = this.props;
@@ -953,14 +962,6 @@ export class PlanMain extends React.Component <any, any> {
       }
     }
 
-    let bgList = ['https://static.iqycamp.com/images/fragment/rise_main_0727_1.png',
-      'https://static.iqycamp.com/images/fragment/rise_main_0727_2.png',
-      'https://static.iqycamp.com/images/fragment/rise_main_0727_3.png'];
-    if(!freeProblem){
-      bgList = ['https://static.iqycamp.com/images/fragment/rise_main_0727_1.png',
-        'https://static.iqycamp.com/images/fragment/rise_main_0727_2.png',
-        'https://static.iqycamp.com/images/fragment/rise_main_0727_4.png'];
-    }
     return (
       <div className="rise-main">
         {/*<ToolBar />*/}
