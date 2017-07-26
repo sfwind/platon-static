@@ -118,7 +118,8 @@ export function pay(config, success, cancel, error) {
 export function configTest(apiList,callback,configUrl) {
   if(configUrl){
     alert(window.ENV.configUrl)
-    pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(function(res){
+      console.log('callback',callback,configUrl,conigUrl);
       if (res.code === 200) {
         wx.config(_.merge({
           debug: false,
@@ -133,7 +134,7 @@ export function configTest(apiList,callback,configUrl) {
         wx.error(function(e){
           // TODO 上线前删掉
           // 支付页面报错\
-          alert(JSON.stringify(e));
+          alert(JSON.stringify(res.msg));
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
             + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
           if(e){
@@ -154,7 +155,8 @@ export function configTest(apiList,callback,configUrl) {
     })
   } else {
     alert(window.location.href)
-    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(function(res){
+      console.log('callback',callback,configUrl,conigUrl);
       if (res.code === 200) {
         wx.config(_.merge({
           debug: false,
@@ -169,7 +171,7 @@ export function configTest(apiList,callback,configUrl) {
         wx.error(function(e){
           // TODO 上线前删掉
           // 支付页面报错\
-          alert(JSON.stringify(e));
+          alert(JSON.stringify(res.msg));
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
             + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
           if(e){
