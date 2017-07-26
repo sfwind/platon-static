@@ -548,7 +548,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               list.push(
                 <div className="button-footer">
                   <div className={`left pay`} onClick={()=>this.handleClickPayImmediately()}>¥99&nbsp;立即学习</div>
-                  <div className={`right pay`} onClick={()=>this.handleClickPayMember()}>成为会员，低至6折</div>
+                  <div className={`right pay`} onClick={()=>this.handleClickPayMember()}>6折买课</div>
                 </div>
               );
               return list;
