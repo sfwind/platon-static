@@ -118,73 +118,83 @@ export function pay(config, success, cancel, error) {
 export function configTest(apiList,callback,configUrl) {
   if(configUrl){
     alert(window.ENV.configUrl)
-    pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
-      if (res.code === 200) {
-        wx.config(_.merge({
-          debug: false,
-          jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
-        }, res.msg))
-        wx.ready((res) => {
-          hideOptionMenu();
-          if (callback && _.isFunction(callback)) {
-            callback();
-          }
-        })
-        wx.error(function(e){
-          // TODO 上线前删掉
-          // 支付页面报错\
-          alert(JSON.stringify(e));
-          let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
-          if(e){
-            memo = 'error:'+JSON.stringify(e) + ','+memo;
-          }
-          mark({
-            module: "JSSDK",
-            function: "ios",
-            action: "签名失败",
-            memo: memo
-          });
-          // TODO 上线前删掉
-          // alert("还是注册错了:"+e.errMsg);
-        })
-      } else {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(function(res){
+      try{
+        console.log('callback',callback,configUrl,configUrl);
+        if (res.code === 200) {
+          wx.config(_.merge({
+            debug: false,
+            jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
+          }, res.msg))
+          wx.ready((res) => {
+            hideOptionMenu();
+            if (callback && _.isFunction(callback)) {
+              callback();
+            }
+          })
+          wx.error(function(e){
+            // TODO 上线前删掉
+            // 支付页面报错\
+            alert(JSON.stringify(res.msg));
+            let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
+              + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
+            if(e){
+              memo = 'error:'+JSON.stringify(e) + ','+memo;
+            }
+            mark({
+              module: "JSSDK",
+              function: "ios",
+              action: "签名失败",
+              memo: memo
+            });
+            // TODO 上线前删掉
+            // alert("还是注册错了:"+e.errMsg);
+          })
+        } else {
+        }
+      } catch(e){
+        console.log(e);
       }
     }).catch((err) => {
     })
   } else {
     alert(window.location.href)
-    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
-      if (res.code === 200) {
-        wx.config(_.merge({
-          debug: false,
-          jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage'].concat(apiList),
-        }, res.msg))
-        wx.ready(() => {
-          hideOptionMenu();
-          if(callback && _.isFunction(callback)){
-            callback();
-          }
-        })
-        wx.error(function(e){
-          // TODO 上线前删掉
-          // 支付页面报错\
-          alert(JSON.stringify(e));
-          let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
-          if(e){
-            memo = 'error:'+JSON.stringify(e) + ','+memo;
-          }
-          mark({
-            module: "JSSDK",
-            function: "notios",
-            action: "签名失败",
-            memo: memo
-          });
-          // TODO 上线前删掉
-          // alert("还是注册错了:" + e.errMsg);
-        })
-      } else {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(function(res){
+      try{
+        console.log('callback',callback,configUrl);
+        if (res.code === 200) {
+          wx.config(_.merge({
+            debug: false,
+            jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage'].concat(apiList),
+          }, res.msg))
+          wx.ready(() => {
+            hideOptionMenu();
+            if(callback && _.isFunction(callback)){
+              callback();
+            }
+          })
+          wx.error(function(e){
+            // TODO 上线前删掉
+            // 支付页面报错\
+            alert(JSON.stringify(res.msg));
+            let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
+              + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
+            if(e){
+              memo = 'error:'+JSON.stringify(e) + ','+memo;
+            }
+            mark({
+              module: "JSSDK",
+              function: "notios",
+              action: "签名失败",
+              memo: memo
+            });
+            // TODO 上线前删掉
+            // alert("还是注册错了:" + e.errMsg);
+          })
+        } else {
+        }
+      }catch(e){
+        console.log(e);
       }
     }).catch((err) => {
     })

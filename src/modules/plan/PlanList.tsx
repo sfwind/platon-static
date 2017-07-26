@@ -260,14 +260,11 @@ export default class PlanList extends React.Component<any,any> {
               </div>
             </div>:null}
 
-
-
-
-          { completedPlans && completedPlans.length !== 0?
             <div className="plp-completed plp-block">
               <div className="p-c-header">
                 <span className="p-c-h-title">已完成</span>
               </div>
+              { completedPlans && completedPlans.length !== 0?
               <div className="p-c-container">
                 <div className="p-c-c-left">
                   <div className="color-generator">
@@ -307,10 +304,13 @@ export default class PlanList extends React.Component<any,any> {
                         </div>
                       </div>
                     );
-                  }) }
+                  })}
                 </div>
               </div>
-            </div>:null}
+              :   <div className="complete-plan-empty">
+                    <AssetImg url='https://static.iqycamp.com/images/complete_plan_empty.png?imageslim' />
+                  </div>}
+            </div>
           <div className="padding-footer"/>
         </div>
       </div>
