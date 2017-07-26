@@ -116,8 +116,8 @@ export function pay(config, success, cancel, error) {
 
 
 export function configTest(apiList,callback,configUrl) {
-  if(window.ENV.configUrl){
-    alert(window.location.href)
+  if(configUrl){
+    alert(window.ENV.configUrl)
     pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
       if (res.code === 200) {
         wx.config(_.merge({
