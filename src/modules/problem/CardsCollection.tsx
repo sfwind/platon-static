@@ -10,6 +10,7 @@ import { mark } from "../../utils/request";
 interface CardsCollectionStates {
   problemId: number;
   problem: string;
+  isRiseMember: boolean;
   cards: object;
   showCard: boolean;
   essenceCard: string;
@@ -25,6 +26,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       essenceCard: 'https://static.iqycamp.com/images/imgLoading.png?imageslim',
       problemId: 0,
       problem: '',
+      isRiseMember: true,
       cards: [],
       essenceCardMap: new Map()
     }
@@ -39,7 +41,12 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        this.setState({ problemId: msg.problemId, problem: msg.problem, cards: msg.cards })
+        this.setState({
+          problemId: msg.problemId,
+          problem: msg.problem,
+          isRiseMember: msg.isRiseMember,
+          cards: msg.cards
+        })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -78,7 +85,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
   }
 
   render() {
-    const { showCard, essenceCard, problemId, problem, cards } = this.state
+    const { showCard, essenceCard, problemId, problem, isRiseMember, cards } = this.state
 
     const renderCards = () => {
       return (
@@ -113,7 +120,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
                if(endTime.getTime() - startTime.getTime() < 500) {
                  this.setState({ showCard: false })
                } else {
-                 mark({module: "打点", function: "卡包中心", action: "长按保存"});
+                 mark({ module: "打点", function: "卡包中心", action: "长按保存" });
                }
              }}
         >
@@ -137,7 +144,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
           <div className="cards-header">{problem}</div>
           {
             // TODO 限免活动取消，记得删除这行代码
-            problemId === 9 ?
+            problemId === 9 && !isRiseMember ?
               <div className="cards-call" style={{ height: 0.366 * window.innerWidth }}/> :
               null
           }

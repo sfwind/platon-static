@@ -202,7 +202,7 @@ export class PlanMain extends React.Component <any, any> {
                   this.setState({ showCard: true });
                 }, 300)
                 let changedNode = document.getElementById("changed")
-                changedNode.style.opacity = 1
+                if(changedNode) changedNode.style.opacity = 1
               }, 1000)
             });
           }
@@ -851,11 +851,11 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     const renderCard = () => {
-      let { cardUrl, displayCard } = this.state;
+      let { cardUrl, displayCard, riseMember} = this.state;
       let problemId = get(planData, 'problem.id');
       console.log(problemId);
       const renderCardBody = () => {
-        if(problemId === 9) {
+        if(problemId === 9 && !riseMember) {
           return (
             <div>
               <div className="printer-top">
@@ -906,8 +906,6 @@ export class PlanMain extends React.Component <any, any> {
           )
         }
       }
-      // TODO 记得删除
-      // displayCard = true
       if(displayCard) {
         return (
           <div className="chapter-card-container">
