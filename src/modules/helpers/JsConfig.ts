@@ -117,6 +117,7 @@ export function pay(config, success, cancel, error) {
 
 export function configTest(apiList,callback,configUrl) {
   if(configUrl){
+    alert(window.ENV.configUrl)
     pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
       if (res.code === 200) {
         wx.config(_.merge({
@@ -152,6 +153,7 @@ export function configTest(apiList,callback,configUrl) {
     }).catch((err) => {
     })
   } else {
+    alert(window.location.href)
     pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
       if (res.code === 200) {
         wx.config(_.merge({
