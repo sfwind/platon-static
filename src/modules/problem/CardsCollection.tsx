@@ -160,12 +160,12 @@ interface CardProps {
   img: string;
   lockImg: string;
   chapterNo: string;
-  chaper: string;
+  chapter: string;
   completed: boolean;
 }
 class Card extends React.Component<CardProps, any> {
   render() {
-    const { img, lockImg, chapterNo, chaper, completed } = this.props
+    const { img, lockImg, chapterNo, chapter, completed } = this.props
     // 卡片盒子高度
     const boxSize = (window.innerWidth - 6 * 15) / 3
     return (
@@ -176,7 +176,9 @@ class Card extends React.Component<CardProps, any> {
           </div>
           <div className={`card-chapter ${completed ? '' : 'lock'}`}>{chapterNo}</div>
         </div>
-        <div className={`card-bottom ${completed ? '' : 'lock'}`} style={{ width: boxSize }}>{chaper}</div>
+        <div className={`card-bottom ${completed ? '' : 'lock'}`} style={{ width: boxSize }}>
+          {chapter.length > 6 ? chapter.substr(0, 6) + '...' : chapter}
+        </div>
       </div>
     )
   }
