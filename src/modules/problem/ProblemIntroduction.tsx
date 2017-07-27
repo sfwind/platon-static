@@ -656,7 +656,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
     const renderPayInfo = ()=>{
       if(showPayInfo){
-        if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 6.8){
+        if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3){
           return (
             <div className="simple-pay-info">
               <div className="close" onClick={()=>this.setState({showPayInfo:false})}>
