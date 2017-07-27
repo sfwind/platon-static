@@ -693,7 +693,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
                 </ul>
               </div>
               <div className="btn-container">
-                <div className="btn" onClick={()=>this.risePay()}>
+                <div className="btn" onClick={()=>this.handleClickRiseCoursePay()}>
                 </div>
               </div>
             </div>
