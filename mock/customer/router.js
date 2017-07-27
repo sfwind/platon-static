@@ -4,7 +4,7 @@ var router = new Router();
 router.get("/rise/customer/profile", (req, res) => {
     setTimeout(() =>
         res.status(200).json(
-            {"msg":{"industry":null,"function":null,"workingLife":null,"city":"","cityId":null,"province":"","provinceId":null,"isFull":false},"code":200}
+            {"msg":{"industry":null,"function":null,"workingLife":true,"city":"","cityId":null,"province":"","provinceId":null,"isFull":true},"code":200}
         ), Math.random() * 1500)
 });
 
@@ -13,6 +13,15 @@ router.get("/rise/customer/region", (req, res) => {
         res.status(200).json(
             {"msg":{"provinceList":[{"id":"1","value":"北京市","parentId":"1000000"},{"id":"2","value":"上海市","parentId":"1000000"}]},"code":200}
         ), Math.random() * 1500);
+})
+router.get("/rise/plan/welcome", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      {
+        msg:false,
+        code:200
+      }
+    ), Math.random() * 1500);
 })
 
 router.post("/rise/customer/profile/region", (req, res) => {

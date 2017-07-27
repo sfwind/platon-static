@@ -1,0 +1,135 @@
+@import '../../style/variable';
+
+.cards-container {
+
+  .cards-page {
+    height: 100%;
+    width: 100%;
+    background-color: @color_weak_background;
+
+    &.blur {
+      -webkit-filter: blur(2px);
+    }
+
+    .cards-header {
+      height: 45px;
+      line-height: 45px;
+      padding-left: 15px;
+      font-size: 1.7em;
+      color: #333;
+      background-color: #FFF;
+      border-bottom: 1px solid #F5F5F5;
+    }
+
+    .cards-call {
+      margin: 5px 15px;
+      background-image: url("https://static.iqycamp.com/images/fragment/free_limit_call_4.png?imageslim");
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      position: relative;
+
+      .cards-content {
+        font-size: 1px;
+        color: #666;
+        position: absolute;
+        width: 69%;
+        left: 30%;
+        top: 40px;
+      }
+    }
+
+    .cards-box {
+      background-color: #FFF;
+
+      .card {
+        display: inline-block;
+        padding: 10px 0 10px;
+
+        .card-top {
+          display: inline-block;
+          background-color: #FFF;
+          position: relative;
+
+          .card-img {
+            margin: 10px 15px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            &.lock {
+              background-color: #666;
+            }
+
+            .lock-img {
+              display: inline-block;
+              position: relative;
+              left: ~"calc(50% - 10px)";
+              top: ~"calc(50% - 13px)";
+            }
+          }
+
+          .card-chapter {
+            height: 20px;
+            width: 45%;
+            position: absolute;
+            background-color: #FFF;
+            color: #333;
+            font-size: 12px;
+            line-height: 20px;
+            text-align: center;
+            border-radius: 8px;
+            left: 29%;
+            border: 2px solid black;
+            bottom: 0;
+            &.lock {
+              background-color: #999;
+              left: 31%;
+              border: none;
+              color: #FFF;
+            }
+          }
+
+        }
+
+        .card-bottom {
+          font-size: 1.2em;
+          line-height: 18px;
+          text-align: center;
+          margin-left: 12%;
+          &.lock {
+            color: #999;
+          }
+        }
+
+      }
+    }
+
+  }
+
+  .card-essence {
+
+    img {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      z-index: 10;
+      display: block;
+      transition: all 500ms;
+      transition-timing-function: ease;
+      transform: scale(0, 0);
+
+      &.img-transition {
+        transform: scale(1, 1);
+      }
+    }
+  }
+
+  .card-container-shadow {
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+}
+

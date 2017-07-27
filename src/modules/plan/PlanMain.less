@@ -1,8 +1,284 @@
 @import "../../style/variable";
 
 .rise-main {
+  .chapter-card-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    z-index: 700;
+    .card-mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, .6);
+    }
+    .printer-machine {
+      position: relative;
+      z-index: 800;
+      .printer-close{
+        padding-top:5px;
+        position: relative;
+        height:20px;
+        div{
+          position: absolute;
+          top:15px;
+          right: -10px;
+        }
+      }
+      .printer-top {
+        text-align: center;
+        height: 32px;
+        .printer-header {
+          width: 75%;
+          display: inline-block;
+          background-color: #dbdbdb;
+          border-radius: 5px 5px 0 0;
+          height: 32px;
+          padding: 0 10px;
+          position: relative;
+          .header-left {
+            height: 32px;
+            line-height: 32px;
+            font-size: 1.8em;
+            font-weight: 400;
+            position: absolute;
+            left: 8%;
+          }
+          .header-right {
+            height: 32px;
+            line-height: 32px;
+            font-size: 1.8em;
+            font-weight: 400;
+            position: absolute;
+            right: 8%;
+          }
+          .header-normal {
+            width: 100%;
+            height: 32px;
+            font-size: 1.2em;
+            line-height: 32px;
+          }
+          div {
+            display: inline-block;
+          }
+        }
+      }
+      .printer-body {
+        height: 120px;
+        background-color: rgb(237, 237, 237);
+        border-radius: 10px 10px 0 0;
+        > img {
+          width: 132px;
+          height: 103.5px;
+          display: block;
+          margin: 0 auto;
+          position: relative;
+          top: -60px;
+          transition: transform 1s;
+        }
+        .save-tip{
+          padding-top: 10px;
+          text-align: center;
+          font-size: 18px;
+          color: #000;
+        }
+        .share-tip {
+          position: relative;
+          height: 70px;
+          top: -70px;
+          text-align: center;
+          border-radius: 5px;
+          margin: 5px auto;
+          padding: 5px 0;
+
+          .share-tip-origin {
+            position: absolute;
+            display: block;
+            width: 100%;
+            opacity: 1;
+            transition: opacity 1s;
+          }
+          .share-tip-changed {
+            position: absolute;
+            display: block;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s;
+            margin-top: -20px;
+          }
+
+          .card-tips {
+            font-size: 2.6em;
+            color: #4E677b;
+            text-align: center;
+            line-height: 20px;
+            padding: 5px;
+            &.small {
+              color: #000;
+              font-size: 1.5em;
+            }
+          }
+          .card-moenty {
+            height: 38px;
+            width: 38px;
+            background: url('../../../assets/img/rise_trial_money.png') no-repeat center center/100% 100%;
+            position: absolute;
+            top: -21px;
+            right: -50px;
+
+          }
+          #changed {
+            height: 70px;
+            .step-one {
+              display: inline-block;
+              position: relative;
+              width: 40%;
+              height: 70px;
+              margin-right: 20px;
+              border-radius: 5px;
+              border: 1px solid #333;
+              img {
+                width: 60px;
+                height: 22px;
+                position: absolute;
+                left: ~"calc(50% - 30px)";
+                top: -10px;
+              }
+              span {
+                display: block;
+                margin-top: 15px;
+                font-size: 1.4em;
+              }
+
+            }
+            .step-two {
+              display: inline-block;
+              position: relative;
+              width: 40%;
+              height: 70px;
+              margin-left: 20px;
+              border-radius: 5px;
+              border: 1px solid #333;
+              img {
+                width: 60px;
+                height: 22px;
+                position: absolute;
+                left: ~"calc(50% - 30px)";
+                top: -10px;
+              }
+              span {
+                display: block;
+                margin-top: 15px;
+                font-size: 1.4em;
+              }
+            }
+            .changed-tip {
+              text-align: center;
+              padding-top: 3px;
+              font-size: 1.0em;
+              color: #666;
+            }
+          }
+
+        }
+        .share-tip-normal {
+          .tip-normal-top {
+            padding-top: 25px;
+            text-align: center;
+            font-size: 1.7em;
+            color: #000;
+          }
+          .tip-normal-bottom {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+          }
+        }
+      }
+      .printer-gap {
+        height: 5px;
+        background-color: rgb(179, 182, 185);
+      }
+      .printer-port {
+        height: 49px;
+        position: relative;
+        background-color: rgb(45, 59, 62);
+        .clear-mg {
+          height: 1px;
+        }
+        .mask-port {
+          box-shadow: 0px 9px 8px 6px rgba(0, 0, 0, 0.3);
+          width: 90%;
+          height: 1px;
+          position: relative;
+          z-index: 10;
+          margin: 0 auto;
+        }
+        .printer-push-port {
+          position: relative;
+          width: 70%;
+          margin: 10px auto 0;
+          height: 26px;
+          border-radius: 10px;
+          background-color: rgb(0, 0, 0);
+          .chapter-card-wrapper {
+            width: 90%;
+            margin: 5px auto 0;
+            position: relative;
+            overflow: hidden;
+            overflow-y: scroll;
+            .card-pic {
+              width: 100%;
+              height: auto;
+              transform: translateY(-100%);
+              -webkit-transition: transform 2s cubic-bezier(1, .16, .44, .97);
+              -moz-transition: transform 2s cubic-bezier(1, .16, .44, .97);
+              -ms-transition: transform 2s cubic-bezier(1, .16, .44, .97);
+              -o-transition: transform 2s cubic-bezier(1, .16, .44, .97);
+              transition: transform 2s cubic-bezier(1, .16, .44, .97);
+              &.show {
+                transform: translateY(0%);
+              }
+              img {
+                width: 100%;
+                height: auto;
+              }
+            }
+          }
+          .push-mask {
+            height: 15px;
+            width: 100%;
+            position: absolute;
+            top: 5px;
+            left: 0;
+            z-index: 20;
+          }
+        }
+
+        .printer-waiting {
+          width: 8px;
+          height: 8px;
+          background: #6EBA46;
+          transition: opacity 500ms;
+          opacity: 0;
+          border-radius: 50%;
+          position: absolute;
+          right: 10px;
+          bottom: 15px;
+        }
+      }
+      .printer-bottom {
+        height: 36px;
+        border-radius: 0 0 5px 5px;
+        background-color: #CCC;
+      }
+    }
+  }
+
   .trial-tip {
-    background: url('https://static.iqycamp.com/images/riseMemberUpButtonV2.png?imageslim') no-repeat center center/100% 100%;
+    background: url('https://static.iqycamp.com/images/become_member.png?imageslim') no-repeat center center/100% 100%;
     position: absolute;
     z-index: 20;
     right: 0;
@@ -242,28 +518,27 @@
     text-align: center;
     font-size: @font_title;
     border-bottom: 1px solid #f5f5f5;
-    .left {
+
+    .menu {
       height: 50px;
       line-height: 50px;
       display: inline-block;
-      width: ~"calc(50% - 1px)";
-      border-right: 1px solid #f5f5f5;
+      float: left;
+      width: ~"calc((100% - 4px) / 3) ";
+
       .problem_detail {
-        height: 18px;
-        margin-right: 5px;
-      }
-    }
-    .right {
-      height: 50px;
-      line-height: 50px;
-      display: inline-block;
-      width: ~"calc(50% - 1px)";
-      border-left: 1px solid #f5f5f5;
-      .essence {
         height: 18px;
         margin-right: 5px;
         vertical-align: middle;
       }
+    }
+
+    .menu-split-line {
+      display: inline-block;
+      height: 50px;
+      width: 2px;
+      float: left;
+      background-color: #f5f5f5;
     }
 
   }
@@ -305,20 +580,20 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    width:100%;
-    height:auto;
+    width: 100%;
+    height: auto;
     //background-color:#FFFFFF;
-    .mask{
+    .mask {
       position: absolute;
-      left:0;
-      top:0;
-      width:100%;
-      height:100%;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
       box-shadow: 0px -3px 10px rgba(0, 0, 0, 0.1);
-      background-color:rgba(252, 251, 253, 0.9);
+      background-color: rgba(252, 251, 253, 0.9);
     }
     .psbf-wrapper {
-      padding:0 17px;
+      padding: 0 17px;
       position: relative;
       &:after {
         content: '';
@@ -327,12 +602,12 @@
       }
       .psbf-w-pre-wrapper {
         .psbf-w-pre-btn {
-          padding:18px 15px 18px 0;
+          padding: 18px 15px 18px 0;
           float: left;
-          font-size:1.4em;
-          height:18px;
-          line-height:0;
-          color:@color_strong;
+          font-size: 1.4em;
+          height: 18px;
+          line-height: 0;
+          color: @color_strong;
           &.disabled {
             color: @color_help;
             &:before {
@@ -341,8 +616,8 @@
           }
           &:before {
             content: '';
-            width:14px;
-            height:18px;
+            width: 14px;
+            height: 18px;
             display: inline-block;
             background: url("../../../assets/img/rise_icon_pre_section.png") no-repeat center center/auto 100%;
             vertical-align: middle;
@@ -355,8 +630,8 @@
         width: 30%;
         height: 18px;
         text-align: center;
-        top:0;
-        left:50%;
+        top: 0;
+        left: 50%;
         -webkit-transform: translateX(-50%);
         -moz-transform: translateX(-50%);
         -ms-transform: translateX(-50%);
@@ -375,29 +650,29 @@
         }
       }
       .psbf-w-next-wrapper {
-        .psbf-w-next-btn{
-          padding:18px 0 18px 15px;
-          float:right;
-          font-size:1.4em;
-          line-height:0;
-          height:18px;
-          color:@color_strong;
+        .psbf-w-next-btn {
+          padding: 18px 0 18px 15px;
+          float: right;
+          font-size: 1.4em;
+          line-height: 0;
+          height: 18px;
+          color: @color_strong;
           &.complete {
-            &:after{
+            &:after {
               display: none;
             }
             &.disabled {
               color: @color_help;
               &:before {
-                width:14px;
-                height:18px;
+                width: 14px;
+                height: 18px;
                 background: url("../../../assets/img/rise_icon_compete_plan_disabled.png") no-repeat center center/ 100% auto;
               }
             }
             &:before {
               content: '';
-              width:14px;
-              height:18px;
+              width: 14px;
+              height: 18px;
               display: inline-block;
               background: url("../../../assets/img/rise_icon_compete_plan.png") no-repeat center center/ 100% auto;
               vertical-align: middle;
@@ -416,8 +691,8 @@
             }
             &:before {
               content: '';
-              width:14px;
-              height:18px;
+              width: 14px;
+              height: 18px;
               display: inline-block;
               background: url("../../../assets/img/rise_icon_report.png") no-repeat center center/auto 100%;
               vertical-align: middle;
@@ -426,8 +701,8 @@
           }
           &:after {
             content: '';
-            width:14px;
-            height:18px;
+            width: 14px;
+            height: 18px;
             display: inline-block;
             background: url("../../../assets/img/rise_icon_next_section.png") no-repeat center center/auto 100%;
             vertical-align: middle;

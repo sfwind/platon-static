@@ -15,6 +15,11 @@
         color: @color_context;
         line-height: 24px;
       }
+      .knowledge-link {
+        color: @color_strong;
+        font-size: @font_click;
+        padding-top: 15px;
+      }
     }
     .application-title {
       text-align: center;
@@ -29,22 +34,6 @@
         color: @color_help;
         margin-left: 4px;
       }
-      &::before {
-        content: " ";
-        position: absolute;
-        left: 15px;
-        margin-top: 12px;
-        width: ~"calc(50% - 70px)";
-        border-bottom: 1px solid #cccccc;
-      }
-      &::after {
-        content: " ";
-        position: absolute;
-        right: 15px;
-        margin-top: 12px;
-        width: ~"calc(50% - 70px)";
-        border-bottom: 1px solid #cccccc;
-      }
     }
     > .knowledge-link {
       color: @color_strong;
@@ -54,13 +43,13 @@
     }
   }
   .work-container{
-    margin-top: 25px;
+    margin-top: 15px;
     .submit-bar {
       width: 100%;
       background-color: @color_weak_background;
       color: @color_title;
       font-size: @font_index;
-      padding:0 15px;
+      padding: 15px 15px;
       margin-left:-15px;
       margin-bottom: 15px;
     }
@@ -93,11 +82,16 @@
       margin-bottom: 10px;
     }
     .show-others-tip {
-      color: @color_strong;
-      font-size: @font_click;
-      padding-top: 10px;
-      padding-bottom: 20px;
-      border-top: 1px solid @color_help;
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-size: 1.2em;
+      color: #FFF;
+      height: 14px;
+      line-height: 14px;
+      margin: 5px 0 20px;
+      display: inline-block;
+      background-size: 100% 100%;
+      background-image: url(https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim);
     }
   }
 }

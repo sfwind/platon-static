@@ -3,9 +3,11 @@ import "./PlanList.less";
 import {connect} from "react-redux";
 import {loadPlanList, updateOpenNavigator} from "./async";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
-import {loadProblem, createPlan, checkCreatePlan} from "./async";
+import {loadProblem, createPlan, checkCreatePlan,mark} from "./async";
 import AssetImg from "../../components/AssetImg";
+import { changeTitle } from "../../utils/helpers"
 import {ToolBar} from "../base/ToolBar"
+
 import Tutorial from "../../components/Tutorial"
 import {isBoolean,merge} from "lodash"
 
@@ -27,6 +29,7 @@ export default class PlanList extends React.Component<any,any> {
       gup = 30;
     }
     this.completedLeftTextWidth = window.innerWidth - 56 - 84 - 8 - gup - 15 - 45 ;
+    changeTitle("圈外同学");
   }
 
   static contextTypes = {
@@ -34,17 +37,25 @@ export default class PlanList extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
+    mark({
+      module: "打点",
+      function: "学习",
+      action: "打开学习页面",
+      memo: window.ENV.osName
+    });
+
+    const { dispatch,location } = this.props;
     dispatch(startLoad());
+    const {runningPlanId,completedPlanId} = location.query;
     loadPlanList().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        const { runningPlans = [],completedPlans = [], openNavigator } = res.msg;
+        const { runningPlans = [],completedPlans = [], trialClosedPlans= [], openNavigator } = res.msg;
         let showEmptyPage = false;
         if(!runningPlans || runningPlans.length === 0){
            showEmptyPage = true;
         }
-        if((!runningPlans || runningPlans.length === 0) && (!completedPlans || completedPlans.length === 0)) {
+        if((!runningPlans || runningPlans.length === 0) && (!completedPlans || completedPlans.length === 0) && (!trialClosedPlans || trialClosedPlans.length === 0)) {
           if(location.pathname !== '/rise/static/learn') {
             // 没有小课练习，并且不是从导航栏点进来的
             this.context.router.push({
@@ -53,6 +64,25 @@ export default class PlanList extends React.Component<any,any> {
             return;
           }
         }
+        this.setState({planList:res.msg,showEmptyPage:showEmptyPage},()=>{
+          // // 第一次选课动画效果,ios有问题
+          // if(runningPlanId){
+          //   let planDom = document.querySelector(`#problem-${runningPlanId}`);
+          //   if(planDom){
+          //     planDom.style.cssText = `transform:translateY(-${planDom.offsetTop + planDom.offsetHeight}px)`;
+          //     setTimeout(()=>{
+          //       planDom.style.cssText = "transform:translateY(0)";
+          //     },1);
+          //   }
+          // }
+          // if(completedPlanId){
+          //   let planDom = document.querySelector(`#problem-${completedPlanId}`);
+          //   if(planDom) {
+          //     let box = document.querySelector('.plan-list-page');
+          //     box.scrollTop = planDom.offsetTop;
+          //   }
+          // }
+        });
         this.setState({planList:res.msg,showEmptyPage:showEmptyPage, openNavigator});
       } else {
         dispatch(alertMsg(res.msg));
@@ -64,12 +94,10 @@ export default class PlanList extends React.Component<any,any> {
 
   }
 
-
-
   handleClickPlan(plan){
     this.context.router.push({
       pathname:'/rise/static/plan/study',
-      query:{planId:plan.id}
+      query:{planId:plan.planId}
     })
   }
 
@@ -92,9 +120,10 @@ export default class PlanList extends React.Component<any,any> {
   }
 
   render() {
+    const { location } = this.props;
+    const { runningPlanId,completedPlanId,trialClosedId } = location.query;
     const { planList={},showEmptyPage, openNavigator } = this.state;
-    const { completedPlans = [],runningPlans =[]} = planList;
-
+    const { completedPlans = [],runningPlans = [],trialClosedPlans = []} = planList;
 
     const renderCompletedPlans = () => {
       if(completedPlans){
@@ -128,8 +157,9 @@ export default class PlanList extends React.Component<any,any> {
         <div className="plan-list-page">
           <ToolBar />
           <Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}
-                    bgList={['https://www.iqycamp.com/images/fragment/rise_tutorial_pl_0726_1.jpg',
-                  'https://www.iqycamp.com/images/fragment/rise_tutorial_pl_0726_2.jpg']}
+                    bgList={['https://static.iqycamp.com/images/fragment/rise_pl_0727_1_2.png',
+                  'https://static.iqycamp.com/images/fragment/rise_pl_0727_2.png']}
+                    topList={[0, 169]} bottomList={[55, 0]}
           />
           <div className="plp-running plp-block">
             <div className="p-r-header">
@@ -148,85 +178,153 @@ export default class PlanList extends React.Component<any,any> {
               :
               runningPlans.map((item,key) => {
                 const { problem } = item;
-                if(problem){
-                  return (
-                      <div className={`p-r-block ${key === 0 ?'first':''} ${key === runningPlans.length - 1 ?'last':''}`} key={key} onClick={()=>this.handleClickPlan(item)}>
-                        <div className="p-r-b-item">
-                          <div className="p-r-b-i-pic" style={{width:`${this.runPicWidth}px`}}>
-                            <img className="p-r-b-i-pic-img" src={`${problem.pic}`}/>
-                          </div>
-                          <div className="p-r-b-i-text" style={{width:`${this.runTextWidth}px`}}>
-                            <div className="p-r-b-i-text-title">
-                              {problem.problem}
-                            </div>
-                            <div className="p-r-b-i-text-done">
-                              已完成：{`${item.completeSeries}/${item.totalSeries}节`}
-                            </div>
-                            {renderDeadline(item.deadline)}
-                          </div>
+                let style = {};
+                if(runningPlanId==item.planId && false){
+                  style = {
+                    transform:`translateY(${-window.innerHeight}px)`
+                  }
+                } else {
+                  style = {
+                    transform:'0'
+                  }
+                }
+                return (
+                  <div id={`problem-${item.planId}`} style={style} className={`p-r-block ${key === 0 ?'first':''} ${key === runningPlans.length - 1 ?'last':''}`} key={key} onClick={()=>this.handleClickPlan(item)}>
+                    <div className="p-r-b-item">
+                      <div className="p-r-b-i-pic" style={{width:`${this.runPicWidth}px`}}>
+                        <img className="p-r-b-i-pic-img" src={`${item.pic}`}/>
+                      </div>
+                      <div className="p-r-b-i-text" style={{width:`${this.runTextWidth}px`}}>
+                        <div className="p-r-b-i-text-title">
+                          {item.name}
+                        </div>
+                        <div className="p-r-b-i-text-done">
+                          已完成：{`${item.completeSeries}/${item.totalSeries}节`}
+
                         </div>
                       </div>
+                    </div>
+                  </div>
                   );
-                }
               })}
           </div>
 
-          { completedPlans && completedPlans.length !== 0?
+
+
+          { trialClosedPlans && trialClosedPlans.length !== 0?
             <div className="plp-completed plp-block">
               <div className="p-c-header">
-                <span className="p-c-h-title">已完成</span>
+                <span className="p-c-h-title">试用到期</span>
               </div>
-              <div className="p-c-container">
+              <div className="p-c-container none">
                 <div className="p-c-c-left">
                   <div className="color-generator">
-
                   </div>
                 </div>
                 <div className="p-c-c-right" style={{width:`${window.innerWidth - 56}px`}}>
-                  { completedPlans.map((plan,key)=>{
-                    const { problem } = plan;
-                    if(problem){
-                      return (
-                          <div className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
-                            <div className={`p-c-c-r-b-icon`}>
-                              <div className={`gap ${key === 0 ? 'first':''}`} />
-                              <div className={`tick  ${key === 0 ? 'first':''}`}/>
-                              <div className={`hr ${key === completedPlans.length-1 ? 'last':''}`}/>
-                              <div className={`bottom gap ${key === completedPlans.length -1?'last':'' }`}/>
+                  { trialClosedPlans.map((plan,key)=>{
+                    return (
+                      <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
+                        <div className={`p-c-c-r-b-icon`}>
+                          {/*<div className={`gap ${key === 0 ? 'first':''}`} />*/}
+                          {/*<div className={`tick  ${key === 0 ? 'first':''}`}/>*/}
+                          {/*<div className={`hr ${key === completedPlans.length-1 ? 'last':''}`}/>*/}
+                          {/*<div className={`bottom gap ${key === completedPlans.length -1?'last':'' }`}/>*/}
+                        </div>
+                        <div className="p-c-b-pic">
+                          <img className="p-c-b-p-img" src={`${plan.pic}`}>
+                          </img>
+                        </div>
+                        <div className="p-c-b-text">
+                          <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
+                            <div className="p-c-b-t-l-title">
+                              {plan.name}
                             </div>
-                            <div className="p-c-b-pic">
-                              <img className="p-c-b-p-img" src={`${problem.pic}`}>
-                              </img>
-                            </div>
-                            <div className="p-c-b-text">
-                              <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
-                                <div className="p-c-b-t-l-title">
-                                  {problem.problem}
-                                </div>
-                                <div className="p-c-b-t-l-close">
-                                  {plan.closeTime}
-                                </div>
-                              </div>
-                              <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
-                                <div className="p-c-b-t-tip">
-                                  得分：
-                                </div>
-                                <div className="p-c-b-t-point">
-                                  {plan.point}
-                                </div>
-                              </div>
+                            <div className="p-c-b-t-l-close">
+                              {plan.closeTime}
                             </div>
                           </div>
-                      );
-                    }
-
+                          <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
+                            <div className="p-c-b-t-tip">
+                              得分：
+                            </div>
+                            <div className="p-c-b-t-point">
+                              {plan.point}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
                   }) }
                 </div>
               </div>
             </div>:null}
+
+            <div className="plp-completed plp-block">
+              <div className="p-c-header">
+                <span className="p-c-h-title">已完成</span>
+              </div>
+              { completedPlans && completedPlans.length !== 0?
+              <div className="p-c-container">
+                <div className="p-c-c-left">
+                  <div className="color-generator">
+                  </div>
+                </div>
+                <div className="p-c-c-right" style={{width:`${window.innerWidth - 56}px`}}>
+                  { completedPlans.map((plan,key)=>{
+                    return (
+                      <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first':''}`} onClick={()=>this.handleClickPlan(plan)} >
+                        <div className={`p-c-c-r-b-icon`}>
+                          <div className={`gap ${key === 0 ? 'first':''}`} />
+                          <div className={`tick  ${key === 0 ? 'first':''}`}/>
+                          <div className={`hr ${key === completedPlans.length-1 ? 'last':''}`}/>
+                          <div className={`bottom gap ${key === completedPlans.length -1?'last':'' }`}/>
+                        </div>
+                        <div className="p-c-b-pic">
+                          <img className="p-c-b-p-img" src={`${plan.pic}`}>
+                          </img>
+                        </div>
+                        <div className="p-c-b-text">
+                          <div className="p-c-b-t-left" style={{width:`${this.completedLeftTextWidth}px`}}>
+                            <div className="p-c-b-t-l-title">
+                              {plan.name}
+                            </div>
+                            <div className="p-c-b-t-l-close">
+                              {plan.closeTime}
+                            </div>
+                          </div>
+                          <div className="p-c-b-t-right" style={{width:`${this.completedRightTextWidth}px`}}>
+                            <div className="p-c-b-t-tip">
+                              得分：
+                            </div>
+                            <div className="p-c-b-t-point">
+                              {plan.point}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              :   <div className="complete-plan-empty">
+                    <AssetImg url='https://static.iqycamp.com/images/complete_plan_empty.png?imageslim' />
+                  </div>}
+            </div>
           <div className="padding-footer"/>
         </div>
       </div>
     );
   }
+}
+
+interface CardListProps {
+  pic:String,
+  title:String,
+  completeSeries?:String,
+  dayToClose?:String,
+  closeTime?:String,
+}
+class CardList extends React.Component<CardListProps,any>{
+
 }

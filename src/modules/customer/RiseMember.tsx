@@ -6,7 +6,6 @@ import {pget, ppost, mark} from "utils/request"
 import {changeTitle} from "utils/helpers"
 import "./PointTip.less"
 import { Button, ButtonArea, Dialog, Form, FormCell, CellHeader, CellBody, Checkbox } from "react-weui"
-import {mark} from "../problem/async"
 
 
 @connect(state => state)

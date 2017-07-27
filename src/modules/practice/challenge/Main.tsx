@@ -151,12 +151,13 @@ export class Main extends React.Component <any, any> {
               </div>
             </div>
             <div ref="workContainer" className="work-container">
-              <div className="submit-bar"><span className="padding"></span>{ content === null?'提交方式':'我的目标'}</div>
+              <div className="submit-bar">{ content === null?'提交方式':'我的目标'}</div>
               {renderTip()}
               {edit?
                   <div className="editor">
                     <Editor ref="editor" moduleId={3} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}}
-                            uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={content} placeholder="离开页面前请提交，以免内容丢失。"/>
+                            uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={content}
+                            placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就有就会得到点赞和专业点评哦！"/>
                   </div>: null}
             </div>
           </div>

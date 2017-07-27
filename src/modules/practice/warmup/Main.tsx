@@ -4,10 +4,9 @@ import _ from "lodash";
 import "./Main.less";
 import { answer,getOpenStatus,openConsolidation } from "./async";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
-import KnowledgeViewer from "../components/KnowledgeModal";
 import Tutorial from "../../../components/Tutorial"
 import AssetImg from "../../../components/AssetImg";
-import {scroll} from "../../../utils/helpers"
+import { scroll } from "../../../utils/helpers"
 
 const sequenceMap = {
   0: 'A',
@@ -31,15 +30,13 @@ export class Main extends React.Component <any, any> {
       practiceCount: 0,
       selected: [],
       knowledge: {},
-      showKnowledge: false,
       integrated: false,
     }
   }
 
-
   componentWillMount() {
     const {dispatch, location, res} = this.props;
-    const {integrated, practicePlanId} = location.query;
+    const { integrated, practicePlanId} = location.query;
     this.setState({integrated});
     dispatch(endLoad());
     const {code, msg} = res;
@@ -50,7 +47,7 @@ export class Main extends React.Component <any, any> {
       let selected = [];
       if (practice) {
         let storageDraft = JSON.parse(window.localStorage.getItem(WARMUP_AUTO_SAVING));
-        if(storageDraft && storageDraft.id == practicePlanId){
+        if(storageDraft && storageDraft.id == practicePlanId)  {
           const selectedChoices = storageDraft.selectedChoices;
           selectedChoices.map((choiceSelected, questionIdx)=>{
             _.set(list, `practice.${questionIdx}.choice`, choiceSelected);
@@ -59,12 +56,15 @@ export class Main extends React.Component <any, any> {
           currentIndex = selectedChoices.length - 1;
         }
         this.setState({list, practiceCount: msg.practice.length, currentIndex, selected});
+        if(msg.practice[0].knowledge){
+          this.setState({knowledgeId: msg.practice[0].knowledge.id})
+        }
       }
     } else dispatch(alertMsg(msg));
 
     getOpenStatus().then(res => {
-      if (res.code === 200) {
-        this.setState({openStatus: res.msg});
+      if(res.code === 200) {
+        this.setState({ openStatus: res.msg });
       }
     })
   }
@@ -99,35 +99,37 @@ export class Main extends React.Component <any, any> {
     let { list, currentIndex, selected } = this.state;
     _.set(list, `practice.${currentIndex}.choice`, selected);
     this.setState({ list });
-    if (cb) {
+    if(cb) {
       cb(list.practice);
     }
   }
 
-  prev(){
-    const { currentIndex, list } = this.state
-    if(currentIndex>0){
-      this.setChoice()
-      const selected = list.practice[`${currentIndex-1}`].choice
-      this.setState({currentIndex:currentIndex-1, selected})
+  prev() {
+    const { dispatch } = this.props;
+    const { currentIndex, list } = this.state;
+    if(currentIndex > 0) {
+      this.setChoice();
+      const selected = list.practice[`${currentIndex - 1}`].choice;
+      this.setState({ currentIndex: currentIndex - 1, selected });
+      dispatch(set('warmup_currentIndex', currentIndex - 1));
     }
     scroll('.container', '.container');
   }
 
-  next(){
-    const { dispatch } = this.props
-    const { selected, list, currentIndex, practiceCount } = this.state
-    if (selected.length === 0) {
+  next() {
+    const { dispatch } = this.props;
+    const { selected, list, currentIndex, practiceCount } = this.state;
+    if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"))
       return
     }
-    if(currentIndex < practiceCount - 1){
-      this.setChoice()
-      let selected = list.practice[`${currentIndex+1}`].choice
-      if(!selected){
+    if(currentIndex < practiceCount - 1) {
+      this.setChoice();
+      let selected = list.practice[`${currentIndex + 1}`].choice;
+      if(!selected) {
         selected = []
       }
-      this.setState({currentIndex:currentIndex+1, selected})
+      this.setState({ currentIndex: currentIndex + 1, selected });
     }
     scroll('.container', '.container');
   }
@@ -136,11 +138,11 @@ export class Main extends React.Component <any, any> {
     const { dispatch } = this.props;
     const { selected, practice, currentIndex, practiceCount } = this.state;
     const { practicePlanId } = this.props.location.query;
-    if (selected.length === 0) {
+    if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"));
       return
     }
-    if (currentIndex === practiceCount - 1) {
+    if(currentIndex === practiceCount - 1) {
       this.setChoice(p => {
         dispatch(startLoad());
         answer({ practice: p }, practicePlanId).then(res => {
@@ -149,6 +151,8 @@ export class Main extends React.Component <any, any> {
           if (code === 200) {
             dispatch(set('completePracticePlanId', practicePlanId));
             this.clearStorage();
+            // redux 存储弹卡片弹出区分变量
+            dispatch(set('CompleteChapterPracticePlanId', practicePlanId));
             this.props.router.push({
               pathname: '/rise/static/practice/warmup/result',
               query: _.merge(msg, this.props.location.query)
@@ -164,13 +168,9 @@ export class Main extends React.Component <any, any> {
     }
   }
 
-  closeModal() {
-    this.setState({ showKnowledge: false })
-  }
-
-  tutorialEnd(){
-    const {dispatch} = this.props
-    const {openStatus} = this.state
+  tutorialEnd() {
+    const { dispatch } = this.props
+    const { openStatus } = this.state
     openConsolidation().then(res => {
       const {code,msg} = res
       if(code === 200){
@@ -186,7 +186,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, practiceCount, showKnowledge, openStatus={},integrated } = this.state
+    const { list, currentIndex, selected, practiceCount, openStatus = {}, integrated, knowledgeId } = this.state
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -198,16 +198,17 @@ export class Main extends React.Component <any, any> {
             <span className="type"><span className="number">{score}</span>分</span>
           </div> : null}
           {pic ? <div className="context-img">
-             <AssetImg url={pic}/></div>:null
+            <AssetImg url={pic}/></div> : null
           }
           <div className="question">
-            <div dangerouslySetInnerHTML={{__html: question}}></div>
+            <div dangerouslySetInnerHTML={{ __html: question }}></div>
           </div>
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          {integrated=='false'?
-          <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>不确定? 瞄一眼知识点</div>:null}
+          {integrated == 'false' ?
+            <div className="knowledge-link"
+                 onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>不确定?瞄一眼知识点</div> : null}
         </div>
       )
     }
@@ -225,26 +226,24 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        {showKnowledge ? <KnowledgeViewer knowledge={practice[currentIndex].knowledge} closeModal={this.closeModal.bind(this)}/> :
-          <div>
-            <div className="container has-footer" style={{height: window.innerHeight - 49}}>
-              <div className="warm-up">
-                {practice[currentIndex] && practice[currentIndex].knowledge ?
-                    <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-                    <div className="page-header">综合练习</div>
-                }
-                {questionRender(practice[currentIndex] || {})}
-              </div>
-            </div>
-            <div className="button-footer">
-              <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
-              </div>
-              { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
+        <div>
+          <div className="container has-footer" style={{ height: window.innerHeight - 49 }}>
+            <div className="warm-up">
+              {practice[currentIndex] && practice[currentIndex].knowledge ?
+                  <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+                  <div className="page-header">综合练习</div>
               }
+              {questionRender(practice[currentIndex] || {})}
             </div>
           </div>
-        }
+          <div className="button-footer">
+            <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
+            </div>
+            { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
+            }
+          </div>
+        </div>
         <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']} show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation} onShowEnd={()=>this.tutorialEnd()}/>
       </div>
     )

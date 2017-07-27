@@ -4,7 +4,6 @@ import "./Main.less";
 import {loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss} from "./async";
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
-import KnowledgeViewer from "../components/KnowledgeModal";
 import Discuss from "../components/Discuss";
 import _ from "lodash"
 import DiscussShow from "../components/DiscussShow";
@@ -26,7 +25,6 @@ export class AnalysisNew extends React.Component <any, any> {
     super()
     this.state = {
       data: {},
-      showKnowledge: false,
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
@@ -58,10 +56,6 @@ export class AnalysisNew extends React.Component <any, any> {
     })
   }
 
-
-  closeModal() {
-    this.setState({showKnowledge: false})
-  }
 
   reload() {
     const {dispatch} = this.props;
@@ -148,7 +142,7 @@ export class AnalysisNew extends React.Component <any, any> {
   }
 
   render() {
-    const {data, selected, showKnowledge, showDiscuss, isReply, integrated, placeholder} = this.state;
+    const {data, selected, showDiscuss, isReply, integrated, placeholder} = this.state;
     const {knowledge} = data;
 
     const questionRender = (practice) => {
@@ -176,7 +170,8 @@ export class AnalysisNew extends React.Component <any, any> {
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
               {integrated=='false'?
-              <div className="knowledge-link" onClick={() => this.setState({showKnowledge: true})}>点击查看相关知识</div>:null}
+              <div className="knowledge-link"
+                   onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>点击查看相关知识</div>:null}
             </div>
           </div>
           <div className="discuss-container">
@@ -241,7 +236,6 @@ export class AnalysisNew extends React.Component <any, any> {
         </div>
         {showDiscuss?null:<div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
 
-        {showKnowledge ? <KnowledgeViewer knowledge={knowledge} closeModal={this.closeModal.bind(this)}/> : null}
         {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                               cancel={()=>this.cancel()}/>:

@@ -8,6 +8,7 @@ import { isNumber, merge } from 'lodash';
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { NumberToChinese } from '../../utils/helpers'
 import AssetImg from "../../components/AssetImg";
+import { mark } from "../../utils/request";
 const numeral = require('numeral');
 
 @connect(state => state)
@@ -162,12 +163,15 @@ export class ImprovementReport extends React.Component<any, any> {
                       </div>
                       <div className="problem-problem">{problem.problem}</div>
                       <div className="problem-view"
-                           onClick={() => this.context.router.push({
-                             pathname: `/rise/static/problem/view`,
-                             query: {
-                               id: problem.id
-                             }
-                           })}>查看
+                           onClick={() => {
+                             mark({module: "打点", function: "小课推荐进入小课学习", action: `${problem.id}`});
+                             this.context.router.push({
+                               pathname: `/rise/static/plan/view`,
+                               query: {
+                                 id: problem.id
+                               }
+                             })
+                           }}>查看
                       </div>
                     </div>
                   )

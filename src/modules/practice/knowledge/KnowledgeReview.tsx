@@ -48,7 +48,11 @@ export class KnowledgeReview extends React.Component<any,any>{
 
   goProblemIntro(){
     const {data} = this.state
-    this.context.router.push({pathname:"/rise/static/problem/view",query:{id:data.id, show:true}})
+    this.context.router.push({pathname:"/rise/static/plan/view",query:{id:data.id, show:true}})
+  }
+
+  complete() {
+    window.history.back();
   }
 
   render(){
@@ -79,17 +83,20 @@ export class KnowledgeReview extends React.Component<any,any>{
 
     return(
           <div className="problem-detail">
-            <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={this.goProblemIntro.bind(this)}>
-              <div className="header-label" style={{float:"left"}}>
-                小课介绍
+            <div className="container has-footer">
+              <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={this.goProblemIntro.bind(this)}>
+                <div className="header-label" style={{float:"left"}}>
+                  小课介绍
+                </div>
+              </div>
+              <div className="detail-header">
+                小课知识点
+              </div>
+              <div className="detail-container">
+                {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}
               </div>
             </div>
-            <div className="detail-header">
-              小课知识点
-            </div>
-            <div className="detail-container">
-              {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}
-            </div>
+            <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>
           </div>
     )
   }
