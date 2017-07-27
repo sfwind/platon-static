@@ -54,8 +54,6 @@ const routes = (
     <Route path="/rise/static" component={Base} onChange={() => {
         config(['chooseWXPay']);
     }}>
-      <Route path="a" component={A}/>
-      <Route path="b" component={B}/>
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
