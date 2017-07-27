@@ -771,7 +771,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         {showErr?<div className="error-mask" onClick={()=>this.setState({showErr:false})}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
-            1如果显示“URL未注册”，请重新刷新页面即可<br/>
+            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
             2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
