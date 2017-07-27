@@ -604,6 +604,35 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         }
       }
     }
+
+    const renderPayMessage = ()=>{
+      console.log(data);
+      if(data.id === 9){
+        return (
+          <div className="pre-pay-message">
+            <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。课程一共有5章6小节，40道练习题。</div><br/>
+
+            <div>报名后7天内可免费学习，完成后可永久复习。随开随学，进度自控。</div><br/>
+
+            <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div><br/>
+
+            <div>学习过程中，还有机会得到总计¥70奖学金，请在报名后查看”小课卡包“了解详情。</div>
+          </div>
+        )
+      } else {
+        return (
+          <div className="pre-pay-message">
+            <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。</div><br/>
+
+            <div>课程一共有{data && data.chapterList?data.chapterList.length:'N'}章{data?data.length:'N'}小节。完成后可永久随开随学，进度自控。</div><br/>
+
+            <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div><br/>
+
+            <div>学习过程中，还有机会得到总计¥70奖学金，请在报名后查看”小课卡包“了解详情。</div>
+          </div>
+        )
+      }
+    }
     return (
       <div className="problem-introduction">
         <div className="pi-header" style={{height:`${this.picHeight}px`}}>
@@ -651,7 +680,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           <div className="pi-c-pay-info white-content mg-25">
             <Header icon="rise_icon_head" title="报名须知" width={26} height={16} lineHeight={"12px"}/>
             <div className="pi-c-pay-content">
-
+              {renderPayMessage()}
             </div>
           </div>
           <div className="pi-c-system white-content mg-25">
