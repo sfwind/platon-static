@@ -874,7 +874,6 @@ export class PlanMain extends React.Component <any, any> {
     const renderCard = () => {
       let { cardUrl, displayCard, riseMember} = this.state;
       let problemId = get(planData, 'problem.id');
-      console.log(problemId);
       const renderCardBody = () => {
         if(problemId === 9 && !riseMember) {
           return (
@@ -981,7 +980,7 @@ export class PlanMain extends React.Component <any, any> {
     return (
       <div className="rise-main">
         {/*<ToolBar />*/}
-        {bgList? <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
+        {!isEmpty(bgList)? <Tutorial show={isBoolean(openRise) && !openRise} onShowEnd={() => this.tutorialEnd()}
                      bgList={bgList} topList={[0, 0, 0]} bottomList={[window.innerHeight-301, 0, 0]}
         />:null}
 
