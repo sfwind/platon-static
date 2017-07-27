@@ -67,7 +67,6 @@ export function loadUserCoupons(){
 }
 
 export function loadPayParam(param){
-  // return Promise.resolve({code:200,msg:{fee:200, free:false, signParams:{}, productId:'ff'}})
   return ppost('/signup/rise/course/pay', param);
 }
 
