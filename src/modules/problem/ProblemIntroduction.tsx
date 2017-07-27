@@ -647,14 +647,15 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         </div>
         <div className="pi-content">
           <div className="pi-c-foreword white-content">
-            <div className="pi-c-f-header">
-              <div className="pi-c-f-icon">
-                <AssetImg type="rise_icon_lamp" width={24} height={29}/>
-              </div>
-              <div className="pi-c-f-h-title">
-                引言
-              </div>
-            </div>
+            <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
+            {/*<div className="pi-c-f-header">*/}
+              {/*<div className="pi-c-f-icon">*/}
+                {/*<AssetImg type="rise_icon_lamp" width={24} height={29}/>*/}
+              {/*</div>*/}
+              {/*<div className="pi-c-f-h-title">*/}
+                {/*引言*/}
+              {/*</div>*/}
+            {/*</div>*/}
             <div className="pi-c-f-content">
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
@@ -678,7 +679,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
           {/*报名须知*/}
           <div className="pi-c-pay-info white-content mg-25">
-            <Header icon="rise_icon_head" title="报名须知" width={26} height={16} lineHeight={"12px"}/>
+            <Header icon="rise_icon_pay_info" title="报名须知" width={26} height={16} lineHeight={"12px"}/>
             <div className="pi-c-pay-content">
               {renderPayMessage()}
             </div>
@@ -725,32 +726,33 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               {/*开放时间：30天*/}
             {/*</div>*/}
           {/*</div>*/}
-          <div className="pi-c-tool white-content mg-25">
-            <Header icon="rise_icon_tool" title="学习工具"/>
-            <div className="pi-c-t-text">
-              随时随地，多客户端
-            </div>
-            <div className="pi-c-t-content">
-              <div className="pi-c-t-item">
-                <AssetImg url="https://static.iqycamp.com/images/rise_phone.png" width="120px"/>
-                <div className="platform">
-                  手机端
-                </div>
-                <div className="sub-title">
-                  "圈外同学"公众号
-                </div>
-              </div>
-              <div className="pi-c-t-item">
-                <AssetImg url="https://static.iqycamp.com/images/rise_pcv2.png" width="120px"/>
-                <div className="platform">
-                  网站
-                </div>
-                <div className="sub-title">
-                  www.iquanwai.com
-                </div>
-              </div>
-            </div>
-          </div>
+
+          {/*<div className="pi-c-tool white-content mg-25">*/}
+            {/*<Header icon="rise_icon_tool" title="学习工具"/>*/}
+            {/*<div className="pi-c-t-text">*/}
+              {/*随时随地，多客户端*/}
+            {/*</div>*/}
+            {/*<div className="pi-c-t-content">*/}
+              {/*<div className="pi-c-t-item">*/}
+                {/*<AssetImg url="https://static.iqycamp.com/images/rise_phone.png" width="120px"/>*/}
+                {/*<div className="platform">*/}
+                  {/*手机端*/}
+                {/*</div>*/}
+                {/*<div className="sub-title">*/}
+                  {/*"圈外同学"公众号*/}
+                {/*</div>*/}
+              {/*</div>*/}
+              {/*<div className="pi-c-t-item">*/}
+                {/*<AssetImg url="https://static.iqycamp.com/images/rise_pcv2.png" width="120px"/>*/}
+                {/*<div className="platform">*/}
+                  {/*网站*/}
+                {/*</div>*/}
+                {/*<div className="sub-title">*/}
+                  {/*www.iquanwai.com*/}
+                {/*</div>*/}
+              {/*</div>*/}
+            {/*</div>*/}
+          {/*</div>*/}
         </div>
         {renderFooter()}
 

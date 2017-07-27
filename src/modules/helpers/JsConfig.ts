@@ -9,7 +9,7 @@ export function config(apiList,callback) {
         wx.config(_.merge({
           debug: false,
           jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
-        }, res.msg))
+        }, window.ENV.wxConfig))
         wx.ready((res) => {
           hideOptionMenu();
           if (callback && _.isFunction(callback)) {
@@ -44,7 +44,7 @@ export function config(apiList,callback) {
         wx.config(_.merge({
           debug: false,
           jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage'].concat(apiList),
-        }, res.msg))
+        }, window.ENV.wxConfig))
         wx.ready(() => {
           hideOptionMenu();
           if(callback && _.isFunction(callback)){
