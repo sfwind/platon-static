@@ -35,13 +35,11 @@ export default class Main extends React.Component<any, any> {
 			windowsClient:false,
 			activityMsg:false,
 		}
-    window.ENV.configUrl = window.location.href;
     window.ENV.Detected = new UA(window.navigator.userAgent);
     window.ENV.osName = toLower(get(window,'ENV.Detected.os.name'));
     window.ENV.osVersion = toLower(get(window,'ENV.Detected.os.version.original'));
     window.ENV.systemInfo = window.ENV.osName + ":" +  window.ENV.osVersion;
     config(['chooseWXPay'])
-    window.wxConfig={}
     console.log(ENV.Detected);
 
   }

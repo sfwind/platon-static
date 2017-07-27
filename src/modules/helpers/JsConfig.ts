@@ -4,7 +4,7 @@ import * as _ from "lodash"
 export function config(apiList,callback) {
   if(window.ENV.osName === 'ios'){
     pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
-      window.wxConfig.msg = res.msg;
+      window.ENV.wxConfig = res.msg;
       if (res.code === 200) {
         wx.config(_.merge({
           debug: false,
@@ -20,7 +20,7 @@ export function config(apiList,callback) {
           // TODO 上线前删掉
           // 支付页面报错\
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo +",signature:" + (window.wxConfig?(_.isObjectLike(window.wxConfig.msg)?JSON.stringify(window.wxConfig.msg):window.wxConfig.msg):'空');
+            + ",os:" + window.ENV.systemInfo +",signature:" + (window.ENV.wxConfig?(_.isObjectLike(window.ENV.wxConfig)?JSON.stringify(window.ENV.wxConfig):window.ENV.wxConfig):'空');
           if(e){
             memo = 'error:'+JSON.stringify(e) + ','+memo;
           }
@@ -39,7 +39,7 @@ export function config(apiList,callback) {
     })
   } else {
     pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
-      window.wxConfig.msg = res.msg;
+      window.ENV.wxConfig = res.msg;
       if (res.code === 200) {
         wx.config(_.merge({
           debug: false,
@@ -55,7 +55,7 @@ export function config(apiList,callback) {
           // TODO 上线前删掉
           // 支付页面报错\
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo +",signature:" + (window.wxConfig?(_.isObjectLike(window.wxConfig.msg)?JSON.stringify(window.wxConfig.msg):window.wxConfig.msg):'空');
+            + ",os:" + window.ENV.systemInfo +",signature:" + (window.ENV.wxConfig?(_.isObjectLike(window.ENV.wxConfig)?JSON.stringify(window.ENV.wxConfig):window.ENV.wxConfig):'空');
           if(e){
             memo = 'error:'+JSON.stringify(e) + ','+memo;
           }
@@ -121,13 +121,13 @@ export function configTest(apiList,callback,configUrl) {
   if(configUrl){
     alert(window.ENV.configUrl)
     pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(function(res){
+      window.ENV.wxConfig = res.msg;
       try{
-        console.log('callback',callback,configUrl,configUrl);
         if (res.code === 200) {
           wx.config(_.merge({
             debug: false,
             jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
-          }, res.msg))
+          }, window.ENV.wxConfig))
           wx.ready((res) => {
             hideOptionMenu();
             if (callback && _.isFunction(callback)) {
@@ -137,9 +137,9 @@ export function configTest(apiList,callback,configUrl) {
           wx.error(function(e){
             // TODO 上线前删掉
             // 支付页面报错\
-            alert(JSON.stringify(res.msg));
+            alert(JSON.stringify(window.ENV.wxConfig));
             let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-              + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
+              + ",os:" + window.ENV.systemInfo +",signature:" + (window.ENV.wxConfig?(_.isObjectLike(window.ENV.wxConfig)?JSON.stringify(window.ENV.wxConfig):window.ENV.wxConfig):'空');
             if(e){
               memo = 'error:'+JSON.stringify(e) + ','+memo;
             }
@@ -162,13 +162,13 @@ export function configTest(apiList,callback,configUrl) {
   } else {
     alert(window.location.href)
     pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(function(res){
+      window.ENV.wxConfig = res.msg;
       try{
-        console.log('callback',callback,configUrl);
         if (res.code === 200) {
           wx.config(_.merge({
             debug: false,
             jsApiList: ['hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage'].concat(apiList),
-          }, res.msg))
+          }, window.ENV.wxConfig))
           wx.ready(() => {
             hideOptionMenu();
             if(callback && _.isFunction(callback)){
@@ -178,9 +178,9 @@ export function configTest(apiList,callback,configUrl) {
           wx.error(function(e){
             // TODO 上线前删掉
             // 支付页面报错\
-            alert(JSON.stringify(res.msg));
+            alert(JSON.stringify(window.ENV.wxConfig));
             let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-              + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
+              + ",os:" + window.ENV.systemInfo +",signature:" + (window.ENV.wxConfig?(_.isObjectLike(window.ENV.wxConfig)?JSON.stringify(window.ENV.wxConfig):window.ENV.wxConfig):'空');
             if(e){
               memo = 'error:'+JSON.stringify(e) + ','+memo;
             }
