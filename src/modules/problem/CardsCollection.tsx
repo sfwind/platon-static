@@ -165,7 +165,7 @@ interface CardProps {
 }
 class Card extends React.Component<CardProps, any> {
   render() {
-    const { img, lockImg, chapterNo, chapter, completed } = this.props
+    const { img, lockImg, chapterNo, chapter = '', completed } = this.props
     // 卡片盒子高度
     const boxSize = (window.innerWidth - 6 * 15) / 3
     return (
