@@ -352,7 +352,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(alertMsg('支付信息错误，请联系管理员'));
     }
     let param;
-    console.log('pay:',chose);
     if (chose) {
       param = {couponId: chose.id, problemId: id};
     } else {
@@ -490,7 +489,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
 
   render() {
-    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons,chose,showErr} = this.state;
+    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons,chose,showErr,free} = this.state;
     const {show} = this.props.location.query
 
     const {difficultyScore, catalog, subCatalog, pic, why, how, what, who,
@@ -644,6 +643,75 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         )
       }
     }
+
+
+    const renderPrice = (fee,final,free)=>{
+      let priceArr = [];
+      if(final || free){
+        priceArr.push(<span className="discard" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>);
+        priceArr.push(<span className="final" key={1} style={{marginLeft:'5px'}}>{`¥${numeral(final).format('0.00')}元`}</span>)
+      } else {
+        priceArr.push(<span className="final" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>)
+      }
+      return priceArr;
+    }
+
+    const renderPayInfo = ()=>{
+      if(showPayInfo){
+        if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 6.8 || true){
+          return (
+            <div className="simple-pay-info">
+              <div className="close" onClick={()=>this.setState({showPayInfo:false})}>
+                关闭
+              </div>
+              <div className="main-container">
+                <div className="header">
+                  小课购买
+                </div>
+                <div className="content">
+                  <div className="price item">
+                    {renderPrice(fee,final,free)}
+                  </div>
+                  <div className={`coupon item`}>
+                    {chose?`'优惠券'：¥${numeral(chose.amount).format('0.00')}元`:'选择优惠券'}
+                  </div>
+                </div>
+                <ul className={`coupon-list`}>
+                  {coupons?coupons.map((item,seq)=>{
+                    return (
+                      <li className="coupon" key={seq}>
+                        ¥{numeral(item.amount).format('0.00')}元
+                        <span className="describe">{item.description?item.description:''}</span>
+                        <span className="expired">{item.expired}过期</span>
+                        <div className="btn" onClick={()=>this.handleClickChooseCoupon(item,()=>{})}>
+                          选择
+                        </div>
+                      </li>
+                    )
+                  }):null}
+
+                </ul>
+              </div>
+              <div className="btn-container">
+                <div className="btn" onClick={()=>this.risePay()}>
+                </div>
+              </div>
+            </div>
+          )
+        } else {
+          return (
+            <PayInfo pay={()=>this.handleClickRiseCoursePay()}
+                     close={(callback)=>{this.setState({showPayInfo:false});callback()}}
+                     choose={(coupon,close)=>this.handleClickChooseCoupon(coupon,close)} show={showPayInfo} final={final} chose={chose}
+                     fee={fee} free={free}
+                     coupons={coupons} header="小课购买"/>
+          )
+        }
+      } else {
+        return null;
+      }
+    }
+
     return (
       <div className="problem-introduction">
         <div className="pi-header" style={{height:`${this.picHeight}px`}}>
@@ -659,14 +727,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         <div className="pi-content">
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
-            {/*<div className="pi-c-f-header">*/}
-              {/*<div className="pi-c-f-icon">*/}
-                {/*<AssetImg type="rise_icon_lamp" width={24} height={29}/>*/}
-              {/*</div>*/}
-              {/*<div className="pi-c-f-h-title">*/}
-                {/*引言*/}
-              {/*</div>*/}
-            {/*</div>*/}
             <div className="pi-c-f-content">
               { audio ? <div className="context-audio">
                 <Audio url={audio}/>
@@ -724,46 +784,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               <AssetImg width={'100%'} url={categoryPic} marginTop="10"/>
             </div>
           </div>
-
-          {/*<div className="pi-c-learn-term white-content mg-25">*/}
-            {/*<Header icon="rise_icon_learn_term" title="学习期限"/>*/}
-            {/*<div className="pi-c-l-t-text special">*/}
-              {/*随开随学，进度自控*/}
-            {/*</div>*/}
-            {/*<div className="pi-c-l-t-text">*/}
-              {/*教研团队的推荐进度：2天学习1节，第1天：知识点学习、巩固练习，第2天：2个应用练习*/}
-            {/*</div>*/}
-            {/*<div className="pi-c-l-t-text">*/}
-              {/*开放时间：30天*/}
-            {/*</div>*/}
-          {/*</div>*/}
-
-          {/*<div className="pi-c-tool white-content mg-25">*/}
-            {/*<Header icon="rise_icon_tool" title="学习工具"/>*/}
-            {/*<div className="pi-c-t-text">*/}
-              {/*随时随地，多客户端*/}
-            {/*</div>*/}
-            {/*<div className="pi-c-t-content">*/}
-              {/*<div className="pi-c-t-item">*/}
-                {/*<AssetImg url="https://static.iqycamp.com/images/rise_phone.png" width="120px"/>*/}
-                {/*<div className="platform">*/}
-                  {/*手机端*/}
-                {/*</div>*/}
-                {/*<div className="sub-title">*/}
-                  {/*"圈外同学"公众号*/}
-                {/*</div>*/}
-              {/*</div>*/}
-              {/*<div className="pi-c-t-item">*/}
-                {/*<AssetImg url="https://static.iqycamp.com/images/rise_pcv2.png" width="120px"/>*/}
-                {/*<div className="platform">*/}
-                  {/*网站*/}
-                {/*</div>*/}
-                {/*<div className="sub-title">*/}
-                  {/*www.iquanwai.com*/}
-                {/*</div>*/}
-              {/*</div>*/}
-            {/*</div>*/}
-          {/*</div>*/}
         </div>
         {renderFooter()}
 
@@ -782,12 +802,11 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div>:null}
-        <PayInfo pay={()=>this.handleClickRiseCoursePay()}
-                 close={(callback)=>{this.setState({showPayInfo:false});callback()}}
-                 choose={(coupon,close)=>this.handleClickChooseCoupon(coupon,close)} show={showPayInfo} final={final} chose={chose}
-                 fee={fee}
-                 coupons={coupons} header="小课购买"/>
+
+        {renderPayInfo()}
+
         {showPayInfo ?<div className="mask"></div>: null}
+
       </div>
     );
   }
