@@ -28,12 +28,14 @@ export default class PayInfo extends React.Component<PayInfoProps,any>{
   }
 
   choose(coupon){
+    console.log('choose',coupon);
     this.props.choose(coupon,()=>this.setState({openCoupon:false}));
   }
 
   render(){
     const {openCoupon} = this.state;
     const { final,fee,chose,choose,free ,coupons} = this.props;
+    console.log('chose',chose)
     const hasCoupons = !_.isEmpty(coupons);
     const height = (hasCoupons?276:226) + 'px';
 
@@ -54,6 +56,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any>{
     }
 
     const renderPrice = (fee,final,free)=>{
+      console.log(fee,final,fee);
       let priceArr = [];
       if(final || free){
         priceArr.push(<span className="discard" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>);

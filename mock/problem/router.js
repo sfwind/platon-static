@@ -458,8 +458,15 @@ router.get("/rise/problem/open/*", (req, res) => {
 router.get("/signup/coupon/list", (req, res) => {
   setTimeout(() =>
     res.status(200).json(
-      {"msg":[],"code":200}
+      {"msg":[{"id":325,"openid":"o-Es21bZakuqjBfVr7a-_j90WQuI","profileId":18830,"amount":20.0,"used":0,"cost":null,"orderId":null,"expiredDate":"2017-07-31","category":null,"description":null,"expired":"2017.07.31"}],"code":200}
     ), Math.random() * 1500)
 });
 
+
+router.post("/signup/coupon/course/calculate", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      {"msg":0.0,"code":200}
+    ), Math.random() * 1500)
+});
 module.exports = router;

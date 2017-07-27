@@ -489,7 +489,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
 
   render() {
-    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons} = this.state;
+    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons,chose} = this.state;
     const {show} = this.props.location.query
 
     const {difficultyScore, catalog, subCatalog, pic, why, how, what, who,
@@ -771,7 +771,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
         <PayInfo pay={()=>this.handleClickRiseCoursePay()}
                  close={(callback)=>{this.setState({showPayInfo:false});callback()}}
-                 choose={(coupon,close)=>this.handleClickChooseCoupon(coupon,close)} show={showPayInfo} final={final}
+                 choose={(coupon,close)=>this.handleClickChooseCoupon(coupon,close)} show={showPayInfo} final={final} chose={chose}
                  fee={fee}
                  coupons={coupons} header="小课购买"/>
         {showPayInfo ?<div className="mask"></div>: null}
