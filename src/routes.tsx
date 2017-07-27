@@ -49,15 +49,8 @@ import WarmUpNew from "modules/practice/warmup/Warumup"
 import ForumQuestion from "modules/customer/ForumQuestion";
 import CardsCollection from "./modules/problem/CardsCollection";
 
-import TestBase from "modules/base/TestBase"
-import A from "modules/test/A";
-import B from "modules/test/B";
-
 const routes = (
   <Route>
-    {/*<Route component={TestBase}>*/}
-      {/**/}
-    {/*</Route>*/}
     <Route path="/rise/static" component={Base} onChange={() => {
         config(['chooseWXPay']);
     }}>
