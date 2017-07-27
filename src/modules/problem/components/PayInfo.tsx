@@ -85,12 +85,13 @@ export default class PayInfo extends React.Component<PayInfoProps,any>{
         transform:`translateY(${transY})`,
       }
     }
+    console.log(coupons)
     return  (<div className="pay-info" style={ renderTrans(this.props.show,height)}>
       {this.props.show?<div className="close" onClick={()=>this.props.close(()=>this.setState({openCoupon:false}))} style={{bottom:`${hasCoupons?276:226}px`}}>
           <Icon type="white_close_btn" size="40px"/>
         </div>:null}
 
-        <div className="main-container">
+        <div className="main-container" style={{height: _.isEmpty(coupons) ? 160 : 210}}>
           <div className="header" style={renderHeaderTrans(openCoupon)}>
             {this.props.header}
           </div>
