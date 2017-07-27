@@ -463,7 +463,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           this.setState({showErr: true});
         },
         (res) => {
-          logPay('小课单卖','error', "configUrl:"+window.ENV.configUrl+",url:" + window.location.href + ",os:" + window.ENV.systemInfo + ",error:" + (isObjectLike(res) ? JSON.stringify(res) : res));
+          logPay('小课单卖','error', "os:" + window.ENV.systemInfo + ",error:" + (isObjectLike(res) ? JSON.stringify(res) : res) + ",configUrl:"+window.ENV.configUrl+",url:" + window.location.href );
           this.setState({showErr: true});
         }
       )
