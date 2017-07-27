@@ -679,7 +679,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
           {/*报名须知*/}
           <div className="pi-c-pay-info white-content mg-25">
-            <Header icon="rise_icon_pay_info" title="报名须知" width={26} height={16} lineHeight={"12px"}/>
+            <Header icon="rise_icon_pay_info" title="报名须知" width={24}/>
             <div className="pi-c-pay-content">
               {renderPayMessage()}
             </div>
