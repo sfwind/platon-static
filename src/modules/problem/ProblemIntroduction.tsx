@@ -569,7 +569,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
                     ¥ 99，立即学习
                   </div>
                   <div className={`right pay`} onClick={()=>this.handleClickPayMember()}>
-                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond.png?imageslim" size={20}/>
+                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond.png?imageslim" width={20} height={18}/>
                     6折买课
                   </div>
                 </div>
