@@ -37,7 +37,6 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     const { dispatch } = this.props
     dispatch(startLoad())
     loadCardData(planId).then(res => {
-      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -70,7 +69,6 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       dispatch(startLoad())
       loadEssenceCard(problemId, chapterId).then(res => {
         dispatch(endLoad())
-        console.log(res)
         if(res.code === 200) {
           essenceCardMap.set(chapterId, res.msg)
           this.setState({ showCard: true, essenceCard: res.msg, essenceCardMap: essenceCardMap })
