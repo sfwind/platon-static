@@ -77,13 +77,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           // 当前url未注册bug修复，主要是ios，因为ios在config时用的是第一个url,window.ENV.configUrl
           // 但是安卓也有可能出问题，所以干脆全部刷新页面（如果configUrl!==）
           if(window.ENV.configUrl !== window.location.href){
-            mark({
-              module: "RISE",
-              function: "打点",
-              action: "刷新支付页面",
-              memo: window.ENV.configUrl + "++++++++++" + window.location.href
-            });
-            window.location.href = window.location.href;
             return Promise.reject("refresh");
           }
         }
@@ -123,7 +116,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       if(reason!=='refresh'){
         dispatch(alertMsg(reason));
       }
-
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex));
@@ -134,6 +126,19 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25));
     this.whoFontSize = (window.innerWidth / (750 / 30)) > 15 ? 15 : (window.innerWidth / (750 / 30));
     this.whoNumFontSize = (window.innerWidth / (750 / 48)) > 24 ? 24 : (window.innerWidth / (750 / 48));
+  }
+
+  componentDidMount(){
+    // 已经有configUrl(是landingPage)，并且landingPage和currentPage不同,如果没有configUrl,那么onLoad里会设置configUrl为landingPage的url
+    if(window.ENV.configUrl!='' && window.ENV.configUrl !== window.location.href){
+      mark({
+        module: "RISE",
+        function: "打点",
+        action: "刷新支付页面",
+        memo: window.ENV.configUrl + "++++++++++" + window.location.href
+      });
+      window.location.href = window.location.href;
+    }
   }
 
   /**

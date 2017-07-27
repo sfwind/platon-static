@@ -39,9 +39,7 @@ export default class Main extends React.Component<any, any> {
     window.ENV.osName = toLower(get(window,'ENV.Detected.os.name'));
     window.ENV.osVersion = toLower(get(window,'ENV.Detected.os.version.original'));
     window.ENV.systemInfo = window.ENV.osName + ":" +  window.ENV.osVersion;
-    config(['chooseWXPay'])
     console.log(ENV.Detected);
-
   }
 
 	componentWillMount(){
@@ -78,6 +76,7 @@ export default class Main extends React.Component<any, any> {
 	  // window.iNoBounce.disable();
 	  const { dispatch } = this.props;
 	  dispatch(set('iNoBounce',window.iNoBounce));
+    config(['chooseWXPay'])
   }
 
 	closeAnswer() {

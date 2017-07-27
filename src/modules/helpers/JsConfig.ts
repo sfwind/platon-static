@@ -2,6 +2,10 @@ import { pget,mark } from "utils/request"
 import * as _ from "lodash"
 
 export function config(apiList,callback) {
+  if(!window.ENV.configUrl){
+    // alert('no url');
+    return;
+  }
   if(window.ENV.osName === 'ios'){
     pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
       window.ENV.wxConfig = res.msg;
