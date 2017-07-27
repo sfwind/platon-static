@@ -37,6 +37,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
     const { dispatch } = this.props
     dispatch(startLoad())
     loadCardData(planId).then(res => {
+      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {

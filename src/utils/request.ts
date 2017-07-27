@@ -55,7 +55,7 @@ export function log(url, msg) {
     contentType:"application/json",
     data: JSON.stringify({url: url, result: msg, cookie: document.cookie}),
     dataType:"json",
-    success: function(e){console.log(e)},
+    success: function(){},
   });
   // ppost('/rise/b/log', { url: url, result: msg, cookie: document.cookie });
 }
