@@ -93,16 +93,16 @@ export class Explore extends React.Component<any,any>{
         <div className="explore-container">
           <Banner height={this.bannerHeight}>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(1)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_1.png?imageslim'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_1_2.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(2)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_2.png?imageslim'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_2_2.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(3)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_3.png?imageslim'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_3_2.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(4)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_4.png?imageslim'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_4_2.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
           </Banner>
           <div className="problem-catalog-list">
