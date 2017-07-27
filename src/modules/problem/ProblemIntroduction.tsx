@@ -305,6 +305,11 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     const {id} = location.query;
     dispatch(startLoad());
     const {buttonStatus} = this.state;
+    mark({
+      module: "RISE",
+      function: "打点",
+      action: "点击购买按钮",
+    });
     checkCreatePlan(id, buttonStatus).then(res => {
       dispatch(endLoad());
       if (res.code === 202) {
