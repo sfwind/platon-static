@@ -433,7 +433,7 @@ export class Main extends React.Component <any, any> {
           </div>
           <div ref="workContainer" className="work-container">
             <div ref="submitBar" className="submit-bar">{ content === null ?
-              '好了，学以致用一下吧！结合相关知识点，思考并实践下面的任务。在圈外社区里记录下你的经历，还会收获积分。'
+              '刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~'
               : '我的作业'}</div>
             {renderTip()}
 
@@ -452,7 +452,7 @@ export class Main extends React.Component <any, any> {
                     this.props.dispatch(endLoad())
                   }}
                   defaultValue={this.state.editorValue}
-                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。全部完成后点下方按钮提交，才能对他人显示和得到专业点评！"
+                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就有就会得到点赞和专业点评哦！"
                   autoSave={(value) => {
                     this.autoSave(value)
                   }}
