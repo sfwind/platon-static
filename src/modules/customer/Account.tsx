@@ -39,7 +39,7 @@ export default class Rise extends React.Component<any,any>{
   }
   render(){
     const {data} = this.state;
-    const {riseId, memberType, mobile} = data;
+    const {riseId, memberType, mobile, isRiseMember} = data;
     return (
      <div className="account">
        <div className="item" onClick={()=>this.context.router.push('/rise/static/customer/mobile/check')}>
@@ -64,10 +64,10 @@ export default class Rise extends React.Component<any,any>{
            圈外会员
          </div>
          <div className="content">
-             {memberType}
+           {isRiseMember ? '' : '点击加入'}&nbsp;&nbsp;{memberType}
          </div>
        </div>
-       <div className="padding-footer"></div>
+       <div className="padding-footer"/>
      </div>
     )
   }
