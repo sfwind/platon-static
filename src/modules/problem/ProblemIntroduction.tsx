@@ -59,6 +59,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       },
       show: true,
       showPayInfo: false,
+      showErr:false
     };
 
 
@@ -462,8 +463,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           this.setState({showErr: true});
         },
         (res) => {
-          logPay('小课单卖','error', "url:" + window.location.href + ",os:" + window.ENV.systemInfo + ",error:" + (isObjectLike(res) ? JSON.stringify(res) : res));
-          alert("error config:"+JSON.stringify(res));
+          logPay('小课单卖','error', "os:" + window.ENV.systemInfo + ",error:" + (isObjectLike(res) ? JSON.stringify(res) : res) + ",configUrl:"+window.ENV.configUrl+",url:" + window.location.href );
+          this.setState({showErr: true});
         }
       )
     })
@@ -489,7 +490,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
 
   render() {
-    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons,chose} = this.state;
+    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons,chose,showErr} = this.state;
     const {show} = this.props.location.query
 
     const {difficultyScore, catalog, subCatalog, pic, why, how, what, who,
@@ -773,7 +774,14 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>
           <div className="global-pre">{this.state.confirmMsg}</div>
         </Alert>
-
+        {showErr?<div className="error-mask" onClick={()=>this.setState({showErr:false})}>
+          <div className="tips">
+            出现问题的童鞋看这里<br/>
+            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
+            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          </div>
+          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+        </div>:null}
         <PayInfo pay={()=>this.handleClickRiseCoursePay()}
                  close={(callback)=>{this.setState({showPayInfo:false});callback()}}
                  choose={(coupon,close)=>this.handleClickChooseCoupon(coupon,close)} show={showPayInfo} final={final} chose={chose}
