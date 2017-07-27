@@ -626,7 +626,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
             <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div><br/>
 
-            <div>学习过程中，还有机会得到总计¥70奖学金，请在报名后查看”小课卡包“了解详情。</div>
           </div>
         )
       } else {
@@ -638,7 +637,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
             <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div><br/>
 
-            <div>学习过程中，还有机会得到总计¥70奖学金，请在报名后查看”小课卡包“了解详情。</div>
           </div>
         )
       }
