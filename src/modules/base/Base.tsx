@@ -41,6 +41,7 @@ export default class Main extends React.Component<any, any> {
     window.ENV.osVersion = toLower(get(window,'ENV.Detected.os.version.original'));
     window.ENV.systemInfo = window.ENV.osName + ":" +  window.ENV.osVersion;
     config(['chooseWXPay'])
+    window.wxConfig={}
     console.log(ENV.Detected);
 
   }

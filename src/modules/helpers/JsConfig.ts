@@ -4,6 +4,7 @@ import * as _ from "lodash"
 export function config(apiList,callback) {
   if(window.ENV.osName === 'ios'){
     pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
+      window.wxConfig.msg = res.msg;
       if (res.code === 200) {
         wx.config(_.merge({
           debug: false,
@@ -19,7 +20,7 @@ export function config(apiList,callback) {
           // TODO 上线前删掉
           // 支付页面报错\
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
+            + ",os:" + window.ENV.systemInfo +",signature:" + (window.wxConfig?(_.isObjectLike(window.wxConfig.msg)?JSON.stringify(window.wxConfig.msg):window.wxConfig.msg):'空');
           if(e){
             memo = 'error:'+JSON.stringify(e) + ','+memo;
           }
@@ -38,6 +39,7 @@ export function config(apiList,callback) {
     })
   } else {
     pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
+      window.wxConfig.msg = res.msg;
       if (res.code === 200) {
         wx.config(_.merge({
           debug: false,
@@ -53,7 +55,7 @@ export function config(apiList,callback) {
           // TODO 上线前删掉
           // 支付页面报错\
           let memo = "url:" + window.location.href +",configUrl:"+ window.ENV.configUrl
-            + ",os:" + window.ENV.systemInfo +",signature:" + (res?(_.isObjectLike(res.msg)?JSON.stringify(res.msg):res.msg):'空');
+            + ",os:" + window.ENV.systemInfo +",signature:" + (window.wxConfig?(_.isObjectLike(window.wxConfig.msg)?JSON.stringify(window.wxConfig.msg):window.wxConfig.msg):'空');
           if(e){
             memo = 'error:'+JSON.stringify(e) + ','+memo;
           }

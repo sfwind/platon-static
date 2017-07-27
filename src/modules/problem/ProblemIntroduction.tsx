@@ -625,6 +625,24 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             </div>
 
           </div>
+          <div className="pi-c-man white-content mg-25">
+            <Header icon="rise_icon_man" title="适合人群" width={18}/>
+            <div className="pi-c-m-content">
+              {renderWho(who)}
+            </div>
+          </div>
+          <div className="pi-c-author white-content mg-25">
+            <Header icon="rise_icon_head" title="讲师介绍" width={26} height={16} lineHeight={"12px"}/>
+            <AssetImg width={'100%'} url={authorPic}/>
+          </div>
+
+          {/*报名须知*/}
+          <div className="pi-c-pay-info white-content mg-25">
+            <Header icon="rise_icon_head" title="报名须知" width={26} height={16} lineHeight={"12px"}/>
+            <div className="pi-c-pay-content">
+
+            </div>
+          </div>
           <div className="pi-c-system white-content mg-25">
             <Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={"12px"} height={17}/>
             <div className="pi-c-s-content">
@@ -638,12 +656,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               {what ?<pre className="pi-c-text" dangerouslySetInnerHTML={{__html:what}}/> : null}
               <div
                 className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
-            </div>
-          </div>
-          <div className="pi-c-man white-content mg-25">
-            <Header icon="rise_icon_man" title="适合人群" width={18}/>
-            <div className="pi-c-m-content">
-              {renderWho(who)}
             </div>
           </div>
           <div className="pi-c-ability white-content mg-25">
@@ -660,22 +672,19 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               <AssetImg width={'100%'} url={categoryPic} marginTop="10"/>
             </div>
           </div>
-          <div className="pi-c-author white-content mg-25">
-            <Header icon="rise_icon_head" title="讲师介绍" width={26} height={16} lineHeight={"12px"}/>
-            <AssetImg width={'100%'} url={authorPic}/>
-          </div>
-          <div className="pi-c-learn-term white-content mg-25">
-            <Header icon="rise_icon_learn_term" title="学习期限"/>
-            <div className="pi-c-l-t-text special">
-              随开随学，进度自控
-            </div>
-            <div className="pi-c-l-t-text">
-              教研团队的推荐进度：2天学习1节，第1天：知识点学习、巩固练习，第2天：2个应用练习
-            </div>
-            <div className="pi-c-l-t-text">
-              开放时间：30天
-            </div>
-          </div>
+
+          {/*<div className="pi-c-learn-term white-content mg-25">*/}
+            {/*<Header icon="rise_icon_learn_term" title="学习期限"/>*/}
+            {/*<div className="pi-c-l-t-text special">*/}
+              {/*随开随学，进度自控*/}
+            {/*</div>*/}
+            {/*<div className="pi-c-l-t-text">*/}
+              {/*教研团队的推荐进度：2天学习1节，第1天：知识点学习、巩固练习，第2天：2个应用练习*/}
+            {/*</div>*/}
+            {/*<div className="pi-c-l-t-text">*/}
+              {/*开放时间：30天*/}
+            {/*</div>*/}
+          {/*</div>*/}
           <div className="pi-c-tool white-content mg-25">
             <Header icon="rise_icon_tool" title="学习工具"/>
             <div className="pi-c-t-text">

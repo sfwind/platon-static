@@ -11,6 +11,9 @@ export default class B extends React.Component<any,any>{
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
+  componentWillMount(){
+    // this.context.router.push("/rise/static/a")
+  }
   render(){
     return (
       <div>
