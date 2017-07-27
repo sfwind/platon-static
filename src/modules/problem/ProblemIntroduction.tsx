@@ -565,7 +565,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
                 <div className="button-footer">
                   <div className={`left pay`} onClick={()=>this.handleClickPayImmediately()}>
                     <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_shop.png?imageslim" size={20}/>
-                    ¥ ${fee}，立即学习
+                    ¥ {fee}，立即学习
                   </div>
                   <div className={`right pay`} onClick={()=>this.handleClickPayMember()}>
                     <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond.png?imageslim" width={20} height={18}/>
