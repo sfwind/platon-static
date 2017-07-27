@@ -20,7 +20,6 @@ export default class Welcome extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     welcome().then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         if(res.code === 200 && res.msg) {

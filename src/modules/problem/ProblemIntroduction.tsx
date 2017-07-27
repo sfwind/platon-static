@@ -352,7 +352,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(alertMsg('支付信息错误，请联系管理员'));
     }
     let param;
-    console.log('pay:',chose);
     if (chose) {
       param = {couponId: chose.id, problemId: id};
     } else {
