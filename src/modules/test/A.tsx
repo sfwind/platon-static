@@ -30,6 +30,9 @@ export default class A extends React.Component<any,any>{
         <div className="btn" onClick={()=>{
           this.context.router.push("/rise/static/b")
         }}>前往B页面</div>
+        <div className="btn" onClick={()=>{
+          this.context.router.push("/rise/static/plan/main")
+        }}>前往plan</div>
       </div>
     );
   }
