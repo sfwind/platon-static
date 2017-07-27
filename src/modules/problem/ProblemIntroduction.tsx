@@ -214,7 +214,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         this.setState({showConfirm: true, confirmMsg: res.msg});
       } else if (res.code === 201) {
         // 选第二门了，需要提示
-        this.setState({showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？"});
+        // this.setState({showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？"});
+        this.handleSubmitProblemChoose();
       } else if (res.code === 200) {
         this.handleSubmitProblemChoose();
       } else {
@@ -315,21 +316,22 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       if (res.code === 202) {
         this.setState({showConfirm: true, confirmMsg: res.msg});
       } else if (res.code === 201) {
-        // 选第二门了，需要提示
-        this.setState({
-          showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？", alert: {
-            buttons: [
-              {
-                label: '再看看',
-                onClick: this.handleClickClose.bind(this)
-              },
-              {
-                label: '想好了',
-                onClick: () => this.setState({showPayInfo: true, showAlert: false}),
-              }
-            ]
-          }
-        });
+        // // 选第二门了，需要提示
+        // this.setState({
+        //   showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？", alert: {
+        //     buttons: [
+        //       {
+        //         label: '再看看',
+        //         onClick: this.handleClickClose.bind(this)
+        //       },
+        //       {
+        //         label: '想好了',
+        //         onClick: () => this.setState({showPayInfo: true, showAlert: false}),
+        //       }
+        //     ]
+        //   }
+        // });
+        this.setState({showPayInfo: true});
       } else if (res.code === 200) {
         this.setState({showPayInfo: true});
       } else {
