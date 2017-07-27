@@ -19,18 +19,18 @@
 
   > .main-container{
     background-color:#FFF;
+    height: 210px;
     position: fixed;
     bottom:0;
     left:0;
     z-index:200;
     width:100%;
-    height:256px;
     overflow: hidden;
     > .header{
       text-align: center;
       border-bottom:1px solid #d0d0d0;
       color:#333;
-      height:40px;
+      height:39px;
       line-height:40px;
       font-size:16px;
       -webkit-transition: transform 0.5s;
@@ -47,7 +47,7 @@
       -o-transition: transform 0.5s;
       transition: transform 0.5s;
       > .item{
-        height:50px;
+        height:49px;
         line-height:50px;
         padding:0 15px;
         border-bottom:1px solid #d0d0d0;
@@ -98,14 +98,11 @@
       position: relative;
       z-index: 300;
       overflow: scroll;
-
       -webkit-transition: transform 0.5s;
       -moz-transition: transform 0.5s;
       -ms-transition: transform 0.5s;
       -o-transition: transform 0.5s;
       transition: transform 0.5s;
-
-
       > li{
         height:50px;
         line-height:50px;
@@ -131,12 +128,14 @@
           border-radius:5px;
           float:right;
           color:#fff;
+          padding: 0;
         }
       }
     }
   }
   > .btn-container{
     position: absolute;
+    height: 70px;
     bottom:0;
     left:0;
     width:100%;
@@ -155,11 +154,15 @@
     transform: translateY(0);
     > .btn{
       height:42px;
-      background:url('https://static.iqycamp.com/images/sureToPayBtnV2.png?imageslim') center center/100% 100%;
+      //background:url('') center center/100% 100%;
+      background-color: transparent;
+      background-image: url("https://static.iqycamp.com/images/sureToPayBtnV2.png?imageslim");
+      background-size: 100% 100%;
       //border:1px solid;
       //border-image:-webkit-linear-gradient(315deg, orange, green) 5 5;
       //border-image:linear-gradient(315deg,orange,green) 5 5;
       margin:15px;
+      padding: 0;
       //padding:5px;
       //text-align: center;
       > svg{

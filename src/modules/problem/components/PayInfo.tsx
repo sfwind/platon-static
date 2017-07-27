@@ -90,16 +90,13 @@ export default class PayInfo extends React.Component<PayInfoProps,any>{
           <Icon type="white_close_btn" size="40px"/>
         </div>:null}
 
-        <div className="main-container" style={{height:`${hasCoupons?266:216}px`}}>
+        <div className="main-container">
           <div className="header" style={renderHeaderTrans(openCoupon)}>
             {this.props.header}
           </div>
           <div className="content" style={renderHeaderTrans(openCoupon)}>
             <div className="price item">
               {renderPrice(fee,final,free)}
-            </div>
-            <div className="open-time item">
-              有效时间：30天
             </div>
             <div className={`coupon item ${openCoupon?'open':''}`} onClick={()=>this.setState({openCoupon:!this.state.openCoupon})}>
               {chose?`${this.props.id===3?'精英RISE券':'优惠券'}：¥${numeral(chose.amount).format('0.00')}元`:`${this.props.id===3?'选择精英RISE券/优惠券':'选择优惠券'}`}
