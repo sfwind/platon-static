@@ -86,7 +86,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             return Promise.reject("refresh");
           }
         }
-        console.log(res.msg);
         return res.msg;
       } else {
         return Promise.reject(msg);
@@ -611,7 +610,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     }
 
     const renderPayMessage = ()=>{
-      console.log(data);
       if(data.id === 9){
         return (
           <div className="pre-pay-message">
