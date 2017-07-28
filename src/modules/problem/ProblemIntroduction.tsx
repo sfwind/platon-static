@@ -639,6 +639,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
             <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div><br/>
 
+            <div>报名通过系统自动进行，支付成功后概不退款，请予以理解。</div><br/>
+
           </div>
         )
       }
