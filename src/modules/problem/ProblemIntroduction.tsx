@@ -66,7 +66,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   }
 
   componentWillMount() {
-
     const {dispatch, location} = this.props
     const {id} = location.query
     dispatch(startLoad())
@@ -76,7 +75,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         if(msg.buttonStatus === 1) {
           // 当前url未注册bug修复，主要是ios，因为ios在config时用的是第一个url,window.ENV.configUrl
           // 但是安卓也有可能出问题，所以干脆全部刷新页面（如果configUrl!==）
-          if(window.ENV.configUrl !== window.location.href){
+          // alert(window.ENV.configUrl);
+          if(window.ENV.configUrl!='' && window.ENV.configUrl !== window.location.href){
             mark({
               module: "RISE",
               function: "打点",
@@ -123,7 +123,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       if(reason!=='refresh'){
         dispatch(alertMsg(reason));
       }
-
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex));
@@ -134,6 +133,9 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25));
     this.whoFontSize = (window.innerWidth / (750 / 30)) > 15 ? 15 : (window.innerWidth / (750 / 30));
     this.whoNumFontSize = (window.innerWidth / (750 / 48)) > 24 ? 24 : (window.innerWidth / (750 / 48));
+  }
+
+  componentDidMount(){
   }
 
   /**
