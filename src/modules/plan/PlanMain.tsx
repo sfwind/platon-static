@@ -861,7 +861,7 @@ export class PlanMain extends React.Component <any, any> {
       others.push(
         <Alert show={this.state.showExpiredDateWarning} {...alertProps}>
           <div className="global-pre"
-               dangerouslySetInnerHTML={{ __html: "限免小课已到期，请购买正式版解锁未完成任务" }}/>
+               dangerouslySetInnerHTML={{ __html: "限免小课已到期，请到发现页面再次开启小课" }}/>
         </Alert>
       )
       if(showScoreModal) {
