@@ -474,7 +474,6 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goCardsCollection(problemId) {
-    const {dispatch} = this.props
     mark({ module: "打点", function: "首页", action: "打开小课卡包", memo: problemId });
     this.context.router.push({
       pathname: '/rise/static/problem/cards',
@@ -873,8 +872,6 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     const renderCard = () => {
-      // TODO
-      return ;
       let { cardUrl, displayCard, riseMember} = this.state;
       let problemId = get(planData, 'problem.id');
       const renderCardBody = () => {
@@ -930,8 +927,6 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
 
-      // TODO
-      // displayCard = true
       if(displayCard) {
         return (
           <div className="chapter-card-container">
