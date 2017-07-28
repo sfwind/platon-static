@@ -5,7 +5,7 @@ import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButto
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
-import { splitText, removeHtmlTags } from "../../../utils/helpers"
+import { splitText, removeHtmlTags, scroll } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
 interface QuestionAnswerStates {
@@ -192,7 +192,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             submitNewAnswer: false,
             myAnswer: msg
           }, () => {
-            document.querySelector(".answer-container").scrollTop = document.querySelector("#myanswer").offsetTop
+            scroll('#myanswer', '.answer-container');
+            // document.querySelector(".answer-container").scrollTop = document.querySelector("#myanswer").offsetTop
           })
         } else {
           dispatch(alertMsg(msg))
@@ -220,7 +221,9 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             answerList: newAnswerList,
             myAnswer: res.msg
           }, () => {
-            document.querySelector(".answer-container").scrollTop = document.querySelector("#myanswer").offsetTop
+          }, () => {
+            scroll('#myanswer', '.answer-container');
+            // document.querySelector(".answer-container").scrollTop = document.querySelector("#myanswer").offsetTop
           })
         } else {
           dispatch(alertMsg(msg))

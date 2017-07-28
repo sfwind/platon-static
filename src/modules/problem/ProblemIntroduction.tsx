@@ -216,7 +216,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         this.setState({showConfirm: true, confirmMsg: res.msg});
       } else if (res.code === 201) {
         // 选第二门了，需要提示
-        this.setState({showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？"});
+        // this.setState({showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？"});
+        this.handleSubmitProblemChoose();
       } else if (res.code === 200) {
         this.handleSubmitProblemChoose();
       } else {
@@ -317,21 +318,22 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       if (res.code === 202) {
         this.setState({showConfirm: true, confirmMsg: res.msg});
       } else if (res.code === 201) {
-        // 选第二门了，需要提示
-        this.setState({
-          showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？", alert: {
-            buttons: [
-              {
-                label: '再看看',
-                onClick: this.handleClickClose.bind(this)
-              },
-              {
-                label: '想好了',
-                onClick: () => this.setState({showPayInfo: true, showAlert: false}),
-              }
-            ]
-          }
-        });
+        // // 选第二门了，需要提示
+        // this.setState({
+        //   showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？", alert: {
+        //     buttons: [
+        //       {
+        //         label: '再看看',
+        //         onClick: this.handleClickClose.bind(this)
+        //       },
+        //       {
+        //         label: '想好了',
+        //         onClick: () => this.setState({showPayInfo: true, showAlert: false}),
+        //       }
+        //     ]
+        //   }
+        // });
+        this.setState({showPayInfo: true});
       } else if (res.code === 200) {
         this.setState({showPayInfo: true});
       } else {
@@ -619,7 +621,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     }
 
     const renderPayMessage = ()=>{
-      if(data.id === 9){
+      if(data.id === FREE_PROBLEM_ID){
         return (
           <div className="pre-pay-message">
             <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。课程一共有5章6小节，40道练习题。</div><br/>
@@ -638,6 +640,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             <div>课程一共有{data && data.chapterList?data.chapterList.length:'N'}章{data?data.length:'N'}小节。完成后可永久随开随学，进度自控。</div><br/>
 
             <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div><br/>
+
+            <div>报名通过系统自动进行，支付成功后概不退款，请予以理解。</div><br/>
 
           </div>
         )

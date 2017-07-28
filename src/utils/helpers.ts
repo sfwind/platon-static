@@ -73,8 +73,12 @@ function SectionToChinese(section) {
 }
 
 export function scroll(target, container) {
-  let y = document.querySelector(target).offsetTop
-  document.querySelector(container).scrollTop = y
+  if(document.querySelector(target)){
+    let y = document.querySelector(target).offsetTop
+    if(document.querySelector(container)){
+      document.querySelector(container).scrollTop = y
+    }
+  }
 }
 
 export function NumberToChinese(num) {
