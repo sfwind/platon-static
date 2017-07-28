@@ -474,14 +474,12 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goCardsCollection(problemId) {
-    // TODO 删除
     const {dispatch} = this.props
-    dispatch(alertMsg("敬请期待"))
-    // mark({ module: "打点", function: "首页", action: "打开小课卡包", memo: problemId });
-    // this.context.router.push({
-    //   pathname: '/rise/static/problem/cards',
-    //   query: { planId: this.props.location.query.planId }
-    // })
+    mark({ module: "打点", function: "首页", action: "打开小课卡包", memo: problemId });
+    this.context.router.push({
+      pathname: '/rise/static/problem/cards',
+      query: { planId: this.props.location.query.planId }
+    })
   }
 
   goReport() {
