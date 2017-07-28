@@ -2,8 +2,16 @@ import { pget,mark } from "utils/request"
 import * as _ from "lodash"
 
 export function config(apiList,callback) {
-  if(!window.ENV.configUrl){
-    // alert('no url');
+  if(!window.ENV.configUrl && !callback){
+    return;
+  }
+  if(callback && !window.ENV.configUrl){
+    mark({
+      module: "JSSDK",
+      function: "ios",
+      action: "签名失败",
+      memo: "有回调但是没有configUrl"
+    });
     return;
   }
   if(window.ENV.osName === 'ios'){
