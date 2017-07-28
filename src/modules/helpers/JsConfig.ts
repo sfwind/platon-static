@@ -12,6 +12,9 @@ export function config(apiList,callback) {
       action: "签名失败",
       memo: "有回调但是没有configUrl"
     });
+    if(_.isFunction(callback)){
+      callback();
+    }
     return;
   }
   if(window.ENV.osName === 'ios'){
