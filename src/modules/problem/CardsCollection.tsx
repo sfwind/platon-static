@@ -16,6 +16,8 @@ interface CardsCollectionStates {
   essenceCard: string;
   essenceCardMap: object;
 }
+
+const FREE_PROBLEM_ID = 9
 @connect(state => state)
 export default class CardsCollection extends React.Component<any, CardsCollectionStates> {
 
@@ -142,7 +144,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
           <div className="cards-header">{problem}</div>
           {
             // TODO 限免活动取消，记得删除这行代码
-            problemId === 9 && !isRiseMember ?
+            problemId === FREE_PROBLEM_ID && !isRiseMember ?
               <div className="cards-call" style={{ height: 0.366 * window.innerWidth }}/> :
               null
           }

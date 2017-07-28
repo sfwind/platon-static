@@ -880,7 +880,7 @@ export class PlanMain extends React.Component <any, any> {
       let { cardUrl, displayCard, riseMember} = this.state;
       let problemId = get(planData, 'problem.id');
       const renderCardBody = () => {
-        if(problemId === 9 && !riseMember) {
+        if(problemId === FREE_PROBLEM_ID && !riseMember) {
           return (
             <div>
               <div className="printer-top">
