@@ -110,7 +110,9 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
         commentlist.push(msg)
         this.setState({ commentlist, commentCount: commentCount + 1 }, () => {
           this.handleClickHideDiscussBox()
-          document.querySelector("#react-app").scrollTop = this.refs[`commentRef${msg.id}`].offsetTop
+          if(this.refs[`commentRef${msg.id}`]) {
+            document.querySelector("#react-app").scrollTop = this.refs[`commentRef${msg.id}`].offsetTop
+          }
         })
       } else {
         dispatch(alertMsg(msg))

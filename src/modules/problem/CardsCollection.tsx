@@ -94,7 +94,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
             cards.map((card, index) => {
               return (
                 <Card img={card.thumbnail} lockImg={card.thumbnailLock} chapterNo={card.chapterNo} key={index}
-                      chaper={card.chapter} completed={card.completed}
+                      chapter={card.chapter} completed={card.completed}
                       onClick={() => this.handleClickLoadCard(card.problemId, card.chapterId, card.completed)}/>
               )
             })

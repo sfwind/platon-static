@@ -151,10 +151,12 @@ export class PlanMain extends React.Component <any, any> {
     if(newProps) {
       planId = newProps.location.query.planId
     }
+    let blockMsg;
     dispatch(startLoad())
     loadPlan(planId).then(res => {
       dispatch(endLoad())
       let { code, msg } = res
+      blockMsg = msg
       if(code === 200) {
         if(msg !== null) {
           // 是否是限免小课
@@ -187,7 +189,7 @@ export class PlanMain extends React.Component <any, any> {
       let completePracticePlanId = this.props.CompleteChapterPracticePlanId
       // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {
-        loadChapterCardAccess(this.state.planData.problemId, completePracticePlanId).then(res => {
+        loadChapterCardAccess(blockMsg.problemId, completePracticePlanId).then(res => {
           if(res.code === 200) {
             if(res.msg) {
               this.setState({ displayCard: true }, () => {
@@ -196,7 +198,6 @@ export class PlanMain extends React.Component <any, any> {
               })
               let waitingNode = document.getElementById("printer-waiting")
               if(waitingNode) {
-                // clearInterval(printerWaitingTimer)
                 printerWaitingTimer = setInterval(() => {
                   waitingNode.style.opacity = 1
                   setTimeout(() => {
@@ -206,8 +207,10 @@ export class PlanMain extends React.Component <any, any> {
               }
             }
           }
+        }).catch(e => {
+          dispatch(alertMsg(e))
         })
-        loadChapterCard(this.state.planData.problemId, completePracticePlanId).then(res => {
+        loadChapterCard(blockMsg.problemId, completePracticePlanId).then(res => {
           if(res.code === 200) {
             dispatch(set("CompleteChapterPracticePlanId", undefined))
             this.setState({ cardUrl: res.msg }, () => {
@@ -474,14 +477,11 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goCardsCollection(problemId) {
-    // TODO 删除
-    const {dispatch} = this.props
-    dispatch(alertMsg("敬请期待"))
-    // mark({ module: "打点", function: "首页", action: "打开小课卡包", memo: problemId });
-    // this.context.router.push({
-    //   pathname: '/rise/static/problem/cards',
-    //   query: { planId: this.props.location.query.planId }
-    // })
+    mark({ module: "打点", function: "首页", action: "打开小课卡包", memo: problemId });
+    this.context.router.push({
+      pathname: '/rise/static/problem/cards',
+      query: { planId: this.props.location.query.planId }
+    })
   }
 
   goReport() {
@@ -875,8 +875,6 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     const renderCard = () => {
-      // TODO
-      return ;
       let { cardUrl, displayCard, riseMember} = this.state;
       let problemId = get(planData, 'problem.id');
       const renderCardBody = () => {
@@ -932,8 +930,6 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
 
-      // TODO
-      // displayCard = true
       if(displayCard) {
         return (
           <div className="chapter-card-container">
