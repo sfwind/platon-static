@@ -52,10 +52,10 @@ import CardsCollection from "./modules/problem/CardsCollection";
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={() => {
-      if(window.ENV.osName !== 'ios'){
+      {/*if(window.ENV.osName !== 'ios'){*/}
         // ios不需要每个页面都刷
         config(['chooseWXPay']);
-      }
+      {/*}*/}
     }}>
       <Route path="welcome" component={Welcome}/>
       <Route path="problem/explore" component={Explore}/>

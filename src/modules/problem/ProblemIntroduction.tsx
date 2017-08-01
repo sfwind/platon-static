@@ -605,7 +605,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             }
             case 5:case 6: {
               list.push(
-                <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
+                <div className="button-footer trial_pay" onClick={()=>this.handleClickChooseProblem()}>
                   <div>
                     <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" /><span style={{    fontWeight: 'bolder'}}>限时免费，立即开始学习</span>
                   </div>
