@@ -452,7 +452,7 @@ export class Main extends React.Component <any, any> {
                     this.props.dispatch(endLoad())
                   }}
                   defaultValue={this.state.editorValue}
-                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就有就会得到点赞和专业点评哦！"
+                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
                   autoSave={(value) => {
                     this.autoSave(value)
                   }}
