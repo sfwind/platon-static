@@ -16,6 +16,7 @@ import Tutorial from "../../../components/Tutorial"
 import Editor from "../../../components/editor/Editor";
 import { mark } from "../../../utils/request"
 import { scroll } from "../../../utils/helpers"
+import { preview } from "../../helpers/JsConfig"
 
 let timer;
 
@@ -424,6 +425,11 @@ export class Main extends React.Component <any, any> {
                 <AssetImg type="app" size={15}/><span>今日应用</span>
               </div>
               <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
+              <div className="app-image">
+                <AssetImg url={pic} width={'80%'} style={{margin:'0 auto'}} onClick={()=>{
+                  preview(pic,[pic]);
+                }}/>
+              </div>
               {integrated == 'false' ?
                 <div className="knowledge-link"
                      onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>

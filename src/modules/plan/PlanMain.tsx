@@ -467,7 +467,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   essenceShare(problemId, series) {
-    mark({ module: "打点", function: "首页", action: "打开小课论坛", memo: "首页" })
+    mark({ module: "打点", function: "首页", action: "打开延伸学习", memo: "首页" })
     this.context.router.push({ pathname: '/rise/static/problem/extension', query: { problemId: problemId, series } })
   }
 
