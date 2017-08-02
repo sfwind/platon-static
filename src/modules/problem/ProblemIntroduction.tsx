@@ -14,7 +14,7 @@ import { merge,isNumber,isObjectLike,toLower,get } from "lodash";
 const { Alert } = Dialog
 const numeral = require('numeral');
 import { config,pay } from "../helpers/JsConfig"
-
+import { mark } from "../../utils/request"
 const FREE_PROBLEM_ID = 9
 
 @connect(state => state)
@@ -68,6 +68,12 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   componentWillMount() {
     const {dispatch, location} = this.props
     const {id} = location.query
+    mark({
+      module: "打点",
+      function: "打开页面",
+      action: "打开小课介绍页",
+      memo: id
+    });
     dispatch(startLoad())
     openProblemIntroduction(id).then(res => {
       const {msg, code} = res
