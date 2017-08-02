@@ -376,16 +376,15 @@
     }
     > .left {
       display: inline-block;
-      width: ~"calc(50% - 1px)";
+      width: 100%;
       border-right: 1px solid white;
-      background: #FFF;
-      color: #E78846;
+      background: #F57F16;
+      color: #FFF;
       height: 50px;
       &.disabled {
         background: #cccccc;
       }
       &.pay {
-        width: ~"calc(61.8% - 1px)";
         float: left;
       }
       img {
@@ -396,15 +395,12 @@
     }
     > .right {
       display: inline-block;
-      width: 50%;
+      width: 0;
       background: #F57F16;
       color: #FFF;
       height: 50px;
       &.disabled {
         background: #cccccc;
-      }
-      &.pay {
-        width: 38.2%;
       }
       img {
         margin-right: 12px;

@@ -561,13 +561,14 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               list.push(
                 <div className="button-footer">
                   <div className={`left pay`} onClick={()=>this.handleClickPayImmediately(coupons.length)}>
-                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_shop.png?imageslim" size={20}/>
                     ¥ {fee}，立即学习
                   </div>
-                  <div className={`right pay`} onClick={()=>this.handleClickPayMember()}>
-                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond.png?imageslim" width={20} height={18}/>
-                    6折买课
-                  </div>
+                  {/*暂时去除*/}
+                  {/*<AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_shop.png?imageslim" size={20}/>*/}
+                  {/*<div className={`right pay`} onClick={()=>this.handleClickPayMember()}>*/}
+                    {/*<AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond.png?imageslim" width={20} height={18}/>*/}
+                    {/*6折买课*/}
+                  {/*</div>*/}
                 </div>
               );
               return list;
