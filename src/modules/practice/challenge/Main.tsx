@@ -157,7 +157,7 @@ export class Main extends React.Component <any, any> {
                   <div className="editor">
                     <Editor ref="editor" moduleId={3} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}}
                             uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={content}
-                            placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就有就会得到点赞和专业点评哦！"/>
+                            placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"/>
                   </div>: null}
             </div>
           </div>

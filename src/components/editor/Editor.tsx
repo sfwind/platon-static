@@ -140,7 +140,9 @@ export default class Editor extends React.Component<any, any> {
              }
              if(scrollContainer){
                if(window.navigator.userAgent.indexOf("Android") > 0) {
-                 document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
+                 if(document.querySelector(".publish-article-content")) {
+                   document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
+                 }
                }
              }
            }}

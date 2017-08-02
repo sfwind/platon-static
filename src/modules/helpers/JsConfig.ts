@@ -2,9 +2,9 @@ import { pget,mark } from "utils/request"
 import * as _ from "lodash"
 
 export function config(apiList,callback) {
-  if(!window.ENV.configUrl && !callback){
-    return;
-  }
+  // if(!window.ENV.configUrl && !callback){
+  //   return;
+  // }
   if(callback && !window.ENV.configUrl){
     mark({
       module: "JSSDK",
@@ -12,10 +12,13 @@ export function config(apiList,callback) {
       action: "签名失败",
       memo: "有回调但是没有configUrl"
     });
+    if(_.isFunction(callback)){
+      callback();
+    }
     return;
   }
   if(window.ENV.osName === 'ios'){
-    pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl)}`).then(res => {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.ENV.configUrl?window.ENV.configUrl:window.location.href)}`).then(res => {
       window.ENV.wxConfig = res.msg;
       if (res.code === 200) {
         wx.config(_.merge({

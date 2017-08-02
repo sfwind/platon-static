@@ -96,7 +96,7 @@ export class Explore extends React.Component<any,any>{
               <img src={'https://static.iqycamp.com/images/problem_explore_banner_1_2.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(2)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_2_2.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
+              <img src={'https://static.iqycamp.com/images/problem_explore_banner_2_3.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
             </div>
             <div className="banner-item swiper-slide" onClick={()=>this.goBanner(3)}>
               <img src={'https://static.iqycamp.com/images/problem_explore_banner_3_2.jpg?imageslim'} style={{width:'auto',height:'100%'}}/>
