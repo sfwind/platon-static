@@ -2,6 +2,7 @@
 
 .application {
   height: ~"calc(100% + 1px)";
+
   .intro-container {
     overflow: auto;
     .application-context {
@@ -42,6 +43,7 @@
       margin-top: 15px;
     }
   }
+
   .work-container{
     margin-top: 15px;
     .submit-bar {
@@ -94,6 +96,29 @@
       background-image: url(https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim);
     }
   }
+
+  .complete-box {
+    background-image: url("https://static.iqycamp.com/images/fragment/application_waiting_award_2.png");
+    background-size: 100% 100%;
+    width: 310px;
+    height: 242px;
+    position: absolute;
+    top: 180px;
+    left: 32px;
+
+    &.complete {
+      background-image: url("https://static.iqycamp.com/images/fragment/application_complete_award.png");
+    }
+
+    .complete-tip-content {
+      position: relative;
+      top: 110px;
+      padding: 0 20px;
+      font-size: 1.4em;
+      color: #333;
+    }
+  }
+
 }
 
 .main-toast {

@@ -12,8 +12,8 @@ export function loadApplicationPractice(id, planId) {
   return pget(`/rise/practice/application/start/${id}`, param)
 }
 
-export function loadCompletedApplication(planId) {
-  return pget(`/rise/practice/application/completed/${planId}`)
+export function isRiseMember() {
+  return pget('/rise/plan/risemember');
 }
 
 export function submitApplicationPractice(planId, applicationId, params) {
