@@ -327,6 +327,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         if(couponCnt === 0) {
           this.handleClickRiseCoursePay()
           return
+        } else {
+          this.setState({showPayInfo: true});
         }
       } else {
         dispatch(alertMsg(res.msg))
