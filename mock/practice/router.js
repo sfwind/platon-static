@@ -160,26 +160,9 @@ router.get("/rise/practice/next/*", (req, res) => {
 
 router.get("/rise/practice/application/start/*", (req, res) => {
 	setTimeout(() =>
-		res.status(200).json({
-			"code": 200,
-			"msg": {
-				"id": 1,
-				"description": "balbal",
-                "topic":"应用练习题1",
-				"pic": "http://www.iquanwai.com/images/cintro1.png",
-				"knowledgeId": 1,
-				"sceneId": 1,
-				"difficulty": null,
-                "content": null,
-                "submitId": 1, //提交id
-                "submitUpdateTime": "2017-02-15" ,//最后提交时间
-                "voteCount": 0,
-                "commentCount": 0,
-                "voteStatus": 0,
-                "requestCommentCount":2,
-                "draft":"hahaha",
-			}
-		}), Math.random() * 1500)
+		res.status(200).json(
+      {"msg":{"id":315,"topic":"盘点自己的能力","description":"请按照圈圈的个体势能模型（详见下表），针对每项能力，进行1-5分打分。<br/>评分标准：1分代表完全不具备，5分代表非常拔尖，3分代表能够适当地运用该能力，2和4介于之间。<br/><br/>打分后，总结一下自己的优势能力（4-5分）和弱势能力（1-2分）。","knowledgeId":104,"sceneId":1,"difficulty":3,"problemId":20,"sequence":1,"del":false,"practiceUid":"TT020F006B004Y01001","pic":"https://www.iqycamp.com/images/application315.png","content":null,"submitId":null,"submitUpdateTime":null,"voteCount":0,"commentCount":0,"voteStatus":0,"picList":null,"planId":10628,"requestCommentCount":null,"request":null,"feedback":null,"draft":null,"draftId":null},"code":200}
+    ), Math.random() * 1500)
 });
 
 router.get("/rise/practice/challenge/start/*", (req, res) => {
