@@ -63,7 +63,6 @@ export function calculateCoupon(couponId,problemId){
 
 export function loadUserCoupons(){
   return pget(`/signup/coupon/list`);
-  // return Promise.resolve({code:200,msg:[]});
 }
 
 export function loadPayParam(param){
@@ -76,4 +75,8 @@ export function afterPayDone(productId){
 
 export function logPay(functionValue,type,param){
   pget(`/signup/mark/pay/${functionValue}/${type}${param?'?param='+param:''}`);
+}
+
+export function sendCustomerMsg(){
+  return ppost(`/operation/free/choose/problem/msg`);
 }

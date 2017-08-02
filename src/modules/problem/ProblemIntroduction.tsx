@@ -4,10 +4,11 @@ import "./ProblemIntroduction.less"
 import Audio from "../../components/Audio";
 import AssetImg from "../../components/AssetImg";
 import PayInfo from "./components/PayInfo";
+import Toast from "../../components/Toast";
 import {startLoad, endLoad, alertMsg} from "redux/actions";
 import {
   openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon
+  calculateCoupon, sendCustomerMsg
 } from "./async";
 import { Toast, Dialog } from "react-weui";
 import { merge,isNumber,isObjectLike,toLower,get } from "lodash";
@@ -33,6 +34,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       showConfirm: false,
       showTip: false,
       tipMsg: "",
+      showToast:false,
       alert: {
         buttons: [
           {
@@ -67,8 +69,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
 
   componentWillMount() {
     const {dispatch, location} = this.props
-    const {id} = location.query
-    dispatch(startLoad())
+    const {id} = location.query;
+    // dispatch(startLoad())
     openProblemIntroduction(id).then(res => {
       const {msg, code} = res
       if (code === 200) {
@@ -92,8 +94,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         return Promise.reject(msg);
       }
     }).then(problemMsg => {
-      return loadUserCoupons().then(res => {
-        dispatch(endLoad())
+      loadUserCoupons().then(res => {
+        // dispatch(endLoad())
         const {msg} = res;
         if (res.code === 200) {
           this.setState({
@@ -117,15 +119,39 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           });
           dispatch(alertMsg(msg));
         }
+        return res.msg;
       })
     }, reason => {
-      dispatch(endLoad())
+      // dispatch(endLoad())
       if(reason!=='refresh'){
         dispatch(alertMsg(reason));
       }
     }).catch(ex => {
-      dispatch(endLoad())
+      // dispatch(endLoad())
       dispatch(alertMsg(ex));
+    }).then( res =>{
+      const {free} = location.query;
+      // 限免活动，进入页面直接创建训练
+      if(free){
+        checkCreatePlan(this.props.location.query.id, buttonStatus).then(res => {
+          // dispatch(endLoad());
+          if (res.code === 202) {
+            this.setState({showConfirm: true, confirmMsg: res.msg});
+          } else if (res.code === 201 || res.code === 200) {
+            createPlan(location.query.id).then(res => {
+              if(res.code === 200){
+                this.setState({showToast:true});
+                sendCustomerMsg();
+              }
+            })
+          } else {
+            dispatch(alertMsg(res.msg))
+          }
+        }).catch(ex=>{
+          // dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        })
+      }
     })
 
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350));
@@ -607,7 +633,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               list.push(
                 <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
                   <div>
-                    <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" /><span style={{    fontWeight: 'bolder'}}>限时免费，立即开始学习</span>
+                    <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" />
+                    <span style={{    fontWeight: 'bolder'}}>下一步</span>
                   </div>
                 </div>
               );
@@ -717,101 +744,105 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     }
 
     return (
-      <div className="problem-introduction">
-        <div className="pi-header" style={{height:`${this.picHeight}px`}}>
-          <img className="pi-h-bg" src={`${pic}`}/>
-          <div className="pi-h-body">
-            <div className="pi-h-b-icon"><AssetImg
-              url="https://static.iqycamp.com/images/rise_icon_problem_introduction.png?imageslim" size={37}/></div>
-            <div className="pi-h-b-title left">{problem}</div>
-            <div className="pi-h-b-content left">{renderCatalogName(catalog, subCatalog)}</div>
-            <div className="pi-h-b-content left bottom">{`难度系数：${numeral(difficultyScore).format('0.0')}/5.0`}</div>
-          </div>
-        </div>
-        <div className="pi-content">
-          <div className="pi-c-foreword white-content">
-            <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
-            <div className="pi-c-f-content">
-              { audio ? <div className="context-audio">
-                <Audio url={audio}/>
-              </div> : null }
-              <div>
-                <pre className="pi-c-f-c-text">{why}</pre>
-              </div>
-            </div>
-
-          </div>
-          <div className="pi-c-man white-content mg-25">
-            <Header icon="rise_icon_man" title="适合人群" width={18}/>
-            <div className="pi-c-m-content">
-              {renderWho(who)}
+        <div className="problem-introduction">
+          <div className="pi-header" style={{height:`${this.picHeight}px`}}>
+            <img className="pi-h-bg" src={`${pic}`}/>
+            <div className="pi-h-body">
+              <div className="pi-h-b-icon"><AssetImg
+                  url="https://static.iqycamp.com/images/rise_icon_problem_introduction.png?imageslim" size={37}/></div>
+              <div className="pi-h-b-title left">{problem}</div>
+              <div className="pi-h-b-content left">{renderCatalogName(catalog, subCatalog)}</div>
+              <div className="pi-h-b-content left bottom">{`难度系数：${numeral(difficultyScore).format('0.0')}/5.0`}</div>
             </div>
           </div>
-          <div className="pi-c-author white-content mg-25">
-            <Header icon="rise_icon_head" title="讲师介绍" width={26} height={16} lineHeight={"12px"}/>
-            <AssetImg width={'100%'} url={authorPic}/>
-          </div>
-
-          {/*报名须知*/}
-          <div className="pi-c-pay-info white-content mg-25">
-            <Header icon="rise_icon_pay_info" title="报名须知" width={24}/>
-            <div className="pi-c-pay-content">
-              {renderPayMessage()}
-            </div>
-          </div>
-          <div className="pi-c-system white-content mg-25">
-            <Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={"12px"} height={17}/>
-            <div className="pi-c-s-content">
-              <pre className="pi-c-s-text" dangerouslySetInnerHTML={{__html:how}}/>
-              <AssetImg width={'100%'} url={descPic} marginTop={"15px"}/>
-            </div>
-          </div>
-          <div className="pi-c-learn white-content mg-25">
-            <Header icon="rise_icon_book" title="学习大纲"/>
-            <div className="pi-c-l-content">
-              {what ?<pre className="pi-c-text" dangerouslySetInnerHTML={{__html:what}}/> : null}
-              <div
-                className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
-            </div>
-          </div>
-          <div className="pi-c-ability white-content mg-25">
-            <Header icon="rise_icon_ability" title="能力项" marginLeft={"-1em"}/>
-            <div className="pi-c-a-content">
-              <div className="text" dangerouslySetInnerHTML={{__html:"在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为："}}></div>
-              <div className="pi-c-a-c-module"
-                   onClick={()=>window.location.href='https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>
-                <div className="pi-c-a-c-m-rise">【圈外】</div>
-                <div className="pi-c-a-c-m-text">
-                  个人势能模型
+          <div className="pi-content">
+            <div className="pi-c-foreword white-content">
+              <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
+              <div className="pi-c-f-content">
+                { audio ? <div className="context-audio">
+                      <Audio url={audio}/>
+                    </div> : null }
+                <div>
+                  <pre className="pi-c-f-c-text">{why}</pre>
                 </div>
               </div>
-              <AssetImg width={'100%'} url={categoryPic} marginTop="10"/>
+
+            </div>
+            <div className="pi-c-man white-content mg-25">
+              <Header icon="rise_icon_man" title="适合人群" width={18}/>
+              <div className="pi-c-m-content">
+                {renderWho(who)}
+              </div>
+            </div>
+            <div className="pi-c-author white-content mg-25">
+              <Header icon="rise_icon_head" title="讲师介绍" width={26} height={16} lineHeight={"12px"}/>
+              <AssetImg width={'100%'} url={authorPic}/>
+            </div>
+
+            {/*报名须知*/}
+            <div className="pi-c-pay-info white-content mg-25">
+              <Header icon="rise_icon_pay_info" title="报名须知" width={24}/>
+              <div className="pi-c-pay-content">
+                {renderPayMessage()}
+              </div>
+            </div>
+            <div className="pi-c-system white-content mg-25">
+              <Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={"12px"} height={17}/>
+              <div className="pi-c-s-content">
+                <pre className="pi-c-s-text" dangerouslySetInnerHTML={{__html:how}}/>
+                <AssetImg width={'100%'} url={descPic} marginTop={"15px"}/>
+              </div>
+            </div>
+            <div className="pi-c-learn white-content mg-25">
+              <Header icon="rise_icon_book" title="学习大纲"/>
+              <div className="pi-c-l-content">
+                {what ?<pre className="pi-c-text" dangerouslySetInnerHTML={{__html:what}}/> : null}
+                <div
+                    className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
+              </div>
+            </div>
+            <div className="pi-c-ability white-content mg-25">
+              <Header icon="rise_icon_ability" title="能力项" marginLeft={"-1em"}/>
+              <div className="pi-c-a-content">
+                <div className="text" dangerouslySetInnerHTML={{__html:"在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为："}}></div>
+                <div className="pi-c-a-c-module"
+                     onClick={()=>window.location.href='https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>
+                  <div className="pi-c-a-c-m-rise">【圈外】</div>
+                  <div className="pi-c-a-c-m-text">
+                    个人势能模型
+                  </div>
+                </div>
+                <AssetImg width={'100%'} url={categoryPic} marginTop="10"/>
+              </div>
             </div>
           </div>
+          {renderFooter()}
+
+          <Alert { ...this.state.alert }
+              show={this.state.showAlert}>
+            <div className="global-pre">{this.state.tipMsg}</div>
+          </Alert>
+          <Alert { ...this.state.confirm } show={this.state.showConfirm}>
+            <div className="global-pre">{this.state.confirmMsg}</div>
+          </Alert>
+          <Toast show={this.state.show} timeout={2000} height={220} width={200} top={220}>
+            <AssetImg type="success" width={60} style={{marginTop:60}}/>
+            <div className="toast-text">领取成功，点击下一步学习吧</div>
+          </Toast>
+          {showErr?<div className="error-mask" onClick={()=>this.setState({showErr:false})}>
+                <div className="tips">
+                  出现问题的童鞋看这里<br/>
+                  1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
+                  2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+                </div>
+                <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+              </div>:null}
+
+          {renderPayInfo()}
+
+          {showPayInfo ?<div className="mask"></div>: null}
+
         </div>
-        {renderFooter()}
-
-        <Alert { ...this.state.alert }
-          show={this.state.showAlert}>
-          <div className="global-pre">{this.state.tipMsg}</div>
-        </Alert>
-        <Alert { ...this.state.confirm } show={this.state.showConfirm}>
-          <div className="global-pre">{this.state.confirmMsg}</div>
-        </Alert>
-        {showErr?<div className="error-mask" onClick={()=>this.setState({showErr:false})}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/>
-            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
-            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-          </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div>:null}
-
-        {renderPayInfo()}
-
-        {showPayInfo ?<div className="mask"></div>: null}
-
-      </div>
     );
   }
 };
