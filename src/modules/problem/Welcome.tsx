@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './Welcome.less'
-import { mark, welcome } from "./async";
+import { mark, welcome } from './async'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 
@@ -9,6 +9,9 @@ export default class Welcome extends React.Component<any, any> {
 
   constructor() {
     super()
+    this.state = {
+      showPage: false
+    }
   }
 
   static contextTypes = {
@@ -16,16 +19,17 @@ export default class Welcome extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "付费相关", action: "打开", memo: "欢迎页" });
+    mark({ module: '打点', function: '付费相关', action: '打开', memo: '欢迎页' })
     const { dispatch } = this.props
     dispatch(startLoad())
     welcome().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         if(res.code === 200 && res.msg) {
-          this.context.router.push("/rise/static/problem/explore")
+          this.context.router.push('/rise/static/problem/explore')
         }
       } else {
+        this.setState({ showPage: true })
         dispatch(alertMsg(res.msg))
       }
     }).catch(e => {
@@ -34,13 +38,13 @@ export default class Welcome extends React.Component<any, any> {
   }
 
   handleClickGoTrailPage() {
-    mark({ module: "打点", function: "付费相关", action: "点击试用版", memo: "欢迎页" }).then(() => {
+    mark({ module: '打点', function: '付费相关', action: '点击试用版', memo: '欢迎页' }).then(() => {
       this.context.router.push('/rise/static/plan/view?id=9')
     })
   }
 
   handleClickGoExplorePage() {
-    mark({ module: "打点", function: "正式版本点击", action: "进入发现页面", memo: "欢迎页" }).then(() => {
+    mark({ module: '打点', function: '正式版本点击', action: '进入发现页面', memo: '欢迎页' }).then(() => {
       this.context.router.push(`/rise/static/problem/explore`)
     }).catch(() => {
       this.context.router.push(`/rise/static/problem/explore`)
@@ -48,7 +52,7 @@ export default class Welcome extends React.Component<any, any> {
   }
 
   handleClickGoPayPage() {
-    mark({ module: "打点", function: "付费相关", action: "点击成为RISER", memo: "欢迎页" }).then(() => {
+    mark({ module: '打点', function: '付费相关', action: '点击成为RISER', memo: '欢迎页' }).then(() => {
       window.location.href = `https://${window.location.hostname}/pay/pay`
     }).catch(() => {
       window.location.href = `https://${window.location.hostname}/pay/pay`
@@ -56,7 +60,10 @@ export default class Welcome extends React.Component<any, any> {
   }
 
   render() {
-    return (
+    const { showPage } = this.state
+    if(!showPage) {
+      return <div/>
+    } else {
       <div className="welcome-container"
            style={{ minHeight: (window.innerWidth / 375) * 667 - 50 }}>
         <div className="welcome-page">
@@ -66,7 +73,7 @@ export default class Welcome extends React.Component<any, any> {
           </div>
         </div>
       </div>
-    )
+    }
   }
 
 }
