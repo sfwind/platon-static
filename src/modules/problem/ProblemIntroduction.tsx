@@ -95,7 +95,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       }
     }).then(problemMsg => {
       loadUserCoupons().then(res => {
-        // dispatch(endLoad())
+        dispatch(endLoad())
         const {msg} = res;
         if (res.code === 200) {
           this.setState({
@@ -122,12 +122,12 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         return res.msg;
       })
     }, reason => {
-      // dispatch(endLoad())
+      dispatch(endLoad())
       if(reason!=='refresh'){
         dispatch(alertMsg(reason));
       }
     }).catch(ex => {
-      // dispatch(endLoad())
+      dispatch(endLoad())
       dispatch(alertMsg(ex));
     }).then( res =>{
       const {free} = location.query;
@@ -148,7 +148,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             dispatch(alertMsg(res.msg))
           }
         }).catch(ex=>{
-          // dispatch(endLoad());
+          dispatch(endLoad());
           dispatch(alertMsg(ex));
         })
       }
@@ -227,6 +227,13 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   handleClickConfirm() {
     const { currentPlanId } = this.state;
     this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:currentPlanId}});
+  }
+
+  /**
+   * 点击选择小课按钮
+   */
+  handleClickFreeProblem() {
+    this.context.router.push({pathname:'/rise/static/learn'});
   }
 
   /**
@@ -629,17 +636,27 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               );
               return list;
             }
-            case 5:case 6: {
+            case 5: {
               list.push(
-                <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
+                <div className="button-footer" onClick={()=>this.handleClickFreeProblem()}>
                   <div>
-                    <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" />
                     <span style={{    fontWeight: 'bolder'}}>下一步</span>
                   </div>
                 </div>
               );
               return list;
             }
+            case 6: {
+            list.push(
+                <div className="button-footer" onClick={()=>this.handleClickChooseProblem()}>
+                  <div>
+                    <AssetImg size="24px" style={{verticalAlign: 'middle',marginRight:'10px',marginTop:'-2px'}} type="rise_icon_trial_pay" />
+                    <span style={{    fontWeight: 'bolder'}}>限时免费，立即开始学习</span>
+                  </div>
+                </div>
+            );
+            return list;
+          }
             default:
               return null;
           }
@@ -746,7 +763,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     return (
         <div className="problem-introduction">
           <div className="pi-header" style={{height:`${this.picHeight}px`}}>
-            <img className="pi-h-bg" src={`${pic}`}/>
+            <AssetImg url={pic} height={'100%'} style={{position: 'absolute'}}/>
             <div className="pi-h-body">
               <div className="pi-h-b-icon"><AssetImg
                   url="https://static.iqycamp.com/images/rise_icon_problem_introduction.png?imageslim" size={37}/></div>
@@ -825,9 +842,10 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           <Alert { ...this.state.confirm } show={this.state.showConfirm}>
             <div className="global-pre">{this.state.confirmMsg}</div>
           </Alert>
-          <Toast show={this.state.show} timeout={2000} height={220} width={200} top={220}>
+          <Toast show={this.state.show} timeout={4000} height={220} width={200} top={220}>
             <AssetImg type="success" width={60} style={{marginTop:60}}/>
-            <div className="toast-text">领取成功，点击下一步学习吧</div>
+            <div className="toast-text">领取成功</div>
+            <div className="toast-text">点击下一步学习吧</div>
           </Toast>
           {showErr?<div className="error-mask" onClick={()=>this.setState({showErr:false})}>
                 <div className="tips">
