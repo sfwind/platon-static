@@ -1,25 +1,25 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import "./Main.less";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import './Main.less'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft, loadOtherListBatch
-} from "./async";
-import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
-import AssetImg from "../../../components/AssetImg";
-import _ from "lodash";
-import Work from "../components/NewWork"
+  autoUpdateApplicationDraft, loadOtherListBatch, loadCompletedApplication
+} from './async'
+import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
+import AssetImg from '../../../components/AssetImg'
+import _ from 'lodash'
+import Work from '../components/NewWork'
 import PullElement from 'pull-element'
-import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from "lodash";
-import Tutorial from "../../../components/Tutorial"
-import Editor from "../../../components/editor/Editor";
-import { mark } from "../../../utils/request"
-import { scroll } from "../../../utils/helpers"
+import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
+import Tutorial from '../../../components/Tutorial'
+import Editor from '../../../components/editor/Editor'
+import { mark } from '../../../utils/request'
+import { scroll } from '../../../utils/helpers'
 
-let timer;
+let timer
 
-const APPLICATION_AUTO_SAVING = 'rise_application_autosaving';
+const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -39,19 +39,19 @@ export class Main extends React.Component <any, any> {
       draftId: -1,
       draft: '',
       showDraftToast: false,
-      loading: false,
-    };
-    this.pullElement = null;
+      loading: false
+    }
+    this.pullElement = null
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  };
+  }
 
   componentDidUpdate() {
     if(!this.pullElement) {
       // 有内容并且米有pullElement
-      const { dispatch } = this.props;
+      const { dispatch } = this.props
       this.pullElement = new PullElement({
         target: '.container',
         scroller: '.container',
@@ -62,7 +62,7 @@ export class Main extends React.Component <any, any> {
         onPullUp: (data) => {
           if(this.props.iNoBounce) {
             if(this.props.iNoBounce.isEnabled()) {
-              this.props.iNoBounce.disable();
+              this.props.iNoBounce.disable()
             }
           }
           this.setState({ loading: true })
@@ -73,93 +73,93 @@ export class Main extends React.Component <any, any> {
               this.setState({ loading: false })
               if(res.msg && res.msg.list && res.msg.list.length !== 0) {
                 remove(res.msg.list, (item) => {
-                  return findIndex(this.state.otherList, item) !== -1;
+                  return findIndex(this.state.otherList, item) !== -1
                 })
                 this.setState({
                   otherList: this.state.otherList.concat(res.msg.list),
                   page: this.state.page + 1,
                   end: res.msg.end
-                });
+                })
               } else {
-                this.setState({ end: res.msg.end });
+                this.setState({ end: res.msg.end })
               }
             } else {
-              dispatch(alertMsg(res.msg));
+              dispatch(alertMsg(res.msg))
             }
           }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
+            dispatch(alertMsg(ex))
+          })
           if(this.props.iNoBounce) {
             if(!this.props.iNoBounce.isEnabled()) {
-              this.props.iNoBounce.enable();
+              this.props.iNoBounce.enable()
             }
           }
         }
-      });
-      this.pullElement.init();
+      })
+      this.pullElement.init()
     }
     if(this.pullElement) {
       if(this.state.end) {
-        this.pullElement.disable();
+        this.pullElement.disable()
       } else {
-        this.pullElement.enable();
+        this.pullElement.enable()
       }
     }
   }
 
   componentWillUnmount() {
-    this.pullElement ? this.pullElement.destroy() : null;
-    clearInterval(timer);
+    this.pullElement ? this.pullElement.destroy() : null
+    clearInterval(timer)
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "学习", action: "打开应用题页" });
-    const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props;
-    const { integrated, id, planId } = location.query;
-    this.setState({ integrated });
+    mark({ module: '打点', function: '学习', action: '打开应用题页' })
+    const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props
+    const { integrated, id, planId } = location.query
+    this.setState({ integrated })
 
-    dispatch(startLoad());
+    dispatch(startLoad())
     loadApplicationPractice(id, planId).then(res => {
-      const { code, msg } = res;
+      const { code, msg } = res
       if(code === 200) {
         if(res.msg.draftId) {
           this.setState({ draftId: res.msg.draftId })
         }
-        let draft = msg.draft;
-        let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING));
+        let draft = msg.draft
+        let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
         //保存上次未自动保存的草稿
         if(storageDraft && id == storageDraft.id) {
-          draft = storageDraft.content;
+          draft = storageDraft.content
           if(!msg.draftId) {
             if(planId) {
               autoSaveApplicationDraft(planId, id).then(res => {
                 if(res.code === 200) {
-                  this.clearStorage();
-                  this.setState({ draftId: res.msg });
-                  autoUpdateApplicationDraft(res.msg, { draft });
+                  this.clearStorage()
+                  this.setState({ draftId: res.msg })
+                  autoUpdateApplicationDraft(res.msg, { draft })
                 }
               })
             }
           } else {
-            autoUpdateApplicationDraft(msg.draftId, { draft });
-            this.clearStorage();
+            autoUpdateApplicationDraft(msg.draftId, { draft })
+            this.clearStorage()
           }
         }
         this.setState({
           data: msg, submitId: msg.submitId, planId: msg.planId, draft: draft,
           editorValue: msg.content == null ? draft : msg.content
-        });
-        const isSubmitted = res.msg.content != null;
+        })
+        const isSubmitted = res.msg.content != null
         //如果已经提交，则不启动自动保存
         if(!isSubmitted) {
-          this.autoSaveApplicationDraft();
+          this.autoSaveApplicationDraft()
         }
-        dispatch(endLoad());
+        dispatch(endLoad())
 
-        const { content } = msg;
+        const { content } = msg
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
-            const { code, msg } = res;
+            const { code, msg } = res
             if(code === 200) {
               this.setState({ knowledge: msg })
             } else {
@@ -171,7 +171,7 @@ export class Main extends React.Component <any, any> {
         if(content !== null) {
           if(isUndefined(otherApplicationPracticeSubmitId) || id != applicationId) {
             let node = this.refs.submitBar
-            if(node) this.refs.submitBar.scrollTop = 0;
+            if(node) this.refs.submitBar.scrollTop = 0
           }
           this.setState({ edit: false })
         }
@@ -181,57 +181,57 @@ export class Main extends React.Component <any, any> {
 
       // 自动加载其它同学的作业
       if(otherApplicationPracticeSubmitId && id == applicationId) {
-        this.others();
+        this.others()
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
 
     getOpenStatus().then(res => {
       if(res.code === 200) {
-        this.setState({ openStatus: res.msg });
+        this.setState({ openStatus: res.msg })
       }
-    });
+    })
   }
 
   componentWillUnmount() {
-    this.pullElement ? this.pullElement.destroy() : null;
+    this.pullElement ? this.pullElement.destroy() : null
     clearInterval(timer)
   }
 
   autoSave(value) {
     if(value && value !== this.state.data.content) {
       window.localStorage.setItem(APPLICATION_AUTO_SAVING,
-        JSON.stringify({ id: this.props.location.query.id, content: value }));
+        JSON.stringify({ id: this.props.location.query.id, content: value }))
     }
   }
 
   clearStorage() {
-    window.localStorage.removeItem(APPLICATION_AUTO_SAVING);
+    window.localStorage.removeItem(APPLICATION_AUTO_SAVING)
   }
 
   // 定时保存方法
   autoSaveApplicationDraft() {
     timer = setInterval(() => {
-      const draft = this.refs.editor.getValue();
+      const draft = this.refs.editor.getValue()
       if(draft.trim().length > 0) {
         if(this.state.draftId === -1) {
-          const planId = this.state.planId;
-          const applicationId = this.props.location.query.id;
+          const planId = this.state.planId
+          const applicationId = this.props.location.query.id
           if(planId) {
             autoSaveApplicationDraft(planId, applicationId).then(res => {
-              this.clearStorage();
-              this.setState({ draftId: res.msg });
-              autoUpdateApplicationDraft(res.msg, { draft });
+              this.clearStorage()
+              this.setState({ draftId: res.msg })
+              autoUpdateApplicationDraft(res.msg, { draft })
             })
           }
         } else {
-          autoUpdateApplicationDraft(this.state.draftId, { draft });
-          this.clearStorage();
+          autoUpdateApplicationDraft(this.state.draftId, { draft })
+          this.clearStorage()
         }
       }
-    }, 10000);
+    }, 10000)
   }
 
   onEdit() {
@@ -239,12 +239,12 @@ export class Main extends React.Component <any, any> {
   }
 
   goComment(submitId) {
-    const { dispatch } = this.props;
-    dispatch(set('otherApplicationPracticeSubmitId', submitId));
-    dispatch(set('applicationId', this.props.location.query.id));
-    dispatch(set('articlePage', this.state.page));
+    const { dispatch } = this.props
+    dispatch(set('otherApplicationPracticeSubmitId', submitId))
+    dispatch(set('applicationId', this.props.location.query.id))
+    dispatch(set('articlePage', this.state.page))
     this.context.router.push({
-      pathname: "/rise/static/practice/application/comment",
+      pathname: '/rise/static/practice/application/comment',
       query: merge({ submitId: submitId }, this.props.location.query)
     })
   }
@@ -252,14 +252,14 @@ export class Main extends React.Component <any, any> {
   voted(id, voteStatus, voteCount, isMine, seq) {
     if(!voteStatus) {
       if(isMine) {
-        this.setState({ data: merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) });
+        this.setState({ data: merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) })
       } else {
-        let newOtherList = merge([], this.state.otherList);
+        let newOtherList = merge([], this.state.otherList)
         _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
-        _.set(newOtherList, `[${seq}].voteStatus`, 1);
+        _.set(newOtherList, `[${seq}].voteStatus`, 1)
         this.setState({ otherList: newOtherList })
       }
-      vote(id);
+      vote(id)
     } else {
     }
   }
@@ -284,10 +284,10 @@ export class Main extends React.Component <any, any> {
 
   others() {
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage } = this.props
-    dispatch(startLoad());
-    let page = 1;
+    dispatch(startLoad())
+    let page = 1
     if(articlePage) {
-      page = articlePage;
+      page = articlePage
     }
     loadOtherListBatch(location.query.id, page).then(res => {
       dispatch(endLoad())
@@ -298,37 +298,37 @@ export class Main extends React.Component <any, any> {
         }, () => {
           if(otherApplicationPracticeSubmitId && location.query.id == applicationId) {
             //锚定到上次看的练习
-            scroll('#app-' + otherApplicationPracticeSubmitId, '.container');
+            scroll('#app-' + otherApplicationPracticeSubmitId, '.container')
           }
 
-        });
+        })
       } else {
-        dispatch(alertMsg(res.msg));
+        dispatch(alertMsg(res.msg))
       }
     })
   }
 
   onSubmit() {
-    const { dispatch, location } = this.props;
-    const { data, planId } = this.state;
-    const answer = this.refs.editor.getValue();
-    const { complete, practicePlanId } = location.query;
+    const { dispatch, location } = this.props
+    const { data, planId } = this.state
+    const answer = this.refs.editor.getValue()
+    const { complete, practicePlanId } = location.query
     if(answer == null || answer.length === 0) {
-      dispatch(alertMsg('请填写作业'));
+      dispatch(alertMsg('请填写作业'))
       return
     }
-    this.setState({ showDisable: true });
+    this.setState({ showDisable: true })
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
-      dispatch(endLoad());
-      const { code, msg } = res;
+      dispatch(endLoad())
+      const { code, msg } = res
       if(code === 200) {
         if(complete == 'false') {
-          dispatch(set('completePracticePlanId', practicePlanId));
+          dispatch(set('completePracticePlanId', practicePlanId))
         }
-        dispatch(startLoad());
+        dispatch(startLoad())
         loadApplicationPractice(location.query.id, planId).then(res => {
           dispatch(endLoad())
-          const { code, msg } = res;
+          const { code, msg } = res
           if(code === 200) {
             this.setState({
               data: msg,
@@ -340,19 +340,25 @@ export class Main extends React.Component <any, any> {
           }
           else dispatch(alertMsg(msg))
         }).catch(ex => {
-          dispatch(endLoad());
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
+        })
+        loadCompletedApplication(planId).then(res => {
+          dispatch(endLoad())
+          console.log('已经完成数目', res)
+
+        }).catch(ex => {
+          dispatch(endLoad())
           dispatch(alertMsg(ex))
         })
         this.setState({ showDisable: false })
-      }
-
-      else {
-        dispatch(alertMsg(msg));
+      } else {
+        dispatch(alertMsg(msg))
         this.setState({ showDisable: false })
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
       this.setState({ showDisable: false })
     })
   }
@@ -413,7 +419,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div className="application">
-        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
+        <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
@@ -467,11 +473,9 @@ export class Main extends React.Component <any, any> {
         </div>
 
         { showDisable ?
-          <div className="button-footer disabled">提交中</div>
-          :
+          <div className="button-footer disabled">提交中</div> :
           edit ?
-            <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>
-            :
+            <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
             null
         }
       </div>

@@ -12,6 +12,10 @@ export function loadApplicationPractice(id, planId) {
   return pget(`/rise/practice/application/start/${id}`, param)
 }
 
+export function loadCompletedApplication(planId) {
+  return pget(`/rise/practice/application/completed/${planId}`)
+}
+
 export function submitApplicationPractice(planId, applicationId, params) {
   return ppost(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
 }
