@@ -135,13 +135,12 @@ export class Main extends React.Component <any, any> {
       }
       let problemId =  _.get(list,'practice[0].problemId');
       let questionId = _.get(list,`practice[${currentIndex}].id`);
-      let sequence = _.get(list,`practice[${currentIndex}].sequence`);
       if(problemId == 9){
         mark({
           module: "打点",
           function: questionId,
           action: "做选择题",
-          memo: sequence
+          memo: currentIndex
         });
       }
       this.setState({ currentIndex: currentIndex + 1, selected });
