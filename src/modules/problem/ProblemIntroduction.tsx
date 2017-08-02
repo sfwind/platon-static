@@ -308,8 +308,12 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   /**
    * 点击立即支付
    */
-  handleClickPayImmediately() {
-    // this.reConfig();
+  handleClickPayImmediately(couponCnt) {
+    // 如果用户没有优惠券，则直接弹出付费
+    if(couponCnt === 0) {
+      this.handleClickRiseCoursePay()
+      return
+    }
     const {dispatch, location} = this.props;
     const {id} = location.query;
     dispatch(startLoad());
@@ -324,21 +328,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       if (res.code === 202) {
         this.setState({showConfirm: true, confirmMsg: res.msg});
       } else if (res.code === 201) {
-        // // 选第二门了，需要提示
-        // this.setState({
-        //   showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？", alert: {
-        //     buttons: [
-        //       {
-        //         label: '再看看',
-        //         onClick: this.handleClickClose.bind(this)
-        //       },
-        //       {
-        //         label: '想好了',
-        //         onClick: () => this.setState({showPayInfo: true, showAlert: false}),
-        //       }
-        //     ]
-        //   }
-        // });
         this.setState({showPayInfo: true});
       } else if (res.code === 200) {
         this.setState({showPayInfo: true});
@@ -368,7 +357,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       param = {problemId: id};
     }
     dispatch(startLoad());
-
     loadPayParam(param).then(res => {
       dispatch(endLoad());
       if (res.code === 200) {
@@ -497,9 +485,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     this.context.router.push({pathname: '/rise/static/learn',query:{runningPlanId:currentPlanId}});
   }
 
-
   render() {
-    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons,chose,showErr,free} = this.state;
+    const {data = {}, buttonStatus, showPayInfo, final, fee, coupons = [],chose,showErr,free} = this.state;
     const {show} = this.props.location.query
 
     const {difficultyScore, catalog, subCatalog, pic, why, how, what, who,
@@ -573,7 +560,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             case 1: {
               list.push(
                 <div className="button-footer">
-                  <div className={`left pay`} onClick={()=>this.handleClickPayImmediately()}>
+                  <div className={`left pay`} onClick={()=>this.handleClickPayImmediately(coupons.length)}>
                     <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_shop.png?imageslim" size={20}/>
                     ¥ {fee}，立即学习
                   </div>
@@ -699,12 +686,10 @@ export default class ProblemIntroduction extends React.Component<any,any> {
                       </li>
                     )
                   }):null}
-
                 </ul>
               </div>
-              <div className="btn-container">
-                <div className="btn" onClick={()=>this.handleClickRiseCoursePay()}>
-                </div>
+              <div className="bn-container">
+                <div className="btn" onClick={()=>this.handleClickRiseCoursePay()}/>
               </div>
             </div>
           )
