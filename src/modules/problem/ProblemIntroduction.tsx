@@ -310,10 +310,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
    */
   handleClickPayImmediately(couponCnt) {
     // 如果用户没有优惠券，则直接弹出付费
-    if(couponCnt === 0) {
-      this.handleClickRiseCoursePay()
-      return
-    }
     const {dispatch, location} = this.props;
     const {id} = location.query;
     dispatch(startLoad());
@@ -327,10 +323,11 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(endLoad());
       if (res.code === 202) {
         this.setState({showConfirm: true, confirmMsg: res.msg});
-      } else if (res.code === 201) {
-        this.setState({showPayInfo: true});
-      } else if (res.code === 200) {
-        this.setState({showPayInfo: true});
+      } else if (res.code === 201 || res.code === 200) {
+        if(couponCnt === 0) {
+          this.handleClickRiseCoursePay()
+          return
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
