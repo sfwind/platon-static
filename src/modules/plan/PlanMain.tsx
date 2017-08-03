@@ -790,7 +790,6 @@ export class PlanMain extends React.Component <any, any> {
       }
 
       let currentSection = sections[ currentIndex - 1 ]
-
       return (
         <div className="plan-study-btn-footer" id="plan-study-btn-footer">
           <div className="psbf-wrapper">
