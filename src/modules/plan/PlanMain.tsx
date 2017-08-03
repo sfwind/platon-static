@@ -982,8 +982,8 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div className="rise-main">
-        {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask" style={{top:347, height:window.innerHeight - 347}}>
-          <AssetImg url="https://static.iqycamp.com/images/point_tutorial_2.gif" width={300}/>
+        {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask">
+          <AssetImg url="https://static.iqycamp.com/images/point_tutorial_2.gif" width={150} marginLeft={20}/>
         </div> : null}
 
         {renderCard()}
