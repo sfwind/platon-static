@@ -392,9 +392,9 @@
         height: 100%;
         > .title {
           margin-top: 18px;
-          font-size: 1.6em;
+          font-size: 1.7em;
           color: #666;
-          line-height: 16px;
+          line-height: 17px;
         }
         > .desc {
           margin-top: 5px;
@@ -620,11 +620,13 @@
         clear: both;
       }
       .psbf-w-pre-wrapper {
+        display: inline-block;
+        float: left;
         .psbf-w-pre-btn {
           margin-top: 52px;
           padding: 0 15px;
           float: left;
-          font-size: 1.4em;
+          font-size: 1.2em;
           line-height: 0;
           color: @color_strong;
           &.disabled {
@@ -660,16 +662,18 @@
         position: absolute;
         span {
           height: 100%;
-          font-size: 1.4em;
-          color: @color_title;
+          font-size: 1.2em;
+          color: #999;
           width: 100%;
         }
       }
       .psbf-w-next-wrapper {
+        display: inline-block;
+        float: right;
         .psbf-w-next-btn {
           margin-top: 52px;
           float: right;
-          font-size: 1.4em;
+          font-size: 1.2em;
           line-height: 0;
           color: @color_strong;
           &.complete {
@@ -727,6 +731,11 @@
             margin-top: -35px;
           }
         }
+      }
+
+      .click-btn {
+        width: 50px;
+        height: 60px;
       }
     }
 

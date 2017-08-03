@@ -245,7 +245,7 @@ export class PlanMain extends React.Component <any, any> {
         })
       }
     })
-    FastClick.attach(document.querySelector('#plan-study-btn-footer'))
+    FastClick.attach(document.querySelector('.click-btn'))
     isRiseMember().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg })
@@ -727,10 +727,10 @@ export class PlanMain extends React.Component <any, any> {
         )
       } else {
         preSection = (
-          <div className="psbf-w-pre-btn" onClick={() => {
-            this.goSection(currentIndex - 1)
-          }}>
-            上一节
+          <div className="click-btn" onClick={() => {this.goSection(currentIndex - 1)}}>
+            <div className="psbf-w-pre-btn">
+              上一节
+            </div>
           </div>
         )
       }
@@ -739,51 +739,65 @@ export class PlanMain extends React.Component <any, any> {
         if(reportStatus === 1) {
           // 可以点击完成按钮
           lastBtn = (
-            <div className="psbf-w-next-btn complete" onClick={() => this.complete()}>
-              完成小课
+            <div className="click-btn" onClick={() => this.complete()}>
+              <div className="psbf-w-next-btn complete">
+                完成小课
+              </div>
             </div>
           )
         } else if(reportStatus === 3) {
           // 已经完成，直接打开学习报告
           lastBtn = (
-            <div className="psbf-w-next-btn report" onClick={() => this.handleClickGoReport()}>
-              学习报告
+            <div className="click-btn" onClick={() => this.handleClickGoReport()}>
+              <div className="psbf-w-next-btn report">
+                学习报告
+              </div>
             </div>
           )
         } else if(reportStatus === 2) {
           // 未完成最小学习天数
           lastBtn = (
-            <div className="psbf-w-next-btn complete disabled" onClick={() => this.handleClickUnMinStudy()}>
-              完成小课
+            <div className="click-btn" onClick={() => this.handleClickUnMinStudy()}>
+              <div className="psbf-w-next-btn complete disabled">
+                完成小课
+              </div>
             </div>
           )
         } else if(reportStatus === -2) {
           // 没有完成，需要先完成
           lastBtn = (
-            <div className="psbf-w-next-btn complete disabled" onClick={() => this.handleClickUnComplete()}>
-              完成小课
+            <div className="click-btn" onClick={() => this.handleClickUnComplete()}>
+              <div className="psbf-w-next-btn complete disabled">
+                完成小课
+              </div>
             </div>
           )
         } else if(reportStatus === -1) {
           // 开放时间没完成，不能查看学习报告
           lastBtn = (
-            <div className="psbf-w-next-btn complete disabled" onClick={() => this.handleClickUnReport()}>
-              学习报告
+            <div className="click-btn" onClick={() => this.handleClickUnReport()}>
+              <div className="psbf-w-next-btn complete disabled">
+                学习报告
+              </div>
             </div>
           )
         } else {
           // 默认去调用一下complete接口
           lastBtn = (
-            <div className="psbf-w-next-btn complete" onClick={() => this.complete()}>
-              完成小课
+            <div className="click-btn" onClick={() => this.complete()}>
+              <div className="psbf-w-next-btn complete">
+                完成小课
+              </div>
             </div>
           )
         }
       } else {
         if(currentIndex !== totalSeries) {
           lastBtn = (
-            <div className="psbf-w-next-btn" onClick={() => this.goSection(currentIndex + 1)}>
-              下一节
+            <div className="click-btn" onClick={() => this.goSection(currentIndex + 1)}>
+              <div className="psbf-w-next-btn">
+                下一节
+              </div>
             </div>
           )
         }
