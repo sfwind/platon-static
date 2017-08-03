@@ -150,13 +150,23 @@ export class Main extends React.Component <any, any> {
 
   onSubmit() {
     const { dispatch } = this.props;
-    const { selected, practice, currentIndex, practiceCount } = this.state;
+    const { selected, practice, currentIndex, practiceCount,list } = this.state;
     const { practicePlanId } = this.props.location.query;
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"));
       return
     }
     if(currentIndex === practiceCount - 1) {
+      let problemId =  _.get(list,'practice[0].problemId');
+      let questionId = _.get(list,`practice[${currentIndex}].id`);
+      if(problemId == 9){
+        mark({
+          module: "打点",
+          function: questionId,
+          action: "做选择题",
+          memo: currentIndex
+        });
+      }
       this.setChoice(p => {
         dispatch(startLoad());
         answer({ practice: p }, practicePlanId).then(res => {
@@ -177,7 +187,7 @@ export class Main extends React.Component <any, any> {
         }).catch(ex => {
           dispatch(endLoad())
           dispatch(alertMsg(ex))
-        })
+        });
       })
     }
   }
