@@ -86,7 +86,7 @@ export class ImprovementReport extends React.Component<any, any> {
     let applications = (
       <div className="complete-item first">
         <div className="info">
-          <span className="name">应用练习完成 <span
+          <span className="name">应用题完成 <span
             className="big-point">{applicationCompleteCount}</span> / {applicationShouldCount} 份，得分：</span>
           <div className="clear"/>
         </div>
@@ -187,7 +187,7 @@ export class ImprovementReport extends React.Component<any, any> {
 
     const renderTips = () => {
       if(doneAllApps){
-        return <span>哇哦！你完成了全部的【应用练习】，这是赤裸裸秒杀99%同学的节奏！</span>;
+        return <span>哇哦！你完成了全部的【应用题】，这是赤裸裸秒杀99%同学的节奏！</span>;
       } else {
         return <span>不要在小课完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
       }
@@ -222,13 +222,13 @@ export class ImprovementReport extends React.Component<any, any> {
         </div>
         <div className="body-container">
           <div className="body">
-            <div className="header"><span className="title">各章巩固练习得分</span></div>
+            <div className="header"><span className="title">各章选择题得分</span></div>
             {this.renderChapterScores()}
           </div>
 
           <div className="body" style={{ marginTop: '36px' }}>
             <div className="header">
-              <span className="title">应用练习</span>
+              <span className="title">应用题</span>
             </div>
             {this.renderApplicationScores()}
             <div className="vote-info">

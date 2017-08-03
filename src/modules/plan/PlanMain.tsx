@@ -307,51 +307,51 @@ export class PlanMain extends React.Component <any, any> {
         integrated = false
       }
       this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/warmup',
-          query: { practicePlanId, currentIndex, integrated, planId, complete }
-        }) : null
+        pathname: '/rise/static/practice/warmup',
+        query: { practicePlanId, currentIndex, integrated, planId, complete }
+      }) : null
     } else if(type === 11) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined))
       dispatch(set('applicationId', undefined))
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/application',
-          query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: false, planId, complete }
-        }) : null
+        pathname: '/rise/static/practice/application',
+        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: false, planId, complete }
+      }) : null
     } else if(type === 12) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined))
       dispatch(set('applicationId', undefined))
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/application',
-          query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: true, planId, complete }
-        }) : null
+        pathname: '/rise/static/practice/application',
+        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: true, planId, complete }
+      }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/challenge',
-          query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, planId, complete }
-        }) : null
+        pathname: '/rise/static/practice/challenge',
+        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, planId, complete }
+      }) : null
     } else if(type === 31) {
       if(!complete) {
         // 关闭tutorial
-        if(!openRise){
-          updateOpenRise();
+        if(!openRise) {
+          updateOpenRise()
         }
 
         learnKnowledge(practicePlanId).then(res => {
           const { code, msg } = res
           if(code === 200) {
             this.context ? this.context.router.push({
-                pathname: '/rise/static/practice/knowledge',
-                query: { practicePlanId, currentIndex, planId, complete }
-              }) : null
+              pathname: '/rise/static/practice/knowledge',
+              query: { practicePlanId, currentIndex, planId, complete }
+            }) : null
           }
         })
       } else {
         this.context ? this.context.router.push({
-            pathname: '/rise/static/practice/knowledge',
-            query: { practicePlanId, currentIndex, planId, complete }
-          }) : null
+          pathname: '/rise/static/practice/knowledge',
+          query: { practicePlanId, currentIndex, planId, complete }
+        }) : null
       }
     } else if(type === 32) {
       if(!complete) {
@@ -359,16 +359,16 @@ export class PlanMain extends React.Component <any, any> {
           const { code, msg } = res
           if(code === 200) {
             this.context ? this.context.router.push({
-                pathname: '/rise/static/practice/knowledge/review',
-                query: { problemId, planId, currentIndex, practicePlanId, complete }
-              }) : null
+              pathname: '/rise/static/practice/knowledge/review',
+              query: { problemId, planId, currentIndex, practicePlanId, complete }
+            }) : null
           }
         })
       } else {
         this.context ? this.context.router.push({
-            pathname: '/rise/static/practice/knowledge/review',
-            query: { problemId, planId, currentIndex, practicePlanId, complete }
-          }) : null
+          pathname: '/rise/static/practice/knowledge/review',
+          query: { problemId, planId, currentIndex, practicePlanId, complete }
+        }) : null
       }
     }
   }
@@ -383,7 +383,7 @@ export class PlanMain extends React.Component <any, any> {
 
   handleClickUnComplete() {
     const { dispatch } = this.props
-    dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+    dispatch(alertMsg(`先完成所有的知识点和选择题<br/>才能查看报告哦`))
   }
 
   handleClickUnMinStudy() {
@@ -394,7 +394,7 @@ export class PlanMain extends React.Component <any, any> {
 
   handleClickUnReport() {
     const { dispatch } = this.props
-    dispatch(alertMsg('糟糕，你的知识理解和巩固练习部分未完成，无法得出学习报告'))
+    dispatch(alertMsg('糟糕，你的知识点和选择题部分未完成，无法得出学习报告'))
   }
 
   complete() {
@@ -423,7 +423,7 @@ export class PlanMain extends React.Component <any, any> {
         }
       } else {
         if(code === -1) {
-          dispatch(alertMsg(`先完成所有的知识理解和巩固练习<br/>才能查看报告哦`))
+          dispatch(alertMsg(`先完成所有的知识点和选择题<br/>才能查看报告哦`))
         } else {
           dispatch(alertMsg(msg))
         }
@@ -616,20 +616,20 @@ export class PlanMain extends React.Component <any, any> {
               <div className="header">
                 <div className="practice-thumb">
                   {item.type === 1 || item.type === 2 ? item.status !== 1 ?
-                      <AssetImg type="warmup" size={50}/> :
-                      <AssetImg type="warmup_complete" size={50}/> : null
+                    <AssetImg type="warmup" size={50}/> :
+                    <AssetImg type="warmup_complete" size={50}/> : null
                   }
                   {item.type === 11 || item.type === 12 ? item.status !== 1 ?
-                      <AssetImg type="application" size={50}/> :
-                      <AssetImg type="application_complete" size={50}/> : null
+                    <AssetImg type="application" size={50}/> :
+                    <AssetImg type="application_complete" size={50}/> : null
                   }
                   {item.type === 21 ? item.status !== 1 ?
-                      <AssetImg type="challenge" size={50}/> :
-                      <AssetImg type="challenge_complete" size={50}/> : null
+                    <AssetImg type="challenge" size={50}/> :
+                    <AssetImg type="challenge_complete" size={50}/> : null
                   }
                   {item.type === 31 || item.type === 32 ? item.status !== 1 ?
-                      <AssetImg type="knowledge" size={50}/> :
-                      <AssetImg type="knowledge_complete" size={50}/> : null
+                    <AssetImg type="knowledge" size={50}/> :
+                    <AssetImg type="knowledge_complete" size={50}/> : null
                   }
                 </div>
                 {
@@ -682,35 +682,35 @@ export class PlanMain extends React.Component <any, any> {
             </div>
 
             {chapterList ? chapterList.map((item, key) => {
-                return (
-                  <div key={key} className={`chapter-area`}>
-                    <div className="cell">
-                      <div className="chapter">
-                        <div>
-                          <div className="label">{'第' + NumberToChinese(item.chapterId) + '章'}</div>
-                          <div className="str"
-                               style={{ maxWidth: `${window.innerWidth * 0.7 - 50}px` }}>{item.chapter}</div>
-                        </div>
+              return (
+                <div key={key} className={`chapter-area`}>
+                  <div className="cell">
+                    <div className="chapter">
+                      <div>
+                        <div className="label">{'第' + NumberToChinese(item.chapterId) + '章'}</div>
+                        <div className="str"
+                             style={{ maxWidth: `${window.innerWidth * 0.7 - 50}px` }}>{item.chapter}</div>
                       </div>
-                      {item.sectionList.map((section, index) => {
-                        return (
-                          <div id={`section${section.series}`}
-                               className={`${currentIndex === section.series ? 'open' : ''} section`}
-                               onClick={() => {
+                    </div>
+                    {item.sectionList.map((section, index) => {
+                      return (
+                        <div id={`section${section.series}`}
+                             className={`${currentIndex === section.series ? 'open' : ''} section`}
+                             onClick={() => {
                                this.goSection(section.series)
                              }} key={index}>
-                            <div>
-                              <div className="label">{item.chapterId}.{section.sectionId}</div>
-                              <div className="str"
-                                   style={{ maxWidth: `${window.innerWidth * 0.7 - 50}px` }}>{section.section}</div>
-                            </div>
+                          <div>
+                            <div className="label">{item.chapterId}.{section.sectionId}</div>
+                            <div className="str"
+                                 style={{ maxWidth: `${window.innerWidth * 0.7 - 50}px` }}>{section.section}</div>
                           </div>
-                        )
-                      })}
-                    </div>
+                        </div>
+                      )
+                    })}
                   </div>
-                )
-              }) : null}
+                </div>
+              )
+            }) : null}
           </div>
         </div>
       )
@@ -899,11 +899,13 @@ export class PlanMain extends React.Component <any, any> {
                   </div>
                   <div id="changed" className="share-tip-changed">
                     <div className="step-one">
-                      <img src="https://static.iqycamp.com/images/fragment/free_limit_printer_left.jpg?imageslim" alt=""/>
+                      <img src="https://static.iqycamp.com/images/fragment/free_limit_printer_left.jpg?imageslim"
+                           alt=""/>
                       <span>长按卡片保存到相册<br/>在朋友圈分享该卡片</span>
                     </div>
                     <div className="step-two">
-                      <img src="https://static.iqycamp.com/images/fragment/free_limit_printer_right.jpg?imageslim" alt=""/>
+                      <img src="https://static.iqycamp.com/images/fragment/free_limit_printer_right.jpg?imageslim"
+                           alt=""/>
                       <span>6个好友扫码上课<br/>￥50 奖学金 get！</span>
                     </div>
                     <div className="changed-tip">详情见“卡包”页面</div>
@@ -993,7 +995,7 @@ export class PlanMain extends React.Component <any, any> {
                      open={this.state.sidebarOpen}
                      onSetOpen={(open) => this.onSetSidebarOpen(open)}
                      trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
-              <div className="header-img" style={{height: 175, overflow: "visible"}}>
+              <div className="header-img" style={{ height: 175, overflow: 'visible' }}>
                 <AssetImg url={problem.pic} style={{ height: this.state.style.picHeight, float: 'right' }}/>
                 {riseMember != 1 ?
                   <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
@@ -1022,8 +1024,8 @@ export class PlanMain extends React.Component <any, any> {
                                   onTransitionEnd={() => this.onTransitionEnd()}
                                   onChangeIndex={(index, indexLatest) => this.goSection(index + 1)}>
                     {sections ? sections.map((item, idx) => {
-                        return renderSection(item, idx)
-                      }) : null}
+                      return renderSection(item, idx)
+                    }) : null}
                   </SwipeableViews>
                 </div>
                 : null}
