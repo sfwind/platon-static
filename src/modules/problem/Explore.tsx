@@ -5,6 +5,7 @@ import { ToolBar } from '../base/ToolBar';
 import Banner from '../../components/Banner';
 import { loadUnChooseList,mark } from './async';
 import {changeTitle} from '../../utils/helpers'
+import Swiper from 'swiper';
 import { merge } from 'lodash'
 
 import './Explore.less';
