@@ -231,7 +231,7 @@ export default class PlanList extends React.Component<any,any> {
           { recommendations && recommendations.length !== 0 ?
             <div className="problem-recommendation ">
               <div className="recommendation-header">
-                <span className="header-title">推荐小课</span>
+                <span className="header-title">推荐学习</span>
               </div>
               <div className="swiper-container" id="problem-recommendation">
                 <div className="swiper-wrapper">
@@ -256,7 +256,7 @@ export default class PlanList extends React.Component<any,any> {
                   }) : null}
                   <div onClick={()=>this.handleClickMoreProblem()} className="swiper-slide problem-item-show  found-more" style={{height:`${this.picHeight}px`}}>
                     <div className="tips-word">
-                      发现更多
+                      点击发现更多
                     </div>
                     <div className="icon-next">
                       <AssetImg type="rise_icon_arrow_right" size="25px"/>
