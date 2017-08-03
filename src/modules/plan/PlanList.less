@@ -4,6 +4,94 @@
   background: #efefef;
   height: ~"calc(100% + 1px)";
   overflow-y: auto;
+  .problem-recommendation {
+    //overflow-x: scroll;
+    width: 100%;
+    .swiper-container{
+      background-color:#FFF;
+      padding-left: 10px;
+    }
+    .recommendation-header{
+      padding: 14px 0;
+      .header-title {
+        font-size: @font_title;
+        color: #9a9a9a;
+        &:before {
+          content: "";
+          width: 5px;
+          height: 22px;
+          margin-top: -3px;
+          border-radius: 10px;
+          display: inline-block;
+          background-color: @color_strong;
+          margin-left: 10px;
+          margin-right: 5px;
+          vertical-align: middle;
+        }
+      }
+    }
+    .problem-item-show {
+      margin: 15px 5px 5px;
+      //float: left;
+      > .img {
+        border-radius: 3px;
+        margin-bottom: 10px;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-size: auto 130%;
+        background-position: 100% 10%;
+        position: relative;
+        > img {
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+
+      span {
+        height: 3.0em;
+        display: block;
+        font-size: 1.2em;
+        line-height: 1.3em;
+        white-space: normal;
+        color: @color_context;
+      }
+    }
+    .found-more{
+      margin-left:15px;
+      padding-top:15px;
+
+      width:50px;
+      position: relative;
+      .tips-word {
+        width: 1em;
+        font-size: @font_click;
+        color:@color_title;
+        display: inline-block;
+        line-height: 1.3em;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        position: absolute;
+        top: 50%;
+        left: 5px;
+      }
+      .icon-next {
+        position: absolute;
+        top:50%;
+        right:0;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+    }
+  }
   .plp-running {
     .p-r-header {
       padding: 14px 0;
@@ -18,7 +106,7 @@
           border-radius: 10px;
           display: inline-block;
           background-color: @color_strong;
-          margin-left:10px;
+          margin-left: 10px;
           margin-right: 5px;
           vertical-align: middle;
         }
@@ -26,7 +114,7 @@
     }
     .plp-empty-container {
       text-align: center;
-      .plp-empty-img{
+      .plp-empty-img {
 
       }
       .plp-empty-text {
@@ -39,16 +127,17 @@
         color: #FFFFFF;
         display: inline-block;
         line-height: 13px;
-        padding:5px 0;
+        padding: 5px 0;
         width: 67px;
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
         background-color: @color_strong;
-        margin-top:3px;
+        margin-top: 3px;
 
       }
     }
+
     .p-r-block {
       margin: 15px auto;
       -webkit-transition: transform 1s;
@@ -128,39 +217,39 @@
   }
 
   .plp-completed {
-     .p-c-header {
-       padding: 14px 0;
-       .p-c-h-title {
-         font-size: @font_title;
-         color: #9a9a9a;
-         &:before {
-           content: "";
-           width: 5px;
-           height: 22px;
-           margin-top: -3px;
-           border-radius: 10px;
-           display: inline-block;
-           background-color: @color_strong;
-           margin-left: 10px;
-           margin-right: 5px;
-           vertical-align: middle;
-         }
-       }
-     }
-    .complete-plan-empty{
+    .p-c-header {
+      padding: 14px 0;
+      .p-c-h-title {
+        font-size: @font_title;
+        color: #9a9a9a;
+        &:before {
+          content: "";
+          width: 5px;
+          height: 22px;
+          margin-top: -3px;
+          border-radius: 10px;
+          display: inline-block;
+          background-color: @color_strong;
+          margin-left: 10px;
+          margin-right: 5px;
+          vertical-align: middle;
+        }
+      }
+    }
+    .complete-plan-empty {
       background-color: @color_white;
-      img{
+      img {
         width: ~"calc(100% - 104px)";
         margin-left: 52px;
       }
     }
     .p-c-container {
-      background:rgb(88,177,223);
-      background: -webkit-gradient(linear,center top, center bottom, from(#55cbcb), to(#42afe7));
-      &.none{
+      background: rgb(88, 177, 223);
+      background: -webkit-gradient(linear, center top, center bottom, from(#55cbcb), to(#42afe7));
+      &.none {
         background: #FFF;
-        .p-c-c-r-block{
-          padding-bottom:25px !important;
+        .p-c-c-r-block {
+          padding-bottom: 25px !important;
         }
       }
       &:after {
@@ -169,14 +258,14 @@
         clear: both;
       }
       .p-c-c-left {
-        width:56px;
-        height:100%;
+        width: 56px;
+        height: 100%;
         float: left;
         .color-generator {
 
         }
       }
-      .p-c-c-right{
+      .p-c-c-right {
         float: right;
         &:before {
           width: 20px;
@@ -186,9 +275,9 @@
         }
         .p-c-c-r-block {
           position: relative;
-          background-color:#FFFFFF;
-          padding:12.5px 13px 12.5px 0;
-          height:53px;
+          background-color: #FFFFFF;
+          padding: 12.5px 13px 12.5px 0;
+          height: 53px;
           &.first {
             padding-top: 25px;
           }
@@ -197,32 +286,32 @@
             top: 0;
             left: -56px;
             height: 100%;
-            width:56px;
-            .gap{
+            width: 56px;
+            .gap {
               &.first {
                 height: 26px;
-                background:#FFF;
+                background: #FFF;
               }
-              &.bottom{
-                height:56px;
+              &.bottom {
+                height: 56px;
                 &.last {
-                  background:#FFF;
-                  height:43.5px;
+                  background: #FFF;
+                  height: 43.5px;
                 }
               }
-              height:13px;
+              height: 13px;
               background: url("../../../assets/img/rise_icon_hr.png") repeat-y center center/100% auto;
             }
             .hr {
               &.last {
-                background:#FFF;
-                height:0;
+                background: #FFF;
+                height: 0;
               }
-              background: url("../../../assets/img/rise_icon_hr.png") repeat-y center center/100% auto ;
+              background: url("../../../assets/img/rise_icon_hr.png") repeat-y center center/100% auto;
             }
             .tick {
-              background: url("../../../assets/img/rise_icon_tick.png") no-repeat center center/100% auto ;
-              height:22px;
+              background: url("../../../assets/img/rise_icon_tick.png") no-repeat center center/100% auto;
+              height: 22px;
             }
           }
 
@@ -232,8 +321,8 @@
             position: relative;
             vertical-align: top;
             float: left;
-            width:84px;
-            height:53px;
+            width: 84px;
+            height: 53px;
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px;
@@ -253,32 +342,32 @@
             }
             .p-c-b-t-left {
               float: left;
-              margin-left:8px;
+              margin-left: 8px;
               .p-c-b-t-l-title {
                 font-size: 1.5em;
                 line-height: 1.5em;
                 color: @color_title;
-                margin-top:-4px;
+                margin-top: -4px;
               }
               .p-c-b-t-l-close {
                 font-size: @font_index;
                 line-height: @font_index;
-                color:#f7c310;
-                margin-top:-2px;
+                color: #f7c310;
+                margin-top: -2px;
               }
             }
             .p-c-b-t-right {
               float: right;
               .p-c-b-t-tip {
-                margin-top:-2px;
-                color:#42afe7;
-                font-size:@font_index;
-                line-height:@font_index;
+                margin-top: -2px;
+                color: #42afe7;
+                font-size: @font_index;
+                line-height: @font_index;
               }
               .p-c-b-t-point {
-                color:#42afe7;
-                font-size:1.8em;
-                line-height:1.8em;
+                color: #42afe7;
+                font-size: 1.8em;
+                line-height: 1.8em;
               }
             }
           }
