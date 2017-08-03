@@ -13,7 +13,7 @@ export function loadProblem(id) {
 }
 
 export function openProblemIntroduction(id, free){
-  let param = free ? {free: 'true'} : {free : 'false'}
+  let param = free ? {autoOpen: 'true'} : {autoOpen : 'false'}
   return pget(`/rise/problem/open/${id}`, param)
 }
 

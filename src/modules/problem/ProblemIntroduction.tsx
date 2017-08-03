@@ -99,6 +99,29 @@ export default class ProblemIntroduction extends React.Component<any,any> {
         return Promise.reject(msg);
       }
     }).then(problemMsg => {
+      // TODO:限免活动，进入页面直接创建训练
+      if(free === 'true' && id == FREE_PROBLEM_ID) {
+        checkCreatePlan(this.props.location.query.id, problemMsg.buttonStatus).then(res => {
+          dispatch(endLoad());
+          if(res.code === 202) {
+            this.setState({ showConfirm: true, confirmMsg: res.msg });
+          } else if(res.code === 201 || res.code === 200) {
+            return createPlan(location.query.id).then(res => {
+              if(res.code === 200) {
+                this.setState({ showToast: true });
+                sendCustomerMsg();
+              }
+            })
+          } else if (res.code === 204){
+            // 已选课，不提示
+          } else {
+            dispatch(alertMsg(res.msg))
+          }
+        }).catch(ex => {
+          dispatch(endLoad());
+          dispatch(alertMsg(ex));
+        })
+      }
       return loadUserCoupons().then(res => {
         dispatch(endLoad())
         const { msg } = res;
@@ -129,16 +152,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(endLoad())
       if(reason !== 'refresh') {
         dispatch(alertMsg(reason));
-      }
-    }).then(problemMsg => {
-      // TODO:限免活动，进入页面直接创建训练
-      if(free === 'true' && id == FREE_PROBLEM_ID) {
-        return createPlan(location.query.id).then(res => {
-          if(res.code === 200) {
-            this.setState({ showToast: true });
-            sendCustomerMsg();
-          }
-        })
       }
     }).catch(ex => {
       dispatch(endLoad())
