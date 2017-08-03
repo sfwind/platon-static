@@ -14,7 +14,7 @@ import { merge,isNumber,isObjectLike,toLower,get } from "lodash";
 const { Alert } = Dialog
 const numeral = require('numeral');
 import { config,pay } from "../helpers/JsConfig"
-
+import { mark } from "../../utils/request"
 const FREE_PROBLEM_ID = 9
 
 @connect(state => state)
@@ -68,6 +68,12 @@ export default class ProblemIntroduction extends React.Component<any,any> {
   componentWillMount() {
     const {dispatch, location} = this.props
     const {id} = location.query
+    mark({
+      module: "打点",
+      function: "打开页面",
+      action: "打开小课介绍页",
+      memo: id
+    });
     dispatch(startLoad())
     openProblemIntroduction(id).then(res => {
       const {msg, code} = res
@@ -304,10 +310,6 @@ export default class ProblemIntroduction extends React.Component<any,any> {
    */
   handleClickPayImmediately(couponCnt) {
     // 如果用户没有优惠券，则直接弹出付费
-    if(couponCnt === 0) {
-      this.handleClickRiseCoursePay()
-      return
-    }
     const {dispatch, location} = this.props;
     const {id} = location.query;
     dispatch(startLoad());
@@ -321,10 +323,13 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       dispatch(endLoad());
       if (res.code === 202) {
         this.setState({showConfirm: true, confirmMsg: res.msg});
-      } else if (res.code === 201) {
-        this.setState({showPayInfo: true});
-      } else if (res.code === 200) {
-        this.setState({showPayInfo: true});
+      } else if (res.code === 201 || res.code === 200) {
+        if(couponCnt === 0) {
+          this.handleClickRiseCoursePay()
+          return
+        } else {
+          this.setState({showPayInfo: true});
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -557,13 +562,14 @@ export default class ProblemIntroduction extends React.Component<any,any> {
               list.push(
                 <div className="button-footer">
                   <div className={`left pay`} onClick={()=>this.handleClickPayImmediately(coupons.length)}>
-                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_shop.png?imageslim" size={20}/>
                     ¥ {fee}，立即学习
                   </div>
-                  <div className={`right pay`} onClick={()=>this.handleClickPayMember()}>
-                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond.png?imageslim" width={20} height={18}/>
-                    6折买课
-                  </div>
+                  {/*暂时去除*/}
+                  {/*<AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_shop.png?imageslim" size={20}/>*/}
+                  {/*<div className={`right pay`} onClick={()=>this.handleClickPayMember()}>*/}
+                    {/*<AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond.png?imageslim" width={20} height={18}/>*/}
+                    {/*6折买课*/}
+                  {/*</div>*/}
                 </div>
               );
               return list;
