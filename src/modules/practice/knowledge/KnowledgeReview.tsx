@@ -84,11 +84,11 @@ export class KnowledgeReview extends React.Component<any,any>{
     return(
           <div className="problem-detail">
             <div className="container has-footer">
-              <div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={this.goProblemIntro.bind(this)}>
-                <div className="header-label" style={{float:"left"}}>
-                  小课介绍
-                </div>
-              </div>
+              {/*<div className="detail-header click" style={{marginBottom:'10px',borderBottom:"none"}} onClick={this.goProblemIntro.bind(this)}>*/}
+                {/*<div className="header-label" style={{float:"left"}}>*/}
+                  {/*小课介绍*/}
+                {/*</div>*/}
+              {/*</div>*/}
               <div className="detail-header">
                 小课知识点
               </div>
