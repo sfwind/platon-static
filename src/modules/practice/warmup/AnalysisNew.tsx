@@ -1,13 +1,13 @@
-import * as React from "react";
-import {connect} from "react-redux";
-import "./Main.less";
-import {loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss} from "./async";
-import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
-import AssetImg from "../../../components/AssetImg";
-import Discuss from "../components/Discuss";
-import _ from "lodash"
-import DiscussShow from "../components/DiscussShow";
-import {scroll} from "../../../utils/helpers"
+import * as React from 'react'
+import { connect } from 'react-redux'
+import './Main.less'
+import { loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss } from './async'
+import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import AssetImg from '../../../components/AssetImg'
+import Discuss from '../components/Discuss'
+import _ from 'lodash'
+import DiscussShow from '../components/DiscussShow'
+import { scroll } from '../../../utils/helpers'
 
 const sequenceMap = {
   0: 'A',
@@ -16,7 +16,7 @@ const sequenceMap = {
   3: 'D',
   4: 'E',
   5: 'F',
-  6: 'G',
+  6: 'G'
 }
 
 @connect(state => state)
@@ -28,109 +28,112 @@ export class AnalysisNew extends React.Component <any, any> {
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
-      integrated:false,
-      placeholder:'解答同学的提问（限1000字）',
-      isReply:false,
+      integrated: false,
+      placeholder: '解答同学的提问（限1000字）',
+      isReply: false
     }
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  };
+  }
 
   componentWillMount(props) {
-    const {dispatch, location} = props || this.props;
-    const {warmupPracticeId, integrated} = location.query;
-    this.setState({integrated});
-    dispatch(startLoad());
+    const { dispatch, location } = props || this.props
+    const { warmupPracticeId, integrated } = location.query
+    this.setState({ integrated })
+    dispatch(startLoad())
     loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
-      dispatch(endLoad());
-      const {code, msg} = res;
-      if (code === 200){
-        this.setState({data: msg, warmupPracticeId});
+      dispatch(endLoad())
+      const { code, msg } = res
+      if(code === 200) {
+        this.setState({ data: msg, warmupPracticeId })
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
-
 
   reload() {
-    const {dispatch} = this.props;
-    let {data, warmupPracticeId} = this.state;
+    const { dispatch } = this.props
+    let { data, warmupPracticeId } = this.state
 
     loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
-      dispatch(endLoad());
-      const {code, msg} = res;
-      if (code === 200) {
-        _.set(data, 'discussList', msg.discussList);
-        this.setState({showDiscuss: false, data, content:'', placeholder:'解答同学的提问（限1000字）',repliedId:0,isReply:false});
-        scroll('.discuss', '.container');
+      dispatch(endLoad())
+      const { code, msg } = res
+      if(code === 200) {
+        _.set(data, 'discussList', msg.discussList)
+        this.setState({
+          showDiscuss: false, data, content: '', placeholder: '解答同学的提问（限1000字）', repliedId: 0, isReply: false
+        })
+        scroll('.discuss', '.container')
       }
-      else dispatch(alertMsg(msg));
+      else dispatch(alertMsg(msg))
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
 
-  back(){
-    this.context.router.push({ pathname: '/rise/static/message/center'})
+  back() {
+    this.context.router.push({ pathname: '/rise/static/message/center' })
   }
 
-  reply(item){
-    this.setState({showDiscuss:true, isReply:true,
-      placeholder:'回复 '+item.name+':', content:'',
-      repliedId:item.id, referenceId:item.warmupPracticeId})
+  reply(item) {
+    this.setState({
+      showDiscuss: true, isReply: true,
+      placeholder: '回复 ' + item.name + ':', content: '',
+      repliedId: item.id, referenceId: item.warmupPracticeId
+    })
   }
 
-  onDelete(discussId){
-    const {data} = this.state;
-    const {dispatch} = this.props;
-    const {discussList = []} = data;
-    deleteComment(discussId).then(res =>{
-      const {id} = data;
+  onDelete(discussId) {
+    const { data } = this.state
+    const { dispatch } = this.props
+    const { discussList = [] } = data
+    deleteComment(discussId).then(res => {
+      const { id } = data
       loadWarmUpDiscuss(id, 1).then(res => {
-        dispatch(endLoad());
-        const {code, msg} = res;
-        if (code === 200) {
-          _.set(data, 'discussList', msg);
-          this.setState({showDiscuss: false, data})
+        dispatch(endLoad())
+        const { code, msg } = res
+        if(code === 200) {
+          _.set(data, 'discussList', msg)
+          this.setState({ showDiscuss: false, data })
         }
         else dispatch(alertMsg(msg))
       }).catch(ex => {
-        dispatch(endLoad());
+        dispatch(endLoad())
         dispatch(alertMsg(ex))
       })
     })
   }
 
-  onChange(value){
-    this.setState({content:value})
+  onChange(value) {
+    this.setState({ content: value })
   }
 
-  cancel(){
-    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false,repliedId:0})
+  cancel() {
+    this.setState({ placeholder: '解答同学的提问（限1000字）', isReply: false, showDiscuss: false, repliedId: 0 })
   }
 
-  onSubmit(){
-    const {dispatch} = this.props;
-    const {warmupPracticeId, repliedId, content} = this.state;
-    if(content.length==0){
-      dispatch(alertMsg('请填写评论'));
+  onSubmit() {
+    const { dispatch } = this.props
+    const { warmupPracticeId, repliedId, content } = this.state
+    if(content.length == 0) {
+      dispatch(alertMsg('请填写评论'))
       return
     }
 
-    let discussBody = {comment:content, referenceId: warmupPracticeId};
-    if (repliedId) {
-      _.merge(discussBody, {repliedId: repliedId})
+    let discussBody = { comment: content, referenceId: warmupPracticeId }
+    if(repliedId) {
+      _.merge(discussBody, { repliedId: repliedId })
     }
 
     discuss(discussBody).then(res => {
-      const {code, msg} = res;
-      if (code === 200) {
+      const { code, msg } = res
+      if(code === 200) {
         this.reload()
       }
       else {
@@ -142,19 +145,19 @@ export class AnalysisNew extends React.Component <any, any> {
   }
 
   render() {
-    const {data, selected, showDiscuss, isReply, integrated, placeholder} = this.state;
-    const {knowledge} = data;
+    const { data, selected, showDiscuss, isReply, integrated, placeholder } = this.state
+    const { knowledge } = data
 
     const questionRender = (practice) => {
-      const {id, question, pic, choiceList = [], discussList = []} = practice;
+      const { id, question, pic, choiceList = [], discussList = [] } = practice
       return (
         <div>
           <div className="intro-container">
             {pic ? <div className="context-img">
-                  <AssetImg url={pic}/></div>:null
+              <AssetImg url={pic}/></div> : null
             }
             <div className="question">
-              <div dangerouslySetInnerHTML={{__html: question}}></div>
+              <div dangerouslySetInnerHTML={{ __html: question }}/>
             </div>
             <div className="choice-list">
               {choiceList.map((choice, idx) => choiceRender(choice, idx))}
@@ -164,14 +167,14 @@ export class AnalysisNew extends React.Component <any, any> {
               <div className="context">
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
-              <div className="context" style={{marginBottom:15}}>
+              <div className="context" style={{ marginBottom: 15 }}>
                 已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
               </div>
-              <div className="context"
-                   dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-              {integrated=='false'?
-              <div className="knowledge-link"
-                   onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>点击查看相关知识</div>:null}
+              <div className="context" dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
+              {integrated == 'false' ?
+                <div className="knowledge-link"
+                     onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
+                  点击查看相关知识</div> : null}
             </div>
           </div>
           <div className="discuss-container">
@@ -199,49 +202,49 @@ export class AnalysisNew extends React.Component <any, any> {
 
     const discussRender = (discuss, idx) => {
       return (
-          <DiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)} onDelete={this.onDelete.bind(this, discuss.id)}/>
+        <DiscussShow discuss={discuss} showLength={50} reply={() => this.reply(discuss)}
+                     onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
     const choiceRender = (choice, idx) => {
-      const {id, subject} = choice
+      const { id, subject } = choice
       return (
-          <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
+        <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
-            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
-            {/*( choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx])}*/}
+            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[ idx ]}
+            {/*{choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx]}*/}
           </span>
-            <span className={`text`}>{subject}</span>
-          </div>
+          <span className={`text`}>{subject}</span>
+        </div>
       )
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight? sequenceMap[idx]+' ' :'')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const myAnswerRender = (choice, idx) => {
-      return (choice.selected? sequenceMap[idx]+' ' :'')
+      return (choice.selected ? sequenceMap[ idx ] + ' ' : '')
     }
 
     return (
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-
-            {knowledge?<div className="page-header">{knowledge.knowledge}</div>:null}
+            {knowledge ? <div className="page-header">{knowledge.knowledge}</div> : null}
             {questionRender(data)}
           </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
+          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {showDiscuss?null:<div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
+        {showDiscuss ? null : <div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
 
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                              submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
-                              cancel={()=>this.cancel()}/>:
-            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-            </div>}
+        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                cancel={() => this.cancel()}/> :
+          <div className="writeDiscuss" onClick={() => this.setState({ showDiscuss: true })}>
+            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+          </div>}
       </div>
     )
   }

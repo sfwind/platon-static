@@ -165,7 +165,6 @@ export default class PlanList extends React.Component<any,any> {
           </div>
         );
       }
-
     };
 
     return (
@@ -221,6 +220,7 @@ export default class PlanList extends React.Component<any,any> {
                           已完成：{`${item.completeSeries}/${item.totalSeries}节`}
                         </div>
                         {renderDeadline(item.deadline)}
+                        <div className="running-problem-button"/>
                       </div>
                     </div>
                   </div>

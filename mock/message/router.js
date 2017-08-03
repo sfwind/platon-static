@@ -72,7 +72,7 @@ router.get("/rise/message/load", (req, res) => {
         "notifyMessageList": [
           {
             "id": 24,
-            "message": "回复了我的巩固练习问题",
+            "message": "回复了我的选择题",
             "fromUser": null,
             "toUser": null,
             "isRead": true,
@@ -85,7 +85,7 @@ router.get("/rise/message/load", (req, res) => {
           },
           {
             "id": 23,
-            "message": "回复了我的知识理解问题",
+            "message": "回复了我的知识点问题",
             "fromUser": null,
             "toUser": null,
             "isRead": true,
@@ -98,7 +98,7 @@ router.get("/rise/message/load", (req, res) => {
           },
           {
             "id": 22,
-            "message": "回复了我的应用练习问题",
+            "message": "回复了我的应用题",
             "fromUser": null,
             "toUser": null,
             "isRead": true,

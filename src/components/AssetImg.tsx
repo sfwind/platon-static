@@ -11,7 +11,7 @@ export default class AssetImg extends React.Component<any, any> {
   }
 
   render() {
-    const { size, type, width, height, marginTop, style, marginRight, onClick } = this.props
+    const { size, type, width, height, marginTop, marginBottom, marginLeft, style, marginRight, onClick } = this.props
     let { url } = this.props
     //来自七牛云的图片，自动添加瘦身参数
     if(url) {
@@ -25,6 +25,8 @@ export default class AssetImg extends React.Component<any, any> {
       height: size || height,
       marginTop: marginTop,
       marginRight: marginRight,
+      marginBottom: marginBottom,
+      marginLeft: marginLeft,
     }
 
     return (

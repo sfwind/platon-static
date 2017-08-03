@@ -666,7 +666,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
       if(data.id === FREE_PROBLEM_ID) {
         return (
           <div className="pre-pay-message">
-            <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。课程一共有5章6小节，40道练习题。</div>
+            <div>本课程是线上学习产品，由文字+语音+练习题+互动讨论区组成。课程一共有5章6小节，40道练习题。</div>
             <br/>
 
             <div>报名后7天内可免费学习，完成后可永久复习。随开随学，进度自控。</div>

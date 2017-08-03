@@ -1,6 +1,14 @@
 @import "../../style/variable";
 
 .rise-main {
+  >.first-open-rise-mask{
+    top:347px;
+    height:~"calc(100% - 347px)";
+    position: absolute;
+    z-index: 2000;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
   .chapter-card-container {
     position: relative;
     height: 100%;
@@ -17,14 +25,14 @@
     .printer-machine {
       position: relative;
       z-index: 800;
-      .printer-close{
-        padding-top:5px;
+      .printer-close {
+        padding-top: 5px;
         position: relative;
-        height:20px;
-        div{
+        height: 20px;
+        div {
           position: absolute;
-          top:15px;
-          right: -10px;
+          top: 15px;
+          right: 0;
         }
       }
       .printer-top {
@@ -78,7 +86,7 @@
           top: -60px;
           transition: transform 1s;
         }
-        .save-tip{
+        .save-tip {
           padding-top: 10px;
           text-align: center;
           font-size: 18px;
@@ -342,6 +350,7 @@
       background-color: #fff;
       height: 75px;
       border-radius: @border-radius;
+      box-shadow: 0 0 8px 4px rgba(0,0,0,.02);
       > .header {
         position: absolute;
         width: 50px;
@@ -382,10 +391,17 @@
         vertical-align: middle;
         height: 100%;
         > .title {
-          margin-top: 24px;
-          font-size: @font_title;
-          color: @color_title;
-          line-height: @font_title;
+          margin-top: 18px;
+          font-size: 1.7em;
+          color: #666;
+          line-height: 17px;
+        }
+        > .desc {
+          margin-top: 5px;
+          color: #999;
+          font-size: 1.3em;
+          font-weight: 300;
+          line-height: 13px;
         }
       }
       > .footer {
@@ -401,7 +417,7 @@
       }
     }
     .practice-card + .practice-card {
-      margin-top: 10px;
+      margin-top: 13px;
     }
   }
   .plan-side-bar {
@@ -458,8 +474,9 @@
         }
         .chapter {
           font-size: @font_context;
-          line-height: @font_context;
+          line-height: 60px;
           height: 60px;
+          margin-left: 10px;
         }
         .section {
           font-size: @font_click;
@@ -549,6 +566,8 @@
     margin-bottom: 15px;
     font-size: 1.3em;
     color: @color_help;
+    width: 100%;
+    height: auto;
 
     .intro {
       position: relative;
@@ -574,15 +593,15 @@
       margin-top: 5px;
       color: @color_title;
     }
+
   }
 
   .plan-study-btn-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: auto;
-    //background-color:#FFFFFF;
+    height: 75px;
+    background-color: #f5f5f5;
+    padding: 10px 0 0px;
     .mask {
       position: absolute;
       left: 0;
@@ -601,11 +620,13 @@
         clear: both;
       }
       .psbf-w-pre-wrapper {
+        display: inline-block;
+        float: left;
         .psbf-w-pre-btn {
-          padding: 18px 15px 18px 0;
+          margin-top: 52px;
+          padding: 0 15px;
           float: left;
-          font-size: 1.4em;
-          height: 18px;
+          font-size: 1.2em;
           line-height: 0;
           color: @color_strong;
           &.disabled {
@@ -620,14 +641,15 @@
             height: 18px;
             display: inline-block;
             background: url("../../../assets/img/rise_icon_pre_section.png") no-repeat center center/auto 100%;
-            vertical-align: middle;
-            margin-right: 15px;
+            vertical-align: top;
+            margin-right: -30px;
+            margin-top: -35px;
           }
         }
       }
       .psbf-w-series-wrapper {
         padding: 18px 0;
-        width: 30%;
+        width: 80%;
         height: 18px;
         text-align: center;
         top: 0;
@@ -640,22 +662,19 @@
         position: absolute;
         span {
           height: 100%;
-          line-height: 54px;
-          font-size: 1.4em;
-          color: @color_title;
-          position: absolute;
-          top: 0;
-          left: 0;
+          font-size: 1.2em;
+          color: #999;
           width: 100%;
         }
       }
       .psbf-w-next-wrapper {
+        display: inline-block;
+        float: right;
         .psbf-w-next-btn {
-          padding: 18px 0 18px 15px;
+          margin-top: 52px;
           float: right;
-          font-size: 1.4em;
+          font-size: 1.2em;
           line-height: 0;
-          height: 18px;
           color: @color_strong;
           &.complete {
             &:after {
@@ -675,8 +694,9 @@
               height: 18px;
               display: inline-block;
               background: url("../../../assets/img/rise_icon_compete_plan.png") no-repeat center center/ 100% auto;
-              vertical-align: middle;
-              margin-right: 10px;
+              vertical-align: top;
+              margin-right: -30px;
+              margin-top: -35px;
             }
           }
           &.report {
@@ -685,7 +705,7 @@
             }
             &.disabled {
               color: @color_help;
-              &:before {
+              &:after {
                 background: url("../../../assets/img/rise_icon_report_disabled.png") no-repeat center center/auto 100%;
               }
             }
@@ -695,24 +715,38 @@
               height: 18px;
               display: inline-block;
               background: url("../../../assets/img/rise_icon_report.png") no-repeat center center/auto 100%;
-              vertical-align: middle;
-              margin-right: 10px;
+              vertical-align: top;
+              margin-right: -30px;
+              margin-top: -35px;
             }
           }
-          &:after {
+          &:before {
             content: '';
             width: 14px;
             height: 18px;
             display: inline-block;
             background: url("../../../assets/img/rise_icon_next_section.png") no-repeat center center/auto 100%;
-            vertical-align: middle;
-            margin-left: 15px;
+            vertical-align: top;
+            margin-right: -30px;
+            margin-top: -35px;
           }
         }
       }
+
+      .click-btn {
+        width: 50px;
+        height: 60px;
+      }
     }
+
   }
 
+  .header-card-collection {
+    position: absolute;
+    left: ~"calc(50% - 42px)";
+    top: 125px;
+    z-index: 10;
+  }
 }
 
 @keyframes riseMember-left-show {
