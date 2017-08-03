@@ -22,13 +22,13 @@ const { Alert } = Dialog
 var FastClick = require('fastclick')
 
 const typeMap = {
-  1: '巩固练习',
-  2: '巩固练习',
-  11: '应用练习',
-  12: '应用练习',
-  21: '小目标',
-  31: '知识理解',
-  32: '知识回顾'
+  1: { type: '选择题', desc: '具体场景，牛刀小试' },
+  2: { type: '选择题', desc: '具体场景，牛刀小试' },
+  11: { type: '应用题', desc: '实际案例，学以致用' },
+  12: { type: '应用题', desc: '实际案例，学以致用' },
+  21: { type: '小目标', desc: '制定目标，帮你更积极地学习' },
+  31: { type: '知识点', desc: '作用、方法、要点、例题' },
+  32: { type: '知识回顾', desc: '小课知识点合集' }
 }
 
 const FREE_PROBLEM_ID = 9
@@ -652,7 +652,8 @@ export class PlanMain extends React.Component <any, any> {
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null
               }
               <div className="body">
-                <div className="title">{typeMap[ item.type ]}</div>
+                <div className="title">{typeMap[ item.type ].type}</div>
+                <div className="desc">{typeMap[ item.type ].desc}</div>
               </div>
               <div className="footer">
                 {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
@@ -803,7 +804,6 @@ export class PlanMain extends React.Component <any, any> {
 
       return (
         <div className="plan-study-btn-footer" id="plan-study-btn-footer">
-          <div className="mask"/>
           <div className="psbf-wrapper">
             <div className="psbf-w-pre-wrapper">
               {preSection}
@@ -946,7 +946,7 @@ export class PlanMain extends React.Component <any, any> {
       if(displayCard) {
         return (
           <div className="chapter-card-container">
-            <div className="printer-machine" style={{width: window.innerWidth}}>
+            <div className="printer-machine" style={{ width: window.innerWidth }}>
               <div className="printer-close" onClick={() => {
                 this.setState({ displayCard: false })
               }}>
@@ -1020,7 +1020,7 @@ export class PlanMain extends React.Component <any, any> {
                        open={this.state.sidebarOpen}
                        onSetOpen={(open) => this.onSetSidebarOpen(open)}
                        trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
-                <div className="header-img" style={{height: 175, overflow: "visible"}}>
+                <div className="header-img" style={{ height: 175, overflow: 'visible' }}>
                   <AssetImg url={problem.pic} style={{ height: this.state.style.picHeight, float: 'right' }}/>
                   {riseMember != 1 ?
                     <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
