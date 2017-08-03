@@ -16,14 +16,6 @@
     position: relative;
     background-color: #CCEAEB;
     overflow: hidden;
-    .pi-h-bg {
-      height: 100%;
-      width: auto;
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 1;
-    }
     .pi-h-body {
       position: relative;
       width: 100%;
@@ -371,7 +363,7 @@
     background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
     color: #fff;
     z-index: 10;
-    &.trial_pay{
+    &.trial_pay {
       background-image: url('https://static.iqycamp.com/images/bottom_button_bg3_trial.jpg?imageslim');
     }
     > .left {
@@ -434,7 +426,7 @@
   }
 }
 
-.error-mask{
+.error-mask {
   position: fixed;
   z-index: 10;
   width: 100%;
@@ -442,78 +434,75 @@
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.6);
-  > .tips{
-    margin-top:50px;
+  > .tips {
+    margin-top: 50px;
     color: #FFFFFF;
     text-align: center;
-    font-size:16px;
+    font-size: 16px;
   }
-  > .xiaoQ{
+  > .xiaoQ {
     display: block;
-    margin:25px auto 0;
-    width:70%;
+    margin: 25px auto 0;
+    width: 70%;
   }
 }
 
-
-
-
-.simple-pay-info{
+.simple-pay-info {
   position: fixed;
   z-index: 100;
   width: 100%;
   height: 100%;
   bottom: 0;
   left: 0;
-  .close{
-    border:1px solid #000;
+  .close {
+    border: 1px solid #000;
     border-radius: 100px;
-    color:#000;
+    color: #000;
     position: fixed;
     top: 5px;
     right: 5px;
     z-index: 1000;
-    width:30px;
-    height:30px;
-    line-height:30px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
-    font-size:14px;
+    font-size: 14px;
   }
 
-  > .main-container{
-    background-color:#FFF;
+  > .main-container {
+    background-color: #FFF;
     position: fixed;
-    bottom:0;
-    left:0;
-    z-index:200;
-    width:100%;
-    height:100%;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    > .header{
+    > .header {
       text-align: center;
-      border-bottom:1px solid #d0d0d0;
-      color:#333;
-      height:40px;
-      line-height:40px;
-      font-size:16px;
+      border-bottom: 1px solid #d0d0d0;
+      color: #333;
+      height: 40px;
+      line-height: 40px;
+      font-size: 16px;
     }
-    > .content{
-      font-size:16px;
-      > .item{
-        height:50px;
-        line-height:50px;
-        padding:0 15px;
-        border-bottom:1px solid #d0d0d0;
+    > .content {
+      font-size: 16px;
+      > .item {
+        height: 50px;
+        line-height: 50px;
+        padding: 0 15px;
+        border-bottom: 1px solid #d0d0d0;
       }
-      .final{
-        color:#28c7e1;
-        font-size:20px;
+      .final {
+        color: #28c7e1;
+        font-size: 20px;
       }
-      .discard{
-        text-decoration:line-through;
-        color:#999999;
+      .discard {
+        text-decoration: line-through;
+        color: #999999;
       }
-      > .coupon{
+      > .coupon {
         &:after {
           content: ' ';
           display: inline-block;
@@ -527,70 +516,74 @@
       }
     }
     > ul {
-      opacity:1;
-      margin:0 15px;
+      opacity: 1;
+      margin: 0 15px;
       list-style: none;
-      &.open{
-        opacity:1;
+      &.open {
+        opacity: 1;
       }
-      height:222px;
+      height: 222px;
     }
-    > .coupon-list{
+    > .coupon-list {
       position: relative;
       z-index: 300;
       overflow: scroll;
 
-      > li{
-        height:50px;
-        line-height:50px;
-        border-bottom:1px solid #d0d0d0;
-        > .expired{
-          font-size:12px;
-          color:#999;
-          margin-left:10px;
+      > li {
+        height: 50px;
+        line-height: 50px;
+        border-bottom: 1px solid #d0d0d0;
+        > .expired {
+          font-size: 12px;
+          color: #999;
+          margin-left: 10px;
         }
-        > .describe{
-          font-size:12px;
+        > .describe {
+          font-size: 12px;
           //color:#999;
-          margin-left:5px;
+          margin-left: 5px;
         }
-        > .btn{
-          width:50px;
-          height:25px;
-          font-size:13px;
-          margin-top:12px;
-          line-height:25px;
-          background-color:#66ccff;
+        > .btn {
+          width: 50px;
+          height: 25px;
+          font-size: 13px;
+          margin-top: 12px;
+          line-height: 25px;
+          background-color: #66ccff;
           text-align: center;
-          border-radius:5px;
-          float:right;
-          color:#fff;
+          border-radius: 5px;
+          float: right;
+          color: #fff;
         }
       }
     }
   }
-  > .btn-container{
+  > .btn-container {
     position: absolute;
-    bottom:0;
-    left:0;
-    width:100%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     z-index: 400;
-    background-color:#fff;
-    > .btn{
-      height:42px;
-      background:url('https://static.iqycamp.com/images/sureToPayBtnV2.png?imageslim') center center/100% 100%;
+    background-color: #fff;
+    > .btn {
+      height: 42px;
+      background: url('https://static.iqycamp.com/images/sureToPayBtnV2.png?imageslim') center center/100% 100%;
       //border:1px solid;
       //border-image:-webkit-linear-gradient(315deg, orange, green) 5 5;
       //border-image:linear-gradient(315deg,orange,green) 5 5;
-      margin:15px;
+      margin: 15px;
       //padding:5px;
       //text-align: center;
-      > svg{
-        > text{
-          text-anchor: middle;  /* 文本水平居中 */
+      > svg {
+        > text {
+          text-anchor: middle; /* 文本水平居中 */
           dominant-baseline: middle; /* 文本垂直居中 */
         }
       }
     }
+  }
+  .toast-text {
+    color: @color_white;
+    font-size: @font_context;
   }
 }

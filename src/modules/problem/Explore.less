@@ -77,8 +77,21 @@
             position: relative;
             > img{
               position: absolute;
-              right:0;
-              top:0;
+            }
+            .complete-problem{
+              position: absolute;
+              height: 20px;
+              width: 100%;
+              background-color: rgba(0, 0, 0, 0.6);
+              bottom: 0;
+              z-index: 1;
+              > .complete-text{
+                display: inline;
+                font-size: 1.2em;
+                line-height: 20px;
+                color: @color_white;
+                vertical-align: middle;
+              }
             }
           }
 

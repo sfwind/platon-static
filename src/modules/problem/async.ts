@@ -12,8 +12,9 @@ export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }
 
-export function openProblemIntroduction(id){
-  return pget(`/rise/problem/open/${id}`)
+export function openProblemIntroduction(id, free){
+  let param = free ? {autoOpen: 'true'} : {autoOpen : 'false'}
+  return pget(`/rise/problem/open/${id}`, param)
 }
 
 export function createPlan(problemId) {
@@ -63,7 +64,6 @@ export function calculateCoupon(couponId,problemId){
 
 export function loadUserCoupons(){
   return pget(`/signup/coupon/list`);
-  // return Promise.resolve({code:200,msg:[]});
 }
 
 export function loadPayParam(param){
@@ -76,4 +76,8 @@ export function afterPayDone(productId){
 
 export function logPay(functionValue,type,param){
   pget(`/signup/mark/pay/${functionValue}/${type}${param?'?param='+param:''}`);
+}
+
+export function sendCustomerMsg(){
+  return ppost(`/rise/operation/free/choose/problem/msg`);
 }
