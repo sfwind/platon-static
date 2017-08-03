@@ -12,8 +12,9 @@ export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }
 
-export function openProblemIntroduction(id){
-  return pget(`/rise/problem/open/${id}`)
+export function openProblemIntroduction(id, free){
+  let param = free ? {free:true} : {free, false};
+  return pget(`/rise/problem/open/${id}`, param)
 }
 
 export function createPlan(problemId) {
@@ -78,5 +79,5 @@ export function logPay(functionValue,type,param){
 }
 
 export function sendCustomerMsg(){
-  return ppost(`/operation/free/choose/problem/msg`);
+  return ppost(`/rise/operation/free/choose/problem/msg`);
 }

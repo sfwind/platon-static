@@ -35,7 +35,7 @@ export default class Welcome extends React.Component<any, any> {
 
   handleClickGoTrailPage() {
     mark({ module: "打点", function: "付费相关", action: "点击试用版", memo: "欢迎页" }).then(() => {
-      this.context.router.push('/rise/static/plan/view?id=9')
+      this.context.router.push('/rise/static/plan/view?id=9&free=true')
     })
   }
 
