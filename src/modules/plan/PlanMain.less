@@ -1,6 +1,14 @@
 @import "../../style/variable";
 
 .rise-main {
+  >.first-open-rise-mask{
+    top:347px;
+    height:~"calc(100% - 347px)";
+    position: absolute;
+    z-index: 2000;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
   .chapter-card-container {
     position: relative;
     height: 100%;
