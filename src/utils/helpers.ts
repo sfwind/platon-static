@@ -123,3 +123,21 @@ export function filterHtmlTag(content) {
   return _.isString(content) ? content.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, "") : "";
 }
 
+
+export function fixIosShimoBug(){
+  if(window.ENV.osName === 'ios') {
+    window.addEventListener("popstate", function(e) {
+      if(window.ENV.configUrl.indexOf("shimo.im") != -1) {
+        alert("刷新:" + window.location.href + "," + document.referrer + ":" + document.title);
+        window.location.href = window.location.href;
+      }
+    });
+  }
+}
+
+export function goOtherWeb(url){
+  if(window.ENV.osName === 'ios' && url.indexOf('shimo.im') != -1) {
+    window.ENV.configUrl = url;
+  }
+  window.location.href = url;
+}
