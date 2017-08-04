@@ -42,6 +42,7 @@ export default class Rise extends React.Component<any, any> {
     const { riseId, memberType, mobile, isRiseMember, coupons = [] } = data
 
     const renderCoupons = () => {
+      console.log(coupons)
       if(coupons.length !== 0) {
         let domArr = []
         domArr.push(<div className="item ">奖学金/优惠券</div>)
@@ -52,7 +53,7 @@ export default class Rise extends React.Component<any, any> {
             console.log(coupon.description.indexOf('奖学金'))
             let imgSrc = (coupon.description && coupon.description.indexOf('奖学金')) >= 0 ? jxjSrc : yhqSrc
             return (
-              <div className="item">
+              <div className="item" key={index}>
                 <img src={imgSrc} alt={coupon.description}
                      style={{ float: 'left' }}/>
                 <div className='label'>{coupon.description} ￥{coupon.amount} 元</div>
