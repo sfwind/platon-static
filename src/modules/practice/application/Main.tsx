@@ -40,7 +40,7 @@ export class Main extends React.Component <any, any> {
       draftId: -1,
       draft: '',
       showDraftToast: false,
-      isRiseMember: false,
+      isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
       completdApplicationCnt: 0
@@ -438,36 +438,48 @@ export class Main extends React.Component <any, any> {
     const renderCompleteBox = () => {
 
       if(!showCompletedBox || completdApplicationCnt === 0) return
-      if(isRiseMember) {
+      if(isRiseMember == 1) {
         return (
-          <div className="complete-box">
-            <div className="complete-tip-content">好棒！你完成了 1 个应用练习，+10积分。</div>
+          <div>
+            <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
+            <div className="complete-box">
+              <div className="complete-tip-content">好棒！你完成了 1 个应用练习，+10积分。</div>
+            </div>
           </div>
         )
       } else {
         if(completdApplicationCnt > 3) {
           return (
-            <div className="complete-box">
-              <div className="complete-tip-content">好棒！你完成了 1 个应用练习，+10积分。</div>
+            <div>
+              <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
+              <div className="complete-box">
+                <div className="complete-tip-content">好棒！你完成了 1 个应用练习，+10积分。</div>
+              </div>
             </div>
           )
         } else {
           switch(completdApplicationCnt) {
             case 3:
               return (
-                <div className="complete-box complete">
-                  <div className="complete-tip-content">
-                    好厉害！你完成了 3 个应用练习，20元奖学金get！<br/>
-                    可以在个人中心里查看哦。
+                <div>
+                  <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
+                  <div className="complete-box complete">
+                    <div className="complete-tip-content">
+                      好厉害！你完成了 3 个应用练习，20元奖学金get！<br/>
+                      可以在个人中心里查看哦。
+                    </div>
                   </div>
                 </div>
               )
             default:
               return (
-                <div className="complete-box">
-                  <div className="complete-tip-content">
-                    好棒！你完成了 1 个应用练习，+10 积分。<br/>
-                    再完成 { 3 - completdApplicationCnt } 个应用练习，就可以获得20元奖学金了，加油哦！
+                <div>
+                  <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
+                  <div className="complete-box">
+                    <div className="complete-tip-content">
+                      好棒！你完成了 1 个应用练习，+10 积分。<br/>
+                      再完成 { 3 - completdApplicationCnt } 个应用练习，就可以获得20元奖学金了，加油哦！
+                    </div>
                   </div>
                 </div>
               )
@@ -507,7 +519,19 @@ export class Main extends React.Component <any, any> {
           </div>
           <div ref="workContainer" className="work-container">
             <div ref="submitBar" className="submit-bar">
-              { content === null ? '刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~' : '我的作业'}
+              {
+                content === null ?
+                  <div className="award_application">
+                    {
+                      isRiseMember != 1 ?
+                        <AssetImg url="https://static.iqycamp.com/images/fragment/award_application.png"
+                                  width={window.innerWidth}/> :
+                        null
+                    }
+                    刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~
+                  </div> :
+                  '我的作业'
+              }
             </div>
             {renderTip()}
 
@@ -546,7 +570,7 @@ export class Main extends React.Component <any, any> {
             <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
             null
         }
-        <div onClick={() => this.setState({showCompletedBox: false, completdApplicationCnt: 0 })}>
+        <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
           { renderCompleteBox() }
         </div>
       </div>
