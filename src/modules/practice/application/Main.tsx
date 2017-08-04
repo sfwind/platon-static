@@ -4,7 +4,7 @@ import './Main.less'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft, loadOtherListBatch, isRiseMember
+  autoUpdateApplicationDraft, loadOtherListBatch, isRiseMember, loadApplicationCompletedCount
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
@@ -43,7 +43,7 @@ export class Main extends React.Component <any, any> {
       isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
-      completdApplicationCnt: 0
+      completdApplicationCnt: 1000
     }
     this.pullElement = null
   }
@@ -200,6 +200,11 @@ export class Main extends React.Component <any, any> {
     getOpenStatus().then(res => {
       if(res.code === 200) {
         this.setState({ openStatus: res.msg })
+      }
+    })
+    loadApplicationCompletedCount(planId).then(res => {
+      if(res.code === 200) {
+        this.setState({ completdApplicationCnt: res.msg })
       }
     })
   }
@@ -463,7 +468,8 @@ export class Main extends React.Component <any, any> {
               return (
                 <div>
                   <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-                  <div className="complete-box complete">
+                  <div className="complete-box complete"
+                       onClick={() => {this.context.router.push('/rise/static/customer/account')}}>
                     <div className="complete-tip-content">
                       好厉害！你完成了 3 个应用练习，20元奖学金get！<br/>
                       可以在个人中心里查看哦。
@@ -523,7 +529,7 @@ export class Main extends React.Component <any, any> {
                 content === null ?
                   <div className="award_application">
                     {
-                      isRiseMember != 1 ?
+                      isRiseMember != 1 && completdApplicationCnt < 3 ?
                         <AssetImg url="https://static.iqycamp.com/images/fragment/award_application.png"
                                   width={window.innerWidth}/> :
                         null
