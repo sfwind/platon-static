@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import "./Main.less";
 import { answer,getOpenStatus,openConsolidation } from "./async";
+import { mark } from "../../../utils/request"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import Tutorial from "../../../components/Tutorial"
 import AssetImg from "../../../components/AssetImg";
@@ -117,17 +118,30 @@ export class Main extends React.Component <any, any> {
   }
 
   next() {
-    const { dispatch } = this.props;
+    const { dispatch,location } = this.props;
     const { selected, list, currentIndex, practiceCount } = this.state;
+    const { integrated, practicePlanId} = location.query;
+
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"))
       return
     }
+
     if(currentIndex < practiceCount - 1) {
       this.setChoice();
       let selected = list.practice[`${currentIndex + 1}`].choice;
       if(!selected) {
         selected = []
+      }
+      let problemId =  _.get(list,'practice[0].problemId');
+      let questionId = _.get(list,`practice[${currentIndex}].id`);
+      if(problemId == 9){
+        mark({
+          module: "打点",
+          function: questionId,
+          action: "做选择题",
+          memo: currentIndex
+        });
       }
       this.setState({ currentIndex: currentIndex + 1, selected });
     }
@@ -136,13 +150,23 @@ export class Main extends React.Component <any, any> {
 
   onSubmit() {
     const { dispatch } = this.props;
-    const { selected, practice, currentIndex, practiceCount } = this.state;
+    const { selected, practice, currentIndex, practiceCount,list } = this.state;
     const { practicePlanId } = this.props.location.query;
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"));
       return
     }
     if(currentIndex === practiceCount - 1) {
+      let problemId =  _.get(list,'practice[0].problemId');
+      let questionId = _.get(list,`practice[${currentIndex}].id`);
+      if(problemId == 9){
+        mark({
+          module: "打点",
+          function: questionId,
+          action: "做选择题",
+          memo: currentIndex
+        });
+      }
       this.setChoice(p => {
         dispatch(startLoad());
         answer({ practice: p }, practicePlanId).then(res => {
@@ -163,7 +187,7 @@ export class Main extends React.Component <any, any> {
         }).catch(ex => {
           dispatch(endLoad())
           dispatch(alertMsg(ex))
-        })
+        });
       })
     }
   }
@@ -195,13 +219,14 @@ export class Main extends React.Component <any, any> {
         <div className="intro-container">
           { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
             <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
+            <span className="tip">正确选项可能不止一个</span>
             <span className="type"><span className="number">{score}</span>分</span>
           </div> : null}
           {pic ? <div className="context-img">
             <AssetImg url={pic}/></div> : null
           }
           <div className="question">
-            <div dangerouslySetInnerHTML={{ __html: question }}></div>
+            <div dangerouslySetInnerHTML={{ __html: question }}/>
           </div>
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}

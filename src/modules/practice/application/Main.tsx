@@ -16,6 +16,7 @@ import Tutorial from '../../../components/Tutorial'
 import Editor from '../../../components/editor/Editor'
 import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
+import { preview } from '../../helpers/JsConfig'
 
 let timer
 
@@ -390,7 +391,16 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderTip = () => {
-      if(!edit) {
+      if(edit) {
+        return (
+          <div className="no-comment">
+            <div className="content">
+              <div className="text">更喜欢电脑上提交?</div>
+              <div className="text">登录www.iquanwai.com/community</div>
+            </div>
+          </div>
+        )
+      } else {
         return (
           <div>
             <Work onVoted={() => this.voted(submitId, voteStatus, voteCount, true)} onEdit={() => this.onEdit()}
@@ -479,17 +489,26 @@ export class Main extends React.Component <any, any> {
                 <AssetImg type="app" size={15}/><span>今日应用</span>
               </div>
               <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
+              {
+                pic ?
+                  <div className="app-image">
+                    <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
+                              onClick={() => {preview(pic, [ pic ])}}/>
+                  </div> :
+                  null
+              }
               {integrated == 'false' ?
                 <div className="knowledge-link"
                      onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
-                  点击查看相关知识点</div> : null
+                  点击查看相关知识点
+                </div> : null
               }
             </div>
           </div>
           <div ref="workContainer" className="work-container">
-            <div ref="submitBar" className="submit-bar">{ content === null ?
-              '刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~'
-              : '我的作业'}</div>
+            <div ref="submitBar" className="submit-bar">
+              { content === null ? '刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~' : '我的作业'}
+            </div>
             {renderTip()}
 
             {edit ?

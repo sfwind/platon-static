@@ -42,14 +42,30 @@
   .intro-container {
     > .intro-index {
       margin: 15px 0 10px 0;
+      display: block;
+
+      span {
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+      }
+
       > .index {
         font-size: @font_index;
         color: @color_title;
       }
+
+      > .tip {
+        font-size: @font_index;
+        color: #999;
+        margin-left: 10px;
+      }
+
       > .type {
         margin-left: 14px;
         color: @color_strong;
         font-size: @font_index;
+        float: right;
         > .number {
           font-size: 1.7em;
         }

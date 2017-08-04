@@ -7,6 +7,7 @@ import { loadProblem, createPlan, checkCreatePlan, mark } from './async'
 import AssetImg from '../../components/AssetImg'
 import { changeTitle } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
+import Swiper from 'swiper';
 
 import Tutorial from '../../components/Tutorial'
 import { isBoolean, merge } from 'lodash'
@@ -22,6 +23,8 @@ export default class PlanList extends React.Component<any, any> {
       openNavigator: true,
       showPage: false
     }
+    this.picWidth = (window.innerWidth - 15 - 10 - 10) / 2.5;
+    this.picHeight = (80 / 130) * this.picWidth;
     this.runPicWidth = (window.innerWidth / (750 / 270)) > 135 ? 135 : (window.innerWidth / (750 / 270))
     this.runTextWidth = (window.innerWidth - 30 - this.runPicWidth - 5)
     this.completedRightTextWidth = 45
@@ -51,7 +54,7 @@ export default class PlanList extends React.Component<any, any> {
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator } = res.msg
+        const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator, recommendations = [] } = res.msg
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
           showEmptyPage = true
@@ -65,7 +68,16 @@ export default class PlanList extends React.Component<any, any> {
             return
           }
         }
-        this.setState({ planList: res.msg, showEmptyPage: showEmptyPage, openNavigator, showPage: true })
+        this.setState({ planList: res.msg, showEmptyPage: showEmptyPage, openNavigator, showPage: true, recommendations: recommendations }, () => {
+          var swiper = new Swiper("#problem-recommendation", {
+            scrollbar: "#problem-recommendation-bar",
+            scrollbarHide: true,
+            slidesPerView: 'auto',
+            centeredSlides: false,
+            spaceBetween: 0,
+            grabCursor: true
+          });
+        });
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -89,6 +101,28 @@ export default class PlanList extends React.Component<any, any> {
     })
   }
 
+  handleClickRecommend(problem) {
+    mark({
+      module: "打点",
+      function: "学习",
+      action: "学习页面点击推荐小课",
+      memo: window.ENV.osName
+    });
+    this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problem.id } });
+  }
+
+  handleClickMoreProblem(){
+    mark({
+      module: "打点",
+      function: "学习",
+      action: "学习页面点击发现更多",
+      memo: window.ENV.osName
+    });
+    this.context.router.push({
+      pathname: '/rise/static/problem/explore'
+    })
+  }
+
   tutorialEnd() {
     const { dispatch } = this.props
     updateOpenNavigator().then(res => {
@@ -102,12 +136,12 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   render() {
-    const { planList = {}, showEmptyPage, openNavigator, showPage } = this.state
+    const { planList = {}, showEmptyPage, openNavigator, showPage, recommendations = [] } = this.state;
     if(!showPage) return <div/>
 
     const { location } = this.props
-    const { runningPlanId, completedPlanId, trialClosedId } = location.query
-    const { completedPlans = [], runningPlans = [], trialClosedPlans = [] } = planList
+    const { runningPlanId, completedPlanId, trialClosedId } = location.query;
+    const { completedPlans = [], runningPlans = [], trialClosedPlans = [] } = planList;
 
     const renderCompletedPlans = () => {
       if(completedPlans) {
@@ -133,7 +167,6 @@ export default class PlanList extends React.Component<any, any> {
           </div>
         )
       }
-
     }
 
     return (
@@ -187,8 +220,9 @@ export default class PlanList extends React.Component<any, any> {
                         </div>
                         <div className="p-r-b-i-text-done">
                           已完成：{`${item.completeSeries}/${item.totalSeries}节`}
-
                         </div>
+                        {renderDeadline(item.deadline)}
+                        <div className="running-problem-button"/>
                       </div>
                     </div>
                   </div>
@@ -196,6 +230,44 @@ export default class PlanList extends React.Component<any, any> {
               })}
           </div>
 
+          { recommendations && recommendations.length !== 0 ?
+            <div className="problem-recommendation ">
+              <div className="recommendation-header">
+                <span className="header-title">推荐学习</span>
+              </div>
+              <div className="swiper-container" id="problem-recommendation">
+                <div className="swiper-wrapper">
+                  {recommendations ? recommendations.map((problem, key) => {
+                    return (
+                      <div onClick={()=>this.handleClickRecommend(problem)} style={{width:`${this.picWidth}px`}}
+                           className="problem-item-show swiper-slide">
+                        <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                          { problem.newProblem ?
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                      style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null
+                          }
+                          { problem.trial ?
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                      style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null
+                          }
+                          <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
+                        </div>
+                        <span>{problem.problem}</span>
+                      </div>
+                    )
+                  }) : null}
+                  <div onClick={()=>this.handleClickMoreProblem()} className="swiper-slide problem-item-show  found-more" style={{height:`${this.picHeight}px`}}>
+                    <div className="tips-word">
+                      点击发现更多
+                    </div>
+                    <div className="icon-next">
+                      <AssetImg type="rise_icon_arrow_right" size="25px"/>
+                    </div>
+                  </div>
+                </div>
+                <div className="swiper-scrollbar" id="problem-recommendation-bar"></div>
+              </div>
+            </div>: null}
 
           { trialClosedPlans && trialClosedPlans.length !== 0 ?
             <div className="plp-completed plp-block">
@@ -295,10 +367,10 @@ export default class PlanList extends React.Component<any, any> {
                   })}
                 </div>
               </div>
-              : <div className="complete-plan-empty">
-                <AssetImg url='https://static.iqycamp.com/images/complete_plan_empty.png?imageslim'/>
-              </div>}
-          </div>
+              :   <div className="complete-plan-empty">
+                    <AssetImg url='https://static.iqycamp.com/images/complete_plan_empty.png?imageslim' />
+                  </div>}
+            </div>
           <div className="padding-footer"/>
         </div>
       </div>
