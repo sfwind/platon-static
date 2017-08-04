@@ -22,12 +22,8 @@ export default class Welcome extends React.Component<any, any> {
     dispatch(startLoad())
     welcome().then(res => {
       dispatch(endLoad())
-      if(res.code === 200) {
-        if(res.code === 200 && res.msg) {
+      if(res.code === 200 && res.msg !== 0) {
           this.context.router.push('/rise/static/problem/explore')
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
       }
     }).catch(e => {
       dispatch(alertMsg(e))

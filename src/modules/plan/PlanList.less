@@ -7,12 +7,13 @@
   .problem-recommendation {
     //overflow-x: scroll;
     width: 100%;
-    .swiper-container{
-      background-color:#FFF;
+    .swiper-container {
+      background-color: #FFF;
       padding-left: 10px;
     }
-    .recommendation-header{
-      padding: 14px 0;
+    .recommendation-header {
+      position: relative;
+      padding: 17px 0;
       .header-title {
         font-size: @font_title;
         color: #9a9a9a;
@@ -27,6 +28,16 @@
           margin-left: 10px;
           margin-right: 5px;
           vertical-align: middle;
+        }
+      }
+      .operation-coupon {
+        position: relative;
+        display: inline-block;
+        top: 8px;
+        left: 10px;
+        img {
+          width: 131px;
+          height: 32px;
         }
       }
     }
@@ -59,16 +70,16 @@
         color: @color_context;
       }
     }
-    .found-more{
-      margin-left:15px;
-      padding-top:15px;
+    .found-more {
+      margin-left: 15px;
+      padding-top: 15px;
 
-      width:50px;
+      width: 50px;
       position: relative;
       .tips-word {
         width: 1em;
         font-size: @font_click;
-        color:@color_title;
+        color: @color_title;
         display: inline-block;
         line-height: 1.3em;
         -webkit-transform: translateY(-50%);
@@ -82,8 +93,8 @@
       }
       .icon-next {
         position: absolute;
-        top:50%;
-        right:0;
+        top: 50%;
+        right: 0;
         -webkit-transform: translateY(-50%);
         -moz-transform: translateY(-50%);
         -ms-transform: translateY(-50%);

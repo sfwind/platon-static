@@ -8,7 +8,7 @@ import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon, sendCustomerMsg
+  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
@@ -62,7 +62,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       },
       show: true,
       showPayInfo: false,
-      showErr: false
+      showErr: false,
+      showFloatCoupon: false
     }
 
   }
@@ -157,7 +158,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-
+    loadHasGetOperationCoupon().then(res => {
+      console.log('res', res)
+      if(res.code === 200) {
+        this.setState({ showFloatCoupon: res.msg })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    })
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
     this.headerContentTop = (window.innerWidth / (750 / 104)) > 52 ? 52 : (window.innerWidth / (750 / 104))
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25))
@@ -526,9 +534,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   render() {
-    const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free } = this.state
+    const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free, showFloatCoupon } = this.state
     const { show } = this.props.location.query
-
+    console.log('showFloatCoupon', showFloatCoupon)
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
       descPic, audio, chapterList, problem, categoryPic, authorPic
@@ -601,6 +609,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 1: {
               list.push(
                 <div className="button-footer">
+                  {
+                    showFloatCoupon ?
+                      <div className="operation-coupon">
+                        <AssetImg url="https://static.iqycamp.com/images/fragment/float_coupon_reward_rec.png"/>
+                      </div> :
+                      null
+                  }
                   <div className={`left pay`} onClick={() => this.handleClickPayImmediately(coupons.length)}>
                     ¥ {fee}，立即学习
                   </div>
