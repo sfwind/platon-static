@@ -109,7 +109,7 @@ function jsConfig() {
     if(res.code === 200) {
       try {
         wx.config(_.merge({
-          debug: true,
+          debug: false,
           jsApiList: [ 'hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage' ].concat(window.ENV.apiList),
         }, res.msg))
         wx.ready(() => {
