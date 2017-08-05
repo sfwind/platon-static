@@ -35,6 +35,7 @@ export default class Main extends React.Component<any, any> {
       windowsClient: false,
       activityMsg: false,
     }
+    window.ENV.configTimes = 0;
     window.ENV.Detected = new UA(window.navigator.userAgent);
     window.ENV.osName = toLower(get(window, 'ENV.Detected.os.name'));
     window.ENV.osVersion = toLower(get(window, 'ENV.Detected.os.version.original'));
@@ -42,6 +43,7 @@ export default class Main extends React.Component<any, any> {
     console.log(ENV.Detected);
     // fix ios系统进入石墨文档后再返回会触发签名失败的bug
     fixIosShimoBug();
+    window.ENV.jsApiConfig = ()=>{config([ 'chooseWXPay' ])}
   }
 
   componentWillMount() {
