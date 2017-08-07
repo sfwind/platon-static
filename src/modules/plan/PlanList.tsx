@@ -21,7 +21,7 @@ export default class PlanList extends React.Component<any, any> {
     super()
     this.state = {
       openNavigator: true,
-      showPage: false
+      showPage: false,
       showFloatCoupon: false
     }
     this.picWidth = (window.innerWidth - 15 - 10 - 10) / 2.5
