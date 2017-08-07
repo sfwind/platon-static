@@ -20,17 +20,22 @@ export default class Activity extends React.Component<any, any> {
 
   activityPage() {
     const { url } = this.state;
-    const reg = new RegExp('^http|https');
-    this.setState({ show: false });
-    if(reg.test(url)) {
-      window.location.href = url;
+    const reg = new RegExp('^http|https')
+    this.setState({ show: false })
+    if(url) {
+      if(reg.test(url)) {
+        window.location.href = url
+      } else {
+        this.context.router.push(url)
+      }
     } else {
-      this.context.router.push(url);
+      this.setState({ show: false })
     }
+
   }
 
   render() {
-    const { pic, show } = this.state;
+    const { pic, show } = this.state
 
     return (
       show ?
