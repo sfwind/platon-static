@@ -914,7 +914,7 @@ export class PlanMain extends React.Component <any, any> {
                     <div className="step-one">
                       <img src="https://static.iqycamp.com/images/fragment/free_limit_printer_left.jpg?imageslim"
                            alt=""/>
-                      <span>长按卡片保存到相册<br/>在朋友圈分享该卡片</span>
+                      <span>长按下方卡片<br/>发送给朋友</span>
                     </div>
                     <div className="step-two">
                       <img src="https://static.iqycamp.com/images/fragment/free_limit_printer_right.jpg?imageslim"
@@ -939,7 +939,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="printer-body" style={{ height: 95 }}>
                 <div className="share-tip-normal">
                   <div className="tip-normal-top">如果觉得有启发，记得分享给好友哦！</div>
-                  <div className="tip-normal-bottom">长按卡片保存到相册，在朋友圈分享该卡片</div>
+                  <div className="tip-normal-bottom">长按下方卡片，发送给朋友</div>
                 </div>
               </div>
             </div>
