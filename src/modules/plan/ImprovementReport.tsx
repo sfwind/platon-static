@@ -166,13 +166,13 @@ export class ImprovementReport extends React.Component<any, any> {
                            onClick={() => {
                              mark({module: "打点", function: "小课推荐进入小课学习", action: `${problem.id}`});
 
-                             window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}`
-                             {/*this.context.router.push({*/}
-                               {/*pathname: `/rise/static/plan/view`,*/}
-                               {/*query: {*/}
-                                 {/*id: problem.id*/}
-                               {/*}*/}
-                             {/*})*/}
+                             {/*window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}`*/}
+                             this.context.router.push({
+                               pathname: `/rise/static/plan/view`,
+                               query: {
+                                 id: problem.id
+                               }
+                             })
                            }}>查看
                       </div>
                     </div>

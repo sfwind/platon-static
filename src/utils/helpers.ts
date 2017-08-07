@@ -80,7 +80,7 @@ export function scroll(target, container) {
     }
   }
 }
-
+// 数字转汉字
 export function NumberToChinese(num) {
   var unitPos = 0;
   var strIns = '', chnStr = '';
@@ -123,18 +123,26 @@ export function filterHtmlTag(content) {
   return _.isString(content) ? content.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, "") : "";
 }
 
-
+/**
+ * 描述：ios系统，1.点击石墨外链，进入石墨,2.点击系统返回按钮,3.此时签名会失败，支付会报url（石墨的）未注册
+ * 解决方案：如果监听到ios的后退操作，并且configUrl已经是石墨的url了（下面的方法update的configUrl)
+ * 就刷新页面
+ */
 export function fixIosShimoBug(){
   if(window.ENV.osName === 'ios') {
     window.addEventListener("popstate", function(e) {
       if(window.ENV.configUrl.indexOf("shimo.im") != -1) {
-        alert("刷新:" + window.location.href + "," + document.referrer + ":" + document.title);
+        // alert("刷新:" + window.location.href + "," + document.referrer + ":" + document.title);
         window.location.href = window.location.href;
       }
     });
   }
 }
 
+/**
+ * 跳转到其他外链地址
+ * @param url 检查一下这个外链是不是shimo，如果是石墨，并且是ios系统，就修改configUrl
+ */
 export function goOtherWeb(url){
   if(window.ENV.osName === 'ios' && url.indexOf('shimo.im') != -1) {
     window.ENV.configUrl = url;

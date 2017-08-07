@@ -869,8 +869,8 @@ export class PlanMain extends React.Component <any, any> {
           {
             label: '确定',
             onClick: () => {
-              window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${this.state.planData.problemId}`
-              // this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)
+              // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${this.state.planData.problemId}`
+              this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)
             }
           }
         ]

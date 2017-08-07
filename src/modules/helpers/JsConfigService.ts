@@ -1,6 +1,9 @@
 import { pget, mark } from "utils/request"
 import * as _ from "lodash";
 
+/**
+ * 调用微信支付的config参数
+ */
 interface ConfigParamProps {
   appId: string,
   timestamp: string,
@@ -8,33 +11,42 @@ interface ConfigParamProps {
   signature: string
 }
 
+/**
+ * 缓存的config对象
+ */
 class ConfigBean {
-  url: string;
-  configParam: ConfigParamProps;
-  configTimes: number;
-  error:boolean;
+  url: string; // 这个config参数的url
+  configParam: ConfigParamProps; // 后端签发的config参数
+  configTimes: number; // config失败次数
+  error:boolean; // 是否异常
   constructor(){
     this.error = false;
     this.configTimes = 0;
   }
 }
 
+/**
+ * 微信JS SDK签名服务
+ */
 class JsConfigService {
-  private configList: [ConfigBean];
-  static MAX_CONFIG_SIZE = 10;
+  private configList: [ConfigBean]; // url签名参数缓存队列
+  static MAX_CONFIG_SIZE = 10; // url签名参数缓存的最大数量
 
   constructor() {
+    // 初始化configList
     this.configList = new Array<ConfigBean>();
-    window.configList = this.configList;
-    console.log('config',this.configList);
-    this.configTimes = 0;
   }
 
-  public getConfigBean(url) {
+  private getConfigBean(url) {
     return _.get(_.filter(this.configList, { url: url }), '[0]', null);
   }
 
-  public setConfigBean(url, param) {
+  /**
+   *
+   * @param url
+   * @param param
+   */
+  private setConfigBean(url, param) {
     let configBean = this.getConfigBean(url);
     if(_.isNull(configBean)) {
       configBean = new ConfigBean();
@@ -55,13 +67,21 @@ class JsConfigService {
     }
   }
 
-  public setConfigParamError(url,e,apiList,callback) {
+  /**
+   * config参数异常
+   * @param url url
+   * @param e 异常信息
+   * @param apiList apiList
+   * @param callback 回调函数
+   */
+  private setConfigParamError(url,e,apiList,callback) {
     let configBean = this.getConfigBean(url);
     if(!_.isNull(configBean)) {
+      // 这个url有config参数
       configBean.configTimes += 1;
       console.log('configTimes',configBean.configTimes);
       if(configBean.configTimes >= 3){
-        // 错误次数大于3则打日志
+        // 错误次数大于3则打日志,并放弃config
         configBean.error = true;
         let memo = "url:" + window.location.href + ",configUrl:" + window.ENV.configUrl
           + ",os:" + window.ENV.systemInfo + ",signature:" + JSON.stringify(configBean);
@@ -75,13 +95,20 @@ class JsConfigService {
           memo: memo
         });
       } else {
+        // 错误次数小于3次则再次调用config
         this.config(apiList,callback);
       }
     }
   }
 
-  public jsConfig(apiList = [],callback){
+  /**
+   * 真正进行config的地方
+   */
+  private jsConfig(apiList = [],callback){
+    // 获取url
     let url = this.getUrl();
+    // alert(url);
+    // 获取config参数
     let configBean = this.getConfigBean(url);
     if(!_.isNull(configBean)){
       wx.config(_.merge({
@@ -90,23 +117,28 @@ class JsConfigService {
       }, configBean.configParam));
       wx.error((e) => {
         let url = this.getUrl();
-        alert("error："+JSON.stringify(e)+';'+url);
+        // alert("error："+JSON.stringify(e)+';'+url);
         this.setConfigParamError(url,e,apiList,callback);
       })
       wx.ready(() => {
-        // alert("ok"+JSON.stringify(e));
+        // 隐藏分享按钮
         wx.hideOptionMenu({
           fail:(e)=>{
-            alert("hide error："+JSON.stringify(e))
+            // alert("hide error："+JSON.stringify(e))
           }
         });
       })
     } else {
-      alert("final url"+url);
+      // 进入这个页面，但是返回的参数里却没有这个url，说明切页面切的太快了，等其他的config吧
+      // alert("final url"+url);
     }
   }
 
-  public getUrl(){
+  /**
+   * 根据当前的url／系统，获取调用config方法的url
+   * @returns {any}
+   */
+  private getUrl(){
     if(window.ENV.osName === 'ios') {
       return window.ENV.configUrl ? window.ENV.configUrl.split('#')[0] : window.location.href.split('#')[0];
     } else {
@@ -114,22 +146,31 @@ class JsConfigService {
     }
   }
 
+  /**
+   * 进行config
+   * @param apiList apiList
+   * @param callback 回调函数
+   */
   public config(apiList = [],callback) {
+    // 获取config用的url
     let url = this.getUrl();
+    // 获取这个url的config参数
     let configBean = this.getConfigBean(url);
     if(!_.isNull(configBean) && !configBean.error) {
+      // 没有config参数，并且这个参数没有异常(失败超过三次)
       console.log('已经有了config', configBean);
-      setTimeout(()=>{
-        this.jsConfig(apiList,callback);
-      },1);
+      // 调用签名方法
+      this.jsConfig(apiList,callback);
     } else {
+      // 没有有效的config参数，拉取config信息
       console.log("没有config");
       pget(`/wx/js/signature?url=${encodeURIComponent(url)}`).then(res => {
-        // 获取成功
+        // 获取成功，设置这个url的config参数
         this.setConfigBean(url,res.msg);
         setTimeout(()=>{
+          // 延迟1秒调用config
           this.jsConfig(apiList,callback);
-        },1);
+        },1000);
       }).catch(e => {
         console.log(e);
       });

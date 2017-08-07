@@ -84,16 +84,16 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           // 当前url未注册bug修复，主要是ios，因为ios在config时用的是第一个url,window.ENV.configUrl
           // 但是安卓也有可能出问题，所以干脆全部刷新页面（如果configUrl!==）
           // alert(window.ENV.configUrl);
-          // if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-          //   mark({
-          //     module: 'RISE',
-          //     function: '打点',
-          //     action: '刷新支付页面',
-          //     memo: window.ENV.configUrl + '++++++++++' + window.location.href
-          //   })
-          //   window.location.href = window.location.href
-          //   return Promise.reject('refresh')
-          // }
+          if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios') {
+            mark({
+              module: 'RISE',
+              function: '打点',
+              action: '刷新支付页面',
+              memo: window.ENV.configUrl + '++++++++++' + window.location.href
+            })
+            window.location.href = window.location.href
+            return Promise.reject('refresh')
+          }
         }
         return res.msg
       } else {
