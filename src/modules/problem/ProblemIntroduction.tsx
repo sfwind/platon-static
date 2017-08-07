@@ -83,16 +83,16 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           // 当前url未注册bug修复，主要是ios，因为ios在config时用的是第一个url,window.ENV.configUrl
           // 但是安卓也有可能出问题，所以干脆全部刷新页面（如果configUrl!==）
           // alert(window.ENV.configUrl);
-          if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
-            mark({
-              module: "RISE",
-              function: "打点",
-              action: "刷新支付页面",
-              memo: window.ENV.configUrl + "++++++++++" + window.location.href
-            });
-            window.location.href = window.location.href;
-            return Promise.reject("refresh");
-          }
+          // if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href) {
+          //   mark({
+          //     module: "RISE",
+          //     function: "打点",
+          //     action: "刷新支付页面",
+          //     memo: window.ENV.configUrl + "++++++++++" + window.location.href
+          //   });
+          //   window.location.href = window.location.href;
+          //   return Promise.reject("refresh");
+          // }
         }
         return res.msg;
       } else {
@@ -112,7 +112,7 @@ export default class ProblemIntroduction extends React.Component<any,any> {
                 sendCustomerMsg();
               }
             })
-          } else if (res.code === 204){
+          } else if(res.code === 204) {
             // 已选课，不提示
           } else {
             dispatch(alertMsg(res.msg))
@@ -460,49 +460,47 @@ export default class ProblemIntroduction extends React.Component<any,any> {
     }
 
     this.setState({ showPayInfo: false });
-    config([ 'chooseWXPay' ], () => {
-      if(window.ENV.osName === 'windows') {
-        // windows客户端
+    if(window.ENV.osName === 'windows') {
+      // windows客户端
+      mark({
+        module: "支付",
+        function: "小课单卖",
+        action: "windows-pay",
+        memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
+      });
+      dispatch(alertMsg("Windows的微信客户端不能支付哦，请在手机端购买小课～"));
+    }
+    pay({
+        "appId": signParams.appId,     //公众号名称，由商户传入
+        "timeStamp": signParams.timeStamp,         //时间戳，自1970年以来的秒数
+        "nonceStr": signParams.nonceStr, //随机串
+        "package": signParams.package,
+        "signType": signParams.signType,         //微信签名方式：
+        "paySign": signParams.paySign //微信签名
+      },
+      () => {
         mark({
           module: "支付",
           function: "小课单卖",
-          action: "windows-pay",
+          action: "success",
           memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
         });
-        dispatch(alertMsg("Windows的微信客户端不能支付哦，请在手机端购买小课～"));
+        this.handlePayDone();
+      },
+      (res) => {
+        mark({
+          module: "支付",
+          function: "小课单卖",
+          action: "cancel",
+          memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
+        });
+        this.setState({ showErr: true });
+      },
+      (res) => {
+        logPay('小课单卖', 'error', "os:" + window.ENV.systemInfo + ",error:" + (isObjectLike(res) ? JSON.stringify(res) : res) + ",configUrl:" + window.ENV.configUrl + ",url:" + window.location.href);
+        this.setState({ showErr: true });
       }
-      pay({
-          "appId": signParams.appId,     //公众号名称，由商户传入
-          "timeStamp": signParams.timeStamp,         //时间戳，自1970年以来的秒数
-          "nonceStr": signParams.nonceStr, //随机串
-          "package": signParams.package,
-          "signType": signParams.signType,         //微信签名方式：
-          "paySign": signParams.paySign //微信签名
-        },
-        () => {
-          mark({
-            module: "支付",
-            function: "小课单卖",
-            action: "success",
-            memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
-          });
-          this.handlePayDone();
-        },
-        (res) => {
-          mark({
-            module: "支付",
-            function: "小课单卖",
-            action: "cancel",
-            memo: "url:" + window.location.href + ",os:" + window.ENV.systemInfo
-          });
-          this.setState({ showErr: true });
-        },
-        (res) => {
-          logPay('小课单卖', 'error', "os:" + window.ENV.systemInfo + ",error:" + (isObjectLike(res) ? JSON.stringify(res) : res) + ",configUrl:" + window.ENV.configUrl + ",url:" + window.location.href);
-          this.setState({ showErr: true });
-        }
-      )
-    })
+    )
   }
 
   handleClickPayMember() {
@@ -731,17 +729,17 @@ export default class ProblemIntroduction extends React.Component<any,any> {
                 </div>
                 <ul className={`coupon-list`}>
                   {coupons ? coupons.map((item, seq) => {
-                      return (
-                        <li className="coupon" key={seq}>
-                          ¥{numeral(item.amount).format('0.00')}元
-                          <span className="describe">{item.description ? item.description : ''}</span>
-                          <span className="expired">{item.expired}过期</span>
-                          <div className="btn" onClick={()=>this.handleClickChooseCoupon(item,()=>{})}>
-                            选择
-                          </div>
-                        </li>
-                      )
-                    }) : null}
+                    return (
+                      <li className="coupon" key={seq}>
+                        ¥{numeral(item.amount).format('0.00')}元
+                        <span className="describe">{item.description ? item.description : ''}</span>
+                        <span className="expired">{item.expired}过期</span>
+                        <div className="btn" onClick={()=>this.handleClickChooseCoupon(item,()=>{})}>
+                          选择
+                        </div>
+                      </li>
+                    )
+                  }) : null}
                 </ul>
               </div>
               <div className="bn-container">
@@ -781,8 +779,8 @@ export default class ProblemIntroduction extends React.Component<any,any> {
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
               { audio ? <div className="context-audio">
-                  <Audio url={audio}/>
-                </div> : null }
+                <Audio url={audio}/>
+              </div> : null }
               <div>
                 <pre className="pi-c-f-c-text">{why}</pre>
               </div>
@@ -853,13 +851,13 @@ export default class ProblemIntroduction extends React.Component<any,any> {
           <div className="toast-text">点击下一步学习吧</div>
         </Toast>
         {showErr ?<div className="error-mask" onClick={()=>this.setState({showErr:false})}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-            </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div>: null}
+          <div className="tips">
+            出现问题的童鞋看这里<br/>
+            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
+            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          </div>
+          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+        </div>: null}
 
         {renderPayInfo()}
 
