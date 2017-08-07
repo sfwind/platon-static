@@ -77,3 +77,7 @@ export function loadChapterCard(problemId, practicePlanId) {
 export function loadChapterCardAccess(problemId, practicePlanId) {
   return pget(`/rise/plan/chapter/card/access/${problemId}/${practicePlanId}`)
 }
+
+export function loadHasGetOperationCoupon() {
+  return pget('/rise/operation/free/coupon')
+}

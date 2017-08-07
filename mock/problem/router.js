@@ -232,7 +232,7 @@ router.get("/rise/problem/open/*", (req, res) => {
           "problem": {
             "id": 9,
             "problem": "找到本质问题，减少无效努力",
-            "pic": "https://static.iqycamp.com/images/problem9_4.jpg",
+            "pic": "https://static.iqycamp.com/images/problem9_4.jpg?imageslim",
             "length": 6,
             "description": null,
             "catalogId": 1,

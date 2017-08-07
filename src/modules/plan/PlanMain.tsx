@@ -1029,7 +1029,7 @@ export class PlanMain extends React.Component <any, any> {
                   {renderDeadline(deadline)}
                 </div>
                 <div className="header-card-collection" onClick={() => this.goCardsCollection(problem.id)}>
-                  <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png?imageslim"
+                  <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png"
                             width={97} height={85}/>
                 </div>
               </div>
