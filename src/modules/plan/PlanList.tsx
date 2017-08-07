@@ -21,6 +21,7 @@ export default class PlanList extends React.Component<any, any> {
     super()
     this.state = {
       openNavigator: true,
+      showPage: false,
       showFloatCoupon: false
     }
     this.picWidth = (window.innerWidth - 15 - 10 - 10) / 2.5
@@ -68,7 +69,7 @@ export default class PlanList extends React.Component<any, any> {
             return
           }
         }
-        this.setState({ planList: res.msg, showEmptyPage: showEmptyPage, recommendations: recommendations }, () => {
+        this.setState({ planList: res.msg, showEmptyPage: showEmptyPage, openNavigator, showPage: true, recommendations: recommendations }, () => {
           var swiper = new Swiper('#problem-recommendation', {
             scrollbar: '#problem-recommendation-bar',
             scrollbarHide: true,
@@ -142,9 +143,11 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   render() {
+    const { planList = {}, showEmptyPage, openNavigator, showPage, recommendations = [], showFloatCoupon } = this.state
+    if(!showPage) return <div/>
+
     const { location } = this.props
     const { runningPlanId, completedPlanId, trialClosedId } = location.query
-    const { planList = {}, showEmptyPage, openNavigator, recommendations = [], showFloatCoupon } = this.state
     const { completedPlans = [], runningPlans = [], trialClosedPlans = [] } = planList
 
     const renderCompletedPlans = () => {
@@ -281,7 +284,6 @@ export default class PlanList extends React.Component<any, any> {
               </div>
             </div> : null}
 
-
           { trialClosedPlans && trialClosedPlans.length !== 0 ?
             <div className="plp-completed plp-block">
               <div className="p-c-header">
@@ -382,7 +384,7 @@ export default class PlanList extends React.Component<any, any> {
               </div>
               : <div className="complete-plan-empty">
                 <AssetImg url='https://static.iqycamp.com/images/complete_plan_empty.png?imageslim'/>
-              </div>}
+            </div>}
           </div>
           <div className="padding-footer"/>
         </div>

@@ -2,6 +2,7 @@
 
 .application {
   height: ~"calc(100% + 1px)";
+
   .intro-container {
     overflow: auto;
     .application-context {
@@ -46,16 +47,24 @@
       margin-top: 15px;
     }
   }
+
   .work-container{
     margin-top: 15px;
     .submit-bar {
       width: 100%;
       background-color: @color_weak_background;
       color: @color_title;
-      font-size: @font_index;
       padding: 15px 15px;
       margin-left:-15px;
       margin-bottom: 15px;
+      font-size: @font_index;
+
+      .award_application {
+        img {
+          margin-left: -15px;
+          margin-bottom: 10px;
+        }
+      }
     }
     .application-article{
       border-bottom: 1px solid #f5f5f5;
@@ -95,9 +104,33 @@
       margin: 5px 0 20px;
       display: inline-block;
       background-size: 100% 100%;
-      background-image: url(https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim);
+      background-image: url("https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim");
     }
   }
+
+  .complete-box {
+    background-image: url("https://static.iqycamp.com/images/fragment/application_waiting_award_2.png?imageslim");
+    background-size: 100% 100%;
+    width: 310px;
+    height: 242px;
+    position: absolute;
+    top: 180px;
+    left: 32px;
+    z-index: 1001;
+
+    &.complete {
+      background-image: url("https://static.iqycamp.com/images/fragment/application_complete_award.png?imageslim");
+    }
+
+    .complete-tip-content {
+      position: relative;
+      top: 110px;
+      padding: 0 20px;
+      font-size: 1.4em;
+      color: #333;
+    }
+  }
+
 }
 
 .main-toast {

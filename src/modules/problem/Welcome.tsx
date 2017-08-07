@@ -10,6 +10,9 @@ export default class Welcome extends React.Component<any, any> {
 
   constructor() {
     super()
+    this.state = {
+      showPage: false
+    }
   }
 
   static contextTypes = {
@@ -24,6 +27,9 @@ export default class Welcome extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200 && res.msg !== 0) {
           this.context.router.push('/rise/static/problem/explore')
+      } else {
+        this.setState({ showPage: true })
+        dispatch(alertMsg(res.msg))
       }
     }).catch(e => {
       dispatch(alertMsg(e))
@@ -53,7 +59,10 @@ export default class Welcome extends React.Component<any, any> {
   }
 
   render() {
-    return (
+    const { showPage } = this.state
+    if(!showPage) {
+      return <div/>
+    } else {
       <section className="welcome-container"
                style={{ minHeight: (window.innerWidth / 375) * 667 - 50 }}>
         <div className="welcome-page">
@@ -67,7 +76,7 @@ export default class Welcome extends React.Component<any, any> {
           </div>
         </div>
       </section>
-    )
+    }
   }
 
 }
