@@ -29,7 +29,6 @@ export default class Welcome extends React.Component<any, any> {
           this.context.router.push('/rise/static/problem/explore')
       } else {
         this.setState({ showPage: true })
-        dispatch(alertMsg(res.msg))
       }
     }).catch(e => {
       dispatch(alertMsg(e))
@@ -63,19 +62,20 @@ export default class Welcome extends React.Component<any, any> {
     if(!showPage) {
       return <div/>
     } else {
-      <section className="welcome-container"
-               style={{ minHeight: (window.innerWidth / 375) * 667 - 50 }}>
-        <div className="welcome-page">
-          <footer className="welcome-bottom">
-            <div className="button-left button" onClick={() => this.handleClickGoTrailPage()}>限时免费</div>
-            <div className="button-right button" onClick={() => this.handleClickGoExplorePage()}>所有小课</div>
-          </footer>
-          <div className="bottom-rise-tip">
-            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond_blue.jpg"/>
-            <span onClick={() => {window.location.href = '/pay/pay'}}>直接成为精英版年费会员</span>
+      return (
+        <div className="welcome-container" style={{ minHeight: (window.innerWidth / 375) * 667 - 50 }}>
+          <div className="welcome-page">
+            <div className="welcome-bottom">
+              <div className="button-left button" onClick={() => this.handleClickGoTrailPage()}>限时免费</div>
+              <div className="button-right button" onClick={() => this.handleClickGoExplorePage()}>所有小课</div>
+            </div>
+            <div className="bottom-rise-tip">
+              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond_blue.jpg"/>
+              <span onClick={() => {window.location.href = '/pay/pay'}}>直接成为精英版年费会员</span>
+            </div>
           </div>
         </div>
-      </section>
+      )
     }
   }
 
