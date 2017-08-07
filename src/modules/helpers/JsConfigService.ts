@@ -18,8 +18,8 @@ class ConfigBean {
   url: string; // 这个config参数的url
   configParam: ConfigParamProps; // 后端签发的config参数
   configTimes: number; // config失败次数
-  error:boolean; // 是否异常
-  constructor(){
+  error: boolean; // 是否异常
+  constructor() {
     this.error = false;
     this.configTimes = 0;
   }
@@ -54,7 +54,7 @@ class JsConfigService {
       configBean.configParam = param;
       configBean.error = false;
       // 最多存储10个
-      if(this.configList.length > JsConfigService.MAX_CONFIG_SIZE){
+      if(this.configList.length > JsConfigService.MAX_CONFIG_SIZE) {
         this.configList.shift();
       }
       // alert('config 1:'+url+":"+JSON.stringify(configBean));
@@ -74,13 +74,13 @@ class JsConfigService {
    * @param apiList apiList
    * @param callback 回调函数
    */
-  private setConfigParamError(url,e,apiList,callback) {
+  private setConfigParamError(url, e, apiList, callback) {
     let configBean = this.getConfigBean(url);
     if(!_.isNull(configBean)) {
       // 这个url有config参数
       configBean.configTimes += 1;
-      console.log('configTimes',configBean.configTimes);
-      if(configBean.configTimes >= 3){
+      console.log('configTimes', configBean.configTimes);
+      if(configBean.configTimes >= 3) {
         // 错误次数大于3则打日志,并放弃config
         configBean.error = true;
         let memo = "url:" + window.location.href + ",configUrl:" + window.ENV.configUrl
@@ -96,7 +96,7 @@ class JsConfigService {
         });
       } else {
         // 错误次数小于3次则再次调用config
-        this.config(apiList,callback);
+        this.config(apiList, callback);
       }
     }
   }
@@ -104,13 +104,13 @@ class JsConfigService {
   /**
    * 真正进行config的地方
    */
-  private jsConfig(apiList = [],callback){
+  private jsConfig(apiList = [], callback) {
     // 获取url
     let url = this.getUrl();
     // alert(url);
     // 获取config参数
     let configBean = this.getConfigBean(url);
-    if(!_.isNull(configBean)){
+    if(!_.isNull(configBean)) {
       wx.config(_.merge({
         debug: false,
         jsApiList: [ 'hideOptionMenu', 'showOptionMenu', 'onMenuShareAppMessage', 'onMenuShareTimeline' ].concat(apiList),
@@ -118,15 +118,18 @@ class JsConfigService {
       wx.error((e) => {
         let url = this.getUrl();
         // alert("error："+JSON.stringify(e)+';'+url);
-        this.setConfigParamError(url,e,apiList,callback);
+        this.setConfigParamError(url, e, apiList, callback);
       })
       wx.ready(() => {
         // 隐藏分享按钮
         wx.hideOptionMenu({
-          fail:(e)=>{
+          fail: (e) => {
             // alert("hide error："+JSON.stringify(e))
           }
         });
+        if(callback && _.isFunction(callback)) {
+          callback();
+        }
       })
     } else {
       // 进入这个页面，但是返回的参数里却没有这个url，说明切页面切的太快了，等其他的config吧
@@ -138,11 +141,11 @@ class JsConfigService {
    * 根据当前的url／系统，获取调用config方法的url
    * @returns {any}
    */
-  private getUrl(){
+  private getUrl() {
     if(window.ENV.osName === 'ios') {
-      return window.ENV.configUrl ? window.ENV.configUrl.split('#')[0] : window.location.href.split('#')[0];
+      return window.ENV.configUrl ? window.ENV.configUrl.split('#')[ 0 ] : window.location.href.split('#')[ 0 ];
     } else {
-      return window.location.href.split('#')[0];
+      return window.location.href.split('#')[ 0 ];
     }
   }
 
@@ -151,7 +154,7 @@ class JsConfigService {
    * @param apiList apiList
    * @param callback 回调函数
    */
-  public config(apiList = [],callback) {
+  public config(apiList = [], callback) {
     // 获取config用的url
     let url = this.getUrl();
     // 获取这个url的config参数
@@ -160,23 +163,22 @@ class JsConfigService {
       // 没有config参数，并且这个参数没有异常(失败超过三次)
       console.log('已经有了config', configBean);
       // 调用签名方法
-      this.jsConfig(apiList,callback);
+      this.jsConfig(apiList, callback);
     } else {
       // 没有有效的config参数，拉取config信息
       console.log("没有config");
       pget(`/wx/js/signature?url=${encodeURIComponent(url)}`).then(res => {
         // 获取成功，设置这个url的config参数
-        this.setConfigBean(url,res.msg);
-        setTimeout(()=>{
+        this.setConfigBean(url, res.msg);
+        setTimeout(() => {
           // 延迟1秒调用config
-          this.jsConfig(apiList,callback);
-        },1000);
+          this.jsConfig(apiList, callback);
+        }, 1000);
       }).catch(e => {
         console.log(e);
       });
     }
   }
 }
-
 
 export default new JsConfigService();
