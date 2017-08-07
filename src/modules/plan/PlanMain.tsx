@@ -463,6 +463,7 @@ export class PlanMain extends React.Component <any, any> {
 
   problemReview(problemId) {
     mark({ module: '打点', function: '首页', action: '打开小课介绍', memo: problemId })
+    // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problemId}&show=true`
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problemId, show: true } })
   }
 
@@ -867,7 +868,10 @@ export class PlanMain extends React.Component <any, any> {
           { label: '取消', onClick: () => this.setState({ showExpiredDateWarning: false }) },
           {
             label: '确定',
-            onClick: () => this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)
+            onClick: () => {
+              // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${this.state.planData.problemId}`
+              this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)
+            }
           }
         ]
       }

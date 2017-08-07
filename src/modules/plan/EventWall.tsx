@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {queryEventList,mark} from "./async";
 import {ToolBar} from "../base/ToolBar"
-import { changeTitle } from '../../utils/helpers'
+import { changeTitle, goOtherWeb } from '../../utils/helpers'
 import Banner from '../../components/Banner';
 
 @connect(state=>state)
@@ -61,7 +61,7 @@ export class EventWall extends React.Component<any,any>{
 
   goEvent(item){
     mark({module:"打点",function:"活动墙",action:"打开活动墙",memo:item.id});
-    window.location.href=item.destUrl;
+    goOtherWeb(item.destUrl);
   }
 
   renderTabBody(){
