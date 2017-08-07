@@ -28,7 +28,7 @@ export default class FeedBack extends React.Component<any,any>{
           <div className="tip">
             <p style={{fontSize:'15px',fontWeight:'bolder'}}>有疑问或建议，请给后台留言</p>
             <div className="serverCode">
-              <AssetImg url="https://static.iqycamp.com/images/personalFeedbackv1.png"/>
+              <AssetImg url="https://static.iqycamp.com/images/personalFeedbackv2.png"/>
             </div>
             <p style={{fontSize:'15px',fontWeight:'bolder'}}>常见问题</p><br/>
 
@@ -50,7 +50,7 @@ export default class FeedBack extends React.Component<any,any>{
             <br/>
           </div>
         </div>
-        <div className="padding-footer"></div>
+        <div className="padding-footer"/>
       </div>
     )
   }
