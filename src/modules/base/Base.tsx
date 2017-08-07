@@ -42,7 +42,6 @@ export default class Main extends React.Component<any, any> {
     console.log(ENV.Detected);
     // fix ios系统进入石墨文档后再返回会触发签名失败的bug
     fixIosShimoBug();
-    window.ENV.configList = [];
   }
 
   componentWillMount() {
