@@ -137,6 +137,8 @@ export class Main extends React.Component <any, any> {
     setTimeout(()=>{
       if(currentIndex !== practiceCount - 1){
         this.next()
+      } else{
+        this.setState({show:true})
       }
     }, 300)
 
@@ -160,7 +162,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { practice, currentIndex, selected, practiceCount, openStatus = {}, integrated, knowledgeId } = this.state
+    const { practice, currentIndex, selected, practiceCount, show } = this.state
     const questionRender = (practice) => {
       const { question, pic, choiceList = [], score = 0 } = practice
       return (
@@ -198,7 +200,7 @@ export class Main extends React.Component <any, any> {
               {questionRender(practice[currentIndex] || {})}
             </div>
           </div>
-          { currentIndex === practiceCount - 1 ?
+          { show ?
           <div className="button-footer" onClick={this.onSubmit.bind(this)}>
             提交
           </div> : null}
