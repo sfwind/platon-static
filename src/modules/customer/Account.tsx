@@ -24,7 +24,6 @@ export default class Rise extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     pget('/rise/customer/account').then(res => {
-      console.log('res', res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -42,7 +41,6 @@ export default class Rise extends React.Component<any, any> {
     const { riseId, memberType, mobile, isRiseMember, coupons = [] } = data
 
     const renderCoupons = () => {
-      console.log(coupons)
       if(coupons.length !== 0) {
         let domArr = []
         domArr.push(<div className="item ">奖学金/优惠券</div>)
@@ -50,7 +48,6 @@ export default class Rise extends React.Component<any, any> {
           coupons.map((coupon, index) => {
             let jxjSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_jxj.png'
             let yhqSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_yhq.png'
-            console.log(coupon.description.indexOf('奖学金'))
             let imgSrc = (coupon.description && coupon.description.indexOf('奖学金')) >= 0 ? jxjSrc : yhqSrc
             return (
               <div className="item" key={index}>
