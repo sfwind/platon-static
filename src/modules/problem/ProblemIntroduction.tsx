@@ -8,7 +8,7 @@ import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon
+  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon, loadProblemSchedule
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
@@ -63,7 +63,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       show: true,
       showPayInfo: false,
       showErr: false,
-      showFloatCoupon: false
+      showFloatCoupon: false,
+      togetherClassMonth: '0'
     }
 
   }
@@ -164,6 +165,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         this.setState({ showFloatCoupon: res.msg })
       } else {
         dispatch(alertMsg(res.msg))
+      }
+    })
+    loadProblemSchedule(id).then(res => {
+      if(res.code === 200) {
+        this.setState({ togetherClassMonth: res.msg })
       }
     })
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
@@ -534,7 +540,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   render() {
-    const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free, showFloatCoupon } = this.state
+    const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
     const { show } = this.props.location.query
     console.log('showFloatCoupon', showFloatCoupon)
     const {
@@ -626,9 +632,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 2: {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
-                  <div className="together-class-notice" style={{ width: window.innerWidth }}>
-                     本小课为 x 月精英会员训练营小课<br/>记得在当月选择哦
-                  </div>
+                  {
+                    togetherClassMonth !== "0" ?
+                      <div className="together-class-notice" style={{ width: window.innerWidth }}>
+                         本小课为 {togetherClassMonth} 月精英会员训练营小课<br/>记得在当月选择哦
+                      </div> :
+                      null
+                  }
                   选择该小课
                 </div>
               )
