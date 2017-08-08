@@ -160,7 +160,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       dispatch(alertMsg(ex))
     })
     loadHasGetOperationCoupon().then(res => {
-      console.log('res', res)
       if(res.code === 200) {
         this.setState({ showFloatCoupon: res.msg })
       } else {
@@ -169,7 +168,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     })
     loadProblemSchedule(id).then(res => {
       if(res.code === 200) {
-        console.log('problem schedule', res)
         this.setState({ togetherClassMonth: res.msg })
       }
     })
