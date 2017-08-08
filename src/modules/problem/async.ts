@@ -84,7 +84,3 @@ export function sendCustomerMsg(){
 export function loadHasGetOperationCoupon() {
   return pget('/rise/operation/free/coupon')
 }
-
-export function loadProblemSchedule(problemId) {
-  return pget(`/rise/problem/open/required/${problemId}`)
-}

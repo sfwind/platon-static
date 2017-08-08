@@ -8,7 +8,7 @@ import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon, loadProblemSchedule
+  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
@@ -135,7 +135,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             fee: problemMsg.fee,
             currentPlanId: problemMsg.planId,
             bindMobile: problemMsg.bindMobile,
-            isFull: problemMsg.isFull
+            isFull: problemMsg.isFull,
+            togetherClassMonth: problemMsg.togetherClassMonth
           })
         } else {
           this.setState({
@@ -145,7 +146,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             fee: problemMsg.fee,
             currentPlanId: problemMsg.planId,
             bindMobile: problemMsg.bindMobile,
-            isFull: problemMsg.isFull
+            isFull: problemMsg.isFull,
+            togetherClassMonth: problemMsg.togetherClassMonth
           })
           dispatch(alertMsg(msg))
         }
@@ -159,16 +161,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+    // 特指活动得到的50推广优惠券
     loadHasGetOperationCoupon().then(res => {
       if(res.code === 200) {
         this.setState({ showFloatCoupon: res.msg })
       } else {
         dispatch(alertMsg(res.msg))
-      }
-    })
-    loadProblemSchedule(id).then(res => {
-      if(res.code === 200) {
-        this.setState({ togetherClassMonth: res.msg })
       }
     })
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
