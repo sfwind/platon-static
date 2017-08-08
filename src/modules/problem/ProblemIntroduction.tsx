@@ -169,6 +169,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     })
     loadProblemSchedule(id).then(res => {
       if(res.code === 200) {
+        console.log('problem schedule', res)
         this.setState({ togetherClassMonth: res.msg })
       }
     })
@@ -177,9 +178,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25))
     this.whoFontSize = (window.innerWidth / (750 / 30)) > 15 ? 15 : (window.innerWidth / (750 / 30))
     this.whoNumFontSize = (window.innerWidth / (750 / 48)) > 24 ? 24 : (window.innerWidth / (750 / 48))
-  }
-
-  componentDidMount() {
   }
 
   /**
@@ -542,7 +540,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   render() {
     const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
     const { show } = this.props.location.query
-    console.log('showFloatCoupon', showFloatCoupon)
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
       descPic, audio, chapterList, problem, categoryPic, authorPic
@@ -632,13 +629,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 2: {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
-                  {
-                    togetherClassMonth !== "0" ?
-                      <div className="together-class-notice" style={{ width: window.innerWidth }}>
-                         本小课为 {togetherClassMonth} 月精英会员训练营小课<br/>记得在当月选择哦
-                      </div> :
-                      null
-                  }
+                    {
+                      togetherClassMonth !== "0" ?
+                        <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
+                           本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
+                        </div> :
+                        null
+                    }
                   选择该小课
                 </div>
               )
