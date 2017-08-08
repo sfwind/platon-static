@@ -25,7 +25,6 @@ export function checkCreatePlan(problemId,type) {
   return ppost(`/rise/plan/choose/problem/check/${problemId}/${type}`)
 }
 
-
 export function welcome() {
   return pget(`/rise/plan/welcome`)
 }

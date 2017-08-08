@@ -626,6 +626,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 2: {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
+                  <div className="together-class-notice" style={{ width: window.innerWidth }}>
+                     本小课为 x 月精英会员训练营小课<br/>记得在当月选择哦
+                  </div>
                   选择该小课
                 </div>
               )
