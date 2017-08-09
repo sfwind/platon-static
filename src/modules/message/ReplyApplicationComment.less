@@ -58,14 +58,7 @@
         }
       }
     }
-    > .comment-header {
-      font-size: 1.3em;
-      line-height: 1.3em;
-      color: @color_help;
-      background-color: @color_weak_background;
-      margin: 0 -15px 20px -15px;
-      padding-left: 15px;
-    }
+
     .comment-header-feedback {
       color: #999;
       background-color: @color_weak_background;
@@ -88,6 +81,14 @@
       > .no_comment {
         margin-top: 50px;
       }
+    }
+    > .comment-header {
+      font-size: 1.3em;
+      line-height: 1.3em;
+      color: @color_help;
+      margin: 0 -15px 20px -15px;
+      padding-left: 15px;
+      margin-bottom: 15px;
     }
   }
 
@@ -112,6 +113,9 @@
         width: 42px;
         height: 42px;
       }
+      span {
+        color: #999;
+      }
     }
 
     .evaluation-useless {
@@ -123,6 +127,9 @@
       img {
         width: 42px;
         height: 42px;
+      }
+      span {
+        color: #999;
       }
     }
   }
@@ -180,7 +187,7 @@
     width: 310px;
     height: 296px;
     position: fixed;
-    border-radius: 10px;
+    border-radius: 4px;
     background-color: #FFF;
     top: 140px;
     left: 30px;
@@ -201,7 +208,7 @@
     .evaluation-submit {
       width: 172px;
       height: 36px;
-      border-radius: 10px;
+      border-radius: 4px;
       color: #FFF;
       background-color: #55CBCB;
       font-size: 1.5em;

@@ -3,7 +3,7 @@ import './ReplyApplicationComment.less'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from '../../redux/actions'
 import { loadCommentList, comment, deleteComment, commentReply, getApplicationPractice, vote } from '../practice/application/async'
-import { findIndex, remove, isString, truncate, merge } from 'lodash'
+import { findIndex, remove, isString, truncate, merge, filter } from 'lodash'
 import { scroll, filterHtmlTag } from '../../utils/helpers'
 import { mark } from '../../utils/request'
 import AssetImg from '../../components/AssetImg'
@@ -21,7 +21,8 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       commentList: [],
       article: {},
       filterContent: '',
-      evaluated: false
+      evaluated: false,
+      showPage: false
     }
     this.commentHeight = window.innerHeight
   }
@@ -45,13 +46,15 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       dispatch(alertMsg(ex))
     })
     loadApplicationCommentOfMessage(location.query.submitId, location.query.commentId).then(res => {
+      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
         this.setState({
           commentList: msg.list,
           isModifiedAfterFeedback: msg.isModifiedAfterFeedback,
-          evaluated: msg.evaluated
+          evaluated: msg.evaluated,
+          showPage: true
         })
       } else {
         dispatch(alertMsg(msg))
@@ -125,23 +128,11 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const { dispatch, location } = this.props
     deleteComment(id).then(res => {
       if(res.code === 200) {
-        loadCommentList(location.query.submitId, 1).then(res => {
-          dispatch(endLoad())
-          if(res.code === 200) {
-            this.setState({
-              commentList: res.msg.list, page: 1, end: res.msg.end,
-              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback
-            })
-          } else {
-            dispatch(alertMsg(res.msg))
-          }
-        }).catch(ex => {
-          dispatch(endLoad())
-          dispatch(alertMsg(ex))
-        })
+        this.setState({commentList: filter(this.state.commentList, function(comment) {
+          return comment.id !== id
+        })})
       }
     })
   }
@@ -157,34 +148,26 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     }
   }
 
-  voted(id, voteStatus, voteCount) {
-    if(!voteStatus) {
-      this.setState({ article: merge(this.state.article, { voteCount: voteCount + 1, voteStatus: true }) })
-      vote(id)
-    }
-  }
-
   handleClickSubmitEvaluation() {
-    this.setState({ showEvaluateBox: false })
     const useful = this.state.useful ? 1 : 0
     let node = document.getElementById('evaluation-edit')
+    let evaluationValue = ''
     if(node) {
-      const evaluationValue = node.value
-      const { dispatch } = this.props
-      if(evaluationValue.trim().length > 0) {
-        submitEvaluation(this.props.location.query.commentId, useful, evaluationValue).then(() => {
-          this.setState({ showEvaluateBox: false })
-        }).catch(e => {
-          dispatch(alertMsg(e))
-        })
-      }
+      evaluationValue = node.value
+      this.setState({evaluateRreason: evaluationValue})
     }
+    const { dispatch } = this.props
+    submitEvaluation(this.props.location.query.commentId, useful, evaluationValue).catch(e => {
+      dispatch(alertMsg(e))
+    })
   }
 
   render() {
+    if(!this.state.showPage) return null
+
     const {
-      commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60,
-      useful = undefined, evaluated, showEvaluateBox = false
+      commentList = [], showDiscuss, isReply, placeholder, showAll, filterContent, wordsCount = 60,
+      useful = undefined, evaluated, showEvaluateBox = false, evaluateRreason = ''
     } = this.state
     const { topic, content } = this.state.article
 
@@ -230,11 +213,16 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     }
 
     const renderEvaluate = () => {
+      if(evaluated) return null
       return (
         <div className="comment-evaluation">
           <div className="evaluation-tip">觉得教练的评论，对学习有帮助吗？</div>
           <div className="evaluation-useful"
-               onClick={() => this.setState({ useful: useful === undefined ? true : !this.state.useful })}>
+               onClick={() => {
+                 this.setState({ useful: useful === undefined ? true : !this.state.useful }, () => {
+                   this.handleClickSubmitEvaluation()
+                 })
+               }}>
             <img src={useful ?
               'https://static.iqycamp.com/images/fragment/useful_full.png?imageslim' :
               'https://static.iqycamp.com/images/fragment/useful_empty.png?imageslim'} alt="有帮助"/>
@@ -244,7 +232,9 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
                onClick={() => {
                  this.setState({ useful: useful === undefined ? false : !this.state.useful }, () => {
                    if(!this.state.useful) {
-                     this.setState({ showEvaluateBox: true })
+                     this.setState({ showEvaluateBox: true }, () => {
+                       this.handleClickSubmitEvaluation()
+                     })
                    }
                  })
                }}>
@@ -270,11 +260,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
           <div className="comment-header">当前评论</div>
           {renderCommentList()}
         </div>
-        {
-          !evaluated ?
-            renderEvaluate() :
-            null
-        }
+        {renderEvaluate()}
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         {
           showDiscuss ?
@@ -287,8 +273,12 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
             <div>
               <div className="evaluation-box">
                 <textarea className="evaluation-edit" id="evaluation-edit" placeholder="可以匿名反馈，帮助教练做得更好哦！"
-                          autoFocus={true}/>
-                <div className="evaluation-submit" onClick={ () => this.handleClickSubmitEvaluation() }>提交</div>
+                          defaultValue={evaluateRreason} autoFocus={true}/>
+                <div className="evaluation-submit" onClick={() => {
+                  this.setState({ showEvaluateBox: false })
+                  this.handleClickSubmitEvaluation()
+                }}>提交
+                </div>
               </div>
               <div className="mask" style={{ width: window.innerWidth, height: window.innerHeight }}/>
             </div> :
