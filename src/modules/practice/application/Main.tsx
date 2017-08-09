@@ -124,6 +124,7 @@ export class Main extends React.Component <any, any> {
 
     dispatch(startLoad())
     loadApplicationPractice(id, planId).then(res => {
+      console.log('应用练习消息，', res)
       const { code, msg } = res
       if(code === 200) {
         if(res.msg.draftId) {
@@ -151,8 +152,9 @@ export class Main extends React.Component <any, any> {
         }
         this.setState({
           data: msg, submitId: msg.submitId, planId: msg.planId, draft: draft,
-          editorValue: msg.content == null ? draft : msg.content
-        })
+          editorValue: msg.content == null ? draft : msg.content,
+          applicationScore: res.msg.applicationScore
+      })
         const isSubmitted = res.msg.content != null
         //如果已经提交，则不启动自动保存
         if(!isSubmitted) {
@@ -376,7 +378,7 @@ export class Main extends React.Component <any, any> {
   render() {
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
-      showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember
+      showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
 
@@ -447,8 +449,12 @@ export class Main extends React.Component <any, any> {
         return (
           <div>
             <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-            <div className="complete-box">
-              <div className="complete-tip-content">好棒！你完成了 1 个应用练习，+10积分。</div>
+            <div className="complete-box"
+                 style={{
+                   width: 310,
+                   left: (window.innerWidth - 310) / 2
+                 }}>
+              <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
             </div>
           </div>
         )
@@ -457,8 +463,12 @@ export class Main extends React.Component <any, any> {
           return (
             <div>
               <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-              <div className="complete-box">
-                <div className="complete-tip-content">好棒！你完成了 1 个应用练习，+10积分。</div>
+              <div className="complete-box"
+                   style={{
+                     width: 310,
+                     left: (window.innerWidth - 310) / 2
+                   }}>
+                <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
               </div>
             </div>
           )
@@ -471,7 +481,7 @@ export class Main extends React.Component <any, any> {
                   <div className="complete-box complete"
                        onClick={() => {this.context.router.push('/rise/static/customer/account')}}>
                     <div className="complete-tip-content">
-                      好厉害！你完成了 3 个应用练习，20元奖学金get！<br/>
+                      好厉害！你完成了3个应用练习，20元奖学金get！<br/>
                       可以在个人中心里查看哦。
                     </div>
                   </div>
