@@ -1,13 +1,14 @@
 import * as React from "react";
-import {connect} from "react-redux";
-import "./Main.less";
-import {loadWarmUpDiscuss,discuss, deleteComment} from "./async";
-import {startLoad, endLoad, alertMsg, set} from "../../../redux/actions";
-import AssetImg from "../../../components/AssetImg";
-import Discuss from "../components/Discuss";
-import DiscussShow from "../components/DiscussShow";
+import { connect } from "react-redux"
+import "./Main.less"
+import { loadWarmUpDiscuss, discuss, deleteComment } from "./async"
+import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
+import AssetImg from "../../../components/AssetImg"
+import Discuss from "../components/Discuss"
+import DiscussShow from "../components/DiscussShow"
+import SubDiscussShow from "../components/SubDiscussShow"
 import _ from "lodash"
-import {scroll} from "../../../utils/helpers"
+import { scroll } from "../../../utils/helpers"
 
 const sequenceMap = {
   0: 'A',
@@ -30,40 +31,39 @@ export class Analysis extends React.Component <any, any> {
       showDiscuss: false,
       repliedId: 0,
       warmupPracticeId: 0,
-      pageIndex:1,
-      integrated:false,
-      isReply:false,
-      placeholder:'解答同学的提问（限1000字）',
-      knowledgeId:0,
+      pageIndex: 1,
+      integrated: false,
+      isReply: false,
+      placeholder: '解答同学的提问（限1000字）',
+      knowledgeId: 0,
     }
   }
 
-
   componentWillMount(props) {
-    const {dispatch, location, warmupCurrentIndex} = this.props;
-    this.setState({currentIndex: 0});
+    const { dispatch, location, warmupCurrentIndex } = this.props
+    this.setState({ currentIndex: 0 })
 
-    const {integrated} = location.query;
-    this.setState({integrated});
-    const {res} = this.props;
-    const {code, msg} = res;
-    if (code === 200) {
-      if(warmupCurrentIndex){
-        this.setState({currentIndex:warmupCurrentIndex})
+    const { integrated } = location.query;
+    this.setState({ integrated });
+    const { res } = this.props;
+    const { code, msg } = res;
+    if(code === 200) {
+      if(warmupCurrentIndex) {
+        this.setState({ currentIndex: warmupCurrentIndex })
       }
-      this.setState({list: msg, practiceCount: msg.practice.length});
-      if(msg.practice[0].knowledge){
-        this.setState({knowledgeId: msg.practice[0].knowledge.id})
+      this.setState({ list: msg, practiceCount: msg.practice.length });
+      if(msg.practice[ 0 ].knowledge) {
+        this.setState({ knowledgeId: msg.practice[ 0 ].knowledge.id })
       }
     }
     else dispatch(alertMsg(msg))
   }
 
   next() {
-    const {dispatch} = this.props;
-    const {currentIndex, practiceCount} = this.state;
-    if (currentIndex < practiceCount - 1) {
-      this.setState({currentIndex: currentIndex + 1})
+    const { dispatch } = this.props;
+    const { currentIndex, practiceCount } = this.state;
+    if(currentIndex < practiceCount - 1) {
+      this.setState({ currentIndex: currentIndex + 1 })
       //保存当前解析的题目index
       dispatch(set('warmupCurrentIndex', currentIndex + 1))
     }
@@ -71,10 +71,10 @@ export class Analysis extends React.Component <any, any> {
   }
 
   prev() {
-    const {dispatch} = this.props;
-    const {currentIndex} = this.state;
-    if (currentIndex > 0) {
-      this.setState({currentIndex: currentIndex - 1})
+    const { dispatch } = this.props
+    const { currentIndex } = this.state
+    if(currentIndex > 0) {
+      this.setState({ currentIndex: currentIndex - 1 })
       //保存当前解析的题目index
       dispatch(set('warmupCurrentIndex', currentIndex - 1))
     }
@@ -82,22 +82,24 @@ export class Analysis extends React.Component <any, any> {
   }
 
   nextTask() {
-    const {series, planId} = this.props.location.query;
+    const { series, planId } = this.props.location.query;
     window.history.back();
   }
 
   reload() {
-    const {dispatch} = this.props;
-    let {list, currentIndex} = this.state;
-    const {practice = []} = list;
-    const {id} = practice[currentIndex];
+    const { dispatch } = this.props
+    let { list, currentIndex } = this.state
+    const { practice = [] } = list
+    const { id } = practice[ currentIndex ]
 
     loadWarmUpDiscuss(id, 1).then(res => {
       dispatch(endLoad());
-      const {code, msg} = res;
-      if (code === 200) {
+      const { code, msg } = res;
+      if(code === 200) {
         _.set(list, `practice.${currentIndex}.discussList`, msg);
-        this.setState({showDiscuss: false, list, content:'', placeholder:'解答同学的提问（限1000字）',repliedId:0,isReply:false});
+        this.setState({
+          showDiscuss: false, list, content: '', placeholder: '解答同学的提问（限1000字）', repliedId: 0, isReply: false
+        });
         scroll('.discuss', '.container');
       }
       else dispatch(alertMsg(msg))
@@ -107,38 +109,40 @@ export class Analysis extends React.Component <any, any> {
     })
   }
 
-  reply(item){
-    this.setState({showDiscuss:true, isReply:true,
-      placeholder:'回复 '+item.name+':', content:'',
-      repliedId:item.id, referenceId:item.warmupPracticeId})
+  reply(item) {
+    this.setState({
+      showDiscuss: true, isReply: true,
+      placeholder: '回复 ' + item.name + ':', content: '',
+      repliedId: item.id, referenceId: item.warmupPracticeId
+    })
   }
 
-  onChange(value){
-    this.setState({content:value})
+  onChange(value) {
+    this.setState({ content: value })
   }
 
-  cancel(){
-    this.setState({placeholder:'解答同学的提问（限1000字）', isReply:false, showDiscuss:false,repliedId:0})
+  cancel() {
+    this.setState({ placeholder: '解答同学的提问（限1000字）', isReply: false, showDiscuss: false, repliedId: 0 })
   }
 
-  onSubmit(){
-    const {dispatch} = this.props;
-    const {repliedId, content,list, currentIndex} = this.state;
-    const {practice = []} = list;
-    const {id} = practice[currentIndex];
-    if(content.length==0){
-      dispatch(alertMsg('请填写评论'));
+  onSubmit() {
+    const { dispatch } = this.props
+    const { repliedId, content, list, currentIndex } = this.state
+    const { practice = [] } = list
+    const { id } = practice[ currentIndex ]
+    if(content.length == 0) {
+      dispatch(alertMsg('请填写评论'))
       return
     }
 
-    let discussBody = {comment:content, referenceId: id};
-    if (repliedId) {
-      _.merge(discussBody, {repliedId: repliedId})
+    let discussBody = { comment: content, referenceId: id }
+    if(repliedId) {
+      _.merge(discussBody, { repliedId: repliedId })
     }
 
     discuss(discussBody).then(res => {
-      const {code, msg} = res;
-      if (code === 200) {
+      const { code, msg } = res;
+      if(code === 200) {
         this.reload()
       }
       else {
@@ -149,20 +153,20 @@ export class Analysis extends React.Component <any, any> {
     })
   }
 
-  onDelete(discussId){
-    const {dispatch} = this.props;
+  onDelete(discussId) {
+    const { dispatch } = this.props;
 
-    deleteComment(discussId).then(res=>{
-      let {list, currentIndex} = this.state;
-      const {practice = []} = list;
-      const {id} = practice[currentIndex];
+    deleteComment(discussId).then(res => {
+      let { list, currentIndex } = this.state;
+      const { practice = [] } = list;
+      const { id } = practice[ currentIndex ];
 
       loadWarmUpDiscuss(id, 1).then(res => {
         dispatch(endLoad());
-        const {code, msg} = res;
-        if (code === 200) {
+        const { code, msg } = res;
+        if(code === 200) {
           _.set(list, `practice.${currentIndex}.discussList`, msg);
-          this.setState({showDiscuss: false, list})
+          this.setState({ showDiscuss: false, list })
         }
         else dispatch(alertMsg(msg))
       }).catch(ex => {
@@ -173,12 +177,13 @@ export class Analysis extends React.Component <any, any> {
   }
 
   render() {
-    const {list, currentIndex, selected, practiceCount,
-      showDiscuss, isReply, integrated, placeholder, knowledgeId} = this.state;
-    const {practice = []} = list;
+    const {
+      list, currentIndex, selected, practiceCount, showDiscuss, isReply, integrated, placeholder, knowledgeId
+    } = this.state;
+    const { practice = [] } = list;
 
     const questionRender = (practice) => {
-      const {id, question, pic, choiceList = [], score = 0, discussList = []} = practice;
+      const { id, question, pic, choiceList = [], score = 0, discussList = [] } = practice;
       return (
         <div>
           <div className="intro-container">
@@ -187,7 +192,7 @@ export class Analysis extends React.Component <any, any> {
                 <span className="type"><span className="number">{score}</span>分</span>
               </div> : null}
             {pic ? <div className="context-img">
-                  <AssetImg url={pic}/></div>:null
+                <AssetImg url={pic}/></div>: null
             }
             <div className="question">
               <div dangerouslySetInnerHTML={{__html: question}}></div>
@@ -205,9 +210,10 @@ export class Analysis extends React.Component <any, any> {
               </div>
               <div className="context"
                    dangerouslySetInnerHTML={{__html: practice ? practice.analysis : ''}}></div>
-              {integrated=='false' ?
-                  <div className="knowledge-link"
-                       onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>点击查看相关知识</div>:null
+              {integrated == 'false' ?
+                <div className="knowledge-link"
+                     onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>
+                  点击查看相关知识</div>: null
               }
             </div>
           </div>
@@ -234,18 +240,33 @@ export class Analysis extends React.Component <any, any> {
       )
     }
 
-    const discussRender = (discuss, idx) => {
+    const discussRender = (comment, idx) => {
+      const { warmupPracticeDiscussList } = comment
       return (
-        <DiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)} onDelete={this.onDelete.bind(this, discuss.id)}/>
+        <div>
+          <DiscussShow discuss={comment} showLength={50} reply={()=>this.reply(comment)}
+                       onDelete={this.onDelete.bind(this, comment.id)}/>
+          {!_.isEmpty(warmupPracticeDiscussList) ? <div className="discuss-triangle"></div>: null}
+          {warmupPracticeDiscussList.map((discuss, idx) => subDiscussRender(discuss, idx))}
+          {!_.isEmpty(warmupPracticeDiscussList) ? <div className="discuss-padding"></div>: null}
+        </div>
+      )
+    }
+
+    const subDiscussRender = (discuss, idx) => {
+      const { warmupPracticeDiscussList } = discuss
+      return (
+        <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
+                     onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
     const choiceRender = (choice, idx) => {
-      const {id, subject} = choice
+      const { id, subject } = choice
       return (
         <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
-            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
+            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[ idx ]}
           </span>
           <span className={`text`}>{subject}</span>
         </div>
@@ -253,38 +274,39 @@ export class Analysis extends React.Component <any, any> {
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight? sequenceMap[idx]+' ' :'')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const myAnswerRender = (choice, idx) => {
-      return (choice.selected? sequenceMap[idx]+' ' :'')
+      return (choice.selected ? sequenceMap[ idx ] + ' ' : '')
     }
 
     return (
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-            {practice[currentIndex] && practice[currentIndex].knowledge ?
-                <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-                <div className="page-header">综合练习</div>
+            {practice[ currentIndex ] && practice[ currentIndex ].knowledge ?
+              <div className="page-header">{practice[ currentIndex ].knowledge.knowledge}</div> :
+              <div className="page-header">综合练习</div>
             }
-            {questionRender(practice[currentIndex] || {})}
+            {questionRender(practice[ currentIndex ] || {})}
           </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/>:null}
+          {showDiscuss ? <div className="padding-comment-dialog"/>: null}
         </div>
-        {showDiscuss? null:
-        <div className="button-footer">
-          <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>上一题</div>
-          {currentIndex + 1 < practiceCount ?
-            <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-            <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
-        </div>}
-        {showDiscuss?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                 submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
-                 cancel={()=>this.cancel()}/>:
-            <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-            </div>}
+        {showDiscuss ? null :
+          <div className="button-footer">
+            <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>上一题
+            </div>
+            {currentIndex + 1 < practiceCount ?
+              <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+              <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
+          </div>}
+        {showDiscuss ?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                               submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
+                               cancel={()=>this.cancel()}/>:
+          <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
+            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+          </div>}
       </div>
     )
   }
