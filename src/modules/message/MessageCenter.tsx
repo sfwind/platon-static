@@ -34,7 +34,6 @@ export class MessageCenter extends React.Component <any, any> {
     loadMessage(1).then((res) => {
       dispatch(endLoad())
       const { code, msg } = res
-
       if(code === 200) {
         let no_message = false
         if(msg.notifyMessageList.length === 0) {
