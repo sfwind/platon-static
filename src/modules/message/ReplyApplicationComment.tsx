@@ -38,7 +38,6 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
     getApplicationPractice(location.query.submitId).then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ article: res.msg, filterContent: filterHtmlTag(res.msg.content) })
@@ -49,7 +48,6 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       dispatch(alertMsg(ex))
     })
     loadApplicationCommentOfMessage(location.query.submitId, location.query.commentId).then(res => {
-      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -155,18 +153,12 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
 
   handleClickSubmitEvaluation() {
     const { usefulState, uselessState } = this.state
-    console.log('usefulState', usefulState)
-    console.log('uselessState', uselessState)
     let useful = usefulState && !uselessState ? 1 : 0
-    console.log('useful', useful)
-    let node = document.getElementById('evaluation-edit')
-    let evaluationValue = ''
-    if(node) {
-      evaluationValue = node.value
-      this.setState({ evaluateRreason: evaluationValue })
+    if(!usefulState && !uselessState) {
+      useful = 3
     }
     const { dispatch } = this.props
-    submitEvaluation(this.props.location.query.commentId, useful, evaluationValue).catch(e => {
+    submitEvaluation(this.props.location.query.commentId, useful, this.state.evaluateRreason).catch(e => {
       dispatch(alertMsg(e))
     })
   }
@@ -222,7 +214,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     }
 
     const renderEvaluate = () => {
-      // if(evaluated) return null
+      if(evaluated) return null
       return (
         <div className="comment-evaluation">
           <div className="evaluation-tip">觉得教练的评论，对学习有帮助吗？</div>
@@ -241,10 +233,9 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
                onClick={() => {
                  this.setState({ uselessState: !this.state.uselessState, usefulState: false }, () => {
                    if(this.state.uselessState) {
-                     this.setState({ showEvaluateBox: true }, () => {
-                       this.handleClickSubmitEvaluation()
-                     })
+                     this.setState({ showEvaluateBox: true })
                    }
+                   this.handleClickSubmitEvaluation()
                  })
                }}>
             <img src={uselessState ?
@@ -284,11 +275,22 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
           showEvaluateBox ?
             <div>
               <div className="evaluation-box">
+                <img className="cancel-box" alt="取消"
+                     src="https://static.iqycamp.com/images/fragment/cancel.png?imageslim"
+                     onClick={() => {this.setState({ showEvaluateBox: false })}}/>
                 <textarea className="evaluation-edit" id="evaluation-edit" placeholder="可以匿名反馈，帮助教练做得更好哦！"
                           defaultValue={evaluateRreason} autoFocus={true}/>
                 <div className="evaluation-submit" onClick={() => {
-                  this.setState({ showEvaluateBox: false })
-                  this.handleClickSubmitEvaluation()
+                  let node = document.getElementById('evaluation-edit')
+                  let evaluateRreason = ''
+                  if(node) {
+                    evaluateRreason = node.value
+                    if(evaluateRreason.trim().length > 0) {
+                      this.setState({ evaluateRreason: evaluateRreason, showEvaluateBox:false }, () => {
+                        this.handleClickSubmitEvaluation()
+                      })
+                    }
+                  }
                 }}>提交
                 </div>
               </div>

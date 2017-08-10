@@ -184,19 +184,27 @@
   }
 
   .evaluation-box {
-    width: 310px;
-    height: 296px;
+    width: 90%;
+    height: 311px;
     position: fixed;
     border-radius: 4px;
     background-color: #FFF;
-    top: 140px;
-    left: 30px;
+    top: 120px;
+    left: 5%;
     z-index: 1;
 
+    .cancel-box {
+      width: 30px;
+      height: 30px;
+      right: -10px;
+      top: -35px;
+      position: absolute;
+    }
+
     .evaluation-edit {
-      margin: 15px;
-      width: 260px;
-      padding: 10px 10px 0 10px;
+      width: ~"calc(90% - 20px)";
+      margin: 15px 5% 5%;
+      padding: 10px;
       height: 194px;
       background-color: #FEFEFE;
       font-size: 1.3em;
