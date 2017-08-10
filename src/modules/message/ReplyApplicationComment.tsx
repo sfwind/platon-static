@@ -22,6 +22,8 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       article: {},
       filterContent: '',
       evaluated: false,
+      usefulState: false,
+      uselessState: false,
       showPage: false
     }
     this.commentHeight = window.innerHeight
@@ -36,6 +38,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
     getApplicationPractice(location.query.submitId).then(res => {
+      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ article: res.msg, filterContent: filterHtmlTag(res.msg.content) })
@@ -130,9 +133,11 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
   onDelete(id) {
     deleteComment(id).then(res => {
       if(res.code === 200) {
-        this.setState({commentList: filter(this.state.commentList, function(comment) {
-          return comment.id !== id
-        })})
+        this.setState({
+          commentList: filter(this.state.commentList, function(comment) {
+            return comment.id !== id
+          })
+        })
       }
     })
   }
@@ -149,12 +154,16 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
   }
 
   handleClickSubmitEvaluation() {
-    const useful = this.state.useful ? 1 : 0
+    const { usefulState, uselessState } = this.state
+    console.log('usefulState', usefulState)
+    console.log('uselessState', uselessState)
+    let useful = usefulState && !uselessState ? 1 : 0
+    console.log('useful', useful)
     let node = document.getElementById('evaluation-edit')
     let evaluationValue = ''
     if(node) {
       evaluationValue = node.value
-      this.setState({evaluateRreason: evaluationValue})
+      this.setState({ evaluateRreason: evaluationValue })
     }
     const { dispatch } = this.props
     submitEvaluation(this.props.location.query.commentId, useful, evaluationValue).catch(e => {
@@ -167,9 +176,9 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
 
     const {
       commentList = [], showDiscuss, isReply, placeholder, showAll, filterContent, wordsCount = 60,
-      useful = undefined, evaluated, showEvaluateBox = false, evaluateRreason = ''
+      evaluated, showEvaluateBox = false, evaluateRreason = '', usefulState, uselessState
     } = this.state
-    const { topic, content } = this.state.article
+    const { topic, content, applicationId, planId } = this.state.article
 
     const renderCommentList = () => {
       if(commentList && commentList.length !== 0) {
@@ -177,9 +186,9 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
           commentList.map((item, seq) => {
             return (
               <div id={'comment-' + item.id}>
-                <DiscussShow discuss={item} showLength={100} reply={() => {
-                  this.reply(item)
-                }} onDelete={this.onDelete.bind(this, item.id)}/>
+                <DiscussShow discuss={item} showLength={60}
+                             reply={() => {this.reply(item)}}
+                             onDelete={this.onDelete.bind(this, item.id)}/>
               </div>
             )
           })
@@ -213,36 +222,34 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     }
 
     const renderEvaluate = () => {
-      if(evaluated) return null
+      // if(evaluated) return null
       return (
         <div className="comment-evaluation">
           <div className="evaluation-tip">觉得教练的评论，对学习有帮助吗？</div>
           <div className="evaluation-useful"
                onClick={() => {
-                 this.setState({ useful: useful === undefined ? true : !this.state.useful }, () => {
+                 this.setState({ usefulState: !this.state.usefulState, uselessState: false }, () => {
                    this.handleClickSubmitEvaluation()
                  })
                }}>
-            <img src={useful ?
+            <img src={usefulState ?
               'https://static.iqycamp.com/images/fragment/useful_full.png?imageslim' :
               'https://static.iqycamp.com/images/fragment/useful_empty.png?imageslim'} alt="有帮助"/>
             <span>有帮助</span>
           </div>
           <div className="evaluation-useless"
                onClick={() => {
-                 this.setState({ useful: useful === undefined ? false : !this.state.useful }, () => {
-                   if(!this.state.useful) {
+                 this.setState({ uselessState: !this.state.uselessState, usefulState: false }, () => {
+                   if(this.state.uselessState) {
                      this.setState({ showEvaluateBox: true }, () => {
                        this.handleClickSubmitEvaluation()
                      })
                    }
                  })
                }}>
-            <img
-              src={useful === undefined ?
-                'https://static.iqycamp.com/images/fragment/useless_empty.png?imageslim' :
-                useful ? 'https://static.iqycamp.com/images/fragment/useless_empty.png?imageslim' :
-                  'https://static.iqycamp.com/images/fragment/useless_full.png?imageslim'} alt="没帮助"/>
+            <img src={uselessState ?
+              'https://static.iqycamp.com/images/fragment/useless_full.png?imageslim' :
+              'https://static.iqycamp.com/images/fragment/useless_empty.png?imageslim'} alt="没帮助"/>
             <span>没帮助</span>
           </div>
         </div>
@@ -254,7 +261,12 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
         <div className="article">
           <div className="article-header">{topic}</div>
           {renderWorkContent()}
-          <div className="show-all">点击查看原题</div>
+          <div className="show-all"
+               onClick={() => {
+                 this.context.router.push(`/rise/static/practice/application?complete=true&id=${applicationId}&integrated=false&planId=${planId}`)
+               }}>
+            点击查看原题
+          </div>
         </div>
         <div className="comment-body">
           <div className="comment-header">当前评论</div>
