@@ -32,7 +32,6 @@ export class MessageCenter extends React.Component <any, any> {
     const { dispatch } = props || this.props
     dispatch(startLoad())
     loadMessage(1).then((res) => {
-      console.log('message:', res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
