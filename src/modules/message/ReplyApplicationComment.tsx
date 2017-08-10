@@ -158,7 +158,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       useful = 3
     }
     const { dispatch } = this.props
-    submitEvaluation(this.props.location.query.commentId, useful, this.state.evaluateRreason).catch(e => {
+    submitEvaluation(this.props.location.query.commentId, useful, this.state.evaluateReason).catch(e => {
       dispatch(alertMsg(e))
     })
   }
@@ -168,7 +168,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
 
     const {
       commentList = [], showDiscuss, isReply, placeholder, showAll, filterContent, wordsCount = 60,
-      evaluated, showEvaluateBox = false, evaluateRreason = '', usefulState, uselessState
+      evaluated, showEvaluateBox = false, evaluateReason = '', usefulState, uselessState
     } = this.state
     const { topic, content, applicationId, planId } = this.state.article
 
@@ -280,15 +280,15 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
                      src="https://static.iqycamp.com/images/fragment/cancel.png?imageslim"
                      onClick={() => {this.setState({ showEvaluateBox: false })}}/>
                 <textarea className="evaluation-edit" id="evaluation-edit" placeholder="可以匿名反馈，帮助教练做得更好哦！"
-                          defaultValue={evaluateRreason} autoFocus={true}/>
+                          defaultValue={evaluateReason} autoFocus={true}/>
                 <div className="evaluation-submit" onClick={() => {
                   let node = document.getElementById('evaluation-edit')
-                  let evaluateRreason = ''
+                  let evaluateReason = ''
                   if(node) {
-                    evaluateRreason = node.value
+                    evaluateReason = node.value
                     const { dispatch } = this.props
-                    if(evaluateRreason.trim().length > 0) {
-                      this.setState({ evaluateRreason: evaluateRreason, showEvaluateBox:false }, () => {
+                    if(evaluateReason.length > 0) {
+                      this.setState({ evaluateReason: evaluateReason, showEvaluateBox:false }, () => {
                         this.handleClickSubmitEvaluation()
                       })
                     } else {
