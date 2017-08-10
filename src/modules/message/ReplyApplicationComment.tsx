@@ -214,7 +214,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     }
 
     const renderEvaluate = () => {
-      if(evaluated) return null
+      // if(evaluated) return null
       return (
         <div className="comment-evaluation">
           <div className="evaluation-tip">觉得教练的评论，对学习有帮助吗？</div>
