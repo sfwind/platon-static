@@ -2,10 +2,8 @@
 
 .application-comment-message {
   overflow: auto;
-  height: ~"calc(100% + 1px)";
   .article {
     padding: 0 15px;
-    border-bottom: 1px solid #F5F5F5;
 
     > .article-header {
       width: 100%;
@@ -70,6 +68,11 @@
         color: #666;
       }
     }
+  }
+  .split-line {
+    height: 1px;
+    margin: 0 15px;
+    background-color: #f5f5f5;
   }
   .comment-body {
     padding: 0 15px 0 15px;
@@ -198,7 +201,7 @@
     position: fixed;
     border-radius: 4px;
     background-color: #FFF;
-    top: 120px;
+    top: 80px;
     left: 5%;
     z-index: 1;
 
@@ -216,7 +219,7 @@
       padding: 10px;
       height: 194px;
       background-color: #FEFEFE;
-      font-size: 1.3em;
+      font-size: 13px;
       color: #999;
       resize: none;
       outline: none;

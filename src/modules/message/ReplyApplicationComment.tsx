@@ -214,7 +214,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     }
 
     const renderEvaluate = () => {
-      // if(evaluated) return null
+      if(evaluated) return null
       return (
         <div className="comment-evaluation">
           <div className="evaluation-tip">觉得教练的评论，对学习有帮助吗？</div>
@@ -259,6 +259,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
             点击查看原题
           </div>
         </div>
+        <div className="split-line"/>
         <div className="comment-body">
           <div className="comment-header">当前评论</div>
           {renderCommentList()}
@@ -285,10 +286,13 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
                   let evaluateRreason = ''
                   if(node) {
                     evaluateRreason = node.value
+                    const { dispatch } = this.props
                     if(evaluateRreason.trim().length > 0) {
                       this.setState({ evaluateRreason: evaluateRreason, showEvaluateBox:false }, () => {
                         this.handleClickSubmitEvaluation()
                       })
+                    } else {
+                      dispatch(alertMsg("请输入反馈信息哦"))
                     }
                   }
                 }}>提交
