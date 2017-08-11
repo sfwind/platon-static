@@ -151,6 +151,8 @@ export class AnalysisNew extends React.Component <any, any> {
 
     const questionRender = (practice) => {
       const { id, question, pic, choiceList = [], discussList = [] } = practice
+      console.log(discussList)
+      console.log(_.isEmpty(discussList))
       return (
         <div>
           <div className="intro-container">
