@@ -246,18 +246,21 @@ export class Analysis extends React.Component <any, any> {
         <div>
           <DiscussShow discuss={comment} showLength={50} reply={()=>this.reply(comment)}
                        onDelete={this.onDelete.bind(this, comment.id)}/>
-          {!_.isEmpty(warmupPracticeDiscussList) ? <div className="discuss-triangle"></div>: null}
-          {warmupPracticeDiscussList.map((discuss, idx) => subDiscussRender(discuss, idx))}
-          {!_.isEmpty(warmupPracticeDiscussList) ? <div className="discuss-padding"></div>: null}
+          {!_.isEmpty(warmupPracticeDiscussList) ?
+            <div>
+              <div className="discuss-triangle"></div>
+              {warmupPracticeDiscussList.map((discuss, idx) => subDiscussRender(discuss, idx))}
+              <div className="discuss-padding"></div>
+            </div>
+            : null}
         </div>
       )
     }
 
     const subDiscussRender = (discuss, idx) => {
-      const { warmupPracticeDiscussList } = discuss
       return (
         <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
-                     onDelete={this.onDelete.bind(this, discuss.id)}/>
+                        onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
