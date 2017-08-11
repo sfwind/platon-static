@@ -1,0 +1,249 @@
+@import "../../style/variable";
+
+.application-comment-message {
+  overflow: auto;
+  .article {
+    padding: 0 15px;
+
+    > .article-header {
+      width: 100%;
+      font-size: @font_title;
+      line-height: @font_title;
+      padding: 15px 0;
+      border-bottom: 2px solid @color_strong;
+      text-align: center;
+      color: @color_title;
+    }
+    > .show-all {
+      font-size: @font_click;
+      color: @color_strong;
+      width: auto !important;
+      margin-bottom: 10px;
+    }
+    > .application-content {
+      font-size: @font_context;
+      color: @color_context;
+      padding: 15px 0;
+      margin-bottom: 0 !important;
+    }
+    > .description {
+      font-size: @font_context;
+      padding: 10px 0;
+    }
+    > .vote {
+      display: inline-block;
+      height: 30px;
+      margin-top: -30px;
+      float: right;
+      > span {
+        &:before {
+          content: '';
+          display: inline-block;
+          vertical-align: bottom;
+          width: 25px;
+          height: 25px;
+          margin-right: 5px;
+          margin-bottom: 2px;
+        }
+      }
+      > .disVote {
+        &:before {
+          background: url('https://static.iqycamp.com/images/fragment/unvote.png?imageslim') no-repeat bottom center/25px 25px;
+        }
+      }
+      > .voted {
+        &:before {
+          background: url('https://static.iqycamp.com/images/fragment/voted.png?imageslim') no-repeat bottom center/25px 25px;
+        }
+      }
+    }
+    .comment-header-feedback {
+      color: #999;
+      background-color: @color_weak_background;
+      font-size: 12px;
+      line-height: 13px;
+      margin: -19px -15px 20px -15px;
+      padding: 6px 15px;
+      .comment-feedback-tips {
+        color: #666;
+      }
+    }
+  }
+  .split-line {
+    height: 1px;
+    margin: 0 15px;
+    background-color: #f5f5f5;
+  }
+  .comment-body {
+    padding: 0 15px 0 15px;
+    margin-top: 20px;
+    .on_message {
+      color: @color_weak;
+      font-size: @font_context;
+      text-align: center;
+      margin-top: 15px;
+      > .no_comment {
+        margin-top: 50px;
+      }
+    }
+    > .comment-header {
+      font-size: 1.3em;
+      line-height: 1.3em;
+      color: @color_help;
+      margin: 0 -15px 20px -15px;
+      padding-left: 15px;
+      margin-bottom: 15px;
+    }
+  }
+
+  .comment-evaluation {
+    padding: 0 15px;
+    position: relative;
+
+    .evaluation-tip {
+      margin-left: 50px;
+      margin-top: 20px;
+      font-size: 1.3em;
+      color: #666;
+    }
+
+    .evaluation-useful {
+      width: 42px;
+      display: inline-block;
+      position: absolute;
+      top: 40px;
+      left: 60px;
+      img {
+        width: 42px;
+        height: 42px;
+      }
+      span {
+        font-size: 1.3em;
+        color: #333;
+        display: block;
+        width: 42px;
+        text-align: center;
+      }
+    }
+
+    .evaluation-useless {
+      width: 42px;
+      display: inline-block;
+      position: absolute;
+      top: 40px;
+      right: 60px;
+      img {
+        width: 42px;
+        height: 42px;
+      }
+      span {
+        font-size: 1.3em;
+        color: #333;
+        display: block;
+        width: 42px;
+        text-align: center
+      }
+    }
+  }
+
+  .writeDiscuss {
+    position: fixed;
+    height: 55px;
+    width: 55px;
+    left: 15px;
+    bottom: 68px;
+  }
+
+  > .comment-area {
+    padding: 6px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    border-top: 1px solid @color_weak;
+    > .comment-right-area {
+      margin-left: 6px;
+      display: inline-block;
+      vertical-align: top;
+      > .reply-tip {
+        font-size: 13px;
+        line-height: 13px;
+        margin-bottom: 15px;
+        color: @color_weak;
+      }
+      > .comment-button {
+        background-color: @color_strong;
+        border-radius: @border-radius;
+        font-size: @font_click;
+        width: 50px;
+        height: 25px;
+        line-height: 25px;
+        color: #fff;
+        text-align: center;
+      }
+    }
+    textarea {
+      width: ~"calc(100% - 72px)";
+      border-radius: @border-radius;
+      display: inline-block;
+      resize: none;
+      border: 1px solid #d0d0d0;
+      font-size: @font_context;
+      height: 80px;
+      padding: 0 2px;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      -webkit-appearance: none;
+    }
+  }
+
+  .evaluation-box {
+    width: 90%;
+    height: 311px;
+    position: fixed;
+    border-radius: 4px;
+    background-color: #FFF;
+    top: 80px;
+    left: 5%;
+    z-index: 1;
+
+    .cancel-box {
+      width: 30px;
+      height: 30px;
+      right: -10px;
+      top: -35px;
+      position: absolute;
+    }
+
+    .evaluation-edit {
+      width: ~"calc(90% - 20px)";
+      margin: 15px 5% 5%;
+      padding: 10px;
+      height: 194px;
+      background-color: #FEFEFE;
+      font-size: 13px;
+      color: #999;
+      resize: none;
+      outline: none;
+      border: 1px solid #999;
+    }
+
+    .evaluation-submit {
+      width: 172px;
+      height: 36px;
+      border-radius: 4px;
+      color: #FFF;
+      background-color: #55CBCB;
+      font-size: 1.5em;
+      line-height: 36px;
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
+
+  .mask {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+

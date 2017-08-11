@@ -124,7 +124,6 @@ export class Main extends React.Component <any, any> {
 
     dispatch(startLoad())
     loadApplicationPractice(id, planId).then(res => {
-      console.log('应用练习消息，', res)
       const { code, msg } = res
       if(code === 200) {
         if(res.msg.draftId) {
@@ -338,7 +337,6 @@ export class Main extends React.Component <any, any> {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        console.log(res)
         if(code.msg !== 0) {
           this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true })
         }

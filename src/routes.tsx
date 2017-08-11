@@ -51,6 +51,7 @@ import PlanList from "modules/plan/PlanList";
 import WarmUpNew from "modules/practice/warmup/Warumup"
 import ForumQuestion from "modules/customer/ForumQuestion";
 import CardsCollection from "./modules/problem/CardsCollection";
+import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
 
 const routes = (
   <Route>
@@ -86,7 +87,7 @@ const routes = (
       <Route path="member/explain" component={RiseMemberExplain}/>
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
-      <Route path="message/application/reply" component={ApplicationComment}/>
+      <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="eva" component={Demo}/>
