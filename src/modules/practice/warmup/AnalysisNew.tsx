@@ -181,7 +181,7 @@ export class AnalysisNew extends React.Component <any, any> {
           <div className="discuss-container">
             <div className="discuss">
               <div className="title-bar">问答</div>
-              {discussList.map((discuss, idx) => discussRender(discuss, idx))}
+              { _.isEmpty(discussList) ? null : discussList.map((discuss, idx) => discussRender(discuss, idx))}
               { discussList.length > 0 ?
                 <div className="show-more">
                   你已经浏览完所有的讨论啦
