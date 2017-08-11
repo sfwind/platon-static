@@ -182,7 +182,7 @@ export class AnalysisNew extends React.Component <any, any> {
             <div className="discuss">
               <div className="title-bar">问答</div>
               { _.isEmpty(discussList) ? null : discussList.map((discuss, idx) => discussRender(discuss, idx))}
-              { _.isEmpty(discussList) ?
+              { !_.isEmpty(discussList) ?
                 <div className="show-more">
                   你已经浏览完所有的讨论啦
                 </div>
