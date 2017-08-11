@@ -201,7 +201,7 @@ export class AnalysisNew extends React.Component <any, any> {
       )
     }
 
-    const discussRender = (discuss, idx) => {
+    const discussRender = (comment, idx) => {
       const { warmupPracticeDiscussList } = comment
       return (
         <div>
