@@ -7,6 +7,7 @@ import AssetImg from '../../../components/AssetImg'
 import Discuss from '../components/Discuss'
 import _ from 'lodash'
 import DiscussShow from '../components/DiscussShow'
+import SubDiscussShow from '../components/SubDiscussShow'
 import { scroll } from '../../../utils/helpers'
 
 const sequenceMap = {
@@ -154,7 +155,7 @@ export class AnalysisNew extends React.Component <any, any> {
         <div>
           <div className="intro-container">
             {pic ? <div className="context-img">
-              <AssetImg url={pic}/></div> : null
+                <AssetImg url={pic}/></div> : null
             }
             <div className="question">
               <div dangerouslySetInnerHTML={{ __html: question }}/>
@@ -200,9 +201,26 @@ export class AnalysisNew extends React.Component <any, any> {
       )
     }
 
-    const discussRender = (discuss, idx) => {
+    const discussRender = (comment, idx) => {
+      const { warmupPracticeDiscussList } = comment
       return (
-        <DiscussShow discuss={discuss} showLength={50} reply={() => this.reply(discuss)}
+        <div>
+          <DiscussShow discuss={comment} showLength={50} reply={()=>this.reply(comment)}
+                       onDelete={this.onDelete.bind(this, comment.id)}/>
+          {!_.isEmpty(warmupPracticeDiscussList) ?
+            <div>
+              <div className="discuss-triangle"></div>
+              {warmupPracticeDiscussList.map((discuss, idx) => subDiscussRender(discuss, idx))}
+              <div className="discuss-padding"></div>
+            </div>
+            : null}
+        </div>
+      )
+    }
+
+    const subDiscussRender = (discuss, idx) => {
+      return (
+        <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
                      onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
