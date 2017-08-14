@@ -196,8 +196,14 @@ export class PlanMain extends React.Component <any, any> {
         }).catch(e => {
           dispatch(alertMsg(e))
         })
+        let loadCardBeginTime = new Date()
         loadChapterCard(blockMsg.problemId, completePracticePlanId).then(res => {
+          let loadCardEndTime = new Date()
           if(res.code === 200) {
+            mark({
+              module: '打点', function: '首页', action: '等待打印机加载',
+              memo: loadCardEndTime.getTime() - loadCardBeginTime.getTime()
+            })
             this.setState({ cardUrl: res.msg }, () => {
               let printHeaderNode = document.getElementById('print-header')
               if(printHeaderNode) printHeaderNode.style.display = ''
@@ -869,7 +875,8 @@ export class PlanMain extends React.Component <any, any> {
           {
             label: '确定',
             onClick: () => {
-              // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${this.state.planData.problemId}`
+              // window.location.href =
+              // `https://${window.location.hostname}/rise/static/plan/view?id=${this.state.planData.problemId}`
               this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)
             }
           }
