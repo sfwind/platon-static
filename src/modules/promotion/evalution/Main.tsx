@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import "./Main.less"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
 import { scroll } from "../../../utils/helpers"
+import {submitEva} from "async"
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -126,17 +127,17 @@ export class Main extends React.Component <any, any> {
     scroll('.container', '.container')
   }
 
-  onChoiceSelected(choiceId) {
+  onChoiceSelected(choice) {
     const { practicePlanId } = this.props.location.query
     const { currentIndex, selected, practiceCount, practice } = this.state
 
     if (currentIndex === practiceCount - 1){
       this.setState({canSubmit:true})
     }
-    if(selected.indexOf(choiceId) > -1) {
+    if(selected.id === choice.id) {
       this.next()
     } else {
-      this.setState({ selected: [ choiceId ] })
+      this.setState({ selected: choice })
       setTimeout(() => {
         if(currentIndex !== practiceCount - 1) {
           this.next()
@@ -149,11 +150,28 @@ export class Main extends React.Component <any, any> {
     const { dispatch } = this.props
     const { selected, practice, currentIndex, practiceCount } = this.state
     const { practicePlanId } = this.props.location.query
+    this.setChoice()
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"))
       return
     }
-    wx.closeWindow()
+
+    let score = 0
+
+    practice.forEach(p => {
+      score += p.choice.point
+    })
+
+    // console.log(score)
+
+    submitEva(score).then(res => {
+      if(res.code === 200){
+        wx.closeWindow()
+      }else{
+        dispatch(alertMsg(res.msg))
+      }
+    })
+
   }
 
   render() {
@@ -178,8 +196,8 @@ export class Main extends React.Component <any, any> {
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
       return (
-        <div key={id} className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}
-             onClick={e => this.onChoiceSelected(id)}>
+        <div key={id} className={`choice${selected.id === id ? ' selected' : ''}`}
+             onClick={e => this.onChoiceSelected(choice)}>
           <span className="text">{subject}</span>
         </div>
       )
