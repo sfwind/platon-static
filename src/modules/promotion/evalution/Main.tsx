@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import "./Main.less"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
 import { scroll } from "../../../utils/helpers"
-import {submitEva} from "async"
+import {submitEva, initEva} from "./async"
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -39,7 +39,7 @@ export class Main extends React.Component <any, any> {
 你历经重重面试大关，收到offer，即将入职新公司。你觉得自己马上就要走上人生巅峰了。“一定要努力！”你对自己说。可是，职场之路不是一帆风顺的，一定要通关成功才能顺利加薪升职，迎娶白富美，加油吧！<br/>
 注：本测试故事设置的情节纯属虚构。<br/><br/>
 
-1、今天是你入职新公司的第一天。上午的培训过后，老板说，你去做一份母婴行业分析报告吧，这周五给我。你会`, choiceList: [
+1、今天是你入职新公司的第一天。上午的培训过后，老板说，你去做一份母婴行业分析报告吧，这周五给我。你会：`, choiceList: [
         { subject: "A、啊，我以前没有做过这个报告，肯定会花很多时间，而且这周就要交，所以要抓紧时间，马上就去做。", id: 1, point: 0 },
         { subject: "B、啊，我以前没做过这个，要先和老板确定相关要求、目的和效果什么的，否则万一做错了，再返工就惨了。", id: 2, point: 1 }
       ]
@@ -150,6 +150,7 @@ export class Main extends React.Component <any, any> {
     const { dispatch } = this.props
     const { selected, practice, currentIndex, practiceCount } = this.state
     const { practicePlanId } = this.props.location.query
+    this.setState({canSubmit:false})
     this.setChoice()
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"))
@@ -161,8 +162,6 @@ export class Main extends React.Component <any, any> {
     practice.forEach(p => {
       score += p.choice.point
     })
-
-    // console.log(score)
 
     submitEva(score).then(res => {
       if(res.code === 200){
