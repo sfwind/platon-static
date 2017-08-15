@@ -10,9 +10,8 @@ import { Result as WarmUpResult } from "modules/practice/warmup/Result";
 import { Main as Application } from "modules/practice/application/Main";
 import { Main as Challenge } from "modules/practice/challenge/Main";
 import { Main as Subject } from "modules/practice/subject/Main"
-import { Main as Demo } from "modules/practice/demo/Main"
-import { End1 } from "modules/practice/demo/End1"
-import { End2 } from "modules/practice/demo/End2"
+import { Start } from "modules/promotion/evalution/Start"
+import { Main as Eva } from "modules/promotion/evalution/Main"
 import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
 import { Submit as SubjectSubmit } from "modules/practice/subject/Submit";
 import { ReplyDiscussMessage } from "modules/message/ReplyWarmupDiscussMessage";
@@ -90,9 +89,8 @@ const routes = (
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
-      <Route path="eva" component={Demo}/>
-      <Route path="eva/result" component={End1}/>
-      <Route path="eva/end" component={End2}/>
+      <Route path="eva/start" component={Start}/>
+      <Route path="eva" component={Eva}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="profile" component={Profile}/>
