@@ -69,10 +69,14 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
   }
 
   submit() {
+    const { dispatch, location } = this.props;
     const { title, selectedTagList } = this.state;
     const detail = this.refs.editor.getValue();
+    if(!detail){
+      dispatch(alertMsg('问题描述不能为空哦'));
+      return;
+    }
     let tagIds = [];
-    const { dispatch, location } = this.props;
     if(removeHtmlTags(detail).length > 1000) {
       dispatch(alertMsg('问题描述不能超过1000个字哦'));
       return;
