@@ -70,7 +70,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
   submit() {
     const { dispatch, location } = this.props;
-    const { title, selectedTagList } = this.state;
+    const { title, selectedTagList,tagList } = this.state;
     const detail = this.refs.editor.getValue();
     if(!detail){
       dispatch(alertMsg('问题描述不能为空哦'));
@@ -81,17 +81,21 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       dispatch(alertMsg('问题描述不能超过1000个字哦'));
       return;
     }
-    if(!selectedTagList || selectedTagList.length === 0){
+
+    if(tagList) {
+      tagList.forEach(selectedTag => {
+        if(selectedTag.selected)
+          tagIds.push(selectedTag.id);
+      });
+    }
+
+    if(tagIds.length === 0){
       dispatch(alertMsg('请先选择标签哦'));
       return;
     }
 
-    if(selectedTagList) {
-      selectedTagList.forEach(selectedTag => {
-        tagIds.push(selectedTag.id);
-      });
-    }
 
+    console.log(tagIds);
     dispatch(set('selectedTagList', undefined));
     dispatch(startLoad());
     const { questionId } = location.query;
@@ -141,13 +145,12 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       dispatch(alertMsg("最多选择 3 个问题标签"));
       this.onClick(tag);
     }
-    this.setState({ tagList });
+    this.setState({ tagList:tagList });
   }
 
 
   render() {
     const { tagList = [], title, selectedTagList=[] } = this.state;
-
     const renderLine = (tagLineList) => {
       return (
           <div className="tag-line">
