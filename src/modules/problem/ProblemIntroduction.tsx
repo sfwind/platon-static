@@ -78,13 +78,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       action: '打开小课介绍页',
       memo: id
     })
+    /** 获取小课数据，以及价格／按钮状态 */
     openProblemIntroduction(id, free).then(res => {
       const { msg, code } = res
       if(code === 200) {
         if(msg.buttonStatus === 1) {
-          // 当前url未注册bug修复，主要是ios，因为ios在config时用的是第一个url,window.ENV.configUrl
-          // 但是安卓也有可能出问题，所以干脆全部刷新页面（如果configUrl!==）
-          // alert(window.ENV.configUrl);
+          /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
           if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios') {
             mark({
               module: 'RISE',
@@ -734,41 +733,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       if(showPayInfo) {
         if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3) {
           return (
-            <div className="simple-pay-info">
-              <div className="close" onClick={() => this.setState({ showPayInfo: false })}>
-                关闭
-              </div>
-              <div className="main-container">
-                <div className="header">
-                  小课购买
-                </div>
-                <div className="content">
-                  <div className="price item">
-                    {renderPrice(fee, final, free)}
-                  </div>
-                  <div className={`coupon item`}>
-                    {chose ? `'优惠券'：¥${numeral(chose.amount).format('0.00')}元` : '选择优惠券'}
-                  </div>
-                </div>
-                <ul className={`coupon-list`}>
-                  {coupons ? coupons.map((item, seq) => {
-                    return (
-                      <li className="coupon" key={seq}>
-                        ¥{numeral(item.amount).format('0.00')}元
-                        <span className="describe">{item.description ? item.description : ''}</span>
-                        <span className="expired">{item.expired}过期</span>
-                        <div className="btn" onClick={() => this.handleClickChooseCoupon(item, () => {})}>
-                          选择
-                        </div>
-                      </li>
-                    )
-                  }) : null}
-                </ul>
-              </div>
-              <div className="bn-container">
-                <div className="btn" onClick={() => this.handleClickRiseCoursePay()}/>
-              </div>
-            </div>
+
           )
         } else {
           return (
