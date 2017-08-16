@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import "./Main.less"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
 import { scroll } from "../../../utils/helpers"
+import { mark } from 'utils/request'
 import { submitEva } from "./async"
 import { Dialog } from "react-weui";
 import AssetImg from '../../../components/AssetImg'
@@ -50,56 +51,56 @@ export class Main extends React.Component <any, any> {
   }
 
   componentWillMount() {
+    mark({ module: '打点', function: '测评', action: '点击测评开始按钮' })
     let practiceList = []
     practiceList.push(
       {
-        question: `这是一个毕业生勇闯职场的故事！<br/>
-你历经重重面试大关，收到offer，即将入职新公司。你觉得自己马上就要走上人生巅峰了。“一定要努力！”你对自己说。可是，职场之路不是一帆风顺的，一定要通关成功才能顺利加薪升职，迎娶白富美，加油吧！<br/>
-注：本测试故事设置的情节纯属虚构。<br/><br/>
+        question: `这是一个年轻人勇闯职场的故事！但是，职场之路不是一帆风顺的，一定要通关成功，才能顺利加薪升职，迎娶白富美，加油吧！
+<br/><br/>
 
 1、今天是你入职的第一天。培训过后，老板说，你去做一份共享单车行业分析报告吧，周五给我。你会：`, choiceList: [
-        { subject: "啊，我以前没做过这个报告，肯定会花很多时间，我要抓紧时间，马上就去做。", id: 1, point: 0 },
-        { subject: "啊，我以前没做过这个，要先和老板确定相关要求，否则万一做错了，再返工就惨了。", id: 2, point: 1 }
+        { subject: "啊，我以前没做过这个报告，要抓紧时间，马上去做。", id: 1, point: 0 },
+        { subject: "啊，我以前没做过这个，怎么做啊，要先和老板确定相关要求。", id: 2, point: 1 }
       ]
       },
       {
-        question: `2、你的行业报告得到了老板的认可，但其他部门的新人小胖很惨，他的报告直接被打回，老板让小胖向你学习经验，重写一份。你会：`, choiceList: [
-        { subject: "告诉小胖，先去和老板确认行业分析报告的要求，然后回来再教他。", id: 1, point: 1 },
-        { subject: "慷慨地把自己的行业分析报告给小胖，让小胖当模板照着做。", id: 2, point: 0 }
+        question: `2、你的报告得到了老板的认可。但其他部门的新人小胖很惨，他的报告直接被打回，老板让小胖向你学习经验，重写一份。你会：`, choiceList: [
+        { subject: "告诉小胖，先去和老板确认报告的要求，然后回来再说。", id: 1, point: 1 },
+        { subject: "慷慨地把自己的报告给小胖，让他当模板照着做。", id: 2, point: 0 }
       ]
       },
       {
-        question: `3、在成功辅导小胖写完报告后，你得到了老板的认可，他决定让你开始参与项目。今天，你在公司接到了一个客户的电话，客户要求你们做一份组织架构优化方案，明天就要。你会怎么回复？`,
+        question: `3、在成功辅导小胖写完报告后，老板对你大为赞赏，决定让你开始参与项目。今天，你接到了一个客户的电话，客户要求你们做一份组织架构优化方案，明天就要。你会说：`,
         choiceList: [
           { subject: "好的，我们明天就把建议书发给你。", id: 1, point: 0 },
           { subject: "好的，我们今天约一个电话会议讨论一下方案的内容吧？", id: 2, point: 1 }
         ]
       },
       {
-        question: `4、为了跟进这个方案，你连续加班一周。好不容易周末到了，好朋友约你去打篮球，你打电话告诉女朋友，取消当天的晚饭。女朋友说，我今天不太舒服，但是既然已经约好了，那你就去好好放松吧。你会：`,
+        question: `4、为了跟进这个方案，你连续加班一周。到了周末，你女朋友打电话约你吃饭，但你早已和好朋友约好去打球，女朋友说，那你去玩吧。你会：`,
         choiceList: [
           { subject: "既然女朋友说了，那就先去打球，打完球再打电话给女朋友。", id: 1, point: 0 },
           { subject: "既然女朋友说了，那就先去打球，打完球再去看女朋友。", id: 2, point: 1 },
-          { subject: "先关心女朋友哪里不舒服，然后再决定后续安排。", id: 3, point: 2 }
+          { subject: "先安抚女朋友，然后再决定后续安排。", id: 3, point: 2 }
         ]
       },
       {
-        question: `5、连续加班一周后，你的项目方案终于获得了客户的认可。但是对方却迟迟不愿意支付尾款，这个时候，你会：`, choiceList: [
-        { subject: "先思考客户不愿意付款的原因，看是否是因为自己没有满足对方的需求，然后再调整方案。", id: 1, point: 1 },
-        { subject: "吃人嘴短、拿人手短，没有什么是一顿饭解决不了的问题。只要请客户吃饭，搞好关系就好了。", id: 2, point: 0 }
+        question: `5、连续加班一周后，你的方案终于获得了客户的认可。但对方却迟迟不愿意支付尾款，这个时候，你会：`, choiceList: [
+        { subject: "看自己是不是没有考虑周全，没满足对方的需求，然后再调整方案。", id: 1, point: 1 },
+        { subject: "吃人嘴短、拿人手短，没什么是一顿饭解决不了。只要请客户吃饭，搞好关系就好了。", id: 2, point: 0 }
       ]
       },
       {
-        question: `6、终于成功搞定这个项目了，但是你感觉工作压力很大，很焦虑，你想要跳槽，但是又不知道自己的未来的发展方向，你应该：`,
+        question: `6、终于成功搞定这个项目了！但是你感觉工作压力很大，很焦虑，你想要跳槽，但是又不知道自己的未来的发展方向，你应该：`,
         choiceList: [
-          { subject: "先把所有事情列成清单，然后从容易解决的入手，比如先清理电脑文件。", id: 1, point: 0 },
-          { subject: "先把所有事情列成清单，然后找到目前最重要，比如先思考一下自己未来的人生规划，到底要不要继续在这家公司工作。", id: 2, point: 1 },
-          { subject: "先把所有事情列成清单，然后找到重要的事情中比较容易解决的，比如先做上一个项目的复盘，总结经验。", id: 3, point: 2 },
+          { subject: "先列出待办清单，然后从容易解决的入手，找到成就感。", id: 1, point: 0 },
+          { subject: "先列出待办清单，然后找到当中能解决也比较重要的，比如先做上个项目的复盘，总结。", id: 2, point: 2 },
+          { subject: "先列出待办清单，然后找到优先级最高的，比如先思考自己未来的发展方向，到底要不要继续在这家公司工作。", id: 3, point: 1 },
         ]
       },
       {
-        question: `7、经过一段时间调整，你在工作中状态越来越好。你的朋友看到很羡慕，和你说，他也想跳槽去你的公司，请你帮助他内推，你会：`, choiceList: [
-        { subject: "立马回复他，说没问题，朋友之间当然要互相帮助，第二天就去找公司人事了解情况。", id: 1, point: 0 },
+        question: `7、经过一段时间调整，你的工作状态越来越好。你的朋友很羡慕，说他也想去你的公司，请你帮助他内推，你会：`, choiceList: [
+        { subject: "立马回复他，说没问题，朋友之间当然要互相帮助！", id: 1, point: 0 },
         { subject: "问他，你为什么想跳槽啊？你觉得现在的工作有什么不好吗？", id: 2, point: 1 }
       ]
       }
@@ -243,7 +244,7 @@ export class Main extends React.Component <any, any> {
           <div className="eva-page-header">圈外职场研究所-洞察力</div>
           <div className="eva-progress">
             <div className="eva-progress-bar"
-                 style={{ width: (window.innerWidth -30) / practiceCount * (currentIndex+1)}}></div>
+                 style={{ width: (window.innerWidth -90) / practiceCount * (currentIndex+1)}}></div>
           </div>
           {questionRender(practice[ currentIndex ] || {})}
         </div>
