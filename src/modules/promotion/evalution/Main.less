@@ -1,15 +1,48 @@
 @import "../../../style/variable";
 
 .eva-warm-up {
+  background-color: #231930;
+  color: #fff;
+  min-height: 100%;
+  height: auto !important;
+  padding-bottom: 40px;
+  .modal-container{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.7);
+    .modal{
+      text-align: center;
+      position:absolute;
+      top:147px;
+      font-size: 24px;
+      width: 264px;
+      height: 169px;
+      left: ~"calc((100% - 264px) / 2)";
+      background: url('https://static.iqycamp.com/images/eva_modal.png?imageslim') no-repeat center center / 264px 169px;
+    }
+    .modal-button{
+      top:342px;
+      width:174px;
+      height: 57px;
+      left: ~"calc((100% - 174px) / 2)";
+      position:absolute;
+      background: url('https://static.iqycamp.com/images/eva_modal_submit.png?imageslim') no-repeat center center / 174px 57px;
+    }
+  }
+
   .eva-container{
     overflow: auto;
     padding: 0 15px 0 15px;
-    background-color: #fff;
     .eva-progress{
       height: 4px;
-      border: 1px solid @color_strong;
+      border: 1px solid #724dad;
       .eva-progress-bar{
-        background-color: @color_strong;
+        background: #9667e1;
+        background: -webkit-gradient(linear, left center, right center, from(#39c5e1), to(#ee407b));
         height: 4px;
       }
     }
@@ -19,7 +52,6 @@
       line-height: 2.5em;
       font-size: @font_title;
       text-align: center;
-      color: @color_title;
     }
   }
 
@@ -30,33 +62,15 @@
     bottom: 20px;
     width: 64%;
     left: 18%;
-    height: 37px;
     text-align: center;
-    line-height: 37px;
-    color: @color_white;
-    background-color: @color_strong;
-    &:before{
-      content: "";
-      background: url('../../../../assets/img/submit_icon.png') no-repeat bottom center/17px 17px;
-      height: 17px;
-      width: 17px;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 15px;
-      margin-left: -32px;
-    }
-    &.disabled{
-      background-color: @color_weak;
-    }
   }
 
   .eva-last-question{
     left: 18%;
-    color: @color_strong;
     font-size: 19px;
     line-height: 19px;
     position: relative;
-    top: 20px;
+    margin-top: 20px;
     padding-bottom: 20px;
     width: 100px;
     &:before{
@@ -83,18 +97,15 @@
 
       > .index {
         font-size: @font_index;
-        color: @color_title;
       }
 
       > .tip {
         font-size: @font_index;
-        color: #999;
         margin-left: 10px;
       }
 
       > .type {
         margin-left: 14px;
-        color: @color_strong;
         font-size: @font_index;
         float: right;
         > .number {
@@ -117,26 +128,48 @@
       > .choice {
         width: 100%;
         display: table;
-        color: @color_weak;
         min-height: 50px;
         font-size: @font_context;
+        > .index {
+          display: table-cell;
+          vertical-align: middle;
+          width: 25px;
+          height: 100%;
+          min-height: 50px;
+          border-left: 1px solid @color_weak;
+          border-top: 1px solid @color_weak;
+          border-bottom: 1px solid @color_weak;
+          border-top-left-radius: @border-radius;
+          border-bottom-left-radius: @border-radius;
+          text-align: center;
+        }
         > .text {
           display: table-cell;
-          color: @color_context;
           width: ~"calc(100% - 30px)";
           height: 100%;
           min-height: 50px;
           vertical-align: middle;
           padding-left: 5px;
-          border-radius: @border-radius;
+          border-top-right-radius: @border-radius;
+          border-bottom-right-radius: @border-radius;
           border: 1px solid @color_weak;
         }
         &.selected {
           border-radius: @border-radius;
-          background-color: @color_strong;
           > .text {
-            color: @color_white;
+            background: #069BCD;
             padding-left: 5px;
+            //color: transparent;
+            //-webkit-text-fill-color: transparent;
+            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069bcd));
+            //-webkit-background-clip:text;
+          }
+          > .index {
+            background: #069BCD;
+            //color: transparent;
+            //-webkit-text-fill-color: transparent;
+            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069bcd));
+            //-webkit-background-clip:text;
           }
         }
       }

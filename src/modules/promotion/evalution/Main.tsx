@@ -3,7 +3,28 @@ import { connect } from "react-redux"
 import "./Main.less"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
 import { scroll } from "../../../utils/helpers"
-import {submitEva, initEva} from "./async"
+import { submitEva } from "./async"
+import { Dialog } from "react-weui";
+import AssetImg from '../../../components/AssetImg'
+const { Alert } = Dialog
+
+const sequenceMap = {
+  0: 'A',
+  1: 'B',
+  2: 'C',
+  3: 'D',
+  4: 'E',
+  5: 'F',
+  6: 'G',
+}
+
+const ellipse = {
+  0: '.',
+  1: '..',
+  2: '...'
+}
+
+let TIMER;
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -18,6 +39,9 @@ export class Main extends React.Component <any, any> {
       integrated: false,
       scene: 0,
       canSubmit: false,
+      show: false,
+      completeEva: false,
+      ellipses: -1,
     }
   }
 
@@ -26,12 +50,6 @@ export class Main extends React.Component <any, any> {
   }
 
   componentWillMount() {
-    const { _s } = this.props.location.query
-    if(_s && _s == 'course') {
-      this.setState({ scene: 1 })
-    } else {
-      this.setState({ scene: 2 })
-    }
     let practiceList = []
     practiceList.push(
       {
@@ -39,50 +57,50 @@ export class Main extends React.Component <any, any> {
 你历经重重面试大关，收到offer，即将入职新公司。你觉得自己马上就要走上人生巅峰了。“一定要努力！”你对自己说。可是，职场之路不是一帆风顺的，一定要通关成功才能顺利加薪升职，迎娶白富美，加油吧！<br/>
 注：本测试故事设置的情节纯属虚构。<br/><br/>
 
-1、今天是你入职新公司的第一天。上午的培训过后，老板说，你去做一份母婴行业分析报告吧，这周五给我。你会：`, choiceList: [
-        { subject: "A、啊，我以前没有做过这个报告，肯定会花很多时间，而且这周就要交，所以要抓紧时间，马上就去做。", id: 1, point: 0 },
-        { subject: "B、啊，我以前没做过这个，要先和老板确定相关要求、目的和效果什么的，否则万一做错了，再返工就惨了。", id: 2, point: 1 }
+1、今天是你入职的第一天。培训过后，老板说，你去做一份共享单车行业分析报告吧，周五给我。你会：`, choiceList: [
+        { subject: "啊，我以前没做过这个报告，肯定会花很多时间，我要抓紧时间，马上就去做。", id: 1, point: 0 },
+        { subject: "啊，我以前没做过这个，要先和老板确定相关要求，否则万一做错了，再返工就惨了。", id: 2, point: 1 }
       ]
       },
       {
-        question: `2、你的行业报告得到了老板的认可，但其他部门的新人小胖的报告直接被打回，老板让小胖向你学习经验，重新写报告。你会：`, choiceList: [
-        { subject: "A、告诉小胖，先去和老板确认行业分析报告的要求，然后回来再教他。", id: 1, point: 1 },
-        { subject: "B、慷慨地把自己的行业分析报告给小胖，让小胖当模板照着做。", id: 2, point: 0 }
+        question: `2、你的行业报告得到了老板的认可，但其他部门的新人小胖很惨，他的报告直接被打回，老板让小胖向你学习经验，重写一份。你会：`, choiceList: [
+        { subject: "告诉小胖，先去和老板确认行业分析报告的要求，然后回来再教他。", id: 1, point: 1 },
+        { subject: "慷慨地把自己的行业分析报告给小胖，让小胖当模板照着做。", id: 2, point: 0 }
       ]
       },
       {
-        question: `3、这天，你在公司接到了一个客户的电话，客户说：“我们想请你们对我们公司做一个组织架构优化的方案，最好下个月就启动这个项目，时间很紧急，你们明天就先发个方案过来吧！”你会怎么回复？`,
+        question: `3、在成功辅导小胖写完报告后，你得到了老板的认可，他决定让你开始参与项目。今天，你在公司接到了一个客户的电话，客户要求你们做一份组织架构优化方案，明天就要。你会怎么回复？`,
         choiceList: [
-          { subject: "A、好的，我们明天就把建议书发给你！", id: 1, point: 0 },
-          { subject: "B、好的，我们今天约一个电话会议讨论一下方案的内容吧？", id: 2, point: 1 }
+          { subject: "好的，我们明天就把建议书发给你。", id: 1, point: 0 },
+          { subject: "好的，我们今天约一个电话会议讨论一下方案的内容吧？", id: 2, point: 1 }
         ]
       },
       {
-        question: `4、为了跟进这个这个优化方案，你连续加了一周的班，推掉了和女朋友的约会。周末到了，好朋友小王约你去打篮球，你很高兴，打电话告诉女朋友取消当天的晚饭。女朋友说，我今天不太舒服，但是既然你和小王约好了，那你就去好好放松吧。你会：`,
+        question: `4、为了跟进这个方案，你连续加班一周。好不容易周末到了，好朋友约你去打篮球，你打电话告诉女朋友，取消当天的晚饭。女朋友说，我今天不太舒服，但是既然已经约好了，那你就去好好放松吧。你会：`,
         choiceList: [
-          { subject: "A、按照女朋友的要求，先去打球，打完球后再打电话给女朋友。", id: 1, point: 0 },
-          { subject: "B、按照女朋友的要求，先去打球，打完球后再去看女朋友。", id: 2, point: 1 },
-          { subject: "C、先关心女朋友哪里不舒服，然后再决定，是否去打球，或者直接去看女朋友。", id: 3, point: 2 }
+          { subject: "既然女朋友说了，那就先去打球，打完球再打电话给女朋友。", id: 1, point: 0 },
+          { subject: "既然女朋友说了，那就先去打球，打完球再去看女朋友。", id: 2, point: 1 },
+          { subject: "先关心女朋友哪里不舒服，然后再决定后续安排。", id: 3, point: 2 }
         ]
       },
       {
-        question: `5、你和团队完成的优化方案获得客户的认可，在项目汇报会上，对方并没有表示不满，但是却迟迟不支付尾款，你百思不得其解，你会：`, choiceList: [
-        { subject: "A、先思考客户不愿意付款的原因，看是否存在其他自己没有考虑到的因素，或者是没有满足对方的真正需求，然后再调整方案。", id: 1, point: 1 },
-        { subject: "B、吃人嘴短、拿人手短，客户迟迟不支付尾款，一定是因为关系不到位，所以多次请客户吃饭，搞好关系。", id: 2, point: 0 }
+        question: `5、连续加班一周后，你的项目方案终于获得了客户的认可。但是对方却迟迟不愿意支付尾款，这个时候，你会：`, choiceList: [
+        { subject: "先思考客户不愿意付款的原因，看是否是因为自己没有满足对方的需求，然后再调整方案。", id: 1, point: 1 },
+        { subject: "吃人嘴短、拿人手短，没有什么是一顿饭解决不了的问题。只要请客户吃饭，搞好关系就好了。", id: 2, point: 0 }
       ]
       },
       {
-        question: `6、在成功搞定这个优化方案后，你受到了老板的认可和器重。老板让你尝试带领团队完成项目，工作非常多，让你感觉很焦虑也很迷茫：既要完成自己的工作，还要管理团队，又要和客户沟通，还有一些和其他部门的合作事宜。你应该：`,
+        question: `6、终于成功搞定这个项目了，但是你感觉工作压力很大，很焦虑，你想要跳槽，但是又不知道自己的未来的发展方向，你应该：`,
         choiceList: [
-          { subject: "A、先把所有的事情列成清单，然后从容易解决的事情入手，比如先清理电脑文件，然后再完成其他工作。", id: 1, point: 0 },
-          { subject: "B、先把所有的事情列成清单，然后找到目前最重要的事情，比如先思考一下自己未来的人生规划，到底要不要继续在这家公司工作，然后再完成其他工作。", id: 2, point: 1 },
-          { subject: "C、先把所有的事情列成清单，然后找到重要的事情中比较容易解决的，比如先安排团队成员的工作，然后再完成其他工作。", id: 3, point: 2 },
+          { subject: "先把所有事情列成清单，然后从容易解决的入手，比如先清理电脑文件。", id: 1, point: 0 },
+          { subject: "先把所有事情列成清单，然后找到目前最重要，比如先思考一下自己未来的人生规划，到底要不要继续在这家公司工作。", id: 2, point: 1 },
+          { subject: "先把所有事情列成清单，然后找到重要的事情中比较容易解决的，比如先做上一个项目的复盘，总结经验。", id: 3, point: 2 },
         ]
       },
       {
-        question: `7、经过一段时间调整，你在工作中状态越来越好。你的朋友小王看到很羡慕，和你说，他也想去你的公司，刚好你的公司现在缺人，所以请你帮助他内推，你会：`, choiceList: [
-        { subject: "A、立马回复小王，说没问题，朋友之间当然要互相帮助，然后第二天就去找公司人事了解情况。", id: 1, point: 0 },
-        { subject: "B、问小王，你为什么想跳槽啊？你觉得现在的工作有什么不好吗？", id: 2, point: 1 }
+        question: `7、经过一段时间调整，你在工作中状态越来越好。你的朋友看到很羡慕，和你说，他也想跳槽去你的公司，请你帮助他内推，你会：`, choiceList: [
+        { subject: "立马回复他，说没问题，朋友之间当然要互相帮助，第二天就去找公司人事了解情况。", id: 1, point: 0 },
+        { subject: "问他，你为什么想跳槽啊？你觉得现在的工作有什么不好吗？", id: 2, point: 1 }
       ]
       }
     )
@@ -97,7 +115,7 @@ export class Main extends React.Component <any, any> {
       const selected = practice[ `${currentIndex - 1}` ].choice
       this.setState({ currentIndex: currentIndex - 1, selected })
     }
-    scroll('.container', '.container')
+    scroll('.eva-container', '.eva-container')
   }
 
   setChoice() {
@@ -124,15 +142,15 @@ export class Main extends React.Component <any, any> {
       }
       this.setState({ currentIndex: currentIndex + 1, selected })
     }
-    scroll('.container', '.container')
+    scroll('.eva-container', '.eva-container')
   }
 
   onChoiceSelected(choice) {
     const { practicePlanId } = this.props.location.query
     const { currentIndex, selected, practiceCount, practice } = this.state
 
-    if (currentIndex === practiceCount - 1){
-      this.setState({canSubmit:true})
+    if(currentIndex === practiceCount - 1) {
+      this.setState({ canSubmit: true })
     }
     if(selected.id === choice.id) {
       this.next()
@@ -150,7 +168,7 @@ export class Main extends React.Component <any, any> {
     const { dispatch } = this.props
     const { selected, practice, currentIndex, practiceCount } = this.state
     const { practicePlanId } = this.props.location.query
-    this.setState({canSubmit:false})
+    this.setState({ canSubmit: false })
     this.setChoice()
     if(selected.length === 0) {
       dispatch(alertMsg("你还没有选择答案哦"))
@@ -163,18 +181,34 @@ export class Main extends React.Component <any, any> {
       score += p.choice.point
     })
 
+    this.setState({ show: true })
+    setInterval(() => {
+      const { ellipses } = this.state
+      let newEllipse = ellipses
+      if(newEllipse === 2) {
+        newEllipse = 0
+      } else {
+        newEllipse = ellipses + 1
+      }
+      this.setState({ ellipses: newEllipse })
+    }, 500)
     submitEva(score).then(res => {
-      if(res.code === 200){
-        wx.closeWindow()
-      }else{
+      if(res.code === 200) {
+        this.setState({ completeEva: true })
+        clearInterval(TIMER)
+      } else {
         dispatch(alertMsg(res.msg))
       }
     })
 
   }
 
+  onClose() {
+    wx.closeWindow()
+  }
+
   render() {
-    const { practice, currentIndex, selected, practiceCount, canSubmit } = this.state
+    const { practice, currentIndex, selected, practiceCount, canSubmit, show, completeEva, ellipses } = this.state
     const questionRender = (practice) => {
       const { question, pic, choiceList = [], score = 0 } = practice
       return (
@@ -197,6 +231,7 @@ export class Main extends React.Component <any, any> {
       return (
         <div key={id} className={`choice${selected.id === id ? ' selected' : ''}`}
              onClick={e => this.onChoiceSelected(choice)}>
+          <span className="index">{sequenceMap[ idx ]}</span>
           <span className="text">{subject}</span>
         </div>
       )
@@ -216,14 +251,21 @@ export class Main extends React.Component <any, any> {
           <div className="eva-last-question" onClick={this.prev.bind(this)}>
             上一题
           </div> : null}
-        { currentIndex === practiceCount - 1 ?
-          canSubmit ?
-            <div className={`eva-button-footer`} onClick={this.onSubmit.bind(this)}>
-              提交
-            </div> :
-            <div className={`eva-button-footer disabled`}>
-              提交
-            </div>  : null}
+        { currentIndex === practiceCount - 1 && !show && canSubmit ?
+          <div className={`eva-button-footer`} onClick={this.onSubmit.bind(this)}>
+            <AssetImg url={'https://static.iqycamp.com/images/eva_submit2.png'} height={65}/>
+          </div> : null}
+        {show ?
+          <div className="modal-container">
+            <div className="modal">
+              {completeEva ?<div style={{margin:40}}>你的洞察力基因检测报告已生成</div>:
+                <div>
+                  <div style={{marginTop:40}}>职场闯关成功！</div>
+                  <div>闯关表现分析中{ellipse[ ellipses ]}</div>
+                </div>  }
+            </div>
+            {completeEva ? <div className="modal-button" onClick={()=>this.onClose()}></div> : null}
+          </div> : null}
       </div>
     )
   }

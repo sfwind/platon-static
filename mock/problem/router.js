@@ -611,10 +611,4 @@ router.post("/signup/coupon/course/calculate", (req, res) => {
     ), Math.random() * 1500)
 });
 
-router.get("/rise/operation/free/choose/problem/msg", (req, res) => {
-  setTimeout(() =>
-    res.status(200).json(
-      { "msg": "ok", "code": 200 }
-    ), Math.random() * 1500)
-});
 module.exports = router;

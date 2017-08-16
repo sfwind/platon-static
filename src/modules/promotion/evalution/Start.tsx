@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { connect } from "react-redux";
+import { initEva } from "./async"
 
 @connect(state => state)
 export class Start extends React.Component<any,any> {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       initialScale: 0,
       backgroundPicWidth: 750,
@@ -18,6 +19,7 @@ export class Start extends React.Component<any,any> {
 
   componentWillMount() {
     this.fit()
+    initEva()
   }
 
   fit() {
