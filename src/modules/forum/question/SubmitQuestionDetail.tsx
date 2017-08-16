@@ -81,6 +81,10 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       dispatch(alertMsg('问题描述不能超过1000个字哦'));
       return;
     }
+    if(!selectedTagList || selectedTagList.length === 0){
+      dispatch(alertMsg('请先选择标签哦'));
+      return;
+    }
 
     if(selectedTagList) {
       selectedTagList.forEach(selectedTag => {
