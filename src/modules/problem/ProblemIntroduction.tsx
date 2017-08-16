@@ -469,47 +469,47 @@ export default class ProblemIntroduction extends React.Component<any, any> {
 
     this.setState({ showPayInfo: false })
 
-      if(window.ENV.osName === 'windows') {
-        // windows客户端
+    if(window.ENV.osName === 'windows') {
+      // windows客户端
+      mark({
+        module: '支付',
+        function: '小课单卖',
+        action: 'windows-pay',
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+      })
+      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
+    }
+    pay({
+        'appId': signParams.appId,     //公众号名称，由商户传入
+        'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数
+        'nonceStr': signParams.nonceStr, //随机串
+        'package': signParams.package,
+        'signType': signParams.signType,         //微信签名方式：
+        'paySign': signParams.paySign //微信签名
+      },
+      () => {
         mark({
           module: '支付',
           function: '小课单卖',
-          action: 'windows-pay',
+          action: 'success',
           memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
-        dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
+        this.handlePayDone()
+      },
+      (res) => {
+        mark({
+          module: '支付',
+          function: '小课单卖',
+          action: 'cancel',
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+        })
+        this.setState({ showErr: true })
+      },
+      (res) => {
+        logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
+        this.setState({ showErr: true })
       }
-      pay({
-          'appId': signParams.appId,     //公众号名称，由商户传入
-          'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数
-          'nonceStr': signParams.nonceStr, //随机串
-          'package': signParams.package,
-          'signType': signParams.signType,         //微信签名方式：
-          'paySign': signParams.paySign //微信签名
-        },
-        () => {
-          mark({
-            module: '支付',
-            function: '小课单卖',
-            action: 'success',
-            memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-          })
-          this.handlePayDone()
-        },
-        (res) => {
-          mark({
-            module: '支付',
-            function: '小课单卖',
-            action: 'cancel',
-            memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-          })
-          this.setState({ showErr: true })
-        },
-        (res) => {
-          logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
-          this.setState({ showErr: true })
-        }
-      )
+    )
 
   }
 
@@ -594,6 +594,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderFooter = () => {
+      console.log('buttonStatus', buttonStatus)
       if(show) {
         return null
       } else {
@@ -625,13 +626,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 2: {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
-                    {
-                      togetherClassMonth && togetherClassMonth !== "0"  ?
-                        <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
-                           本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
-                        </div> :
-                        null
-                    }
+                  {
+                    togetherClassMonth && togetherClassMonth !== '0' ?
+                      <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
+                        本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
+                      </div> :
+                      null
+                  }
                   选择该小课
                 </div>
               )
@@ -671,6 +672,19 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <div className="button-footer trial_pay" onClick={() => this.handleClickFreeProblem()}>
                   <div>
                     <span style={{ fontWeight: 'bolder' }}>下一步</span>
+                  </div>
+                </div>
+              )
+              return list
+            }
+            case 8: {
+              list.push(
+                <div className="button-footer">
+                  <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
+                    ¥ {fee}，立即学习
+                  </div>
+                  <div className="split-right" onClick={() => this.setState({showEvaluation: true})}>
+                    免费获取
                   </div>
                 </div>
               )
@@ -788,6 +802,23 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
     }
 
+    const renderEvaluateOperation = () => {
+      let evaluationProps = {
+        buttons: [
+          { label: '取消', onClick: () => this.setState({ showEvaluation: false }) },
+          { label: '去分享', onClick: () => wx.closeWindow() }
+        ]
+      }
+      return (
+        <Alert { ...evaluationProps }
+               show={this.state.showEvaluation}>
+          <div className="global-pre">
+            分享测评结果图片，邀请3人扫码并完成测试，即可免费领取。
+          </div>
+        </Alert>
+      )
+    }
+
     return (
       <div className="problem-introduction">
         <div className="pi-header" style={{ height: `${this.picHeight}px` }}>
@@ -850,7 +881,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <Header icon="rise_icon_ability" title="能力项" marginLeft={'-1em'}/>
             <div className="pi-c-a-content">
               <div className="text"
-                   dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：' }}></div>
+                   dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：' }}/>
               <div className="pi-c-a-c-module"
                    onClick={() => window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>
                 <div className="pi-c-a-c-m-rise">【圈外】</div>
@@ -886,8 +917,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div> : null}
 
         {renderPayInfo()}
-
-        {showPayInfo ? <div className="mask"></div> : null}
+        {renderEvaluateOperation()}
+        {showPayInfo ? <div className="mask"/> : null}
 
       </div>
     )
