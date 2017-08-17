@@ -95,7 +95,6 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
     }
 
 
-    console.log(tagIds);
     dispatch(set('selectedTagList', undefined));
     dispatch(startLoad());
     const { questionId } = location.query;

@@ -69,6 +69,10 @@ export function loadPayParam(param){
   return ppost('/signup/rise/course/pay', param);
 }
 
+export function loadTrainPayParam(param){
+  return ppost('/signup/rise/train/pay', param);
+}
+
 export function afterPayDone(productId){
   return ppost(`/signup/paid/rise/${productId}`);
 }
