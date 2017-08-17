@@ -2,7 +2,6 @@ import * as React from "react";
 import "./PayInfo.less"
 import Icon from "../../../components/AssetImg";
 import * as _ from "lodash";
-import { connect } from "react-redux";
 const numeral = require('numeral');
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
