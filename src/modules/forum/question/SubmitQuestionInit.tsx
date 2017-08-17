@@ -69,6 +69,10 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     const { dispatch,location } = this.props;
     const { title } = this.state;
     const {questionId} = location.query;
+    if(!title){
+      dispatch(alertMsg('请先写问题标题'))
+      return
+    }
     dispatch(set('title', title));
     if(questionId){
       this.context.router.push({pathname:'/forum/static/question/detail', query:{questionId}});
@@ -86,7 +90,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
     }
 
     if(!title){
-      this.setState({data: [], page: 1, length:0});
+      this.setState({data: [], page: 1, length:0, title: ''});
       return;
     }
     //不含字母时搜索
