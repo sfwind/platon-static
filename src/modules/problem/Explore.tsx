@@ -36,7 +36,7 @@ export class Explore extends React.Component<any,any> {
     loadUnChooseList().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState({ catalogList: res.msg.catalogList }, () => {
+        this.setState({ catalogList: res.msg.catalogList, hotList: res.msg.hotList }, () => {
           for(let i = 0; i < res.msg.catalogList.length; i++) {
             let id = `#catalog${i}`;
             let bar = `#catalogbar${i}`;
@@ -49,6 +49,15 @@ export class Explore extends React.Component<any,any> {
               grabCursor: true
             });
           }
+
+          var swiper = new Swiper('#hot', {
+            scrollbar: '#hotbar',
+            scrollbarHide: true,
+            slidesPerView: 'auto',
+            centeredSlides: false,
+            spaceBetween: 0,
+            grabCursor: true
+          });
 
         });
       } else {
@@ -72,7 +81,8 @@ export class Explore extends React.Component<any,any> {
     if(this.props.location.query.show) {
       merge(param, { show: true });
     }
-    // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}${this.props.location.query.show?'&&show=true':''}`
+    // window.location.href =
+    // `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}${this.props.location.query.show?'&&show=true':''}`
     this.context.router.push({ pathname: '/rise/static/plan/view', query: param });
   }
 
@@ -89,7 +99,7 @@ export class Explore extends React.Component<any,any> {
   }
 
   render() {
-    const { catalogList } = this.state;
+    const { catalogList, hotList } = this.state;
     return (
       <div>
         <div className="explore-container">
@@ -112,6 +122,44 @@ export class Explore extends React.Component<any,any> {
             </div>
           </Banner>
           <div className="problem-catalog-list">
+            <div className="problem-catalog">
+              <div className="header">
+                <span className="catalog-name">热门小课</span>
+                {/*<span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>*/}
+              </div>
+              <div className="problem-box swiper-container" id="hot">
+                <div className="swiper-wrapper">
+                  {hotList ? hotList.map((problem, key) => {
+                      return (
+
+                        <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
+                             className="problem-item-show swiper-slide">
+                          <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                            { problem.newProblem ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                        style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null
+                            }
+                            { problem.trial ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                        style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null
+                            }
+                            { problem.status === 2 ?
+                              <div className="complete-problem">
+                                <AssetImg type="success" size={12}
+                                          style={{margin: '0 3px', verticalAlign:'middle'}}/>
+                                <span className="complete-text">已完成</span>
+                              </div> : null
+                            }
+                            <AssetImg url={`${problem.pic}`} style={{width:'auto',height:'100%'}}/>
+                          </div>
+                          <span>{problem.problem}</span>
+                        </div>
+                      )
+                    }) : null}
+                </div>
+                <div className="swiper-scrollbar" id="hotbar"></div>
+              </div>
+            </div>
             {catalogList ? catalogList.map((catalog, key) => {
                 return (
                   <div className="problem-catalog">
