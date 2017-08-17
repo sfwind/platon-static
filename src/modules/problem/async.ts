@@ -12,8 +12,8 @@ export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }
 
-export function openProblemIntroduction(id, free){
-  let param = free ? {autoOpen: 'true'} : {autoOpen : 'false'}
+export function openProblemIntroduction(id, free) {
+  let param = free ? { autoOpen: 'true' } : { autoOpen: 'false' }
   return pget(`/rise/problem/open/${id}`, param)
 }
 
@@ -21,10 +21,13 @@ export function createPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
 
-export function checkCreatePlan(problemId,type) {
+export function checkCreatePlan(problemId, type) {
   return ppost(`/rise/plan/choose/problem/check/${problemId}/${type}`)
 }
 
+export function loadGoodsInfo(goodsType, goodsId) {
+  return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId });
+}
 export function welcome() {
   return pget(`/rise/plan/welcome`)
 }
@@ -57,15 +60,15 @@ export function convertSvgToPng(svgBase64) {
   return ppost(`/rise/problem/card/convert?svgBase64=${svgBase64}`)
 }
 
-export function calculateCoupon(couponId,problemId){
-  return ppost(`/signup/coupon/course/calculate`, {couponId: couponId, problemId: problemId})
+export function calculateCoupon(couponId, problemId) {
+  return ppost(`/signup/coupon/course/calculate`, { couponId: couponId, problemId: problemId })
 }
 
-export function loadUserCoupons(){
+export function loadUserCoupons() {
   return pget(`/signup/coupon/list`);
 }
 
-export function loadPayParam(param){
+export function loadPayParam(param) {
   return ppost('/signup/rise/course/pay', param);
 }
 
@@ -73,18 +76,32 @@ export function loadTrainPayParam(param){
   return ppost('/signup/rise/train/pay', param);
 }
 
-export function afterPayDone(productId){
+export function afterPayDone(productId) {
   return ppost(`/signup/paid/rise/${productId}`);
 }
 
-export function logPay(functionValue,type,param){
-  pget(`/signup/mark/pay/${functionValue}/${type}${param?'?param='+param:''}`);
+export function logPay(functionValue, type, param) {
+  pget(`/signup/mark/pay/${functionValue}/${type}${param ? '?param=' + param : ''}`);
 }
 
-export function sendCustomerMsg(){
+export function sendCustomerMsg() {
   return ppost(`/rise/operation/free/choose/problem/msg`);
 }
 
 export function loadHasGetOperationCoupon() {
   return pget('/rise/operation/free/coupon')
+}
+
+/**
+ * 获取支付信息
+ */
+export function loadPaymentParam(param) {
+  return ppost('/signup/load/pay/param', param);
+}
+
+/**
+ * 计算优惠券信息
+ */
+export function calculateCoupons(param) {
+  return ppost('/signup/payment/coupon/calculate', param);
 }
