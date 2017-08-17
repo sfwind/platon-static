@@ -389,7 +389,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
                     ¥{numeral(item.amount).format('0.00')}元
                     <span className="describe">{item.description ? item.description : ''}</span>
                     <span className="expired">{item.expired}过期</span>
-                    <div className="btn" onClick={() => this.handleClickChooseCoupon(item, () => {})}>
+                    <div className="btn" onClick={() => this.handleClickChooseCoupon(item)}>
                       选择
                     </div>
                   </li>
@@ -398,7 +398,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
             </ul>
           </div>
           <div className="bn-container">
-            <div className="btn" onClick={() => this.handleClickRiseCoursePay()}/>
+            <div className="btn" onClick={() => this.handleClickPay()}/>
           </div>
         </div>
       )
