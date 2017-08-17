@@ -66,7 +66,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       showFloatCoupon: false,
       togetherClassMonth: null
     }
-
   }
 
   componentWillMount() {
@@ -123,33 +122,15 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           dispatch(alertMsg(ex))
         })
       }
-      return loadUserCoupons().then(res => {
-        dispatch(endLoad())
-        const { msg } = res
-        if(res.code === 200) {
-          this.setState({
-            data: problemMsg.problem,
-            buttonStatus: problemMsg.buttonStatus,
-            coupons: msg,
-            fee: problemMsg.fee,
-            currentPlanId: problemMsg.planId,
-            bindMobile: problemMsg.bindMobile,
-            isFull: problemMsg.isFull,
-            togetherClassMonth: problemMsg.togetherClassMonth
-          })
-        } else {
-          this.setState({
-            data: problemMsg.problem,
-            buttonStatus: problemMsg.buttonStatus,
-            coupons: [],
-            fee: problemMsg.fee,
-            currentPlanId: problemMsg.planId,
-            bindMobile: problemMsg.bindMobile,
-            isFull: problemMsg.isFull,
-            togetherClassMonth: problemMsg.togetherClassMonth
-          })
-          dispatch(alertMsg(msg))
-        }
+      this.setState({
+        data: problemMsg.problem,
+        buttonStatus: problemMsg.buttonStatus,
+        coupons: [],
+        fee: problemMsg.fee,
+        currentPlanId: problemMsg.planId,
+        bindMobile: problemMsg.bindMobile,
+        isFull: problemMsg.isFull,
+        togetherClassMonth: problemMsg.togetherClassMonth
       })
     }, reason => {
       dispatch(endLoad())
@@ -277,30 +258,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     })
   }
 
-  /**
-   * 选择优惠券
-   * @param coupon 优惠券
-   * @param close 关闭回调函数，用来关闭选择优惠券的列表
-   */
-  handleClickChooseCoupon(coupon, close) {
-    const { dispatch, location } = this.props
-    const { id } = location.query
-    // const {selectMember} = this.state;
-    dispatch(startLoad())
-    calculateCoupon(coupon.id, id).then((res) => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ free: res.msg === 0, chose: coupon, final: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-      close()
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-      close()
-    })
-  }
+
 
   /**
    * 支付完成
@@ -468,47 +426,47 @@ export default class ProblemIntroduction extends React.Component<any, any> {
 
     this.setState({ showPayInfo: false })
 
-      if(window.ENV.osName === 'windows') {
-        // windows客户端
+    if(window.ENV.osName === 'windows') {
+      // windows客户端
+      mark({
+        module: '支付',
+        function: '小课单卖',
+        action: 'windows-pay',
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+      })
+      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
+    }
+    pay({
+        'appId': signParams.appId,     //公众号名称，由商户传入
+        'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数
+        'nonceStr': signParams.nonceStr, //随机串
+        'package': signParams.package,
+        'signType': signParams.signType,         //微信签名方式：
+        'paySign': signParams.paySign //微信签名
+      },
+      () => {
         mark({
           module: '支付',
           function: '小课单卖',
-          action: 'windows-pay',
+          action: 'success',
           memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
-        dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
+        this.handlePayDone()
+      },
+      (res) => {
+        mark({
+          module: '支付',
+          function: '小课单卖',
+          action: 'cancel',
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+        })
+        this.setState({ showErr: true })
+      },
+      (res) => {
+        logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
+        this.setState({ showErr: true })
       }
-      pay({
-          'appId': signParams.appId,     //公众号名称，由商户传入
-          'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数
-          'nonceStr': signParams.nonceStr, //随机串
-          'package': signParams.package,
-          'signType': signParams.signType,         //微信签名方式：
-          'paySign': signParams.paySign //微信签名
-        },
-        () => {
-          mark({
-            module: '支付',
-            function: '小课单卖',
-            action: 'success',
-            memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-          })
-          this.handlePayDone()
-        },
-        (res) => {
-          mark({
-            module: '支付',
-            function: '小课单卖',
-            action: 'cancel',
-            memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-          })
-          this.setState({ showErr: true })
-        },
-        (res) => {
-          logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
-          this.setState({ showErr: true })
-        }
-      )
+    )
 
   }
 
@@ -624,13 +582,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 2: {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
-                    {
-                      togetherClassMonth && togetherClassMonth !== "0"  ?
-                        <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
-                           本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
-                        </div> :
-                        null
-                    }
+                  {
+                    togetherClassMonth && togetherClassMonth !== "0" ?
+                      <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
+                        本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
+                      </div> :
+                      null
+                  }
                   选择该小课
                 </div>
               )
@@ -730,27 +688,16 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderPayInfo = () => {
-      if(showPayInfo) {
-        if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3) {
-          return (
-
-          )
-        } else {
-          return (
-            <PayInfo pay={() => this.handleClickRiseCoursePay()}
-                     close={(callback) => {
-                       this.setState({ showPayInfo: false })
-                       callback()
-                     }}
-                     choose={(coupon, close) => this.handleClickChooseCoupon(coupon, close)} show={showPayInfo}
-                     final={final} chose={chose}
-                     fee={fee} free={free}
-                     coupons={coupons} header="小课购买"/>
-          )
-        }
-      } else {
-        return null
-      }
+      return (
+        <PayInfo pay={() => this.handleClickRiseCoursePay()}
+                 afterShow = {()=>{
+                   this.setState({showPayInfo:true});
+                 }} afterClose = {()=>{
+                   this.setState({showPayInfo:false});
+                 }}
+                 type="Course"
+        />
+      )
     }
 
     return (
@@ -830,7 +777,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         {renderFooter()}
 
         <Alert { ...this.state.alert }
-               show={this.state.showAlert}>
+          show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>

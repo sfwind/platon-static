@@ -50,8 +50,9 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
   }
 
   componentWillMount() {
-    const { dispatch, location } = this.props
+    const { dispatch, location,goodsType } = this.props
     dispatch(startLoad());
+
     return loadUserCoupons().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
@@ -64,6 +65,13 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex))
     });
+  }
+
+  handleClickClose(){
+    this.setState({ showPayInfo: false });
+    if(_.isFunction(this.props.afterClose)){
+
+    }
   }
 
 
@@ -176,7 +184,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
       <!-- 安卓4.3 以下 -->
       return (
         <div className="simple-pay-info">
-          <div className="close" onClick={() => this.setState({ showPayInfo: false })}>
+          <div className="close" onClick={()=>this.handleClickClose()}>
             关闭
           </div>
           <div className="main-container">
