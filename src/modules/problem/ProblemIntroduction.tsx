@@ -14,9 +14,8 @@ import { Toast, Dialog } from 'react-weui'
 import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
-import { config, pay } from '../helpers/JsConfig'
 import { mark } from '../../utils/request'
-import { GoodsType } from "../../utils/helpers"
+import { GoodsType } from '../../utils/helpers'
 //限免小课id
 const FREE_PROBLEM_ID = 9
 
@@ -91,7 +90,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               action: '刷新支付页面',
               memo: window.ENV.configUrl + '++++++++++' + window.location.href
             })
-            window.location.href = window.location.href
+            // window.location.href = window.location.href
+            window.location.reload(true)
             return Promise.reject('refresh')
           }
         }
@@ -305,11 +305,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       } else if(res.code === 201 || res.code === 200) {
         if(couponCnt === 0) {
           // 直接弹出付费
-          this.refs.payInfo.handleClickPay();
+          this.refs.payInfo.handleClickPay()
           return
         } else {
           // 显示支付按钮
-          this.refs.payInfo.handleClickOpen();
+          this.refs.payInfo.handleClickOpen()
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -324,7 +324,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
    * 获取商品信息
    */
   handleGotGoods(goods) {
-    this.setState({ fee: goods.fee,coupons:goods.coupons });
+    this.setState({ fee: goods.fee, coupons: goods.coupons })
   }
 
   handleClickGoReview() {
@@ -398,9 +398,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderFooter = () => {
-      if(show) {
-        return null
-      } else {
+      if(!show) {
         let footerBar = <div className="padding-footer" style={{ height: '45px' }}/>
         let list = []
         list.push(footerBar)
@@ -430,7 +428,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
                   {
-                    togetherClassMonth && togetherClassMonth !== "0" ?
+                    togetherClassMonth && togetherClassMonth !== '0' ?
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
                         本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
                       </div> :
@@ -540,30 +538,18 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
     }
 
-    const renderPrice = (fee, final, free) => {
-      let priceArr = []
-      if(final || free) {
-        priceArr.push(<span className="discard" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>)
-        priceArr.push(<span className="final" key={1}
-                            style={{ marginLeft: '5px' }}>{`¥${numeral(final).format('0.00')}元`}</span>)
-      } else {
-        priceArr.push(<span className="final" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>)
-      }
-      return priceArr
-    }
-
     const renderPayInfo = () => {
-      const { location } = this.props;
+      const { location } = this.props
 
       return (
         <PayInfo ref="payInfo"
-                 gotGoods={(goods)=>this.handleGotGoods(goods)}
+                 gotGoods={(goods) => this.handleGotGoods(goods)}
                  dispatch={this.props.dispatch}
                  goodsId={location.query.id}
                  goodsType={GoodsType.FRAG_COURSE}
-                 payedDone={(planId)=>this.handlePayDone(planId)}
-                 payedError={(ex)=> this.setState({ showErr: true })}
-                 payedCancel={ex=>this.setState({showErr:true})}
+                 payedDone={(planId) => this.handlePayDone(planId)}
+                 payedError={(ex) => this.setState({ showErr: true })}
+                 payedCancel={ex => this.setState({ showErr: true })}
         />
       )
     }
@@ -604,7 +590,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <Header icon="rise_icon_head" title="讲师介绍" width={26} height={16} lineHeight={'12px'}/>
             <AssetImg width={'100%'} url={authorPic}/>
           </div>
-          {/*报名须知*/}
           <div className="pi-c-pay-info white-content mg-25">
             <Header icon="rise_icon_pay_info" title="报名须知" width={24}/>
             <div className="pi-c-pay-content">
@@ -644,7 +629,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div>
         {renderFooter()}
         <Alert { ...this.state.alert }
-          show={this.state.showAlert}>
+               show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>
@@ -655,7 +640,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="toast-text">领取成功</div>
           <div className="toast-text">点击下一步学习吧</div>
         </Toast>
-
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
@@ -664,10 +648,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div> : null}
-
         {renderPayInfo()}
-
-
       </div>
     )
   }
