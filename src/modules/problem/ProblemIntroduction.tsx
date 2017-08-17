@@ -16,6 +16,7 @@ const { Alert } = Dialog
 const numeral = require('numeral')
 import { config, pay } from '../helpers/JsConfig'
 import { mark } from '../../utils/request'
+import { GoodsType } from "../../utils/helpers"
 //限免小课id
 const FREE_PROBLEM_ID = 9
 
@@ -125,8 +126,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       this.setState({
         data: problemMsg.problem,
         buttonStatus: problemMsg.buttonStatus,
-        coupons: [],
-        fee: problemMsg.fee,
         currentPlanId: problemMsg.planId,
         bindMobile: problemMsg.bindMobile,
         isFull: problemMsg.isFull,
@@ -258,55 +257,31 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     })
   }
 
-
-
   /**
    * 支付完成
    */
-  handlePayDone() {
-    const { dispatch } = this.props
-    const { productId, isFull, bindMobile } = this.state
-    if(this.state.err) {
-      mark({
-        module: '打点',
-        function: '支付',
-        action: '支付异常',
-        memo: window.location.href
+  handlePayDone(planId) {
+    const { isFull, bindMobile } = this.state
+    if(!isFull) {
+      // 没有填写过
+      this.context.router.push({
+        pathname: '/rise/static/customer/profile', query: {
+          goRise: true, runningPlanId: planId
+        }
       })
-      dispatch(alertMsg('支付失败：' + this.state.err))
       return
     }
-    dispatch(startLoad())
-    afterPayDone(productId).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        if(!isFull) {
-          // 没有填写过
-          this.context.router.push({
-            pathname: '/rise/static/customer/profile', query: {
-              goRise: true, runningPlanId: res.msg
-            }
-          })
-          return
+    if(!bindMobile) {
+      // 没有填过手机号
+      this.context.router.push({
+        pathname: '/rise/static/customer/mobile/check', query: {
+          goRise: true, runningPlanId: planId
         }
-        if(!bindMobile) {
-          // 没有填过手机号
-          this.context.router.push({
-            pathname: '/rise/static/customer/mobile/check', query: {
-              goRise: true, runningPlanId: res.msg
-            }
-          })
-          return
-        }
-        // 都填写过
-        this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: res.msg } })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
+      })
+      return
+    }
+    // 都填写过
+    this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: planId } })
   }
 
   /**
@@ -329,155 +304,27 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         this.setState({ showConfirm: true, confirmMsg: res.msg })
       } else if(res.code === 201 || res.code === 200) {
         if(couponCnt === 0) {
-          this.handleClickRiseCoursePay()
+          // 直接弹出付费
+          this.refs.payInfo.handleClickPay();
           return
         } else {
-          this.setState({ showPayInfo: true })
+          // 显示支付按钮
+          this.refs.payInfo.handleClickOpen();
         }
       } else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
-      dispatch(ex)
+      dispatch(alertMsg(ex))
     })
   }
 
   /**
-   * 点击立即支付
+   * 获取商品信息
    */
-  handleClickRiseCoursePay() {
-    const { dispatch, location } = this.props
-    const { id } = location.query
-    const { chose, final, free } = this.state
-    if(!id) {
-      dispatch(alertMsg('支付信息错误，请联系管理员'))
-    }
-    let param
-    if(chose) {
-      param = { couponId: chose.id, problemId: id }
-    } else {
-      param = { problemId: id }
-    }
-    dispatch(startLoad())
-    loadPayParam(param).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { fee, free, signParams, productId } = res.msg
-        this.setState({ productId: productId })
-        if(!isNumber(fee)) {
-          dispatch(alertMsg('支付金额异常，请联系工作人员'))
-          return
-        }
-        if(free && numeral(fee).format('0.00') === '0.00') {
-          // 免费
-          this.handlePayDone()
-        } else {
-          // 收费，调微信支付
-          this.handleH5Pay(signParams)
-        }
-
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-
-    }).catch(err => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
-  }
-
-  /**
-   * 调起H5支付
-   * @param signParams
-   */
-  handleH5Pay(signParams) {
-    const { location } = this.props
-    const { id } = location.query
-    mark({
-      module: '支付',
-      function: '小课单卖',
-      action: '开始支付',
-      memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-    })
-
-    const { dispatch } = this.props
-    if(!signParams) {
-      mark({
-        module: '支付',
-        function: '小课单卖',
-        action: '没有支付参数',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-      })
-      dispatch(alertMsg('支付信息错误，请刷新'))
-      return
-    }
-
-    if(this.state.err) {
-      mark({
-        module: '支付',
-        function: '小课单卖',
-        action: '支付异常,禁止支付',
-        memo: 'error:' + this.state.err + ',' + 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-      })
-      dispatch(alertMsg(this.state.err))
-      return
-    }
-
-    this.setState({ showPayInfo: false })
-
-    if(window.ENV.osName === 'windows') {
-      // windows客户端
-      mark({
-        module: '支付',
-        function: '小课单卖',
-        action: 'windows-pay',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-      })
-      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
-    }
-    pay({
-        'appId': signParams.appId,     //公众号名称，由商户传入
-        'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数
-        'nonceStr': signParams.nonceStr, //随机串
-        'package': signParams.package,
-        'signType': signParams.signType,         //微信签名方式：
-        'paySign': signParams.paySign //微信签名
-      },
-      () => {
-        mark({
-          module: '支付',
-          function: '小课单卖',
-          action: 'success',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-        })
-        this.handlePayDone()
-      },
-      (res) => {
-        mark({
-          module: '支付',
-          function: '小课单卖',
-          action: 'cancel',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-        })
-        this.setState({ showErr: true })
-      },
-      (res) => {
-        logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
-        this.setState({ showErr: true })
-      }
-    )
-
-  }
-
-  handleClickPayMember() {
-    mark({
-      module: '支付',
-      function: '小课单卖',
-      action: '点击加入会员',
-      memo: 'os:' + window.ENV.systemInfo
-    })
-    window.location.href = `https://${window.location.hostname}/pay/pay`
+  handleGotGoods(goods) {
+    this.setState({ fee: goods.fee,coupons:goods.coupons });
   }
 
   handleClickGoReview() {
@@ -688,14 +535,17 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderPayInfo = () => {
+      const { location } = this.props;
+
       return (
-        <PayInfo pay={() => this.handleClickRiseCoursePay()}
-                 afterShow = {()=>{
-                   this.setState({showPayInfo:true});
-                 }} afterClose = {()=>{
-                   this.setState({showPayInfo:false});
-                 }}
-                 type="Course"
+        <PayInfo ref="payInfo"
+                 gotGoods={(goods)=>this.handleGotGoods(goods)}
+                 dispatch={this.props.dispatch}
+                 goodsId={location.query.id}
+                 goodsType={GoodsType.FRAG_COURSE}
+                 payedDone={(planId)=>this.handlePayDone(planId)}
+                 payedError={(ex)=> this.setState({ showErr: true })}
+                 payedCancel={ex=>this.setState({showErr:true})}
         />
       )
     }
@@ -788,6 +638,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="toast-text">领取成功</div>
           <div className="toast-text">点击下一步学习吧</div>
         </Toast>
+
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
@@ -799,7 +650,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
 
         {renderPayInfo()}
 
-        {showPayInfo ? <div className="mask"></div> : null}
 
       </div>
     )

@@ -6,9 +6,9 @@ import { connect } from "react-redux";
 const numeral = require('numeral');
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,calculateCoupon,
-} from './async'
-
+  loadUserCoupons, loadPayParam, afterPayDone, logPay, mark, calculateCoupon, loadGoodsInfo, loadPaymentParam,calculateCoupons
+} from '../async'
+import { pay } from '../../helpers/JsConfig'
 
 interface CouponProps {
   description?: string,
@@ -17,79 +17,223 @@ interface CouponProps {
 }
 
 interface PayInfoProps {
-  /* 优惠券 */
-  coupons: Array<CouponProps>,
-  /* 是否免费 */
-  free?: Boolean,
-  /* 优惠券 */
-  chose:Object,
-  /* 关闭支付页面回调 */
-  close(callback: Function): void,
-  /* 选择优惠券的回调 */
-  choose(coupon: CouponProps, callback: Function): void,
-  /* 显示支付弹窗 */
-  show: Boolean,
-  /* 最终支付价格 */
-  final?: Number,
-  /* 支付价格 */
-  fee: Number,
-  /* 支付头部 */
-  header: String,
-  /* 支付检查 */
-  payedCheck(): Promise,
+  /** 显示支付窗口的回调 */
+  afterShow?:any,
+  /** 关闭支付窗口的回调 */
+  afterClose?:any,
+  /** 获得商品信息后的回调 */
+  gotGoods?:any,
+  /** 支付成功的回调 */
+  payedDone?:any,
+  /** 支付取消的回调 */
+  payedCancel?:any,
+  /** 支付失败的回调 */
+  payedError?:any,
+  /** 商品id */
+  goodsId:number,
+  /** 产品类型 */
+  goodsType:string,
+  /** dispatch */
+  dispatch:any,
 }
 
-@connect(state => state)
 export default class PayInfo extends React.Component<PayInfoProps,any> {
   constructor(props) {
     super(props);
     this.state = {
-      coupons:[],
-      fee:this.props.fee
+      coupons: [],
+      fee: this.props.fee,
+      show: false
     };
   }
 
   componentWillMount() {
-    const { dispatch, location,goodsType } = this.props
-    dispatch(startLoad());
+    const { dispatch, goodsType, goodsId } = this.props
 
-    return loadUserCoupons().then(res => {
+    dispatch(startLoad());
+    // 获取商品数据
+    loadGoodsInfo(goodsType, goodsId).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState({coupons:res.smg});
+        const { coupons, fee, name } = res.msg;
+        console.log(res.msg);
+        this.setState({ coupons: coupons, fee: fee, name: name,originFee:fee });
+        if(_.isFunction(this.props.gotGoods)) {
+          this.props.gotGoods(res.msg);
+        }
       } else {
         dispatch(alertMsg(res.msg));
       }
-    }).catch(ex=>{
+    }).catch(ex => {
       const { dispatch, location } = this.props
       dispatch(endLoad());
       dispatch(alertMsg(ex))
     });
   }
 
-  handleClickClose(){
-    this.setState({ showPayInfo: false });
-    if(_.isFunction(this.props.afterClose)){
-
-    }
+  handleClickOpen() {
+    this.setState({ show: true }, () => {
+      if(_.isFunction(this.props.afterShow)) {
+        this.props.afterShow();
+      }
+    })
   }
 
+  handleClickClose() {
+    this.setState({ show: false, openCoupon: false,chose:null,free:false,final:null}, () => {
+      if(_.isFunction(this.props.afterClose)) {
+        this.props.afterClose();
+      }
+    });
+  }
 
+  /**
+   * 点击立即支付
+   */
   handleClickPay() {
-    this.props.pay()
+    // this.props.pay()
+    const { dispatch, goodsType, goodsId } = this.props;
+    const { chose, final, free } = this.state;
+    if(!goodsId || !goodsType) {
+      dispatch(alertMsg('支付信息错误，请联系管理员'))
+    }
+    let param = { goodsId: goodsId, goodsType: goodsType };
+    if(chose) {
+      param = _.merge({}, param, { couponId: chose.id })
+    }
+    dispatch(startLoad());
+    loadPaymentParam(param).then(res => {
+      console.log(res);
+      dispatch(endLoad());
+      if(res.code === 200) {
+        const { fee, free, signParams, productId } = res.msg;
+        this.setState({ productId: productId });
+        if(!_.isNumber(fee)) {
+          dispatch(alertMsg('支付金额异常，请联系工作人员'));
+          return
+        }
+        if(free && numeral(fee).format('0.00') === '0.00') {
+          // 免费
+          this.handlePayDone()
+        } else {
+          // 收费，调微信支付
+          this.handleH5Pay(signParams)
+        }
+
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+
+    }).catch(err => {
+      dispatch(endLoad())
+      dispatch(alertMsg(err))
+    })
+  }
+
+  /**
+   * 调起H5支付
+   * @param signParams
+   */
+  handleH5Pay(signParams) {
+    mark({
+      module: '支付',
+      function: '小课单卖',
+      action: '开始支付',
+      memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+    })
+
+    const { dispatch } = this.props
+    if(!signParams) {
+      mark({
+        module: '支付',
+        function: '小课单卖',
+        action: '没有支付参数',
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+      })
+      dispatch(alertMsg('支付信息错误，请刷新'))
+      return
+    }
+
+    if(this.state.err) {
+      mark({
+        module: '支付',
+        function: '小课单卖',
+        action: '支付异常,禁止支付',
+        memo: 'error:' + this.state.err + ',' + 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+      });
+      dispatch(alertMsg(this.state.err));
+      return
+    }
+
+    this.setState({ showPayInfo: false });
+
+    if(window.ENV.osName === 'windows') {
+      // windows客户端
+      mark({
+        module: '支付',
+        function: '小课单卖',
+        action: 'windows-pay',
+        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+      })
+      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
+    }
+    // 调起H5支付
+    pay({
+        'appId': signParams.appId,     //公众号名称，由商户传入
+        'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数
+        'nonceStr': signParams.nonceStr, //随机串
+        'package': signParams.package,
+        'signType': signParams.signType,         //微信签名方式：
+        'paySign': signParams.paySign //微信签名
+      },
+      () => {
+        // 购买成功的回调
+        mark({
+          module: '支付',
+          function: '小课单卖',
+          action: 'success',
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+        })
+        this.handlePayDone()
+      },
+      (res) => {
+        // 用户点击取消的回调
+        mark({
+          module: '支付',
+          function: '小课单卖',
+          action: 'cancel',
+          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
+        })
+        this.handleClickClose();
+        if(_.isFunction(this.props.payedCancel)){
+          this.props.payedCancel(res);
+        }
+      },
+      (res) => {
+        // 支付失败的回调
+        logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (_.isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
+        this.handleClickClose();
+        if(_.isFunction(this.props.payedError)){
+          this.props.payedError(res);
+        }
+      }
+    )
+
   }
 
   /**
    * 选择优惠券
    * @param coupon 优惠券
    */
-  choose(coupon) {
-    const { dispatch, location } = this.props;
+  handleClickChooseCoupon(coupon) {
+    const { dispatch, goodsId, goodsType } = this.props;
     dispatch(startLoad());
-    calculateCoupon(coupon.id, id).then((res) => {
+    let param = { goodsId: goodsId, goodsType: goodsType, couponId: coupon.id };
+
+    calculateCoupons(param).then((res) => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ free: res.msg === 0, chose: coupon, final: res.msg,openCoupon:false })
+        this.setState({ free: res.msg === 0, chose: coupon, final: res.msg, openCoupon: false })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -99,8 +243,46 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     })
   }
 
+  /**
+   * 支付完成
+   */
+  handlePayDone() {
+    const { dispatch } = this.props
+    const { productId } = this.state
+    if(this.state.err) {
+      mark({
+        module: '打点',
+        function: '支付',
+        action: '支付异常',
+        memo: window.location.href
+      })
+      dispatch(alertMsg('支付失败：' + this.state.err))
+      return
+    }
+    dispatch(startLoad())
+    afterPayDone(productId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        if(_.isFunction(this.props.afterPayed)) {
+          this.props.afterPayed(res.msg);
+        }
+      } else {
+        dispatch(alertMsg(res.msg))
+        if(_.isFunction(this.props.payedError)) {
+          this.props.payedError(res.msg);
+        }
+      }
+    }).catch((err) => {
+      dispatch(endLoad())
+      dispatch(alertMsg(err))
+      if(_.isFunction(this.props.payedError)) {
+        this.props.payedError(res.msg);
+      }
+    })
+  }
+
   render() {
-    const { openCoupon,coupons=[],final,fee,chose,free } = this.state;
+    const { openCoupon, coupons = [], final, fee, chose, free, show, name } = this.state;
     const hasCoupons = !_.isEmpty(coupons);
     /* 高度，用于遮盖优惠券 */
     const height = (hasCoupons ? 276 : 226) + 'px';
@@ -178,10 +360,10 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
       }
     }
 
-    <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->
+    // <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->
     if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3) {
 
-      <!-- 安卓4.3 以下 -->
+      // <!-- 安卓4.3 以下 -->
       return (
         <div className="simple-pay-info">
           <div className="close" onClick={()=>this.handleClickClose()}>
@@ -189,7 +371,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
           </div>
           <div className="main-container">
             <div className="header">
-              小课购买
+              {name}
             </div>
             <div className="content">
               <div className="price item">
@@ -220,16 +402,16 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
         </div>
       )
     } else {
-      <!--  非安卓4.3 -->
-      return (<div className="pay-info" style={ renderTrans(this.props.show,height)}>
-        {this.props.show ?<div className="close" onClick={()=>this.props.close(()=>this.setState({openCoupon:false}))}
-                               style={{bottom:`${hasCoupons?276:226}px`}}>
+      // <!--  非安卓4.3 -->
+      return (<div className="pay-info" style={ renderTrans(show,height)}>
+        {show ?<div className="close" onClick={()=>this.handleClickClose()}
+                    style={{bottom:`${hasCoupons?276:226}px`}}>
           <Icon type="white_close_btn" size="40px"/>
         </div>: null}
 
         <div className="main-container" style={{height: _.isEmpty(coupons) ? 160 : 210}}>
           <div className="header" style={renderHeaderTrans(openCoupon)}>
-            {this.props.header}
+            {name}
           </div>
           <div className="content" style={renderHeaderTrans(openCoupon)}>
             <div className="price item">
@@ -247,7 +429,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
                   ¥{numeral(item.amount).format('0.00')}元
                   <span className="describe">{item.description ? item.description : ''}</span>
                   <span className="expired">{item.expired}过期</span>
-                  <div className="btn" onClick={()=>this.choose(item)}>
+                  <div className="btn" onClick={()=>this.handleClickChooseCoupon(item)}>
                     选择
                   </div>
                 </li>
@@ -259,6 +441,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
           <div className="btn" onClick={()=>this.handleClickPay()}>
           </div>
         </div>
+        {show ? <div className="mask"></div> : null}
       </div>)
     }
   }
