@@ -55,7 +55,7 @@ export class Main extends React.Component <any, any> {
     let practiceList = []
     practiceList.push(
       {
-        question: `这是一个年轻人勇闯职场的故事！但是，职场之路不是一帆风顺的，一定要通关成功，才能顺利加薪升职，迎娶白富美，加油吧！
+        question: `这是一个年轻人勇闯职场的故事。但是，职场之路不是一帆风顺的，一定要通关成功，才能顺利加薪升职，迎娶白富美，加油！
 <br/><br/>
 
 1、今天是你入职的第一天。培训过后，老板说，你去做一份共享单车行业分析报告吧，周五给我。你会：`, choiceList: [
