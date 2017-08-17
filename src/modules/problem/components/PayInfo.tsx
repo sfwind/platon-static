@@ -247,6 +247,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
    * 支付完成
    */
   handlePayDone() {
+    this.handleClickClose();
     const { dispatch } = this.props
     const { productId } = this.state
     if(this.state.err) {
@@ -263,8 +264,8 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     afterPayDone(productId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        if(_.isFunction(this.props.afterPayed)) {
-          this.props.afterPayed(res.msg);
+        if(_.isFunction(this.props.payedDone)) {
+          this.props.payedDone(res.msg);
         }
       } else {
         dispatch(alertMsg(res.msg))
