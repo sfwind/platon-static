@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 const numeral = require('numeral');
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  loadUserCoupons, loadPayParam, afterPayDone, logPay, mark, calculateCoupon, loadGoodsInfo, loadPaymentParam,calculateCoupons
+  afterPayDone, logPay, mark, loadGoodsInfo, loadPaymentParam,calculateCoupons
 } from '../async'
 import { pay } from '../../helpers/JsConfig'
 
