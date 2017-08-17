@@ -74,11 +74,16 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       return
     }
     dispatch(set('title', title));
-    if(questionId){
-      this.context.router.push({pathname:'/forum/static/question/detail', query:{questionId}});
-    }else{
-      this.context.router.push('/forum/static/question/detail');
-    }
+    //保证android的屏幕高度恢复后再跳转
+    dispatch(startLoad())
+    setTimeout(()=>{
+      dispatch(endLoad())
+      if(questionId){
+        this.context.router.push({pathname:'/forum/static/question/detail', query:{questionId}});
+      }else{
+        this.context.router.push('/forum/static/question/detail');
+      }
+    }, 1000);
 
   }
 
