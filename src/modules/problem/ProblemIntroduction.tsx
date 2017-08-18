@@ -8,7 +8,7 @@ import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon
+  calculateCoupon, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
@@ -111,7 +111,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             return createPlan(location.query.id).then(res => {
               if(res.code === 200) {
                 this.setState({ showToast: true })
-                sendCustomerMsg()
               }
             })
           } else if(res.code === 204) {
