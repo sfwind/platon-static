@@ -52,7 +52,7 @@ export default class Question extends React.Component<any, QuestionStates> {
 
   componentWillMount() {
     window.addEventListener('popstate', (e) => {
-      this.setState({show:false})
+      this.setState({ show: false })
     })
     changeTitle('论坛')
     mark({ module: "打点", function: "论坛", action: "打开问题列表页" })
@@ -189,7 +189,7 @@ export default class Question extends React.Component<any, QuestionStates> {
 
   handleClickGoAnswerPage(questionId) {
     history.pushState({ page: 'next' }, 'state', '#next')
-    this.setState({questionId, show:true})
+    this.setState({ questionId, show: true })
   }
 
   handleSearch(value) {
@@ -315,55 +315,6 @@ export default class Question extends React.Component<any, QuestionStates> {
       )
     }
 
-    const renderQuestionListComponent = (questions) =>{
-      return (
-        <div className="ques-list">
-          {
-            questions.map((questionItem, idx) => {
-              const {
-                addTimeStr, answerTips, authorHeadPic, authorUserName,
-                description, id, topic
-              } = questionItem
-
-              // 如果是已关注，则显示已关注
-              let tag = questionItem.follow
-              let rightContent = tag ? '已关注' : '关注问题'
-              const changeFollowStatus = () => {
-                if(tag) {
-                  // 已关注的情况，则调用取消关注接口
-                  disFollow(id)
-                } else {
-                  // 未关注的情况，则调用关注接口
-                  follow(id)
-                }
-                tag = !tag
-                return tag ? '已关注' : '关注问题'
-              }
-              return (
-                <div>
-                  <div className="ques-desc" key={idx}>
-                    <DialogHead
-                      leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
-                      disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
-                    />
-                    <div className="ques-title"
-                         onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
-                    <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                      {splitText(removeHtmlTags(description), 20)}
-                    </div>
-                    <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                      {answerTips}
-                    </div>
-                  </div>
-                  <GreyBanner height="10px"/>
-                </div>
-              )
-            })
-          }
-        </div>
-      )
-    }
-
     return (
       <div className="question-container">
         {show ?
@@ -392,7 +343,6 @@ export default class Question extends React.Component<any, QuestionStates> {
           {init ? <GreyBanner height="20px"/> : <GreyBanner height="35px" content={'相关问题'}/>}
           <div style={{display: `${init ? '' : 'none'}`}}>
             {renderQuestionList()}
-            {/*{renderQuestionListComponent(questions)}*/}
             <PullSlideTip isEnd={this.state.end}/>
           </div>
           <div style={{ backgroundColor: '#f5f5f5', display: `${init ? 'none' : ''}` }}>
@@ -400,7 +350,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
 
         </div>
-        {renderOtherComponents()}
+        {show ? null : renderOtherComponents()}
       </div>
     )
   }
