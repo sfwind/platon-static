@@ -18,6 +18,7 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
       data:{},
       showDiscuss: false,
       showKnowledge:false,
+      content:'',
     }
   }
 
@@ -65,7 +66,7 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
   }
 
   reply(item){
-    this.setState({showDiscuss:true, referenceId:item.knowledgeId, repliedId:item.id})
+    this.setState({showDiscuss:true, referenceId:item.knowledgeId, repliedId:item.id, content: ''})
   }
 
   onChange(value){

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux"
 import "./AnswerComment.less"
-import { HeadArea, DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
+import { DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Discuss from "../../practice/components/Discuss";
@@ -170,7 +170,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   // 编辑器内部内容映射到当前组件
-  handleOnchangeDicussBoxValue(value) {
+  handleOnchangeDiscussBoxValue(value) {
     this.setState({
       comment: value
     })
@@ -288,8 +288,8 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       if(showDiscussBox) {
         return (
           <Discuss
-            placeholder={placeholder} onChange={(v) => this.handleOnchangeDicussBoxValue(v)}
-            submit={this.commentAnswer.bind(this)}
+            placeholder={placeholder} onChange={(v) => this.handleOnchangeDiscussBoxValue(v)}
+            submit={this.commentAnswer.bind(this)} limit={1000}
             cancel={this.handleClickHideDiscussBox.bind(this)}/>
         )
       }

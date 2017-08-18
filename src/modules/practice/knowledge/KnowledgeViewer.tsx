@@ -40,6 +40,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       discuss: {},
       placeholder: '提出你的疑问或意见吧（限1000字）',
       isReply: false,
+      content:'',
     }
   }
 

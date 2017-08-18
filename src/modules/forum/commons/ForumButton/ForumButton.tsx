@@ -1,5 +1,4 @@
 import * as React from "react"
-import AssetImg from "../../../../components/AssetImg";
 import "./ForumButton.less"
 
 interface ForumButtonProps {
@@ -9,10 +8,16 @@ interface ForumButtonProps {
   primary?: boolean;
 }
 
+var FastClick = require('fastclick');
+
 export default class ForumButton extends React.Component<ForumButtonProps, any> {
 
   constructor() {
     super()
+  }
+
+  componentDidMount(){
+    FastClick.attach(document.querySelector('.forum-button'));
   }
 
   render() {

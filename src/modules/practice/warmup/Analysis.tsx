@@ -36,6 +36,7 @@ export class Analysis extends React.Component <any, any> {
       isReply: false,
       placeholder: '解答同学的提问（限1000字）',
       knowledgeId: 0,
+      content:'',
     }
   }
 
