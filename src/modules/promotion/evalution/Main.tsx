@@ -259,7 +259,7 @@ export class Main extends React.Component <any, any> {
         {show ?
           <div className="modal-container">
             <div className="modal">
-              {completeEva ? <div style={{ margin: 40 }}>你的洞察力检测报告已生成</div> :
+              {completeEva ? <div style={{ margin: 40 }}>你的职场洞察力检测报告已生成</div> :
                 <div>
                   <div style={{ marginTop: 40 }}>职场闯关成功！</div>
                   <div>闯关表现分析中{ellipse[ ellipses ]}</div>
