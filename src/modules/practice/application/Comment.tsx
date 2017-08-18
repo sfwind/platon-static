@@ -1,11 +1,10 @@
-import * as React from "react";
-import "./Comment.less";
+import * as React from "react"
+import "./Comment.less"
 import { connect } from "react-redux"
 import {loadCommentList, comment, deleteComment, commentReply, getApplicationPractice, vote} from "./async"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import AssetImg from "../../../components/AssetImg";
-import PullElement from "pull-element"
-import { findIndex, remove, isString, truncate, merge } from "lodash";
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions"
+import AssetImg from "../../../components/AssetImg"
+import { findIndex, remove, isString, truncate, merge } from "lodash"
 import DiscussShow from "../components/DiscussShow"
 import Discuss from "../components/Discuss"
 import {scroll, filterHtmlTag} from "../../../utils/helpers"
@@ -14,7 +13,7 @@ import { mark } from "../../../utils/request"
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
   constructor() {
-    super();
+    super()
     this.state = {
       page: 1,
       editDisable: false,
@@ -22,143 +21,97 @@ export class Comment extends React.Component<any, any> {
       article: {},
       placeholder: '和作者切磋讨论一下吧',
       filterContent:"",
-    };
-    this.commentHeight = window.innerHeight;
+      submitId:-1,
+    }
+    this.commentHeight = window.innerHeight
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  };
+  }
 
   componentWillMount() {
-    mark({module: "打点", function: "学习", action: "打开应用题评论页"});
-    const {dispatch, location} = this.props;
-    dispatch(startLoad());
-    getApplicationPractice(location.query.submitId).then(res => {
+    mark({module: "打点", function: "学习", action: "打开应用题评论页"})
+    const {dispatch, location} = this.props
+    let submitId = this.props.submitId
+    if(!submitId){
+      submitId = location.query.submitId
+    }
+    dispatch(startLoad())
+    getApplicationPractice(submitId).then(res => {
       if(res.code === 200) {
-        this.setState({article: res.msg, filterContent:filterHtmlTag(res.msg.content)});
-        loadCommentList(location.query.submitId, 1).then(res => {
-          dispatch(endLoad());
+        this.setState({article: res.msg, filterContent:filterHtmlTag(res.msg.content)})
+        loadCommentList(submitId, 1).then(res => {
+          dispatch(endLoad())
           if(res.code === 200) {
             this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
-              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback, submitId})
             //从消息中心打开时，锚定到指定评论
-            if(location.query.commentId){
-              scroll('#comment-'+location.query.commentId, '.application-comment');
+            if(location && location.query.commentId){
+              scroll('#comment-'+location.query.commentId, '.application-comment')
             }
           } else {
-            dispatch(alertMsg(res.msg));
+            dispatch(alertMsg(res.msg))
           }
         }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
+        })
       } else {
-        dispatch(endLoad());
-        dispatch(alertMsg(res.msg));
+        dispatch(endLoad())
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
   }
 
-  componentDidUpdate() {
-    const {commentList = [], end} = this.state;
-    const {dispatch, location} = this.props;
-    if(commentList && commentList.length !== 0 && !this.pullElement) {
-      this.pullElement = new PullElement({
-        target: '.pull-target',
-        scroller: '.application-comment',
-        trigger: '.application-comment',
-        damping: 4,
-        detectScroll: true,
-        onPullUpEnd: (data) => {
-          loadCommentList(location.query.submitId, this.state.page + 1)
-          .then(res => {
-            if(res.code === 200) {
-              if(res.msg && res.msg.list.length !== 0) {
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.commentList, item) !== -1;
-                });
-                this.setState({
-                  commentList: this.state.commentList.concat(res.msg.list),
-                  page: this.state.page + 1,
-                  end: res.msg.end
-                });
-              } else {
-                dispatch(alertMsg('没有更多了'));
-              }
-            } else {
-              dispatch(alertMsg(res.msg));
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
-        }
-      });
-      this.pullElement.init();
-    }
-
-    if(this.pullElement && this.state.end) {
-      this.pullElement.disable();
-    }
-  }
-
-  componentWillUnmount() {
-    this.pullElement ? this.pullElement.destroy() : null;
-  }
 
   onSubmit() {
-    const {dispatch, location} = this.props;
-    const {content, isReply} = this.state;
+    const {dispatch, location} = this.props
+    const {content, isReply, submitId} = this.state
     if(content) {
-      this.setState({editDisable: true});
+      this.setState({editDisable: true})
       if(isReply) {
-        commentReply(location.query.submitId, content, this.state.id).then(res => {
+        commentReply(submitId, content, this.state.id).then(res => {
           if(res.code === 200) {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
-            });
-            if(!this.state.end && this.pullElement) {
-              this.pullElement.enable();
-            }
-            scroll('.comment-header', '.application-comment');
+            })
+            scroll('.comment-header', '.application-comment')
           } else {
-            dispatch(alertMsg(res.msg));
-            this.setState({editDisable: false});
+            dispatch(alertMsg(res.msg))
+            this.setState({editDisable: false})
           }
         }).catch(ex => {
-          this.setState({editDisable: false});
-          dispatch(alertMsg(ex));
-        });
+          this.setState({editDisable: false})
+          dispatch(alertMsg(ex))
+        })
       } else {
-        comment(location.query.submitId, content)
+        comment(submitId, content)
         .then(res => {
           if(res.code === 200) {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
-            });
-            if(!this.state.end && this.pullElement) {
-              this.pullElement.enable();
-            }
-            scroll('.comment-header', '.application-comment');
+            })
+            scroll('.comment-header', '.application-comment')
           } else {
-            dispatch(alertMsg(res.msg));
-            this.setState({editDisable: false});
+            dispatch(alertMsg(res.msg))
+            this.setState({editDisable: false})
           }
         }).catch(ex => {
-          this.setState({editDisable: false});
-          dispatch(alertMsg(ex));
+          this.setState({editDisable: false})
+          dispatch(alertMsg(ex))
         })
       }
 
     } else {
-      dispatch(alertMsg('请先输入内容再提交'));
+      dispatch(alertMsg('请先输入内容再提交'))
     }
   }
 
@@ -177,21 +130,21 @@ export class Comment extends React.Component<any, any> {
   }
 
   onDelete(id) {
-    const {dispatch, location} = this.props;
+    const {dispatch, location, submitId} = this.props
     deleteComment(id).then(res => {
       if(res.code === 200) {
-        loadCommentList(location.query.submitId, 1).then(res => {
-          dispatch(endLoad());
+        loadCommentList(submitId, 1).then(res => {
+          dispatch(endLoad())
           if(res.code === 200) {
             this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
-              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback})
           } else {
-            dispatch(alertMsg(res.msg));
+            dispatch(alertMsg(res.msg))
           }
         }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
+        })
       }
     })
   }
@@ -201,7 +154,7 @@ export class Comment extends React.Component<any, any> {
   }
 
   cancel() {
-    const {showDiscuss} = this.state;
+    const {showDiscuss} = this.state
     if(showDiscuss) {
       this.setState({showDiscuss: false})
     }
@@ -213,16 +166,15 @@ export class Comment extends React.Component<any, any> {
 
   voted(id, voteStatus, voteCount) {
     if(!voteStatus) {
-      this.setState({article: merge(this.state.article, {voteCount: voteCount + 1, voteStatus: true})});
-      vote(id);
+      this.setState({article: merge(this.state.article, {voteCount: voteCount + 1, voteStatus: true})})
+      vote(id)
     } else {
     }
   }
 
   render() {
-    const {commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount=60} = this.state;
-    const {topic, content, voteCount =0, voteStatus } = this.state.article;
-    const {submitId} = this.props.location.query;
+    const {commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount=60, submitId, article} = this.state
+    const {topic, content, voteCount =0, voteStatus } = article
     const renderCommentList = () => {
       if(commentList && commentList.length !== 0) {
         return (
@@ -244,7 +196,7 @@ export class Comment extends React.Component<any, any> {
           还没有人评论过<br/>点击左下角按钮，发表第一条吧
         </div>)
       }
-    };
+    }
 
     const renderTips = () => {
       if(commentList && commentList.length !== 0) {
@@ -258,7 +210,7 @@ export class Comment extends React.Component<any, any> {
           )
         }
       }
-    };
+    }
 
     const renderWorkContent = ()=>{
       if(isString(content)){
@@ -275,8 +227,8 @@ export class Comment extends React.Component<any, any> {
           )
         }
       }
-      return null;
-    };
+      return null
+    }
 
     return (
       <div>
@@ -320,6 +272,6 @@ export class Comment extends React.Component<any, any> {
           </div>
         }
       </div>
-    );
+    )
   }
 }
