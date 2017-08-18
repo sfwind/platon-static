@@ -44,7 +44,7 @@ export class Start extends React.Component<any,any> {
       <div className="eva-start" style={{width:backgroundPicWidth, height:backgroundPicHeight, transform: `scale(${initialScale})`,
          WebkitTransform: `scale(${initialScale})`, transformOrigin: '50% 0 0', WebkitTransformOrigin: '50% 0 0',
          marginLeft: (window.innerWidth - backgroundPicWidth) / 2,
-         background: `url('https://static.iqycamp.com/images/evalution_start4.jpg?imageslim')` }}>
+         background: `url('https://static.iqycamp.com/images/evalution_start4.png?imageslim')` }}>
         <div className="click-start" style={{height: 97, width: 402, position: 'absolute', top: '945', left: '174'}}
              onClick={()=>this.context.router.push('/rise/static/eva')}/>
       </div>
