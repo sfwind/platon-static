@@ -431,9 +431,11 @@ export class Main extends React.Component <any, any> {
             <div className="complete-box"
                  style={{
                    width: 310,
-                   left: (window.innerWidth - 310) / 2
+                   left: (window.innerWidth - 310) / 2,
+                   height: 242,
+                   top: (window.innerHeight - 262) / 2
                  }}>
-              <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
+              <div className="complete-tip-content" style={{top:125}}>好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
             </div>
           </div>
         )
@@ -444,10 +446,12 @@ export class Main extends React.Component <any, any> {
               <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
               <div className="complete-box"
                    style={{
-                     width: 310,
-                     left: (window.innerWidth - 310) / 2
+                   width: 310,
+                   left: (window.innerWidth - 310) / 2,
+                   height: 242,
+                   top: (window.innerHeight - 262) / 2
                    }}>
-                <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
+                <div className="complete-tip-content" style={{top:125}}>好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
               </div>
             </div>
           )
@@ -458,8 +462,14 @@ export class Main extends React.Component <any, any> {
                 <div>
                   <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
                   <div className="complete-box complete"
+                       style={{
+                        width: '100%',
+                        left: 0,
+                        height: window.innerWidth * 0.78 ,
+                        top: (window.innerHeight - window.innerWidth * 0.78 - 20) / 2
+                       }}
                        onClick={() => {this.context.router.push('/rise/static/customer/account')}}>
-                    <div className="complete-tip-content">
+                    <div className="complete-tip-content" style={{top:window.innerWidth * 0.4}}>
                       好厉害！你完成了3个应用练习，20元奖学金get！<br/>
                       可以在个人中心里查看哦。
                     </div>
@@ -470,8 +480,14 @@ export class Main extends React.Component <any, any> {
               return (
                 <div>
                   <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-                  <div className="complete-box">
-                    <div className="complete-tip-content">
+                  <div className="complete-box"
+                       style={{
+                        width: '100%',
+                        left: 0,
+                        height: window.innerWidth * 0.78 ,
+                        top: (window.innerHeight - window.innerWidth * 0.78 - 20) / 2
+                       }}>
+                    <div className="complete-tip-content" style={{top:window.innerWidth * 0.4}}>
                       好棒！你完成了 1 个应用练习，+10 积分。<br/>
                       再完成 { 3 - completedApplicationCnt } 个应用练习，就可以获得20元奖学金了，加油哦！
                     </div>
