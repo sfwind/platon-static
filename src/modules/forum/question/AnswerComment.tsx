@@ -5,7 +5,7 @@ import { DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComp
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Discuss from "../../practice/components/Discuss";
-import { splitText, removeHtmlTags } from "../../../utils/helpers";
+import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from "react-weui";
 const { Alert } = Dialog;
@@ -57,6 +57,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   componentWillMount() {
+    changeTitle('论坛')
     mark({module: "打点", function: "论坛", action: "打开回答评论页"});
     const answerId = this.props.location.query.answerId
     const { dispatch } = this.props

@@ -5,7 +5,7 @@ import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButto
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
-import { splitText, removeHtmlTags, scroll } from "../../../utils/helpers"
+import { splitText, removeHtmlTags, scroll, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
 interface QuestionAnswerStates {
@@ -50,6 +50,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   componentWillMount() {
+    changeTitle('论坛')
     mark({ module: "打点", function: "论坛", action: "打开问题详情页" })
     let questionId =  this.props.questionId
     if(!questionId) {

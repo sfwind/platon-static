@@ -9,6 +9,7 @@ import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import _ from "lodash";
 import QuestionAnswer from "./QuestionAnswer"
+import FullScreenDialog from "../../../components/FullScreenDialog"
 
 import "./Question.less";
 import AssetImg from "../../../components/AssetImg";
@@ -51,9 +52,6 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   componentWillMount() {
-    window.addEventListener('popstate', (e) => {
-      this.setState({ show: false })
-    })
     changeTitle('论坛')
     mark({ module: "打点", function: "论坛", action: "打开问题列表页" })
     const { dispatch, location } = this.props;
@@ -188,7 +186,6 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   handleClickGoAnswerPage(questionId) {
-    history.pushState({ page: 'next' }, 'state', '#next')
     this.setState({ questionId, show: true })
   }
 
@@ -230,6 +227,10 @@ export default class Question extends React.Component<any, QuestionStates> {
     if(window.innerHeight < windowInnerHeight) {
       this.setState({ windowInnerHeight: window.innerHeight });
     }
+  }
+
+  closeDialog(){
+    this.setState({show:false})
   }
 
   render() {
@@ -317,12 +318,8 @@ export default class Question extends React.Component<any, QuestionStates> {
 
     return (
       <div className="question-container">
-        {show ?
-          <div className="question-modal">
-            <QuestionAnswer questionId={questionId}/>
-          </div> : null}
         <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
-        <div className="question-page" style={{ height: window.innerHeight - 26 - 50 }}>
+        <div className={`question-page ${show ? '': 'toolbar'}`}>
           <div className="search-nav">
             <div className="search">
               <input type="text" className="search-input" placeholder='搜索' ref="searchInput"
@@ -351,6 +348,9 @@ export default class Question extends React.Component<any, QuestionStates> {
 
         </div>
         {show ? null : renderOtherComponents()}
+        <FullScreenDialog show={show} close={()=> this.closeDialog()}>
+          <QuestionAnswer questionId={questionId}/>
+        </FullScreenDialog>
       </div>
     )
   }

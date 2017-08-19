@@ -153,7 +153,7 @@ export class Main extends React.Component <any, any> {
           data: msg, submitId: msg.submitId, planId: msg.planId, draft: draft,
           editorValue: msg.content == null ? draft : msg.content,
           applicationScore: res.msg.applicationScore
-      })
+        })
         const isSubmitted = res.msg.content != null
         //如果已经提交，则不启动自动保存
         if(!isSubmitted) {
@@ -571,8 +571,8 @@ export class Main extends React.Component <any, any> {
                 />
               </div> : null}
             {showOthers && !isEmpty(otherList) ? <div>
-              <div className="submit-bar">{'同学的作业'}</div>
-              {renderList(otherList)}</div> : null}
+                <div className="submit-bar">{'同学的作业'}</div>
+                {renderList(otherList)}</div> : null}
             {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
             {renderEnd()}
           </div>

@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { ForumButton } from "../commons/ForumComponent"
 import { submitQuestion, getQuestion, loadTag } from "../async"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
-import { removeHtmlTags } from "../../../utils/helpers"
+import { removeHtmlTags, changeTitle } from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor"
 import _ from "lodash"
@@ -29,7 +29,8 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "论坛", action: "打开写问题页面" })
+    changeTitle('论坛')
+    mark({ module: "打点", function: "论坛", action: "打开提问详情页面" })
     const { dispatch, location, title } = this.props
     const { questionId } = location.query
     if(questionId) {
