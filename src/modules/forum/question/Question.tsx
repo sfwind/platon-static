@@ -229,6 +229,10 @@ export default class Question extends React.Component<any, QuestionStates> {
     }
   }
 
+  closeDialog(){
+    this.setState({show:false})
+  }
+
   render() {
     const { questions = [], init, searchData = [], show, questionId } = this.state;
 
@@ -315,7 +319,7 @@ export default class Question extends React.Component<any, QuestionStates> {
     return (
       <div className="question-container">
         <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
-        <div className="question-page" style={{ height: window.innerHeight - 26 - 50 }}>
+        <div className={`question-page ${show ? '': 'toolbar'}`}>
           <div className="search-nav">
             <div className="search">
               <input type="text" className="search-input" placeholder='搜索' ref="searchInput"
@@ -344,7 +348,7 @@ export default class Question extends React.Component<any, QuestionStates> {
 
         </div>
         {show ? null : renderOtherComponents()}
-        <FullScreenDialog show={show} close={()=> this.setState({show:false})}>
+        <FullScreenDialog show={show} close={()=> this.closeDialog()}>
           <QuestionAnswer questionId={questionId}/>
         </FullScreenDialog>
       </div>

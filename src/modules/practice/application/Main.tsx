@@ -354,6 +354,10 @@ export class Main extends React.Component <any, any> {
     })
   }
 
+  closeDialog(){
+    this.setState({show:false})
+  }
+
   render() {
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, otherSubmitId,
@@ -504,7 +508,7 @@ export class Main extends React.Component <any, any> {
         <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <div className={`container ${edit ? 'has-footer' : ''}`}>
+        <div className={`container ${edit && !show ? 'has-footer' : ''}`}>
           <div className="page-header">{topic}</div>
           <div className="intro-container">
             <div className="application-context">
@@ -585,7 +589,7 @@ export class Main extends React.Component <any, any> {
           { renderCompleteBox() }
         </div>
 
-        <FullScreenDialog show={show} close={()=>this.setState({show:false})}>
+        <FullScreenDialog show={show} close={()=>this.closeDialog()}>
           <Comment submitId={otherSubmitId}/>
         </FullScreenDialog>
       </div>
