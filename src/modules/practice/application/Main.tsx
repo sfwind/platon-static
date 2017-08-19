@@ -4,20 +4,19 @@ import './Main.less'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  autoUpdateApplicationDraft, isRiseMember, loadApplicationCompletedCount
+  autoUpdateApplicationDraft, loadOtherListBatch, isRiseMember, loadApplicationCompletedCount
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
 import _ from 'lodash'
 import Work from '../components/NewWork'
 import PullElement from 'pull-element'
-import { merge, findIndex, remove, isEmpty, isBoolean } from 'lodash'
+import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
 import Tutorial from '../../../components/Tutorial'
 import Editor from '../../../components/editor/Editor'
-import FullScreenDialog from '../../../components/FullScreenDialog'
 import { mark } from '../../../utils/request'
+import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-import { Comment } from "./Comment"
 
 let timer
 
@@ -30,7 +29,7 @@ export class Main extends React.Component <any, any> {
     this.state = {
       data: {},
       knowledge: {},
-      otherSubmitId: 0,
+      submitId: 0,
       page: 1,
       otherList: [],
       otherHighlightList: [],
@@ -44,8 +43,7 @@ export class Main extends React.Component <any, any> {
       isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
-      completedApplicationCnt: 1000,
-      show: false,
+      completdApplicationCnt: 1000
     }
     this.pullElement = null
   }
@@ -56,7 +54,7 @@ export class Main extends React.Component <any, any> {
 
   componentDidUpdate() {
     if(!this.pullElement) {
-      // 有内容并且没有pullElement
+      // 有内容并且米有pullElement
       const { dispatch } = this.props
       this.pullElement = new PullElement({
         target: '.container',
@@ -120,7 +118,7 @@ export class Main extends React.Component <any, any> {
 
   componentWillMount() {
     mark({ module: '打点', function: '学习', action: '打开应用题页' })
-    const { dispatch, location } = this.props
+    const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props
     const { integrated, id, planId } = location.query
     this.setState({ integrated })
 
@@ -176,13 +174,18 @@ export class Main extends React.Component <any, any> {
         }
         //看评论的请求，锚定到评论区
         if(content !== null) {
-          if(this.refs.submitBar) {
-            this.refs.submitBar.scrollTop = 0
+          if(isUndefined(otherApplicationPracticeSubmitId) || id != applicationId) {
+            let node = this.refs.submitBar
+            if(node) this.refs.submitBar.scrollTop = 0
           }
           this.setState({ edit: false })
         }
       } else {
         dispatch(alertMsg(msg))
+      }
+      // 自动加载其它同学的作业
+      if(otherApplicationPracticeSubmitId && id == applicationId) {
+        this.others()
       }
     }).catch(ex => {
       dispatch(endLoad())
@@ -202,7 +205,7 @@ export class Main extends React.Component <any, any> {
     })
     loadApplicationCompletedCount(planId).then(res => {
       if(res.code === 200) {
-        this.setState({ completedApplicationCnt: res.msg })
+        this.setState({ completdApplicationCnt: res.msg })
       }
     })
   }
@@ -251,7 +254,14 @@ export class Main extends React.Component <any, any> {
   }
 
   goComment(submitId) {
-    this.setState({ otherSubmitId: submitId, show: true })
+    const { dispatch } = this.props
+    dispatch(set('otherApplicationPracticeSubmitId', submitId))
+    dispatch(set('applicationId', this.props.location.query.id))
+    dispatch(set('articlePage', this.state.page))
+    this.context.router.push({
+      pathname: '/rise/static/practice/application/comment',
+      query: merge({ submitId: submitId }, this.props.location.query)
+    })
   }
 
   voted(id, voteStatus, voteCount, isMine, seq) {
@@ -287,9 +297,35 @@ export class Main extends React.Component <any, any> {
     })
   }
 
+  others() {
+    const { dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage } = this.props
+    dispatch(startLoad())
+    let page = 1
+    if(articlePage) {
+      page = articlePage
+    }
+    loadOtherListBatch(location.query.id, page).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.setState({
+          otherList: res.msg.list,
+          page: 1, end: res.msg.end, showOthers: true
+        }, () => {
+          if(otherApplicationPracticeSubmitId && location.query.id == applicationId) {
+            //锚定到上次看的练习
+            scroll('#app-' + otherApplicationPracticeSubmitId, '.container')
+          }
+
+        })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    })
+  }
+
   onSubmit() {
     const { dispatch, location } = this.props
-    const { data, planId, completedApplicationCnt } = this.state
+    const { data, planId, completdApplicationCnt } = this.state
     const answer = this.refs.editor.getValue()
     const { complete, practicePlanId } = location.query
     if(answer == null || answer.length === 0) {
@@ -302,7 +338,7 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-          this.setState({ completedApplicationCnt: res.msg, showCompletedBox: true })
+          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true })
         }
         if(complete == 'false') {
           dispatch(set('completePracticePlanId', practicePlanId))
@@ -337,31 +373,10 @@ export class Main extends React.Component <any, any> {
     })
   }
 
-  others() {
-    const { dispatch, location } = this.props
-    dispatch(startLoad())
-
-    loadOtherList(location.query.id, 1).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({
-          otherList: res.msg.list,
-          page: 1, end: res.msg.end, showOthers: true
-        })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    })
-  }
-
-  closeDialog(){
-    this.setState({show:false})
-  }
-
   render() {
     const {
-      data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, otherSubmitId,
-      showCompletedBox, completedApplicationCnt, integrated, loading, isRiseMember, applicationScore, show
+      data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
+      showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
 
@@ -369,7 +384,7 @@ export class Main extends React.Component <any, any> {
       if(list) {
         return list.map((item, seq) => {
           return (
-            <div className="application-article">
+            <div id={'app-' + item.submitId} className="application-article">
               <Work onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}  {...item}
                     goComment={() => this.goComment(item.submitId)} type={CommentType.Application}
                     articleModule={ArticleViewModule.Application}
@@ -427,7 +442,7 @@ export class Main extends React.Component <any, any> {
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
 
-      if(!showCompletedBox || completedApplicationCnt === 0) return
+      if(!showCompletedBox || completdApplicationCnt === 0) return
       if(isRiseMember == 1) {
         return (
           <div>
@@ -435,45 +450,35 @@ export class Main extends React.Component <any, any> {
             <div className="complete-box"
                  style={{
                    width: 310,
-                   left: (window.innerWidth - 310) / 2,
-                   height: 242,
-                   top: (window.innerHeight - 262) / 2
+                   left: (window.innerWidth - 310) / 2
                  }}>
-              <div className="complete-tip-content" style={{top:125}}>好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
+              <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
             </div>
           </div>
         )
       } else {
-        if(completedApplicationCnt > 3) {
+        if(completdApplicationCnt > 3) {
           return (
             <div>
               <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
               <div className="complete-box"
                    style={{
-                   width: 310,
-                   left: (window.innerWidth - 310) / 2,
-                   height: 242,
-                   top: (window.innerHeight - 262) / 2
+                     width: 310,
+                     left: (window.innerWidth - 310) / 2
                    }}>
-                <div className="complete-tip-content" style={{top:125}}>好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
+                <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
               </div>
             </div>
           )
         } else {
-          switch(completedApplicationCnt) {
+          switch(completdApplicationCnt) {
             case 3:
               return (
                 <div>
                   <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
                   <div className="complete-box complete"
-                       style={{
-                        width: '100%',
-                        left: 0,
-                        height: window.innerWidth * 0.78 ,
-                        top: (window.innerHeight - window.innerWidth * 0.78 - 20) / 2
-                       }}
                        onClick={() => {this.context.router.push('/rise/static/customer/account')}}>
-                    <div className="complete-tip-content" style={{top:window.innerWidth * 0.4}}>
+                    <div className="complete-tip-content">
                       好厉害！你完成了3个应用练习，20元奖学金get！<br/>
                       可以在个人中心里查看哦。
                     </div>
@@ -484,16 +489,10 @@ export class Main extends React.Component <any, any> {
               return (
                 <div>
                   <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-                  <div className="complete-box"
-                       style={{
-                        width: '100%',
-                        left: 0,
-                        height: window.innerWidth * 0.78 ,
-                        top: (window.innerHeight - window.innerWidth * 0.78 - 20) / 2
-                       }}>
-                    <div className="complete-tip-content" style={{top:window.innerWidth * 0.4}}>
+                  <div className="complete-box">
+                    <div className="complete-tip-content">
                       好棒！你完成了 1 个应用练习，+10 积分。<br/>
-                      再完成 { 3 - completedApplicationCnt } 个应用练习，就可以获得20元奖学金了，加油哦！
+                      再完成 { 3 - completdApplicationCnt } 个应用练习，就可以获得20元奖学金了，加油哦！
                     </div>
                   </div>
                 </div>
@@ -508,7 +507,7 @@ export class Main extends React.Component <any, any> {
         <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <div className={`container ${edit && !show ? 'has-footer' : ''}`}>
+        <div className={`container ${edit ? 'has-footer' : ''}`}>
           <div className="page-header">{topic}</div>
           <div className="intro-container">
             <div className="application-context">
@@ -538,7 +537,7 @@ export class Main extends React.Component <any, any> {
                 content === null ?
                   <div className="award_application">
                     {
-                      isRiseMember != 1 && completedApplicationCnt < 3 ?
+                      isRiseMember != 1 && completdApplicationCnt < 3 ?
                         <AssetImg url="https://static.iqycamp.com/images/fragment/award_application.png"
                                   width={window.innerWidth}/> :
                         null
@@ -581,17 +580,13 @@ export class Main extends React.Component <any, any> {
 
         { showDisable ?
           <div className="button-footer disabled">提交中</div> :
-          edit && !show ?
+          edit ?
             <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
             null
         }
-        <div onClick={() => this.setState({ showCompletedBox: false, completedApplicationCnt: 0 })}>
+        <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
           { renderCompleteBox() }
         </div>
-
-        <FullScreenDialog show={show} close={()=>this.closeDialog()}>
-          <Comment submitId={otherSubmitId}/>
-        </FullScreenDialog>
       </div>
     )
   }

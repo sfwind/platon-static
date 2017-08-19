@@ -2,7 +2,6 @@
 
 .application {
   height: ~"calc(100% + 1px)";
-  overflow: auto;
 
   .intro-container {
     overflow: auto;
@@ -112,7 +111,9 @@
   .complete-box {
     background-image: url("https://static.iqycamp.com/images/fragment/application_waiting_award_2.png?imageslim");
     background-size: 100% 100%;
+    height: 242px;
     position: absolute;
+    top: 180px;
     z-index: 1001;
 
     &.complete {
@@ -121,7 +122,7 @@
 
     .complete-tip-content {
       position: relative;
-      //top: 125px;
+      top: 125px;
       padding: 0 20px;
       font-size: 1.4em;
       color: #333;
