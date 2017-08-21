@@ -5,7 +5,7 @@ import * as _ from "lodash";
 const numeral = require('numeral');
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  afterPayDone, logPay, mark, loadGoodsInfo, loadPaymentParam,calculateCoupons
+  afterPayDone, logPay, mark, loadGoodsInfo, loadPaymentParam, calculateCoupons
 } from '../async'
 import { pay } from '../../helpers/JsConfig'
 
@@ -17,23 +17,23 @@ interface CouponProps {
 
 interface PayInfoProps {
   /** 显示支付窗口的回调 */
-  afterShow?:any,
+  afterShow?: any,
   /** 关闭支付窗口的回调 */
-  afterClose?:any,
+  afterClose?: any,
   /** 获得商品信息后的回调 */
-  gotGoods?:any,
+  gotGoods?: any,
   /** 支付成功的回调 */
-  payedDone?:any,
+  payedDone?: any,
   /** 支付取消的回调 */
-  payedCancel?:any,
+  payedCancel?: any,
   /** 支付失败的回调 */
-  payedError?:any,
+  payedError?: any,
   /** 商品id */
-  goodsId:number,
+  goodsId: number,
   /** 产品类型 */
-  goodsType:string,
+  goodsType: string,
   /** dispatch */
-  dispatch:any,
+  dispatch: any,
 }
 
 export default class PayInfo extends React.Component<PayInfoProps,any> {
@@ -56,7 +56,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
       if(res.code === 200) {
         const { coupons, fee, name } = res.msg;
         console.log(res.msg);
-        this.setState({ coupons: coupons, fee: fee, name: name,originFee:fee });
+        this.setState({ coupons: coupons, fee: fee, name: name, originFee: fee });
         if(_.isFunction(this.props.gotGoods)) {
           this.props.gotGoods(res.msg);
         }
@@ -79,7 +79,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
   }
 
   handleClickClose() {
-    this.setState({ show: false, openCoupon: false,chose:null,free:false,final:null}, () => {
+    this.setState({ show: false, openCoupon: false, chose: null, free: false, final: null }, () => {
       if(_.isFunction(this.props.afterClose)) {
         this.props.afterClose();
       }
@@ -134,9 +134,10 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
    * @param signParams
    */
   handleH5Pay(signParams) {
+    let functionName = this.props.goodsType || '未知商品'
     mark({
       module: '支付',
-      function: '小课单卖',
+      function: functionName,
       action: '开始支付',
       memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
     })
@@ -145,7 +146,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     if(!signParams) {
       mark({
         module: '支付',
-        function: '小课单卖',
+        function: functionName,
         action: '没有支付参数',
         memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
@@ -156,7 +157,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     if(this.state.err) {
       mark({
         module: '支付',
-        function: '小课单卖',
+        function: functionName,
         action: '支付异常,禁止支付',
         memo: 'error:' + this.state.err + ',' + 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       });
@@ -170,7 +171,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
       // windows客户端
       mark({
         module: '支付',
-        function: '小课单卖',
+        function: functionName,
         action: 'windows-pay',
         memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
@@ -189,7 +190,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
         // 购买成功的回调
         mark({
           module: '支付',
-          function: '小课单卖',
+          function: functionName,
           action: 'success',
           memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
@@ -199,20 +200,20 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
         // 用户点击取消的回调
         mark({
           module: '支付',
-          function: '小课单卖',
+          function: functionName,
           action: 'cancel',
           memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
         this.handleClickClose();
-        if(_.isFunction(this.props.payedCancel)){
+        if(_.isFunction(this.props.payedCancel)) {
           this.props.payedCancel(res);
         }
       },
       (res) => {
         // 支付失败的回调
-        logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (_.isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
+        logPay(functionName, 'error', 'os:' + window.ENV.systemInfo + ',error:' + (_.isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
         this.handleClickClose();
-        if(_.isFunction(this.props.payedError)){
+        if(_.isFunction(this.props.payedError)) {
           this.props.payedError(res);
         }
       }
