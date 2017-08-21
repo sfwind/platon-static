@@ -411,7 +411,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <span style={{marginLeft:'10px'}}>粉丝特惠</span>
         ];
       } else {
-        return `¥ ${fee}，立即学习`
+        return `¥ ${numeral(fee).format('0,0.00')}，立即学习`
       }
     }
 

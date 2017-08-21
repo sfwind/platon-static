@@ -282,9 +282,10 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
 
   render() {
     const { openCoupon, final, fee, chose, free, show, name, activity } = this.state;
+    const { header, goodsId, goodsType } = this.props;
     let coupons = _.get(this.state, 'coupons', [])
     coupons = _.filter(coupons, (item, key) => {
-      if((goodsId !== 3 && goodsType !== GoodsType.FRAG_MEMBER) && item.category === 'ELITE_RISE_MEMBER') {
+      if((goodsId != 3 && goodsType != GoodsType.FRAG_MEMBER) && item.category === 'ELITE_RISE_MEMBER') {
         return false;
       } else {
         return true;
@@ -382,7 +383,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
           </div>
           <div className="main-container">
             <div className="header">
-              {name}
+              {header || name}
             </div>
             <div className="content">
               <div className="price item">
@@ -422,7 +423,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
 
         <div className="main-container" style={{height: _.isEmpty(coupons) ? 160 : 210}}>
           <div className="header" style={renderHeaderTrans(openCoupon)}>
-            {name}
+            {header || name}
           </div>
           <div className="content" style={renderHeaderTrans(openCoupon)}>
             <div className="price item">
