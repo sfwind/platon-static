@@ -11,7 +11,7 @@ import {
   calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
-import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
+import { merge, isNumber, isObjectLike, toLower, get, startsWith } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { config, pay } from '../helpers/JsConfig'
@@ -324,7 +324,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
    * 获取商品信息
    */
   handleGotGoods(goods) {
-    this.setState({ fee: goods.fee,coupons:goods.coupons });
+    console.log(goods);
+    let price = get(goods, 'activity.price');
+    if(price) {
+      this.setState({ fee: goods.fee, coupons: goods.coupons, price: price });
+    } else {
+      this.setState({ fee: goods.fee, coupons: goods.coupons });
+    }
   }
 
   handleClickGoReview() {
@@ -338,7 +344,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   render() {
-    const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
+    const { data = {}, buttonStatus, showPayInfo, final, fee, price, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
@@ -397,6 +403,18 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
     }
 
+    const renderPrice = (fee, price) => {
+      if(price) {
+        return [
+          <span style={{marginLeft:'10px',textDecoration:'line-through',fontSize:'13px'}}>¥{numeral(fee).format('0,0.00')}</span>,
+          <span style={{marginLeft:'10px'}}>¥{numeral(price).format('0,0.00')}</span>,
+          <span style={{marginLeft:'10px'}}>粉丝特惠</span>
+        ];
+      } else {
+        return `¥ ${fee}，立即学习`
+      }
+    }
+
     const renderFooter = () => {
       if(show) {
         return null
@@ -420,7 +438,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       null
                   }
                   <div className={`left pay`} onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    ¥ {fee}，立即学习
+                    {renderPrice(fee,price)}
                   </div>
                 </div>
               )
@@ -520,18 +538,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           </div>
         )
       }
-    }
-
-    const renderPrice = (fee, final, free) => {
-      let priceArr = []
-      if(final || free) {
-        priceArr.push(<span className="discard" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>)
-        priceArr.push(<span className="final" key={1}
-                            style={{ marginLeft: '5px' }}>{`¥${numeral(final).format('0.00')}元`}</span>)
-      } else {
-        priceArr.push(<span className="final" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>)
-      }
-      return priceArr
     }
 
     const renderPayInfo = () => {
