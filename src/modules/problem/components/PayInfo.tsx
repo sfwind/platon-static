@@ -8,6 +8,8 @@ import {
   afterPayDone, logPay, mark, loadGoodsInfo, loadPaymentParam, calculateCoupons
 } from '../async'
 import { pay } from '../../helpers/JsConfig'
+import { GoodsType } from "utils/helpers"
+
 
 interface CouponProps {
   description?: string,
@@ -285,6 +287,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     const { header, goodsId, goodsType } = this.props;
     let coupons = _.get(this.state, 'coupons', [])
     coupons = _.filter(coupons, (item, key) => {
+      console.log(goodsType,'rnde');
       if((goodsId != 3 && goodsType != GoodsType.FRAG_MEMBER) && item.category === 'ELITE_RISE_MEMBER') {
         return false;
       } else {
