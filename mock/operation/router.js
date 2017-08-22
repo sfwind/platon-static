@@ -7,7 +7,8 @@ router.post("/rise/operation/free/submit/*", (req, res) => {
     res.status(200).json(
       { "msg": {
         "learnFreeLimit":false,
-        "percent": 80
+        "result": "你已获得免费领取洞察力小课资格啦",
+        "suggestion":"你已获得免费领取洞察力小课资格啦"
       }, "code": 200 }
     ), Math.random() * 1500)
 });

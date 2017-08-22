@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { submitEva, shareResult } from "./async"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from 'react-weui'
+import AssetImg from '../../../components/AssetImg'
+import './Result.less'
 const { Alert } = Dialog
 
 @connect(state => state)
@@ -25,6 +27,9 @@ export class Result extends React.Component<any,any> {
   }
 
   componentWillMount() {
+    window.addEventListener('popstate', (e) => {
+      this.setState({ showQuit: true })
+    })
     const { score } = this.props.location.query
     const { dispatch } = this.props
     this.fit()
@@ -33,14 +38,18 @@ export class Result extends React.Component<any,any> {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        const { learnFreeLimit, percent } = msg
-        this.setState({ learnFreeLimit, percent })
+        const { learnFreeLimit, result, suggestion } = msg
+        this.setState({ learnFreeLimit, result, suggestion})
       } else {
         dispatch(alertMsg(msg))
       }
     }).catch(e => {
       dispatch(alertMsg(e))
     })
+  }
+
+  componentDidMount(){
+    history.pushState({ page: 'next' }, 'state', '#ending')
   }
 
   fit() {
@@ -61,8 +70,8 @@ export class Result extends React.Component<any,any> {
 
   share() {
     const { score } = this.props.location.query
-    const { percent,learnFreeLimit } = this.state
-    shareResult({score, percent, learnFreeLimit}).then(res => {
+    const { learnFreeLimit } = this.state
+    shareResult().then(res => {
       console.log('生成海报')
       if(res.code === 200) {
         wx.closeWindow()
@@ -99,14 +108,20 @@ export class Result extends React.Component<any,any> {
         }
       ]
     }
-    const { initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit } = this.state
+    const { initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit, result, suggestion } = this.state
     return (
-      <div className="eva-start" style={{width:backgroundPicWidth, height:backgroundPicHeight, transform: `scale(${initialScale})`,
-         WebkitTransform: `scale(${initialScale})`, transformOrigin: '50% 0 0', WebkitTransformOrigin: '50% 0 0',
-         marginLeft: (window.innerWidth - backgroundPicWidth) / 2,
-         background: `url('https://static.iqycamp.com/images/evalution_start6.png?imageslim')` }}>
-        <div className="click-start" style={{height: 97, width: 402, position: 'absolute', top: '945', left: '174'}}
-             onClick={()=>this.setState({showResult:true})}/>
+      <div className="eva-result">
+        <div className="result">
+          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr.png" height={22} width={323}/>
+          <div className="text">{result}</div>
+        </div>
+        <div className="suggestion">
+          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr.png" height={25} width={323}/>
+          <div className="text">{suggestion}</div>
+        </div>
+        <div className="free-get" onClick={()=>this.setState({showResult:true})}>
+          <AssetImg url="https://static.iqycamp.com/images/free_get.png" height={57} width={319}/>
+        </div>
         <Alert { ...freeLimitProps }
           show={this.state.showResult}>
           <div className="global-pre">
@@ -117,8 +132,8 @@ export class Result extends React.Component<any,any> {
         <Alert { ...quitProps }
           show={this.state.showQuit}>
           <div className="global-pre">
-            {learnFreeLimit? '系统已为你生成测评结果海报，保存并分享到朋友圈，让你的朋友也挑战一下吧~'
-              : '系统已为你生成测评结果海报，分享并邀请3人扫码并完成测试，即可免费领取。'}
+            {learnFreeLimit? '系统已为你生成测评结果海报，分享还可以免费领取【职场敏锐度强化包】，去看看吧~'
+              : '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'}
           </div>
         </Alert>
       </div>

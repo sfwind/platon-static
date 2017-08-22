@@ -11,11 +11,12 @@ import {
   calculateCoupon, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
-import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
+import { merge, isNumber, isObjectLike, toLower, get, startsWith } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { config, pay } from '../helpers/JsConfig'
 import { mark } from '../../utils/request'
+import { GoodsType } from "../../utils/helpers"
 //限免小课id
 const FREE_PROBLEM_ID = 9
 
@@ -66,7 +67,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       showFloatCoupon: false,
       togetherClassMonth: null
     }
-
   }
 
   componentWillMount() {
@@ -78,13 +78,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       action: '打开小课介绍页',
       memo: id
     })
+    /** 获取小课数据，以及价格／按钮状态 */
     openProblemIntroduction(id, free).then(res => {
       const { msg, code } = res
       if(code === 200) {
         if(msg.buttonStatus === 1) {
-          // 当前url未注册bug修复，主要是ios，因为ios在config时用的是第一个url,window.ENV.configUrl
-          // 但是安卓也有可能出问题，所以干脆全部刷新页面（如果configUrl!==）
-          // alert(window.ENV.configUrl);
+          /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
           if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios') {
             mark({
               module: 'RISE',
@@ -123,33 +122,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           dispatch(alertMsg(ex))
         })
       }
-      return loadUserCoupons().then(res => {
-        dispatch(endLoad())
-        const { msg } = res
-        if(res.code === 200) {
-          this.setState({
-            data: problemMsg.problem,
-            buttonStatus: problemMsg.buttonStatus,
-            coupons: msg,
-            fee: problemMsg.fee,
-            currentPlanId: problemMsg.planId,
-            bindMobile: problemMsg.bindMobile,
-            isFull: problemMsg.isFull,
-            togetherClassMonth: problemMsg.togetherClassMonth
-          })
-        } else {
-          this.setState({
-            data: problemMsg.problem,
-            buttonStatus: problemMsg.buttonStatus,
-            coupons: [],
-            fee: problemMsg.fee,
-            currentPlanId: problemMsg.planId,
-            bindMobile: problemMsg.bindMobile,
-            isFull: problemMsg.isFull,
-            togetherClassMonth: problemMsg.togetherClassMonth
-          })
-          dispatch(alertMsg(msg))
-        }
+      this.setState({
+        data: problemMsg.problem,
+        buttonStatus: problemMsg.buttonStatus,
+        currentPlanId: problemMsg.planId,
+        bindMobile: problemMsg.bindMobile,
+        isFull: problemMsg.isFull,
+        togetherClassMonth: problemMsg.togetherClassMonth
       })
     }, reason => {
       dispatch(endLoad())
@@ -278,77 +257,30 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   /**
-   * 选择优惠券
-   * @param coupon 优惠券
-   * @param close 关闭回调函数，用来关闭选择优惠券的列表
-   */
-  handleClickChooseCoupon(coupon, close) {
-    const { dispatch, location } = this.props
-    const { id } = location.query
-    // const {selectMember} = this.state;
-    dispatch(startLoad())
-    calculateCoupon(coupon.id, id).then((res) => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ free: res.msg === 0, chose: coupon, final: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-      close()
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-      close()
-    })
-  }
-
-  /**
    * 支付完成
    */
-  handlePayDone() {
-    const { dispatch } = this.props
-    const { productId, isFull, bindMobile } = this.state
-    if(this.state.err) {
-      mark({
-        module: '打点',
-        function: '支付',
-        action: '支付异常',
-        memo: window.location.href
+  handlePayDone(planId) {
+    const { isFull, bindMobile } = this.state
+    if(!isFull) {
+      // 没有填写过
+      this.context.router.push({
+        pathname: '/rise/static/customer/profile', query: {
+          goRise: true, runningPlanId: planId
+        }
       })
-      dispatch(alertMsg('支付失败：' + this.state.err))
       return
     }
-    dispatch(startLoad())
-    afterPayDone(productId).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        if(!isFull) {
-          // 没有填写过
-          this.context.router.push({
-            pathname: '/rise/static/customer/profile', query: {
-              goRise: true, runningPlanId: res.msg
-            }
-          })
-          return
+    if(!bindMobile) {
+      // 没有填过手机号
+      this.context.router.push({
+        pathname: '/rise/static/customer/mobile/check', query: {
+          goRise: true, runningPlanId: planId
         }
-        if(!bindMobile) {
-          // 没有填过手机号
-          this.context.router.push({
-            pathname: '/rise/static/customer/mobile/check', query: {
-              goRise: true, runningPlanId: res.msg
-            }
-          })
-          return
-        }
-        // 都填写过
-        this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: res.msg } })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch((err) => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
+      })
+      return
+    }
+    // 都填写过
+    this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: planId } })
   }
 
   /**
@@ -371,145 +303,32 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         this.setState({ showConfirm: true, confirmMsg: res.msg })
       } else if(res.code === 201 || res.code === 200) {
         if(couponCnt === 0) {
-          this.handleClickRiseCoursePay()
+          // 直接弹出付费
+          this.refs.payInfo.handleClickPay();
           return
         } else {
-          this.setState({ showPayInfo: true })
+          // 显示支付按钮
+          this.refs.payInfo.handleClickOpen();
         }
       } else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
-      dispatch(ex)
+      dispatch(alertMsg(ex))
     })
   }
 
   /**
-   * 点击立即支付
+   * 获取商品信息
    */
-  handleClickRiseCoursePay() {
-    const { dispatch, location } = this.props
-    const { id } = location.query
-    const { chose, final, free } = this.state
-    if(!id) {
-      dispatch(alertMsg('支付信息错误，请联系管理员'))
-    }
-    let param
-    if(chose) {
-      param = { couponId: chose.id, problemId: id }
+  handleGotGoods(goods) {
+    let price = get(goods, 'activity.price');
+    if(price) {
+      this.setState({ fee: goods.fee, coupons: goods.coupons, price: price });
     } else {
-      param = { problemId: id }
+      this.setState({ fee: goods.fee, coupons: goods.coupons });
     }
-    dispatch(startLoad())
-    loadPayParam(param).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { fee, free, signParams, productId } = res.msg
-        this.setState({ productId: productId })
-        if(!isNumber(fee)) {
-          dispatch(alertMsg('支付金额异常，请联系工作人员'))
-          return
-        }
-        if(free && numeral(fee).format('0.00') === '0.00') {
-          // 免费
-          this.handlePayDone()
-        } else {
-          // 收费，调微信支付
-          this.handleH5Pay(signParams)
-        }
-
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-
-    }).catch(err => {
-      dispatch(endLoad())
-      dispatch(alertMsg(err))
-    })
-  }
-
-  /**
-   * 调起H5支付
-   * @param signParams
-   */
-  handleH5Pay(signParams) {
-    const { location } = this.props
-    const { id } = location.query
-    mark({
-      module: '支付',
-      function: '小课单卖',
-      action: '开始支付',
-      memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-    })
-
-    const { dispatch } = this.props
-    if(!signParams) {
-      mark({
-        module: '支付',
-        function: '小课单卖',
-        action: '没有支付参数',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-      })
-      dispatch(alertMsg('支付信息错误，请刷新'))
-      return
-    }
-
-    if(this.state.err) {
-      mark({
-        module: '支付',
-        function: '小课单卖',
-        action: '支付异常,禁止支付',
-        memo: 'error:' + this.state.err + ',' + 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-      })
-      dispatch(alertMsg(this.state.err))
-      return
-    }
-
-    this.setState({ showPayInfo: false })
-
-    if(window.ENV.osName === 'windows') {
-      // windows客户端
-      mark({
-        module: '支付',
-        function: '小课单卖',
-        action: 'windows-pay',
-        memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-      })
-      dispatch(alertMsg('Windows的微信客户端不能支付哦，请在手机端购买小课～'))
-    }
-    pay({
-        'appId': signParams.appId,     //公众号名称，由商户传入
-        'timeStamp': signParams.timeStamp,         //时间戳，自1970年以来的秒数
-        'nonceStr': signParams.nonceStr, //随机串
-        'package': signParams.package,
-        'signType': signParams.signType,         //微信签名方式：
-        'paySign': signParams.paySign //微信签名
-      },
-      () => {
-        mark({
-          module: '支付',
-          function: '小课单卖',
-          action: 'success',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-        })
-        this.handlePayDone()
-      },
-      (res) => {
-        mark({
-          module: '支付',
-          function: '小课单卖',
-          action: 'cancel',
-          memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
-        })
-        this.setState({ showErr: true })
-      },
-      (res) => {
-        logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
-        this.setState({ showErr: true })
-      }
-    )
-
   }
 
   handleClickPayMember() {
@@ -533,7 +352,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   render() {
-    const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
+    const { data = {}, buttonStatus, showPayInfo, final, fee, price, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
@@ -592,6 +411,18 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
     }
 
+    const renderPrice = (fee, price) => {
+      if(price) {
+        return [
+          <span style={{marginLeft:'10px',textDecoration:'line-through'}}>¥{numeral(fee).format('0,0.00')}</span>,
+          <span style={{marginLeft:'10px'}}>¥{numeral(price).format('0,0.00')}</span>,
+          <span style={{marginLeft:'10px'}}>粉丝特惠</span>
+        ];
+      } else {
+        return `¥ ${numeral(fee).format('0,0.00')}，立即学习`
+      }
+    }
+
     const renderFooter = () => {
       console.log('buttonStatus', buttonStatus)
       if(show) {
@@ -616,7 +447,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       null
                   }
                   <div className={`left pay`} onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    ¥ {fee}，立即学习
+                    {renderPrice(fee,price)}
                   </div>
                 </div>
               )
@@ -626,7 +457,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
                   {
+<<<<<<< HEAD
                     togetherClassMonth && togetherClassMonth !== '0' ?
+=======
+                    togetherClassMonth && togetherClassMonth !== "0" ?
+>>>>>>> 38b2e3c6f39a23e22771b3927951d511a6b5b1dc
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
                         本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
                       </div> :
@@ -731,74 +566,20 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
     }
 
-    const renderPrice = (fee, final, free) => {
-      let priceArr = []
-      if(final || free) {
-        priceArr.push(<span className="discard" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>)
-        priceArr.push(<span className="final" key={1}
-                            style={{ marginLeft: '5px' }}>{`¥${numeral(final).format('0.00')}元`}</span>)
-      } else {
-        priceArr.push(<span className="final" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>)
-      }
-      return priceArr
-    }
-
     const renderPayInfo = () => {
-      if(showPayInfo) {
-        if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3) {
-          return (
-            <div className="simple-pay-info">
-              <div className="close" onClick={() => this.setState({ showPayInfo: false })}>
-                关闭
-              </div>
-              <div className="main-container">
-                <div className="header">
-                  小课购买
-                </div>
-                <div className="content">
-                  <div className="price item">
-                    {renderPrice(fee, final, free)}
-                  </div>
-                  <div className={`coupon item`}>
-                    {chose ? `'优惠券'：¥${numeral(chose.amount).format('0.00')}元` : '选择优惠券'}
-                  </div>
-                </div>
-                <ul className={`coupon-list`}>
-                  {coupons ? coupons.map((item, seq) => {
-                    return (
-                      <li className="coupon" key={seq}>
-                        ¥{numeral(item.amount).format('0.00')}元
-                        <span className="describe">{item.description ? item.description : ''}</span>
-                        <span className="expired">{item.expired}过期</span>
-                        <div className="btn" onClick={() => this.handleClickChooseCoupon(item, () => {})}>
-                          选择
-                        </div>
-                      </li>
-                    )
-                  }) : null}
-                </ul>
-              </div>
-              <div className="bn-container">
-                <div className="btn" onClick={() => this.handleClickRiseCoursePay()}/>
-              </div>
-            </div>
-          )
-        } else {
-          return (
-            <PayInfo pay={() => this.handleClickRiseCoursePay()}
-                     close={(callback) => {
-                       this.setState({ showPayInfo: false })
-                       callback()
-                     }}
-                     choose={(coupon, close) => this.handleClickChooseCoupon(coupon, close)} show={showPayInfo}
-                     final={final} chose={chose}
-                     fee={fee} free={free}
-                     coupons={coupons} header="小课购买"/>
-          )
-        }
-      } else {
-        return null
-      }
+      const { location } = this.props;
+
+      return (
+        <PayInfo ref="payInfo"
+                 gotGoods={(goods)=>this.handleGotGoods(goods)}
+                 dispatch={this.props.dispatch}
+                 goodsId={location.query.id}
+                 goodsType={GoodsType.FRAG_COURSE}
+                 payedDone={(planId)=>this.handlePayDone(planId)}
+                 payedError={(ex)=> this.setState({ showErr: true })}
+                 payedCancel={ex=>this.setState({showErr:true})}
+        />
+      )
     }
 
     const renderEvaluateOperation = () => {
@@ -895,7 +676,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         {renderFooter()}
 
         <Alert { ...this.state.alert }
-               show={this.state.showAlert}>
+          show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>
@@ -906,6 +687,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="toast-text">领取成功</div>
           <div className="toast-text">点击下一步学习吧</div>
         </Toast>
+
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
@@ -916,8 +698,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div> : null}
 
         {renderPayInfo()}
+<<<<<<< HEAD
         {renderEvaluateOperation()}
         {showPayInfo ? <div className="mask"/> : null}
+=======
+
+>>>>>>> 38b2e3c6f39a23e22771b3927951d511a6b5b1dc
 
       </div>
     )
