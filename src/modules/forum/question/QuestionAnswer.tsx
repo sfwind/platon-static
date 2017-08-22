@@ -5,7 +5,7 @@ import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButto
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
-import { splitText, removeHtmlTags, scroll } from "../../../utils/helpers"
+import { splitText, removeHtmlTags, scroll, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 
 interface QuestionAnswerStates {
@@ -50,8 +50,12 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "论坛", action: "打开问题详情页" });
-    const questionId = this.props.location.query.questionId
+    changeTitle('论坛')
+    mark({ module: "打点", function: "论坛", action: "打开问题详情页" })
+    let questionId =  this.props.questionId
+    if(!questionId) {
+      questionId = this.props.location.query.questionId
+    }
     const { dispatch } = this.props
     dispatch(startLoad())
     getQuestion(questionId).then(res => {
@@ -92,10 +96,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     // 添加图片预览功能
     const { previewImgs } = this.state
     for(let i = 0; i < previewImgs.length; i++) {
-      if(previewImgs[i].src.indexOf("answer-") > 0) {
-        let imgSrc = previewImgs[i].src
-        previewImgs[i].onclick = () => {
-          wx.previewImage({ current: imgSrc, urls: [imgSrc] });
+      if(previewImgs[ i ].src.indexOf("answer-") > 0) {
+        let imgSrc = previewImgs[ i ].src
+        previewImgs[ i ].onclick = () => {
+          wx.previewImage({ current: imgSrc, urls: [ imgSrc ] });
         }
       }
     }
@@ -308,7 +312,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
               let isExpand = false
               const expandComment = (idx) => {
-                let commentNode = this.refs[`ansComment${idx}`]
+                let commentNode = this.refs[ `ansComment${idx}` ]
                 if(isExpand) {
                   commentNode.innerHTML = splitText(answer, 68);
                 } else {

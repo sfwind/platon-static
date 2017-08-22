@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux"
 import "./AnswerComment.less"
-import { HeadArea, DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
+import { DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Discuss from "../../practice/components/Discuss";
-import { splitText, removeHtmlTags } from "../../../utils/helpers";
+import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from "react-weui";
 const { Alert } = Dialog;
@@ -57,6 +57,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   componentWillMount() {
+    changeTitle('论坛')
     mark({module: "打点", function: "论坛", action: "打开回答评论页"});
     const answerId = this.props.location.query.answerId
     const { dispatch } = this.props
@@ -170,7 +171,7 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   }
 
   // 编辑器内部内容映射到当前组件
-  handleOnchangeDicussBoxValue(value) {
+  handleOnchangeDiscussBoxValue(value) {
     this.setState({
       comment: value
     })
@@ -288,8 +289,8 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
       if(showDiscussBox) {
         return (
           <Discuss
-            placeholder={placeholder} onChange={(v) => this.handleOnchangeDicussBoxValue(v)}
-            submit={this.commentAnswer.bind(this)}
+            placeholder={placeholder} onChange={(v) => this.handleOnchangeDiscussBoxValue(v)}
+            submit={this.commentAnswer.bind(this)} limit={1000}
             cancel={this.handleClickHideDiscussBox.bind(this)}/>
         )
       }

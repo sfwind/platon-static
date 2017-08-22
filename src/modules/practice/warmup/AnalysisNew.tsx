@@ -31,7 +31,8 @@ export class AnalysisNew extends React.Component <any, any> {
       warmupPracticeId: 0,
       integrated: false,
       placeholder: '解答同学的提问（限1000字）',
-      isReply: false
+      isReply: false,
+      content:'',
     }
   }
 

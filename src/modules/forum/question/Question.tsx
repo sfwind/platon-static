@@ -5,9 +5,11 @@ import { ToolBar } from "../../base/ToolBar";
 import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions, getQuestion, searchQuestion } from "../async";
 import { mark } from "../../../utils/request"
-import { splitText, removeHtmlTags } from "../../../utils/helpers"
+import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import _ from "lodash";
+import QuestionAnswer from "./QuestionAnswer"
+import FullScreenDialog from "../../../components/FullScreenDialog"
 
 import "./Question.less";
 import AssetImg from "../../../components/AssetImg";
@@ -20,6 +22,7 @@ interface QuestionStates {
   end: boolean;
   searching: boolean;
   init: boolean;
+  questionId: string;
 }
 
 @connect(state => state)
@@ -38,6 +41,7 @@ export default class Question extends React.Component<any, QuestionStates> {
       searchData: [],
       searchWord: '',
       windowInnerHeight: window.innerHeight,
+      questionId: '',
     }
     this.pullElement = null;
     this.timer = null;
@@ -48,7 +52,8 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "论坛", action: "打开问题列表页" });
+    changeTitle('论坛')
+    mark({ module: "打点", function: "论坛", action: "打开问题列表页" })
     const { dispatch, location } = this.props;
     const { questionId } = location.query;
     let questions = [];
@@ -180,6 +185,10 @@ export default class Question extends React.Component<any, QuestionStates> {
     window.location.href = `https://${window.location.hostname}/survey/wjx?activity=15135162 `
   }
 
+  handleClickGoAnswerPage(questionId) {
+    this.setState({ questionId, show: true })
+  }
+
   handleSearch(value) {
     const { dispatch } = this.props;
     const { searchWord } = this.state;
@@ -220,9 +229,12 @@ export default class Question extends React.Component<any, QuestionStates> {
     }
   }
 
-  render() {
+  closeDialog(){
+    this.setState({show:false})
+  }
 
-    const { questions = [], init, searchData = [] } = this.state;
+  render() {
+    const { questions = [], init, searchData = [], show, questionId } = this.state;
 
     const renderSimpleQuestionList = () => {
       return (
@@ -307,7 +319,7 @@ export default class Question extends React.Component<any, QuestionStates> {
     return (
       <div className="question-container">
         <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
-        <div className="question-page" style={{ height: window.innerHeight - 26 - 50 }}>
+        <div className={`question-page ${show ? '': 'toolbar'}`}>
           <div className="search-nav">
             <div className="search">
               <input type="text" className="search-input" placeholder='搜索' ref="searchInput"
@@ -327,8 +339,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           }
           {init ? <GreyBanner height="20px"/> : <GreyBanner height="35px" content={'相关问题'}/>}
           <div style={{display: `${init ? '' : 'none'}`}}>
-            {/*{renderQuestionList()} // 保留 */}
-            <QuestionListComponent questions={questions}/>
+            {renderQuestionList()}
             <PullSlideTip isEnd={this.state.end}/>
           </div>
           <div style={{ backgroundColor: '#f5f5f5', display: `${init ? 'none' : ''}` }}>
@@ -336,7 +347,10 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
 
         </div>
-        {renderOtherComponents()}
+        {show ? null : renderOtherComponents()}
+        <FullScreenDialog show={show} close={()=> this.closeDialog()}>
+          <QuestionAnswer questionId={questionId}/>
+        </FullScreenDialog>
       </div>
     )
   }
@@ -356,79 +370,4 @@ class GreyBanner extends React.Component<{ height: number, content?: string }, a
       </div>
     )
   }
-}
-
-@connect(state => state)
-class QuestionListComponent extends React.Component<{ questions }, any> {
-
-  constructor() {
-    super()
-  }
-
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return nextProps.questions != this.props.questions
-  }
-
-  handleClickGoAnswerPage(questionId) {
-    this.context.router.push({
-      pathname: "/forum/static/answer",
-      query: { questionId }
-    })
-  }
-
-  render() {
-    const { questions } = this.props
-
-    return (
-      <div className="ques-list">
-        {
-          questions.map((questionItem, idx) => {
-            const {
-              addTimeStr, answerTips, authorHeadPic, authorUserName,
-              description, id, topic
-            } = questionItem
-
-            // 如果是已关注，则显示已关注
-            let tag = questionItem.follow
-            let rightContent = tag ? '已关注' : '关注问题'
-            const changeFollowStatus = () => {
-              if(tag) {
-                // 已关注的情况，则调用取消关注接口
-                disFollow(id)
-              } else {
-                // 未关注的情况，则调用关注接口
-                follow(id)
-              }
-              tag = !tag
-              return tag ? '已关注' : '关注问题'
-            }
-            return (
-              <div>
-                <div className="ques-desc" key={idx}>
-                  <DialogHead
-                    leftImgUrl={authorHeadPic} user={authorUserName} time={addTimeStr}
-                    disableContentValue={`已关注`} rightContent={rightContent} rightContentFunc={changeFollowStatus}
-                  />
-                  <div className="ques-title"
-                       onClick={this.handleClickGoAnswerPage.bind(this, id)}>{splitText(removeHtmlTags(topic), 38)}</div>
-                  <div className="ques-content" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                    {splitText(removeHtmlTags(description), 20)}
-                  </div>
-                  <div className="ques-answer-persons" onClick={this.handleClickGoAnswerPage.bind(this, id)}>
-                    {answerTips}
-                  </div>
-                </div>
-                <GreyBanner height="10px"/>
-              </div>
-            )
-          })
-        }
-      </div>
-    )
-  }
-
 }
