@@ -4,9 +4,7 @@ import './Main.less'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import { scroll } from '../../../utils/helpers'
 import { mark } from 'utils/request'
-import { submitEva } from './async'
 import { Dialog } from 'react-weui'
-import AssetImg from '../../../components/AssetImg'
 const { Alert } = Dialog
 
 const sequenceMap = {
@@ -19,14 +17,6 @@ const sequenceMap = {
   6: 'G'
 }
 
-const ellipse = {
-  0: '.',
-  1: '..',
-  2: '...'
-}
-
-let TIMER
-
 @connect(state => state)
 export class Main extends React.Component <any, any> {
   constructor() {
@@ -36,13 +26,8 @@ export class Main extends React.Component <any, any> {
       currentIndex: 0,
       practiceCount: 0,
       selected: [],
-      knowledge: {},
-      integrated: false,
-      scene: 0,
-      canSubmit: false,
-      show: false,
-      completeEva: false,
-      ellipses: -1
+      showResult: false,
+      showNext: false,
     }
   }
 
@@ -108,17 +93,6 @@ export class Main extends React.Component <any, any> {
     this.setState({ practice: practiceList, practiceCount: practiceList.length })
   }
 
-  prev() {
-    const { dispatch } = this.props
-    const { currentIndex, practice } = this.state
-    if(currentIndex > 0) {
-      this.setChoice()
-      const selected = practice[ `${currentIndex - 1}` ].choice
-      this.setState({ currentIndex: currentIndex - 1, selected })
-    }
-    scroll('.eva-container', '.eva-container')
-  }
-
   setChoice() {
     let { practice, currentIndex, selected } = this.state
     practice[ currentIndex ].choice = selected
@@ -128,8 +102,8 @@ export class Main extends React.Component <any, any> {
   next() {
     const { dispatch, location } = this.props
     const { selected, practice, currentIndex, practiceCount } = this.state
-    const { integrated, practicePlanId } = location.query
-
+    const { practicePlanId } = location.query
+    this.setState({ showNext: false })
     if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
@@ -149,19 +123,11 @@ export class Main extends React.Component <any, any> {
   onChoiceSelected(choice) {
     const { practicePlanId } = this.props.location.query
     const { currentIndex, selected, practiceCount, practice } = this.state
-
-    if(currentIndex === practiceCount - 1) {
-      this.setState({ canSubmit: true })
-    }
-    if(selected.id === choice.id) {
-      this.next()
+    this.setState({ selected: choice })
+    if(currentIndex !== practiceCount - 1) {
+      this.setState({ showNext: true })
     } else {
-      this.setState({ selected: choice })
-      setTimeout(() => {
-        if(currentIndex !== practiceCount - 1) {
-          this.next()
-        }
-      }, 300)
+      this.setState({ showResult: true })
     }
   }
 
@@ -169,8 +135,8 @@ export class Main extends React.Component <any, any> {
     const { dispatch } = this.props
     const { selected, practice, currentIndex, practiceCount } = this.state
     const { practicePlanId } = this.props.location.query
-    this.setState({ canSubmit: false })
     this.setChoice()
+    this.setState({ showResult: false })
     if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
@@ -182,41 +148,18 @@ export class Main extends React.Component <any, any> {
       score += p.choice.point
     })
 
-    this.setState({ show: true })
-    setInterval(() => {
-      const { ellipses } = this.state
-      let newEllipse = ellipses
-      if(newEllipse === 2) {
-        newEllipse = 0
-      } else {
-        newEllipse = ellipses + 1
-      }
-      this.setState({ ellipses: newEllipse })
-    }, 500)
-    submitEva(score).then(res => {
-      if(res.code === 200) {
-        this.setState({ completeEva: true })
-        clearInterval(TIMER)
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    })
-
-  }
-
-  onClose() {
-    wx.closeWindow()
+    this.context.router.push({ pathname: '/rise/static/eva/result', query: { score } })
   }
 
   render() {
-    const { practice, currentIndex, selected, practiceCount, canSubmit, show, completeEva, ellipses } = this.state
+    const { practice, currentIndex, selected, practiceCount, showNext, showResult } = this.state
     const questionRender = (practice) => {
       const { question, pic, choiceList = [], score = 0 } = practice
       return (
         <div className="intro-container">
           { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
-            <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
-          </div> : null}
+              <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
+            </div> : null}
           <div className="question">
             <div dangerouslySetInnerHTML={{ __html: question }}/>
           </div>
@@ -238,6 +181,34 @@ export class Main extends React.Component <any, any> {
       )
     }
 
+    const renderModal = () => {
+      if(showNext) {
+        return (
+          <div className="modal-container">
+            <div className="eva-modal-outbound">
+              <div className="modal">圈外职场研究所-洞察力</div>
+            </div>
+            <div className="modal-button" onClick={()=>this.next()}>
+            </div>
+          </div>
+        )
+      }
+
+      if(showResult) {
+        return (
+          <div className="modal-container">
+            <div className="eva-modal-outbound">
+              <div className="modal">圈外职场研究所-洞察力</div>
+            </div>
+            <div className="modal-button2" onClick={()=>this.onSubmit()}>
+            </div>
+          </div>
+        )
+      }
+
+      return null
+    }
+
     return (
       <div className="eva-warm-up">
         <div className="eva-container">
@@ -248,25 +219,7 @@ export class Main extends React.Component <any, any> {
           </div>
           {questionRender(practice[ currentIndex ] || {})}
         </div>
-        { currentIndex !== 0 ?
-          <div className="eva-last-question" onClick={this.prev.bind(this)}>
-            上一题
-          </div> : null}
-        { currentIndex === practiceCount - 1 && !show && canSubmit ?
-          <div className={`eva-button-footer`} onClick={this.onSubmit.bind(this)}>
-            <AssetImg url={'https://static.iqycamp.com/images/eva_submit2.png'} height={65}/>
-          </div> : null}
-        {show ?
-          <div className="modal-container">
-            <div className="modal">
-              {completeEva ? <div style={{ margin: 40 }}>你的职场洞察力检测报告已生成</div> :
-                <div>
-                  <div style={{ marginTop: 40 }}>职场闯关成功！</div>
-                  <div>闯关表现分析中{ellipse[ ellipses ]}</div>
-                </div>}
-            </div>
-            {completeEva ? <div className="modal-button" onClick={() => this.onClose()}/> : null}
-          </div> : null}
+        { renderModal() }
       </div>
     )
   }

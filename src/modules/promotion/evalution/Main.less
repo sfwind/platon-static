@@ -5,7 +5,8 @@
   color: #fff;
   min-height: 100%;
   height: auto !important;
-  padding-bottom: 40px;
+  //padding-bottom: 40px;
+
   .modal-container{
     position: fixed;
     height: 100%;
@@ -14,23 +15,39 @@
     top: 0;
     left: 0;
     background-color: rgba(0,0,0,0.7);
-    .modal{
-      text-align: center;
+    .eva-modal-outbound{
       position:absolute;
-      top:147px;
-      font-size: 24px;
-      width: 264px;
-      height: 169px;
-      left: ~"calc((100% - 264px) / 2)";
-      background: url('https://static.iqycamp.com/images/eva_modal.png?imageslim') no-repeat center center / 264px 169px;
+      top: 154px;
+      border: solid 2px #11c2c4;
+      border-radius: @border-radius;
+      width: 249px;
+      height: 155px;
+      left: ~"calc((100% - 249px) / 2)";
+      .modal{
+        margin: 3px;
+        padding: 20px;
+        height: ~"calc(100% - 46px)";
+        background: #11c2c4;
+        background: -webkit-gradient(linear, center top, center bottom, from(#11c2c4), to(#069acd));
+        font-size: 17px;
+        color: #fffefe;
+      }
     }
     .modal-button{
-      top:342px;
+      top: 329px;
       width:174px;
       height: 57px;
       left: ~"calc((100% - 174px) / 2)";
-      position:absolute;
-      background: url('https://static.iqycamp.com/images/eva_modal_submit_2.png?imageslim') no-repeat center center / 174px 57px;
+      position:relative;
+      background: url('https://static.iqycamp.com/images/eva_modal_next.png?imageslim') no-repeat center center / 174px 57px;
+    }
+    .modal-button2{
+      top: 329px;
+      width:174px;
+      height: 57px;
+      left: ~"calc((100% - 174px) / 2)";
+      position:relative;
+      background: url('https://static.iqycamp.com/images/eva_modal_submit_3.png?imageslim') no-repeat center center / 174px 57px;
     }
   }
 

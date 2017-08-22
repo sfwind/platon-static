@@ -7,3 +7,7 @@ export function submitEva(score) {
 export function initEva(score) {
   return pget(`/rise/operation/free/init`)
 }
+
+export function shareResult(param) {
+  return ppost(`/rise/operation/free/share`,param)
+}
