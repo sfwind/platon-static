@@ -149,3 +149,9 @@ export function goOtherWeb(url){
   }
   window.location.href = url;
 }
+
+
+export class GoodsType {
+  public static FRAG_COURSE = "fragment_rise_course";
+  public static FRAG_MEMBER = "fragment_member";
+}
