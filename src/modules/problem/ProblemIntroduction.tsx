@@ -457,11 +457,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
                   {
-<<<<<<< HEAD
-                    togetherClassMonth && togetherClassMonth !== '0' ?
-=======
                     togetherClassMonth && togetherClassMonth !== "0" ?
->>>>>>> 38b2e3c6f39a23e22771b3927951d511a6b5b1dc
+
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
                         本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
                       </div> :
@@ -698,12 +695,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div> : null}
 
         {renderPayInfo()}
-<<<<<<< HEAD
-        {renderEvaluateOperation()}
-        {showPayInfo ? <div className="mask"/> : null}
-=======
-
->>>>>>> 38b2e3c6f39a23e22771b3927951d511a6b5b1dc
 
       </div>
     )
