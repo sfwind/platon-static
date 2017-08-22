@@ -7,8 +7,7 @@ import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon, loadHasGetOperationCoupon
+  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { merge, isNumber, isObjectLike, toLower, get, startsWith } from 'lodash'
@@ -424,7 +423,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderFooter = () => {
-      console.log('buttonStatus', buttonStatus)
       if(show) {
         return null
       } else {
@@ -695,7 +693,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div> : null}
 
         {renderPayInfo()}
-
+        {renderEvaluateOperation()}
       </div>
     )
   }
