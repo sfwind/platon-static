@@ -406,7 +406,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const renderPrice = (fee, price) => {
       if(price) {
         return [
-          <span style={{marginLeft:'10px',textDecoration:'line-through',fontSize:'13px'}}>¥{numeral(fee).format('0,0.00')}</span>,
+          <span style={{marginLeft:'10px',textDecoration:'line-through'}}>¥{numeral(fee).format('0,0.00')}</span>,
           <span style={{marginLeft:'10px'}}>¥{numeral(price).format('0,0.00')}</span>,
           <span style={{marginLeft:'10px'}}>粉丝特惠</span>
         ];
