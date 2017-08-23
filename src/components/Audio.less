@@ -96,32 +96,33 @@
       &:before {
         background: url('../../assets/img/rise_icon_audio.png') no-repeat center center / 10px auto;
         width: 10px;
-        height:15px;
+        height: 15px;
         display: inline-block;
         vertical-align: text-bottom;
-        margin-right:8px;
+        margin-right: 8px;
         content: '';
       }
       &:after {
         background: url('../../assets/img/rise_icon_arrow_down.png') no-repeat center center / 10px auto;
         width: 10px;
-        height:15px;
+        height: 15px;
         display: inline-block;
         vertical-align: text-bottom;
-        margin-left:5px;
+        margin-left: 5px;
         content: '';
       }
-      .open {
+      &.open {
         &:after {
           background: url('../../assets/img/rise_icon_arrow_up.png') no-repeat center center / 10px auto;
-          width: 10px;
-          height:15px;
-          display: inline-block;
-          vertical-align: text-bottom;
-          margin-left:5px;
-          content: '';
         }
       }
+    }
+    .audio-words {
+      background-color: @color_weak_background;
+      border-radius: 3px;
+      padding: 15px 10px;
+      color: @color_context;
+      font-size: @font_context;
     }
   }
 }
