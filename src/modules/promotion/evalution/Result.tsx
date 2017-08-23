@@ -18,7 +18,7 @@ export class Result extends React.Component<any,any> {
       percent: 0,
       learnFreeLimit: false,
       showResult: false,
-      showQuit:false,
+      showQuit: false,
     }
   }
 
@@ -39,7 +39,7 @@ export class Result extends React.Component<any,any> {
       const { code, msg } = res
       if(code === 200) {
         const { learnFreeLimit, result, suggestion } = msg
-        this.setState({ learnFreeLimit, result, suggestion})
+        this.setState({ learnFreeLimit, result, suggestion })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -48,7 +48,7 @@ export class Result extends React.Component<any,any> {
     })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     history.pushState({ page: 'next' }, 'state', '#ending')
   }
 
@@ -72,7 +72,6 @@ export class Result extends React.Component<any,any> {
     const { score } = this.props.location.query
     const { learnFreeLimit } = this.state
     shareResult().then(res => {
-      console.log('生成海报')
       if(res.code === 200) {
         wx.closeWindow()
       } else {
@@ -94,7 +93,7 @@ export class Result extends React.Component<any,any> {
         },
         {
           label: '取消', onClick: () => {
-          this.setState({showResult:false})
+          this.setState({ showResult: false })
         }
         }
       ]
@@ -122,23 +121,29 @@ export class Result extends React.Component<any,any> {
           <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_2.png" height={25} width={323}/>
           <pre className="text">{suggestion}</pre>
         </div>
-        <div className="schedule">
-          <AssetImg url="https://static.iqycamp.com/images/eva_schedule.png" height={369} width={291}/>
-        </div>
-        <div className="free-get" onClick={()=>this.setState({showResult:true})}>
-          <AssetImg url="https://static.iqycamp.com/images/free_get_2.png" height={57} width={319}/>
-        </div>
+        { learnFreeLimit ? null :
+          <div className="schedule">
+            <AssetImg url="https://static.iqycamp.com/images/eva_schedule.png" height={369} width={291}/>
+          </div>}
+        { learnFreeLimit ?
+          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_4.png" height={57} width={226}/>
+          </div> :
+          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_3.png" height={57} width={226}/>
+          </div>
+        }
         <Alert { ...freeLimitProps }
           show={this.state.showResult}>
           <div className="global-pre">
-            {learnFreeLimit? '系统已为你生成测评结果海报，保存并分享到朋友圈，让你的朋友也挑战一下吧~'
+            {learnFreeLimit ? '系统已为你生成测评结果海报，保存并分享到朋友圈，让你的朋友也挑战一下吧~'
               : '系统已为你生成测评结果海报，分享并邀请3人扫码并完成测试，即可免费领取。'}
           </div>
         </Alert>
         <Alert { ...quitProps }
           show={this.state.showQuit}>
           <div className="global-pre">
-            {learnFreeLimit? '系统已为你生成测评结果海报，分享还可以免费领取【职场敏锐度强化包】，去看看吧~'
+            {learnFreeLimit ? '系统已为你生成测评结果海报，分享还可以免费领取【职场敏锐度强化包】，去看看吧~'
               : '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'}
           </div>
         </Alert>
