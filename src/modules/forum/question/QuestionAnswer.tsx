@@ -26,6 +26,7 @@ interface QuestionAnswerStates {
   previewImgs: object;
 }
 let isExpandQuestion = false;
+
 @connect(state => state)
 export default class QuestionAnswer extends React.Component<any, QuestionAnswerStates> {
 
