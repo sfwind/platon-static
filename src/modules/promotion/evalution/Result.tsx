@@ -111,16 +111,22 @@ export class Result extends React.Component<any,any> {
     const { initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit, result, suggestion } = this.state
     return (
       <div className="eva-result">
+        <div className="head">
+          <AssetImg url="https://static.iqycamp.com/images/eva_report_head.png" height={80} width={236}/>
+        </div>
         <div className="result">
-          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr.png" height={22} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
           <div className="text">{result}</div>
         </div>
         <div className="suggestion">
-          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr.png" height={25} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_2.png" height={25} width={323}/>
           <div className="text">{suggestion}</div>
         </div>
+        <div className="schedule">
+          <AssetImg url="https://static.iqycamp.com/images/eva_schedule.png" height={369} width={291}/>
+        </div>
         <div className="free-get" onClick={()=>this.setState({showResult:true})}>
-          <AssetImg url="https://static.iqycamp.com/images/free_get.png" height={57} width={319}/>
+          <AssetImg url="https://static.iqycamp.com/images/free_get_2.png" height={57} width={319}/>
         </div>
         <Alert { ...freeLimitProps }
           show={this.state.showResult}>

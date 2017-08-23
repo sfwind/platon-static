@@ -10,10 +10,9 @@ import {
   openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
-import { merge, isNumber, isObjectLike, toLower, get, startsWith } from 'lodash'
+import { isNumber,get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
-import { config, pay } from '../helpers/JsConfig'
 import { mark } from '../../utils/request'
 import { GoodsType } from "../../utils/helpers"
 //限免小课id
@@ -445,7 +444,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       null
                   }
                   <div className={`left pay`} onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    {renderPrice(fee,price)}
+                    {renderPrice(fee, price)}
                   </div>
                 </div>
               )
@@ -581,14 +580,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       let evaluationProps = {
         buttons: [
           { label: '取消', onClick: () => this.setState({ showEvaluation: false }) },
-          { label: '去分享', onClick: () => wx.closeWindow() }
+          { label: '去测评', onClick: () => this.context.router.push('/rise/static/eva/start') }
         ]
       }
       return (
         <Alert { ...evaluationProps }
-               show={this.state.showEvaluation}>
+          show={this.state.showEvaluation}>
           <div className="global-pre">
-            分享测评结果图片，邀请3人扫码并完成测试，即可免费领取。
+            点击下方去测评，完成测评，分享结果图片，邀请3人扫码并完成测试，即可免费领取。
           </div>
         </Alert>
       )
@@ -611,8 +610,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
               { audio ? <div className="context-audio">
-                <Audio url={audio}/>
-              </div> : null }
+                  <Audio url={audio}/>
+                </div> : null }
               <div>
                 <pre className="pi-c-f-c-text">{why}</pre>
               </div>
@@ -684,13 +683,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </Toast>
 
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/>
-            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
-            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-          </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div> : null}
+            <div className="tips">
+              出现问题的童鞋看这里<br/>
+              1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
+              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div> : null}
 
         {renderPayInfo()}
         {renderEvaluateOperation()}

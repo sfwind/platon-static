@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 import { initEva } from "./async"
+import { changeTitle } from 'utils/helpers'
 
 @connect(state => state)
 export class Start extends React.Component<any,any> {
@@ -18,6 +19,7 @@ export class Start extends React.Component<any,any> {
   }
 
   componentWillMount() {
+    changeTitle('测评')
     this.fit()
     initEva()
   }

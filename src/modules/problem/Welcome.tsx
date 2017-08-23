@@ -37,7 +37,7 @@ export default class Welcome extends React.Component<any, any> {
 
   handleClickGoTrailPage() {
     mark({ module: '打点', function: '付费相关', action: '点击试用版', memo: '欢迎页' }).then(() => {
-      this.context.router.push('/rise/static/plan/view?id=9&free=true')
+      this.context.router.push('/rise/static/eva/start')
     })
   }
 
@@ -66,7 +66,7 @@ export default class Welcome extends React.Component<any, any> {
         <div className="welcome-container" style={{ minHeight: (window.innerWidth / 375) * 667 - 50 }}>
           <div className="welcome-page">
             <div className="welcome-bottom">
-              <div className="button-left button" onClick={() => this.handleClickGoTrailPage()}>限时免费</div>
+              <div className="button-left button" onClick={() => this.handleClickGoTrailPage()}>免费课程测评</div>
               <div className="button-right button" onClick={() => this.handleClickGoExplorePage()}>所有小课</div>
             </div>
             <div className="bottom-rise-tip">
