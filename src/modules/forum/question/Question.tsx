@@ -332,7 +332,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
           { init ?
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>
-              <AssetImg url="https://static.iqycamp.com/images/fragment/go_question.png" height={32} width={35}
+              <AssetImg url="https://static.iqycamp.com/images/rise_icon_go_question.png" width={82}
                         style={{ verticalAlign: 'middle' }}/>
             </div> :
             <div className="ques-nav-btn" onClick={() => this.handleCancel()}>
