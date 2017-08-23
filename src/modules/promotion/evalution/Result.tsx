@@ -116,11 +116,11 @@ export class Result extends React.Component<any,any> {
         </div>
         <div className="result">
           <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
-          <div className="text">{result}</div>
+          <pre className="text">{result}</pre>
         </div>
         <div className="suggestion">
           <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_2.png" height={25} width={323}/>
-          <div className="text">{suggestion}</div>
+          <pre className="text">{suggestion}</pre>
         </div>
         <div className="schedule">
           <AssetImg url="https://static.iqycamp.com/images/eva_schedule.png" height={369} width={291}/>
