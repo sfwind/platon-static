@@ -28,6 +28,7 @@ export class Main extends React.Component <any, any> {
       selected: [],
       showResult: false,
       showNext: false,
+      analysis:''
     }
   }
 
@@ -40,53 +41,54 @@ export class Main extends React.Component <any, any> {
     let practiceList = []
     practiceList.push(
       {
-        question: `这是一个年轻人勇闯职场的故事。但是，职场之路不是一帆风顺的，一定要通关成功，才能顺利加薪升职，迎娶白富美，加油！
-        <br/><br/>
-        1、今天是你入职的第一天。培训过后，老板说，你去做一份共享单车行业分析报告吧，周五给我。你会：`,
+        question: `1、毕业后行政工作做了三年，为了得到更大的发展，你打算跳槽到互联网公司做运营。为了顺利转行，你会：`,
         choiceList: [
-          { subject: '啊，我以前没做过这个报告，要抓紧时间，马上去做。', id: 1, point: 0 },
-          { subject: '啊，我以前没做过这个，怎么做啊，要先和老板确定相关要求。', id: 2, point: 1 }
+          { subject: '认为运营需要客服经验，客服岗容易申请，也和自身经历相符，所以先申请客服岗位。', id: 1, point: 0, analysis: '顺利申请到了客服岗位，但发现客服岗位的经验对于申请运营的帮助很小，只能在入职三个月后再次辞职，重新找运营岗位工作。' },
+          { subject: '找一些互联网运营的朋友，询问他们的工作体验和岗位职责。', id: 2, point: 1, analysis: '通过了解相关信息，你确定自己适合这一岗位，并根据岗位要求精心准备了简历和面试，得到了面试官的青睐，顺利入职。' },
+          { subject: '直接在招聘网站上查找岗位，投递简历，要广撒网才能拿到心仪的offer。', id: 3, point: 0, analysis: '投递了几十份简历，但都没有拿到面试机会。你很沮丧，去找了一些互联网运营的朋友，询问他们的工作体验和岗位职责，重新准备简历，再次申请，终于顺利通过。' }
         ]
       },
       {
-        question: `2、你的报告得到了老板的认可。但其他部门的新人小胖很惨，他的报告直接被打回，老板让小胖向你学习经验，重写一份。你会：`, choiceList: [
-        { subject: '告诉小胖，先去和老板确认报告的要求，然后回来再说。', id: 1, point: 1 },
-        { subject: '慷慨地把自己的报告给小胖，让他当模板照着做。', id: 2, point: 0 }
+        question: `2、终于顺利入职新公司。你组织了一个线下活动，活动反馈中有用户评分很低，抱怨你的活动主题很无聊。你会：`, choiceList: [
+        { subject: '你决定找到这些用户私下交流，了解详细情况。', id: 1, point: 1, analysis:'经过澄清，你发现是因为他们在活动中的参与度低，而你没有顾及到。你和他们进行沟通，并寄了小礼品给他们，顺利解决了这次的小矛盾。' },
+        { subject: '既然用户对我的主题不满意，那就再去脑暴活动主题，重新设计。', id: 2, point: 0, analysis:'你从众多主题中挑了最好的一个，但第二次活动还是有人不满意。你只好私下找用户交流，发现是自己没有顾及到他们的参与度。重新设计了活动机制后，用户反馈果然提高了很多。' }
       ]
       },
       {
-        question: `3、在成功辅导小胖写完报告后，老板对你大为赞赏，决定让你开始参与项目。今天，你接到了一个客户的电话，客户要求你们做一份组织架构优化方案，明天就要。你会说：`,
+        question: `3、活动结束了，老板说，你写一份活动总结，周五给我。你会：`,
         choiceList: [
-          { subject: '好的，我们明天就把建议书发给你。', id: 1, point: 0 },
-          { subject: '好的，我们今天约一个电话会议讨论一下方案的内容吧？', id: 2, point: 1 }
+          { subject: '噢，体现我执行力的时候到了，马上就去做！', id: 1, point: 0, analysis:'你辛苦熬了三天三夜，但是总结没有符合老板的要求，被打回，重新做。' },
+          { subject: '啊，这个看上去好难啊，要先和老板确定相关要求。', id: 2, point: 1, analysis:'机智如你，先和老板确定了相关的要求，再按照要求写总结，得到了老板的认可！' },
+          { subject: '我要把总结写得条理清晰，要先去网上下载一个模板再写。', id: 3, point: 0, analysis:'你辛辛苦苦写完，但是总结没有符合老板的要求，被打回，重新做。' }
         ]
       },
       {
-        question: `4、为了跟进这个方案，你连续加班一周。到了周末，你女朋友打电话约你吃饭，但你早已和好朋友约好去打球，女朋友说，那你去玩吧。你会：`,
+        question: `4、同事小胖的总结被老板打回两次，他来向你请教如何写活动总结，你会：`,
         choiceList: [
-          { subject: '既然女朋友说了，那就先去打球，打完球再打电话给女朋友。', id: 1, point: 0 },
-          { subject: '既然女朋友说了，那就先去打球，打完球再去看女朋友。', id: 2, point: 1 },
-          { subject: '先安抚女朋友，然后再决定后续安排。', id: 3, point: 2 }
+          { subject: '告诉小胖，先去和老板确认报告的要求，然后回来再说。', id: 1, point: 1, analysis:'机智如你，先让小胖和老板明确要求，再指导他按照要求写总结。小胖终于得到了老板的认可，对你千恩万谢，并请你吃了一顿小龙虾。' },
+          { subject: '慷慨地把自己的总结给小胖，让他当模板照着做。', id: 2, point: 0, analysis:'虽然你很善良，但是小胖按照你的模板做，并不符合老板的要求，再次被打回。小胖很失望，连续三个星期都没有和你讲话。' }
         ]
       },
       {
-        question: `5、连续加班一周后，你的方案终于获得了客户的认可。但对方却迟迟不愿意支付尾款，这个时候，你会：`, choiceList: [
-        { subject: '看自己是不是没有考虑周全，没满足对方的需求，然后再调整方案。', id: 1, point: 1 },
-        { subject: '吃人嘴短、拿人手短，没什么是一顿饭解决不了。只要请客户吃饭，搞好关系就好了。', id: 2, point: 0 }
+        question: `5、你最近工作很忙，每天都加班，没有时间陪女朋友。女朋友很生气，打电话指责你不爱她了，你会：`, choiceList: [
+        { subject: '告诉女朋友，我努力工作也是为了你，我是很爱你的。', id: 1, point: 0, analysis:'虽然这句话很中听，但是女朋友非常不买账，愤怒地挂掉电话，连续三天没有理你。' },
+        { subject: '先安抚女朋友，然后早些下班去陪她吃饭。', id: 2, point: 1, analysis:'贴心如你，准确地猜对了女朋友的心思。下班陪她去吃小龙虾，女朋友很高兴并陪你在王者荣耀开黑。' },
+        { subject: '女生嘛，发脾气没什么的，过几天就好了。', id: 3, point: 0, analysis:'惨了，女朋友很愤怒并拉黑了你，连续三个星期没有理你。' }
       ]
       },
       {
-        question: `6、终于成功搞定这个项目了！但你感觉工作压力越来越大，事情多得总也做不完，为了提升工作效率，你会：`,
+        question: `6、最近你觉得工作压力越来越大，事情总也做不完，为了提升工作效率，你会：`,
         choiceList: [
-          { subject: '列出所有要做的事，然后从最容易解决的开始，比如整理电脑。', id: 1, point: 0 },
-          { subject: '列出所有要做的事，然后找到当中能解决也比较重要的，比如项目复盘。', id: 2, point: 1 },
-          { subject: '生活不止眼前的苟且，还需要诗和远方。要先停下来休个假，好好思考人生，想清楚才能继续努力。', id: 3, point: 0 }
+          { subject: '列出所有要做的事，从最容易解决的开始，比如整理电脑。', id: 1, point: 0, analysis:'整理完电脑，已经过去了两个小时。老板交代的工作还没有开始，当天任务完不成，又加了一个晚上的班。' },
+          { subject: '要先停下来休个假，好好思考人生，想清楚人生目标才能继续努力。', id: 2, point: 0, analysis:'你开心地度过了一个美美的假期，但是回来上班后，却发现自己错过了一次晋升机会。' },
+          { subject: '列出所有要做的事，找到能解决的也比较重要的，比如项目复盘。', id: 3, point: 1, analysis:'项目复盘完成后，你发现了以前工作中的一些误区并找到了改进方法，结果工作效率大幅提升，没有加班就完成了今天的工作任务。'}
         ]
       },
       {
-        question: `7、经过一段时间调整，你的工作状态越来越好。你的朋友很羡慕，说他也想去你的公司，请你帮助他内推，你会：`, choiceList: [
-        { subject: '立马回复他，说没问题，朋友之间当然要互相帮助！', id: 1, point: 0 },
-        { subject: '问他，你为什么想跳槽啊？你觉得现在的工作有什么不好吗？', id: 2, point: 1 }
+        question: `7、你的工作状态越来越好，承担越来越多的责任，但老板却毫无察觉，你考虑要和老板提出加薪要求，你会：`, choiceList: [
+        { subject: '告诉老板你最近工作很辛苦，经济压力很大，希望他给你涨点工资。', id: 1, point: 0, analysis:'老板也觉得你很辛苦，大力夸奖了你，但是似乎并不想提及加薪，你也一头雾水，百思不得其解。' },
+        { subject: '告诉老板你之前对公司做出的贡献，并规划自己未来如何为公司带来的价值，然后再顺势提出涨工资请求。', id: 2, point: 1, analysis:'好机智，把自己的薪资和公司的发展紧密相连，强调了自己可以为公司带来的价值，老板觉得你说得很在理，决定给你双倍加薪。' },
+        { subject: '跟老板说，最近工作很辛苦，希望加工资，并且告诉老板，最近很多猎头找你呢，暗示自己会有跳槽的机会。', id: 3, point: 0, analysis:'老板当下没有表态，但是默默地想好了你的替代人选，并在合适的机会开除了你。' }
       ]
       }
     )
@@ -123,7 +125,7 @@ export class Main extends React.Component <any, any> {
   onChoiceSelected(choice) {
     const { practicePlanId } = this.props.location.query
     const { currentIndex, selected, practiceCount, practice } = this.state
-    this.setState({ selected: choice })
+    this.setState({ selected: choice, analysis:choice.analysis })
     if(currentIndex !== practiceCount - 1) {
       this.setState({ showNext: true })
     } else {
@@ -152,7 +154,7 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { practice, currentIndex, selected, practiceCount, showNext, showResult } = this.state
+    const { practice, currentIndex, selected, practiceCount, showNext, showResult, analysis } = this.state
     const questionRender = (practice) => {
       const { question, pic, choiceList = [], score = 0 } = practice
       return (
@@ -186,9 +188,10 @@ export class Main extends React.Component <any, any> {
         return (
           <div className="modal-container">
             <div className="eva-modal-outbound">
-              <div className="modal">圈外职场研究所-洞察力</div>
-            </div>
-            <div className="modal-button" onClick={()=>this.next()}>
+              <div className="modal-outbound">
+                <div className="modal">{analysis}</div>
+              </div>
+              <div className="modal-button" onClick={()=>this.next()}></div>
             </div>
           </div>
         )
@@ -197,11 +200,14 @@ export class Main extends React.Component <any, any> {
       if(showResult) {
         return (
           <div className="modal-container">
+
             <div className="eva-modal-outbound">
-              <div className="modal">圈外职场研究所-洞察力</div>
+              <div className="modal-outbound">
+                <div className="modal">{analysis}</div>
+              </div>
+              <div className="modal-button2" onClick={()=>this.onSubmit()}></div>
             </div>
-            <div className="modal-button2" onClick={()=>this.onSubmit()}>
-            </div>
+
           </div>
         )
       }
