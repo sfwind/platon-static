@@ -40,7 +40,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       discuss: {},
       placeholder: '提出你的疑问或意见吧（限1000字）',
       isReply: false,
-      content:'',
+      content: '',
     }
   }
 
@@ -56,10 +56,10 @@ export class KnowledgeViewer extends React.Component<any, any> {
     if(practicePlanId) {
       loadKnowledges(practicePlanId).then(res => {
         if(res.code === 200) {
-          this.setState({ knowledge: res.msg[0], referenceId: res.msg[0].id })
+          console.log(res)
+          this.setState({ knowledge: res.msg[ 0 ], referenceId: res.msg[ 0 ].id })
           dispatch(endLoad())
-          loadDiscuss(res.msg[0].id, 1)
-          .then(res => {
+          loadDiscuss(res.msg[ 0 ].id, 1).then(res => {
             if(res.code === 200) {
               this.setState({ discuss: res.msg })
             }
@@ -81,8 +81,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
         if(res.code === 200) {
           this.setState({ knowledge: res.msg })
           dispatch(endLoad())
-          loadDiscuss(id, 1)
-          .then(res => {
+          loadDiscuss(id, 1).then(res => {
             if(res.code === 200) {
               this.setState({ discuss: res.msg })
             }
@@ -108,8 +107,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
 
   reload() {
     const { knowledge } = this.state;
-    loadDiscuss(knowledge.id, 1)
-    .then(res => {
+    loadDiscuss(knowledge.id, 1).then(res => {
       if(res.code === 200) {
         this.setState({
           discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
@@ -169,8 +167,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const { knowledge } = this.state;
     dispatch(startLoad());
     deleteKnowledgeDiscuss(id).then(res => {
-      loadDiscuss(knowledge.id, 1)
-      .then(res => {
+      loadDiscuss(knowledge.id, 1).then(res => {
         dispatch(endLoad());
         if(res.code === 200) {
           this.setState({
@@ -203,17 +200,19 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
       analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,
-      analysisAudio, meansAudio, keynoteAudio
+      analysisAudio, meansAudio, keynoteAudio,audioWords
     } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
+
+    console.log('word',audioWords);
 
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
       return (
         <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
-            {sequenceMap[idx]}
+            {sequenceMap[ idx ]}
           </span>
           <span className={`subject`}>{subject}</span>
         </div>
@@ -221,14 +220,17 @@ export class KnowledgeViewer extends React.Component<any, any> {
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
     return (
       <div className={`knowledge-page`}>
         <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
           <div className="page-header">{knowledge.knowledge}</div>
           <div className="intro-container">
-            { audio ? <div className="context-audio"><Audio url={audio}/></div> : null }
+            { audio ?
+              <div className="context-audio">
+                <Audio url={audio} words={audioWords}/>
+              </div> : null }
             { pic ? <div className="context-img"><img src={pic}/></div> : null }
             { analysis ?
               <div>
@@ -288,8 +290,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
                          dangerouslySetInnerHTML={{ __html: example.analysis }}></div>
                   </div>
                   : <div className="analysis">
-                    <div className="analysis-tip" onClick={() => this.setState({ showTip: true })}>点击查看解析</div>
-                  </div>}
+                  <div className="analysis-tip" onClick={() => this.setState({ showTip: true })}>点击查看解析</div>
+                </div>}
               </div>
               : null}
             <div className="title-bar">问答</div>
