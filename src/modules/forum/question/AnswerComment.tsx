@@ -59,9 +59,12 @@ export default class AnswerComment extends React.Component<any, AnswerCommentSta
   componentWillMount() {
     changeTitle('论坛')
     mark({module: "打点", function: "论坛", action: "打开回答评论页"});
-    const answerId = this.props.location.query.answerId
+    let answerId =  this.props.answerId
+    if(!answerId) {
+      answerId = this.props.location.query.answerId
+    }
     const { dispatch } = this.props
-    this.setState({ answerId: answerId })
+    this.setState({ answerId })
     dispatch(startLoad())
     getAnswer(answerId).then(res => {
       dispatch(endLoad())

@@ -172,14 +172,6 @@ export default class Question extends React.Component<any, QuestionStates> {
   handleClickGoQuestionInitPage() {
     this.context.router.push("/forum/static/question/init")
   }
-  // ?? Delete
-  // handleClickGoAnswerPage(questionId) {
-  //   console.log('go 1')
-  //   this.context.router.push({
-  //     pathname: "/forum/static/answer",
-  //     query: { questionId }
-  //   })
-  // }
 
   handleClickFeedback() {
     mark({ module: "打点", function: "论坛", action: "点击意见反馈" });
@@ -187,7 +179,6 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   handleClickGoAnswerPage(questionId) {
-    console.log('go 2')
     this.setState({ questionId, show: true })
   }
 
@@ -350,7 +341,7 @@ export default class Question extends React.Component<any, QuestionStates> {
 
         </div>
         {show ? null : renderOtherComponents()}
-        <FullScreenDialog show={show} close={()=> this.closeDialog()}>
+        <FullScreenDialog show={show} close={()=> this.closeDialog()} hash="#answer">
           <QuestionAnswer questionId={questionId}/>
         </FullScreenDialog>
       </div>
