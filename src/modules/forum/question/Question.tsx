@@ -172,13 +172,14 @@ export default class Question extends React.Component<any, QuestionStates> {
   handleClickGoQuestionInitPage() {
     this.context.router.push("/forum/static/question/init")
   }
-
-  handleClickGoAnswerPage(questionId) {
-    this.context.router.push({
-      pathname: "/forum/static/answer",
-      query: { questionId }
-    })
-  }
+  // ?? Delete
+  // handleClickGoAnswerPage(questionId) {
+  //   console.log('go 1')
+  //   this.context.router.push({
+  //     pathname: "/forum/static/answer",
+  //     query: { questionId }
+  //   })
+  // }
 
   handleClickFeedback() {
     mark({ module: "打点", function: "论坛", action: "点击意见反馈" });
@@ -186,6 +187,7 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   handleClickGoAnswerPage(questionId) {
+    console.log('go 2')
     this.setState({ questionId, show: true })
   }
 
@@ -322,7 +324,7 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div className={`question-page ${show ? '': 'toolbar'}`}>
           <div className="search-nav">
             <div className="search">
-              <input type="text" className="search-input" placeholder='搜索' ref="searchInput"
+              <input type="text" className="search-input" placeholder='去搜索' ref="searchInput"
                      onClick={() => this.setState({ init: false })}
                      onChange={(e) => this.handleSearch(e.currentTarget.value)}
                      onBlur={(e) => this.handleSearch(e.currentTarget.value)}/>
@@ -330,7 +332,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
           { init ?
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>
-              <AssetImg url="https://static.iqycamp.com/images/fragment/go_question.png" height={32} width={35}
+              <AssetImg url="https://static.iqycamp.com/images/rise_icon_go_question.png" height={27}
                         style={{ verticalAlign: 'middle' }}/>
             </div> :
             <div className="ques-nav-btn" onClick={() => this.handleCancel()}>
