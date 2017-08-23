@@ -324,7 +324,7 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div className={`question-page ${show ? '': 'toolbar'}`}>
           <div className="search-nav">
             <div className="search">
-              <input type="text" className="search-input" placeholder='搜索' ref="searchInput"
+              <input type="text" className="search-input" placeholder='去搜索' ref="searchInput"
                      onClick={() => this.setState({ init: false })}
                      onChange={(e) => this.handleSearch(e.currentTarget.value)}
                      onBlur={(e) => this.handleSearch(e.currentTarget.value)}/>
@@ -332,7 +332,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
           { init ?
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>
-              <AssetImg url="https://static.iqycamp.com/images/rise_icon_go_question.png" width={82}
+              <AssetImg url="https://static.iqycamp.com/images/rise_icon_go_question.png" height={27}
                         style={{ verticalAlign: 'middle' }}/>
             </div> :
             <div className="ques-nav-btn" onClick={() => this.handleCancel()}>
