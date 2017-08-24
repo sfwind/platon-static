@@ -5,36 +5,38 @@ export default class FullScreenDialog extends React.Component<any,any> {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      hash:'',
+      level:0,
     }
   }
 
   componentWillMount(){
     window.addEventListener('popstate', (e) => {
-      this.setState({ show: false })
-      if(this.props.close){
-        this.props.close()
+      let level = e.state.level
+      if(!level){
+        level = 0
+      }
+      if(level < this.state.level){
+        if(this.props.close){
+          this.props.close()
+        }
       }
     })
-  }
 
-
-  componentWillReceiveProps(props){
-    if(props.show !== this.state.show){
-      if(props.show === true){
-        history.pushState({ page: 'next' }, 'state', '#next')
-      }
-      this.setState({show:props.show})
+    let hash = '#next'
+    if(this.props.hash){
+      hash = this.props.hash
     }
+
+    history.pushState({ level:this.props.level }, '', hash)
+    this.setState({hash, level:this.props.level})
   }
 
   render() {
-    const { show } = this.state;
     return (
-      show ?
         <div className="full-screen-dialog">
           {this.props.children}
-        </div> : null
+        </div>
     )
   }
 }

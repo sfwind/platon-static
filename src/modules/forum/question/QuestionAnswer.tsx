@@ -24,8 +24,11 @@ interface QuestionAnswerStates {
   answerTipsHeight: number;
   // 待预览图片
   previewImgs: object;
+  // 回答id
+  answerId: number;
 }
 let isExpandQuestion = false;
+
 @connect(state => state)
 export default class QuestionAnswer extends React.Component<any, QuestionAnswerStates> {
 
@@ -41,7 +44,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       myAnswer: {},
       selfAnswerContent: '',
       answerTipsHeight: '90',
-      previewImgs: []
+      previewImgs: [],
+      answerId: -1,
     }
   }
 
@@ -167,10 +171,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
   // 跳转到回答的评论页
   handleClickGoAnswerCommentPage(answerId) {
-    this.context.router.push({
-      pathname: "/forum/static/answer/comment",
-      query: { answerId }
-    })
+    this.setState({ answerId, show: true })
   }
 
   // 折叠或者展开答案
@@ -191,6 +192,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     const { dispatch } = this.props;
     if(removeHtmlTags(answer).length > 10000) {
       dispatch(alertMsg('回答不能超过10000个字哦'));
+      return;
+    }
+    if(!answer){
+      dispatch(alertMsg('回答不能为空哦'));
       return;
     }
     const { answerList, submitNewAnswer, myAnswer } = this.state
@@ -268,8 +273,12 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
   }
 
+  closeDialog(){
+    this.setState({show:false})
+  }
+
   render() {
-    const { question, questionWritable, btn1Content, btn2Content, submitNewAnswer, answerList } = this.state
+    const { question, questionWritable, btn1Content, btn2Content, submitNewAnswer, answerList, answerId, show } = this.state
 
     const {
       addTimeStr, answerCount = 0, answered, authorHeadPic, authorUserName,
@@ -382,7 +391,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           <Editor
             ref="editor" moduleId="6" maxLength="10000" scrollContainer="answer-container"
             defaultValue={this.state.myAnswer.answer}
-            placeholder="回答问题时，可以试试以下的思路：<br/>1，澄清对问题的理解；<br/>2，分析可能的原因；<br/>3，提供建议和解决方案；<br/>4，说明使用的哪一门小课/知识点，帮助自己回顾学到的知识。"
+            placeholder="回答问题时，可以试试以下的思路：<br>1，澄清对问题的理解；<br>2，分析可能的原因；<br>3，提供建议和解决方案；<br>4，说明使用的哪一门小课/知识点，帮助自己回顾学到的知识。"
             uploadStart={() => {
               this.props.dispatch(startLoad())
             }}
@@ -411,6 +420,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           }
           {renderAnswerWriteBox()}
         </div>
+        {show ?
+          <FullScreenDialog close={()=> this.closeDialog()} hash="#comment" level={2}>
+            <AnswerComment answerId={answerId}/>
+          </FullScreenDialog> : null}
       </div>
     )
   }

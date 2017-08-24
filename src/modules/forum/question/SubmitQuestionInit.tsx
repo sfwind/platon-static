@@ -91,7 +91,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
   writeTitle(title) {
     const { dispatch } = this.props;
     const { searchWord } = this.state;
-    if(searchWord === title){
+    if(searchWord === title && !! title){
       return;
     }
 
@@ -99,6 +99,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       this.setState({data: [], page: 1, length:0, title: ''});
       return;
     }
+
     //不含字母时搜索
     let lastChar = title.charAt(title.length - 1);
     this.setState({ title, length: title.length });
