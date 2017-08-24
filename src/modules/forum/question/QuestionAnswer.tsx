@@ -7,8 +7,6 @@ import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
 import { splitText, removeHtmlTags, scroll, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import AnswerComment from "./AnswerComment"
-import FullScreenDialog from "../../../components/FullScreenDialog"
 
 interface QuestionAnswerStates {
   question: object;
@@ -58,7 +56,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
   componentWillMount() {
     changeTitle('论坛')
     mark({ module: "打点", function: "论坛", action: "打开问题详情页" })
-    let questionId =  this.props.questionId
+    let questionId = this.props.questionId
     if(!questionId) {
       questionId = this.props.location.query.questionId
     }
@@ -88,6 +86,19 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           }
           // 设置图片预览对象
           this.setState({ previewImgs: document.getElementsByTagName('img') })
+
+          // 这里有坑，获取dom结构之后添加事件失败，必须用setTimeout包一下
+          // TODO 怀疑是前面的state set 完之后dom还没处理完，需要研究下
+          setTimeout(()=>{
+            // 设置answer-content
+            let answerContentGroup = document.querySelectorAll('.answer-content');
+            if(answerContentGroup) {
+              for(let idx = 0; idx < answerContentGroup.length; idx++) {
+                let answerContent = answerContentGroup[idx];
+                this.bindProblemHrefClickHandle(answerContent,res.msg.id)
+              }
+            }
+          },0)
         })
       } else {
         dispatch(alertMsg(msg))
@@ -246,6 +257,29 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
   }
 
+  /**
+   * 绑定答案超链接点击事件
+   * @param node 答案文本的节点，需要data-problemid属性和data-answerid属性
+   * @param questionId 本页面的quesitonid
+   */
+  bindProblemHrefClickHandle(node, questionId) {
+    let problemHrefGroup = node.querySelectorAll('a');
+    for(let idx = 0; idx < problemHrefGroup.length; idx++) {
+      let problemHref = problemHrefGroup[ idx ];
+      let problemId = problemHref.getAttribute('data-problemid');
+      let answerId = node.getAttribute('data-answerid');
+      if(problemId) {
+        problemHref.addEventListener('click', () => {
+          mark({ module: "论坛分享超链接", function: problemId, action: questionId, memo: answerId })
+          this.context.router.push({
+            pathname: '/rise/static/plan/view',
+            query: { id: problemId }
+          })
+        });
+      }
+    }
+  }
+
   closeDialog(){
     this.setState({show:false})
   }
@@ -327,16 +361,18 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
                 if(isExpand) {
                   commentNode.innerHTML = splitText(answer, 68);
                 } else {
-                  commentNode.innerHTML = answer
+                  commentNode.innerHTML = answer;
                 }
+                this.bindProblemHrefClickHandle(commentNode, question.id);
                 isExpand = !isExpand
                 return isExpand ? "收起" : "展开"
               }
 
+
               return (
                 <div className="answer-desc" key={idx} id={mine ? 'myanswer' : null}>
                   <DialogHead leftImgUrl={authorHeadPic} user={authorUserName} time={publishTimeStr}/>
-                  <div className="answer-content" ref={`ansComment${idx}`}
+                  <div className="answer-content" ref={`ansComment${idx}`} data-answerid={answerItem.id}
                        dangerouslySetInnerHTML={{ __html: splitText(answer, 68) }}/>
                   <DialogBottomIcon
                     leftContent={removeHtmlTags(answer).length > 68 ? `展开` : false}
