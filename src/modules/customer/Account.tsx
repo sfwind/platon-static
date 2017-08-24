@@ -24,6 +24,7 @@ export default class Rise extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     pget('/rise/customer/account').then(res => {
+      console.log('res', res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -38,13 +39,11 @@ export default class Rise extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { riseId, memberType, mobile, isRiseMember, coupons = [] } = data
+    const { riseId, memberType, mobile, isRiseMember, nickName, coupons = [] } = data
 
     const renderCoupons = () => {
       if(coupons.length !== 0) {
-        let domArr = []
-        domArr.push(<div className="item ">奖学金/优惠券</div>)
-        domArr.push(
+        return (
           coupons.map((coupon, index) => {
             let jxjSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_jxj.png'
             let yhqSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_yhq.png'
@@ -59,7 +58,6 @@ export default class Rise extends React.Component<any, any> {
             )
           })
         )
-        return domArr
       }
     }
 
@@ -67,13 +65,17 @@ export default class Rise extends React.Component<any, any> {
       <div className="account">
 
         <div className="item">
+          <div className="label">昵称</div>
+          <div className="content-no-cut">{nickName}</div>
+        </div>
+        <div className="item">
           <div className="label">圈外 ID</div>
           <div className="content-no-cut">{riseId}</div>
         </div>
         <div className="item" onClick={() => {this.context.router.push('/rise/static/customer/member')}}>
           <div className="label">圈外会员</div>
           <div className="content">
-            {isRiseMember ? '' : '点击加入'}&nbsp;&nbsp;{memberType}
+            {memberType ? memberType : '点击加入'}&nbsp;&nbsp;
           </div>
         </div>
 
@@ -88,7 +90,11 @@ export default class Rise extends React.Component<any, any> {
           </div>
         </div>
 
-        { renderCoupons() }
+        <div className="item ">奖学金/优惠券</div>
+        <div className="coupon-box">
+          { renderCoupons() }
+          <div style={{ height: 56 }}/>
+        </div>
       </div>
     )
   }

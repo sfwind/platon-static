@@ -90,8 +90,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               action: '刷新支付页面',
               memo: window.ENV.configUrl + '++++++++++' + window.location.href
             })
-            // window.location.href = window.location.href
-            window.location.reload(true)
+            window.location.href = window.location.href
             return Promise.reject('refresh')
           }
         }
@@ -491,6 +490,20 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   }
                   <div className={`left pay`} onClick={() => this.handleClickBuyTrainingCamp(coupons.length)}>
                     ¥ {trainFee}，立即学习
+                  </div>
+                </div>
+              )
+              return list
+            }
+            case 9: {
+              // "¥ {fee}，立即学习|获取训练营小课"
+              list.push(
+                <div className="button-footer">
+                  <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
+                    ¥ {fee}，立即学习
+                  </div>
+                  <div className="split-right" onClick={() => this.context.router.push("/pay/pay")}>
+                    获取训练营小课
                   </div>
                 </div>
               )
