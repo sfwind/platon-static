@@ -7,6 +7,8 @@ import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
 import { splitText, removeHtmlTags, scroll, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import AnswerComment from "./AnswerComment"
+import FullScreenDialog from "../../../components/FullScreenDialog"
 
 interface QuestionAnswerStates {
   question: object;
@@ -24,6 +26,8 @@ interface QuestionAnswerStates {
   answerTipsHeight: number;
   // 待预览图片
   previewImgs: object;
+  // 回答id
+  answerId: number;
 }
 let isExpandQuestion = false;
 
@@ -42,7 +46,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       myAnswer: {},
       selfAnswerContent: '',
       answerTipsHeight: '90',
-      previewImgs: []
+      previewImgs: [],
+      answerId: -1,
     }
   }
 
@@ -157,10 +162,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
   // 跳转到回答的评论页
   handleClickGoAnswerCommentPage(answerId) {
-    this.context.router.push({
-      pathname: "/forum/static/answer/comment",
-      query: { answerId }
-    })
+    this.setState({ answerId, show: true })
   }
 
   // 折叠或者展开答案
@@ -244,8 +246,12 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
   }
 
+  closeDialog(){
+    this.setState({show:false})
+  }
+
   render() {
-    const { question, questionWritable, btn1Content, btn2Content, submitNewAnswer, answerList } = this.state
+    const { question, questionWritable, btn1Content, btn2Content, submitNewAnswer, answerList, answerId, show } = this.state
 
     const {
       addTimeStr, answerCount = 0, answered, authorHeadPic, authorUserName,
@@ -385,6 +391,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           }
           {renderAnswerWriteBox()}
         </div>
+        {show ?
+          <FullScreenDialog close={()=> this.closeDialog()} hash="#comment" level={2}>
+            <AnswerComment answerId={answerId}/>
+          </FullScreenDialog> : null}
       </div>
     )
   }
