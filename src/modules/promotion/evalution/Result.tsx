@@ -116,7 +116,7 @@ export class Result extends React.Component<any,any> {
         <div className="result">
           <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
           <div className="text-result">
-            你的职场敏锐度打败了{percent}%的人。
+            你的洞察力天赋打败了{percent}%的人。
           </div>
           <pre className="text">{result}</pre>
         </div>
@@ -146,7 +146,7 @@ export class Result extends React.Component<any,any> {
         <Alert { ...quitProps }
           show={this.state.showQuit}>
           <div className="global-pre">
-            {learnFreeLimit ? '系统已为你生成测评结果海报，分享还可以免费领取【职场敏锐度强化包】，去看看吧~'
+            {learnFreeLimit ? '系统已为你生成测评结果海报，分享还可以免费领取【洞察力天赋强化包】，去看看吧~'
               : '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'}
           </div>
         </Alert>

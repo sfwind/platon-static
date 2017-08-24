@@ -19,7 +19,7 @@ export class Start extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    changeTitle('职场敏锐度-测评')
+    changeTitle('洞察力天赋-测评')
     this.fit()
     initEva()
   }
