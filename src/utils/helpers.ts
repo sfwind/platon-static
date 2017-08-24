@@ -117,7 +117,8 @@ export function splitText(text: string, length: number) {
 export function removeHtmlTags(str) {
   str = _.trim(str)
   // 去除 html 标签
-  str = str.replace(/&lt;\/?[^&gt;]+&gt;/g,"");
+  str = str.replace(/(&lt;)(&#47;)?[^(&gt;)]*(&gt;)/g,'');
+  str = str.replace(/<\/?[^>]*>/g,'');
   // 去除实体字符
   str = str.replace(/&[^;]+;/g, "");
   return str
