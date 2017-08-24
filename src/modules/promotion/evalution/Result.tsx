@@ -111,7 +111,7 @@ export class Result extends React.Component<any,any> {
     return (
       <div className="eva-result">
         <div className="head">
-          <AssetImg url="https://static.iqycamp.com/images/eva_report_head.png" height={80} width={236}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_report_head2.png" height={80} width={236}/>
         </div>
         <div className="result">
           <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
@@ -140,13 +140,13 @@ export class Result extends React.Component<any,any> {
           show={this.state.showResult}>
           <div className="global-pre">
             {learnFreeLimit ? '系统已为你生成测评结果海报，保存并分享到朋友圈，让你的朋友也挑战一下吧~'
-              : '系统已为你生成测评结果海报，分享并邀请3人扫码并完成测试，即可免费领取。'}
+              : '系统已为你生成测评结果海报，分享并邀请3人扫码并完成测试，即可免费领取【洞察力强化包】。'}
           </div>
         </Alert>
         <Alert { ...quitProps }
           show={this.state.showQuit}>
           <div className="global-pre">
-            {learnFreeLimit ? '系统已为你生成测评结果海报，分享还可以免费领取【洞察力天赋强化包】，去看看吧~'
+            {learnFreeLimit ? '系统已为你生成测评结果海报，分享还可以免费领取【洞察力强化包】，去看看吧~'
               : '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'}
           </div>
         </Alert>
