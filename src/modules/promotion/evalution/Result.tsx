@@ -126,7 +126,7 @@ export class Result extends React.Component<any,any> {
         </div>
         { learnFreeLimit ? null :
           <div className="schedule">
-            <AssetImg url="https://static.iqycamp.com/images/eva_schedule.png" height={369} width={291}/>
+            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_2.png" width={'100%'}/>
           </div>}
         { learnFreeLimit ?
           <div className="free-get" onClick={()=>this.setState({showResult:true})}>
