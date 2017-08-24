@@ -38,8 +38,8 @@ export class Result extends React.Component<any,any> {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        const { learnFreeLimit, result, suggestion } = msg
-        this.setState({ learnFreeLimit, result, suggestion })
+        const { learnFreeLimit, result, suggestion, percent } = msg
+        this.setState({ learnFreeLimit, result, suggestion, percent })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -107,7 +107,7 @@ export class Result extends React.Component<any,any> {
         }
       ]
     }
-    const { initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit, result, suggestion } = this.state
+    const { initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit, result, suggestion, percent } = this.state
     return (
       <div className="eva-result">
         <div className="head">
@@ -115,6 +115,9 @@ export class Result extends React.Component<any,any> {
         </div>
         <div className="result">
           <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
+          <div className="text-result">
+            你的职场敏锐度打败了{percent}%的人。
+          </div>
           <pre className="text">{result}</pre>
         </div>
         <div className="suggestion">
@@ -127,10 +130,10 @@ export class Result extends React.Component<any,any> {
           </div>}
         { learnFreeLimit ?
           <div className="free-get" onClick={()=>this.setState({showResult:true})}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_4.png" height={57} width={226}/>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_5.png" height={57} width={226}/>
           </div> :
           <div className="free-get" onClick={()=>this.setState({showResult:true})}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_3.png" height={57} width={226}/>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_6.png" height={57} width={226}/>
           </div>
         }
         <Alert { ...freeLimitProps }
