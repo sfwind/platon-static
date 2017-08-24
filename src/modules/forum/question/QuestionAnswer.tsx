@@ -87,6 +87,8 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           // 设置图片预览对象
           this.setState({ previewImgs: document.getElementsByTagName('img') })
 
+          // 这里有坑，获取dom结构之后添加事件失败，必须用setTimeout包一下
+          // TODO 怀疑是前面的state set 完之后dom还没处理完，需要研究下
           setTimeout(()=>{
             // 设置answer-content
             let answerContentGroup = document.querySelectorAll('.answer-content');
@@ -255,6 +257,11 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
   }
 
+  /**
+   * 绑定答案超链接点击事件
+   * @param node 答案文本的节点，需要data-problemid属性和data-answerid属性
+   * @param questionId 本页面的quesitonid
+   */
   bindProblemHrefClickHandle(node, questionId) {
     let problemHrefGroup = node.querySelectorAll('a');
     for(let idx = 0; idx < problemHrefGroup.length; idx++) {
