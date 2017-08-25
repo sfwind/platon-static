@@ -55,12 +55,12 @@ export default class PlanList extends React.Component<any, any> {
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator, recommendations = [] } = res.msg
+        const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator, openWelcome, recommendations = [] } = res.msg
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
           showEmptyPage = true
         }
-        if((!runningPlans || runningPlans.length === 0) && (!completedPlans || completedPlans.length === 0) && (!trialClosedPlans || trialClosedPlans.length === 0)) {
+        if(!openWelcome) {
           if(location.pathname !== '/rise/static/learn') {
             // 没有小课练习，并且不是从导航栏点进来的
             this.context.router.push({
@@ -92,6 +92,9 @@ export default class PlanList extends React.Component<any, any> {
       } else {
         dispatch(alertMsg(res.msg))
       }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
 
@@ -139,6 +142,9 @@ export default class PlanList extends React.Component<any, any> {
       } else {
         dispatch(alertMsg(msg))
       }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
   }
 
