@@ -93,13 +93,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
           // TODO 怀疑是前面的state set 完之后dom还没处理完，需要研究下
           setTimeout(()=>{
             // 设置answer-content
-            let answerContentGroup = document.querySelectorAll('.answer-content');
-            if(answerContentGroup) {
-              for(let idx = 0; idx < answerContentGroup.length; idx++) {
-                let answerContent = answerContentGroup[idx];
-                this.bindProblemHrefClickHandle(answerContent,res.msg.id)
-              }
-            }
+            this.bindProblem()
           },0)
         })
       } else {
@@ -265,6 +259,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
    * @param questionId 本页面的quesitonid
    */
   bindProblemHrefClickHandle(node, questionId) {
+    console.log('bind')
     let problemHrefGroup = node.querySelectorAll('a');
     for(let idx = 0; idx < problemHrefGroup.length; idx++) {
       let problemHref = problemHrefGroup[ idx ];
@@ -282,8 +277,20 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
   }
 
+  bindProblem(){
+    let answerContentGroup = document.querySelectorAll('.answer-content');
+    if(answerContentGroup) {
+      for(let idx = 0; idx < answerContentGroup.length; idx++) {
+        let answerContent = answerContentGroup[idx];
+        this.bindProblemHrefClickHandle(answerContent,this.state.question.id)
+      }
+    }
+  }
+
   closeDialog(){
-    this.setState({show:false})
+    this.setState({show:false}, ()=>{
+      this.bindProblem()
+    })
   }
 
   render() {
