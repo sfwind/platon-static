@@ -7,14 +7,12 @@ import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon
+  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
-import { merge, isNumber, isObjectLike, toLower, get, startsWith } from 'lodash'
+import { isNumber,get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
-import { config, pay } from '../helpers/JsConfig'
 import { mark } from '../../utils/request'
 import { GoodsType } from "../../utils/helpers"
 //限免小课id
@@ -110,7 +108,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             return createPlan(location.query.id).then(res => {
               if(res.code === 200) {
                 this.setState({ showToast: true })
-                sendCustomerMsg()
               }
             })
           } else if(res.code === 204) {
@@ -324,13 +321,22 @@ export default class ProblemIntroduction extends React.Component<any, any> {
    * 获取商品信息
    */
   handleGotGoods(goods) {
-    console.log(goods);
     let price = get(goods, 'activity.price');
     if(price) {
       this.setState({ fee: goods.fee, coupons: goods.coupons, price: price });
     } else {
       this.setState({ fee: goods.fee, coupons: goods.coupons });
     }
+  }
+
+  handleClickPayMember() {
+    mark({
+      module: '支付',
+      function: '小课单卖',
+      action: '点击加入会员',
+      memo: 'os:' + window.ENV.systemInfo
+    })
+    window.location.href = `https://${window.location.hostname}/pay/pay`
   }
 
   handleClickGoReview() {
@@ -438,7 +444,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       null
                   }
                   <div className={`left pay`} onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    {renderPrice(fee,price)}
+                    {renderPrice(fee, price)}
                   </div>
                 </div>
               )
@@ -449,6 +455,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
                   {
                     togetherClassMonth && togetherClassMonth !== "0" ?
+
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
                         本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
                       </div> :
@@ -493,6 +500,19 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <div className="button-footer trial_pay" onClick={() => this.handleClickFreeProblem()}>
                   <div>
                     <span style={{ fontWeight: 'bolder' }}>下一步</span>
+                  </div>
+                </div>
+              )
+              return list
+            }
+            case 8: {
+              list.push(
+                <div className="button-footer">
+                  <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
+                    ¥ {fee}，立即学习
+                  </div>
+                  <div className="split-right" onClick={() => this.setState({showEvaluation: true})}>
+                    免费获取
                   </div>
                 </div>
               )
@@ -556,6 +576,23 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       )
     }
 
+    const renderEvaluateOperation = () => {
+      let evaluationProps = {
+        buttons: [
+          { label: '取消', onClick: () => this.setState({ showEvaluation: false }) },
+          { label: '去测评', onClick: () => this.context.router.push('/rise/static/eva/start') }
+        ]
+      }
+      return (
+        <Alert { ...evaluationProps }
+          show={this.state.showEvaluation}>
+          <div className="global-pre">
+            点击下方去测评，完成测评，分享结果图片，邀请3人扫码并完成测试，即可免费领取。
+          </div>
+        </Alert>
+      )
+    }
+
     return (
       <div className="problem-introduction">
         <div className="pi-header" style={{ height: `${this.picHeight}px` }}>
@@ -573,8 +610,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
               { audio ? <div className="context-audio">
-                <Audio url={audio}/>
-              </div> : null }
+                  <Audio url={audio}/>
+                </div> : null }
               <div>
                 <pre className="pi-c-f-c-text">{why}</pre>
               </div>
@@ -618,7 +655,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <Header icon="rise_icon_ability" title="能力项" marginLeft={'-1em'}/>
             <div className="pi-c-a-content">
               <div className="text"
-                   dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：' }}></div>
+                   dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：' }}/>
               <div className="pi-c-a-c-module"
                    onClick={() => window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>
                 <div className="pi-c-a-c-m-rise">【圈外】</div>
@@ -646,17 +683,16 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </Toast>
 
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/>
-            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
-            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-          </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div> : null}
+            <div className="tips">
+              出现问题的童鞋看这里<br/>
+              1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
+              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div> : null}
 
         {renderPayInfo()}
-
-
+        {renderEvaluateOperation()}
       </div>
     )
   }

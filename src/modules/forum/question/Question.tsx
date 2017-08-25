@@ -22,7 +22,7 @@ interface QuestionStates {
   end: boolean;
   searching: boolean;
   init: boolean;
-  questionId: string;
+  questionId: number;
 }
 
 @connect(state => state)
@@ -41,7 +41,7 @@ export default class Question extends React.Component<any, QuestionStates> {
       searchData: [],
       searchWord: '',
       windowInnerHeight: window.innerHeight,
-      questionId: '',
+      questionId: -1,
     }
     this.pullElement = null;
     this.timer = null;
@@ -172,14 +172,6 @@ export default class Question extends React.Component<any, QuestionStates> {
   handleClickGoQuestionInitPage() {
     this.context.router.push("/forum/static/question/init")
   }
-  // ?? Delete
-  // handleClickGoAnswerPage(questionId) {
-  //   console.log('go 1')
-  //   this.context.router.push({
-  //     pathname: "/forum/static/answer",
-  //     query: { questionId }
-  //   })
-  // }
 
   handleClickFeedback() {
     mark({ module: "打点", function: "论坛", action: "点击意见反馈" });
@@ -187,7 +179,6 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   handleClickGoAnswerPage(questionId) {
-    console.log('go 2')
     this.setState({ questionId, show: true })
   }
 
@@ -349,10 +340,11 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
 
         </div>
-        {show ? null : renderOtherComponents()}
-        <FullScreenDialog show={show} close={()=> this.closeDialog()}>
-          <QuestionAnswer questionId={questionId}/>
-        </FullScreenDialog>
+        {show ?
+          <FullScreenDialog close={()=> this.closeDialog()} hash="#answer" level={1}>
+            <QuestionAnswer questionId={questionId}/>
+          </FullScreenDialog> :
+          renderOtherComponents()}
       </div>
     )
   }
