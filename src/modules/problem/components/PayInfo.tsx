@@ -50,7 +50,6 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.goodsId !== this.props.goodsId || nextProps.goodsType !== this.props.goodsType) {
-      console.log('next', nextProps);
       this.componentWillMount(nextProps.goodsType, nextProps.goodsId);
     }
   }
@@ -113,7 +112,6 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     }
     dispatch(startLoad());
     loadPaymentParam(param).then(res => {
-      console.log(res);
       dispatch(endLoad());
       if(res.code === 200) {
         const { fee, free, signParams, productId } = res.msg;
@@ -297,7 +295,6 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
    * 过滤优惠券信息
    */
   filterCoupons(coupons, goodsType) {
-    console.log('进入：', coupons)
     switch(goodsType) {
       case GoodsType.FRAG_MEMBER: {
         return coupons
@@ -306,7 +303,6 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
         coupons = coupons.filter((coupon) => {
           return !coupon.category
         })
-        console.log('过滤：', coupons)
         return coupons
       }
     }
