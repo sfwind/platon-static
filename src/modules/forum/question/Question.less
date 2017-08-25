@@ -1,18 +1,14 @@
 @import "../variable.less";
 
 .question-container {
-  overflow: auto;
-  .question-modal{
-    z-index: 1;
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-  }
+  overflow: scroll;
+  height: ~"calc(100% + 1px)";
+
   .question-feedback {
     height: 26px;
     background-color: @color_strong;
     span {
+      float: right;
       font-size: 1.3em;
       line-height: 1.3em;
       color: #FFF;
@@ -23,10 +19,13 @@
 
   .question-page {
     overflow: scroll;
-
+    height: ~"calc(100% - 26px)";
+    &.toolbar{
+      height: ~"calc(100% - 26px - 50px)";
+    }
     .search-nav{
       margin: 10px 0 10px 15px;
-      width: ~"calc(100% - 91px)";
+      width: ~"calc(100% - 135px)";
       display: inline-block;
       border: 1px solid #ccc;
       border-radius: @border-radius;
@@ -45,7 +44,7 @@
         }
         .search-input {
           width: ~"calc(100% - 17px)";
-          font-size: @font_click;
+          font-size: 1.4em;
           border-radius: 5px;
           color: @color_context;
           border: none;
@@ -60,11 +59,12 @@
 
     .ques-nav-btn {
       display: inline-block;
-      margin: 0 18px;
+      margin: 0 0 0 19px;
       height: 47px;
       line-height: 47px;
-      width: 38px;
       text-align: center;
+      float:right;
+      margin-right:15px;
       .ques-btn{
         font-size: @font_index;
         color: @color_title;

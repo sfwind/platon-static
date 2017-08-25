@@ -264,14 +264,14 @@ export class Comment extends React.Component<any, any> {
       if(isString(content)){
         if(filterContent.length>wordsCount && !showAll){
           return (
-              <div onClick={()=>this.show(showAll)} className="application-content">
-                {truncate(filterContent,{length:wordsCount,omission:''})}
-                <span style={{letterSpacing:'-3px'}}>...</span>
-              </div>
+            <div onClick={()=>this.show(showAll)} className="application-content">
+              {truncate(filterContent,{length:wordsCount,omission:''})}
+              <span style={{letterSpacing:'-3px'}}>...</span>
+            </div>
           )
         } else {
           return (
-              <pre className="application-content" dangerouslySetInnerHTML={{__html:content}}/>
+            <pre className="application-content" dangerouslySetInnerHTML={{__html:content}}/>
           )
         }
       }
@@ -285,20 +285,20 @@ export class Comment extends React.Component<any, any> {
             <div className="article-header">{topic}</div>
             {renderWorkContent()}
             {filterContent && filterContent.length>wordsCount?
-                <div onClick={()=>this.show(showAll)} className="show-all">{showAll?'收起':'展开'}</div>:null}
+              <div onClick={()=>this.show(showAll)} className="show-all">{showAll?'收起':'展开'}</div>:null}
             {content?
-                <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
-                  <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
-                </div>:null}
+              <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
+                <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
+              </div>:null}
             <div className="comment-header">
               当前评论
             </div>
             {
               this.state.isModifiedAfterFeedback
                 ? (<div className="comment-header-feedback">
-                    <span className="comment-feedback-tips">小提示：</span>
-                    该条教练点评后，作业被更新，可能有和教练点评不一致的内容
-                  </div>)
+                  <span className="comment-feedback-tips">小提示：</span>
+                  该条教练点评后，作业被更新，可能有和教练点评不一致的内容
+                </div>)
                 : null
             }
           </div>

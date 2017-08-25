@@ -9,6 +9,7 @@ import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import _ from "lodash";
 import QuestionAnswer from "./QuestionAnswer"
+import FullScreenDialog from "../../../components/FullScreenDialog"
 
 import "./Question.less";
 import AssetImg from "../../../components/AssetImg";
@@ -21,7 +22,7 @@ interface QuestionStates {
   end: boolean;
   searching: boolean;
   init: boolean;
-  questionId: string;
+  questionId: number;
 }
 
 @connect(state => state)
@@ -40,7 +41,7 @@ export default class Question extends React.Component<any, QuestionStates> {
       searchData: [],
       searchWord: '',
       windowInnerHeight: window.innerHeight,
-      questionId: '',
+      questionId: -1,
     }
     this.pullElement = null;
     this.timer = null;
@@ -51,9 +52,6 @@ export default class Question extends React.Component<any, QuestionStates> {
   }
 
   componentWillMount() {
-    window.addEventListener('popstate', (e) => {
-      this.setState({ show: false })
-    })
     changeTitle('论坛')
     mark({ module: "打点", function: "论坛", action: "打开问题列表页" })
     const { dispatch, location } = this.props;
@@ -175,20 +173,12 @@ export default class Question extends React.Component<any, QuestionStates> {
     this.context.router.push("/forum/static/question/init")
   }
 
-  handleClickGoAnswerPage(questionId) {
-    this.context.router.push({
-      pathname: "/forum/static/answer",
-      query: { questionId }
-    })
-  }
-
   handleClickFeedback() {
     mark({ module: "打点", function: "论坛", action: "点击意见反馈" });
     window.location.href = `https://${window.location.hostname}/survey/wjx?activity=15135162 `
   }
 
   handleClickGoAnswerPage(questionId) {
-    history.pushState({ page: 'next' }, 'state', '#next')
     this.setState({ questionId, show: true })
   }
 
@@ -230,6 +220,10 @@ export default class Question extends React.Component<any, QuestionStates> {
     if(window.innerHeight < windowInnerHeight) {
       this.setState({ windowInnerHeight: window.innerHeight });
     }
+  }
+
+  closeDialog(){
+    this.setState({show:false})
   }
 
   render() {
@@ -317,15 +311,11 @@ export default class Question extends React.Component<any, QuestionStates> {
 
     return (
       <div className="question-container">
-        {show ?
-          <div className="question-modal">
-            <QuestionAnswer questionId={questionId}/>
-          </div> : null}
         <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
-        <div className="question-page" style={{ height: window.innerHeight - 26 - 50 }}>
+        <div className={`question-page ${show ? '': 'toolbar'}`}>
           <div className="search-nav">
             <div className="search">
-              <input type="text" className="search-input" placeholder='搜索' ref="searchInput"
+              <input type="text" className="search-input" placeholder='去搜索' ref="searchInput"
                      onClick={() => this.setState({ init: false })}
                      onChange={(e) => this.handleSearch(e.currentTarget.value)}
                      onBlur={(e) => this.handleSearch(e.currentTarget.value)}/>
@@ -333,7 +323,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
           { init ?
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>
-              <AssetImg url="https://static.iqycamp.com/images/fragment/go_question.png" height={32} width={35}
+              <AssetImg url="https://static.iqycamp.com/images/rise_icon_go_question.png" height={27}
                         style={{ verticalAlign: 'middle' }}/>
             </div> :
             <div className="ques-nav-btn" onClick={() => this.handleCancel()}>
@@ -350,7 +340,11 @@ export default class Question extends React.Component<any, QuestionStates> {
           </div>
 
         </div>
-        {show ? null : renderOtherComponents()}
+        {show ?
+          <FullScreenDialog close={()=> this.closeDialog()} hash="#answer" level={1}>
+            <QuestionAnswer questionId={questionId}/>
+          </FullScreenDialog> :
+          renderOtherComponents()}
       </div>
     )
   }

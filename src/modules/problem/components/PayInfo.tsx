@@ -5,9 +5,11 @@ import * as _ from "lodash";
 const numeral = require('numeral');
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  afterPayDone, logPay, mark, loadGoodsInfo, loadPaymentParam,calculateCoupons
+  afterPayDone, logPay, mark, loadGoodsInfo, loadPaymentParam, calculateCoupons
 } from '../async'
 import { pay } from '../../helpers/JsConfig'
+import { GoodsType } from "utils/helpers"
+
 
 interface CouponProps {
   description?: string,
@@ -17,23 +19,23 @@ interface CouponProps {
 
 interface PayInfoProps {
   /** 显示支付窗口的回调 */
-  afterShow?:any,
+  afterShow?: any,
   /** 关闭支付窗口的回调 */
-  afterClose?:any,
+  afterClose?: any,
   /** 获得商品信息后的回调 */
-  gotGoods?:any,
+  gotGoods?: any,
   /** 支付成功的回调 */
-  payedDone?:any,
+  payedDone?: any,
   /** 支付取消的回调 */
-  payedCancel?:any,
+  payedCancel?: any,
   /** 支付失败的回调 */
-  payedError?:any,
+  payedError?: any,
   /** 商品id */
-  goodsId:number,
+  goodsId: number,
   /** 产品类型 */
-  goodsType:string,
+  goodsType: string,
   /** dispatch */
-  dispatch:any,
+  dispatch: any,
 }
 
 export default class PayInfo extends React.Component<PayInfoProps,any> {
@@ -46,17 +48,26 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     };
   }
 
-  componentWillMount() {
-    const { dispatch, goodsType, goodsId } = this.props
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.goodsId !== this.props.goodsId || nextProps.goodsType !== this.props.goodsType) {
+      console.log('next', nextProps);
+      this.componentWillMount(nextProps.goodsType, nextProps.goodsId);
+    }
+  }
 
-    dispatch(startLoad());
+  componentWillMount(type, id) {
+    let goodsType = type || this.props.goodsType;
+    let goodsId = id || this.props.goodsId;
+    const { dispatch } = this.props
+
     // 获取商品数据
+    if(!goodsId || !goodsType) {
+      return;
+    }
     loadGoodsInfo(goodsType, goodsId).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        const { coupons, fee, name } = res.msg;
-        console.log(res.msg);
-        this.setState({ coupons: coupons, fee: fee, name: name,originFee:fee });
+        this.setState(res.msg);
         if(_.isFunction(this.props.gotGoods)) {
           this.props.gotGoods(res.msg);
         }
@@ -79,7 +90,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
   }
 
   handleClickClose() {
-    this.setState({ show: false, openCoupon: false,chose:null,free:false,final:null}, () => {
+    this.setState({ show: false, openCoupon: false, chose: null, free: false, final: null }, () => {
       if(_.isFunction(this.props.afterClose)) {
         this.props.afterClose();
       }
@@ -134,9 +145,10 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
    * @param signParams
    */
   handleH5Pay(signParams) {
+    let functionName = this.props.goodsType || '未知商品'
     mark({
       module: '支付',
-      function: '小课单卖',
+      function: functionName,
       action: '开始支付',
       memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
     })
@@ -145,7 +157,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     if(!signParams) {
       mark({
         module: '支付',
-        function: '小课单卖',
+        function: functionName,
         action: '没有支付参数',
         memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
@@ -156,7 +168,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     if(this.state.err) {
       mark({
         module: '支付',
-        function: '小课单卖',
+        function: functionName,
         action: '支付异常,禁止支付',
         memo: 'error:' + this.state.err + ',' + 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       });
@@ -170,7 +182,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
       // windows客户端
       mark({
         module: '支付',
-        function: '小课单卖',
+        function: functionName,
         action: 'windows-pay',
         memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
       })
@@ -189,7 +201,7 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
         // 购买成功的回调
         mark({
           module: '支付',
-          function: '小课单卖',
+          function: functionName,
           action: 'success',
           memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
@@ -199,20 +211,20 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
         // 用户点击取消的回调
         mark({
           module: '支付',
-          function: '小课单卖',
+          function: functionName,
           action: 'cancel',
           memo: 'url:' + window.location.href + ',os:' + window.ENV.systemInfo
         })
         this.handleClickClose();
-        if(_.isFunction(this.props.payedCancel)){
+        if(_.isFunction(this.props.payedCancel)) {
           this.props.payedCancel(res);
         }
       },
       (res) => {
         // 支付失败的回调
-        logPay('小课单卖', 'error', 'os:' + window.ENV.systemInfo + ',error:' + (_.isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
+        logPay(functionName, 'error', 'os:' + window.ENV.systemInfo + ',error:' + (_.isObjectLike(res) ? JSON.stringify(res) : res) + ',configUrl:' + window.ENV.configUrl + ',url:' + window.location.href)
         this.handleClickClose();
-        if(_.isFunction(this.props.payedError)){
+        if(_.isFunction(this.props.payedError)) {
           this.props.payedError(res);
         }
       }
@@ -282,11 +294,19 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
   }
 
   render() {
-    const { openCoupon, coupons = [], final, fee, chose, free, show, name } = this.state;
+    const { openCoupon, final, fee, chose, free, show, name, startTime, endTime,activity} = this.state;
+    const { header, goodsId, goodsType } = this.props;
+    let coupons = _.get(this.state, 'coupons', [])
+    coupons = _.filter(coupons, (item, key) => {
+      if((goodsId !== 3 && goodsType !== GoodsType.FRAG_MEMBER) && item.category === 'ELITE_RISE_MEMBER') {
+        return false;
+      } else {
+        return true;
+      }
+    })
     const hasCoupons = !_.isEmpty(coupons);
     /* 高度，用于遮盖优惠券 */
     const height = (hasCoupons ? 276 : 226) + 'px';
-
     /**
      * 计算弹窗偏移量，使用transform增加动画流畅度，浏览器前缀不可省略
      * @param show 是否显示弹窗
@@ -317,6 +337,10 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
      * @returns {Array} 展示dom结构
      */
     const renderPrice = (fee, final, free) => {
+      if(activity) {
+        fee = activity.price;
+      }
+
       let priceArr = [];
       if(final || free) {
         priceArr.push(<span className="discard" key={0}>{`¥${numeral(fee).format('0.00')}元`}</span>);
@@ -371,14 +395,17 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
           </div>
           <div className="main-container">
             <div className="header">
-              {name}
+              {header || name}
             </div>
             <div className="content">
               <div className="price item">
                 {renderPrice(fee, final, free)}
               </div>
+              {!!startTime && !!endTime ?<div className="open-time item">
+                有效时间：{startTime} - {endTime}
+              </div>: null}
               <div className={`coupon item`}>
-                {chose ? `'优惠券'：¥${numeral(chose.amount).format('0.00')}元` : '选择优惠券'}
+                {coupons && chose ? `'优惠券'：¥${numeral(chose.amount).format('0.00')}元` : '选择优惠券'}
               </div>
             </div>
             <ul className={`coupon-list`}>
@@ -411,16 +438,19 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
 
         <div className="main-container" style={{height: _.isEmpty(coupons) ? 160 : 210}}>
           <div className="header" style={renderHeaderTrans(openCoupon)}>
-            {name}
+            {header || name}
           </div>
           <div className="content" style={renderHeaderTrans(openCoupon)}>
             <div className="price item">
               {renderPrice(fee, final, free)}
             </div>
-            <div className={`coupon item ${openCoupon?'open':''}`}
+            {!!startTime && !!endTime ? <div className="open-time item">
+              有效时间：{startTime} - {endTime}
+            </div>: null}
+            {hasCoupons?<div className={`coupon item ${openCoupon?'open':''}`}
                  onClick={()=>this.setState({openCoupon:!this.state.openCoupon})}>
-              {chose ? `${this.props.id === 3 ? '精英RISE券' : '优惠券'}：¥${numeral(chose.amount).format('0.00')}元` : `${this.props.id === 3 ? '选择精英RISE券/优惠券' : '选择优惠券'}`}
-            </div>
+              {chose? `优惠券：¥${numeral(chose.amount).format('0.00')}元` : `选择优惠券`}
+            </div>:null}
           </div>
           <ul className={`coupon-list ${openCoupon?'open':''}`} style={renderHeaderTrans(openCoupon)}>
             {coupons ? coupons.map((item, seq) => {

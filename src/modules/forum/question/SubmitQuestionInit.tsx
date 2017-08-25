@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { ForumButton, PullSlideTip } from "../commons/ForumComponent";
 import { searchQuestion, getQuestion } from "../async"
 import { mark } from "../../../utils/request"
-import { splitText, removeHtmlTags } from "../../../utils/helpers"
+import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./SubmitQuestionInit.less"
 import _ from "lodash"
@@ -31,7 +31,8 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: "打点", function: "论坛", action: "打开选择问题标签页面"});
+    changeTitle('论坛')
+    mark({module: "打点", function: "论坛", action: "打开提问标题页面"});
     const { dispatch, location,title } = this.props;
     const {questionId} = location.query;
     if(questionId){
@@ -90,7 +91,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
   writeTitle(title) {
     const { dispatch } = this.props;
     const { searchWord } = this.state;
-    if(searchWord === title){
+    if(searchWord === title && !! title){
       return;
     }
 
@@ -98,6 +99,7 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
       this.setState({data: [], page: 1, length:0, title: ''});
       return;
     }
+
     //不含字母时搜索
     let lastChar = title.charAt(title.length - 1);
     this.setState({ title, length: title.length });

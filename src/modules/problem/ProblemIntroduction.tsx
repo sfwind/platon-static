@@ -7,11 +7,10 @@ import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadUserCoupons, loadPayParam, afterPayDone, logPay, mark,
-  calculateCoupon, sendCustomerMsg, loadHasGetOperationCoupon, loadTrainPayParam
+  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon, loadTrainPayParam
 } from './async'
 import { Toast, Dialog } from 'react-weui'
-import { merge, isNumber, isObjectLike, toLower, get } from 'lodash'
+import { isNumber,get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
@@ -109,7 +108,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             return createPlan(location.query.id).then(res => {
               if(res.code === 200) {
                 this.setState({ showToast: true })
-                sendCustomerMsg()
               }
             })
           } else if(res.code === 204) {
@@ -323,7 +321,22 @@ export default class ProblemIntroduction extends React.Component<any, any> {
    * 获取商品信息
    */
   handleGotGoods(goods) {
-    this.setState({ fee: goods.fee, coupons: goods.coupons })
+    let price = get(goods, 'activity.price');
+    if(price) {
+      this.setState({ fee: goods.fee, coupons: goods.coupons, price: price });
+    } else {
+      this.setState({ fee: goods.fee, coupons: goods.coupons });
+    }
+  }
+
+  handleClickPayMember() {
+    mark({
+      module: '支付',
+      function: '小课单卖',
+      action: '点击加入会员',
+      memo: 'os:' + window.ENV.systemInfo
+    })
+    window.location.href = `https://${window.location.hostname}/pay/pay`
   }
 
   handleClickGoReview() {
@@ -337,7 +350,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   render() {
-    const { data = {}, buttonStatus, showPayInfo, final, fee, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
+    const { data = {}, buttonStatus, showPayInfo, final, fee, price, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
@@ -396,6 +409,18 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
     }
 
+    const renderPrice = (fee, price) => {
+      if(price) {
+        return [
+          <span style={{marginLeft:'10px',textDecoration:'line-through'}}>¥{numeral(fee).format('0,0.00')}</span>,
+          <span style={{marginLeft:'10px'}}>¥{numeral(price).format('0,0.00')}</span>,
+          <span style={{marginLeft:'10px'}}>粉丝特惠</span>
+        ];
+      } else {
+        return `¥ ${numeral(fee).format('0,0.00')}，立即学习`
+      }
+    }
+
     const renderFooter = () => {
       console.log('buttonStatus:', buttonStatus)
       if(!show) {
@@ -418,7 +443,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       null
                   }
                   <div className={`left pay`} onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    ¥ {fee}，立即学习
+                    {renderPrice(fee, price)}
                   </div>
                 </div>
               )
@@ -479,18 +504,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               return list
             }
             case 8: {
-              // 小课训练营购买
               list.push(
-                <div className="button-footer trial_pay">
-                  {
-                    showFloatCoupon ?
-                      <div className="operation-coupon">
-                        <AssetImg url="https://static.iqycamp.com/images/fragment/float_coupon_reward_rec.png"/>
-                      </div> :
-                      null
-                  }
-                  <div className={`left pay`} onClick={() => this.handleClickBuyTrainingCamp(coupons.length)}>
-                    ¥ {trainFee}，立即学习
+                <div className="button-footer">
+                  <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
+                    ¥ {fee}，立即学习
+                  </div>
+                  <div className="split-right" onClick={() => this.setState({showEvaluation: true})}>
+                    免费获取
                   </div>
                 </div>
               )
@@ -565,6 +585,23 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                  payedError={(ex) => this.setState({ showErr: true })}
                  payedCancel={ex => this.setState({ showErr: true })}
         />
+      )
+    }
+
+    const renderEvaluateOperation = () => {
+      let evaluationProps = {
+        buttons: [
+          { label: '取消', onClick: () => this.setState({ showEvaluation: false }) },
+          { label: '去测评', onClick: () => this.context.router.push('/rise/static/eva/start') }
+        ]
+      }
+      return (
+        <Alert { ...evaluationProps }
+          show={this.state.showEvaluation}>
+          <div className="global-pre">
+            点击下方去测评，完成测评，分享结果图片，邀请3人扫码并完成测试，即可免费领取。
+          </div>
+        </Alert>
       )
     }
 
@@ -655,14 +692,15 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="toast-text">点击下一步学习吧</div>
         </Toast>
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/>
-            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
-            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-          </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div> : null}
+            <div className="tips">
+              出现问题的童鞋看这里<br/>
+              1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
+              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+            </div>
+            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+          </div> : null}
         {renderPayInfo()}
+        {renderEvaluateOperation()}
       </div>
     )
   }

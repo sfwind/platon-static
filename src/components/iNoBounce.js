@@ -1,29 +1,29 @@
 /*! iNoBounce - v0.1.0
  * https://github.com/lazd/iNoBounce/
  * Copyright (c) 2013 Larry Davis <lazdnet@gmail.com>; Licensed BSD */
-export default function(global) {
+export default function (global) {
   // Stores the Y position where the touch started
   var startY = 0;
 
   // Store enabled status
   var enabled = false;
 
-  var handleTouchmove = function(evt) {
+  var handleTouchmove = function (evt) {
     // Get the element that was scrolled upon
     var el = evt.target;
 
     // Check all parent elements for scrollability
-    while (el !== document.body) {
+    while(el !== document.body) {
       // Get some style properties
       var style = window.getComputedStyle(el);
 
-      if (!style) {
+      if(!style) {
         // If we've encountered an element we can't compute the style for, get out
         break;
       }
 
       // Ignore range input element
-      if (el.nodeName === 'INPUT' && el.getAttribute('type') === 'range') {
+      if(el.nodeName === 'INPUT' && el.getAttribute('type') === 'range') {
         return;
       }
 
@@ -33,14 +33,15 @@ export default function(global) {
 
       // Determine if the element should scroll
       var isScrollable = scrolling === 'touch' && (overflowY === 'auto' || overflowY === 'scroll');
-      if(el.id === 'react-app'){
-        // alert('scroll check react-app scrolling:'+scrolling+',overflowY:'+overflowY+','+'height:+' + height + ',isScrollable' + isScrollable + ',canScroll:'+canScroll);
+      if(el.id === 'react-app') {
+        // alert('scroll check react-app scrolling:'+scrolling+',overflowY:'+overflowY+','+'height:+' + height +
+        // ',isScrollable' + isScrollable + ',canScroll:'+canScroll);
       }
       var canScroll = el.scrollHeight > el.offsetHeight;
 
-      if (isScrollable && canScroll) {
+      if(isScrollable && canScroll) {
         // Get the current Y position of the touch
-        var curY = evt.touches ? evt.touches[0].screenY : evt.screenY;
+        var curY = evt.touches ? evt.touches[ 0 ].screenY : evt.screenY;
 
         // Determine if the user is trying to scroll past the top or bottom
         // In this case, the window will bounce, so we have to prevent scrolling completely
@@ -48,7 +49,7 @@ export default function(global) {
         var isAtBottom = (startY >= curY && el.scrollHeight - el.scrollTop === height);
 
         // Stop a bounce bug when at the bottom or top of the scrollable element
-        if (isAtTop || isAtBottom) {
+        if(isAtTop || isAtBottom) {
           // alert(isAtTop+":"+isAtBottom);
           evt.preventDefault();
         }
@@ -64,26 +65,26 @@ export default function(global) {
     // evt.preventDefault();
   };
 
-  var handleTouchstart = function(evt) {
+  var handleTouchstart = function (evt) {
     // Store the first Y position of the touch
-    startY = evt.touches ? evt.touches[0].screenY : evt.screenY;
+    startY = evt.touches ? evt.touches[ 0 ].screenY : evt.screenY;
   };
 
-  var enable = function() {
+  var enable = function () {
     // Listen to a couple key touch events
     window.addEventListener('touchstart', handleTouchstart, false);
     window.addEventListener('touchmove', handleTouchmove, false);
     enabled = true;
   };
 
-  var disable = function() {
+  var disable = function () {
     // Stop listening
     window.removeEventListener('touchstart', handleTouchstart, false);
     window.removeEventListener('touchmove', handleTouchmove, false);
     enabled = false;
   };
 
-  var isEnabled = function() {
+  var isEnabled = function () {
     return enabled;
   };
 
@@ -93,10 +94,10 @@ export default function(global) {
   var testDiv = document.createElement('div');
   document.documentElement.appendChild(testDiv);
   testDiv.style.WebkitOverflowScrolling = 'touch';
-  var scrollSupport = 'getComputedStyle' in window && window.getComputedStyle(testDiv)['-webkit-overflow-scrolling'] === 'touch';
+  var scrollSupport = 'getComputedStyle' in window && window.getComputedStyle(testDiv)[ '-webkit-overflow-scrolling' ] === 'touch';
   document.documentElement.removeChild(testDiv);
 
-  if (scrollSupport) {
+  if(scrollSupport) {
     enable();
   }
 
@@ -107,14 +108,14 @@ export default function(global) {
     isEnabled: isEnabled
   };
 
-  if (typeof module !== 'undefined' && module.exports) {
+  if(typeof module !== 'undefined' && module.exports) {
     // Node.js Support
     module.exports = iNoBounce;
   }
-  if (typeof global.define === 'function') {
+  if(typeof global.define === 'function') {
     // AMD Support
-    (function(define) {
-      define('iNoBounce', [], function() { return iNoBounce; });
+    (function (define) {
+      define('iNoBounce', [], function () { return iNoBounce; });
     }(global.define));
   }
   else {
