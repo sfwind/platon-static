@@ -7,6 +7,8 @@ import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
 import { splitText, removeHtmlTags, scroll, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import AnswerComment from "./AnswerComment"
+import FullScreenDialog from "../../../components/FullScreenDialog"
 
 interface QuestionAnswerStates {
   question: object;
