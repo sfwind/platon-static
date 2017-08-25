@@ -2,15 +2,6 @@ var Router = require("express").Router;
 
 var router = new Router();
 
-
-router.get("/rise/operation/free/coupon", (req, res) => {
-  setTimeout(() =>
-    res.status(200).json({
-      "msg":false,
-      "code": 200
-    }), Math.random() * 1500)
-});
-
 router.post("/rise/b/log", (req, res) => {
 	setTimeout(() =>
 		res.status(200).json({
