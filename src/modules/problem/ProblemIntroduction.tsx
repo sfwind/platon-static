@@ -523,7 +523,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
                     ¥ {fee}，立即学习
                   </div>
-                  <div className="split-right" onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay`}>
+                  <div className="split-right" onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5`}>
                     获取训练营小课
                   </div>
                 </div>
