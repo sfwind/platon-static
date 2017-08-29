@@ -184,7 +184,7 @@ export default class Audio extends React.Component<AudioProps, any> {
           <span className="awb-tips">语音文字版</span>
         </div>
         {showWords ?
-          <div className="audio-words" dangerouslySetInnerHTML={{__html:words}}/>
+          <pre className="audio-words" dangerouslySetInnerHTML={{__html:words}}/>
           : null}
       </div>
     )
