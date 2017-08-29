@@ -17,8 +17,7 @@ export class Result extends React.Component<any,any> {
       backgroundPicHeight: 1334,
       percent: 0,
       learnFreeLimit: false,
-      showResult: false,
-      showQuit: false,
+      picSrc: '',
     }
   }
 
@@ -27,9 +26,9 @@ export class Result extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    window.addEventListener('popstate', (e) => {
-      this.setState({ showQuit: true })
-    })
+    // window.addEventListener('popstate', (e) => {
+    //   this.setState({ showQuit: true })
+    // })
     const { score } = this.props.location.query
     const { dispatch } = this.props
     this.fit()
@@ -44,12 +43,13 @@ export class Result extends React.Component<any,any> {
         dispatch(alertMsg(msg))
       }
     }).catch(e => {
+      dispatch(endLoad())
       dispatch(alertMsg(e))
     })
   }
 
   componentDidMount() {
-    history.pushState({ page: 'next' }, 'state', '#ending')
+    // history.pushState({ page: 'next' }, 'state', '#ending')
   }
 
   fit() {
@@ -69,45 +69,33 @@ export class Result extends React.Component<any,any> {
   }
 
   share() {
-    const { score } = this.props.location.query
-    const { learnFreeLimit } = this.state
-    shareResult().then(res => {
-      if(res.code === 200) {
-        wx.closeWindow()
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(e => {
-      dispatch(alertMsg(e))
-    })
+    const { dispatch, location } = this.props
+    const { score } = location.query
+    const { learnFreeLimit, percent, picSrc } = this.state
+    this.setState({ share: true })
+
+    if(picSrc === '') {
+      dispatch(startLoad())
+      shareResult(score, percent).then(res => {
+        dispatch(endLoad())
+        if(res.code === 200) {
+          this.setState({ picSrc: res.msg })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(e => {
+        dispatch(endLoad())
+        dispatch(alertMsg(e))
+      })
+    }
 
   }
 
   render() {
-    const freeLimitProps = {
-      buttons: [
-        {
-          label: '领海报', onClick: () => {
-          this.share()
-        }
-        },
-        {
-          label: '取消', onClick: () => {
-          this.setState({ showResult: false })
-        }
-        }
-      ]
-    }
-    const quitProps = {
-      buttons: [
-        {
-          label: '确定', onClick: () => {
-          this.share()
-        }
-        }
-      ]
-    }
-    const { initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit, result, suggestion, percent } = this.state
+    const {
+      initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit,
+      result, suggestion, percent, picSrc, share
+    } = this.state
     return (
       <div className="eva-result">
         <div className="head">
@@ -126,30 +114,34 @@ export class Result extends React.Component<any,any> {
         </div>
         { learnFreeLimit ? null :
           <div className="schedule">
-            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_2.png" width={'100%'}/>
+            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_3.png" width={'100%'}/>
           </div>}
         { learnFreeLimit ?
-          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
+          <div className="free-get" onClick={()=>this.share()}>
             <AssetImg url="https://static.iqycamp.com/images/free_get_5.png" height={57} width={226}/>
           </div> :
-          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
+          <div className="free-get" onClick={()=>this.share()}>
             <AssetImg url="https://static.iqycamp.com/images/free_get_6.png" height={57} width={226}/>
           </div>
         }
-        <Alert { ...freeLimitProps }
-          show={this.state.showResult}>
-          <div className="global-pre">
-            {learnFreeLimit ? '系统已为你生成测评结果海报，保存并分享到朋友圈，让你的朋友也挑战一下吧~'
-              : '系统已为你生成测评结果海报，分享并邀请3人扫码并完成测试，即可免费领取【洞察力强化包】。'}
-          </div>
-        </Alert>
-        <Alert { ...quitProps }
-          show={this.state.showQuit}>
-          <div className="global-pre">
-            {learnFreeLimit ? '系统已为你生成测评结果海报，分享还可以免费领取【洞察力强化包】，去看看吧~'
-              : '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'}
-          </div>
-        </Alert>
+
+        {share ?
+          <div className="dialog">
+            <div style={{ display: 'inline-block', float: 'right'}}
+                 onClick={()=>this.setState({share:false})}>
+              <AssetImg type="white_close_btn" size={24}/>
+            </div>
+            <div className="share-pic-container">
+              <div className="share-word-title">
+                【免费领取课程】
+              </div>
+              <pre className="share-word">
+                {learnFreeLimit ? '长按下方图片，发送给好友/群\n邀请他们也来挑战一下吧！'
+                  : `长按下方图片，发送给好友/群，邀请他们来挑战\n3人扫码完成测试，你就免费得到课程了！`}
+              </pre>
+              {picSrc ? <img className="share-pic" src={picSrc} width={'100%'}/> : null}
+            </div>
+          </div>: null}
       </div>
     )
   }
