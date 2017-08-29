@@ -521,10 +521,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               list.push(
                 <div className="button-footer">
                   <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    ¥ {fee}，立即学习
+                    ￥{fee}，自主学习
                   </div>
                   <div className="split-right" onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5`}>
-                    获取训练营小课
+                    ¥ 299，小课训练营
                   </div>
                 </div>
               )
