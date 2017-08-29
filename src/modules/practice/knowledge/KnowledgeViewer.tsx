@@ -56,7 +56,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
     if(practicePlanId) {
       loadKnowledges(practicePlanId).then(res => {
         if(res.code === 200) {
-          console.log(res)
           this.setState({ knowledge: res.msg[ 0 ], referenceId: res.msg[ 0 ].id })
           dispatch(endLoad())
           loadDiscuss(res.msg[ 0 ].id, 1).then(res => {
@@ -205,7 +204,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const { location } = this.props
     const { practicePlanId } = location.query
 
-    console.log('word', audioWords);
 
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice

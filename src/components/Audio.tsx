@@ -58,6 +58,11 @@ export default class Audio extends React.Component<AudioProps, any> {
     }
   }
 
+  componentWillUnmount(){
+    clearInterval(timer);
+    clearInterval(duration_load_timer);
+  }
+
   onEnd() {
     this.setState({ currentSecond: this.state.duration, playing: false })
     clearInterval(timer)
