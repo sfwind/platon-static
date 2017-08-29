@@ -8,6 +8,6 @@ export function initEva(score) {
   return pget(`/rise/operation/free/init`)
 }
 
-export function shareResult() {
-  return ppost(`/rise/operation/free/share`)
+export function shareResult(score, percent) {
+  return ppost(`/rise/operation/free/share/${score}/${percent}`)
 }
