@@ -5,6 +5,8 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
 import './Result.less'
+import { mark } from 'utils/request'
+
 const { Alert } = Dialog
 
 @connect(state => state)
