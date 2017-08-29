@@ -57,11 +57,12 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
   componentWillMount() {
     changeTitle('论坛')
-    mark({ module: "打点", function: "论坛", action: "打开问题详情页" })
     let questionId = this.props.questionId
     if(!questionId) {
       questionId = this.props.location.query.questionId
     }
+    mark({ module: "打点", function: "论坛", action: "打开问题详情页",memo: questionId})
+
     const { dispatch } = this.props
     dispatch(startLoad())
     getQuestion(questionId).then(res => {
@@ -91,10 +92,10 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
 
           // 这里有坑，获取dom结构之后添加事件失败，必须用setTimeout包一下
           // TODO 怀疑是前面的state set 完之后dom还没处理完，需要研究下
-          setTimeout(()=>{
+          setTimeout(() => {
             // 设置answer-content
             this.bindProblem()
-          },0)
+          }, 0)
         })
       } else {
         dispatch(alertMsg(msg))
@@ -192,7 +193,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       dispatch(alertMsg('回答不能超过10000个字哦'));
       return;
     }
-    if(!answer){
+    if(!answer) {
       dispatch(alertMsg('回答不能为空哦'));
       return;
     }
@@ -277,18 +278,18 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     }
   }
 
-  bindProblem(){
+  bindProblem() {
     let answerContentGroup = document.querySelectorAll('.answer-content');
     if(answerContentGroup) {
       for(let idx = 0; idx < answerContentGroup.length; idx++) {
-        let answerContent = answerContentGroup[idx];
-        this.bindProblemHrefClickHandle(answerContent,this.state.question.id)
+        let answerContent = answerContentGroup[ idx ];
+        this.bindProblemHrefClickHandle(answerContent, this.state.question.id)
       }
     }
   }
 
-  closeDialog(){
-    this.setState({show:false}, ()=>{
+  closeDialog() {
+    this.setState({ show: false }, () => {
       this.bindProblem()
     })
   }
@@ -370,13 +371,13 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
                 if(isExpand) {
                   commentNode.innerHTML = splitText(answer, 68);
                 } else {
+                  mark({ module: "打点", function: "论坛", action: "答案，点击展开", memo: answerItem.id })
                   commentNode.innerHTML = answer;
                 }
                 this.bindProblemHrefClickHandle(commentNode, question.id);
                 isExpand = !isExpand
                 return isExpand ? "收起" : "展开"
               }
-
 
               return (
                 <div className="answer-desc" key={idx} id={mine ? 'myanswer' : null}>

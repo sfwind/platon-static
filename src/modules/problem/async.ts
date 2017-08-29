@@ -31,8 +31,9 @@ export function checkCreatePlan(problemId, type) {
 export function loadGoodsInfo(goodsType, goodsId) {
   return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId });
 }
+
 export function welcome() {
-  return pget(`/rise/plan/welcome`)
+  return ppost(`/rise/open/welcome`)
 }
 
 export function mark(param) {
