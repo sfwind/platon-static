@@ -21,6 +21,9 @@ export function createPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
 
+/**
+ * 检查是否能够选择当前小课
+ */
 export function checkCreatePlan(problemId, type) {
   return ppost(`/rise/plan/choose/problem/check/${problemId}/${type}`)
 }
@@ -71,6 +74,10 @@ export function loadUserCoupons() {
 
 export function loadPayParam(param) {
   return ppost('/signup/rise/course/pay', param);
+}
+
+export function loadTrainPayParam(param){
+  return ppost('/signup/rise/train/pay', param);
 }
 
 export function afterPayDone(productId) {
