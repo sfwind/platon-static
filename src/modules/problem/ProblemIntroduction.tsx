@@ -10,7 +10,7 @@ import {
   openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon, loadTrainPayParam
 } from './async'
 import { Toast, Dialog } from 'react-weui'
-import { isNumber,get } from 'lodash'
+import { isNumber, get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
@@ -354,7 +354,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords
     } = data
 
     const renderCatalogName = (catalog, subCatalog) => {
@@ -624,8 +624,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <div className="pi-c-f-content">
               { audio ?
                 <div className="context-audio">
-                  <Audio url={audio}/>
-                </div> : null }
+                <Audio url={audio} words={audioWords}/>
+              </div> : null }
               <div>
                 <pre className="pi-c-f-c-text">{why}</pre>
               </div>
@@ -692,13 +692,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="toast-text">点击下一步学习吧</div>
         </Toast>
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
-            <div className="tips">
-              出现问题的童鞋看这里<br/>
-              1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
-              2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-            </div>
-            <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-          </div> : null}
+          <div className="tips">
+            出现问题的童鞋看这里<br/>
+            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
+            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
+          </div>
+          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
+        </div> : null}
         {renderPayInfo()}
         {renderEvaluateOperation()}
       </div>
