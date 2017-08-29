@@ -199,13 +199,13 @@ export class KnowledgeViewer extends React.Component<any, any> {
   render() {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
-      analysis, means, keynote, audio, pic, example, analysisPic, meansPic, keynotePic,
-      analysisAudio, meansAudio, keynoteAudio,audioWords
+      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
+      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio,keynoteAudioWords
     } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
 
-    console.log('word',audioWords);
+    console.log('word', audioWords);
 
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
@@ -237,7 +237,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
-                { analysisAudio ? <div className="context-audio"><Audio url={analysisAudio}/></div> : null }
+                { analysisAudio ? <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> : null }
                 <div className="text">
                   <pre>{analysis}</pre>
                 </div>
@@ -249,7 +249,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                 </div>
-                { meansAudio ? <div className="context-audio"><Audio url={meansAudio}/></div> : null }
+                { meansAudio ? <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div> : null }
                 <div className="text">
                   <pre>{means}</pre>
                 </div>
@@ -261,7 +261,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                 </div>
-                { keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}/></div> : null }
+                { keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}  words={keynoteAudioWords}/></div> : null }
                 <div className="text">
                   <pre>{keynote}</pre>
                 </div>

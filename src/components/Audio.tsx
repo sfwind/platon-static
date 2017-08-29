@@ -13,7 +13,12 @@ enum Device {
   OTHER
 }
 
-export default class Audio extends React.Component<any, any> {
+interface AudioProps {
+  url:string,
+  words?:string,
+}
+
+export default class Audio extends React.Component<AudioProps, any> {
   constructor(props) {
     super(props)
     this.state = {
