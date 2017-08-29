@@ -50,7 +50,6 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.goodsId !== this.props.goodsId || nextProps.goodsType !== this.props.goodsType) {
-      console.log('next', nextProps);
       this.componentWillMount(nextProps.goodsType, nextProps.goodsId);
     }
   }
@@ -113,7 +112,6 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     }
     dispatch(startLoad());
     loadPaymentParam(param).then(res => {
-      console.log(res);
       dispatch(endLoad());
       if(res.code === 200) {
         const { fee, free, signParams, productId } = res.msg;
@@ -293,17 +291,28 @@ export default class PayInfo extends React.Component<PayInfoProps,any> {
     })
   }
 
+  /**
+   * 过滤优惠券信息
+   */
+  filterCoupons(coupons, goodsType) {
+    switch(goodsType) {
+      case GoodsType.FRAG_MEMBER: {
+        return coupons
+      }
+      default: {
+        coupons = coupons.filter((coupon) => {
+          return !coupon.category
+        })
+        return coupons
+      }
+    }
+  }
+
   render() {
     const { openCoupon, final, fee, chose, free, show, name, startTime, endTime,activity} = this.state;
     const { header, goodsId, goodsType } = this.props;
     let coupons = _.get(this.state, 'coupons', [])
-    coupons = _.filter(coupons, (item, key) => {
-      if((goodsId !== 3 && goodsType !== GoodsType.FRAG_MEMBER) && item.category === 'ELITE_RISE_MEMBER') {
-        return false;
-      } else {
-        return true;
-      }
-    })
+    coupons = this.filterCoupons(coupons, goodsType)
     const hasCoupons = !_.isEmpty(coupons);
     /* 高度，用于遮盖优惠券 */
     const height = (hasCoupons ? 276 : 226) + 'px';

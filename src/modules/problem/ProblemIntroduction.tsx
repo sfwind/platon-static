@@ -7,14 +7,14 @@ import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon
+  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon, loadTrainPayParam
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
-import { GoodsType } from "../../utils/helpers"
+import { GoodsType } from '../../utils/helpers'
 //限免小课id
 const FREE_PROBLEM_ID = 9
 
@@ -302,11 +302,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       } else if(res.code === 201 || res.code === 200) {
         if(couponCnt === 0) {
           // 直接弹出付费
-          this.refs.payInfo.handleClickPay();
+          this.refs.payInfo.handleClickPay()
           return
         } else {
           // 显示支付按钮
-          this.refs.payInfo.handleClickOpen();
+          this.refs.payInfo.handleClickOpen()
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -422,9 +422,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderFooter = () => {
-      if(show) {
-        return null
-      } else {
+      console.log('buttonStatus:', buttonStatus)
+      if(!show) {
         let footerBar = <div className="padding-footer" style={{ height: '45px' }}/>
         let list = []
         list.push(footerBar)
@@ -454,8 +453,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
                   {
-                    togetherClassMonth && togetherClassMonth !== "0" ?
-
+                    togetherClassMonth && togetherClassMonth !== '0' ?
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
                         本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
                       </div> :
@@ -518,6 +516,20 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
               return list
             }
+            case 9: {
+              // "¥ {fee}，立即学习|获取训练营小课"
+              list.push(
+                <div className="button-footer">
+                  <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
+                    ￥{fee}，自主学习
+                  </div>
+                  <div className="split-right" onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5`}>
+                    ¥ 299，小课训练营
+                  </div>
+                </div>
+              )
+              return list
+            }
             default:
               return null
           }
@@ -561,17 +573,17 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderPayInfo = () => {
-      const { location } = this.props;
+      const { location } = this.props
 
       return (
         <PayInfo ref="payInfo"
-                 gotGoods={(goods)=>this.handleGotGoods(goods)}
+                 gotGoods={(goods) => this.handleGotGoods(goods)}
                  dispatch={this.props.dispatch}
                  goodsId={location.query.id}
                  goodsType={GoodsType.FRAG_COURSE}
-                 payedDone={(planId)=>this.handlePayDone(planId)}
-                 payedError={(ex)=> this.setState({ showErr: true })}
-                 payedCancel={ex=>this.setState({showErr:true})}
+                 payedDone={(planId) => this.handlePayDone(planId)}
+                 payedError={(ex) => this.setState({ showErr: true })}
+                 payedCancel={ex => this.setState({ showErr: true })}
         />
       )
     }
@@ -598,8 +610,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         <div className="pi-header" style={{ height: `${this.picHeight}px` }}>
           <AssetImg url={pic} height={'100%'} style={{ position: 'absolute' }}/>
           <div className="pi-h-body">
-            <div className="pi-h-b-icon"><AssetImg
-              url="https://static.iqycamp.com/images/rise_icon_problem_introduction.png?imageslim" size={37}/></div>
+            <div className="pi-h-b-icon">
+              <AssetImg url="https://static.iqycamp.com/images/rise_icon_problem_introduction.png?imageslim" size={37}/>
+            </div>
             <div className="pi-h-b-title left">{problem}</div>
             <div className="pi-h-b-content left">{renderCatalogName(catalog, subCatalog)}</div>
             <div className="pi-h-b-content left bottom">{`难度系数：${numeral(difficultyScore).format('0.0')}/5.0`}</div>
@@ -609,14 +622,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
-              { audio ? <div className="context-audio">
+              { audio ?
+                <div className="context-audio">
                 <Audio url={audio} words={audioWords}/>
               </div> : null }
               <div>
                 <pre className="pi-c-f-c-text">{why}</pre>
               </div>
             </div>
-
           </div>
           <div className="pi-c-man white-content mg-25">
             <Header icon="rise_icon_man" title="适合人群" width={18}/>
@@ -628,8 +641,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <Header icon="rise_icon_head" title="讲师介绍" width={26} height={16} lineHeight={'12px'}/>
             <AssetImg width={'100%'} url={authorPic}/>
           </div>
-
-          {/*报名须知*/}
           <div className="pi-c-pay-info white-content mg-25">
             <Header icon="rise_icon_pay_info" title="报名须知" width={24}/>
             <div className="pi-c-pay-content">
@@ -668,9 +679,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           </div>
         </div>
         {renderFooter()}
-
         <Alert { ...this.state.alert }
-          show={this.state.showAlert}>
+               show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>
@@ -681,7 +691,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="toast-text">领取成功</div>
           <div className="toast-text">点击下一步学习吧</div>
         </Toast>
-
         {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
           <div className="tips">
             出现问题的童鞋看这里<br/>
@@ -690,7 +699,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div> : null}
-
         {renderPayInfo()}
         {renderEvaluateOperation()}
       </div>
