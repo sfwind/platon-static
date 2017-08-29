@@ -199,8 +199,8 @@ export class Main extends React.Component <any, any> {
       return (
         <div key={id} className={`choice${selected.id === id ? ' selected' : ''}`}
              onClick={e => this.onChoiceSelected(choice)}>
-          <span className="index">{sequenceMap[ idx ]}</span>
-          <span className="text">{subject}</span>
+          <span className={`index ${choice.point === 0? 'wrong':''}`}>{sequenceMap[ idx ]}</span>
+          <span className={`text ${choice.point === 0? 'wrong':''}`}>{subject}</span>
         </div>
       )
     }
