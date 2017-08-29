@@ -88,7 +88,7 @@ export default class Question extends React.Component<any, QuestionStates> {
       dispatch(endLoad());
     });
 
-    //解决android键盘遮挡，改变频幕高度问题
+    //解决android键盘遮挡，改变屏幕高度问题
     this.timer = setInterval(() => this.handleKeyboardUp(), 200);
 
     dispatch(set('title', undefined));
