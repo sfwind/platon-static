@@ -13,7 +13,8 @@ router.get("/rise/customer/profile", (req, res) => {
           "cityId": null,
           "province": "",
           "provinceId": null,
-          "isFull": true
+          "isFull": true,
+          "realName": null,
         }, "code": 200
       }
     ), Math.random() * 1500)
@@ -93,6 +94,13 @@ router.get("/rise/customer/plans", (req, res) => {
 })
 
 router.post("/rise/customer/profile", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      { "msg": "ok", "code": 200 }
+    ), Math.random() * 1500);
+})
+
+router.post("/rise/customer/profile/certificate", (req, res) => {
   setTimeout(() =>
     res.status(200).json(
       { "msg": "ok", "code": 200 }

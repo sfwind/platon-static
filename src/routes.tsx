@@ -52,6 +52,8 @@ import WarmUpNew from "modules/practice/warmup/Warumup"
 import ForumQuestion from "modules/customer/ForumQuestion";
 import CardsCollection from "./modules/problem/CardsCollection";
 import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
+import Certificate from './modules/customer/certificate/Main'
+import CertificateProfile from './modules/customer/certificate/Personal'
 
 const routes = (
   <Route>
@@ -104,6 +106,8 @@ const routes = (
         <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
         <Route path="forum/mine" component={ForumQuestion}/>
+        <Route path="certificate/profile" component={CertificateProfile}/>
+        <Route path="certificate" component={Certificate}/>
       </Route>
       <Route path="message" component={Customer}>
         <Route path="center" component={MessageCenter}/>
