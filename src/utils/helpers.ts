@@ -155,8 +155,20 @@ export function goOtherWeb(url){
   window.location.href = url;
 }
 
-
 export class GoodsType {
-  public static FRAG_COURSE = "fragment_rise_course";
-  public static FRAG_MEMBER = "fragment_member";
+  public static SYSTEMATISM = 'systematism'
+  public static FRAG_COURSE = 'fragment_rise_course'
+  public static FRAG_MEMBER = 'fragment_member'
+  public static FRAG_CAMP = 'fragment_camp'
+}
+
+export class CouponCategory {
+  /**
+   * 只能用来购买会员
+   */
+  public static ONLY_MEMBERSHIP = "ELITE_RISE_MEMBER";
+  /**
+   * 只能用来够买线下工作坊
+   */
+  public static ONLY_WORKSHOP = "OFF_LINE_WORKSHOP";
 }

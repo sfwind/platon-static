@@ -24,6 +24,7 @@ export default class Rise extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     pget('/rise/customer/account').then(res => {
+      console.log('res', res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -36,15 +37,28 @@ export default class Rise extends React.Component<any, any> {
     })
   }
 
+  handleClickGoMemberDesc() {
+    const memberType = this.state.data.memberType
+    switch(memberType) {
+      case '精英版（一年）':
+        this.context.router.push('/rise/static/customer/member')
+        break
+      case '小课训练营':
+        window.location.href = 'https://shimo.im/doc/zPvwOCCxqygcof0B?r=L8QE82/'
+        break
+      default:
+        this.context.router.push('/rise/static/customer/member')
+        break
+    }
+  }
+
   render() {
     const { data } = this.state
-    const { riseId, memberType, mobile, isRiseMember, coupons = [] } = data
+    const { riseId, memberType, mobile, isRiseMember, nickName, coupons = [] } = data
 
     const renderCoupons = () => {
       if(coupons.length !== 0) {
-        let domArr = []
-        domArr.push(<div className="item ">奖学金/优惠券</div>)
-        domArr.push(
+        return (
           coupons.map((coupon, index) => {
             let jxjSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_jxj.png'
             let yhqSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_yhq.png'
@@ -59,24 +73,25 @@ export default class Rise extends React.Component<any, any> {
             )
           })
         )
-        return domArr
       }
     }
 
     return (
       <div className="account">
-
+        <div className="item">
+          <div className="label">昵称</div>
+          <div className="content-no-cut">{nickName}</div>
+        </div>
         <div className="item">
           <div className="label">圈外 ID</div>
           <div className="content-no-cut">{riseId}</div>
         </div>
-        <div className="item" onClick={() => {this.context.router.push('/rise/static/customer/member')}}>
+        <div className="item" onClick={() => this.handleClickGoMemberDesc()}>
           <div className="label">圈外会员</div>
           <div className="content">
-            {isRiseMember ? '' : '点击加入'}&nbsp;&nbsp;{memberType}
+            {memberType ? memberType : '点击加入'}&nbsp;&nbsp;
           </div>
         </div>
-
         <div className="item item-margin"
              style={{ margin: '25px 0' }}
              onClick={() => this.context.router.push('/rise/static/customer/mobile/check')}>
@@ -87,8 +102,11 @@ export default class Rise extends React.Component<any, any> {
             {mobile ? <span>{mobile}</span> : <span style={{ color: '#ccc' }}>去绑定手机号&nbsp;&nbsp;</span>}
           </div>
         </div>
-
-        { renderCoupons() }
+        <div className="item ">奖学金/优惠券</div>
+        <div className="coupon-box">
+          { renderCoupons() }
+          <div style={{ height: 56 }}/>
+        </div>
       </div>
     )
   }

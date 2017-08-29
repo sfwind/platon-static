@@ -5,6 +5,8 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
 import './Result.less'
+import { mark } from 'utils/request'
+
 const { Alert } = Dialog
 
 @connect(state => state)
@@ -89,6 +91,11 @@ export class Result extends React.Component<any,any> {
       })
     }
 
+  }
+
+  handleClickShareBtn() {
+    mark({ module: '打点', function: '测评', action: '点击页面领取海报按钮' });
+    this.setState({ showResult: true });
   }
 
   render() {

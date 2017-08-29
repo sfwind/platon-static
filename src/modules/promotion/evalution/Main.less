@@ -188,17 +188,19 @@
           > .text {
             background: #069BCD;
             padding-left: 5px;
-            //color: transparent;
-            //-webkit-text-fill-color: transparent;
-            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069bcd));
-            //-webkit-background-clip:text;
+            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069BCD));
+            &.wrong{
+              background: #D64E0F;
+              background: -webkit-gradient(linear, center top, center bottom, from(#FF9658), to(#D64E0F));
+            }
           }
           > .index {
             background: #069BCD;
-            //color: transparent;
-            //-webkit-text-fill-color: transparent;
-            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069bcd));
-            //-webkit-background-clip:text;
+            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069BCD));
+            &.wrong{
+              background: #D64E0F;
+              background: -webkit-gradient(linear, center top, center bottom, from(#FF9658), to(#D64E0F));
+            }
           }
         }
       }
