@@ -5,6 +5,8 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
 import './Result.less'
+import { mark } from 'utils/request'
+
 const { Alert } = Dialog
 
 @connect(state => state)
@@ -83,6 +85,11 @@ export class Result extends React.Component<any,any> {
 
   }
 
+  handleClickShareBtn() {
+    mark({ module: '打点', function: '测评', action: '点击页面领取海报按钮' });
+    this.setState({ showResult: true });
+  }
+
   render() {
     const freeLimitProps = {
       buttons: [
@@ -129,10 +136,10 @@ export class Result extends React.Component<any,any> {
             <AssetImg url="https://static.iqycamp.com/images/eva_schedule_2.png" width={'100%'}/>
           </div>}
         { learnFreeLimit ?
-          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
+          <div className="free-get" onClick={()=>this.handleClickShareBtn()}>
             <AssetImg url="https://static.iqycamp.com/images/free_get_5.png" height={57} width={226}/>
           </div> :
-          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
+          <div className="free-get" onClick={()=>this.handleClickShareBtn()}>
             <AssetImg url="https://static.iqycamp.com/images/free_get_6.png" height={57} width={226}/>
           </div>
         }
