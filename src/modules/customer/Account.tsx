@@ -37,6 +37,21 @@ export default class Rise extends React.Component<any, any> {
     })
   }
 
+  handleClickGoMemberDesc() {
+    const memberType = this.state.data.memberType
+    switch(memberType) {
+      case '精英版（一年）':
+        this.context.router.push('/rise/static/customer/member')
+        break
+      case '小课训练营':
+        window.location.href = 'https://shimo.im/doc/zPvwOCCxqygcof0B?r=L8QE82/'
+        break
+      default:
+        this.context.router.push('/rise/static/customer/member')
+        break
+    }
+  }
+
   render() {
     const { data } = this.state
     const { riseId, memberType, mobile, isRiseMember, nickName, coupons = [] } = data
@@ -63,7 +78,6 @@ export default class Rise extends React.Component<any, any> {
 
     return (
       <div className="account">
-
         <div className="item">
           <div className="label">昵称</div>
           <div className="content-no-cut">{nickName}</div>
@@ -72,13 +86,12 @@ export default class Rise extends React.Component<any, any> {
           <div className="label">圈外 ID</div>
           <div className="content-no-cut">{riseId}</div>
         </div>
-        <div className="item" onClick={() => {this.context.router.push('/rise/static/customer/member')}}>
+        <div className="item" onClick={() => this.handleClickGoMemberDesc()}>
           <div className="label">圈外会员</div>
           <div className="content">
             {memberType ? memberType : '点击加入'}&nbsp;&nbsp;
           </div>
         </div>
-
         <div className="item item-margin"
              style={{ margin: '25px 0' }}
              onClick={() => this.context.router.push('/rise/static/customer/mobile/check')}>
@@ -89,7 +102,6 @@ export default class Rise extends React.Component<any, any> {
             {mobile ? <span>{mobile}</span> : <span style={{ color: '#ccc' }}>去绑定手机号&nbsp;&nbsp;</span>}
           </div>
         </div>
-
         <div className="item ">奖学金/优惠券</div>
         <div className="coupon-box">
           { renderCoupons() }
