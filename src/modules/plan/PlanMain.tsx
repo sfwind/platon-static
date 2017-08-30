@@ -134,7 +134,6 @@ export class PlanMain extends React.Component <any, any> {
           setTimeout(() => {
             this.setState({ riseMemberTips: true })
           }, 10)
-
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -266,7 +265,6 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   riseMemberCheck() {
-    const { dispatch } = this.props
     return isRiseMember().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg })
@@ -407,7 +405,6 @@ export class PlanMain extends React.Component <any, any> {
     const { dispatch, location } = this.props
     const { planData = {} } = this.state
     const { planId } = location.query
-    const { status, reportStatus } = planData
     dispatch(startLoad())
     closePlan(planId).then(res => {
       dispatch(endLoad())
@@ -442,7 +439,6 @@ export class PlanMain extends React.Component <any, any> {
 
   confirmComplete() {
     const { dispatch, location } = this.props
-    const { planData, mustStudyDays } = this.state
     const { planId } = location.query
     this.context.router.push({
       pathname: '/rise/static/plan/report',
@@ -469,7 +465,6 @@ export class PlanMain extends React.Component <any, any> {
 
   problemReview(problemId) {
     mark({ module: '打点', function: '首页', action: '打开小课介绍', memo: problemId })
-    // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problemId}&show=true`
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problemId, show: true } })
   }
 
@@ -494,7 +489,6 @@ export class PlanMain extends React.Component <any, any> {
         pathname: '/rise/static/problem/explore'
       })
     }
-
   }
 
   onTransitionEnd() {
@@ -537,9 +531,8 @@ export class PlanMain extends React.Component <any, any> {
     gradeProblem(problemScores, selectProblem.id).then(res => {
       dispatch(endLoad())
       this.setState({ showScoreModal: false, planData: merge({}, planData, { hasProblemScore: true }) }, () => {
-          this.confirmComplete()
-        }
-      )
+        this.confirmComplete()
+      })
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
@@ -609,7 +602,6 @@ export class PlanMain extends React.Component <any, any> {
           </div>
         )
       }
-
     }
 
     const practiceRender = (list = []) => {
@@ -639,26 +631,21 @@ export class PlanMain extends React.Component <any, any> {
                     <AssetImg type="knowledge_complete" size={50}/> : null
                   }
                 </div>
-                {
-                  completePracticeRender(item)
-                }
-
+                {completePracticeRender(item)}
               </div>
               {item.unlocked === false ?
-                <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null
-              }
+                <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null}
               <div className="body">
-                <div className="title">{typeMap[ item.type ].type}</div>
+                <div className="title">
+                  {typeMap[ item.type ].type}
+                  <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
+                </div>
                 <div className="desc">{typeMap[ item.type ].desc}</div>
-              </div>
-              <div className="footer">
-                {item.optional === true ? <AssetImg type="optional" width={25} height={12}/> : null}
               </div>
             </div>
           )
         })
       }
-
     }
 
     const renderSidebar = () => {
@@ -676,7 +663,6 @@ export class PlanMain extends React.Component <any, any> {
                  overflow: 'hidden',
                  position: 'relative'
                }}>
-
             <div className="chapter-area">
               <div className="cell">
                 <div className="chapter" onClick={() => this.problemReview(problem.id)}>小课介绍</div>
@@ -844,28 +830,8 @@ export class PlanMain extends React.Component <any, any> {
             </div>
             <div className="padding-footer"/>
           </div>
-        </div>)
-    }
-
-    const renderDeadline = (deadline) => {
-      if(deadline < 0) {
-        // 不是会员，不显示
-        return null
-      } else if(deadline === 0) {
-        //是会员 已关闭
-        return (
-          <div className="section">
-            <label>小课已关闭</label>
-          </div>
-        )
-      } else if(deadline > 0) {
-        // 是会员 未关闭
-        return (
-          <div className="section">
-            <label>距关闭:</label> {deadline} 天
-          </div>
-        )
-      }
+        </div>
+      )
     }
 
     const renderOtherComponents = () => {
@@ -874,11 +840,7 @@ export class PlanMain extends React.Component <any, any> {
           { label: '取消', onClick: () => this.setState({ showExpiredDateWarning: false }) },
           {
             label: '确定',
-            onClick: () => {
-              // window.location.href =
-              // `https://${window.location.hostname}/rise/static/plan/view?id=${this.state.planData.problemId}`
-              this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)
-            }
+            onClick: () => {this.context.router.push(`/rise/static/plan/view?id=${this.state.planData.problemId}`)}
           }
         ]
       }
@@ -1023,16 +985,8 @@ export class PlanMain extends React.Component <any, any> {
                   <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
                        onClick={() => this.goRiseMemberTips()}>
                   </div> : null}
-                <div className="plan-guide">
-                  <div className="section-title">{problem.problem}</div>
-                  <div className="section">
-                    <label>已完成:</label> {completeSeries}/{totalSeries}节训练
-                  </div>
-                  <div className="section">
-                    <label>总得分:</label> {point} 分
-                  </div>
-                  {renderDeadline(deadline)}
-                </div>
+                <div className="section-title">{problem.problem}</div>
+                <div className="section">总得分：{point}分</div>
                 <div className="header-card-collection" onClick={() => this.goCardsCollection(problem.id)}>
                   <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png"
                             width={97} height={85}/>
@@ -1041,7 +995,7 @@ export class PlanMain extends React.Component <any, any> {
 
               {renderBtnHeader()}
               {!isEmpty(planData) ?
-                <div style={{ padding: '0 15px', backgroundColor: '#f5f5f5' }}>
+                <div style={{ backgroundColor: '#FFF' }}>
                   <SwipeableViews ref="planSlider" index={currentIndex - 1}
                                   onTransitionEnd={() => this.onTransitionEnd()}
                                   onChangeIndex={(index, indexLatest) => this.goSection(index + 1)}>
