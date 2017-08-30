@@ -165,6 +165,26 @@ export class PlanMain extends React.Component <any, any> {
             mustStudyDays: msg.mustStudyDays,
             freeProblem
           })
+          const tempCatalogId = msg.problem.catalogId
+          switch(tempCatalogId) {
+            case 1:
+              require('./PlanMainLessCategory/Green.less')
+              break;
+            case 2:
+              require('./PlanMainLessCategory/Yellow.less')
+              break;
+            case 3:
+              require('./PlanMainLessCategory/Orange.less')
+              break;
+            case 4:
+              require('./PlanMainLessCategory/Blue.less')
+              break;
+            case 5:
+              require('./PlanMainLessCategory/Purple.less')
+              break;
+            default:
+              break;
+          }
         }
       } else {
         dispatch(alertMsg(msg))
@@ -225,10 +245,9 @@ export class PlanMain extends React.Component <any, any> {
         })
       }
     }).catch(ex => {
-        dispatch(endLoad())
-        dispatch(alertMsg(ex))
-      }
-    )
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
     if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
       this.setState({ windowsClient: true })
     } else {
@@ -261,7 +280,6 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
     })
-
   }
 
   riseMemberCheck() {
@@ -614,22 +632,31 @@ export class PlanMain extends React.Component <any, any> {
                  onClick={() => this.onPracticeSelected(item)}>
               <div className="header">
                 <div className="practice-thumb">
-                  {item.type === 1 || item.type === 2 ? item.status !== 1 ?
-                    <AssetImg type="warmup" size={50}/> :
-                    <AssetImg type="warmup_complete" size={50}/> : null
-                  }
-                  {item.type === 11 || item.type === 12 ? item.status !== 1 ?
-                    <AssetImg type="application" size={50}/> :
-                    <AssetImg type="application_complete" size={50}/> : null
-                  }
-                  {item.type === 21 ? item.status !== 1 ?
-                    <AssetImg type="challenge" size={50}/> :
-                    <AssetImg type="challenge_complete" size={50}/> : null
-                  }
-                  {item.type === 31 || item.type === 32 ? item.status !== 1 ?
-                    <AssetImg type="knowledge" size={50}/> :
-                    <AssetImg type="knowledge_complete" size={50}/> : null
-                  }
+                  <div className="bottom-platform"/>
+                  {item.type === 1 || item.type === 2 ?
+                    <div className="warmup" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
+                  {item.type === 11 || item.type === 12 ?
+                    <div className="application" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
+                  {item.type === 21 ?
+                    <div className="challenge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
+                  {item.type === 31 || item.type === 32 ?
+                    <div className="knowledge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
+                  {/*{item.type === 1 || item.type === 2 ? item.status !== 1 ?*/}
+                  {/*<AssetImg type="warmup" size={50}/> :*/}
+                  {/*<AssetImg type="warmup_complete" size={50}/> : null*/}
+                  {/*}*/}
+                  {/*{item.type === 11 || item.type === 12 ? item.status !== 1 ?*/}
+                  {/*<AssetImg type="application" size={50}/> :*/}
+                  {/*<AssetImg type="application_complete" size={50}/> : null*/}
+                  {/*}*/}
+                  {/*{item.type === 21 ? item.status !== 1 ?*/}
+                  {/*<AssetImg type="challenge" size={50}/> :*/}
+                  {/*<AssetImg type="challenge_complete" size={50}/> : null*/}
+                  {/*}*/}
+                  {/*{item.type === 31 || item.type === 32 ? item.status !== 1 ?*/}
+                  {/*<AssetImg type="knowledge" size={50}/> :*/}
+                  {/*<AssetImg type="knowledge_complete" size={50}/> : null*/}
+                  {/*}*/}
                 </div>
                 {completePracticeRender(item)}
               </div>
@@ -966,46 +993,44 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     return (
-      <div className="rise-main">
+      <div className="rise-main-container">
         {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask">
           <AssetImg url="https://static.iqycamp.com/images/point_tutorial3.gif" width={150} marginLeft={20}/>
         </div> : null}
 
         {renderCard()}
-        <div>
-          <div className="rise-main">
-            <Sidebar sidebar={ renderSidebar() }
-                     open={this.state.sidebarOpen}
-                     onSetOpen={(open) => this.onSetSidebarOpen(open)}
-                     trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
-              <div className="header-img">
-                {riseMember != 1 ?
-                  <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                       onClick={() => this.goRiseMemberTips()}>
-                  </div> : null}
-                <div className="section-title">{problem.problem}</div>
-                <div className="section">总得分：{point}分</div>
-                <div className="header-card-collection" onClick={() => this.goCardsCollection(problem.id)}>
-                  <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png"
-                            width={97} height={85}/>
-                </div>
-              </div>
-
-              {renderBtnHeader()}
-              {!isEmpty(planData) ?
-                <div style={{ backgroundColor: '#FFF' }}>
-                  <SwipeableViews ref="planSlider" index={currentIndex - 1}
-                                  onTransitionEnd={() => this.onTransitionEnd()}
-                                  onChangeIndex={(index, indexLatest) => this.goSection(index + 1)}>
-                    {sections ? sections.map((item, idx) => {
-                      return renderSection(item, idx)
-                    }) : null}
-                  </SwipeableViews>
-                </div>
-                : null}
-            </Sidebar>
+        <Sidebar sidebar={ renderSidebar() }
+                 open={this.state.sidebarOpen}
+                 onSetOpen={(open) => this.onSetSidebarOpen(open)}
+                 trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
+          <div className="header-img">
+            <div className="back-img"/>
+            {riseMember != 1 ?
+              <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                   onClick={() => this.goRiseMemberTips()}>
+              </div> : null}
+            <div className="section-title">{problem.problem}</div>
+            <div className="section">总得分：{point} 分</div>
+            <div className="header-card-collection" onClick={() => this.goCardsCollection(problem.id)}>
+              <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png"
+                        width={97} height={85}/>
+            </div>
           </div>
-        </div>
+
+          {renderBtnHeader()}
+          {!isEmpty(planData) ?
+            <div style={{ backgroundColor: '#FFF' }}>
+              <SwipeableViews ref="planSlider" index={currentIndex - 1}
+                              onTransitionEnd={() => this.onTransitionEnd()}
+                              onChangeIndex={(index, indexLatest) => this.goSection(index + 1)}>
+                {sections ? sections.map((item, idx) => {
+                  return renderSection(item, idx)
+                }) : null}
+              </SwipeableViews>
+            </div>
+            : null}
+        </Sidebar>
+
         {renderOtherComponents()}
       </div>
     )

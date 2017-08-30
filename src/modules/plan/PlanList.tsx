@@ -53,6 +53,7 @@ export default class PlanList extends React.Component<any, any> {
     dispatch(startLoad())
     const { runningPlanId, completedPlanId } = location.query
     loadPlanList().then(res => {
+      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator, openWelcome, recommendations = [] } = res.msg
@@ -69,7 +70,10 @@ export default class PlanList extends React.Component<any, any> {
             return
           }
         }
-        this.setState({ planList: res.msg, showEmptyPage: showEmptyPage, openNavigator, showPage: true, recommendations: recommendations }, () => {
+        this.setState({
+          planList: res.msg, showEmptyPage: showEmptyPage, openNavigator, showPage: true,
+          recommendations: recommendations
+        }, () => {
           var swiper = new Swiper('#problem-recommendation', {
             scrollbar: '#problem-recommendation-bar',
             scrollbarHide: true,
@@ -205,10 +209,8 @@ export default class PlanList extends React.Component<any, any> {
                 </div>
                 <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span>
                 </div>
-              </div>
-              :
+              </div> :
               runningPlans.map((item, key) => {
-                const { problem } = item
                 let style = {}
                 if(runningPlanId == item.planId && false) {
                   style = {
@@ -270,7 +272,10 @@ export default class PlanList extends React.Component<any, any> {
                             <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
                                       style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
                           }
-                          <AssetImg url={`${problem.pic}`} style={{ width: 'auto', height: '100%' }}/>
+                          <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+                          <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+                          <div className="problem-item-subCatalog">{problem.subCatalog}</div>
+                          {/*<AssetImg url={`${problem.pic}`} style={{ width: 'auto', height: '100%' }}/>*/}
                         </div>
                         <span>{problem.problem}</span>
                       </div>
@@ -286,7 +291,7 @@ export default class PlanList extends React.Component<any, any> {
                     </div>
                   </div>
                 </div>
-                <div className="swiper-scrollbar" id="problem-recommendation-bar"></div>
+                <div className="swiper-scrollbar" id="problem-recommendation-bar"/>
               </div>
             </div> : null}
 
@@ -305,12 +310,6 @@ export default class PlanList extends React.Component<any, any> {
                     return (
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
-                        <div className={`p-c-c-r-b-icon`}>
-                          {/*<div className={`gap ${key === 0 ? 'first':''}`} />*/}
-                          {/*<div className={`tick  ${key === 0 ? 'first':''}`}/>*/}
-                          {/*<div className={`hr ${key === completedPlans.length-1 ? 'last':''}`}/>*/}
-                          {/*<div className={`bottom gap ${key === completedPlans.length -1?'last':'' }`}/>*/}
-                        </div>
                         <div className="p-c-b-pic">
                           <img className="p-c-b-p-img" src={`${plan.pic}`}>
                           </img>
@@ -390,22 +389,11 @@ export default class PlanList extends React.Component<any, any> {
               </div>
               : <div className="complete-plan-empty">
                 <AssetImg url='https://static.iqycamp.com/images/complete_plan_empty.png?imageslim'/>
-            </div>}
+              </div>}
           </div>
           <div className="padding-footer"/>
         </div>
       </div>
     )
   }
-}
-
-interface CardListProps {
-  pic: String,
-  title: String,
-  completeSeries?: String,
-  dayToClose?: String,
-  closeTime?: String,
-}
-class CardList extends React.Component<CardListProps, any> {
-
 }
