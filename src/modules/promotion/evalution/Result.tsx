@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from "react-redux";
-import { submitEva } from "./async"
+import { submitEva, shareResult } from "./async"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
@@ -27,9 +27,9 @@ export class Result extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    // window.addEventListener('popstate', (e) => {
-    //   this.setState({ showQuit: true })
-    // })
+    window.addEventListener('popstate', (e) => {
+      this.setState({ showQuit: true })
+    })
     const { score } = this.props.location.query
     const { dispatch } = this.props
     this.fit()
@@ -50,7 +50,7 @@ export class Result extends React.Component<any,any> {
   }
 
   componentDidMount() {
-    // history.pushState({ page: 'next' }, 'state', '#ending')
+    history.pushState({ page: 'next' }, 'state', '#ending')
   }
 
   fit() {
@@ -76,11 +76,38 @@ export class Result extends React.Component<any,any> {
     this.context.router.push({pathname:'/rise/static/eva/share', query: {score, percent, learnFreeLimit}})
   }
 
+  sendMsg(){
+    const {dispatch} = this.props
+    const { score } = this.props.location.query
+    const { percent, learnFreeLimit } = this.state
+    dispatch(startLoad())
+    shareResult(score, percent).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        wx.closeWindow()
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
+  }
+
   render() {
     const {
       initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit,
       result, suggestion, percent
     } = this.state
+    const quitProps = {
+      buttons: [
+        {
+          label: '确定', onClick: () => {
+          wx.closeWindow()
+        }
+        }
+      ]
+    }
     return (
       <div className="eva-result">
         <div className="head">
@@ -110,6 +137,13 @@ export class Result extends React.Component<any,any> {
             <AssetImg url="https://static.iqycamp.com/images/free_get_6.png" height={57} width={226}/>
           </div>
         }
+        <Alert { ...quitProps }
+          show={this.state.showQuit}>
+          <div className="global-pre">
+            {learnFreeLimit == 'true' ? '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'
+              : '系统已为你生成测评结果海报，分享还可以免费领取【洞察力强化课程】，去看看吧~'}
+          </div>
+        </Alert>
       </div>
     )
   }
