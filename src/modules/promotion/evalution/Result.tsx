@@ -103,7 +103,7 @@ export class Result extends React.Component<any,any> {
       buttons: [
         {
           label: '确定', onClick: () => {
-          wx.closeWindow()
+          this.sendMsg()
         }
         }
       ]
