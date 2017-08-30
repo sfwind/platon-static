@@ -955,8 +955,7 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
                 <div id="printer-waiting" className="printer-waiting"/>
               </div>
-              <div className="printer-bottom">
-              </div>
+              <div className="printer-bottom"/>
             </div>
             <div className="card-mask"/>
           </div>
@@ -979,8 +978,7 @@ export class PlanMain extends React.Component <any, any> {
                      open={this.state.sidebarOpen}
                      onSetOpen={(open) => this.onSetSidebarOpen(open)}
                      trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
-              <div className="header-img" style={{ height: 175, overflow: 'visible' }}>
-                <AssetImg url={problem.pic} style={{ height: this.state.style.picHeight, float: 'right' }}/>
+              <div className="header-img">
                 {riseMember != 1 ?
                   <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
                        onClick={() => this.goRiseMemberTips()}>
