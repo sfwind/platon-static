@@ -392,7 +392,7 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       }
     }
 
-    <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->
+    // <!-- render内容如下：如果是安卓4.3以下版本的话，则渲染简化页面，否则渲染正常页面 -->
     if(window.ENV.osName === 'android' && parseFloat(window.ENV.osVersion) <= 4.3) {
       // <!-- 安卓4.3 以下 -->
       return (
@@ -441,49 +441,51 @@ export default class PayInfo extends React.Component<PayInfoProps, any> {
       )
     } else {
       // <!--  非安卓4.3 -->
-      return (<div className="pay-info" style={ renderTrans(show, height)}>
-        {show ? <div className="close" onClick={() => this.handleClickClose()}
-                     style={{ bottom: `${hasCoupons ? 276 : 226}px` }}>
-          <Icon type="white_close_btn" size="40px"/>
-        </div> : null}
+      return (
+        <div className="pay-info" style={ renderTrans(show, height)}>
+          {show ? <div className="close" onClick={() => this.handleClickClose()}
+                       style={{ bottom: `${hasCoupons ? 276 : 226}px` }}>
+            <Icon type="white_close_btn" size="40px"/>
+          </div> : null}
 
-        <div className="main-container" style={{ height: _.isEmpty(coupons) ? 160 : 210 }}>
-          <div className="header" style={renderHeaderTrans(openCoupon)}>
-            {header || name}
-          </div>
-          <div className="content" style={renderHeaderTrans(openCoupon)}>
-            <div className="price item">
-              {renderPrice(fee, final, free)}
+          <div className="main-container" style={{ height: _.isEmpty(coupons) ? 160 : 210 }}>
+            <div className="header" style={renderHeaderTrans(openCoupon)}>
+              {header || name}
             </div>
-            {!!startTime && !!endTime ? <div className="open-time item">
-              有效时间：{startTime} - {endTime}
-            </div> : null}
-            {hasCoupons ? <div className={`coupon item ${openCoupon ? 'open' : ''}`}
-                               onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
-              {chose ? `优惠券：¥${numeral(chose.amount).format('0.00')}元` : `选择优惠券`}
-            </div> : null}
+            <div className="content" style={renderHeaderTrans(openCoupon)}>
+              <div className="price item">
+                {renderPrice(fee, final, free)}
+              </div>
+              {!!startTime && !!endTime ? <div className="open-time item">
+                有效时间：{startTime} - {endTime}
+              </div> : null}
+              {hasCoupons ? <div className={`coupon item ${openCoupon ? 'open' : ''}`}
+                                 onClick={() => this.setState({ openCoupon: !this.state.openCoupon })}>
+                {chose ? `优惠券：¥${numeral(chose.amount).format('0.00')}元` : `选择优惠券`}
+              </div> : null}
+            </div>
+            <ul className={`coupon-list ${openCoupon ? 'open' : ''}`} style={renderHeaderTrans(openCoupon)}>
+              {coupons ? coupons.map((item, seq) => {
+                return (
+                  <li className="coupon" key={seq}>
+                    ¥{numeral(item.amount).format('0.00')}元
+                    <span className="describe">{item.description ? item.description : ''}</span>
+                    <span className="expired">{item.expired}过期</span>
+                    <div className="btn" onClick={() => this.handleClickChooseCoupon(item)}>
+                      选择
+                    </div>
+                  </li>
+                )
+              }) : null}
+            </ul>
           </div>
-          <ul className={`coupon-list ${openCoupon ? 'open' : ''}`} style={renderHeaderTrans(openCoupon)}>
-            {coupons ? coupons.map((item, seq) => {
-              return (
-                <li className="coupon" key={seq}>
-                  ¥{numeral(item.amount).format('0.00')}元
-                  <span className="describe">{item.description ? item.description : ''}</span>
-                  <span className="expired">{item.expired}过期</span>
-                  <div className="btn" onClick={() => this.handleClickChooseCoupon(item)}>
-                    选择
-                  </div>
-                </li>
-              )
-            }) : null}
-          </ul>
-        </div>
-        <div className="btn-container" style={renderBtnTrans(openCoupon)}>
-          <div className="btn" onClick={() => this.handleClickPay()}>
+          <div className="btn-container" style={renderBtnTrans(openCoupon)}>
+            <div className="btn" onClick={() => this.handleClickPay()}>
+            </div>
           </div>
+          {show ? <div className="mask"/> : null}
         </div>
-        {show ? <div className="mask"></div> : null}
-      </div>)
+      )
     }
   }
 }
