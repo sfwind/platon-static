@@ -59,6 +59,9 @@ export default class PlanList extends React.Component<any, any> {
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
           showEmptyPage = true
+          if(location.pathname === '/rise/static/plan/main') {
+            this.context.router.push('/rise/static/problem/explore')
+          }
         }
         if(!openWelcome) {
           if(location.pathname !== '/rise/static/learn') {
@@ -178,8 +181,7 @@ export default class PlanList extends React.Component<any, any> {
           <Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}
                     bgList={[ 'https://static.iqycamp.com/images/fragment/rise_pl_0727_1_2.png',
                       'https://static.iqycamp.com/images/fragment/rise_pl_0727_2.png' ]}
-                    topList={[ 0, 169 ]} bottomList={[ 55, 0 ]}
-          />
+                    topList={[ 0, 169 ]} bottomList={[ 55, 0 ]}/>
           <div className="plp-running plp-block">
             <div className="p-r-header">
               <span className="p-r-h-title">进行中</span>

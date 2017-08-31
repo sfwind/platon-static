@@ -26,18 +26,19 @@
           font-size: @font_context;
           color: @color_help;
           font-weight: bolder;
-          &:before {
-            display: inline-block;
-            content: '';
-            width: 5px;
-            height: @font_click;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px;;
-            margin-bottom: 3px;
-            margin-right: 5px;
-            background-color: #55cbcb;
-            vertical-align: middle;
+          &.hot {
+            &:before {
+              content: ' ';
+              display: inline-block;
+              background: url('https://static.iqycamp.com/images/fragment/electronic_hot_icon.png?imageslim');
+              background-size: 20px 26px;
+              width: 20px;
+              height: 26px;
+              margin-bottom: 4px;
+              margin-left:5px;
+              margin-right: 5px;
+              vertical-align: middle;
+            }
           }
         }
 
@@ -45,7 +46,7 @@
           float: right;
           margin-right: 10px;
           font-size: @font_index;
-          color: #55cbcb;
+          color: #666;
           &:after {
             content: ' ';
             display: inline-block;
@@ -146,6 +147,27 @@
                 line-height: 20px;
                 color: @color_white;
                 vertical-align: middle;
+              }
+            }
+            .complete-person {
+              position: absolute;
+              height: 20px;
+              right: 5px;
+              bottom: 0;
+              z-index: 1;
+              .icon-person {
+                display: inline-block;
+                width: 14px;
+                height: 20px;
+                background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
+                background-size: 14px 20px;
+              }
+              .completed-person-count {
+                vertical-align: top;
+                display: inline-block;
+                height: 20px;
+                line-height: 20px;
+                color: #fff;
               }
             }
           }

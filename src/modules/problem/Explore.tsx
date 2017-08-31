@@ -115,12 +115,11 @@ export class Explore extends React.Component<any, any> {
           <div className="problem-catalog-list">
             <div className="problem-catalog">
               <div className="header">
-                <span className="catalog-name">热门小课</span>
+                <span className="catalog-name hot">热门小课</span>
               </div>
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">
                   {hotList ? hotList.map((problem, key) => {
-                    console.log(problem)
                     return (
                       <div onClick={() => this.clickProblem(problem)} style={{ width: `${this.picWidth}px` }}
                            className="problem-item-show swiper-slide">
@@ -136,7 +135,12 @@ export class Explore extends React.Component<any, any> {
                               <AssetImg type="success" size={12}
                                         style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
                               <span className="complete-text">已完成</span>
-                            </div> : null}
+                            </div> :
+                            <div className="complete-person">
+                              <div className="icon-person"/>
+                              <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
+                            </div>
+                          }
                           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                           <div className="problem-item-subCatalog">{problem.subCatalog}</div>
@@ -177,7 +181,11 @@ export class Explore extends React.Component<any, any> {
                                   <AssetImg type="success" size={12}
                                             style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
                                   <span className="complete-text">已完成</span>
-                                </div> : null
+                                </div> :
+                                <div className="complete-person">
+                                  <div className="icon-person"/>
+                                  <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
+                                </div>
                               }
                               <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                               <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
