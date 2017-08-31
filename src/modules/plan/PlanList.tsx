@@ -160,20 +160,6 @@ export default class PlanList extends React.Component<any, any> {
     const { runningPlanId, completedPlanId, trialClosedId } = location.query
     const { completedPlans = [], runningPlans = [], trialClosedPlans = [] } = planList
 
-    const renderCompletedPlans = () => {
-      if(completedPlans) {
-        return completedPlans.map((plan, key) => {
-
-          return (
-            <div className={`p-c-block ${key === 0 ? 'first' : ''}`} key={key}>
-            </div>
-          )
-        })
-      } else {
-        return null
-      }
-    }
-
     const renderDeadline = (deadline) => {
       if(deadline < 0) {
         return null
@@ -207,10 +193,10 @@ export default class PlanList extends React.Component<any, any> {
                 <div className="plp-empty-text">
                   <span>还没有学习中的课程哦</span>
                 </div>
-                <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span>
-                </div>
+                <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
               </div> :
               runningPlans.map((item, key) => {
+                console.log(item)
                 let style = {}
                 if(runningPlanId == item.planId && false) {
                   style = {
@@ -227,7 +213,10 @@ export default class PlanList extends React.Component<any, any> {
                        key={key} onClick={() => this.handleClickPlan(item)}>
                     <div className="p-r-b-item">
                       <div className="p-r-b-i-pic" style={{ width: `${this.runPicWidth}px` }}>
-                        <img className="p-r-b-i-pic-img" src={`${item.pic}`}/>
+                        <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
+                        <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
+                        <div className="problem-item-subCatalog">{item.problem.subCatalog}</div>
+                        {/*<img className="p-r-b-i-pic-img" src={`${item.problem.pic}`}/>*/}
                       </div>
                       <div className="p-r-b-i-text" style={{ width: `${this.runTextWidth}px` }}>
                         <div className="p-r-b-i-text-title">
@@ -311,8 +300,10 @@ export default class PlanList extends React.Component<any, any> {
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
                         <div className="p-c-b-pic">
-                          <img className="p-c-b-p-img" src={`${plan.pic}`}>
-                          </img>
+                          <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
+                          <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
+                          <div className="problem-item-subCatalog">{plan.problem.subCatalog}</div>
+                          {/*<img className="p-c-b-p-img" src={`${plan.pic}`}/>*/}
                         </div>
                         <div className="p-c-b-text">
                           <div className="p-c-b-t-left" style={{ width: `${this.completedLeftTextWidth}px` }}>
@@ -361,8 +352,10 @@ export default class PlanList extends React.Component<any, any> {
                           <div className={`bottom gap ${key === completedPlans.length - 1 ? 'last' : '' }`}/>
                         </div>
                         <div className="p-c-b-pic">
-                          <img className="p-c-b-p-img" src={`${plan.pic}`}>
-                          </img>
+                          <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
+                          <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
+                          <div className="problem-item-subCatalog">{plan.problem.subCatalog}</div>
+                          {/*<img className="p-c-b-p-img" src={`${plan.pic}`}/>*/}
                         </div>
                         <div className="p-c-b-text">
                           <div className="p-c-b-t-left" style={{ width: `${this.completedLeftTextWidth}px` }}>
