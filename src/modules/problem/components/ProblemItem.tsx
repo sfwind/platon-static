@@ -32,7 +32,10 @@ export default class ProblemItem extends React.Component<any,any>{
                     onClick={()=>this.props.clickHandler(problem)}>
         <div className="pic"
              style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
-          <AssetImg url={problem.pic} style={{width:'auto',height:'100%'}}/>
+          <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+          <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+          <div className="problem-item-subCatalog">{problem.subCatalog}</div>
+          {/*<AssetImg url={problem.pic} style={{width:'auto',height:'100%'}}/>*/}
         </div>
         <div className="desc"
              style={{width:`${(this.props.width?this.props.width:window.innerWidth) - this.picWidth - 35}px`,height:`${this.picHeight}px`}}>

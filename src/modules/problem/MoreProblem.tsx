@@ -29,7 +29,8 @@ export class MoreProblem extends React.Component<any,any> {
     const {dispatch} = this.props;
     dispatch(startLoad());
     loadCatalog(this.props.location.query.catalogId)
-      .then(res=>{
+    .then(res=>{
+      console.log(res)
         dispatch(endLoad());
         if(res.code === 200){
           this.setState({problemList:res.msg});
