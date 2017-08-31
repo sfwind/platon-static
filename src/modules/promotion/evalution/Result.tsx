@@ -111,36 +111,36 @@ export class Result extends React.Component<any,any> {
     return (
       <div className="eva-result">
         <div className="head">
-          <AssetImg url="https://static.iqycamp.com/images/eva_report_head2.png" height={80} width={236}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_report_head4.png" height={119} width={302}/>
         </div>
         <div className="result">
-          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_3.png" height={57} width={174} marginTop={-30}/>
           <div className="text-result">
-            你的洞察力天赋打败了{percent}%的人。
+            你的洞察力天赋打败了{percent}%的人！
           </div>
           <pre className="text">{result}</pre>
         </div>
         <div className="suggestion">
-          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_2.png" height={25} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_5.png" height={58} width={174} marginTop={-20}/>
           <pre className="text">{suggestion}</pre>
         </div>
         { learnFreeLimit ? null :
           <div className="schedule">
-            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_3.png" width={'100%'}/>
+            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_6.png" width={'100%'}/>
             <div className="class-more" onClick={()=>this.context.router.push('/rise/static/plan/view?id=9')}>了解更多</div>
           </div>}
         { learnFreeLimit ?
           <div className="free-get" onClick={()=>this.share()}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_7.png" height={57} width={226}/>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_9.png" height={57} width={226}/>
           </div> :
           <div className="free-get" onClick={()=>this.share()}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_6.png" height={57} width={226}/>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_8.png" height={57} width={226}/>
           </div>
         }
         <Alert { ...quitProps }
           show={this.state.showQuit}>
           <div className="global-pre">
-            {learnFreeLimit == 'true' ? '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'
+            {learnFreeLimit ? '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'
               : '系统已为你生成测评结果海报，分享还可以免费领取【洞察力强化课程】，去看看吧~'}
           </div>
         </Alert>

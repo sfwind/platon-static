@@ -178,8 +178,6 @@
           -webkit-border-radius: 26px;
           -moz-border-radius: 26px;
           border-radius: 26px;
-          line-height: 40px;
-          height: 40px;
           -webkit-box-shadow: 0 0 24px 25px rgba(0, 0, 0, 0.02);
           -moz-box-shadow: 0 0 24px 25px rgba(0, 0, 0, 0.02);
           box-shadow: 0 0 24px 25px rgba(0, 0, 0, 0.02);
@@ -192,21 +190,15 @@
           .wi-sequence {
             color: @color_strong;
             font-size: 2.4em;
-            display: inline-block;
             margin-left: 15px;
-            vertical-align: top;
-            margin-top: -1px;
+            display: table-cell;
+            width: 30px;
+            text-align: center;
           }
           .wi-text {
-            display: inline-block;
-            margin-left: 10px;
-            width: ~'calc(100% - 50px)';
+            display: table-cell;
             font-size: 1.5em;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            -ms-word-break: break-all;
-            word-break: break-all;
+            vertical-align: middle;
             &.just-one {
               width: ~'calc(100% - 10px)';
               margin-left: 20px;

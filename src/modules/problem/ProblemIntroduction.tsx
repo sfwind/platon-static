@@ -7,7 +7,7 @@ import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon, loadTrainPayParam
+  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
@@ -391,14 +391,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         if(whoArr.length === 1) {
           return (
             <div className="who-item">
-              <span style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text just-one">{who}</span>
+              <div style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text just-one">{who}</div>
             </div>
           )
         } else {
           return whoArr.map((item, key) => {
             return (
               <div className="who-item" key={key}>
-                <span style={{ fontSize: `${this.whoNumFontSize}px` }} className="wi-sequence">{key + 1}</span><span
+                <div style={{ fontSize: `${this.whoNumFontSize}px` }} className="wi-sequence">{key + 1}</div><span
                 style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text">{item}</span>
               </div>
             )
