@@ -109,6 +109,11 @@ export class Explore extends React.Component<any, any> {
               <img src={'https://static.iqycamp.com/images/fragment/problem_explore_banner_0831_1.png?imageslim'}
                    style={{ width: 'auto', height: '100%' }}/>
             </div>
+            <div className="banner-item swiper-slide"
+                 onClick={() => this.context.router.push('/rise/static/eva/start') }>
+              <img src={'https://static.iqycamp.com/images/fragment/operation_insight.jpg?imageslim'}
+                   style={{ width: 'auto', height: '100%' }}/>
+            </div>
             <div className="banner-item swiper-slide" onClick={() => this.goBanner(1)}>
               <img src={'https://static.iqycamp.com/images/problem_explore_banner_1_2.jpg?imageslim'}
                    style={{ width: 'auto', height: '100%' }}/>
