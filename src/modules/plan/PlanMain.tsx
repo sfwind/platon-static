@@ -169,21 +169,21 @@ export class PlanMain extends React.Component <any, any> {
           switch(tempCatalogId) {
             case 1:
               require('./PlanMainLessCategory/Green.less')
-              break;
+              break
             case 2:
               require('./PlanMainLessCategory/Yellow.less')
-              break;
+              break
             case 3:
               require('./PlanMainLessCategory/Orange.less')
-              break;
+              break
             case 4:
               require('./PlanMainLessCategory/Blue.less')
-              break;
+              break
             case 5:
               require('./PlanMainLessCategory/Purple.less')
-              break;
+              break
             default:
-              break;
+              break
           }
         }
       } else {
@@ -668,6 +668,9 @@ export class PlanMain extends React.Component <any, any> {
                   <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
                 </div>
                 <div className="desc">{typeMap[ item.type ].desc}</div>
+                {item.status !== 1 ?
+                    <div className="practice-start-btn"/> :
+                    null}
               </div>
             </div>
           )
