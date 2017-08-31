@@ -22,7 +22,6 @@ export default class UpMind extends React.Component<any,any> {
     const {dispatch} = this.props;
     dispatch(startLoad());
     loadAllProblems().then(res => {
-      console.log(res)
       dispatch(endLoad());
       if (res.code === 200) {
         let problems = {};
