@@ -1,47 +1,56 @@
-.certificate {
-  .certificate-container {
-    border: 5px solid #89c9ce;
-    margin: 5% 4% 0 4%;
-    height: ~"calc( 95vh - 35px )";
-    .upper {
+@import "../../../style/variable";
+
+.certificate-container{
+  height: 100%;
+  .certificate {
+    transform-origin: 0 0 0;
+    -webkit-transform-origin: 0 0 0;
+    background: url('https://static.iqycamp.com/images/certificate_bg.jpg?imageslim');
+    > .certificate-description{
+      position: absolute;
+      top: 130px;
+      color: @color_white;
+      width: 100%;
       text-align: center;
-      img {
-        width: 100%;
+      > .description-text1{
+        font-size: 20px;
       }
-      .name {
-        position: absolute;
-        top: 232px;
-        width: 200px;
-        left: 50%;
-        margin-left: -100px;
-        font-weight: bold;
-        font-size: 30px;
-        color: #333333;
-      }
-      .cong {
-        position: absolute;
-        top: 296px;
-        width: 300px;
-        left: 50%;
-        margin-left: -150px;
-        font-size: 13px;
-        letter-spacing: 1px;
-        line-height: 1.2em;
+      > .description-text2{
+        font-size: 36px;
       }
     }
-    .signature {
+    > .certificate-name{
+      width: 100%;
       position: absolute;
-      top: 385px;
-      width: 120px;
-      right: 10%;
+      top: 326px;
+      color: @color_title;
+      text-align: center;
+      font-size: 72px;
     }
-    .code {
+    > .name{
+      width: 100%;
       position: absolute;
-      bottom: 50px;
-      width: 300px;
-      left: 50%;
-      margin-left: -150px;
-      font-size: 12px;
+      top: 486px;
+      color: @color_title;
+      text-align: center;
+      font-size: 50px;
+    }
+    > .cong{
+      width: ~"calc(100% - 164px)";
+      position: absolute;
+      color: @color_title;
+      font-size: 32px;
+      top:577px;
+      margin:0 82px;
+    }
+    > .certificate-number{
+      width: 100%;
+      position: absolute;
+      top: 1264px;
+      color: #b6902f;
+      text-align: center;
+      font-size: 20px;
     }
   }
 }
+

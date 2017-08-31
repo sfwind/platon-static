@@ -3,10 +3,8 @@ import { connect } from "react-redux"
 import "./Personal.less"
 import * as _ from "lodash"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
-import DropDownList from  "../components/DropDownList";
-import { loadUserProfileInfo, submitProfileInfo } from "./async"
-import { pget, ppost, mark } from 'utils/request'
-import { changeTitle } from "utils/helpers"
+import DropDownList from  "../components/DropDownList"
+import { loadUserProfileInfo, submitProfileInfo, getRegions } from "./async"
 import { ButtonArea, Button } from "react-weui"
 
 const industryList = [
@@ -27,7 +25,7 @@ const industryList = [
   { id: "15", value: "物流" },
   { id: "16", value: "政府/公共事业/非营利" },
   { id: "17", value: "其他" }
-];
+]
 
 const workingLifeList = [
   { id: "2", value: "0" },
@@ -38,7 +36,7 @@ const workingLifeList = [
   { id: "7", value: "7~10年" },
   { id: "8", value: "10~15年" },
   { id: "9", value: "15年以上" }
-];
+]
 
 @connect(state => state)
 export default class Profile extends React.Component<any,any> {
@@ -47,7 +45,7 @@ export default class Profile extends React.Component<any,any> {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       function: null,
       industry: null,
@@ -55,41 +53,47 @@ export default class Profile extends React.Component<any,any> {
       city: null,
       province: null,
       realName: null,
+      ready:false,
     }
-    this.btnWidth = 690 / 750 * window.innerWidth;
+    this.btnWidth = 690 / 750 * window.innerWidth
   }
 
   componentWillMount() {
-    // mark({module: "打点", function: "个人中心", action: "打开我的信息页面"});
-    const { dispatch, region }= this.props;
-    dispatch(startLoad());
+    // mark({module: "打点", function: "个人中心", action: "打开我的信息页面"})
+    const { dispatch, location }= this.props
+    const { certificateNo } = location.query
+    dispatch(startLoad())
     loadUserProfileInfo().then(res => {
-      dispatch(endLoad());
+      dispatch(endLoad())
       if(res.code === 200) {
-        this.setState(_.merge({}, { defaultIsFull: res.msg.isFull }, res.msg));
+        if(res.msg.realName){
+          this.context.router.push({
+            pathname: '/rise/static/customer/certificate',
+            query: { certificateNo }
+          })
+        }else{
+          this.setState(_.merge({}, { ready:true }, res.msg))
+        }
       } else {
-        dispatch(alertMsg(res.msg));
+        dispatch(alertMsg(res.msg))
       }
     }).catch(err => {
-      dispatch(endLoad());
-      dispatch(alertMsg(err + ""));
-    });
+      dispatch(endLoad())
+      dispatch(alertMsg(err))
+    })
 
-    if(!region) {
-      pget('/rise/customer/region').then(res => {
-        if(res.code === 200) {
-          dispatch(set("region", res.msg));
-        } else {
-          dispatch(alertMsg(res.msg));
-        }
-      }).catch(err => dispatch(alertMsg(err.msg)));
-    }
+    getRegions().then(res => {
+      if(res.code === 200) {
+        dispatch(set("region", res.msg))
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(err => dispatch(alertMsg(err)))
   }
 
   componentDidMount() {
-    const { location, hiddenTab } = this.props;
-    const { goRise } = location.query;
-    hiddenTab();
+    const { hiddenTab } = this.props
+    hiddenTab()
   }
 
   changeValue(path, value) {
@@ -116,24 +120,25 @@ export default class Profile extends React.Component<any,any> {
       provinceId: provinceRegion.id,
       city: cityRegion.value,
       cityId: cityRegion.id
-    });
+    })
   }
 
   onChoiceIndustry(industry) {
-    this.setState({ industry: industry.value });
+    this.setState({ industry: industry.value })
   }
 
   onChoiceWorkingLife(workingLife) {
-    this.setState({ workingLife: workingLife.value });
+    this.setState({ workingLife: workingLife.value })
   }
 
   submitProfile() {
-    const { dispatch, location }= this.props;
-    const { city, province, industry, workingLife, bindMobile, realName } = this.state;
-    const functionValue = _.get(this.state, "function");
-    const { runningPlanId, goRise } = location.query;
+    const { dispatch, location }= this.props
+    const { city, province, industry, workingLife, realName } = this.state
+    const { certificateNo } = location.query
+    const functionValue = _.get(this.state, "function")
+
     if(city && province && industry && workingLife && functionValue && realName) {
-      dispatch(startLoad());
+      dispatch(startLoad())
       submitProfileInfo({
         city: city,
         province: province,
@@ -142,31 +147,19 @@ export default class Profile extends React.Component<any,any> {
         function: functionValue,
         realName: realName,
       }).then(res => {
-        dispatch(endLoad());
+        dispatch(endLoad())
         if(res.code === 200) {
-          //从rise付款页跳转过来的，填完个人信息后引导去学习页面
-          if(goRise) {
-            // 是否mobile已经绑定
-            if(!bindMobile) {
-              // 没有绑定过
-              this.context.router.push({
-                pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true, runningPlanId: runningPlanId }
-              })
-            } else {
-              // 绑定过
-              this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: runningPlanId } });
-            }
-          } else {
-            dispatch(alertMsg("提交成功"));
-          }
+          this.context.router.push({
+            pathname: '/rise/static/customer/certificate',
+            query: { certificateNo }
+          })
         } else {
-          dispatch(alertMsg(res.msg));
+          dispatch(alertMsg(res.msg))
         }
       }).catch(err => {
-        dispatch(endLoad());
-        dispatch(alertMsg(err + ""));
-      });
+        dispatch(endLoad())
+        dispatch(alertMsg(err + ""))
+      })
     } else {
       dispatch(alertMsg("请全部填写后提交"))
     }
@@ -176,7 +169,7 @@ export default class Profile extends React.Component<any,any> {
     const { region } = this.props
     const provinceList = _.get(region, "provinceList")
     const cityList = _.get(region, "cityList")
-    const { city, province, cityId, provinceId, industry, workingLife, bindMobile, defaultIsFull } = this.state
+    const { city, province, cityId, provinceId, industry, workingLife, ready } = this.state
     const functionValue = _.get(this.state, "function")
     const realName = _.get(this.state, "realName")
 
@@ -196,7 +189,7 @@ export default class Profile extends React.Component<any,any> {
     }
 
     const renderRegion = () => {
-      const userData = [ { value: province, id: provinceId }, { value: city, id: cityId } ];
+      const userData = [ { value: province, id: provinceId }, { value: city, id: cityId } ]
       return (
         <div className={provinceId && cityId?"select-wrapper-has":"select-wrapper"}>
           <DropDownList level={2} data={[provinceList,cityList]} userData={userData[1].id?userData:null}
@@ -206,11 +199,11 @@ export default class Profile extends React.Component<any,any> {
     }
 
     const renderIndustry = () => {
-      let myIndustry = { value: industry };
+      let myIndustry = { value: industry }
       for(let item in industryList) {
         if(_.isEqual(industryList[ item ].value, industry)) {
-          myIndustry.id = industryList[ item ].id;
-          break;
+          myIndustry.id = industryList[ item ].id
+          break
         }
       }
 
@@ -223,11 +216,11 @@ export default class Profile extends React.Component<any,any> {
     }
 
     const renderWorkingLife = () => {
-      let myWorkingLife = { value: workingLife };
+      let myWorkingLife = { value: workingLife }
       for(let item in workingLifeList) {
         if(_.isEqual(workingLifeList[ item ].value, workingLife)) {
-          myWorkingLife.id = workingLifeList[ item ].id;
-          break;
+          myWorkingLife.id = workingLifeList[ item ].id
+          break
         }
       }
 
@@ -239,6 +232,9 @@ export default class Profile extends React.Component<any,any> {
       )
     }
 
+    if(!ready){
+      return null
+    }
     return (
       <div className="profile">
         <div className="profile-container">
@@ -291,7 +287,7 @@ export default class Profile extends React.Component<any,any> {
         </div>
         <div className="padding-footer"></div>
       </div>
-    );
+    )
   }
 }
 
