@@ -131,7 +131,7 @@ export class Result extends React.Component<any,any> {
           </div>}
         { learnFreeLimit ?
           <div className="free-get" onClick={()=>this.share()}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_7.png" height={57} width={226}/>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_9.png" height={57} width={226}/>
           </div> :
           <div className="free-get" onClick={()=>this.share()}>
             <AssetImg url="https://static.iqycamp.com/images/free_get_8.png" height={57} width={226}/>
