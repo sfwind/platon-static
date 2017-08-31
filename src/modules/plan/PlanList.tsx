@@ -53,7 +53,6 @@ export default class PlanList extends React.Component<any, any> {
     dispatch(startLoad())
     const { runningPlanId, completedPlanId } = location.query
     loadPlanList().then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator, openWelcome, recommendations = [] } = res.msg
@@ -196,7 +195,6 @@ export default class PlanList extends React.Component<any, any> {
                 <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
               </div> :
               runningPlans.map((item, key) => {
-                console.log(item)
                 let style = {}
                 if(runningPlanId == item.planId && false) {
                   style = {
