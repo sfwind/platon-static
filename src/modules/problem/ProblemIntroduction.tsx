@@ -80,7 +80,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     openProblemIntroduction(id, free).then(res => {
       const { msg, code } = res
       if(code === 200) {
-        if(msg.buttonStatus === 1) {
+        if(msg.buttonStatus === 1 || msg.buttonStatus === 8 || msg.buttonStatus === 9) {
           /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
           if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios') {
             mark({
