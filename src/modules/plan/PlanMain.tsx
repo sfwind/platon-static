@@ -33,6 +33,8 @@ const typeMap = {
 const FREE_PROBLEM_ID = 9
 
 let printerWaitingTimer = null
+let startTime;
+let endTime;
 
 @connect(state => state)
 export class PlanMain extends React.Component <any, any> {
