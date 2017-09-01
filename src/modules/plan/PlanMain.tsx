@@ -33,11 +33,12 @@ const typeMap = {
 const FREE_PROBLEM_ID = 9
 
 let printerWaitingTimer = null
-let startTime;
-let endTime;
+let startTime
+let endTime
 
 @connect(state => state)
 export class PlanMain extends React.Component <any, any> {
+
   constructor() {
     super()
     this.state = {
@@ -167,25 +168,35 @@ export class PlanMain extends React.Component <any, any> {
             mustStudyDays: msg.mustStudyDays,
             freeProblem
           })
-          const tempCatalogId = msg.problem.catalogId
-          switch(tempCatalogId) {
-            case 1:
-              require('./PlanMainLessCategory/Green.less')
-              break
-            case 2:
-              require('./PlanMainLessCategory/Yellow.less')
-              break
-            case 3:
-              require('./PlanMainLessCategory/Orange.less')
-              break
-            case 4:
-              require('./PlanMainLessCategory/Blue.less')
-              break
-            case 5:
-              require('./PlanMainLessCategory/Purple.less')
-              break
-            default:
-              break
+
+          let node = document.getElementById('rise-main-container')
+          if(node) {
+            const tempCatalogId = msg.problem.catalogId
+            console.log('tempCatalogId', tempCatalogId)
+            switch(tempCatalogId) {
+              case 1:
+                node.classList.add("rise-main-container-green")
+                require('./PlanMainLessCategory/Green.less')
+                break
+              case 2:
+                node.classList.add("rise-main-container-yellow")
+                require('./PlanMainLessCategory/Yellow.less')
+                break
+              case 3:
+                node.classList.add("rise-main-container-orange")
+                require('./PlanMainLessCategory/Orange.less')
+                break
+              case 4:
+                node.classList.add("rise-main-container-blue")
+                require('./PlanMainLessCategory/Blue.less')
+                break
+              case 5:
+                node.classList.add("rise-main-container-purple")
+                require('./PlanMainLessCategory/Purple.less')
+                break
+              default:
+                break
+            }
           }
         }
       } else {
@@ -568,6 +579,17 @@ export class PlanMain extends React.Component <any, any> {
 
   onSetSidebarOpen(open) {
     const { currentIndex = 1 } = this.state
+    if(open) {
+      let node = document.getElementById('sidebar-content')
+      if(node) {
+        node.style.left = '70%'
+      }
+    } else {
+      let node = document.getElementById('sidebar-content')
+      if(node) {
+        node.style.left = '0'
+      }
+    }
     this.setState({ sidebarOpen: open }, () => this.updateSectionChoose(currentIndex))
   }
 
@@ -671,8 +693,8 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
                 <div className="desc">{typeMap[ item.type ].desc}</div>
                 {item.status !== 1 ?
-                    <div className="practice-start-btn"/> :
-                    null}
+                  <div className="practice-start-btn"/> :
+                  null}
               </div>
             </div>
           )
@@ -711,7 +733,7 @@ export class PlanMain extends React.Component <any, any> {
                 <div key={key} className={`chapter-area`}>
                   <div className="cell">
                     <div className="chapter">
-                      <div>
+                      <div style={{ whiteSpace: 'nowrap' }}>
                         <div className="label">{'第' + NumberToChinese(item.chapterId) + '章'}</div>
                         <div className="str"
                              style={{ maxWidth: `${window.innerWidth * 0.7 - 50}px` }}>{item.chapter}</div>
@@ -724,10 +746,10 @@ export class PlanMain extends React.Component <any, any> {
                              onClick={() => {
                                this.goSection(section.series)
                              }} key={index}>
-                          <div>
+                          <div style={{ whiteSpace: 'nowrap' }}>
                             <div className="label">{item.chapterId}.{section.sectionId}</div>
                             <div className="str"
-                                 style={{ maxWidth: `${window.innerWidth * 0.7 - 50}px` }}>{section.section}</div>
+                                 style={{ maxWidth: `${window.innerWidth * 0.7 - 70}px` }}>{section.section}</div>
                           </div>
                         </div>
                       )
@@ -998,16 +1020,18 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     return (
-      <div className="rise-main-container">
+      <div className="rise-main-container" id="rise-main-container">
         {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask">
           <AssetImg url="https://static.iqycamp.com/images/point_tutorial3.gif" width={150} marginLeft={20}/>
         </div> : null}
 
         {renderCard()}
-        <Sidebar sidebar={ renderSidebar() }
-                 open={this.state.sidebarOpen}
-                 onSetOpen={(open) => this.onSetSidebarOpen(open)}
-                 trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
+        <Sidebar
+          sidebar={ renderSidebar() } open={this.state.sidebarOpen}
+          contentClassName="sidebar-content" contentId="sidebar-content"
+          onSetOpen={(open) => this.onSetSidebarOpen(open)}
+          trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}
+        >
           <div className="header-img">
             <div className="back-img"/>
             {riseMember != 1 ?
@@ -1017,11 +1041,9 @@ export class PlanMain extends React.Component <any, any> {
             <div className="section-title">{problem.problem}</div>
             <div className="section">总得分：{point} 分</div>
             <div className="header-card-collection" onClick={() => this.goCardsCollection(problem.id)}>
-              <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png"
-                        width={97} height={85}/>
+              <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png" width={97} height={85}/>
             </div>
           </div>
-
           {renderBtnHeader()}
           {!isEmpty(planData) ?
             <div style={{ backgroundColor: '#FFF' }}>
@@ -1032,10 +1054,8 @@ export class PlanMain extends React.Component <any, any> {
                   return renderSection(item, idx)
                 }) : null}
               </SwipeableViews>
-            </div>
-            : null}
+            </div> : null}
         </Sidebar>
-
         {renderOtherComponents()}
       </div>
     )
