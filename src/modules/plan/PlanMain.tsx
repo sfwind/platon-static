@@ -928,7 +928,7 @@ export class PlanMain extends React.Component <any, any> {
                     </div>
                     <div className="step-two">
                       <img src="https://static.iqycamp.com/images/fragment/free_limit_printer_right.jpg?imageslim"/>
-                      <span>6个好友扫码上课<br/>￥50 奖学金 get！</span>
+                      <span>6人扫码完成课前测试<br/>￥50 奖学金 get！</span>
                     </div>
                     <div className="changed-tip">详情见“卡包”页面</div>
                   </div>
