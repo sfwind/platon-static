@@ -174,7 +174,7 @@ export class CouponCategory {
 }
 
 /**
- * 按钮状态
+ * 支付按钮状态
  */
 class ButtonStatus {
   /**
@@ -186,8 +186,9 @@ class ButtonStatus {
    */
   private notPaymentGroup: [number];
 
+
   constructor() {
-    this.paymentGroup = [ 1, 8, 9 ];
+    this.paymentGroup = [ ButtonStatus.NORMAL_PAYMENT, 8, 9 ];
     this.notPaymentGroup = [ 2, 3, 4, 5, 6, 7, 10 ]
   }
 
