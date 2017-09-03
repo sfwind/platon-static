@@ -102,7 +102,9 @@ export class PlanMain extends React.Component <any, any> {
       ],
       showedPayTip: false,
       sidebarOpen: false,
-      showExpiredDateWarning: false
+      showExpiredDateWarning: false,
+
+      relationTab: 'left'
     }
     changeTitle('圈外同学')
   }
@@ -175,23 +177,23 @@ export class PlanMain extends React.Component <any, any> {
             console.log('tempCatalogId', tempCatalogId)
             switch(tempCatalogId) {
               case 1:
-                node.classList.add("rise-main-container-green")
+                node.classList.add('rise-main-container-green')
                 require('./PlanMainLessCategory/Green.less')
                 break
               case 2:
-                node.classList.add("rise-main-container-yellow")
+                node.classList.add('rise-main-container-yellow')
                 require('./PlanMainLessCategory/Yellow.less')
                 break
               case 3:
-                node.classList.add("rise-main-container-orange")
+                node.classList.add('rise-main-container-orange')
                 require('./PlanMainLessCategory/Orange.less')
                 break
               case 4:
-                node.classList.add("rise-main-container-blue")
+                node.classList.add('rise-main-container-blue')
                 require('./PlanMainLessCategory/Blue.less')
                 break
               case 5:
-                node.classList.add("rise-main-container-purple")
+                node.classList.add('rise-main-container-purple')
                 require('./PlanMainLessCategory/Purple.less')
                 break
               default:
@@ -617,15 +619,31 @@ export class PlanMain extends React.Component <any, any> {
     })
   }
 
+  onClickExchangeRelationTab(choose) {
+    switch(choose) {
+      case 'left':
+        this.setState({ relationTab: 'left' })
+        break
+      case 'right':
+        this.setState({ relationTab: 'right' })
+        break
+      default:
+        break
+    }
+  }
+
   render() {
     const {
       currentIndex, planData, showScoreModal, bgList,
-      selectProblem, riseMember, riseMemberTips, chapterList, expired, _t
+      selectProblem, riseMember, riseMemberTips, chapterList, expired,
+      _t, relationTab
     } = this.state
     const { location, completePracticePlanId, dispatch } = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus, free
     } = planData
+
+    console.log(this.state)
 
     const completePracticeRender = (item) => {
       if(item.status !== 1) {
@@ -758,6 +776,19 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
               )
             }) : null}
+          </div>
+        </div>
+      )
+    }
+
+    const renderRelationTab = () => {
+      return (
+        <div className="relation-tab">
+          <div className={`${relationTab === 'left' ? 'selected' : ''} `}
+               onClick={() => {this.onClickExchangeRelationTab('left')}}>小课详情
+          </div>
+          <div className={`${relationTab === 'right' ? 'selected' : ''} `}
+               onClick={() => {this.onClickExchangeRelationTab('right')}}>关联小课
           </div>
         </div>
       )
@@ -1019,6 +1050,36 @@ export class PlanMain extends React.Component <any, any> {
       }
     }
 
+    const renderProblemLearn = () => {
+      return (
+        <section>
+          {renderBtnHeader()}
+          {!isEmpty(planData) ?
+            <div style={{ backgroundColor: '#FFF' }}>
+              <SwipeableViews ref="planSlider" index={currentIndex - 1}
+                              onTransitionEnd={() => this.onTransitionEnd()}
+                              onChangeIndex={(index, indexLatest) => this.goSection(index + 1)}>
+                {sections ? sections.map((item, idx) => {
+                  return renderSection(item, idx)
+                }) : null}
+              </SwipeableViews>
+            </div> : null}
+        </section>
+      )
+    }
+
+    const renderRecommendation = () => {
+      return (
+        <section className="problem-relation" style={{ width: window.innerWidth - 40 }}>
+          <div className="problem-items-box">
+            <div className="problem-item-single">
+
+            </div>
+          </div>
+        </section>
+      )
+    }
+
     return (
       <div className="rise-main-container" id="rise-main-container">
         {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask">
@@ -1034,27 +1095,39 @@ export class PlanMain extends React.Component <any, any> {
         >
           <div className="header-img">
             <div className="back-img"/>
-            {riseMember != 1 ?
-              <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                   onClick={() => this.goRiseMemberTips()}>
-              </div> : null}
+            {
+              relationTab === 'left' ?
+                riseMember != 1 ?
+                  <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                       onClick={() => this.goRiseMemberTips()}>
+                  </div> :
+                  null :
+                <div className="collection-box">
+                  <div>
+                    收藏
+                  </div>
+                  <div>
+                    取消收藏
+                  </div>
+                </div>
+            }
             <div className="section-title">{problem.problem}</div>
-            <div className="section">总得分：{point} 分</div>
+            {
+              relationTab === 'left' ?
+                <div className="section">总得分：{point} 分</div> :
+                <div className="section">{selectProblem.catalog}-{selectProblem.subCatalog}</div>
+            }
+
             <div className="header-card-collection" onClick={() => this.goCardsCollection(problem.id)}>
               <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png" width={97} height={85}/>
             </div>
           </div>
-          {renderBtnHeader()}
-          {!isEmpty(planData) ?
-            <div style={{ backgroundColor: '#FFF' }}>
-              <SwipeableViews ref="planSlider" index={currentIndex - 1}
-                              onTransitionEnd={() => this.onTransitionEnd()}
-                              onChangeIndex={(index, indexLatest) => this.goSection(index + 1)}>
-                {sections ? sections.map((item, idx) => {
-                  return renderSection(item, idx)
-                }) : null}
-              </SwipeableViews>
-            </div> : null}
+          {renderRelationTab()}
+          {
+            relationTab === 'left' ?
+              renderProblemLearn() :
+              renderRecommendation()
+          }
         </Sidebar>
         {renderOtherComponents()}
       </div>
