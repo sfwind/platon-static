@@ -31,7 +31,12 @@ export default class Main extends React.Component<any, any> {
     getCertificate(certificateNo).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState(res.msg)
+        //用户没有填姓名时，跳转填写姓名
+        if(!res.msg.name){
+          this.context.router.push({pathname:'/rise/static/customer/certificate/profile', query:{certificateNo}})
+        }else{
+          this.setState(res.msg)
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }

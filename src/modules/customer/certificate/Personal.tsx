@@ -66,14 +66,7 @@ export default class Profile extends React.Component<any,any> {
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        if(res.msg.realName){
-          this.context.router.push({
-            pathname: '/rise/static/customer/certificate',
-            query: { certificateNo }
-          })
-        }else{
-          this.setState(_.merge({}, { ready:true }, res.msg))
-        }
+        this.setState(_.merge({}, { ready:true }, res.msg))
       } else {
         dispatch(alertMsg(res.msg))
       }
