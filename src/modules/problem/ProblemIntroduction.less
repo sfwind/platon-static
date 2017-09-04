@@ -1,6 +1,102 @@
 @import "../../style/variable";
 
 .problem-introduction {
+  background-color: #F5F5F5;
+
+  .header-img {
+    position: relative;
+    height: 175px;
+    background-color: #CCEAEB;
+    img {
+      display: block;
+    }
+    overflow: hidden;
+    > .back-img {
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      left: ~"calc(50% - 72.5px)";
+      background-size: 100% 100% !important;
+
+      &.catalog1 {
+        background: url("@{imgPathFragment}/back_img_green_1.png?imageslim");
+      }
+      &.catalog2 {
+        background: url("@{imgPathFragment}/back_img_yellow_1.png?imageslim");
+      }
+      &.catalog3 {
+        background: url("@{imgPathFragment}/back_img_orange_1.png?imageslim");
+      }
+      &.catalog4 {
+        background: url("@{imgPathFragment}/back_img_blue_1.png?imageslim");
+      }
+      &.catalog5 {
+        background: url("@{imgPathFragment}/back_img_purple_1.png?imageslim");
+      }
+    }
+    > .problem-collect {
+      width: 50px;
+      height: 45px;
+      position: absolute;
+      z-index: 20;
+      right: 10px;
+      bottom: 10px;
+      background: url("@{imgPathFragment}/problem_uncollect.png?imageslim") no-repeat center 10%;
+      &.collected {
+        background: url("@{imgPathFragment}/problem_collected.png?imageslim") no-repeat center 10%;
+      }
+      background-size: 22px 22px !important;
+      > span {
+        width: 100%;
+        display: block;
+        position: absolute;
+        text-align: center;
+        bottom: 0;
+        color: #fff;
+      }
+    }
+    > .section-title {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      font-size: @font_title;
+      color: #fff;
+      line-height: @font_title;
+      margin-top: 15%;
+    }
+    > .complete-person {
+      position: absolute;
+      height: 20px;
+      z-index: 1;
+      width: 100%;
+      text-align: center;
+      margin: ~"calc(15% + 30px)" auto 0;
+      .icon-person {
+        display: inline-block;
+        width: 14px;
+        height: 20px;
+        background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
+        background-size: 14px 20px;
+      }
+      .completed-person-count {
+        vertical-align: top;
+        display: inline-block;
+        height: 20px;
+        line-height: 20px;
+        color: #fff;
+        font-size: 1.1em;
+      }
+    }
+    > .section {
+      position: absolute;
+      bottom: 0;
+      left: 15px;
+      font-size: @font_help;
+      line-height: @font_help;
+      margin-bottom: 10px;
+    }
+  }
+
   > .mask {
     position: fixed;
     z-index: 10;
@@ -46,6 +142,29 @@
       }
     }
   }
+
+  .relation-tab {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+    background-color: #F5F5F5;
+    > div {
+      display: inline-block;
+      float: left;
+      height: 49px;
+      width: 50%;
+      color: #999999;
+      text-align: center;
+      line-height: 50px;
+      font-size: 1.5em;
+
+      &.selected {
+        border-bottom: 1px solid #55cbcb;
+        color: #55cbcb;
+      }
+    }
+  }
+
   .pi-content {
     background-color: #DFEBF4;
     padding: 25px;
@@ -347,6 +466,143 @@
       color: @color_title;
       font-size: 1.5em;
       line-height: 26px;
+    }
+  }
+
+  .problem-relation {
+    min-height: 132px;
+    margin: 20px auto;
+    .problem-item-box {
+      width: 100%;
+      background-color: #FFF;
+      border-radius: 5px;
+      padding-bottom: 1px;
+      .split {
+        height: 1px;
+        width: 100%;
+        background-color: #F5F5F5;
+      }
+      .relation-problem-item {
+        width: ~"calc(100% - 30px)";
+        border-bottom: 1px solid #ccc;
+        height: 115px;
+        margin: 10px 0;
+        padding: 0 15px;
+        position: relative;
+        &.last {
+          border-bottom: none;
+        }
+        .problem-img {
+          position: relative;
+          margin-top: 15px;
+          width: 138px;
+          height: 85px;
+          display: inline-block;
+          overflow: hidden;
+          .problem-item-backcolor {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-size: 100% 100% !important;
+            border-radius: 5px;
+            &.catalog1 {
+              background: -webkit-gradient(linear, 0 top, 0 bottom, from(#71d2aa), to(#4aa680)) !important;
+            }
+            &.catalog2 {
+              background: -webkit-gradient(linear, 0 top, 0 bottom, from(#e8cb5e), to(#ea9f00)) !important;
+            }
+            &.catalog3 {
+              background: -webkit-gradient(linear, 0 top, 0 bottom, from(#e7a674), to(#e96a06)) !important;
+            }
+            &.catalog4 {
+              background: -webkit-gradient(linear, 0 top, 0 bottom, from(#6bd2ea), to(#05789c)) !important;
+            }
+            &.catalog5 {
+              background: -webkit-gradient(linear, 0 top, 0 bottom, from(#a0b5eb), to(#376cd5)) !important;
+            }
+          }
+          .problem-item-backimg {
+            width: 60px;
+            height: 60px;
+            left: ~"calc(50% - 30px)";
+            top: ~"calc(50% - 30px)";
+            position: absolute;
+            background-size: 100% 100% !important;
+            &.catalog1 {
+              background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
+            }
+            &.catalog2 {
+              background: url("https://static.iqycamp.com/images/fragment/back_img_yellow_1.png?imageslim");
+            }
+            &.catalog3 {
+              background: url("https://static.iqycamp.com/images/fragment/back_img_orange_1.png?imageslim");
+            }
+            &.catalog4 {
+              background: url("https://static.iqycamp.com/images/fragment/back_img_blue_1.png?imageslim");
+            }
+            &.catalog5 {
+              background: url("https://static.iqycamp.com/images/fragment/back_img_purple_1.png?imageslim");
+            }
+          }
+          .problem-item-subCatalog {
+            width: 100%;
+            color: #fff;
+            position: absolute;
+            text-align: center;
+            font-size: @font_title;
+            line-height: @font_title;
+            margin-top: 18%;
+            opacity: 0.8;
+          }
+          .complete-person {
+            position: absolute;
+            height: 20px;
+            right: 10px;
+            bottom: 0;
+            z-index: 1;
+            .icon-person {
+              display: inline-block;
+              width: 14px;
+              height: 20px;
+              background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
+              background-size: 14px 20px;
+            }
+            .completed-person-count {
+              vertical-align: top;
+              display: inline-block;
+              height: 20px;
+              line-height: 20px;
+              color: #fff;
+              font-size: 1.1em;
+            }
+          }
+          img {
+            display: block;
+            border-radius: 3px;
+            margin-left: -35px;
+          }
+        }
+        .problem-problem {
+          width: ~"calc(100% - 175px)";
+          position: absolute;
+          display: inline-block;
+          top: 15px;
+          margin-left: 10px;
+          color: #333;
+          font-size: 1.5em;
+          line-height: 20px;
+        }
+        .problem-catalog {
+          width: ~"calc(100% - 175px)";
+          position: absolute;
+          display: inline-block;
+          top: 66px;
+          margin-left: 10px;
+          color: #666;
+          font-size: 1.1em;
+          line-height: 11px;
+        }
+      }
     }
   }
 

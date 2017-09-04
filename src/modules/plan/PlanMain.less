@@ -22,6 +22,35 @@
       left: ~"calc(50% - 72.5px)";
       background-size: 100% 100% !important;
     }
+    > .outline {
+      width: 25px;
+      height: 45px;
+      background-size: 25px 20px !important;
+      position: absolute;
+      left: 10px;
+      top: 20px;
+      & span {
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        color: #fff;
+      }
+    }
+    > .card-collection {
+      position: absolute;
+      width: 25px;
+      height: 45px;
+      left: 10px;
+      top: 80px;
+      background: url("@{imgPathFragment}/card-collection_1.png?imageslim") no-repeat;
+      background-size: 25px 25px;
+      & span {
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        color: #fff;
+      }
+    }
     > .section-title {
       position: absolute;
       width: 100%;
@@ -60,20 +89,6 @@
       &.selected {
         border-bottom: 1px solid #55cbcb;
         color: #55cbcb;
-      }
-    }
-  }
-
-  .problem-relation {
-    min-height: 145px;
-    margin: 20px auto;
-    .problem-item-box {
-      width: 100%;
-      height: 125px;
-      background-color: #FFF;
-      .problem-item-single {
-        width: 85px;
-        margin-top: 20px;
       }
     }
   }
@@ -364,7 +379,7 @@
   }
 
   .trial-tip {
-    background: url('https://static.iqycamp.com/images/fragment/become_risemember_1.png?imageslim') no-repeat center center/100% 100%;
+    background: url('@{imgPathFragment}/become_risemember_1.png?imageslim') no-repeat center center/100% 100%;
     position: absolute;
     z-index: 20;
     right: 0;
@@ -375,13 +390,6 @@
     &.open {
       animation: riseMember-left-show 1s alternate forwards;
     }
-  }
-
-  .collection-box {
-    position: absolute;
-    z-index: 20;
-    right: 0;
-    bottom: 10px;
   }
 
   .submit-btn-footer {
@@ -457,16 +465,16 @@
             z-index: 1 !important;
           }
           .warmup {
-            background: url("https://static.iqycamp.com/images/fragment/category_warmup_1.png?imageslim");
+            background: url("@{imgPathFragment}/category_warmup_1.png?imageslim");
           }
           .application {
-            background: url("https://static.iqycamp.com/images/fragment/category_application_1.png?imageslim");
+            background: url("@{imgPathFragment}/category_application_1.png?imageslim");
           }
           .challenge {
-            background: url("https://static.iqycamp.com/images/fragment/category_challenge_1.png?imageslim");
+            background: url("@{imgPathFragment}/category_challenge_1.png?imageslim");
           }
           .knowledge {
-            background: url("https://static.iqycamp.com/images/fragment/category_knowledge_1.png?imageslim");
+            background: url("@{imgPathFragment}/category_knowledge_1.png?imageslim");
           }
         }
         > .practice-complete {
@@ -543,7 +551,7 @@
       font-size: @font_title;
       line-height: @font_title;
       font-weight: bolder;
-      background-color: #7FD8F0;
+      background-color: #252933;
       width: 100%;
       .content {
         padding-left: 10px;
@@ -553,12 +561,15 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         padding-right: 10px;
+        color: #999;
+        font-size: 18px;
       }
     }
     .side-content {
-      background-color: #7ACFE6;
+      background-color: #252933;
       .chapter-area {
         width: 100%;
+        color: #999;
         &:not(:nth-last-of-type(1)) {
           border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
@@ -594,11 +605,46 @@
           height: 60px;
         }
         .section {
-          font-size: @font_click;
+          font-size: 15px;
           line-height: @font_click;
           height: 50px;
           &.open {
-            background-color: #7FD8F0;
+            background-color: #1c1f28;
+            color: #fff;
+          }
+        }
+        .description {
+          position: relative;
+          > div {
+            position: relative;
+            left: 15px;
+            width: 20px;
+            height: 23px;
+            background: url('@{imgPathFragment}/sidebar-description.png?imageslim') no-repeat center;
+            background-size: 20px 23px;
+          }
+          > span {
+            position: relative;
+            left: 20px;
+            font-size: 16px;
+            color: #999;
+          }
+        }
+        .extension {
+          position: relative;
+          > div {
+            position: relative;
+            left: 15px;
+            width: 20px;
+            height: 23px;
+            background: url('@{imgPathFragment}/sidebar-extension.png?imageslim') no-repeat center;
+            background-size: 20px 23px;
+          }
+          > span {
+            position: relative;
+            left: 20px;
+            font-size: 16px;
+            color: #999;
           }
         }
       }
@@ -833,13 +879,6 @@
     }
   }
 
-  .header-card-collection {
-    display: none;
-    position: absolute;
-    left: ~"calc(50% - 42px)";
-    top: 125px;
-    z-index: 10;
-  }
 }
 
 @keyframes riseMember-left-show {

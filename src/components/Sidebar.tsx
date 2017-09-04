@@ -20,7 +20,7 @@ const defaultStyles = {
     top: 0,
     bottom: 0,
     transition: 'transform .3s ease-out',
-    WebkitTransition: '-webkit-transform .3s ease-out',
+    WebkitTransition: '-webkit-transform .3s linear',
     willChange: 'transform',
     overflow: 'visible',
     backgroundColor: '#76C8DF',
@@ -35,7 +35,7 @@ const defaultStyles = {
     bottom: 0,
     overflowY: 'scroll',
     WebkitOverflowScrolling: 'touch',
-    transition: 'left .3s ease-out, right .3s ease-out'
+    transition: 'left .3s linear, right .3s linear'
   },
   overlay: {
     zIndex: 550,
@@ -46,7 +46,7 @@ const defaultStyles = {
     bottom: 0,
     opacity: 0,
     visibility: 'hidden',
-    transition: 'opacity .3s ease-out, visibility .3s ease-out',
+    transition: 'opacity .3s linear, visibility .3s linear',
     // backgroundColor: 'rgba(0,0,0,.3)'
   },
   dragHandle: {
@@ -328,12 +328,12 @@ export class Sidebar extends Component {
       <div {...rootProps}>
         <div className={this.props.sidebarClassName} style={sidebarStyle} ref={this.saveSidebarRef}>
           {this.props.sidebar}
-          <div className={`side-bar-controller ${this.state.ctlOpen ? 'open' : ''}`}
-               onClick={() => {
-                 this.props.trigger()
-               }}>
-            <span>{this.props.open ? '收起' : '提纲'}</span>
-          </div>
+          {/*<div className={`side-bar-controller ${this.state.ctlOpen ? 'open' : ''}`}*/}
+               {/*onClick={() => {*/}
+                 {/*this.props.trigger()*/}
+               {/*}}>*/}
+            {/*<span>{this.props.open ? '收起' : '提纲'}</span>*/}
+          {/*</div>*/}
         </div>
         <div className={this.props.overlayClassName} style={overlayStyle}
              role="presentation" tabIndex="0"

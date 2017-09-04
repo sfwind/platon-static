@@ -162,7 +162,7 @@ export class ImprovementReport extends React.Component<any, any> {
                         <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                         <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                         <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                        <AssetImg url={problem.pic} height={63}/>
+                        {/*<AssetImg url={problem.pic} height={63}/>*/}
                       </div>
                       <div className="problem-problem">{problem.problem}</div>
                       <div className="problem-view"

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './PlanMain.less'
 import {
   loadPlan, completePlan, updateOpenRise, markPlan,
-  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess
+  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess, loadRecommendations, disCollectProblm, collectProblem
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import AssetImg from '../../components/AssetImg'
@@ -104,7 +104,9 @@ export class PlanMain extends React.Component <any, any> {
       sidebarOpen: false,
       showExpiredDateWarning: false,
 
-      relationTab: 'left'
+      relationTab: 'left',
+      relationProblems: [],
+      problemCollected: false
     }
     changeTitle('圈外同学')
   }
@@ -161,45 +163,15 @@ export class PlanMain extends React.Component <any, any> {
       blockMsg = msg
       if(code === 200) {
         if(msg !== null) {
-          // 是否是限免小课
-          const freeProblem = msg.problemId === FREE_PROBLEM_ID
           this.setState({
             planData: msg,
             currentIndex: msg.currentSeries,
             selectProblem: msg.problem,
             mustStudyDays: msg.mustStudyDays,
-            freeProblem
+            problemCollected: msg.problemCollected
           })
-
-          let node = document.getElementById('rise-main-container')
-          if(node) {
-            const tempCatalogId = msg.problem.catalogId
-            console.log('tempCatalogId', tempCatalogId)
-            switch(tempCatalogId) {
-              case 1:
-                node.classList.add('rise-main-container-green')
-                require('./PlanMainLessCategory/Green.less')
-                break
-              case 2:
-                node.classList.add('rise-main-container-yellow')
-                require('./PlanMainLessCategory/Yellow.less')
-                break
-              case 3:
-                node.classList.add('rise-main-container-orange')
-                require('./PlanMainLessCategory/Orange.less')
-                break
-              case 4:
-                node.classList.add('rise-main-container-blue')
-                require('./PlanMainLessCategory/Blue.less')
-                break
-              case 5:
-                node.classList.add('rise-main-container-purple')
-                require('./PlanMainLessCategory/Purple.less')
-                break
-              default:
-                break
-            }
-          }
+          // 区分加载样式表
+          this.handleLoadStyleSheet(msg.problem.catalogId)
         }
       } else {
         dispatch(alertMsg(msg))
@@ -619,16 +591,35 @@ export class PlanMain extends React.Component <any, any> {
     })
   }
 
-  onClickExchangeRelationTab(choose) {
-    switch(choose) {
-      case 'left':
-        this.setState({ relationTab: 'left' })
-        break
-      case 'right':
-        this.setState({ relationTab: 'right' })
-        break
-      default:
-        break
+  handleLoadStyleSheet(catalogId) {
+    // 区分加载样式表
+    let node = document.getElementById('rise-main-container')
+    if(node) {
+      const tempCatalogId = catalogId
+      switch(tempCatalogId) {
+        case 1:
+          node.classList.add('rise-main-container-green')
+          require('./PlanMainLessCategory/Green.less')
+          break
+        case 2:
+          node.classList.add('rise-main-container-yellow')
+          require('./PlanMainLessCategory/Yellow.less')
+          break
+        case 3:
+          node.classList.add('rise-main-container-orange')
+          require('./PlanMainLessCategory/Orange.less')
+          break
+        case 4:
+          node.classList.add('rise-main-container-blue')
+          require('./PlanMainLessCategory/Blue.less')
+          break
+        case 5:
+          node.classList.add('rise-main-container-purple')
+          require('./PlanMainLessCategory/Purple.less')
+          break
+        default:
+          break
+      }
     }
   }
 
@@ -636,14 +627,13 @@ export class PlanMain extends React.Component <any, any> {
     const {
       currentIndex, planData, showScoreModal, bgList,
       selectProblem, riseMember, riseMemberTips, chapterList, expired,
-      _t, relationTab
+      _t, relationTab, problemCollected
     } = this.state
     const { location, completePracticePlanId, dispatch } = this.props
     const {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus, free
     } = planData
 
-    console.log(this.state)
 
     const completePracticeRender = (item) => {
       if(item.status !== 1) {
@@ -737,12 +727,18 @@ export class PlanMain extends React.Component <any, any> {
                }}>
             <div className="chapter-area">
               <div className="cell">
-                <div className="chapter" onClick={() => this.problemReview(problem.id)}>小课介绍</div>
+                <div className="chapter description" onClick={() => this.problemReview(problem.id)}>
+                  <div/>
+                  <span>小课介绍</span>
+                </div>
               </div>
             </div>
             <div className="chapter-area">
               <div className="cell">
-                <div className="chapter" onClick={() => this.essenceShare(problem.id, currentIndex)}>延伸学习</div>
+                <div className="chapter extension" onClick={() => this.essenceShare(problem.id, currentIndex)}>
+                  <div/>
+                  <span>延伸学习</span>
+                </div>
               </div>
             </div>
 
@@ -776,19 +772,6 @@ export class PlanMain extends React.Component <any, any> {
                 </div>
               )
             }) : null}
-          </div>
-        </div>
-      )
-    }
-
-    const renderRelationTab = () => {
-      return (
-        <div className="relation-tab">
-          <div className={`${relationTab === 'left' ? 'selected' : ''} `}
-               onClick={() => {this.onClickExchangeRelationTab('left')}}>小课详情
-          </div>
-          <div className={`${relationTab === 'right' ? 'selected' : ''} `}
-               onClick={() => {this.onClickExchangeRelationTab('right')}}>关联小课
           </div>
         </div>
       )
@@ -1068,18 +1051,6 @@ export class PlanMain extends React.Component <any, any> {
       )
     }
 
-    const renderRecommendation = () => {
-      return (
-        <section className="problem-relation" style={{ width: window.innerWidth - 40 }}>
-          <div className="problem-items-box">
-            <div className="problem-item-single">
-
-            </div>
-          </div>
-        </section>
-      )
-    }
-
     return (
       <div className="rise-main-container" id="rise-main-container">
         {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask">
@@ -1091,43 +1062,24 @@ export class PlanMain extends React.Component <any, any> {
           sidebar={ renderSidebar() } open={this.state.sidebarOpen}
           contentClassName="sidebar-content" contentId="sidebar-content"
           onSetOpen={(open) => this.onSetSidebarOpen(open)}
-          trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}
-        >
+          trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
           <div className="header-img">
             <div className="back-img"/>
-            {
-              relationTab === 'left' ?
-                riseMember != 1 ?
-                  <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                       onClick={() => this.goRiseMemberTips()}>
-                  </div> :
-                  null :
-                <div className="collection-box">
-                  <div>
-                    收藏
-                  </div>
-                  <div>
-                    取消收藏
-                  </div>
-                </div>
-            }
-            <div className="section-title">{problem.problem}</div>
-            {
-              relationTab === 'left' ?
-                <div className="section">总得分：{point} 分</div> :
-                <div className="section">{selectProblem.catalog}-{selectProblem.subCatalog}</div>
-            }
-
-            <div className="header-card-collection" onClick={() => this.goCardsCollection(problem.id)}>
-              <AssetImg url="https://static.iqycamp.com/images/fragment/card-collection.png" width={97} height={85}/>
+            <div className="outline" onClick={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
+              <span>提纲</span>
             </div>
+            <div className="card-collection" onClick={() => this.goCardsCollection(problem.id)}>
+              <span>卡包</span>
+            </div>
+            {riseMember != 1 ?
+              <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                   onClick={() => this.goRiseMemberTips()}>
+              </div> :
+              null}
+            <div className="section-title">{problem.problem}</div>
+            <div className="section">总得分：{point} 分</div>
           </div>
-          {renderRelationTab()}
-          {
-            relationTab === 'left' ?
-              renderProblemLearn() :
-              renderRecommendation()
-          }
+          {renderProblemLearn()}
         </Sidebar>
         {renderOtherComponents()}
       </div>
