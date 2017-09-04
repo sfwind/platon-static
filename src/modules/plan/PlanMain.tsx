@@ -106,7 +106,6 @@ export class PlanMain extends React.Component <any, any> {
 
       relationTab: 'left',
       relationProblems: [],
-      problemCollected: false
     }
     changeTitle('圈外同学')
   }
@@ -168,7 +167,6 @@ export class PlanMain extends React.Component <any, any> {
             currentIndex: msg.currentSeries,
             selectProblem: msg.problem,
             mustStudyDays: msg.mustStudyDays,
-            problemCollected: msg.problemCollected
           })
           // 区分加载样式表
           this.handleLoadStyleSheet(msg.problem.catalogId)
@@ -627,7 +625,7 @@ export class PlanMain extends React.Component <any, any> {
     const {
       currentIndex, planData, showScoreModal, bgList,
       selectProblem, riseMember, riseMemberTips, chapterList, expired,
-      _t, relationTab, problemCollected
+      _t, relationTab
     } = this.state
     const { location, completePracticePlanId, dispatch } = this.props
     const {

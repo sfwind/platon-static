@@ -41,7 +41,7 @@ export default class ProblemGallery extends React.Component<any, any> {
   }
 
   render() {
-    const { runningPlans = [], donePlans = [], point } = this.state
+    const { runningPlans = [], donePlans = [], point, problemCollections = [] } = this.state
 
     const renderGalleyList = (plans, isHistory) => {
       return (
@@ -66,6 +66,27 @@ export default class ProblemGallery extends React.Component<any, any> {
       )
     }
 
+    const renderProblemCollection = () => {
+      if(problemCollections.length === 0) {
+        return (
+          <div className="item">
+            <div className="item-label" style={{ color: '#999999' }}>无</div>
+          </div>
+        )
+      } else {
+        return (
+          problemCollections.map((problem, index) => (
+            <div key={index} className="item" onClick={() => this.context.router.push(`/rise/static/plan/view?id=${problem.id}`)}>
+              <div className="item-label">
+                {problem.problem}
+              </div>
+              <div className="item-content"/>
+            </div>
+          ))
+        )
+      }
+    }
+
     return (
       <div className="problem-gallery">
         <div className="problem-galley-header" onClick={() => this.context.router.push({
@@ -78,7 +99,6 @@ export default class ProblemGallery extends React.Component<any, any> {
             {point}{'积分'}
           </div>
         </div>
-
         <div className="problem-galley-container">
           <div className="galley-module">
             <div className="galley-module-header">
@@ -86,9 +106,10 @@ export default class ProblemGallery extends React.Component<any, any> {
                 已收藏
               </div>
             </div>
-            {renderGalleyList(runningPlans, false)}
+            <div className="galley-module-content">
+            {renderProblemCollection()}
+            </div>
           </div>
-
           <div className="galley-module">
             <div className="galley-module-header">
               <div className="label">
@@ -97,7 +118,6 @@ export default class ProblemGallery extends React.Component<any, any> {
             </div>
             {renderGalleyList(runningPlans, false)}
           </div>
-
           <div className="galley-module">
             <div className="galley-module-header">
               <div className="label">
@@ -111,7 +131,7 @@ export default class ProblemGallery extends React.Component<any, any> {
              onClick={() => {window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=504190178&idx=1&sn=35594e68561fdf8dba1c60e999d55f40&chksm=0b6a3f8e3c1db6980b23848107f0cee0b5d59f989482fa87d2d6ea1ab068e90634d43de15d73&key=80b8db78bc94a3bcd71dc7fb40620ac9b718a119e5b36b2b5132de618f333ce1e79d972474a8f07026266896d60e4e1d4ac00ef4f41762679ae92e29909ce2885d4c735e8a3b6bb05664e1cedf1350b1&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=VivHZEgXTMlyJbl5N9QRM0qHDjBzca0QPbVY62deReFIzY9e90TBFdTaQBSg124W'}}>
           【圈外小课】介绍
         </div>
-        <div className="padding-footer"></div>
+        <div className="padding-footer"/>
       </div>
     )
   }

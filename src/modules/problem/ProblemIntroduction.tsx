@@ -124,13 +124,15 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           dispatch(alertMsg(ex))
         })
       }
+      console.log('problemMsg', problemMsg)
       this.setState({
         data: problemMsg.problem,
         buttonStatus: problemMsg.buttonStatus,
         currentPlanId: problemMsg.planId,
         bindMobile: problemMsg.bindMobile,
         isFull: problemMsg.isFull,
-        togetherClassMonth: problemMsg.togetherClassMonth
+        togetherClassMonth: problemMsg.togetherClassMonth,
+        problemCollected: problemMsg.problemCollected
       })
       this.handleLoadStyleSheet(problemMsg.problem.catalogId)
     }, reason => {

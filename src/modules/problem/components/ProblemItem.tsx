@@ -1,51 +1,50 @@
-import * as React from 'react';
-import './ProblemItem.less';
-import { merge } from 'lodash';
-const numeral = require('numeral');
-import AssetImg from "../../../components/AssetImg";
+import * as React from 'react'
+import './ProblemItem.less'
+import { merge } from 'lodash'
+const numeral = require('numeral')
+import AssetImg from '../../../components/AssetImg'
 
-export default class ProblemItem extends React.Component<any,any>{
-  constructor(props){
-    super(props);
+export default class ProblemItem extends React.Component<any, any> {
+  constructor(props) {
+    super(props)
     this.state = {}
 
-    this.picWidth = (this.props.width?this.props.width:window.innerWidth)*0.4 - 25;
-    this.picHeight =80 / 130 * this.picWidth;
-    this.bigFontSize = 13 / 375 * (this.props.width?this.props.width:window.innerWidth);
-    this.smallFontSize = 12 / 375 * (this.props.width?this.props.width:window.innerWidth);
+    this.picWidth = (this.props.width ? this.props.width : window.innerWidth) * 0.4 - 25
+    this.picHeight = 80 / 130 * this.picWidth
+    this.bigFontSize = 13 / 375 * (this.props.width ? this.props.width : window.innerWidth)
+    this.smallFontSize = 12 / 375 * (this.props.width ? this.props.width : window.innerWidth)
   }
 
-  render(){
+  render() {
 
-    let rootStyle = merge({},this.props.rootStyle);
+    let rootStyle = merge({}, this.props.rootStyle)
 
-    const {problem} = this.props;
-    const renderCatalog = ()=>{
-      if(problem.subCatalog){
-        return `${problem.catalog } - ${problem.subCatalog}`;
+    const { problem } = this.props
+    const renderCatalog = () => {
+      if(problem.subCatalog) {
+        return `${problem.catalog } - ${problem.subCatalog}`
       } else {
-        return problem.catalog;
+        return problem.catalog
       }
     }
+
     return (
-      problem ?<div className={`problem-item ${this.props.rootClass?this.props.rootClass:''}`} style={rootStyle}
-                    onClick={()=>this.props.clickHandler(problem)}>
-        <div className="pic"
-             style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+      problem ? <div className={`problem-item ${this.props.rootClass ? this.props.rootClass : ''}`} style={rootStyle}
+                     onClick={() => this.props.clickHandler(problem)}>
+        <div className="pic">
           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
           <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-          {/*<AssetImg url={problem.pic} style={{width:'auto',height:'100%'}}/>*/}
+          <div className="complete-person">
+            <div className="icon-person"/>
+            <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
+          </div>
         </div>
-        <div className="desc"
-             style={{width:`${(this.props.width?this.props.width:window.innerWidth) - this.picWidth - 35}px`,height:`${this.picHeight}px`}}>
-          <p className="title"
-             style={{width:`${(this.props.width?this.props.width:window.innerWidth) - this.picWidth - 35}px`}}>{problem.name}</p>
-          <p className={`catalog sub-font ${this.picHeight < 67?'no-mg':''}`}>分类：{renderCatalog()}</p>
-          <p className={`author  sub-font ${this.picHeight < 67?'no-mg':''}`}>讲师：{problem.author}</p>
-          <p className={`score  sub-font ${this.picHeight < 67?'no-mg':''}`}>难度系数：{numeral(problem.difficulty).format('0.0')}/5.0</p>
+        <div className="desc">
+          <div className="problem-title">{problem.name}</div>
+          <div className="problem-view">点击查看</div>
         </div>
-      </div>: null
+      </div> : null
     )
 
   }
