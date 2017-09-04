@@ -5,6 +5,8 @@ import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
 import './Result.less'
+import { mark } from 'utils/request'
+
 const { Alert } = Dialog
 
 @connect(state => state)
@@ -17,8 +19,6 @@ export class Result extends React.Component<any,any> {
       backgroundPicHeight: 1334,
       percent: 0,
       learnFreeLimit: false,
-      showResult: false,
-      showQuit: false,
     }
   }
 
@@ -44,6 +44,7 @@ export class Result extends React.Component<any,any> {
         dispatch(alertMsg(msg))
       }
     }).catch(e => {
+      dispatch(endLoad())
       dispatch(alertMsg(e))
     })
   }
@@ -70,84 +71,77 @@ export class Result extends React.Component<any,any> {
 
   share() {
     const { score } = this.props.location.query
-    const { learnFreeLimit } = this.state
-    shareResult().then(res => {
+    const { percent, learnFreeLimit } = this.state
+    mark({ module: '打点', function: '测评', action: '点击页面领取海报按钮' })
+    this.context.router.push({pathname:'/rise/static/eva/share', query: {score, percent, learnFreeLimit}})
+  }
+
+  sendMsg(){
+    const {dispatch} = this.props
+    const { score } = this.props.location.query
+    const { percent, learnFreeLimit } = this.state
+    dispatch(startLoad())
+    shareResult(score, percent).then(res => {
+      dispatch(endLoad())
       if(res.code === 200) {
         wx.closeWindow()
       } else {
         dispatch(alertMsg(res.msg))
       }
     }).catch(e => {
+      dispatch(endLoad())
       dispatch(alertMsg(e))
     })
-
   }
 
   render() {
-    const freeLimitProps = {
-      buttons: [
-        {
-          label: '领海报', onClick: () => {
-          this.share()
-        }
-        },
-        {
-          label: '取消', onClick: () => {
-          this.setState({ showResult: false })
-        }
-        }
-      ]
-    }
+    const {
+      initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit,
+      result, suggestion, percent
+    } = this.state
     const quitProps = {
       buttons: [
         {
           label: '确定', onClick: () => {
-          this.share()
+          this.sendMsg()
         }
         }
       ]
     }
-    const { initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit, result, suggestion, percent } = this.state
     return (
       <div className="eva-result">
         <div className="head">
-          <AssetImg url="https://static.iqycamp.com/images/eva_report_head2.png" height={80} width={236}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_report_head4.png" height={119} width={302}/>
         </div>
         <div className="result">
-          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_3.png" height={57} width={174} marginTop={-30}/>
           <div className="text-result">
-            你的洞察力天赋打败了{percent}%的人。
+            你的洞察力天赋打败了{percent}%的人！
           </div>
           <pre className="text">{result}</pre>
         </div>
         <div className="suggestion">
-          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_2.png" height={25} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_5.png" height={58} width={174} marginTop={-20}/>
           <pre className="text">{suggestion}</pre>
         </div>
         { learnFreeLimit ? null :
           <div className="schedule">
-            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_2.png" width={'100%'}/>
+            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_6.png" width={'100%'}/>
+            <div className="class-more" onClick={()=>this.context.router.push('/rise/static/plan/view?id=9')}>了解更多</div>
           </div>}
         { learnFreeLimit ?
-          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_5.png" height={57} width={226}/>
+          <div className="free-get" onClick={()=>this.share()}>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_9.png" height={57} width={226}/>
           </div> :
-          <div className="free-get" onClick={()=>this.setState({showResult:true})}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_6.png" height={57} width={226}/>
+          <div className="free-get" onClick={()=>this.share()}>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_8.png" height={57} width={226}/>
           </div>
         }
-        <Alert { ...freeLimitProps }
-          show={this.state.showResult}>
-          <div className="global-pre">
-            {learnFreeLimit ? '系统已为你生成测评结果海报，保存并分享到朋友圈，让你的朋友也挑战一下吧~'
-              : '系统已为你生成测评结果海报，分享并邀请3人扫码并完成测试，即可免费领取【洞察力强化包】。'}
-          </div>
-        </Alert>
         <Alert { ...quitProps }
           show={this.state.showQuit}>
           <div className="global-pre">
-            {learnFreeLimit ? '系统已为你生成测评结果海报，分享还可以免费领取【洞察力强化包】，去看看吧~'
-              : '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'}
+            {learnFreeLimit ? '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'
+              : '系统已为你生成测评结果海报，分享还可以免费领取【洞察力强化课程】，去看看吧~'}
           </div>
         </Alert>
       </div>

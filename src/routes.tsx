@@ -13,6 +13,7 @@ import { Main as Subject } from "modules/practice/subject/Main"
 import { Start } from "modules/promotion/evalution/Start"
 import { Main as Eva } from "modules/promotion/evalution/Main"
 import { Result as EvaResult } from "modules/promotion/evalution/Result"
+import { Share as EvaShare } from "modules/promotion/evalution/Share"
 import { Submit as ChallengePracticeSubmit } from "modules/practice/challenge/Submit";
 import { Submit as SubjectSubmit } from "modules/practice/subject/Submit";
 import { ReplyDiscussMessage } from "modules/message/ReplyWarmupDiscussMessage";
@@ -95,6 +96,7 @@ const routes = (
       <Route path="eva/start" component={Start}/>
       <Route path="eva" component={Eva}/>
       <Route path="eva/result" component={EvaResult}/>
+      <Route path="eva/share" component={EvaShare}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="profile" component={Profile}/>

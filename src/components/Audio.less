@@ -1,4 +1,5 @@
 @import "../style/variable";
+
 .audio {
   margin: 10px 0;
   width: 99%;
@@ -80,5 +81,49 @@
     top: -15px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
+  }
+}
+
+.audio-wrapper {
+  .audio-words-container {
+    .audio-words-btn {
+      padding: 5px 0 10px;
+      .awb-tips {
+        color: @color_strong;
+        font-size: 1.4em;
+        line-height: 1.4em;
+        font-weight: 300;
+      }
+      &:before {
+        background: url('../../assets/img/rise_icon_audio.png') no-repeat center center / 15px auto;
+        width: 15px;
+        height: 20px;
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 8px;
+        content: '';
+      }
+      &:after {
+        background: url('../../assets/img/rise_icon_arrow_down.png') no-repeat center center / 12px auto;
+        width: 12px;
+        height: 17px;
+        display: inline-block;
+        vertical-align: text-bottom;
+        margin-left: 5px;
+        content: '';
+      }
+      &.open {
+        &:after {
+          background: url('../../assets/img/rise_icon_arrow_up.png') no-repeat center center / 12px auto;
+        }
+      }
+    }
+    .audio-words {
+      background-color: @color_weak_background;
+      border-radius: 3px;
+      padding: 15px 10px;
+      color: @color_title;
+      font-size: 1.5em;
+    }
   }
 }
