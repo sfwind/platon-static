@@ -74,6 +74,18 @@ export function submitEvaluation(commentId, useful, reason) {
   return ppost(`/rise/practice/evaluate/application`, { commentId, useful, reason })
 }
 
+export function getNotifyStatus(){
+  return pget('/rise/message/status/learning/notify');
+}
+
+export function openNotifyStatus(){
+  return ppost('/rise/message/open/learning/notify');
+}
+
+export function closeNotifyStatus(){
+  return ppost('/rise/message/close/learning/notify');
+}
+
 export const CommentType = {
   Challenge: 1,
   Application: 2,

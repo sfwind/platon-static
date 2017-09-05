@@ -42,6 +42,30 @@
   }
   > .personal-container {
     .personal-item {
+      &.weui_cell {
+        padding:0 0 0 15px;
+        &:before {
+          display: none;
+        }
+        &:after {
+          display: none;
+        }
+        .weui_cell_ft {
+          position: relative;
+          height:100%;
+          width:70px;
+          .weui_switch {
+            position: absolute;
+            top:50%;
+            left:0;
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+          }
+        }
+      }
       position: relative;
       height: 50px;
       border-bottom: 1px #f5f5f5 solid;
