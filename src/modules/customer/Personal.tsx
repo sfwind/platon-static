@@ -102,14 +102,15 @@ export default class Personal extends React.Component<any,any> {
     const renderContainer = () => {
       return (
         <div>
-          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/profile')}}>
+          <div className="personal-item no-gutter" onClick={()=>{this.context.router.push('/rise/static/customer/profile')}}>
             <span>个人信息</span></div>
-          <div className="personal-item" onClick={()=>this.goMessage()}>
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/account')}}>
+            <span>我的账户</span></div>
+
+          <div className="personal-item no-gutter" onClick={()=>this.goMessage()}>
             <span>消息通知</span>
             {noticeMsgCount ?<span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span>: null}
           </div>
-          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/problem')}}>
-            <span>我的小课</span></div>
           <FormCell switch className="personal-item">
             <CellBody>学习提醒</CellBody>
             <CellFooter>
@@ -117,15 +118,17 @@ export default class Personal extends React.Component<any,any> {
             </CellFooter>
           </FormCell>
 
-          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/account')}}>
-            <span>我的账户</span></div>
           {
             ron(
               window.ENV.showForum !== 'false',
-              <div className="personal-item"
+              <div className="personal-item no-gutter"
                    onClick={()=>{this.context.router.push('/rise/static/customer/forum/mine')}}><span>论坛</span></div>
             )
           }
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/problem')}}>
+            <span>我的小课</span></div>
+
+
           <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/feedback')}}>
             <span>帮助</span></div>
 

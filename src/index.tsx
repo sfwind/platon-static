@@ -16,7 +16,9 @@ import routes from "./routes";
 // import "weui/src/style/widget/weui_tab/navbar.less";
 // import "weui/src/style/widget/weui_cell/weui_check.less";
 // import "weui/src/style/widget/weui_cell/weui_form.less";
+// import "weui/src/style/widget/weui_cell/weui_cell_global.less"
 import "weui/dist/style/weui.min.css";
+import "components/CustomerWeuiSwitch.less"
 import 'swiper/dist/css/swiper.css';
 
 const store = configureStore()
