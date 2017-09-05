@@ -144,7 +144,6 @@ export class Explore extends React.Component<any, any> {
                           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                           <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                          {/*<AssetImg url={`${problem.pic}`} style={{ width: 'auto', height: '100%' }}/>*/}
                         </div>
                         <span>{problem.problem}</span>
                       </div>
@@ -190,7 +189,6 @@ export class Explore extends React.Component<any, any> {
                               <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                               <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                               <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                              {/*<AssetImg url={`${problem.pic}`} style={{ width: 'auto', height: '100%' }}/>*/}
                             </div>
                             <span>{problem.problem}</span>
                           </div>
