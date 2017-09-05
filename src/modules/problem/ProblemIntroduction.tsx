@@ -184,7 +184,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: msg } })
           return
         }
-
         if(!isFull) {
           // 没有填写过
           this.context.router.push({
