@@ -117,6 +117,9 @@ export default class Personal extends React.Component<any,any> {
               <Switch checked={learningNotify} onClick={()=>this.handleClickLearningNotify()}/>
             </CellFooter>
           </FormCell>
+          <div className="pi-gray-tips">
+            建议开启：周一至周五，若当天未登录学习，晚上09：30会发给你学习提醒消息
+          </div>
 
           {
             ron(
