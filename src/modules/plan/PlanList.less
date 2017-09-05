@@ -338,7 +338,7 @@
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px;
-            .problem-background-electronic(40px);
+            .problem-background-electronic(40px, 12%);
             .p-c-b-p-img {
               width: auto;
               height: 100%;
@@ -390,7 +390,7 @@
   }
 }
 
-.problem-background-electronic(@imgSize: 60px) {
+.problem-background-electronic(@imgSize: 60px, @catalogTop: 18%) {
   .problem-item-backcolor {
     width: 100%;
     height: 100%;
@@ -443,7 +443,7 @@
     text-align: center;
     font-size: @font_title;
     line-height: @font_title;
-    margin-top: 18%;
+    margin-top: @catalogTop;
     opacity: 0.8;
   }
 }
