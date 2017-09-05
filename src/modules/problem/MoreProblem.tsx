@@ -62,9 +62,11 @@ export class MoreProblem extends React.Component<any, any> {
         </div>
         <div className="more-problem-container">
           {problemList ? problemList.map((item, key) => {
-            return <ProblemItem
-              rootClass={'bborder'}
-              problem={item} clickHandler={(problem) => this.openProblem(problem)}/>
+            return (
+              <div className="more-problem-box">
+                <ProblemItem problem={item} clickHandler={(problem) => this.openProblem(problem)}/>
+              </div>
+            )
           }) : null}
         </div>
         <div className="show-more" style={{ borderTop: '1px solid #efefef' }}>没有更多了</div>

@@ -34,6 +34,7 @@ export class Explore extends React.Component<any, any> {
     mark({ module: '打点', function: '发现', action: '打开发现页面' })
     dispatch(startLoad())
     loadUnChooseList().then(res => {
+      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ catalogList: res.msg.catalogList, hotList: res.msg.hotList }, () => {
@@ -143,7 +144,7 @@ export class Explore extends React.Component<any, any> {
                           }
                           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-                          <div className="problem-item-subCatalog">{problem.subCatalog}</div>
+                          <div className="problem-item-subCatalog">{problem.abbreviation}</div>
                         </div>
                         <span>{problem.problem}</span>
                       </div>
@@ -188,7 +189,7 @@ export class Explore extends React.Component<any, any> {
                               }
                               <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                               <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-                              <div className="problem-item-subCatalog">{problem.subCatalog}</div>
+                              <div className="problem-item-subCatalog">{problem.abbreviation}</div>
                             </div>
                             <span>{problem.problem}</span>
                           </div>

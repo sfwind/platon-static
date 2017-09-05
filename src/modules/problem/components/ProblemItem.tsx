@@ -17,12 +17,12 @@ export default class ProblemItem extends React.Component<any, any> {
     if(!problem) return null
 
     return (
-      <div className={`problem-item ${this.props.rootClass ? this.props.rootClass : ''}`}
+      <div className="problem-item"
            onClick={() => this.props.clickHandler(problem)}>
         <div className="pic">
           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-          <div className="problem-item-subCatalog">{problem.subCatalog}</div>
+          <div className="problem-item-subCatalog">{problem.abbreviation}</div>
           <div className="complete-person">
             <div className="icon-person"/>
             <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>

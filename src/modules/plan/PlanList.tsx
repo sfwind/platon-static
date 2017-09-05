@@ -215,8 +215,7 @@ export default class PlanList extends React.Component<any, any> {
                       <div className="p-r-b-i-pic" style={{ width: `${this.runPicWidth}px` }}>
                         <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
                         <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
-                        <div className="problem-item-subCatalog">{item.problem.subCatalog}</div>
-                        {/*<img className="p-r-b-i-pic-img" src={`${item.problem.pic}`}/>*/}
+                        <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
                       </div>
                       <div className="p-r-b-i-text" style={{ width: `${this.runTextWidth}px` }}>
                         <div className="p-r-b-i-text-title">
@@ -302,7 +301,7 @@ export default class PlanList extends React.Component<any, any> {
                         <div className="p-c-b-pic">
                           <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
-                          <div className="problem-item-subCatalog">{plan.problem.subCatalog}</div>
+                          <div className="problem-item-subCatalog">{plan.problem.abbreviation}</div>
                           {/*<img className="p-c-b-p-img" src={`${plan.pic}`}/>*/}
                         </div>
                         <div className="p-c-b-text">
@@ -354,8 +353,7 @@ export default class PlanList extends React.Component<any, any> {
                         <div className="p-c-b-pic">
                           <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
-                          <div className="problem-item-subCatalog">{plan.problem.subCatalog}</div>
-                          {/*<img className="p-c-b-p-img" src={`${plan.pic}`}/>*/}
+                          <div className="problem-item-subCatalog">{plan.problem.abbreviation}</div>
                         </div>
                         <div className="p-c-b-text">
                           <div className="p-c-b-t-left" style={{ width: `${this.completedLeftTextWidth}px` }}>

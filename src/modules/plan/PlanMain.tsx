@@ -157,6 +157,7 @@ export class PlanMain extends React.Component <any, any> {
     let blockMsg
     dispatch(startLoad())
     loadPlan(planId).then(res => {
+      console.log(res)
       dispatch(endLoad())
       let { code, msg } = res
       blockMsg = msg
