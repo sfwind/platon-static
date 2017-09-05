@@ -14,4 +14,4 @@ tags
 gulpfile.js
 __build__/bundle.js
 
-.stats.json
+stats.json
