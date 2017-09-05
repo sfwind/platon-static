@@ -14,7 +14,7 @@ import { isNumber, get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
-import { GoodsType } from '../../utils/helpers'
+import { GoodsType, buttonStatus } from '../../utils/helpers'
 //限免小课id
 const FREE_PROBLEM_ID = 9
 
@@ -80,9 +80,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     openProblemIntroduction(id, free).then(res => {
       const { msg, code } = res
       if(code === 200) {
-        if(msg.buttonStatus === 1 || msg.buttonStatus === 8 || msg.buttonStatus === 9) {
-          /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
-          if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios') {
+        if(!buttonStatus.isValid(msg.buttonStatus)) {
+          dispatch(alertMsg("按钮状态异常"));
+        } else {
+          if(buttonStatus.mustRefresh(msg.buttonStatus)) {
             mark({
               module: 'RISE',
               function: '打点',
@@ -398,8 +399,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           return whoArr.map((item, key) => {
             return (
               <div className="who-item" key={key}>
-                <div style={{ fontSize: `${this.whoNumFontSize}px` }} className="wi-sequence">{key + 1}</div><span
-                style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text">{item}</span>
+                <div style={{ fontSize: `${this.whoNumFontSize}px` }} className="wi-sequence">{key + 1}</div>
+                <span
+                  style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text">{item}</span>
               </div>
             )
           })
@@ -523,7 +525,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
                     ￥{fee}，自主学习
                   </div>
-                  <div className="split-right" onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5`}>
+                  <div className="split-right"
+                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5`}>
                     ¥ 299，小课训练营
                   </div>
                 </div>
@@ -624,8 +627,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <div className="pi-c-f-content">
               { audio ?
                 <div className="context-audio">
-                <Audio url={audio} words={audioWords}/>
-              </div> : null }
+                  <Audio url={audio} words={audioWords}/>
+                </div> : null }
               <div>
                 <pre className="pi-c-f-c-text">{why}</pre>
               </div>
@@ -680,7 +683,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div>
         {renderFooter()}
         <Alert { ...this.state.alert }
-               show={this.state.showAlert}>
+          show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>

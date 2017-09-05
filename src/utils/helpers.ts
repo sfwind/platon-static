@@ -20,7 +20,7 @@ export function ron(flag, render, normal) {
 }
 
 export function isPending(state, key): boolean {
-  return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[key] : false
+  return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[ key ] : false
 }
 
 // export function isIOS() {
@@ -45,9 +45,9 @@ export function changeTitle(title) {
   document.body.appendChild(iframe);
 }
 
-var chnUnitChar = ["", "十", "百", "千"];
-var chnUnitSection = ["", "万", "亿", "万亿", "亿亿"];
-var chnNumChar = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+var chnUnitChar = [ "", "十", "百", "千" ];
+var chnUnitSection = [ "", "万", "亿", "万亿", "亿亿" ];
+var chnNumChar = [ "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" ];
 
 function SectionToChinese(section) {
   var strIns = '', chnStr = '';
@@ -58,12 +58,12 @@ function SectionToChinese(section) {
     if(v === 0) {
       if(!zero) {
         zero = true;
-        chnStr = chnNumChar[v] + chnStr;
+        chnStr = chnNumChar[ v ] + chnStr;
       }
     } else {
       zero = false;
-      strIns = chnNumChar[v];
-      strIns += chnUnitChar[unitPos];
+      strIns = chnNumChar[ v ];
+      strIns += chnUnitChar[ unitPos ];
       chnStr = strIns + chnStr;
     }
     unitPos++;
@@ -73,9 +73,9 @@ function SectionToChinese(section) {
 }
 
 export function scroll(target, container) {
-  if(document.querySelector(target)){
+  if(document.querySelector(target)) {
     let y = document.querySelector(target).offsetTop
-    if(document.querySelector(container)){
+    if(document.querySelector(container)) {
       document.querySelector(container).scrollTop = y
     }
   }
@@ -87,16 +87,16 @@ export function NumberToChinese(num) {
   var needZero = false;
 
   if(num === 0) {
-    return chnNumChar[0];
+    return chnNumChar[ 0 ];
   }
 
   while(num > 0) {
     var section = num % 10000;
     if(needZero) {
-      chnStr = chnNumChar[0] + chnStr;
+      chnStr = chnNumChar[ 0 ] + chnStr;
     }
     strIns = SectionToChinese(section);
-    strIns += (section !== 0) ? chnUnitSection[unitPos] : chnUnitSection[0];
+    strIns += (section !== 0) ? chnUnitSection[ unitPos ] : chnUnitSection[ 0 ];
     chnStr = strIns + chnStr;
     needZero = (section < 1000) && (section > 0);
     num = Math.floor(num / 10000);
@@ -117,8 +117,8 @@ export function splitText(text: string, length: number) {
 export function removeHtmlTags(str) {
   str = _.trim(str)
   // 去除 html 标签
-  str = str.replace(/(&lt;)(&#47;)?[^(&gt;)]*(&gt;)/g,'');
-  str = str.replace(/<\/?[^>]*>/g,'');
+  str = str.replace(/(&lt;)(&#47;)?[^(&gt;)]*(&gt;)/g, '');
+  str = str.replace(/<\/?[^>]*>/g, '');
   // 去除实体字符
   str = str.replace(/&[^;]+;/g, "");
   return str
@@ -133,7 +133,7 @@ export function filterHtmlTag(content) {
  * 解决方案：如果监听到ios的后退操作，并且configUrl已经是石墨的url了（下面的方法update的configUrl)
  * 就刷新页面
  */
-export function fixIosShimoBug(){
+export function fixIosShimoBug() {
   if(window.ENV.osName === 'ios') {
     window.addEventListener("popstate", function(e) {
       if(window.ENV.configUrl.indexOf("shimo.im") != -1) {
@@ -148,7 +148,7 @@ export function fixIosShimoBug(){
  * 跳转到其他外链地址
  * @param url 检查一下这个外链是不是shimo，如果是石墨，并且是ios系统，就修改configUrl
  */
-export function goOtherWeb(url){
+export function goOtherWeb(url) {
   if(window.ENV.osName === 'ios' && url.indexOf('shimo.im') != -1) {
     window.ENV.configUrl = url;
   }
@@ -172,3 +172,62 @@ export class CouponCategory {
    */
   public static ONLY_WORKSHOP = "OFF_LINE_WORKSHOP";
 }
+
+/**
+ * 支付按钮状态
+ */
+class ButtonStatus {
+  /**
+   * 需要支付的按钮组
+   */
+  private paymentGroup: [number];
+  /**
+   * 不需要支付的按钮组
+   */
+  private notPaymentGroup: [number];
+
+
+  constructor() {
+    this.paymentGroup = [ 1, 8, 9 ];
+    this.notPaymentGroup = [ 2, 3, 4, 5, 6, 7, 10 ]
+  }
+
+  /**
+   * 按钮状态是否有效
+   * @param status 按钮状态
+   * @returns {boolean} 按钮状态是否有效
+   */
+  public isValid(status: number): boolean {
+    if(status === -1){
+      return false;
+    }
+    for(let i = 0; i < this.paymentGroup.length; i++) {
+      if(status === this.paymentGroup[ i ]) {
+        return true;
+      }
+    }
+    for(let i = 0; i < this.notPaymentGroup.length; i++) {
+      if(status === this.notPaymentGroup[ i ]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * 是否必须刷新
+   * @param status 按钮状态
+   * @returns {boolean} 是否要刷新
+   */
+  public mustRefresh(status: number): boolean {
+    for(let i = 0; i < this.paymentGroup.length; i++) {
+      if(status === this.paymentGroup[ i ]) {
+        /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
+        return window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios';
+      }
+    }
+    return false;
+  }
+}
+
+export let buttonStatus = new ButtonStatus();
