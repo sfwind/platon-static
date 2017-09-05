@@ -198,6 +198,9 @@ class ButtonStatus {
    * @returns {boolean} 按钮状态是否有效
    */
   public isValid(status: number): boolean {
+    if(status === -1){
+      return false;
+    }
     for(let i = 0; i < this.paymentGroup.length; i++) {
       if(status === this.paymentGroup[ i ]) {
         return true;
