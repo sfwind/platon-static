@@ -84,17 +84,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           dispatch(alertMsg("按钮状态异常"));
         } else {
           if(buttonStatus.mustRefresh(msg.buttonStatus)) {
-            /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
-            if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios') {
-              mark({
-                module: 'RISE',
-                function: '打点',
-                action: '刷新支付页面',
-                memo: window.ENV.configUrl + '++++++++++' + window.location.href
-              })
-              window.location.href = window.location.href
-              return Promise.reject('refresh')
-            }
+            mark({
+              module: 'RISE',
+              function: '打点',
+              action: '刷新支付页面',
+              memo: window.ENV.configUrl + '++++++++++' + window.location.href
+            })
+            window.location.href = window.location.href
+            return Promise.reject('refresh')
           }
         }
         return res.msg
