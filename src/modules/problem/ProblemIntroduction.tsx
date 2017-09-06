@@ -782,7 +782,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                     </div>
                     <div className="problem-problem">{problem.problem}</div>
                     <div className="problem-catalog">
-                      {problem.catalog}{problem.subCatalog ? ' - '.concat(problem.subCatalog) : ''}
+                      {'#'.concat(problem.catalog)}{problem.subCatalog ? '-'.concat(problem.subCatalog) : ''}
                     </div>
                   </div>
                 )
@@ -803,9 +803,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>
           </div>
           <div className="section">
-            {data.catalog}
+            {'#'.concat(data.catalog)}
             {data.subCatalog ?
-              ' - '.concat(data.subCatalog) : null}
+              '-'.concat(data.subCatalog) : null}
           </div>
           <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
@@ -813,15 +813,15 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           </div>
         </div>
         <div className="relation-tab">
-          <div className={`${relationTab === 'left' ? 'selected' : ''} `}
-               onClick={() => {this.onClickExchangeRelationTab('left')}}>小课详情
+          <div onClick={() => {this.onClickExchangeRelationTab('left')}}>
+            <div className={`${relationTab === 'left' ? 'selected' : ''} `}>小课详情</div>
           </div>
-          <div className={`${relationTab === 'right' ? 'selected' : ''} `}
-               onClick={() => {
+          <div onClick={() => {
                  // 1. 更改显示状态，获取关联小课
                  this.onClickExchangeRelationTab('right')
                  this.onClickLoadRelationProblems(data.id)
-               }}>关联小课
+               }}>
+            <div className={`${relationTab === 'right' ? 'selected' : ''} `}>关联小课</div>
           </div>
         </div>
         {relationTab === 'left' ?
