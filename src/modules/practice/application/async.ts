@@ -24,8 +24,8 @@ export function submitApplicationPractice(planId, applicationId, params) {
   return ppost(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
 }
 
-export function autoSaveApplicationDraft(planId, applicationId) {
-  return ppost(`/rise/practice/application/autosave/${planId}/${applicationId}`)
+export function autoSaveApplicationDraft(planId, applicationId, draft) {
+  return ppost(`/rise/practice/application/autosave/${planId}/${applicationId}`, {draft: draft })
 }
 
 export function autoUpdateApplicationDraft(draftId, draft) {
