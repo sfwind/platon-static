@@ -28,10 +28,6 @@ export function autoSaveApplicationDraft(planId, applicationId, draft) {
   return ppost(`/rise/practice/application/autosave/${planId}/${applicationId}`, {draft: draft })
 }
 
-export function autoUpdateApplicationDraft(draftId, draft) {
-  return ppost(`/rise/practice/application/autoupdate/${draftId}`, draft)
-}
-
 export function vote(referencedId) {
   return ppost("/rise/practice/vote", {referencedId: referencedId, status: 1, type: CommentType.Application})
 }
