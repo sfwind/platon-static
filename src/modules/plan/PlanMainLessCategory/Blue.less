@@ -1,5 +1,5 @@
 // 学习页面蓝色配色方案
-
+@import "../../../style/variable";
 .rise-main-container-blue {
 
   .header-img {
@@ -28,13 +28,23 @@
     .psbf-w-pre-btn {
       color: #6bd2ea !important;
       &:before {
-        background: url("https://static.iqycamp.com/images/fragment/left_blue_1.png?imageslim") no-repeat center center/auto 100% !important;
+        background: url("@{imgPathFragment}/left_blue_1.png?imageslim") no-repeat center center/auto 100% !important;
       }
     }
     .psbf-w-next-btn {
       color: #6bd2ea !important;
+      &.complete {
+        &:before {
+          background: url("@{imgPathFragment}/icon_complete_blue.png?.imageslim") no-repeat center center/ 100% auto !important;
+        }
+      }
+      &.report {
+        &:before {
+          background: url("@{imgPathFragment}/icon_report_blue.png?imageslim") no-repeat center center/auto 100% !important;
+        }
+      }
       &:before {
-        background: url("https://static.iqycamp.com/images/fragment/right_blue_1.png?imageslim") no-repeat center center/auto 100% !important;
+        background: url("@{imgPathFragment}/right_blue_1.png?imageslim") no-repeat center center/auto 100% !important;
       }
     }
   }

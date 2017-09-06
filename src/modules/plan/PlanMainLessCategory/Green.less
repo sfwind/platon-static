@@ -1,4 +1,5 @@
 // 学习页面绿色配色方案
+@import "../../../style/variable";
 
 .rise-main-container-green {
 
@@ -33,6 +34,16 @@
     }
     .psbf-w-next-btn {
       color: #71d2aa !important;
+      &.complete {
+        &:before {
+          background: url("@{imgPathFragment}/icon_complete_green.png?.imageslim") no-repeat center center/ 100% auto !important;
+        }
+      }
+      &.report {
+        &:before {
+          background: url("@{imgPathFragment}/icon_report_green.png?imageslim") no-repeat center center/auto 100% !important;
+        }
+      }
       &:before {
         background: url("https://static.iqycamp.com/images/fragment/right_green_1.png?imageslim") no-repeat center center/auto 100% !important;
       }
