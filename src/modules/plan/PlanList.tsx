@@ -194,7 +194,8 @@ export default class PlanList extends React.Component<any, any> {
                 <div className="plp-empty-text">
                   <span>还没有学习中的课程哦</span>
                 </div>
-                <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span></div>
+                <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span>
+                </div>
               </div> :
               runningPlans.map((item, key) => {
                 let style = {}
@@ -300,8 +301,8 @@ export default class PlanList extends React.Component<any, any> {
                         <div className="p-c-b-pic">
                           <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
-                          <div className="problem-item-subCatalog">{plan.problem.abbreviation}</div>
-                          {/*<img className="p-c-b-p-img" src={`${plan.pic}`}/>*/}
+                          <div className="problem-item-subCatalog"
+                               style={{ fontSize: '1.3em' }}>{plan.problem.abbreviation}</div>
                         </div>
                         <div className="p-c-b-text">
                           <div className="p-c-b-t-left" style={{ width: `${this.completedLeftTextWidth}px` }}>
@@ -352,7 +353,7 @@ export default class PlanList extends React.Component<any, any> {
                         <div className="p-c-b-pic">
                           <div className={`problem-item-backcolor catalog${plan.problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${plan.problem.catalogId}`}/>
-                          <div className="problem-item-subCatalog">{plan.problem.abbreviation}</div>
+                          <div className="problem-item-subCatalog" style={{fontSize: "1.3em"}}>{plan.problem.abbreviation}</div>
                         </div>
                         <div className="p-c-b-text">
                           <div className="p-c-b-t-left" style={{ width: `${this.completedLeftTextWidth}px` }}>

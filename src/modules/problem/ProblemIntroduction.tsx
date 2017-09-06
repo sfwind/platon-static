@@ -396,8 +396,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       disCollectProblm(problemId).then(res => {
         if(res.code === 200) {
           this.setState({ problemCollected: false })
-        } else {
-          dispatch(alertMsg(res.msg))
         }
       }).catch(e => dispatch(alertMsg(e.msg)))
     } else {
@@ -405,8 +403,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       collectProblem(problemId).then(res => {
         if(res.code === 200) {
           this.setState({ problemCollected: true })
-        } else {
-          dispatch(alertMsg(res.msg))
         }
       }).catch(e => dispatch(alertMsg(e.msg)))
 
@@ -797,10 +793,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       <div id="problem-introduction" className={`problem-introduction`}>
         <div className="header-img">
           <div className={`back-img catalog${data.catalogId}`}/>
-          <div className="section-title">{data.problem}</div>
-          <div className="complete-person">
-            <div className="icon-person"/>
-            <span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>
+          <div className="section-title">
+            <div className="title-content">{data.problem}</div>
+            <div className="complete-person">
+              <div className="icon-person"/>
+              <span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>
+            </div>
           </div>
           <div className="section">
             {'#'.concat(data.catalog)}
@@ -817,10 +815,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <div className={`${relationTab === 'left' ? 'selected' : ''} `}>小课详情</div>
           </div>
           <div onClick={() => {
-                 // 1. 更改显示状态，获取关联小课
-                 this.onClickExchangeRelationTab('right')
-                 this.onClickLoadRelationProblems(data.id)
-               }}>
+            // 1. 更改显示状态，获取关联小课
+            this.onClickExchangeRelationTab('right')
+            this.onClickLoadRelationProblems(data.id)
+          }}>
             <div className={`${relationTab === 'right' ? 'selected' : ''} `}>关联小课</div>
           </div>
         </div>

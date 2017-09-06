@@ -23,42 +23,48 @@
       background-size: 100% 100% !important;
     }
     > .outline {
-      width: 25px;
-      height: 45px;
-      background-size: 25px 20px !important;
+      width: 30px;
+      height: 50px;
+      background-size: 30px 25px !important;
       position: absolute;
       left: 20px;
       top: 20px;
       & span {
+        width: 100%;
         position: absolute;
         bottom: 0;
         text-align: center;
+        font-size: 1.3em;
         color: #fff;
       }
     }
     > .card-collection {
       position: absolute;
-      width: 25px;
-      height: 45px;
+      width: 30px;
+      height: 55px;
       left: 20px;
       top: 80px;
       background: url("@{imgPathFragment}/card-collection_1.png?imageslim") no-repeat;
-      background-size: 25px 25px;
+      background-size: 30px 30px;
       & span {
+        width: 100%;
         position: absolute;
         bottom: 0;
         text-align: center;
+        font-size: 1.3em;
         color: #fff;
       }
     }
     > .section-title {
       position: absolute;
-      width: 100%;
+      width: 65%;
       text-align: center;
       font-size: 2.0em;
       color: #fff;
       line-height: 2.0em;
-      margin-top: 15%;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
     }
     > .section {
       position: absolute;
@@ -551,6 +557,7 @@
       line-height: @font_title;
       font-weight: bolder;
       background-color: #252933;
+      border-bottom: 1px solid #1c1f28;
       width: 100%;
       .content {
         padding-left: 10px;
@@ -570,7 +577,7 @@
         width: 100%;
         color: #999;
         &:not(:nth-last-of-type(1)) {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          border-bottom: 1px solid #1c1f28;
         }
 
         .cell {

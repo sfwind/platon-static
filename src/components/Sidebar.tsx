@@ -14,7 +14,7 @@ const defaultStyles = {
     bottom: 0,
     overflow: 'hidden'
   },
-  sidebar: {
+    sidebar: {
     zIndex: 600,
     position: 'absolute',
     top: 0,

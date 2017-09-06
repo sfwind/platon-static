@@ -105,7 +105,7 @@ export class PlanMain extends React.Component <any, any> {
       showExpiredDateWarning: false,
 
       relationTab: 'left',
-      relationProblems: [],
+      relationProblems: []
     }
     changeTitle('圈外同学')
   }
@@ -167,7 +167,7 @@ export class PlanMain extends React.Component <any, any> {
             planData: msg,
             currentIndex: msg.currentSeries,
             selectProblem: msg.problem,
-            mustStudyDays: msg.mustStudyDays,
+            mustStudyDays: msg.mustStudyDays
           })
           // 区分加载样式表
           this.handleLoadStyleSheet(msg.problem.catalogId)
@@ -250,7 +250,7 @@ export class PlanMain extends React.Component <any, any> {
         this.setState({ chapterList: res.msg }, () => {
           Ps.initialize(this.refs.sideContent, {
             swipePropagation: false,
-            handlers: [ 'wheel', 'touch' ]
+            handlers: ['wheel', 'touch']
           })
         })
       }
@@ -266,6 +266,23 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
     })
+  }
+
+  componentDidUpdate() {
+    let totalSeries = this.state.planData.totalSeries
+    console.log('totalSeries', totalSeries)
+    if(totalSeries) {
+      for(let i = 0; i < totalSeries; i++) {
+        let clickBtns = document.getElementsByClassName(`start-btn${i}`)
+        if(clickBtns.length > 0) {
+          for(let i = 0; i < clickBtns.length; i++) {
+            if(i !== 0) {
+              clickBtns[i].style.display = 'none'
+            }
+          }
+        }
+      }
+    }
   }
 
   riseMemberCheck() {
@@ -324,7 +341,7 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: false, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: false, planId, complete }
       }) : null
     } else if(type === 12) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined))
@@ -332,12 +349,12 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: true, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: true, planId, complete }
       }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
       }) : null
     } else if(type === 31) {
       if(!complete) {
@@ -577,7 +594,7 @@ export class PlanMain extends React.Component <any, any> {
     let section = this.refs.sideContent.querySelector(`#section${series}`)
     let sectionArr = this.refs.sideContent.querySelectorAll('.section')
     for(let i = 0; i < sectionArr.length; i++) {
-      sectionArr[ i ].setAttribute('class', 'section')
+      sectionArr[i].setAttribute('class', 'section')
     }
     if(section) {
       section.setAttribute('class', 'section open')
@@ -633,7 +650,6 @@ export class PlanMain extends React.Component <any, any> {
       problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus, free
     } = planData
 
-
     const completePracticeRender = (item) => {
       if(item.status !== 1) {
         return null
@@ -653,7 +669,7 @@ export class PlanMain extends React.Component <any, any> {
       }
     }
 
-    const practiceRender = (list = []) => {
+    const practiceRender = (list = [], sequence) => {
       if(!list) {
         return null
       } else {
@@ -672,22 +688,6 @@ export class PlanMain extends React.Component <any, any> {
                     <div className="challenge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
                   {item.type === 31 || item.type === 32 ?
                     <div className="knowledge" style={{ opacity: `${item.status === 1 ? 0.3 : 1}` }}/> : null}
-                  {/*{item.type === 1 || item.type === 2 ? item.status !== 1 ?*/}
-                  {/*<AssetImg type="warmup" size={50}/> :*/}
-                  {/*<AssetImg type="warmup_complete" size={50}/> : null*/}
-                  {/*}*/}
-                  {/*{item.type === 11 || item.type === 12 ? item.status !== 1 ?*/}
-                  {/*<AssetImg type="application" size={50}/> :*/}
-                  {/*<AssetImg type="application_complete" size={50}/> : null*/}
-                  {/*}*/}
-                  {/*{item.type === 21 ? item.status !== 1 ?*/}
-                  {/*<AssetImg type="challenge" size={50}/> :*/}
-                  {/*<AssetImg type="challenge_complete" size={50}/> : null*/}
-                  {/*}*/}
-                  {/*{item.type === 31 || item.type === 32 ? item.status !== 1 ?*/}
-                  {/*<AssetImg type="knowledge" size={50}/> :*/}
-                  {/*<AssetImg type="knowledge_complete" size={50}/> : null*/}
-                  {/*}*/}
                 </div>
                 {completePracticeRender(item)}
               </div>
@@ -695,13 +695,12 @@ export class PlanMain extends React.Component <any, any> {
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null}
               <div className="body">
                 <div className="title">
-                  {typeMap[ item.type ].type}
+                  {typeMap[item.type].type}
                   <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
                 </div>
-                <div className="desc">{typeMap[ item.type ].desc}</div>
-                {item.status !== 1 ?
-                  <div className="practice-start-btn"/> :
-                  null}
+                <div className="desc">{typeMap[item.type].desc}</div>
+                {item.status !== 1 && item.unlocked === true ?
+                  <div className={`practice-start-btn start-btn${sequence}`}/> : null}
               </div>
             </div>
           )
@@ -863,7 +862,7 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
 
-      let currentSection = sections[ currentIndex - 1 ]
+      let currentSection = sections[currentIndex - 1]
       return (
         <div className="plan-study-btn-footer" id="plan-study-btn-footer">
           <div className="psbf-wrapper">
@@ -893,7 +892,7 @@ export class PlanMain extends React.Component <any, any> {
         <div key={idx}>
           <div className="plan-main">
             <div className="list">
-              {practiceRender(item.practices)}
+              {practiceRender(item.practices, idx)}
             </div>
             <div className="padding-footer"/>
           </div>
