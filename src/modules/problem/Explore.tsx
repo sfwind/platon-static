@@ -95,6 +95,16 @@ export class Explore extends React.Component<any, any> {
       <div>
         <div className="explore-container">
           <Banner height={this.bannerHeight}>
+            <div className="banner-item swiper-slide"
+                 onClick={() => this.context.router.push('/rise/static/plan/view?id=20') }>
+              <img src={'https://static.iqycamp.com/images/fragment/problem_explore_banner_0831_1.png?imageslim'}
+                   style={{ width: 'auto', height: '100%' }}/>
+            </div>
+            <div className="banner-item swiper-slide"
+                 onClick={() => this.context.router.push('/rise/static/eva/start') }>
+              <img src={'https://static.iqycamp.com/images/fragment/operation_insight.jpg?imageslim'}
+                   style={{ width: 'auto', height: '100%' }}/>
+            </div>
             <div className="banner-item swiper-slide" onClick={() => this.goBanner(1)}>
               <img src={'https://static.iqycamp.com/images/problem_explore_banner_1_2.jpg?imageslim'}
                    style={{ width: 'auto', height: '100%' }}/>
@@ -120,22 +130,23 @@ export class Explore extends React.Component<any, any> {
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">
                   {hotList ? hotList.map((problem, key) => {
-                    return (
-                      <div onClick={() => this.clickProblem(problem)} style={{ width: `${this.picWidth}px` }}
-                           className="problem-item-show swiper-slide">
-                        <div className="img" style={{ width: `${this.picWidth}px`, height: `${this.picHeight}px` }}>
-                          { problem.newProblem ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                      style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null}
-                          { problem.trial ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                      style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null}
-                          { problem.status === 2 ?
-                            <div className="complete-problem">
-                              <AssetImg type="success" size={12}
-                                        style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
-                              <span className="complete-text">已完成</span>
-                            </div> :
+                      return (
+
+                        <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
+                             className="problem-item-show swiper-slide">
+                          <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                            { problem.newProblem ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                        style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null}
+                            { problem.trial ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                        style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null}
+                            { problem.status === 2 ?
+                              <div className="complete-problem">
+                                <AssetImg type="success" size={12}
+                                          style={{margin: '0 3px', verticalAlign:'middle'}}/>
+                                <span className="complete-text">已完成</span>
+                              </div> :
                             <div className="complete-person">
                               <div className="icon-person"/>
                               <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
@@ -144,44 +155,44 @@ export class Explore extends React.Component<any, any> {
                           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                           <div className="problem-item-subCatalog">{problem.abbreviation}</div>
+                          </div>
+                          <span>{problem.problem}</span>
                         </div>
-                        <span>{problem.problem}</span>
-                      </div>
-                    )
-                  }) : null}
+                      )
+                    }) : null}
                 </div>
                 <div className="swiper-scrollbar" id="hotbar"/>
               </div>
             </div>
             {catalogList ? catalogList.map((catalog, key) => {
-              return (
-                <div className="problem-catalog">
-                  <div className="header">
-                    <span className="catalog-name">{catalog.name}</span>
-                    <span className="catalog-more" onClick={() => this.openMore(catalog)}>更多</span>
-                  </div>
-                  <div className="problem-box swiper-container" id={`catalog${key}`}>
-                    <div className="swiper-wrapper">
-                      {catalog.problemList ? catalog.problemList.map((problem, key) => {
-                        return (
-                          <div onClick={() => this.clickProblem(problem)} style={{ width: `${this.picWidth}px` }}
-                               className="problem-item-show swiper-slide">
-                            <div className="img" style={{ width: `${this.picWidth}px`, height: `${this.picHeight}px` }}>
-                              { problem.newProblem ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                          style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
-                              }
-                              { problem.trial ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                          style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
-                              }
-                              { problem.status === 2 ?
-                                <div className="complete-problem">
-                                  <AssetImg type="success" size={12}
-                                            style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
-                                  <span className="complete-text">已完成</span>
-                                </div> :
-                                <div className="complete-person">
+                return (
+                  <div className="problem-catalog">
+                    <div className="header">
+                      <span className="catalog-name">{catalog.name}</span>
+                      <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
+                    </div>
+                    <div className="problem-box swiper-container" id={`catalog${key}`}>
+                      <div className="swiper-wrapper">
+                        {catalog.problemList ? catalog.problemList.map((problem, key) => {
+                            return (
+                              <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
+                                   className="problem-item-show swiper-slide">
+                                <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                                  { problem.newProblem ?
+                                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                              style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null
+                                  }
+                                  { problem.trial ?
+                                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                              style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null
+                                  }
+                                  { problem.status === 2 ?
+                                    <div className="complete-problem">
+                                      <AssetImg type="success" size={12}
+                                                style={{margin: '0 3px', verticalAlign:'middle'}}/>
+                                      <span className="complete-text">已完成</span>
+                                    </div> :
+                                  <div className="complete-person">
                                   <div className="icon-person"/>
                                   <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
                                 </div>
@@ -189,17 +200,17 @@ export class Explore extends React.Component<any, any> {
                               <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                               <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                               <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-                            </div>
-                            <span>{problem.problem}</span>
-                          </div>
-                        )
-                      }) : null}
+                                </div>
+                                <span>{problem.problem}</span>
+                              </div>
+                            )
+                          }) : null}
+                      </div>
+                      <div className="swiper-scrollbar" id={`catalogbar${key}`}/>
                     </div>
-                    <div className="swiper-scrollbar" id={`catalogbar${key}`}/>
                   </div>
-                </div>
-              )
-            }) : null}
+                )
+              }) : null}
 
           </div>
         </div>

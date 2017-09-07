@@ -7,14 +7,14 @@ import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon, loadTrainPayParam
+  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
-import { GoodsType } from '../../utils/helpers'
+import { GoodsType, buttonStatus } from '../../utils/helpers'
 import { collectProblem, disCollectProblm, loadRecommendations } from '../plan/async'
 //限免小课id
 const FREE_PROBLEM_ID = 9
@@ -84,9 +84,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     openProblemIntroduction(id, free).then(res => {
       const { msg, code } = res
       if(code === 200) {
-        if(msg.buttonStatus === 1) {
-          /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
-          if(window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios') {
+        if(!buttonStatus.isValid(msg.buttonStatus)) {
+          dispatch(alertMsg("按钮状态异常"));
+        } else {
+          if(buttonStatus.mustRefresh(msg.buttonStatus)) {
             mark({
               module: 'RISE',
               function: '打点',
@@ -124,7 +125,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           dispatch(alertMsg(ex))
         })
       }
-      console.log('problemMsg', problemMsg)
       this.setState({
         data: problemMsg.problem,
         buttonStatus: problemMsg.buttonStatus,
@@ -476,15 +476,16 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         if(whoArr.length === 1) {
           return (
             <div className="who-item">
-              <span style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text just-one">{who}</span>
+              <div style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text just-one">{who}</div>
             </div>
           )
         } else {
           return whoArr.map((item, key) => {
             return (
               <div className="who-item" key={key}>
-                <span style={{ fontSize: `${this.whoNumFontSize}px` }} className="wi-sequence">{key + 1}</span><span
-                style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text">{item}</span>
+                <div style={{ fontSize: `${this.whoNumFontSize}px` }} className="wi-sequence">{key + 1}</div>
+                <span
+                  style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text">{item}</span>
               </div>
             )
           })
@@ -827,7 +828,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           renderRightRecommendation()}
         {renderFooter()}
         <Alert { ...this.state.alert }
-               show={this.state.showAlert}>
+          show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>

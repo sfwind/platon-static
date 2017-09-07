@@ -13,6 +13,7 @@ import { Main as Subject } from 'modules/practice/subject/Main'
 import { Start } from 'modules/promotion/evalution/Start'
 import { Main as Eva } from 'modules/promotion/evalution/Main'
 import { Result as EvaResult } from 'modules/promotion/evalution/Result'
+import { Share as EvaShare } from "modules/promotion/evalution/Share"
 import { Submit as ChallengePracticeSubmit } from 'modules/practice/challenge/Submit'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
@@ -53,6 +54,8 @@ import ForumQuestion from 'modules/customer/ForumQuestion'
 import CardsCollection from './modules/problem/CardsCollection'
 import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
 import SlideTest from './modules/plan/SlideTest'
+import Certificate from './modules/customer/certificate/Main'
+import CertificateProfile from './modules/customer/certificate/Personal'
 
 const routes = (
   <Route>
@@ -96,6 +99,7 @@ const routes = (
       <Route path="eva/start" component={Start}/>
       <Route path="eva" component={Eva}/>
       <Route path="eva/result" component={EvaResult}/>
+      <Route path="eva/share" component={EvaShare}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="profile" component={Profile}/>
@@ -107,6 +111,8 @@ const routes = (
         <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
         <Route path="forum/mine" component={ForumQuestion}/>
+        <Route path="certificate/profile" component={CertificateProfile}/>
+        <Route path="certificate" component={Certificate}/>
       </Route>
       <Route path="message" component={Customer}>
         <Route path="center" component={MessageCenter}/>

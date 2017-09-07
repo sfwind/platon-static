@@ -54,7 +54,7 @@ export default class Rise extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { riseId, memberType, mobile, isRiseMember, nickName, coupons = [] } = data
+    const { riseId, memberType, mobile, isRiseMember, nickName, memberId, coupons = [] } = data
 
     const renderCoupons = () => {
       if(coupons.length !== 0) {
@@ -86,6 +86,13 @@ export default class Rise extends React.Component<any, any> {
           <div className="label">圈外 ID</div>
           <div className="content-no-cut">{riseId}</div>
         </div>
+        {
+          memberId ?
+          <div className="item">
+            <div className="label">学号</div>
+            <div className="content-no-cut">{memberId}</div>
+          </div> : null
+        }
         <div className="item" onClick={() => this.handleClickGoMemberDesc()}>
           <div className="label">圈外会员</div>
           <div className="content">

@@ -19,7 +19,6 @@ export class Result extends React.Component<any,any> {
       backgroundPicHeight: 1334,
       percent: 0,
       learnFreeLimit: false,
-      picSrc: '',
     }
   }
 
@@ -28,9 +27,9 @@ export class Result extends React.Component<any,any> {
   }
 
   componentWillMount() {
-    // window.addEventListener('popstate', (e) => {
-    //   this.setState({ showQuit: true })
-    // })
+    window.addEventListener('popstate', (e) => {
+      this.setState({ showQuit: true })
+    })
     const { score } = this.props.location.query
     const { dispatch } = this.props
     this.fit()
@@ -51,7 +50,7 @@ export class Result extends React.Component<any,any> {
   }
 
   componentDidMount() {
-    // history.pushState({ page: 'next' }, 'state', '#ending')
+    history.pushState({ page: 'next' }, 'state', '#ending')
   }
 
   fit() {
@@ -71,84 +70,80 @@ export class Result extends React.Component<any,any> {
   }
 
   share() {
-    const { dispatch, location } = this.props
-    const { score } = location.query
-    const { learnFreeLimit, percent, picSrc } = this.state
-    this.setState({ share: true })
-
-    if(picSrc === '') {
-      dispatch(startLoad())
-      shareResult(score, percent).then(res => {
-        dispatch(endLoad())
-        if(res.code === 200) {
-          this.setState({ picSrc: res.msg })
-        } else {
-          dispatch(alertMsg(res.msg))
-        }
-      }).catch(e => {
-        dispatch(endLoad())
-        dispatch(alertMsg(e))
-      })
-    }
-
+    const { score } = this.props.location.query
+    const { percent, learnFreeLimit } = this.state
+    mark({ module: '打点', function: '测评', action: '点击页面领取海报按钮' })
+    this.context.router.push({pathname:'/rise/static/eva/share', query: {score, percent, learnFreeLimit}})
   }
 
-  handleClickShareBtn() {
-    mark({ module: '打点', function: '测评', action: '点击页面领取海报按钮' });
-    this.setState({ showResult: true });
+  sendMsg(){
+    const {dispatch} = this.props
+    const { score } = this.props.location.query
+    const { percent, learnFreeLimit } = this.state
+    dispatch(startLoad())
+    shareResult(score, percent).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        wx.closeWindow()
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(e => {
+      dispatch(endLoad())
+      dispatch(alertMsg(e))
+    })
   }
 
   render() {
     const {
       initialScale, backgroundPicHeight, backgroundPicWidth, learnFreeLimit,
-      result, suggestion, percent, picSrc, share
+      result, suggestion, percent
     } = this.state
+    const quitProps = {
+      buttons: [
+        {
+          label: '确定', onClick: () => {
+          this.sendMsg()
+        }
+        }
+      ]
+    }
     return (
       <div className="eva-result">
         <div className="head">
-          <AssetImg url="https://static.iqycamp.com/images/eva_report_head2.png" height={80} width={236}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_report_head4.png" height={119} width={302}/>
         </div>
         <div className="result">
-          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_2.png" height={22} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/eva_result_hr_3.png" height={57} width={174} marginTop={-30}/>
           <div className="text-result">
-            你的洞察力天赋打败了{percent}%的人。
+            你的洞察力天赋打败了{percent}%的人！
           </div>
           <pre className="text">{result}</pre>
         </div>
         <div className="suggestion">
-          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_2.png" height={25} width={323}/>
+          <AssetImg url="https://static.iqycamp.com/images/action_suggest_hr_5.png" height={58} width={174} marginTop={-20}/>
           <pre className="text">{suggestion}</pre>
         </div>
         { learnFreeLimit ? null :
           <div className="schedule">
-            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_3.png" width={'100%'}/>
+            <AssetImg url="https://static.iqycamp.com/images/eva_schedule_6.png" width={'100%'}/>
+            <div className="class-more" onClick={()=>this.context.router.push('/rise/static/plan/view?id=9')}>了解更多</div>
           </div>}
         { learnFreeLimit ?
           <div className="free-get" onClick={()=>this.share()}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_5.png" height={57} width={226}/>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_9.png" height={57} width={226}/>
           </div> :
           <div className="free-get" onClick={()=>this.share()}>
-            <AssetImg url="https://static.iqycamp.com/images/free_get_6.png" height={57} width={226}/>
+            <AssetImg url="https://static.iqycamp.com/images/free_get_8.png" height={57} width={226}/>
           </div>
         }
-
-        {share ?
-          <div className="dialog">
-            <div style={{ display: 'inline-block', float: 'right'}}
-                 onClick={()=>this.setState({share:false})}>
-              <AssetImg type="white_close_btn" size={24}/>
-            </div>
-            <div className="share-pic-container">
-              <div className="share-word-title">
-                【免费领取课程】
-              </div>
-              <pre className="share-word">
-                {learnFreeLimit ? '长按下方图片，发送给好友/群\n邀请他们也来挑战一下吧！'
-                  : `长按下方图片，发送给好友/群，邀请他们来挑战\n3人扫码完成测试，你就免费得到课程了！`}
-              </pre>
-              {picSrc ? <img className="share-pic" src={picSrc} width={'100%'}/> : null}
-            </div>
-          </div>: null}
+        <Alert { ...quitProps }
+          show={this.state.showQuit}>
+          <div className="global-pre">
+            {learnFreeLimit ? '系统已为你生成测评结果海报，敢不敢分享出来，让你的朋友也挑战一下？'
+              : '系统已为你生成测评结果海报，分享还可以免费领取【洞察力强化课程】，去看看吧~'}
+          </div>
+        </Alert>
       </div>
     )
   }
