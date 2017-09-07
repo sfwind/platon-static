@@ -65,18 +65,24 @@ export class Main extends React.Component <any, any> {
         dispatch(endLoad())
 
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        let draft = storageDraft && storageDraft.content ? storageDraft.content : msg.draft
+        console.log('遗留 draft', storageDraft)
+        let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
 
         // 对草稿数据进行处理
         if(storageDraft && id == storageDraft.id) {
-          this.setState({ edit: true })
-          autoSaveApplicationDraft(planId, id, storageDraft.content).then(res => {
-            if(res.code === 200) {
-              this.clearStorage()
-            }
+          this.setState({
+            edit: true,
+            editorValue: draft,
+            isSynchronized: false
+          }, () => {
+            autoSaveApplicationDraft(planId, id, storageDraft.content)
           })
         } else {
-          this.setState({ edit: !msg.isSynchronized })
+          this.setState({
+            edit: !msg.isSynchronized,
+            editorValue: msg.isSynchronized ? msg.content : msg.draft,
+            isSynchronized: msg.isSynchronized
+          })
         }
 
         // 更新其余数据
@@ -84,8 +90,6 @@ export class Main extends React.Component <any, any> {
           data: msg,
           submitId: msg.submitId,
           planId: msg.planId,
-          draft: draft,
-          editorValue: draft ? draft : msg.draft,
           applicationScore: res.msg.applicationScore
         })
         const { content } = msg
@@ -207,9 +211,21 @@ export class Main extends React.Component <any, any> {
   }
 
   autoSave(value) {
-    window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-      id: this.props.location.query.id, content: value
-    }))
+    let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
+
+    if(storageDraft) {
+      if(this.props.location.query.id === storageDraft.id) {
+        window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
+          id: this.props.location.query.id, content: value
+        }))
+      } else {
+        this.clearStorage()
+      }
+    } else {
+      window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
+        id: this.props.location.query.id, content: value
+      }))
+    }
     console.log(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
   }
 
@@ -320,6 +336,7 @@ export class Main extends React.Component <any, any> {
     }
     this.setState({ showDisable: true })
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
+      this.clearStorage()
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -339,7 +356,7 @@ export class Main extends React.Component <any, any> {
               submitId: msg.submitId,
               planId: msg.planId,
               edit: false,
-              editorValue: msg.draft
+              editorValue: msg.content
             })
           }
           else dispatch(alertMsg(msg))
@@ -361,6 +378,8 @@ export class Main extends React.Component <any, any> {
 
   render() {
     console.log('edit', this.state.edit)
+    console.log('isSynchronized', this.state.isSynchronized)
+    console.log('localstorage', window.localStorage.getItem(APPLICATION_AUTO_SAVING))
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
       showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
