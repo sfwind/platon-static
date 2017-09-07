@@ -59,13 +59,11 @@ export class Main extends React.Component <any, any> {
     this.setState({ integrated })
     dispatch(startLoad())
     loadApplicationPractice(id, planId).then(res => {
-      console.log(res)
       const { code, msg } = res
       if(code === 200) {
         dispatch(endLoad())
 
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        console.log('遗留 draft', storageDraft)
         let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
 
         // 对草稿数据进行处理
@@ -208,6 +206,7 @@ export class Main extends React.Component <any, any> {
 
   componentWillUnmount() {
     this.pullElement ? this.pullElement.destroy() : null
+    clearInterval(timer)
   }
 
   autoSave(value) {
@@ -226,7 +225,6 @@ export class Main extends React.Component <any, any> {
         id: this.props.location.query.id, content: value
       }))
     }
-    console.log(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
   }
 
   clearStorage() {
@@ -239,7 +237,6 @@ export class Main extends React.Component <any, any> {
     timer = setInterval(() => {
       const planId = this.state.planId
       const applicationId = this.props.location.query.id
-      console.log('自动保存了一次')
       const draft = this.refs.editor.getValue()
       if(draft.trim().length > 0) {
         autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
@@ -249,7 +246,6 @@ export class Main extends React.Component <any, any> {
         })
       }
     }, 10000)
-    // TODO 测试，记得最后把1秒改为10秒
   }
 
   onEdit() {
@@ -377,9 +373,6 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    console.log('edit', this.state.edit)
-    console.log('isSynchronized', this.state.isSynchronized)
-    console.log('localstorage', window.localStorage.getItem(APPLICATION_AUTO_SAVING))
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
       showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
@@ -449,7 +442,6 @@ export class Main extends React.Component <any, any> {
 
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
-
       if(!showCompletedBox || completdApplicationCnt === 0) return
       if(isRiseMember == 1) {
         return (
