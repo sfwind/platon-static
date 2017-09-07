@@ -55,6 +55,8 @@ import CardsCollection from "./modules/problem/CardsCollection";
 import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
 import Certificate from './modules/customer/certificate/Main'
 import CertificateProfile from './modules/customer/certificate/Personal'
+import BibleMain from './modules/bible/Main'
+import BibleReport from './modules/bible/Report'
 
 const routes = (
   <Route>
@@ -115,6 +117,8 @@ const routes = (
         <Route path="center" component={MessageCenter}/>
       </Route>
       <Route path="event/wall" component={EventWall}/>
+      <Route path="note/list" component={BibleMain}/>
+      <Route path="note/report" component={BibleReport}/>
 
       <Route component={ForumBase}>
         <Route path="/rise/static/message/question/answer" component={QuestionAnswer}/>

@@ -26,5 +26,6 @@ app.use(require('./message/router'))
 app.use(require('./customer/router'))
 app.use(require('./forum/router'))
 app.use(require('./operation/router'))
+app.use(require('./bible/router'))
 
 module.exports = app

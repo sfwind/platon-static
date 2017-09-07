@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./QuestionAnswer.less";
 import { connect } from "react-redux"
-import { DialogHead, DialogBottomBtn, DialogBottomIcon, PullSlideTip, ForumButton } from "../commons/ForumComponent";
+import { DialogHead, DialogBottomBtn, DialogBottomIcon, ForumButton } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Editor from "../../../components/editor/Editor";
@@ -9,6 +9,7 @@ import { splitText, removeHtmlTags, scroll, changeTitle } from "../../../utils/h
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AnswerComment from "./AnswerComment"
 import FullScreenDialog from "../../../components/FullScreenDialog"
+import PullSlideTip from '../../../components/PullSlideTip'
 
 interface QuestionAnswerStates {
   question: object;
