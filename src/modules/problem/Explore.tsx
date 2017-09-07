@@ -34,7 +34,6 @@ export class Explore extends React.Component<any, any> {
     mark({ module: '打点', function: '发现', action: '打开发现页面' })
     dispatch(startLoad())
     loadUnChooseList().then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ catalogList: res.msg.catalogList, hotList: res.msg.hotList }, () => {
