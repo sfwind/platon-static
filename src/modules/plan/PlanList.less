@@ -6,23 +6,25 @@
   overflow-y: auto;
   .problem-recommendation {
     width: 100%;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 2px solid #f5f5f5;
     .swiper-container {
       height: 143px;
       background-color: #FFF;
       padding-left: 15px;
     }
     .recommendation-header {
+      height: 20px;
       position: relative;
-      padding: 17px 0;
+      padding: 20px 0 18px 0;
       .header-title {
+        line-height: 20px;
         font-size: @font_title;
         color: #666;
         &:before {
           content: "";
           width: 2px;
-          height: 20px;
-          margin-top: -3px;
+          height: 17px;
+          margin-top: -4px;
           border-radius: 10px;
           display: inline-block;
           background-color: #666;
@@ -43,8 +45,8 @@
     }
     .problem-item-show {
       margin-right: 15px;
-      width: 135px;
-      height: 85px;
+      width: 120px;
+      height: 75px;
       > .img {
         position: relative;
         border-radius: 3px;
@@ -59,24 +61,30 @@
         .problem-background-electronic();
         .complete-person {
           position: absolute;
-          height: 20px;
-          right: 10px;
-          bottom: 0;
+          line-height: 12px;
+          height: 12px;
+          right: 5px;
+          bottom: 8px;
           z-index: 1;
           .icon-person {
+            float: left;
+            position: relative;
+            top: 0;
             display: inline-block;
-            width: 14px;
-            height: 20px;
-            background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
-            background-size: 14px 20px;
+            width: 12px;
+            height: 12px;
+            background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon_5.png?imageslim");
+            background-size: 12px 12px;
           }
           .completed-person-count {
-            vertical-align: top;
+            float: left;
+            position: relative;
+            top: 1px;
             display: inline-block;
-            height: 20px;
-            line-height: 20px;
+            height: 12px;
+            line-height: 12px;
+            font-size: 12px;
             color: #fff;
-            font-size: 1.1em;
           }
         }
         > img {
@@ -96,7 +104,7 @@
     }
     .found-more {
       margin-left: 15px;
-      padding-top: 15px;
+      padding-top: 30px;
 
       width: 50px;
       position: relative;
@@ -129,16 +137,19 @@
   }
 
   .plp-running {
+    border-bottom: 1px solid #F5F5F5;
     .p-r-header {
-      padding: 15px 0 0;
+      padding: 20px 0 0;
+      height: 20px;
       .p-r-h-title {
+        line-height: 20px;
         font-size: @font_title;
         color: #666;
         &:before {
           content: "";
           width: 2px;
-          height: 20px;
-          margin-top: -3px;
+          height: 17px;
+          margin-top: -4px;
           border-radius: 10px;
           display: inline-block;
           background-color: #666;
@@ -191,15 +202,15 @@
         background-color: #FFF;
         padding: 20px 15px;
         position: relative;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid #F5F5F5;
         &:after {
           content: '';
           clear: both;
           display: block;
         }
         .p-r-b-i-pic {
-          width: 135px;
-          height: 85px;
+          width: 120px;
+          height: 75px;
           display: inline-block;
           overflow: hidden;
           position: relative;
@@ -218,30 +229,36 @@
           }
           .complete-person {
             position: absolute;
-            height: 20px;
-            right: 10px;
-            bottom: 0;
+            line-height: 12px;
+            height: 12px;
+            right: 5px;
+            bottom: 8px;
             z-index: 1;
             .icon-person {
+              float: left;
+              position: relative;
+              top: 0;
               display: inline-block;
-              width: 14px;
-              height: 20px;
-              background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
-              background-size: 14px 20px;
+              width: 12px;
+              height: 12px;
+              background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon_5.png?imageslim");
+              background-size: 12px 12px;
             }
             .completed-person-count {
-              vertical-align: top;
+              float: left;
+              position: relative;
+              top: 1px;
               display: inline-block;
-              height: 20px;
-              line-height: 20px;
+              height: 12px;
+              line-height: 12px;
+              font-size: 12px;
               color: #fff;
-              font-size: 1.1em;
             }
           }
         }
         .p-r-b-i-text {
-          width: ~"calc(100% - 135px)";
-          height: 85px;
+          width: ~"calc(100% - 120px)";
+          height: 75px;
           display: inline-block;
           position: relative;
 
@@ -286,16 +303,19 @@
   }
 
   .plp-completed {
+    border-bottom: 2px solid #F5F5F5;
     .p-c-header {
-      padding: 15px 0 0;
+      height: 20px;
+      padding: 20px 0 0;
       .p-c-h-title {
+        line-height: 20px;
         font-size: @font_title;
         color: #666;
         &:before {
           content: "";
           width: 2px;
-          height: 20px;
-          margin-top: -3px;
+          height: 17px;
+          margin-top: -4px;
           border-radius: 10px;
           display: inline-block;
           background-color: #666;
@@ -325,7 +345,6 @@
         .p-c-c-r-block {
           position: relative;
           background-color: #FFFFFF;
-
           .p-c-b-pic {
             display: inline-block;
             overflow: hidden;
@@ -349,7 +368,7 @@
           .p-c-b-text {
             position: relative;
             padding: 20px 15px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #f5f5f5;
             .p-c-b-t-left {
               position: relative;
               max-width: 90%;
@@ -430,9 +449,8 @@
     color: #fff;
     position: absolute;
     text-align: center;
-    font-size: @font_title;
-    line-height: @font_title;
-    opacity: 0.8;
+    font-size: 1.8em;
+    line-height: 1.8em;
     top: 50%;
     transform: translateY(-50%);
   }

@@ -65,7 +65,7 @@
       transform: translateY(-50%) translateX(-50%);
 
       .title-content {
-        text-align: left;
+        text-align: center;
         font-size: 2.0em;
         color: #fff;
         line-height: 25px;
@@ -78,44 +78,24 @@
         z-index: 1;
         .icon-person {
           display: inline-block;
-          width: 14px;
-          height: 20px;
-          background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
-          background-size: 14px 20px;
+          width: 12px;
+          height: 12px;
+          background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon_5.png?imageslim");
+          background-size: 12px 12px;
         }
         .completed-person-count {
-          vertical-align: top;
+          position: relative;
+          bottom: 2px;
+          vertical-align: text-top;
           display: inline-block;
-          height: 20px;
-          line-height: 20px;
+          height: 12px;
+          line-height: 12px;
           color: #fff;
-          font-size: 1.1em;
+          font-size: 1.2em;
         }
       }
     }
-    > .complete-person {
-      position: absolute;
-      height: 20px;
-      z-index: 1;
-      width: 100%;
-      text-align: center;
-      margin: ~"calc(15% + 35px)" auto 0;
-      .icon-person {
-        display: inline-block;
-        width: 14px;
-        height: 20px;
-        background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
-        background-size: 14px 20px;
-      }
-      .completed-person-count {
-        vertical-align: top;
-        display: inline-block;
-        height: 20px;
-        line-height: 20px;
-        color: #fff;
-        font-size: 1.1em;
-      }
-    }
+
     > .section {
       position: absolute;
       bottom: 8px;
@@ -572,24 +552,30 @@
           }
           .complete-person {
             position: absolute;
-            height: 20px;
-            right: 10px;
-            bottom: 0;
+            line-height: 12px;
+            height: 12px;
+            right: 5px;
+            bottom: 8px;
             z-index: 1;
             .icon-person {
+              float: left;
+              position: relative;
+              top: 0;
               display: inline-block;
-              width: 14px;
-              height: 20px;
-              background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
-              background-size: 14px 20px;
+              width: 12px;
+              height: 12px;
+              background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon_5.png?imageslim");
+              background-size: 12px 12px;
             }
             .completed-person-count {
-              vertical-align: top;
+              float: left;
+              position: relative;
+              top: 1px;
               display: inline-block;
-              height: 20px;
-              line-height: 20px;
+              height: 12px;
+              line-height: 12px;
+              font-size: 12px;
               color: #fff;
-              font-size: 1.1em;
             }
           }
           img {

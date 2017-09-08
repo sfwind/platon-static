@@ -213,8 +213,8 @@ export default class PlanList extends React.Component<any, any> {
                   <div id={`problem-${item.planId}`} style={style}
                        className={`p-r-block ${key === 0 ? 'first' : ''} ${key === runningPlans.length - 1 ? 'last' : ''}`}
                        key={key} onClick={() => this.handleClickPlan(item)}>
-                    <div className="p-r-b-item">
-                      <response className="p-r-b-i-pic">
+                    <div className="p-r-b-item" style={{padding: key === 0 ? "18px 15px 20px" : '20px 15px'}}>
+                      <div className="p-r-b-i-pic">
                         <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
                         <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
                         <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
@@ -222,7 +222,7 @@ export default class PlanList extends React.Component<any, any> {
                           <div className="icon-person"/>
                           <span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>
                         </div>
-                      </response>
+                      </div>
                       <div className="p-r-b-i-text">
                         <div className="p-r-b-i-text-title">
                           {item.name}
@@ -303,7 +303,7 @@ export default class PlanList extends React.Component<any, any> {
                     return (
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
-                        <div className="p-c-b-text">
+                        <div className="p-c-b-text" style={{padding: key === 0 ? '18px 15px 20px' : '20px 15px'}}>
                           <div className="p-c-b-t-left">
                             <div className="p-c-b-t-l-title">
                               {plan.name}
@@ -334,7 +334,7 @@ export default class PlanList extends React.Component<any, any> {
                     return (
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
-                        <div className="p-c-b-text">
+                        <div className="p-c-b-text" style={{padding: key === 0 ? '18px 15px 20px' : '20px 15px'}}>
                           <div className="p-c-b-t-left">
                             <div className="p-c-b-t-l-title">
                               {plan.name}
