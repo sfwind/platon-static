@@ -23,10 +23,10 @@ export default class ProblemItem extends React.Component<any, any> {
           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
           <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-          <div className="complete-person">
-            <div className="icon-person"/>
-            <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
-          </div>
+          {/*<div className="complete-person">*/}
+            {/*<div className="icon-person"/>*/}
+            {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+          {/*</div>*/}
         </div>
         <div className="desc">
           <div className="problem-title">{problem.name}</div>

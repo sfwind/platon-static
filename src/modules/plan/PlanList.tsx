@@ -218,10 +218,10 @@ export default class PlanList extends React.Component<any, any> {
                         <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
                         <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
                         <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
-                        <div className="complete-person">
-                          <div className="icon-person"/>
-                          <span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>
-                        </div>
+                        {/*<div className="complete-person">*/}
+                          {/*<div className="icon-person"/>*/}
+                          {/*<span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>*/}
+                        {/*</div>*/}
                       </div>
                       <div className="p-r-b-i-text">
                         <div className="p-r-b-i-text-title">
@@ -269,10 +269,10 @@ export default class PlanList extends React.Component<any, any> {
                           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                           <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-                          <div className="complete-person">
-                            <div className="icon-person"/>
-                            <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
-                          </div>
+                          {/*<div className="complete-person">*/}
+                            {/*<div className="icon-person"/>*/}
+                            {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                          {/*</div>*/}
                         </div>
                         <span>{problem.problem}</span>
                       </div>

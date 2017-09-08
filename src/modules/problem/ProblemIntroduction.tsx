@@ -772,10 +772,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                       <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                       <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                      <div className="complete-person">
-                        <div className="icon-person"/>
-                        <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
-                      </div>
+                      {/*<div className="complete-person">*/}
+                        {/*<div className="icon-person"/>*/}
+                        {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                      {/*</div>*/}
                     </div>
                     <div className="problem-problem">{problem.problem}</div>
                     <div className="problem-catalog">
@@ -796,10 +796,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className={`back-img catalog${data.catalogId}`}/>
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
-            <div className="complete-person">
-              <div className="icon-person"/>
-              <span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>
-            </div>
+            {/*<div className="complete-person">*/}
+              {/*<div className="icon-person"/>*/}
+              {/*<span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>*/}
+            {/*</div>*/}
           </div>
           <div className="section">
             {'#'.concat(data.catalog)}

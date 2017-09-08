@@ -130,85 +130,85 @@ export class Explore extends React.Component<any, any> {
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">
                   {hotList ? hotList.map((problem, key) => {
-                      return (
+                    return (
 
-                        <div onClick={()=>this.clickProblem(problem)} className="problem-item-show swiper-slide">
-                          <div className="img">
-                            { problem.newProblem ?
-                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                        style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null}
-                            { problem.trial ?
-                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                        style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null}
-                            { problem.status === 2 ?
-                              <div className="complete-problem">
-                                <AssetImg type="success" size={12}
-                                          style={{margin: '0 3px', verticalAlign:'middle'}}/>
-                                <span className="complete-text">已完成</span>
-                              </div> :
-                            <div className="complete-person">
-                              <div className="icon-person"/>
-                              <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
-                            </div>
+                      <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                        <div className="img">
+                          { problem.newProblem ?
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                      style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null}
+                          { problem.trial ?
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                      style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null}
+                          { problem.status === 2 ?
+                            <div className="complete-problem">
+                              <AssetImg type="success" size={12}
+                                        style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
+                              <span className="complete-text">已完成</span>
+                            </div> : null
                           }
+                          {/*<div className="complete-person">*/}
+                          {/*<div className="icon-person"/>*/}
+                          {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                          {/*</div>*/}
                           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                           <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-                          </div>
-                          <span>{problem.problem}</span>
                         </div>
-                      )
-                    }) : null}
+                        <span>{problem.problem}</span>
+                      </div>
+                    )
+                  }) : null}
                 </div>
                 <div className="swiper-scrollbar" id="hotbar"/>
               </div>
             </div>
             {catalogList ? catalogList.map((catalog, key) => {
-                return (
-                  <div className="problem-catalog">
-                    <div className="header">
-                      <span className="catalog-name">{catalog.name}</span>
-                      <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
-                    </div>
-                    <div className="problem-box swiper-container" id={`catalog${key}`}>
-                      <div className="swiper-wrapper">
-                        {catalog.problemList ? catalog.problemList.map((problem, key) => {
-                            return (
-                              <div onClick={()=>this.clickProblem(problem)} className="problem-item-show swiper-slide">
-                                <div className="img">
-                                  { problem.newProblem ?
-                                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                              style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null
-                                  }
-                                  { problem.trial ?
-                                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                              style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null
-                                  }
-                                  { problem.status === 2 ?
-                                    <div className="complete-problem">
-                                      <AssetImg type="success" size={12}
-                                                style={{margin: '0 3px', verticalAlign:'middle'}}/>
-                                      <span className="complete-text">已完成</span>
-                                    </div> :
-                                  <div className="complete-person">
-                                  <div className="icon-person"/>
-                                  <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
-                                </div>
+              return (
+                <div className="problem-catalog">
+                  <div className="header">
+                    <span className="catalog-name">{catalog.name}</span>
+                    <span className="catalog-more" onClick={() => this.openMore(catalog)}>更多</span>
+                  </div>
+                  <div className="problem-box swiper-container" id={`catalog${key}`}>
+                    <div className="swiper-wrapper">
+                      {catalog.problemList ? catalog.problemList.map((problem, key) => {
+                        return (
+                          <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                            <div className="img">
+                              { problem.newProblem ?
+                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                          style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
                               }
+                              { problem.trial ?
+                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                          style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
+                              }
+                              { problem.status === 2 ?
+                                <div className="complete-problem">
+                                  <AssetImg type="success" size={12}
+                                            style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
+                                  <span className="complete-text">已完成</span>
+                                </div> : null
+                              }
+                              {/*<div className="complete-person">*/}
+                              {/*<div className="icon-person"/>*/}
+                              {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                              {/*</div>*/}
                               <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                               <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                               <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-                                </div>
-                                <span>{problem.problem}</span>
-                              </div>
-                            )
-                          }) : null}
-                      </div>
-                      <div className="swiper-scrollbar" id={`catalogbar${key}`}/>
+                            </div>
+                            <span>{problem.problem}</span>
+                          </div>
+                        )
+                      }) : null}
                     </div>
+                    <div className="swiper-scrollbar" id={`catalogbar${key}`}/>
                   </div>
-                )
-              }) : null}
+                </div>
+              )
+            }) : null}
 
           </div>
         </div>
