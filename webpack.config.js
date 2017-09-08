@@ -4,7 +4,8 @@ var webpack = require("webpack")
 module.exports = {
 	devtool: false, // 增加开发速度
 	entry: [
-		"./src/index.tsx"
+    "babel-polyfill",
+    "./src/index.tsx"
 	],
 	output: {
 		path: path.join(__dirname, "__build__"),
