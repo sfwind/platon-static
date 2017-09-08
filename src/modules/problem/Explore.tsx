@@ -132,9 +132,8 @@ export class Explore extends React.Component<any, any> {
                   {hotList ? hotList.map((problem, key) => {
                       return (
 
-                        <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
-                             className="problem-item-show swiper-slide">
-                          <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                        <div onClick={()=>this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                          <div className="img">
                             { problem.newProblem ?
                               <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
                                         style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null}
@@ -175,9 +174,8 @@ export class Explore extends React.Component<any, any> {
                       <div className="swiper-wrapper">
                         {catalog.problemList ? catalog.problemList.map((problem, key) => {
                             return (
-                              <div onClick={()=>this.clickProblem(problem)} style={{width:`${this.picWidth}px`}}
-                                   className="problem-item-show swiper-slide">
-                                <div className="img" style={{width:`${this.picWidth}px`,height:`${this.picHeight}px`}}>
+                              <div onClick={()=>this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                                <div className="img">
                                   { problem.newProblem ?
                                     <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
                                               style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null

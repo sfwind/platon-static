@@ -1,30 +1,32 @@
 @import "../../style/variable";
 
 .plan-list-page {
-  background: #efefef;
+  background: #fff;
   height: ~"calc(100% + 1px)";
   overflow-y: auto;
   .problem-recommendation {
     width: 100%;
+    border-bottom: 1px solid #e0e0e0;
     .swiper-container {
+      height: 143px;
       background-color: #FFF;
-      padding-left: 10px;
+      padding-left: 15px;
     }
     .recommendation-header {
       position: relative;
       padding: 17px 0;
       .header-title {
         font-size: @font_title;
-        color: #9a9a9a;
+        color: #666;
         &:before {
           content: "";
-          width: 5px;
-          height: 22px;
+          width: 2px;
+          height: 20px;
           margin-top: -3px;
           border-radius: 10px;
           display: inline-block;
-          background-color: @color_strong;
-          margin-left: 10px;
+          background-color: #666;
+          margin-left: 15px;
           margin-right: 5px;
           vertical-align: middle;
         }
@@ -40,8 +42,11 @@
       }
     }
     .problem-item-show {
-      margin: 15px 5px 5px;
+      margin-right: 15px;
+      width: 135px;
+      height: 85px;
       > .img {
+        position: relative;
         border-radius: 3px;
         margin-bottom: 10px;
         overflow: hidden;
@@ -52,6 +57,28 @@
         background-position: 100% 10%;
         position: relative;
         .problem-background-electronic();
+        .complete-person {
+          position: absolute;
+          height: 20px;
+          right: 10px;
+          bottom: 0;
+          z-index: 1;
+          .icon-person {
+            display: inline-block;
+            width: 14px;
+            height: 20px;
+            background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
+            background-size: 14px 20px;
+          }
+          .completed-person-count {
+            vertical-align: top;
+            display: inline-block;
+            height: 20px;
+            line-height: 20px;
+            color: #fff;
+            font-size: 1.1em;
+          }
+        }
         > img {
           position: absolute;
           right: 0;
@@ -60,10 +87,9 @@
       }
 
       span {
-        height: 3.0em;
         display: block;
         font-size: 1.2em;
-        line-height: 1.3em;
+        line-height: 1.2em;
         white-space: normal;
         color: @color_context;
       }
@@ -104,19 +130,19 @@
 
   .plp-running {
     .p-r-header {
-      padding: 14px 0;
+      padding: 15px 0 0;
       .p-r-h-title {
         font-size: @font_title;
-        color: #9a9a9a;
+        color: #666;
         &:before {
           content: "";
-          width: 5px;
-          height: 22px;
+          width: 2px;
+          height: 20px;
           margin-top: -3px;
           border-radius: 10px;
           display: inline-block;
-          background-color: @color_strong;
-          margin-left: 10px;
+          background-color: #666;
+          margin-left: 15px;
           margin-right: 5px;
           vertical-align: middle;
         }
@@ -149,7 +175,7 @@
     }
 
     .p-r-block {
-      margin: 15px auto;
+      margin: 0 auto;
       -webkit-transition: transform 1s;
       -moz-transition: transform 1s;
       -ms-transition: transform 1s;
@@ -163,21 +189,22 @@
       }
       .p-r-b-item {
         background-color: #FFF;
-        padding: 15px 5px 15px 15px;
+        padding: 20px 15px;
         position: relative;
+        border-bottom: 1px solid #e0e0e0;
         &:after {
           content: '';
           clear: both;
           display: block;
         }
         .p-r-b-i-pic {
+          width: 135px;
+          height: 85px;
           display: inline-block;
           overflow: hidden;
           position: relative;
           vertical-align: top;
           float: left;
-          width: 135px;
-          height: 84px;
           -webkit-border-radius: 3px;
           -moz-border-radius: 3px;
           border-radius: 3px;
@@ -189,37 +216,69 @@
             right: 0;
             top: 0;
           }
+          .complete-person {
+            position: absolute;
+            height: 20px;
+            right: 10px;
+            bottom: 0;
+            z-index: 1;
+            .icon-person {
+              display: inline-block;
+              width: 14px;
+              height: 20px;
+              background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon.png?imageslim");
+              background-size: 14px 20px;
+            }
+            .completed-person-count {
+              vertical-align: top;
+              display: inline-block;
+              height: 20px;
+              line-height: 20px;
+              color: #fff;
+              font-size: 1.1em;
+            }
+          }
         }
         .p-r-b-i-text {
-          margin-left: 15px;
+          width: ~"calc(100% - 135px)";
+          height: 85px;
           display: inline-block;
-          margin-top: -4px;
+          position: relative;
+
+          > div {
+            position: relative;
+          }
           .p-r-b-i-text-title {
-            font-size: @font_context;
-            line-height: @font_context;
-            color: @color_context;
+            font-size: 1.5em;
+            line-height: 1.5em;
+            color: #333;
             word-wrap: break-word;
+            padding: 0 0 0 15px;
           }
           .p-r-b-i-text-done {
-            font-size: @font_click;
-            line-height: @font_context;
-            color: @color_title;
+            font-size: 1.2em;
+            line-height: 1.2em;
+            color: #666;
             word-wrap: break-word;
+            margin-top: 5px;
+            padding: 0 0 0 15px;
           }
           .p-r-b-i-text-close {
-            font-size: @font_click;
-            line-height: @font_context;
-            color: @color_title;
+            font-size: 1.2em;
+            line-height: 1.2em;
+            color: #666;
             word-wrap: break-word;
+            margin-top: 5px;
+            padding: 0 0 0 15px;
           }
           .running-problem-button {
-            width: 66px;
+            position: absolute;
+            width: 60px;
             height: 24px;
             background-image: url("https://static.iqycamp.com/images/fragment/go_learn.png?imageslim");
             background-size: 100% 100%;
-            position: absolute;
-            right: 10px;
-            bottom: 20px;
+            right: 0;
+            bottom: 0;
           }
         }
       }
@@ -228,19 +287,19 @@
 
   .plp-completed {
     .p-c-header {
-      padding: 14px 0;
+      padding: 15px 0 0;
       .p-c-h-title {
         font-size: @font_title;
-        color: #9a9a9a;
+        color: #666;
         &:before {
           content: "";
-          width: 5px;
-          height: 22px;
+          width: 2px;
+          height: 20px;
           margin-top: -3px;
           border-radius: 10px;
           display: inline-block;
-          background-color: @color_strong;
-          margin-left: 10px;
+          background-color: #666;
+          margin-left: 15px;
           margin-right: 5px;
           vertical-align: middle;
         }
@@ -254,76 +313,18 @@
       }
     }
     .p-c-container {
-      background: rgb(88, 177, 223);
-      background: -webkit-gradient(linear, center top, center bottom, from(#55cbcb), to(#42afe7));
       &.none {
         background: #FFF;
-        .p-c-c-r-block {
-          padding-bottom: 25px !important;
-        }
-      }
-      &:after {
-        content: '';
-        display: block;
-        clear: both;
       }
       .p-c-c-left {
         width: 56px;
         height: 100%;
         float: left;
-        .color-generator {
-
-        }
       }
       .p-c-c-right {
-        float: right;
-        &:before {
-          width: 20px;
-          height: 100%;
-          display: block;
-          content: '';
-        }
         .p-c-c-r-block {
           position: relative;
           background-color: #FFFFFF;
-          padding: 12.5px 13px 12.5px 0;
-          height: 53px;
-          &.first {
-            padding-top: 25px;
-          }
-          .p-c-c-r-b-icon {
-            position: absolute;
-            top: 0;
-            left: -56px;
-            height: 100%;
-            width: 56px;
-            .gap {
-              &.first {
-                height: 26px;
-                background: #FFF;
-              }
-              &.bottom {
-                height: 56px;
-                &.last {
-                  background: #FFF;
-                  height: 43.5px;
-                }
-              }
-              height: 13px;
-              background: url("../../../assets/img/rise_icon_hr.png") repeat-y center center/100% auto;
-            }
-            .hr {
-              &.last {
-                background: #FFF;
-                height: 0;
-              }
-              background: url("../../../assets/img/rise_icon_hr.png") repeat-y center center/100% auto;
-            }
-            .tick {
-              background: url("../../../assets/img/rise_icon_tick.png") no-repeat center center/100% auto;
-              height: 22px;
-            }
-          }
 
           .p-c-b-pic {
             display: inline-block;
@@ -346,40 +347,30 @@
             }
           }
           .p-c-b-text {
-            &:after {
-              content: '';
-              display: block;
-              clear: both;
-            }
+            position: relative;
+            padding: 20px 15px;
+            border-bottom: 1px solid #e0e0e0;
             .p-c-b-t-left {
-              float: left;
-              margin-left: 8px;
+              position: relative;
+              max-width: 90%;
               .p-c-b-t-l-title {
                 font-size: 1.5em;
                 line-height: 1.5em;
-                color: @color_title;
-                margin-top: -4px;
+                color: #333;
               }
               .p-c-b-t-l-close {
-                font-size: @font_index;
-                line-height: @font_index;
-                color: #f7c310;
-                margin-top: -2px;
+                font-size: 1.2em;
+                line-height: 1.2em;
+                color: #666;
               }
             }
             .p-c-b-t-right {
-              float: right;
-              .p-c-b-t-tip {
-                margin-top: -2px;
-                color: #42afe7;
-                font-size: @font_index;
-                line-height: @font_index;
-              }
-              .p-c-b-t-point {
-                color: #42afe7;
-                font-size: 1.8em;
-                line-height: 1.8em;
-              }
+              position: absolute;
+              right: 5%;
+              top: 50%;
+              font-size: 1.5em;
+              color: #333;
+              transform: translateY(-50%);
             }
           }
         }
