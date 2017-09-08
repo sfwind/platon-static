@@ -1,64 +1,105 @@
 @import "../../style/variable";
 
-.learn-point-container{
-  .card-person{
-    background: #11c2c4;
-    background: -webkit-gradient(linear, center top, center bottom, from(#11c2c4), to(#069acd));
-    height: 200px;
-    > .person{
-      padding-top: 50px;
-      margin-left: 30px;
-      height: 60px;
-      > .avatar {
-        display: inline-block;
-        border-radius: 60px;
-        height: 60px;
-        width: 60px;
-      }
-      > .nickname{
-        display: inline-block;
-        color: @color_white;
-        height: 60px;
-        margin-left: 10px;
-      }
-    }
-
-  }
-  .card-point{
+.learn-point-container {
+  background: url('https://static.iqycamp.com/images/note_report_bg2.png?imageslim') no-repeat fixed top center;
+  background-size: 100% auto;
+  .card-point {
     position: absolute;
-    left: 5%;
-    width: 90%;
-    top: 150px;
+    left: 30px;
+    width: ~"calc(100% - 60px)";
+    top: 50px;
     z-index: 1;
     background: @color_white;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
-    > .card-title{
+    box-shadow: 0 0 10px rgba(79, 172, 242, 0.2);
+    > .card-title {
+      margin-top: 23px;
       font-size: 1.4em;
       text-align: center;
       color: @color_context;
     }
-    > .read-word-count{
+    > .read-word-count {
       font-size: 2.0em;
       color: #1d87ff;
       text-align: center;
     }
-    > .card-hr{
+    > .qrcode-container {
+      margin-top: 50px;
+      > .qrcode-hr {
+        height: 1px;
+        background-color: @color_weak_background;
+      }
+      > .quanwai-brand {
+        margin: 30px 20px;
+        > .qrcode {
+          display: inline-block;
+          width: 102px;
+          height: 102px;
+        }
+        > .brand-text {
+          display: inline-block;
+          margin-left: 20px;
+          width: ~"calc(100% - 122px)";
+          vertical-align: top;
+          > .brand-text1 {
+            font-size: 1.4em;
+            color: #1d87ff;
+          }
+          > .brand-text2 {
+            font-size: 1.0em;
+            line-height: 14px;
+            color: @color_context;
+          }
+          > .brand-text3 {
+            margin-top: 8px;
+            font-size: 1.0em;
+            color: @color_title;
+          }
+        }
+      }
+    }
+    > .card-hr {
       margin-top: 23px;
       height: 1px;
       background-color: @color_weak_background;
     }
-    > .report-title{
-      margin: 23px 0;
+    > .report-title {
+      margin: 23px 0 8px;
       font-size: 1.2em;
       text-align: center;
       color: @color_title;
     }
-    > .echart-report{
-      height:300px;
+    > .echart-report {
+      height: 200px;
+    }
+    .share-button {
+      border-radius: @border-radius;
+      margin: 115px auto 30px;
+      left: ~"calc((100% - 144px) / 2)";
+      width: 134px;
+      height: 45px;
+      line-height: 45px;
+      text-align: center;
+      font-size: 1.8em;
+      color: @color_white;
+      background: #7daeeb;
+      background: -webkit-gradient(linear, center top, center bottom, from(#7daeeb), to(#7899ef));
+      letter-spacing: 10px;
+      padding-left: 10px;
     }
   }
-  .share-button{
-    border-radius: 10px;
+  .share-tip {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    > .tip-pic {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
   }
 
 }

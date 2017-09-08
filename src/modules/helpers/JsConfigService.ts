@@ -179,6 +179,39 @@ class JsConfigService {
       });
     }
   }
+
+
+  public configShare(title, url, imgUrl, desc, apiList = []) {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
+    if (res.code === 200) {
+      wx.config(_.merge({
+        debug: false,
+        jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
+      }, res.msg))
+      wx.ready(() => {
+        // hideOptionMenu()
+        wx.onMenuShareTimeline({
+          title: title, // 分享标题
+          link: url, // 分享链接
+          imgUrl: imgUrl, // 分享图标
+        });
+        // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
+        wx.onMenuShareAppMessage({
+          title: title, // 分享标题
+          desc: desc, // 分享描述
+          link: url, // 分享链接
+          imgUrl: imgUrl, // 分享图标
+          type: 'link', // 分享类型,music、video或link，不填默认为link
+        });
+      })
+      wx.error(function (e) {
+        console.log(e)
+      })
+    } else {
+    }
+  }).catch((err) => {
+  })
+}
 }
 
 export default new JsConfigService();

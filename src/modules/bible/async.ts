@@ -22,6 +22,10 @@ export function loadScore(){
   return pget(`/rise/bible/open/load/score`);
 }
 
+export function loadUserScore(riseId, date){
+  return pget(`/rise/bible/guest/load/score`, {riseId, date});
+}
+
 export function firstOpen(){
   return ppost(`/rise/bible/open/bible`);
 }

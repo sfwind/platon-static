@@ -6,6 +6,7 @@ import './Main.less'
 import PullSlideTip from '../../components/PullSlideTip'
 import PullElement from 'pull-element'
 import _ from "lodash"
+import AssetImg from '../../components/AssetImg'
 var moment = require('moment')
 
 const BROWSE_DATE = 'bible_browse_date'
@@ -46,7 +47,7 @@ export default class Main extends React.Component<any, any> {
     loadArticle(browse_date).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ data: res.msg, end: res.msg.isDateEnd, openTip: res.msg.firstOpen })
+        this.setState({ data: res.msg.list, end: res.msg.isDateEnd, openTip: res.msg.firstOpen })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -75,12 +76,14 @@ export default class Main extends React.Component<any, any> {
           }
         },
         onPullUpEnd: () => {
+          alert('pull end')
           let browse_date = window.localStorage.getItem(BROWSE_DATE)
           let lastDay = moment(browse_date).add(-1, 'days').format('YYYY-MM-DD')
 
           loadArticleCertainDate(lastDay).then(res => {
             if(res.code === 200) {
               this.saveBrowseDate(lastDay)
+              data.push(res.msg.list)
               this.setState({ data, end: res.msg.isDateEnd })
             } else {
               dispatch(alertMsg(res.msg))
@@ -99,8 +102,12 @@ export default class Main extends React.Component<any, any> {
       })
       this.pullElement.init()
     }
-    if(this.pullElement && this.state.end) {
-      this.pullElement.destroy()
+    if(this.pullElement) {
+      if(this.state.end) {
+        this.pullElement.disable()
+      } else {
+        this.pullElement.enable()
+      }
     }
   }
 
@@ -113,12 +120,9 @@ export default class Main extends React.Component<any, any> {
   }
 
   dislike(articleId, index, dateIdx) {
-    const { dispatch } = this.props
     const { data } = this.state
-    const { list } = data
-    const { articleList } = list[ dateIdx ]
+    const { articleList } = data[ dateIdx ]
     let dislike = articleList[ index ].disfavor
-    console.log(dislike)
     if(dislike === 1) {
       dislike = 0
       like(articleId)
@@ -127,8 +131,7 @@ export default class Main extends React.Component<any, any> {
       disLike(articleId)
     }
     _.set(articleList[ index ], 'disfavor', dislike)
-    _.set(list[ dateIdx ], 'articleList', articleList)
-    _.set(data, 'list', list)
+    _.set(data[ dateIdx ], 'articleList', articleList)
     this.setState({ data })
   }
 
@@ -154,17 +157,15 @@ export default class Main extends React.Component<any, any> {
   render() {
     const { data, end, openTip } = this.state
 
-    const { list = [] } = data
     const renderDailyArticles = () => {
-      if(list.length !== 0) {
+      if(data.length !== 0) {
         return (
-          list.map((day, index) => {
+          data.map((day, index) => {
             const { articleList = [], date } = day
             return (
               <div key={index}>
                 <div className="article-date">{date}</div>
                 <div className="article">{renderArticles(articleList, index)}</div>
-                <div className="article-relief">以上为竞选文章友情链接，如有版权问题，请联系我们</div>
               </div>
             )
           })
@@ -207,12 +208,13 @@ export default class Main extends React.Component<any, any> {
     const renderTip = () => {
       return (
         <div className="tip-card">
-          <div className="tip-head"></div>
+          <div className="tip-head"><AssetImg url="https://static.iqycamp.com/images/note_tip_head.png" width={'100%'}/></div>
           {openTip ?
             <NoteTip fold={()=>this.readTip()} />
             :
             <div className="tip-read-bottom" onClick={()=>this.setState({openTip:true})}>
-              详情
+              <div className="detail-word">详情</div>
+              <AssetImg type="unfold" width={13}/>
             </div>}
         </div>
       )

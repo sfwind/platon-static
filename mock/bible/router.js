@@ -102,12 +102,89 @@ router.get("/rise/bible/open/load/score", (req, res) => {
           todayPoint:2,
           totalPoint:3.3,
           today:'2017-09-01'
+        },{
+          tagId:2,
+          tagName:"新闻",
+          yesterdayPoint:1.3,
+          todayPoint:3,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        },{
+          tagId:3,
+          tagName:"体育",
+          yesterdayPoint:1.3,
+          todayPoint:8,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        },{
+          tagId:4,
+          tagName:"娱乐",
+          yesterdayPoint:1.3,
+          todayPoint:12,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        },{
+          tagId:5,
+          tagName:"笑话",
+          yesterdayPoint:1.3,
+          todayPoint:13,
+          totalPoint:3.3,
+          today:'2017-09-01'
         }],
         "riseId": "of8voz9",
-        "totalWords": 0,
+        "totalWords": 1003,
         "nickName": "宋金虎",
-        "headImage": "https://wx.qlogo.cn/mmopen/EH7IlM7dhSMyu4wcAplO0jBAYgShwBWM4PGrQMtt7ibmQwORy6Z2sxiaibDI09ib125YeEqsRWFX3z3JVDSRsCS9gOyFSnuvWSU6/0"
-        "qrCode":"ffff"
+        "headImage": "https://wx.qlogo.cn/mmopen/EH7IlM7dhSMyu4wcAplO0jBAYgShwBWM4PGrQMtt7ibmQwORy6Z2sxiaibDI09ib125YeEqsRWFX3z3JVDSRsCS9gOyFSnuvWSU6/0",
+        "qrCode":"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGB7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAycGRQdXNKVWJjU2wxVXNScHhwY3AAAgQcKLJZAwQAjScA"
+      }, "code": 200
+    }), Math.random() * 1500);
+});
+
+router.get("/rise/bible/guest/load/score", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "compareGroup": [{
+          tagId:1,
+          tagName:"社会",
+          yesterdayPoint:1.3,
+          todayPoint:2,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        },{
+          tagId:2,
+          tagName:"新闻",
+          yesterdayPoint:1.3,
+          todayPoint:3,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        },{
+          tagId:3,
+          tagName:"体育",
+          yesterdayPoint:1.3,
+          todayPoint:8,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        },{
+          tagId:4,
+          tagName:"娱乐",
+          yesterdayPoint:1.3,
+          todayPoint:12,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        },{
+          tagId:5,
+          tagName:"笑话",
+          yesterdayPoint:1.3,
+          todayPoint:13,
+          totalPoint:3.3,
+          today:'2017-09-01'
+        }],
+        "riseId": "of8voz9",
+        "totalWords": 1003,
+        "nickName": "宋金虎",
+        "headImage": "https://wx.qlogo.cn/mmopen/EH7IlM7dhSMyu4wcAplO0jBAYgShwBWM4PGrQMtt7ibmQwORy6Z2sxiaibDI09ib125YeEqsRWFX3z3JVDSRsCS9gOyFSnuvWSU6/0",
+        "qrCode":"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGB7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAycGRQdXNKVWJjU2wxVXNScHhwY3AAAgQcKLJZAwQAjScA"
       }, "code": 200
     }), Math.random() * 1500);
 });
