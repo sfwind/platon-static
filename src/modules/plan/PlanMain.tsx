@@ -699,8 +699,12 @@ export class PlanMain extends React.Component <any, any> {
                   <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
                 </div>
                 <div className="desc">{typeMap[item.type].desc}</div>
-                {item.status !== 1 && item.unlocked === true ?
-                  <div className={`practice-start-btn start-btn${sequence}`}/> : null}
+                {
+                  item.status === 1 ?
+                    <div className="completed-span">已完成</div> :
+                    item.unlocked === true ?
+                      <div className={`practice-start-btn start-btn${sequence}`}/> : null
+                }
               </div>
             </div>
           )
