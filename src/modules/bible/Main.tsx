@@ -76,7 +76,6 @@ export default class Main extends React.Component<any, any> {
           }
         },
         onPullUpEnd: () => {
-          alert('pull end')
           let browse_date = window.localStorage.getItem(BROWSE_DATE)
           let lastDay = moment(browse_date).add(-1, 'days').format('YYYY-MM-DD')
 
