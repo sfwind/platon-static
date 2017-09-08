@@ -15,6 +15,7 @@ const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
 import { GoodsType, buttonStatus } from '../../utils/helpers'
+import { collectProblem, disCollectProblm, loadRecommendations } from '../plan/async'
 //限免小课id
 const FREE_PROBLEM_ID = 9
 
@@ -63,7 +64,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       showPayInfo: false,
       showErr: false,
       showFloatCoupon: false,
-      togetherClassMonth: null
+      togetherClassMonth: null,
+
+      relationTab: 'left',
+      problemCollected: false
     }
   }
 
@@ -127,8 +131,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         currentPlanId: problemMsg.planId,
         bindMobile: problemMsg.bindMobile,
         isFull: problemMsg.isFull,
-        togetherClassMonth: problemMsg.togetherClassMonth
+        togetherClassMonth: problemMsg.togetherClassMonth,
+        problemCollected: problemMsg.problemCollected
       })
+      this.handleLoadStyleSheet(problemMsg.problem.catalogId)
     }, reason => {
       dispatch(endLoad())
       if(reason !== 'refresh') {
@@ -151,6 +157,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25))
     this.whoFontSize = (window.innerWidth / (750 / 30)) > 15 ? 15 : (window.innerWidth / (750 / 30))
     this.whoNumFontSize = (window.innerWidth / (750 / 48)) > 24 ? 24 : (window.innerWidth / (750 / 48))
+
   }
 
   /**
@@ -177,7 +184,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: msg } })
           return
         }
-
         if(!isFull) {
           // 没有填写过
           this.context.router.push({
@@ -322,11 +328,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
    * 获取商品信息
    */
   handleGotGoods(goods) {
-    let price = get(goods, 'activity.price');
+    let price = get(goods, 'activity.price')
     if(price) {
-      this.setState({ fee: goods.fee, coupons: goods.coupons, price: price });
+      this.setState({ fee: goods.fee, coupons: goods.coupons, price: price })
     } else {
-      this.setState({ fee: goods.fee, coupons: goods.coupons });
+      this.setState({ fee: goods.fee, coupons: goods.coupons })
     }
   }
 
@@ -350,23 +356,101 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: currentPlanId } })
   }
 
+  /**
+   * 切换头图部分
+   */
+  onClickExchangeRelationTab(choose) {
+    switch(choose) {
+      case 'left':
+        this.setState({ relationTab: 'left' })
+        break
+      case 'right':
+        this.setState({ relationTab: 'right' })
+        break
+      default:
+        break
+    }
+  }
+
+  /**
+   * 加载关联小课
+   **/
+  onClickLoadRelationProblems(problemId) {
+    if(this.state.relationProblems && this.state.relationProblems.length > 0) return
+    const { dispatch } = this.props
+    loadRecommendations(problemId).then(res => {
+      let relationProblems = []
+      res.msg.map((category, index1) => category.recommendProblems.map((item, index2) => {
+        relationProblems.push(item)
+      }))
+      this.setState({ relationProblems: relationProblems })
+    }).catch(e => {
+      dispatch(alertMsg(e))
+    })
+  }
+
+  onClickHandleProblemCollection(selected, problemId) {
+    const { dispatch } = this.props
+    if(selected) {
+      // 已经关注
+      disCollectProblm(problemId).then(res => {
+        if(res.code === 200) {
+          this.setState({ problemCollected: false })
+        }
+      }).catch(e => dispatch(alertMsg(e.msg)))
+    } else {
+      // 还未关注
+      collectProblem(problemId).then(res => {
+        if(res.code === 200) {
+          this.setState({ problemCollected: true })
+        }
+      }).catch(e => dispatch(alertMsg(e.msg)))
+
+    }
+  }
+
+  handleLoadStyleSheet(catalogId) {
+    // 区分加载样式表
+    let node = document.getElementById('problem-introduction')
+    if(node) {
+      const tempCatalogId = catalogId
+      switch(tempCatalogId) {
+        case 1:
+          node.classList.add('rise-main-container-green')
+          require('../plan/PlanMainLessCategory/Green.less')
+          break
+        case 2:
+          node.classList.add('rise-main-container-yellow')
+          require('../plan/PlanMainLessCategory/Yellow.less')
+          break
+        case 3:
+          node.classList.add('rise-main-container-orange')
+          require('../plan/PlanMainLessCategory/Orange.less')
+          break
+        case 4:
+          node.classList.add('rise-main-container-blue')
+          require('../plan/PlanMainLessCategory/Blue.less')
+          break
+        case 5:
+          node.classList.add('rise-main-container-purple')
+          require('../plan/PlanMainLessCategory/Purple.less')
+          break
+        default:
+          break
+      }
+    }
+  }
+
   render() {
-    const { data = {}, buttonStatus, showPayInfo, final, fee, price, coupons = [], chose, showErr, free, showFloatCoupon, togetherClassMonth } = this.state
+    const {
+      data = {}, buttonStatus, showPayInfo, final, fee, price, coupons = [], chose, showErr, free,
+      showFloatCoupon, togetherClassMonth, relationTab, problemCollected, relationProblems = []
+    } = this.state
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
       descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords
     } = data
-
-    const renderCatalogName = (catalog, subCatalog) => {
-      if(catalog && subCatalog) {
-        return `#${catalog}-${subCatalog}`
-      } else if(catalog) {
-        return `#${catalog}`
-      } else {
-        return null
-      }
-    }
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -414,17 +498,16 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const renderPrice = (fee, price) => {
       if(price) {
         return [
-          <span style={{marginLeft:'10px',textDecoration:'line-through'}}>¥{numeral(fee).format('0,0.00')}</span>,
-          <span style={{marginLeft:'10px'}}>¥{numeral(price).format('0,0.00')}</span>,
-          <span style={{marginLeft:'10px'}}>粉丝特惠</span>
-        ];
+          <span style={{ marginLeft: '10px', textDecoration: 'line-through' }}>¥{numeral(fee).format('0,0.00')}</span>,
+          <span style={{ marginLeft: '10px' }}>¥{numeral(price).format('0,0.00')}</span>,
+          <span style={{ marginLeft: '10px' }}>粉丝特惠</span>
+        ]
       } else {
         return `¥ ${numeral(fee).format('0,0.00')}，立即学习`
       }
     }
 
     const renderFooter = () => {
-      console.log('buttonStatus:', buttonStatus)
       if(!show) {
         let footerBar = <div className="padding-footer" style={{ height: '45px' }}/>
         let list = []
@@ -511,7 +594,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
                     ¥ {fee}，立即学习
                   </div>
-                  <div className="split-right" onClick={() => this.setState({showEvaluation: true})}>
+                  <div className="split-right" onClick={() => this.setState({ showEvaluation: true })}>
                     免费获取
                   </div>
                 </div>
@@ -600,7 +683,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
       return (
         <Alert { ...evaluationProps }
-          show={this.state.showEvaluation}>
+               show={this.state.showEvaluation}>
           <div className="global-pre">
             点击下方去测评，完成测评，分享结果图片，邀请3人扫码并完成测试，即可免费领取。
           </div>
@@ -608,20 +691,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       )
     }
 
-    return (
-      <div className="problem-introduction">
-        <div className="pi-header" style={{ height: `${this.picHeight}px` }}>
-          <AssetImg url={pic} height={'100%'} style={{ position: 'absolute' }}/>
-          <div className="pi-h-body">
-            <div className="pi-h-b-icon">
-              <AssetImg url="https://static.iqycamp.com/images/rise_icon_problem_introduction.png?imageslim" size={37}/>
-            </div>
-            <div className="pi-h-b-title left">{problem}</div>
-            <div className="pi-h-b-content left">{renderCatalogName(catalog, subCatalog)}</div>
-            <div className="pi-h-b-content left bottom">{`难度系数：${numeral(difficultyScore).format('0.0')}/5.0`}</div>
-          </div>
-        </div>
-        <div className="pi-content">
+    const renderLeftContent = () => {
+      return (
+        <section className="pi-content">
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
@@ -680,7 +752,80 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               <AssetImg width={'100%'} url={categoryPic} marginTop="10"/>
             </div>
           </div>
+        </section>
+      )
+    }
+
+    const renderRightRecommendation = () => {
+      return (
+        <section className="problem-relation" style={{ width: window.innerWidth - 40 }}>
+          <div className="problem-item-box">
+            <div className="split"/>
+            {
+              relationProblems.map((problem, index) => {
+                return (
+                  <div className={`relation-problem-item ${index === relationProblems.length - 1 ? 'last' : ''}`}
+                       onClick={() => {
+                         window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}`
+                       }}>
+                    <div className="problem-img">
+                      <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+                      <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+                      <div className="problem-item-subCatalog">{problem.subCatalog}</div>
+                      <div className="complete-person">
+                        <div className="icon-person"/>
+                        <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
+                      </div>
+                    </div>
+                    <div className="problem-problem">{problem.problem}</div>
+                    <div className="problem-catalog">
+                      {'#'.concat(problem.catalog)}{problem.subCatalog ? '-'.concat(problem.subCatalog) : ''}
+                    </div>
+                  </div>
+                )
+              })
+            }
+          </div>
+        </section>
+      )
+    }
+
+    return (
+      <div id="problem-introduction" className={`problem-introduction`}>
+        <div className="header-img">
+          <div className={`back-img catalog${data.catalogId}`}/>
+          <div className="section-title">
+            <div className="title-content">{data.problem}</div>
+            <div className="complete-person">
+              <div className="icon-person"/>
+              <span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>
+            </div>
+          </div>
+          <div className="section">
+            {'#'.concat(data.catalog)}
+            {data.subCatalog ?
+              '-'.concat(data.subCatalog) : null}
+          </div>
+          <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
+               onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
+            <span>{problemCollected ? '已收藏' : '收藏小课'}</span>
+          </div>
         </div>
+        <div className="relation-tab">
+          <div onClick={() => {this.onClickExchangeRelationTab('left')}}>
+            <div className={`${relationTab === 'left' ? 'selected' : ''} `}>小课详情</div>
+          </div>
+          <div onClick={() => {
+            // 1. 更改显示状态，获取关联小课
+            this.onClickExchangeRelationTab('right')
+            this.onClickLoadRelationProblems(data.id)
+          }}>
+            <div className={`${relationTab === 'right' ? 'selected' : ''} `}>关联小课</div>
+          </div>
+        </div>
+        {relationTab === 'left' ?
+          renderLeftContent() :
+          renderRightRecommendation()}
         {renderFooter()}
         <Alert { ...this.state.alert }
           show={this.state.showAlert}>
@@ -718,7 +863,6 @@ interface HeaderProps {
   marginLeft?: number,
   lineHeight?: number,
 }
-
 class Header extends React.Component<HeaderProps, any> {
   constructor(props: HeaderProps) {
     super(props)

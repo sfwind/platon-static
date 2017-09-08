@@ -159,14 +159,15 @@ export class ImprovementReport extends React.Component<any, any> {
                   return (
                     <div className="recommend-problem" key="idx">
                       <div className="problem-img">
-                        <AssetImg url={problem.pic} height={63}/>
+                        <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+                        <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+                        <div className="problem-item-subCatalog">{problem.subCatalog}</div>
+                        {/*<AssetImg url={problem.pic} height={63}/>*/}
                       </div>
                       <div className="problem-problem">{problem.problem}</div>
                       <div className="problem-view"
                            onClick={() => {
                              mark({module: "打点", function: "小课推荐进入小课学习", action: `${problem.id}`});
-
-                             {/*window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}`*/}
                              this.context.router.push({
                                pathname: `/rise/static/plan/view`,
                                query: {

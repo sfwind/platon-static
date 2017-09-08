@@ -1,14 +1,112 @@
 @import "../../style/variable";
 
-.rise-main {
-  >.first-open-rise-mask{
-    top:347px;
-    height:~"calc(100% - 347px)";
+.rise-main-container {
+
+  .sidebar-content {
+    width: 100% !important;
+    right: auto !important;
+  }
+
+  .header-img {
+    position: relative;
+    height: 175px;
+    background-color: #CCEAEB;
+    img {
+      display: block;
+    }
+    overflow: hidden;
+    > .back-img {
+      position: absolute;
+      width: 145px;
+      height: 145px;
+      left: ~"calc(50% - 72.5px)";
+      background-size: 100% 100% !important;
+    }
+    > .outline {
+      width: 30px;
+      height: 50px;
+      background-size: 30px 25px !important;
+      position: absolute;
+      left: 20px;
+      top: 15px;
+      & span {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        font-size: 1.3em;
+        color: #fff;
+      }
+    }
+    > .card-collection {
+      position: absolute;
+      width: 35px;
+      height: 55px;
+      left: 17px;
+      top: 75px;
+      background: url("@{imgPathFragment}/card-collection_1.png?imageslim") no-repeat;
+      background-size: 35px 35px;
+      & span {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        font-size: 1.3em;
+        color: #fff;
+      }
+    }
+    > .section-title {
+      position: absolute;
+      text-align: center;
+      width: 75%;
+      font-size: 2.0em;
+      line-height: 25px;
+      color: #fff;
+      top: 40%;
+      left: 20%;
+      transform: translateY(-50%);
+    }
+    > .section {
+      position: absolute;
+      bottom: 5px;
+      left: 15px;
+      font-size: 1.2em;
+      line-height: 1.2em;
+      color: #fef0c1;
+    }
+  }
+
+  .relation-tab {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+
+    > div {
+      display: inline-block;
+      float: left;
+      height: 49px;
+      width: 50%;
+      color: #999999;
+      text-align: center;
+      line-height: 50px;
+      font-size: 1.5em;
+
+      &.selected {
+        border-bottom: 1px solid #55cbcb;
+        color: #55cbcb;
+      }
+    }
+  }
+
+  > .first-open-rise-mask {
+    top: 347px;
+    height: ~"calc(100% - 347px)";
     position: absolute;
     z-index: 2000;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.75);
   }
+
   .chapter-card-container {
     position: relative;
     height: 100%;
@@ -286,18 +384,19 @@
   }
 
   .trial-tip {
-    background: url('https://static.iqycamp.com/images/become_member_2.png?imageslim') no-repeat center center/100% 100%;
+    background: url('@{imgPathFragment}/become_risemember_1.png?imageslim') no-repeat center center/100% 100%;
     position: absolute;
     z-index: 20;
     right: 0;
-    bottom: 10px;
-    width: 84px;
-    height: 47px;
+    bottom: 5px;
+    width: 74px;
+    height: 40px;
     transform: translateX(84px);
     &.open {
       animation: riseMember-left-show 1s alternate forwards;
     }
   }
+
   .submit-btn-footer {
     &.grey {
       background: #afafaf;
@@ -350,19 +449,42 @@
       background-color: #fff;
       height: 75px;
       border-radius: @border-radius;
-      box-shadow: 0 0 8px 4px rgba(0,0,0,.02);
+      border-bottom: 1px solid #f5f5f5;
       > .header {
         position: absolute;
         width: 50px;
         height: 50px;
+        left: 20px;
         top: 12px;
         border-radius: 50px;
         margin: 0 5px 0 10px;
         > .practice-thumb {
-          position: absolute;
+          > div {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-size: 50px 50px !important;
+            z-index: 2;
+          }
+          .bottom-platform {
+            z-index: 1 !important;
+          }
+          .warmup {
+            background: url("@{imgPathFragment}/category_warmup_1.png?imageslim");
+          }
+          .application {
+            background: url("@{imgPathFragment}/category_application_1.png?imageslim");
+          }
+          .challenge {
+            background: url("@{imgPathFragment}/category_challenge_1.png?imageslim");
+          }
+          .knowledge {
+            background: url("@{imgPathFragment}/category_knowledge_1.png?imageslim");
+          }
         }
         > .practice-complete {
           position: absolute;
+          z-index: 3;
         }
         img {
           display: block;
@@ -370,6 +492,7 @@
         z-index: 1;
       }
       > .locked {
+        left: 20px;
         top: 12px;
         width: 50px;
         height: 50px;
@@ -385,23 +508,40 @@
       }
       > .body {
         position: absolute;
-        left: 75px;
+        left: 95px;
         display: inline-block;
-        width: ~"calc(100% - 65px - 42px)";
+        width: ~"calc(100% - 65px - 40px)";
         vertical-align: middle;
         height: 100%;
-        > .title {
-          margin-top: 18px;
+        .title {
+          margin-top: 20px;
           font-size: 1.7em;
           color: #666;
           line-height: 17px;
         }
-        > .desc {
+        .desc {
           margin-top: 5px;
           color: #999;
           font-size: 1.3em;
           font-weight: 300;
           line-height: 13px;
+        }
+        .completed-span {
+          position: absolute;
+          top: 50%;
+          font-size: 12px;
+          color: #ccc;
+          transform: translateY(-50%);
+          width: 45px;
+          right: 5px;
+        }
+        .practice-start-btn {
+          position: absolute;
+          width: 45px;
+          height: 60px;
+          top: 5px;
+          right: 5px;
+          background-size: 100% 100% !important;
         }
       }
       > .footer {
@@ -416,18 +556,16 @@
         }
       }
     }
-    .practice-card + .practice-card {
-      margin-top: 13px;
-    }
   }
+
   .plan-side-bar {
     color: #FFF;
     .side-header-title {
       height: 75px;
       font-size: @font_title;
       line-height: @font_title;
-      font-weight: bolder;
-      background-color: #7FD8F0;
+      background-color: #252933;
+      border-bottom: 1px solid #1c1f28;
       width: 100%;
       .content {
         padding-left: 10px;
@@ -437,14 +575,17 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         padding-right: 10px;
+        color: #999;
+        font-size: 18px;
       }
     }
     .side-content {
-      background-color: #7ACFE6;
+      background-color: #252933;
       .chapter-area {
         width: 100%;
+        color: #999;
         &:not(:nth-last-of-type(1)) {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+          border-bottom: 1px solid #1c1f28;
         }
 
         .cell {
@@ -458,10 +599,8 @@
           }
           .label {
             display: inline-block;
-            width: 3.6rem;
-            text-align: right;
             vertical-align: middle;
-
+            padding-left: 10px;
           }
           .str {
             display: inline-block;
@@ -476,38 +615,50 @@
           font-size: @font_context;
           line-height: 60px;
           height: 60px;
-          margin-left: 10px;
         }
         .section {
-          font-size: @font_click;
+          font-size: 15px;
           line-height: @font_click;
           height: 50px;
           &.open {
-            background-color: #7FD8F0;
+            background-color: #1c1f28;
+            color: #fff;
           }
         }
-      }
-    }
-  }
-
-  .plan-guide {
-    position: absolute;
-    top: 12.5px;
-    left: 20px;
-    right: 25px;
-    > .section-title {
-      font-size: @font_title;
-      color: @color_title;
-      margin-bottom: 50px;
-      line-height: @font_title;
-    }
-    > .section {
-      color: @color_title;
-      font-size: @font_help;
-      line-height: @font_help;
-      margin-bottom: 10px;
-      > label {
-        color: @color_help;
+        .description {
+          position: relative;
+          > div {
+            position: relative;
+            left: 15px;
+            width: 20px;
+            height: 23px;
+            background: url('@{imgPathFragment}/sidebar-description.png?imageslim') no-repeat center;
+            background-size: 20px 23px;
+          }
+          > span {
+            position: relative;
+            left: 20px;
+            font-size: 16px;
+            color: #999;
+          }
+        }
+        .extension {
+          position: relative;
+          > div {
+            position: relative;
+            left: 15px;
+            width: 20px;
+            height: 23px;
+            background: url('@{imgPathFragment}/sidebar-extension.png?imageslim') no-repeat center;
+            background-size: 20px 23px;
+          }
+          > span {
+            position: relative;
+            left: 20px;
+            font-size: 16px;
+            color: #999;
+          }
+        }
       }
     }
   }
@@ -600,8 +751,8 @@
     position: relative;
     width: 100%;
     height: 75px;
-    background-color: #f5f5f5;
-    padding: 10px 0 0px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
     .mask {
       position: absolute;
       left: 0;
@@ -612,7 +763,7 @@
       background-color: rgba(252, 251, 253, 0.9);
     }
     .psbf-wrapper {
-      padding: 0 17px;
+      padding: 0 20px;
       position: relative;
       &:after {
         content: '';
@@ -630,9 +781,9 @@
           line-height: 0;
           color: @color_strong;
           &.disabled {
-            color: @color_help;
+            color: @color_help !important;
             &:before {
-              background: url("../../../assets/img/rise_icon_pre_section_disabled.png") no-repeat center center/auto 100%;
+              background: url("../../../assets/img/rise_icon_pre_section_disabled.png") no-repeat center center/auto 100% !important;
             }
           }
           &:before {
@@ -642,7 +793,7 @@
             display: inline-block;
             background: url("../../../assets/img/rise_icon_pre_section.png") no-repeat center center/auto 100%;
             vertical-align: top;
-            margin-right: -30px;
+            margin-right: -35px;
             margin-top: -35px;
           }
         }
@@ -681,11 +832,11 @@
               display: none;
             }
             &.disabled {
-              color: @color_help;
+              color: @color_help !important;
               &:before {
-                width: 14px;
-                height: 18px;
-                background: url("../../../assets/img/rise_icon_compete_plan_disabled.png") no-repeat center center/ 100% auto;
+                width: 14px !important;
+                height: 18px !important;
+                background: url("../../../assets/img/rise_icon_compete_plan_disabled.png") no-repeat center center/ 100% auto !important;
               }
             }
             &:before {
@@ -693,7 +844,8 @@
               width: 14px;
               height: 18px;
               display: inline-block;
-              background: url("../../../assets/img/rise_icon_compete_plan.png") no-repeat center center/ 100% auto;
+              // 特殊样式替换，此处注释
+              //background: url("../../../assets/img/rise_icon_compete_plan.png") no-repeat center center/ 100% auto;
               vertical-align: top;
               margin-right: -30px;
               margin-top: -35px;
@@ -704,9 +856,9 @@
               display: none;
             }
             &.disabled {
-              color: @color_help;
+              color: @color_help !important;
               &:after {
-                background: url("../../../assets/img/rise_icon_report_disabled.png") no-repeat center center/auto 100%;
+                background: url("../../../assets/img/rise_icon_report_disabled.png") no-repeat center center/auto 100% !important;
               }
             }
             &:before {
@@ -714,7 +866,8 @@
               width: 14px;
               height: 18px;
               display: inline-block;
-              background: url("../../../assets/img/rise_icon_report.png") no-repeat center center/auto 100%;
+              // 特殊样式替换，此处注释
+              //background: url("../../../assets/img/rise_icon_report.png") no-repeat center center/auto 100% !important;
               vertical-align: top;
               margin-right: -30px;
               margin-top: -35px;
@@ -727,7 +880,7 @@
             display: inline-block;
             background: url("../../../assets/img/rise_icon_next_section.png") no-repeat center center/auto 100%;
             vertical-align: top;
-            margin-right: -30px;
+            margin-right: -15px;
             margin-top: -35px;
           }
         }
@@ -738,15 +891,8 @@
         height: 60px;
       }
     }
-
   }
 
-  .header-card-collection {
-    position: absolute;
-    left: ~"calc(50% - 42px)";
-    top: 125px;
-    z-index: 10;
-  }
 }
 
 @keyframes riseMember-left-show {

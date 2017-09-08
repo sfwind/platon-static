@@ -49,7 +49,6 @@ export class Explore extends React.Component<any, any> {
               grabCursor: true
             })
           }
-
           var swiper = new Swiper('#hot', {
             scrollbar: '#hotbar',
             scrollbarHide: true,
@@ -58,7 +57,6 @@ export class Explore extends React.Component<any, any> {
             spaceBetween: 0,
             grabCursor: true
           })
-
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -67,11 +65,6 @@ export class Explore extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-
-  }
-
-  componentDidMount() {
-
   }
 
   clickProblem(problem) {
@@ -81,8 +74,6 @@ export class Explore extends React.Component<any, any> {
     if(this.props.location.query.show) {
       merge(param, { show: true })
     }
-    // window.location.href =
-    // `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}${this.props.location.query.show?'&&show=true':''}`
     this.context.router.push({ pathname: '/rise/static/plan/view', query: param })
   }
 
@@ -134,87 +125,94 @@ export class Explore extends React.Component<any, any> {
           <div className="problem-catalog-list">
             <div className="problem-catalog">
               <div className="header">
-                <span className="catalog-name">热门小课</span>
-                {/*<span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>*/}
+                <span className="catalog-name hot">热门小课</span>
               </div>
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">
                   {hotList ? hotList.map((problem, key) => {
-                    return (
+                      return (
 
-                      <div onClick={() => this.clickProblem(problem)} style={{ width: `${this.picWidth}px` }}
-                           className="problem-item-show swiper-slide">
-                        <div className="img" style={{ width: `${this.picWidth}px`, height: `${this.picHeight}px` }}>
-                          { problem.newProblem ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                      style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
+                        <div onClick={()=>this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                          <div className="img">
+                            { problem.newProblem ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                        style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null}
+                            { problem.trial ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                        style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null}
+                            { problem.status === 2 ?
+                              <div className="complete-problem">
+                                <AssetImg type="success" size={12}
+                                          style={{margin: '0 3px', verticalAlign:'middle'}}/>
+                                <span className="complete-text">已完成</span>
+                              </div> :
+                            <div className="complete-person">
+                              <div className="icon-person"/>
+                              <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
+                            </div>
                           }
-                          { problem.trial ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                      style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
-                          }
-                          { problem.status === 2 ?
-                            <div className="complete-problem">
-                              <AssetImg type="success" size={12}
-                                        style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
-                              <span className="complete-text">已完成</span>
-                            </div> : null
-                          }
-                          <AssetImg url={`${problem.pic}`} style={{ width: 'auto', height: '100%' }}/>
+                          <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+                          <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+                          <div className="problem-item-subCatalog">{problem.abbreviation}</div>
+                          </div>
+                          <span>{problem.problem}</span>
                         </div>
-                        <span>{problem.problem}</span>
-                      </div>
-                    )
-                  }) : null}
+                      )
+                    }) : null}
                 </div>
-                <div className="swiper-scrollbar" id="hotbar"></div>
+                <div className="swiper-scrollbar" id="hotbar"/>
               </div>
             </div>
             {catalogList ? catalogList.map((catalog, key) => {
-              return (
-                <div className="problem-catalog">
-                  <div className="header">
-                    <span className="catalog-name">{catalog.name}</span>
-                    <span className="catalog-more" onClick={() => this.openMore(catalog)}>更多</span>
-                  </div>
-                  <div className="problem-box swiper-container" id={`catalog${key}`}>
-                    <div className="swiper-wrapper">
-                      {catalog.problemList ? catalog.problemList.map((problem, key) => {
-                        return (
-                          <div onClick={() => this.clickProblem(problem)} style={{ width: `${this.picWidth}px` }}
-                               className="problem-item-show swiper-slide">
-                            <div className="img" style={{ width: `${this.picWidth}px`, height: `${this.picHeight}px` }}>
-                              { problem.newProblem ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                          style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
-                              }
-                              { problem.trial ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                          style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
-                              }
-                              { problem.status === 2 ?
-                                <div className="complete-problem">
-                                  <AssetImg type="success" size={12}
-                                            style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
-                                  <span className="complete-text">已完成</span>
-                                </div> : null
-                              }
-                              <AssetImg url={`${problem.pic}`} style={{ width: 'auto', height: '100%' }}/>
-                            </div>
-                            <span>{problem.problem}</span>
-                          </div>
-                        )
-                      }) : null}
+                return (
+                  <div className="problem-catalog">
+                    <div className="header">
+                      <span className="catalog-name">{catalog.name}</span>
+                      <span className="catalog-more" onClick={()=>this.openMore(catalog)}>更多</span>
                     </div>
-                    <div className="swiper-scrollbar" id={`catalogbar${key}`}></div>
+                    <div className="problem-box swiper-container" id={`catalog${key}`}>
+                      <div className="swiper-wrapper">
+                        {catalog.problemList ? catalog.problemList.map((problem, key) => {
+                            return (
+                              <div onClick={()=>this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                                <div className="img">
+                                  { problem.newProblem ?
+                                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                              style={{zIndex: 1, left: 0, top: 0}} size={25}/> : null
+                                  }
+                                  { problem.trial ?
+                                    <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                              style={{zIndex: 1, left: 6, top: 6}} width={20}/> : null
+                                  }
+                                  { problem.status === 2 ?
+                                    <div className="complete-problem">
+                                      <AssetImg type="success" size={12}
+                                                style={{margin: '0 3px', verticalAlign:'middle'}}/>
+                                      <span className="complete-text">已完成</span>
+                                    </div> :
+                                  <div className="complete-person">
+                                  <div className="icon-person"/>
+                                  <span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>
+                                </div>
+                              }
+                              <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+                              <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+                              <div className="problem-item-subCatalog">{problem.abbreviation}</div>
+                                </div>
+                                <span>{problem.problem}</span>
+                              </div>
+                            )
+                          }) : null}
+                      </div>
+                      <div className="swiper-scrollbar" id={`catalogbar${key}`}/>
+                    </div>
                   </div>
-                </div>
-              )
-            }) : null}
+                )
+              }) : null}
 
           </div>
         </div>
-        <div className="padding-footer"></div>
+        <div className="padding-footer"/>
         <ToolBar/>
       </div>
     )
