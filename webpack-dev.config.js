@@ -7,6 +7,7 @@ module.exports = {
 	entry: [
 		"webpack-dev-server/client?http://" + ip.address() + ":4000",
 		"webpack/hot/only-dev-server",
+    "babel-polyfill",
 		"./src/index.tsx"
 	],
 	output: {
