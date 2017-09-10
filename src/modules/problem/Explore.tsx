@@ -96,8 +96,8 @@ export class Explore extends React.Component<any, any> {
         <div className="explore-container">
           <Banner height={this.bannerHeight}>
             <div className="banner-item swiper-slide"
-                 onClick={() => this.context.router.push('/rise/static/plan/view?id=20') }>
-              <img src={'https://static.iqycamp.com/images/fragment/problem_explore_banner_0831_1.png?imageslim'}
+                 onClick={() => this.context.router.push('/rise/static/plan/view?id=6') }>
+              <img src={'https://static.iqycamp.com/images/fragment/problem_explore_banner_monthly_10.png?imageslim'}
                    style={{ width: 'auto', height: '100%' }}/>
             </div>
             <div className="banner-item swiper-slide"
