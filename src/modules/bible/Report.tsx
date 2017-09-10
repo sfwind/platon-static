@@ -5,6 +5,7 @@ import { loadScore, loadUserScore } from './async'
 import { configShare } from '../helpers/JsConfig'
 import './Report.less'
 import AssetImg from '../../components/AssetImg'
+import { BibleToolBar } from './BibleToolBar'
 // 引入 ECharts 主模块
 var echarts = require('echarts/lib/echarts')
 // 引入柱状图
@@ -175,6 +176,7 @@ export default class Report extends React.Component<any, any> {
           }
 
         </div>
+        {guest ? null : <BibleToolBar />}
         {showTip ?
           <div className="share-tip">
             <div className="tip-pic">

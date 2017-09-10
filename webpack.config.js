@@ -5,7 +5,7 @@ module.exports = {
   devtool: false, // 增加开发速度
   entry: {
     "bundle": "./src/index.tsx",
-    "note": "./src/bible.tsx"
+    "note": "./src/bible.tsx",
   },
   output: {
     path: path.join(__dirname, "__build__"),
@@ -15,8 +15,19 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
-      chunks: ["bundle", "note"]
+      names: ['vendor'],
+      filename: '[name].[hash].js',
+      minChunks:function(module){
+        //  下边return参考的vue-cli配置
+        // any required modules inside node_modules are extracted to vendor
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(
+            path.join(__dirname, './node_modules')
+          ) === 0
+        )
+      }
     }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production")

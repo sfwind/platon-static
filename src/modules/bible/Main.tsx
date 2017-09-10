@@ -7,6 +7,7 @@ import PullSlideTip from '../../components/PullSlideTip'
 import PullElement from 'pull-element'
 import _ from "lodash"
 import AssetImg from '../../components/AssetImg'
+import { BibleToolBar } from './BibleToolBar'
 var moment = require('moment')
 
 const BROWSE_DATE = 'bible_browse_date'
@@ -223,13 +224,9 @@ export default class Main extends React.Component<any, any> {
       <div className="subscribe-article-container">
         {renderTip()}
         {renderDailyArticles()}
-        <div className="subscribe-article-bottom">
-          <div className="learning-report-button" onClick={()=>
-            this.context.router.push({pathname:'/rise/static/note/report'})}>
-            学习内容分析
-          </div>
-        </div>
+
         <PullSlideTip end={end}/>
+        <BibleToolBar />
       </div>
     )
   }
