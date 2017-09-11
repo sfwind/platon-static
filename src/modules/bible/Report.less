@@ -1,7 +1,7 @@
 @import "../../style/variable";
 
 .learn-point-container {
-  padding-bottom: 90px;
+  padding-bottom: 95px;
   height: ~"calc(100% + 1px)";
   background: url('https://static.iqycamp.com/images/note_report_bg2.png?imageslim') no-repeat fixed top center;
   background-size: 100% auto;
@@ -11,6 +11,7 @@
     width: ~"calc(100% - 60px)";
     top: 50px;
     z-index: 1;
+    padding-bottom: 10px;
     background: @color_white;
     box-shadow: 0 0 10px rgba(79, 172, 242, 0.2);
     > .card-title {
@@ -60,24 +61,13 @@
           width: 102px;
           height: 102px;
         }
-        > .brand-text {
+        > .brand-pic {
           display: inline-block;
-          margin-left: 20px;
-          width: ~"calc(100% - 122px)";
           vertical-align: top;
-          > .brand-text1 {
-            font-size: 1.4em;
-            color: #1d87ff;
-          }
-          > .brand-text2 {
-            font-size: 1.0em;
-            line-height: 14px;
-            color: @color_context;
-          }
-          > .brand-text3 {
-            margin-top: 8px;
-            font-size: 1.0em;
-            color: @color_title;
+          margin-left: 10px;
+          margin-top: 7px;
+          > .logo{
+            float: right;
           }
         }
       }
@@ -99,9 +89,15 @@
         position: static !important;
       }
     }
+    > .report-bottom{
+      font-size: 1.0em;
+      text-align: center;
+      color: @color_help;
+      margin-top: 20px;
+    }
     .share-button {
       border-radius: @border-radius;
-      margin: 60px auto 30px;
+      margin: 40px auto 0;
       left: ~"calc((100% - 144px) / 2)";
       width: 134px;
       height: 45px;
