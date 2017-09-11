@@ -86,7 +86,8 @@ export class BibleToolBar extends React.Component<any,any> {
     }
 
     if(tabIndex === 0) {
-      dispatch(alertMsg('正在开发中，敬请期待'))
+      dispatch(alertMsg(`添加学习内容的功能正在开发中，敬请期待<br/>添加学习内容的功能正在开发中，敬请期待！
+      学札帮助你更好地管理自己的多平台学习，通过跟踪和分析你的每一次学习记录，让学习更有目的，提升有迹可循，和信息焦虑说拜拜~`))
     } else if(tabIndex === 1) {
       this.context.router.push('/rise/static/note/list');
     } else if(tabIndex === 2) {
