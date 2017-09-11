@@ -60,7 +60,6 @@ export default class Main extends React.Component<any, any> {
 
   componentDidUpdate() {
     const { dispatch } = this.props
-    const { data } = this.state
     if(!this.pullElement) {
       this.pullElement = new PullElement({
         target: '.subscribe-article-container',
@@ -79,12 +78,12 @@ export default class Main extends React.Component<any, any> {
         onPullUpEnd: () => {
           let browse_date = window.localStorage.getItem(BROWSE_DATE)
           let lastDay = moment(browse_date).add(-1, 'days').format('YYYY-MM-DD')
-
           loadArticleCertainDate(lastDay).then(res => {
+            const { data } = this.state
             if(res.code === 200) {
               this.saveBrowseDate(lastDay)
-              data.push(res.msg.list)
-              this.setState({ data, end: res.msg.isDateEnd })
+              let temp = [].concat(data).concat(res.msg.list);
+              this.setState({ data: temp, end: res.msg.isDateEnd })
             } else {
               dispatch(alertMsg(res.msg))
             }
@@ -148,15 +147,15 @@ export default class Main extends React.Component<any, any> {
     })
   }
 
-  readTip(){
+  readTip() {
     const { dispatch } = this.props
-    this.setState({openTip:false})
+    this.setState({ openTip: false })
     firstOpen()
   }
 
   render() {
     const { data, end, openTip } = this.state
-
+    console.log('data', data);
     const renderDailyArticles = () => {
       if(data.length !== 0) {
         return (
@@ -208,9 +207,10 @@ export default class Main extends React.Component<any, any> {
     const renderTip = () => {
       return (
         <div className="tip-card">
-          <div className="tip-head"><AssetImg url="https://static.iqycamp.com/images/note_tip_head.png" width={'100%'}/></div>
+          <div className="tip-head"><AssetImg url="https://static.iqycamp.com/images/note_tip_head.png" width={'100%'}/>
+          </div>
           {openTip ?
-            <NoteTip fold={()=>this.readTip()} />
+            <NoteTip fold={()=>this.readTip()}/>
             :
             <div className="tip-read-bottom" onClick={()=>this.setState({openTip:true})}>
               <div className="detail-word">详情</div>
@@ -246,7 +246,7 @@ class NoteTip extends React.Component<any, any> {
   }
 
   click() {
-    const {index} = this.state
+    const { index } = this.state
     if(index === 2) {
       if(this.props.fold) {
         this.setState({ index: 0 })
