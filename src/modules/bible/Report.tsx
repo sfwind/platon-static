@@ -38,6 +38,7 @@ export default class Report extends React.Component<any, any> {
       loadUserScore(riseId, date).then(res => {
         if(res.code === 200) {
           this.setState({ totalWords: res.msg.totalWords, qrCode: res.msg.qrCode, guest: true })
+          this.configWXShare(res.msg.totalScore)
           this.renderChart(res.msg)
         } else {
           dispatch(alertMsg(res.msg))
@@ -50,6 +51,7 @@ export default class Report extends React.Component<any, any> {
       loadScore().then(res => {
         if(res.code === 200) {
           this.setState({ totalWords: res.msg.totalWords })
+          this.configWXShare(res.msg.totalScore)
           this.renderChart(res.msg)
         } else {
           dispatch(alertMsg(res.msg))
@@ -63,7 +65,7 @@ export default class Report extends React.Component<any, any> {
 
   renderChart(msg) {
     // 基于准备好的dom，初始化echarts实例
-    let myChart = echarts.init(document.getElementById('echart-report'));
+    let myChart = echarts.init(document.getElementById('echart-report'))
     const { compareGroup = [] } = msg
     let yAxisData = []
     let seriesData = []
@@ -137,7 +139,8 @@ export default class Report extends React.Component<any, any> {
   configWXShare(point){
     configShare(`拒绝碎片文章，只读优质内容，今天在圈外商学院拿到${point}个知识分`,
       `https://${window.location.hostname}/rise/static/note/report`,
-      '', '')
+      'https://static.iqycamp.com/images/note_report_share.jpeg?imageslim',
+      '有效学习，需要心中有数；跟踪你的学习内容，每一天都能构建自己的知识体系')
   }
 
   render() {
