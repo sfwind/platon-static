@@ -3,7 +3,7 @@
 .learn-point-container {
   padding-bottom: 95px;
   height: ~"calc(100% + 1px)";
-  background: url('https://static.iqycamp.com/images/note_report_bg2.png?imageslim') no-repeat fixed top center;
+  background: url('https://static.iqycamp.com/images/note_report_bg2.png?imageslim') no-repeat fixed top center/100% auto ;
   background-size: 100% auto;
   .card-point {
     position: relative;
@@ -55,6 +55,7 @@
         background-color: @color_weak_background;
       }
       > .quanwai-brand {
+        position: relative;
         margin: 30px 20px;
         > .qrcode {
           display: inline-block;
@@ -67,7 +68,9 @@
           margin-left: 10px;
           margin-top: 7px;
           > .logo{
-            float: right;
+            position: absolute;
+            right: 0;
+            bottom: -10px;
           }
         }
       }
