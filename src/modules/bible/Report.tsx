@@ -155,7 +155,7 @@ export default class Report extends React.Component<any, any> {
 
   configWXShare(point, riseId) {
     const shareDate = moment().format('YYYY-MM-DD').replace(/-/g, '')
-    configShare(`有效管理知识，赶走信息焦虑。今天在学札，认知高度又提升了${point}米`,
+    configShare(`有效管理知识，告别信息焦虑。今天在学札，认知高度又提升了${point}米`,
       `https://${window.location.hostname}/rise/static/guest/note/report?riseId=${riseId}&date=${shareDate}`,
       'https://static.iqycamp.com/images/note_report_share3.jpg?imageslim',
       '学札是一个多平台学习管理工具，通过跟踪和分析你的每一次学习记录，让学习更有目的，提升有迹可循，和信息焦虑说拜拜~')
