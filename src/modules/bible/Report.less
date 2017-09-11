@@ -1,10 +1,12 @@
 @import "../../style/variable";
 
 .learn-point-container {
+  padding-bottom: 90px;
+  height: ~"calc(100% + 1px)";
   background: url('https://static.iqycamp.com/images/note_report_bg2.png?imageslim') no-repeat fixed top center;
   background-size: 100% auto;
   .card-point {
-    position: absolute;
+    position: relative;
     left: 30px;
     width: ~"calc(100% - 60px)";
     top: 50px;
@@ -12,16 +14,39 @@
     background: @color_white;
     box-shadow: 0 0 10px rgba(79, 172, 242, 0.2);
     > .card-title {
-      margin-top: 23px;
+      padding-top: 20px;
       font-size: 1.4em;
       text-align: center;
       color: @color_context;
     }
-    > .read-word-count {
-      font-size: 2.0em;
-      color: #1d87ff;
-      text-align: center;
+    > .read-word-container{
+      > .read-word{
+        display: inline-block;
+        text-align: center;
+        width: 75px;
+        &.left{
+          margin-left:~"calc((100% - 150px) / 3)";
+          margin-right: ~"calc((100% - 150px) / 6)";
+        }
+        &.right{
+          margin-left: ~"calc((100% - 150px) / 6)";
+          margin-right:~"calc((100% - 150px) / 3)";
+        }
+        > .read-word-head {
+          margin-top: 20px;
+          font-size: 1.2em;
+          color: @color_title;
+        }
+        > .read-word-count {
+          font-size: 14px;
+          color: #fb8f4a;
+          > span{
+            font-size: 20px;
+          }
+        }
+      }
     }
+
     > .qrcode-container {
       margin-top: 50px;
       > .qrcode-hr {
@@ -70,6 +95,9 @@
     }
     > .echart-report {
       height: 200px;
+      canvas{
+        position: static !important;
+      }
     }
     .share-button {
       border-radius: @border-radius;
