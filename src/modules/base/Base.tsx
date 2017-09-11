@@ -44,12 +44,15 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    pget('/rise/index/msg').then(res => {
-      if(res.msg) {
-        const { url, message } = res.msg;
-        this.setState({ activityMsg: true, url, message });
-      }
-    })
+    if(window.location.href.indexOf("/rise/static/guest/") === -1) {
+      // 不是guest页面，判断这个用户是否可以看到活动提示
+      pget('/rise/index/msg').then(res => {
+        if(res.msg) {
+          const { url, message } = res.msg;
+          this.setState({ activityMsg: true, url, message });
+        }
+      });
+    }
   }
 
   componentWillUpdate() {

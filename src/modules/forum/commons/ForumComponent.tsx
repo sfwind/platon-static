@@ -11,7 +11,6 @@ export {
   DialogHead,
   DialogBottomBtn,
   DialogBottomIcon,
-  PullSlideTip,
   SimpleQuestion,
   ForumButton,
 };

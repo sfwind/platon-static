@@ -29,12 +29,14 @@
     "@types/redux": "^3.5.27",
     "@types/redux-thunk": "^2.1.28",
     "axios": "^0.15.2",
+    "echarts": "^3.7.1",
     "fastclick": "^1.0.6",
     "fbjs": "^0.8.3",
     "gulp": "^3.9.1",
     "iosselect": "0.0.5",
     "jquery": "^3.2.1",
     "lodash": "^4.14.1",
+    "moment": "^2.18.1",
     "numeral": "^1.5.5",
     "perfect-scrollbar": "^0.7.0",
     "prop-types": "^15.5.9",
@@ -66,8 +68,7 @@
     "smooth-scrollbar": "^7.2.10",
     "swiper": "^3.4.2",
     "ua-device": "^0.1.10",
-    "weui": "^0.4.3",
-    "whatwg-fetch": "^1.0.0"
+    "weui": "^0.4.3"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",

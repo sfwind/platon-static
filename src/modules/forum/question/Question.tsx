@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import PullElement from 'pull-element';
 import { ToolBar } from "../../base/ToolBar";
-import { DialogHead, PullSlideTip } from "../commons/ForumComponent";
+import { DialogHead } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions, getQuestion, searchQuestion } from "../async";
 import { mark } from "../../../utils/request"
 import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers"
@@ -13,6 +13,7 @@ import FullScreenDialog from "../../../components/FullScreenDialog"
 
 import "./Question.less";
 import AssetImg from "../../../components/AssetImg";
+import PullSlideTip from '../../../components/PullSlideTip'
 
 interface QuestionStates {
   questions: object;

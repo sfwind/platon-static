@@ -1,12 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { ForumButton, PullSlideTip } from "../commons/ForumComponent";
+import { ForumButton } from "../commons/ForumComponent";
 import { searchQuestion, getQuestion } from "../async"
 import { mark } from "../../../utils/request"
 import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import "./SubmitQuestionInit.less"
 import _ from "lodash"
+import PullSlideTip from '../../../components/PullSlideTip'
 
 @connect(state => state)
 export default class SubmitQuestionInit extends React.Component<any, any> {
@@ -161,14 +162,6 @@ export default class SubmitQuestionInit extends React.Component<any, any> {
                 })
               }
             </div>
-        )
-      }
-    }
-
-    const renderShowMore = () => {
-      if(!_.isEmpty(data)) {
-        return (
-          <PullSlideTip isEnd={end}/>
         )
       }
     }
