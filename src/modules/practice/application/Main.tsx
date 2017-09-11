@@ -63,7 +63,9 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         dispatch(endLoad())
 
+        console.log(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
+        console.log('本地草稿数据', storageDraft)
         let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
 
         // 对草稿数据进行处理
@@ -209,9 +211,9 @@ export class Main extends React.Component <any, any> {
     clearInterval(timer)
   }
 
-  autoSave(value) {
+  autoSave() {
+    let value = this.refs.editor.getValue()
     let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-
     if(storageDraft) {
       if(this.props.location.query.id === storageDraft.id) {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
@@ -566,8 +568,8 @@ export class Main extends React.Component <any, any> {
                     }}
                     defaultValue={this.state.editorValue}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
-                    autoSave={(value) => {
-                      this.autoSave(value)
+                    autoSave={() => {
+                      this.autoSave()
                     }}
                   />
                 </div> :

@@ -115,7 +115,7 @@ export default class Editor extends React.Component<any, any> {
     this.setState({ length: value.length });
     //自动保存
     if(this.props.autoSave){
-      this.props.autoSave(value);
+      this.props.autoSave();
     }
   }
 
