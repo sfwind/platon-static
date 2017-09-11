@@ -63,9 +63,7 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         dispatch(endLoad())
 
-        console.log(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        console.log('本地草稿数据', storageDraft)
         let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
 
         // 对草稿数据进行处理
