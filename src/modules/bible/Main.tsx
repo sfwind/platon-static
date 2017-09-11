@@ -267,7 +267,8 @@ class NoteTip extends React.Component<any, any> {
       <div className="tip-body">
         <div className="tip-word">{word}</div>
         <div className="tip-button" onClick={()=>this.click()}>{buttonWord}</div>
-        <div className="tip-feedback">意见反馈</div>
+        <div className="tip-feedback" onClick={
+          ()=>window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16466490'}>意见反馈</div>
       </div>
     )
 
