@@ -183,7 +183,7 @@ export default class Report extends React.Component<any, any> {
         </div>
         {guest ? null : <BibleToolBar />}
         {showTip ?
-          <div className="share-tip">
+          <div className="share-tip" onClick={()=>this.setState({showTip:false})}>
             <div className="tip-pic">
               <AssetImg url="https://static.iqycamp.com/images/share_pic1.png" width={247}/>
             </div>
