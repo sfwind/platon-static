@@ -225,7 +225,7 @@ export default class Main extends React.Component<any, any> {
         {renderTip()}
         {renderDailyArticles()}
 
-        <PullSlideTip end={end}/>
+        <PullSlideTip isEnd={end}/>
         <BibleToolBar />
       </div>
     )
