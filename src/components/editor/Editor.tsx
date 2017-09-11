@@ -1,14 +1,14 @@
-import * as React from "react"
-import "./Editor.less"
-import $ from "jquery"
-import init from "./artEditor.js"
-import AssetImg from "../AssetImg"
-import { isFunction } from "lodash";
+import * as React from 'react'
+import './Editor.less'
+import $ from 'jquery'
+import init from './artEditor.js'
+import AssetImg from '../AssetImg'
+import { isFunction } from 'lodash'
 
 export default class Editor extends React.Component<any, any> {
   constructor(props) {
-    super(props);
-    init($);
+    super(props)
+    init($)
     this.state = {
       editor: null,
       length: 0,
@@ -28,7 +28,7 @@ export default class Editor extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    let editor = $('#content');
+    let editor = $('#content')
     editor.artEditor({
       imgTar: '#imageUpload',
       limitSize: 10,   // 兆
@@ -40,7 +40,7 @@ export default class Editor extends React.Component<any, any> {
       validHtml: [],
       uploadStart: () => {
         if(this.props.uploadStart) {
-          this.props.uploadStart();
+          this.props.uploadStart()
         }
       },
       uploadSuccess: (res) => {
@@ -54,26 +54,26 @@ export default class Editor extends React.Component<any, any> {
         // 无所谓咯
         try {
           if(isFunction(this.props.uploadEnd)) {
-            this.props.uploadEnd();
+            this.props.uploadEnd()
           }
           if(res.code === 200) {
             if(res.msg.picUrl) {
-              return res.msg.picUrl;
+              return res.msg.picUrl
             } else {
               if(isFunction(this.props.onUploadError)) {
-                this.props.onUploadError(res);
+                this.props.onUploadError(res)
               }
-              return false;
+              return false
             }
           } else {
             if(isFunction(this.props.onUploadError)) {
-              this.props.onUploadError(res);
+              this.props.onUploadError(res)
             }
-            return false;
+            return false
           }
         } catch(e) {
           if(isFunction(this.props.onUploadError)) {
-            this.props.onUploadError(e);
+            this.props.onUploadError(e)
           }
           return false
         }
@@ -82,18 +82,19 @@ export default class Editor extends React.Component<any, any> {
         //这里做上传失败的操作
         //也就是http返回码非200的时候
         if(isFunction(this.props.onUploadError)) {
-          this.props.onUploadError(res);
+          this.props.onUploadError(res)
         }
         if(isFunction(this.props.uploadEnd)) {
-          this.props.uploadEnd();
+          this.props.uploadEnd()
         }
       }
-    });
-    if(this.props.defaultValue) {
-      editor.setValue(this.props.defaultValue);
-      this.calcValue(this.props.defaultValue);
-    }
-    this.setState({ editor: editor });
+    })
+    this.setState({ editor: editor }, () => {
+      if(this.props.defaultValue) {
+        editor.setValue(this.props.defaultValue)
+        this.calcValue(this.props.defaultValue)
+      }
+    })
   }
 
   componentWillUnmount() {
@@ -103,45 +104,44 @@ export default class Editor extends React.Component<any, any> {
   }
 
   getValue() {
-    let value = this.state.editor.getValue();
-    return value === this.state.placeHolder ? '' : value;
+    let value = this.state.editor.getValue()
+    return value === this.state.placeHolder ? '' : value
   }
 
   calcValue(value) {
     if(!value) {
-      value = this.state.editor.getValue();
+      value = this.state.editor.getValue()
     }
-    value = value.replace(/<[^>]+>/g, "");
-    this.setState({ length: value.length });
+    value = value.replace(/<[^>]+>/g, '')
+    this.setState({ length: value.length })
     //自动保存
-    if(this.props.autoSave){
-      this.props.autoSave();
+    if(this.props.autoSave) {
+      this.props.autoSave()
     }
   }
 
-
   componentWillReceiveProps(nextProps) {
     if(nextProps.defaultValue && !this.props.defaultValue) {
-      this.state.editor.setValue(nextProps.defaultValue);
-      this.calcValue(nextProps.defaultValue);
+      this.state.editor.setValue(nextProps.defaultValue)
+      this.calcValue(nextProps.defaultValue)
     }
   }
 
   render() {
-    const { maxLength, scrollContainer } = this.props;
-    const { length } = this.state;
+    const { maxLength, scrollContainer } = this.props
+    const { length } = this.state
 
     return (
       <div className="publish-article-content"
            onClick={() => {
-             let node = document.getElementById("editor-placeholder")
+             let node = document.getElementById('editor-placeholder')
              if(node) {
                node.parentNode.removeChild(node)
              }
-             if(scrollContainer){
-               if(window.navigator.userAgent.indexOf("Android") > 0) {
-                 if(document.querySelector(".publish-article-content")) {
-                   document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector(".publish-article-content").offsetTop - 40
+             if(scrollContainer) {
+               if(window.navigator.userAgent.indexOf('Android') > 0) {
+                 if(document.querySelector('.publish-article-content')) {
+                   document.querySelector(`.${scrollContainer}`).scrollTop = document.querySelector('.publish-article-content').offsetTop - 40
                  }
                }
              }
@@ -163,13 +163,13 @@ export default class Editor extends React.Component<any, any> {
             <i className="upload-img"><AssetImg type="uploadImgIcon" width="27" height="19"/></i>上传图片
           </div>
           <input type="file" name="file" accept="image/*" style={{
-            position: "absolute",
+            position: 'absolute',
             left: 0,
             top: 0,
-            marginTop: "5px",
+            marginTop: '5px',
             opacity: 0,
-            width: "100%",
-            height: "100%"
+            width: '100%',
+            height: '100%'
           }} id="imageUpload"/>
         </div>
       </div>
