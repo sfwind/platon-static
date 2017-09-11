@@ -161,6 +161,11 @@ export default class Report extends React.Component<any, any> {
       '学札是一个多平台学习管理工具，通过跟踪和分析你的每一次学习记录，让学习更有目的，提升有迹可循，和信息焦虑说拜拜~')
   }
 
+  share(){
+    mark({module: '打点', function: '学札报告', action: '点击分享'})
+    this.setState({showTip:false})
+  }
+
   render() {
     const { totalWords, qrCode, guest, showTip, totalScore, nickName } = this.state
 
@@ -207,7 +212,7 @@ export default class Report extends React.Component<any, any> {
         </div>
         {guest == false ? <BibleToolBar /> : null}
         {showTip ?
-          <div className="share-tip" onClick={()=>this.setState({showTip:false})}>
+          <div className="share-tip" onClick={()=>this.share()}>
             <div className="tip-pic">
               <AssetImg url="https://static.iqycamp.com/images/share_pic1.png" width={247}/>
             </div>
