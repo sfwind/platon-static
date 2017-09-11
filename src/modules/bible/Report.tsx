@@ -137,8 +137,7 @@ export default class Report extends React.Component<any, any> {
   }
 
   configWXShare(point){
-    console.log('config share');
-    configShare(`拒绝碎片文章，只读优质内容，今天在圈外商学院拿到${point}个知识分`,
+    configShare(`有效管理知识，赶走信息焦虑。今天在学札又提升了${point}米认知高度`,
       `https://${window.location.hostname}/rise/static/note/report`,
       'https://static.iqycamp.com/images/note_report_share.jpeg?imageslim',
       '有效学习，需要心中有数；跟踪你的学习内容，每一天都能构建自己的知识体系')
