@@ -52,7 +52,7 @@ export default class Report extends React.Component<any, any> {
       loadScore().then(res => {
         if(res.code === 200) {
           this.setState({ totalWords: res.msg.totalWords })
-          this.configWXShare(res.msg.totalScore)
+          this.configWXShare(res.msg.totalScore, res.msg.riseId)
           this.renderChart(res.msg)
         } else {
           dispatch(alertMsg(res.msg))

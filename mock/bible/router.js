@@ -133,6 +133,7 @@ router.get("/rise/bible/open/load/score", (req, res) => {
         }],
         "riseId": "of8voz9",
         "totalWords": 1003,
+        "totalScore": 13.1,
         "nickName": "宋金虎",
         "headImage": "https://wx.qlogo.cn/mmopen/EH7IlM7dhSMyu4wcAplO0jBAYgShwBWM4PGrQMtt7ibmQwORy6Z2sxiaibDI09ib125YeEqsRWFX3z3JVDSRsCS9gOyFSnuvWSU6/0",
         "qrCode":"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGB7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAycGRQdXNKVWJjU2wxVXNScHhwY3AAAgQcKLJZAwQAjScA"
@@ -183,6 +184,7 @@ router.get("/rise/bible/guest/load/score", (req, res) => {
         "riseId": "of8voz9",
         "totalWords": 1003,
         "nickName": "宋金虎",
+        "totalScore": 13.1,
         "headImage": "https://wx.qlogo.cn/mmopen/EH7IlM7dhSMyu4wcAplO0jBAYgShwBWM4PGrQMtt7ibmQwORy6Z2sxiaibDI09ib125YeEqsRWFX3z3JVDSRsCS9gOyFSnuvWSU6/0",
         "qrCode":"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGB7zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAycGRQdXNKVWJjU2wxVXNScHhwY3AAAgQcKLJZAwQAjScA"
       }, "code": 200
