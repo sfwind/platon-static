@@ -16,7 +16,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor'],
-      filename: '[name].[hash].js',
+      filename: '[name].js',
       minChunks:function(module){
         //  下边return参考的vue-cli配置
         // any required modules inside node_modules are extracted to vendor
