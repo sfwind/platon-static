@@ -137,6 +137,7 @@ export default class Report extends React.Component<any, any> {
   }
 
   configWXShare(point){
+    console.log('config share');
     configShare(`拒绝碎片文章，只读优质内容，今天在圈外商学院拿到${point}个知识分`,
       `https://${window.location.hostname}/rise/static/note/report`,
       'https://static.iqycamp.com/images/note_report_share.jpeg?imageslim',

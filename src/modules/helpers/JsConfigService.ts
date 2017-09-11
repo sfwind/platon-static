@@ -189,6 +189,9 @@ class JsConfigService {
         jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
       }, res.msg))
       wx.ready(() => {
+        setTimeout(()=>{
+          wx.showOptionMenu();
+        },1500)
         // hideOptionMenu()
         wx.onMenuShareTimeline({
           title: title, // 分享标题
