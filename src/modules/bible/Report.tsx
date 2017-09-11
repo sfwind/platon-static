@@ -31,7 +31,7 @@ export default class Report extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: '打点', function: '测评', action: '点击测评开始按钮'})
+    mark({module: '打点', function: '学札报告', action: '查看学渣报告'})
   }
 
   componentDidMount() {

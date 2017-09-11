@@ -8,6 +8,7 @@ import PullElement from 'pull-element'
 import _ from "lodash"
 import AssetImg from '../../components/AssetImg'
 import { BibleToolBar } from './BibleToolBar'
+import { mark } from 'utils/request'
 var moment = require('moment')
 
 const BROWSE_DATE = 'bible_browse_date'
@@ -32,9 +33,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    if(window.iNoBounce){
-      window.iNoBounce.disable()
-    }
+    mark({module: '打点', function: '学札学习', action: '浏览文章'})
     const { dispatch } = this.props
     const { today } = this.state
     let last_time = window.localStorage.getItem(LAST_TIME)
