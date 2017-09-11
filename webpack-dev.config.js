@@ -5,8 +5,8 @@ var ip = require("ip")
 module.exports = {
   devtool: "eval", // 增加开发速度
   entry: {
-    "bundle": "./src/index.tsx",
-    "note": "./src/bible.tsx"
+    "bundle": ["babel-polyfill","./src/index.tsx"],
+    "note": ["babel-polyfill","./src/bible.tsx"],
   },
   output: {
     path: path.join(__dirname, "__build__"),

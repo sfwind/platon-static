@@ -19,7 +19,7 @@ export function like(articleId){
 }
 
 export function loadScore(){
-  return pget(`/rise/bible/open/load/score`);
+  return pget(`/rise/bible/load/score`);
 }
 
 export function loadUserScore(riseId, date){
