@@ -91,7 +91,7 @@ router.post("/rise/bible/open/article/*", (req, res) => {
     res.status(200).json({ "msg": "ok", "code": 200 }), Math.random() * 1500)
 });
 
-router.get("/rise/bible/open/load/score", (req, res) => {
+router.get("/rise/bible/load/score", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
       "msg": {

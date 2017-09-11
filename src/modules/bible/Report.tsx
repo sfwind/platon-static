@@ -38,7 +38,8 @@ export default class Report extends React.Component<any, any> {
     if(riseId) {
       loadUserScore(riseId, date).then(res => {
         if(res.code === 200) {
-          this.setState({ totalWords: res.msg.totalWords, qrCode: res.msg.qrCode, guest: true })
+          this.setState({ totalWords: res.msg.totalWords, qrCode: res.msg.qrCode,
+            guest: true, totalScore:res.msg.totalScore })
           this.configWXShare(res.msg.totalScore, res.msg.riseId)
           this.renderChart(res.msg)
         } else {
@@ -51,7 +52,7 @@ export default class Report extends React.Component<any, any> {
       // 用户访问
       loadScore().then(res => {
         if(res.code === 200) {
-          this.setState({ totalWords: res.msg.totalWords })
+          this.setState({ totalWords: res.msg.totalWords, totalScore:res.msg.totalScore })
           this.configWXShare(res.msg.totalScore, res.msg.riseId)
           this.renderChart(res.msg)
         } else {
@@ -146,7 +147,7 @@ export default class Report extends React.Component<any, any> {
   }
 
   render() {
-    const { totalWords, qrCode, guest, showTip } = this.state
+    const { totalWords, qrCode, guest, showTip, totalScore } = this.state
 
     const renderQrCode = () => {
       return (
@@ -170,10 +171,20 @@ export default class Report extends React.Component<any, any> {
     return (
       <div className="learn-point-container">
         <div className="card-point">
-          <div className="card-title">{window.ENV.userName}在圈外商学院今日阅读</div>
-          <div className="read-word-count">{totalWords}字</div>
+          <div className="card-title">{window.ENV.userName+' '}今天在学札</div>
+          <div className="read-word-container">
+            <div className="read-word left">
+              <div className="read-word-head">阅读优质内容</div>
+              <div className="read-word-count"><span>{totalWords}</span>字</div>
+            </div>
+            <div className="read-word right">
+              <div className="read-word-head">提升认知高度</div>
+              <div className="read-word-count"><span>{totalScore}</span>米</div>
+            </div>
+          </div>
+
           <div className="card-hr"></div>
-          <div className="report-title">内容覆盖</div>
+          <div className="report-title">今日知识榜</div>
           <div id="echart-report" className="echart-report"></div>
           {guest ?
             renderQrCode() :

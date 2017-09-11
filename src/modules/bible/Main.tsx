@@ -32,6 +32,9 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    if(window.iNoBounce){
+      window.iNoBounce.disable()
+    }
     const { dispatch } = this.props
     const { today } = this.state
     let last_time = window.localStorage.getItem(LAST_TIME)
