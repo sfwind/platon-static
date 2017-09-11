@@ -1,0 +1,52 @@
+// 学习页面蓝色配色方案
+@import "../../../style/variable";
+.rise-main-container-blue {
+
+  .header-img {
+    background: -webkit-gradient(linear, 0 top, 0 bottom, from(#6bd2ea), to(#05789c)) !important;
+    .back-img {
+      background: url("https://static.iqycamp.com/images/fragment/back_img_blue_1.png?imageslim");
+    }
+    > .outline {
+      background: url("https://static.iqycamp.com/images/fragment/outline_blue.png?imageslim") no-repeat;
+    }
+    .section {
+      color: #87c9eb;
+    }
+  }
+
+  .plan-main {
+    .bottom-platform {
+      background: url("https://static.iqycamp.com/images/fragment/bottom_platform_blue_1.png?imageslim");
+    }
+    .practice-start-btn {
+      background: url("https://static.iqycamp.com/images/fragment/start_blue_1.png?imageslim");
+    }
+  }
+
+  .plan-study-btn-footer {
+    .psbf-w-pre-btn {
+      color: #1F8CC2 !important;
+      &:before {
+        background: url("@{imgPathFragment}/left_blue_1.png?imageslim") no-repeat center center/auto 100% !important;
+      }
+    }
+    .psbf-w-next-btn {
+      color: #1F8CC2 !important;
+      &.complete {
+        &:before {
+          background: url("@{imgPathFragment}/icon_complete_blue.png?.imageslim") no-repeat center center/ 100% auto !important;
+        }
+      }
+      &.report {
+        &:before {
+          background: url("@{imgPathFragment}/icon_report_blue.png?imageslim") no-repeat center center/auto 100% !important;
+        }
+      }
+      &:before {
+        background: url("@{imgPathFragment}/right_blue_1.png?imageslim") no-repeat center center/auto 100% !important;
+      }
+    }
+  }
+
+}

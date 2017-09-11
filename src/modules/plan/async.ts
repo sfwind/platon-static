@@ -1,9 +1,9 @@
-import { pget, ppost } from "utils/request";
+import { pget, ppost } from 'utils/request'
 
 export function loadPlan(planId) {
-  let param = {};
+  let param = {}
   if(planId) {
-    param.planId = planId;
+    param.planId = planId
   }
   return pget(`/rise/plan/load`, param)
 }
@@ -28,16 +28,16 @@ export function checkPractice(series, planId) {
   return ppost(`/rise/plan/check/${series}${planId ? '?planId=' + planId : ''}`)
 }
 
-export function updateOpenNavigator(){
+export function updateOpenNavigator() {
   return ppost(`/rise/open/navigator`)
 }
 
 export function gradeProblem(problemScores, problemId) {
-  return ppost(`/rise/problem/grade/${problemId}`, problemScores);
+  return ppost(`/rise/problem/grade/${problemId}`, problemScores)
 }
 
 export function isRiseMember() {
-  return pget('/rise/plan/risemember');
+  return pget('/rise/plan/risemember')
 }
 
 export function learnKnowledge(knowledgeId) {
@@ -45,27 +45,27 @@ export function learnKnowledge(knowledgeId) {
 }
 
 export function mark(param) {
-  return ppost('/rise/b/mark', param);
+  return ppost('/rise/b/mark', param)
 }
 
 export function queryEventList() {
-  return pget("/rise/customer/event/list");
+  return pget('/rise/customer/event/list')
 }
 
 export function queryChapterList(planId) {
-  return pget(`/rise/plan/chapter/list`, { planId: planId });
+  return pget(`/rise/plan/chapter/list`, { planId: planId })
 }
 
 export function queryReport(planId) {
-  return pget(`/rise/plan/improvement/report${planId ? '?planId=' + planId : ''}`);
+  return pget(`/rise/plan/improvement/report${planId ? '?planId=' + planId : ''}`)
 }
 
 export function loadRecommendations(problemId) {
   return pget(`/rise/plan/improvement/report/recommendation/${problemId}`)
 }
 
-export function loadPlanList(){
-  return pget("/rise/plan/list");
+export function loadPlanList() {
+  return pget('/rise/plan/list')
 }
 
 // 章节结束获取章节精华图片
@@ -80,4 +80,14 @@ export function loadChapterCardAccess(problemId, practicePlanId) {
 
 export function loadHasGetOperationCoupon() {
   return pget('/rise/operation/free/coupon')
+}
+
+// 收藏当前小课
+export function collectProblem(problemId) {
+  return pget(`/rise/problem/collect/${problemId}`)
+}
+
+// 取消收藏当前小课
+export function disCollectProblm(problemId) {
+  return pget(`/rise/problem/discollect/${problemId}`)
 }
