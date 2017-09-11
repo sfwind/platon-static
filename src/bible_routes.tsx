@@ -16,6 +16,7 @@ const routes = (
     }}>
       <Route path="note/list" component={BibleMain}/>
       <Route path="note/report" component={BibleReport}/>
+      <Route path="guest/note/report" component={BibleReport}/>
     </Route>
   </Route>
 )

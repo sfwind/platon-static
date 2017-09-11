@@ -10,6 +10,7 @@ import { BibleToolBar } from './BibleToolBar'
 var echarts = require('echarts/lib/echarts')
 // 引入柱状图
 require('echarts/lib/chart/bar')
+var moment = require('moment')
 
 @connect(state => state)
 export default class Report extends React.Component<any, any> {
@@ -38,7 +39,7 @@ export default class Report extends React.Component<any, any> {
       loadUserScore(riseId, date).then(res => {
         if(res.code === 200) {
           this.setState({ totalWords: res.msg.totalWords, qrCode: res.msg.qrCode, guest: true })
-          this.configWXShare(res.msg.totalScore)
+          this.configWXShare(res.msg.totalScore, res.msg.riseId)
           this.renderChart(res.msg)
         } else {
           dispatch(alertMsg(res.msg))
@@ -136,9 +137,10 @@ export default class Report extends React.Component<any, any> {
     });
   }
 
-  configWXShare(point){
+  configWXShare(point, riseId){
+    const shareDate = moment().format('YYYY-MM-DD').replace(/-/g, '')
     configShare(`有效管理知识，赶走信息焦虑。今天在学札又提升了${point}米认知高度`,
-      `https://${window.location.hostname}/rise/static/note/report`,
+      `https://${window.location.hostname}/rise/static/guest/note/report?riseId=${riseId}&date=${shareDate}`,
       'https://static.iqycamp.com/images/note_report_share.jpeg?imageslim',
       '有效学习，需要心中有数；跟踪你的学习内容，每一天都能构建自己的知识体系')
   }
