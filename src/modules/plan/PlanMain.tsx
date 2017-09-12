@@ -641,11 +641,9 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal, bgList,
-      selectProblem, riseMember, riseMemberTips, chapterList, expired,
-      _t, relationTab
+      currentIndex, planData, showScoreModal, selectProblem, riseMember, riseMemberTips, chapterList, _t
     } = this.state
-    const { location, completePracticePlanId, dispatch } = this.props
+    const { completePracticePlanId } = this.props
     const {
       problem = {}, sections = [], point, totalSeries, reportStatus
     } = planData
