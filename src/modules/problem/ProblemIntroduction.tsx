@@ -449,7 +449,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,
+      monthlyCampMonth
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -609,7 +610,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                     ￥{fee}，自主学习
                   </div>
                   <div className="split-right"
-                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5`}>
+                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5&month=${monthlyCampMonth}`}>
                     ¥ 299，小课训练营
                   </div>
                 </div>
