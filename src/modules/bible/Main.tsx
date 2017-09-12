@@ -136,8 +136,14 @@ export default class Main extends React.Component<any, any> {
     this.setState({ data })
   }
 
-  open(article) {
+  open(article, index, dateIdx) {
     const { dispatch } = this.props
+    const { data } = this.state
+    const { articleList } = data[ dateIdx ]
+    _.set(articleList[ index ], 'acknowledged', true)
+    _.set(data[ dateIdx ], 'articleList', articleList)
+    this.setState({ data })
+
     openArticle(article.id).then(res => {
       if(res.code === 200) {
         window.location.href = article.url
@@ -180,7 +186,7 @@ export default class Main extends React.Component<any, any> {
           list.map((article, index) => {
             return (
               <div className="article-item" key={index}>
-                <div className="article-body" onClick={()=>this.open(article)}>
+                <div className="article-body" onClick={()=>this.open(article, index, dateIdx)}>
                   <div className={`title ${article.acknowledged? 'read': ''}`}>{article.title}</div>
                   <div className={`source ${article.acknowledged? 'read': ''}`}>{article.source}</div>
                 </div>
