@@ -357,11 +357,11 @@ export class PlanMain extends React.Component <any, any> {
         query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
       }) : null
     } else if(type === 31) {
+      // 关闭tutorial
+      if(!openRise) {
+        updateOpenRise()
+      }
       if(!complete) {
-        // 关闭tutorial
-        if(!openRise) {
-          updateOpenRise()
-        }
 
         learnKnowledge(practicePlanId).then(res => {
           const { code, msg } = res
@@ -647,7 +647,7 @@ export class PlanMain extends React.Component <any, any> {
     } = this.state
     const { location, completePracticePlanId, dispatch } = this.props
     const {
-      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus, free
+      problem = {}, sections = [], point, totalSeries, reportStatus
     } = planData
 
     const completePracticeRender = (item) => {
@@ -1055,10 +1055,6 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div className="rise-main-container" id="rise-main-container">
-        {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask">
-          <AssetImg url="https://static.iqycamp.com/images/point_tutorial3.gif" width={150} marginLeft={20}/>
-        </div> : null}
-
         {renderCard()}
         <Sidebar
           sidebar={ renderSidebar() } open={this.state.sidebarOpen}
