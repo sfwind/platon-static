@@ -49,11 +49,10 @@ import { ImprovementReport } from 'modules/plan/ImprovementReport'
 import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
 import ProblemExtension from './modules/problem/ProblemExtension'
 import PlanList from 'modules/plan/PlanList'
-import WarmUpNew from 'modules/practice/warmup/Warumup'
+import WarmUpNew from 'modules/practice/warmup/Warmup'
 import ForumQuestion from 'modules/customer/ForumQuestion'
 import CardsCollection from './modules/problem/CardsCollection'
 import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
-import SlideTest from './modules/plan/SlideTest'
 import Certificate from './modules/customer/certificate/Main'
 import CertificateProfile from './modules/customer/certificate/Personal'
 
@@ -127,7 +126,6 @@ const routes = (
         <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
-      <Route path="slide/test" component={SlideTest}/>
     </Route>
   </Route>
 )
