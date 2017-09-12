@@ -135,10 +135,10 @@ export class Explore extends React.Component<any, any> {
                       <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
                         <div className="img">
                           { problem.newProblem ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_04.png"
                                       style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null}
                           { problem.trial ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_02.png"
                                       style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null}
                           { problem.status === 2 ?
                             <div className="complete-problem">
@@ -177,11 +177,11 @@ export class Explore extends React.Component<any, any> {
                           <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
                             <div className="img">
                               { problem.newProblem ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_04.png"
                                           style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
                               }
                               { problem.trial ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_02.png"
                                           style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
                               }
                               { problem.status === 2 ?
