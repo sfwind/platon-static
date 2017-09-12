@@ -91,7 +91,6 @@ export class Explore extends React.Component<any, any> {
 
   render() {
     const { catalogList, hotList, banners = [] } = this.state
-    if(banners.length === 0) return <div/>
 
     const renderBanners = () => {
       if(banners.length === 0) return
