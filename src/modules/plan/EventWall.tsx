@@ -74,6 +74,10 @@ export class EventWall extends React.Component<any, any> {
     mark({ module: '打点', function: '活动墙', action: '打开活动墙', memo: item.id })
     goOtherWeb(item.destUrl)
   }
+  goBannerEvent(item) {
+    mark({ module: '打点', function: '活动墙', action: '打开Banner', memo: item.id })
+    goOtherWeb(item.destUrl)
+  }
 
   renderTabBody() {
     const { liveList, workList, offlineList, areaList, tab } = this.state
@@ -135,7 +139,7 @@ export class EventWall extends React.Component<any, any> {
         <Banner height={this.bannerHeight}>
           {bannerList.map((item, key) => {
             return (
-              <div className="banner-item swiper-slide" onClick={() => this.goEvent(item)} key={key}>
+              <div className="banner-item swiper-slide" onClick={() => this.goBannerEvent(item)} key={key}>
                 <img src={item.pic} style={{ width: 'auto', height: '100%', minWidth: '100%' }}/>
               </div>
             )
