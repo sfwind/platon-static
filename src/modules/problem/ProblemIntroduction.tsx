@@ -82,7 +82,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     })
     /** 获取小课数据，以及价格／按钮状态 */
     openProblemIntroduction(id, free).then(res => {
-      console.log('res', res)
       const { msg, code } = res
       if(code === 200) {
         if(!buttonStatus.isValid(msg.buttonStatus)) {
