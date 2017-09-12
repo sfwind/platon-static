@@ -88,7 +88,6 @@ export function logPay(functionValue, type, param) {
   pget(`/signup/mark/pay/${functionValue}/${type}${param ? '?param=' + param : ''}`);
 }
 
-
 export function sendCustomerMsg() {
   return ppost(`/rise/operation/free/choose/problem/msg`);
 }
