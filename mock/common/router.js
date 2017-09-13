@@ -40,7 +40,10 @@ router.post("/rise/b/mark", (req, res) => {
 router.get("/rise/index/msg", (req, res) => {
     setTimeout(() =>
         res.status(200).json({
-            "msg": null,
+            "msg": {
+              "message":"周四凌晨3：00-4：00\n圈外同学将进行系统维护\n请合理安排您的学习时间",
+              "url": null
+            },
             "code": 200
         }), Math.random() * 1500)
 });
