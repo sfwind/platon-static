@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { loadArticleCertainDate, loadArticle, disLike, like, firstOpen, openArticle,complete } from './async'
+import { loadArticleCertainDate, loadArticle, disLike, like, firstOpen, openArticle, complete } from './async'
 import './Main.less'
 import PullSlideTip from '../../components/PullSlideTip'
 import PullElement from 'pull-element'
@@ -30,6 +30,7 @@ export default class Main extends React.Component<any, any> {
       openTip: false,
     }
     this.pullElement = null
+    this.notFirstBtnML = (window.innerWidth - 50 - 24 - 80 * 2) / 3
   }
 
   componentWillMount() {
@@ -126,7 +127,7 @@ export default class Main extends React.Component<any, any> {
     complete(articleId);
     _.set(articleList[ index ], 'showOpsButtons', false)
     _.set(data[ dateIdx ], 'articleList', articleList)
-      this.setState({ data })
+    this.setState({ data })
   }
 
   dislike(articleId, index, dateIdx) {
@@ -152,9 +153,9 @@ export default class Main extends React.Component<any, any> {
     const { data } = this.state
     const { articleList } = data[ dateIdx ]
     _.set(articleList[ index ], 'acknowledged', true)
-    if(!article.showOpsButtons){
+    if(!article.showOpsButtons) {
       // 没有显示操作按钮
-      if(article.disfavor === 0 && !article.pointStatus){
+      if(article.disfavor === 0 && !article.pointStatus) {
         // 并非不喜欢 && 没有加过分
         _.set(articleList[ index ], 'showOpsButtons', true)
       }
@@ -221,6 +222,7 @@ export default class Main extends React.Component<any, any> {
                         是，已认真学习
                       </div>
                       <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
+                           style={{marginLeft:`${this.notFirstBtnML}px`}}
                            onClick={()=>this.dislike(article.id, index, dateIdx)}>
                         否，随便看了看
                       </div>
