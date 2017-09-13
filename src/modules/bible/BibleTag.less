@@ -1,0 +1,61 @@
+@import "../../style/variable";
+
+.bible-tag-container{
+  > .bible-tag-title{
+    font-size: 1.8em;
+    color: @color_context;
+    text-align: center;
+    margin: 20px 0;
+  }
+  > .tag-card{
+    margin: 0 22px;
+    padding-bottom: 20px;
+    box-shadow: 0 0 10px rgba(79, 172, 242, 0.2);
+    > .tag-card-hr{
+      margin-top: 20px;
+      height: 1px;
+      background-color: @color_weak_background;
+    }
+    > .tag-catalog{
+      padding-top: 20px;
+      font-size: 1.7em;
+      &:before{
+        content: '| ';
+        font-weight: bold;
+        margin-left: 12px;
+      }
+    }
+    > .tag-detail{
+      > .tag-button{
+        margin: 20px 6px 0 12px;
+        display: inline-block;
+        height: 22px;
+        padding: 0 8px;
+        border-radius: @border-radius;
+        border: 1px solid #007aff;
+        font-size: 1.4em;
+        color: #007aff;
+        &.chosen{
+          border: 1px solid #7898ee;
+          color: @color_white;
+          background-color: #7898ee;
+        }
+      }
+    }
+  }
+  > .submit{
+    position: fixed;
+    bottom: 10px;
+    border-radius: @border-radius;
+    margin: 10px auto 0;
+    left: ~"calc((100% - 224px) / 2)";
+    width: 224px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 1.8em;
+    color: @color_white;
+    background: #7daeeb;
+    background: -webkit-gradient(linear, center top, center bottom, from(#7daeeb), to(#7899ef));
+  }
+}
