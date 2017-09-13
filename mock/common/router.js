@@ -40,7 +40,10 @@ router.post("/rise/b/mark", (req, res) => {
 router.get("/rise/index/msg", (req, res) => {
     setTimeout(() =>
         res.status(200).json({
-            "msg": null,
+            "msg": {
+              "message":null,
+              "url": null
+            },
             "code": 200
         }), Math.random() * 1500)
 });

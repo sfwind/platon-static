@@ -2,6 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import "./Activity.less";
 import AssetImg from "./AssetImg";
+import { Toast, Dialog } from "react-weui"
+const { Alert } = Dialog
 
 @connect(state => state)
 export default class Activity extends React.Component<any, any> {
@@ -13,13 +15,26 @@ export default class Activity extends React.Component<any, any> {
     super(props);
     this.state = {
       url: this.props.url,
-      pic: this.props.pic,
+      message: '',
+      pic: '',
       show: true,
     }
   }
 
+  componentWillMount() {
+    const { message } = this.props
+    const reg = new RegExp('^http|https')
+    if(message) {
+      if(reg.test(message)) {
+        this.setState({ pic: message })
+      } else {
+        this.setState({ message })
+      }
+    }
+  }
+
   activityPage() {
-    const { url } = this.state;
+    const { url } = this.state
     const reg = new RegExp('^http|https')
     this.setState({ show: false })
     if(url) {
@@ -35,17 +50,34 @@ export default class Activity extends React.Component<any, any> {
   }
 
   render() {
-    const { pic, show } = this.state
+    const { pic, show, message } = this.state
+
+    const alert = {
+        buttons: [
+          {
+            label: '关闭',
+            onClick: ()=>this.setState({show:false})
+          }
+        ]
+    }
 
     return (
       show ?
         <div className="activity-modal">
-          <div className="close" onClick={() => this.setState({ show: false })}>
-            <AssetImg type='white_close_btn' size={36}/>
-          </div>
-          <div className="activity-pic" onClick={() => this.activityPage()}>
-            <AssetImg url={pic} width={'100%'}/>
-          </div>
+          { pic ?
+            <div>
+              <div className="close" onClick={() => this.setState({ show: false })}>
+                <AssetImg type='white_close_btn' size={36}/>
+              </div>
+              <div className="activity-pic" onClick={() => this.activityPage()}>
+                <AssetImg url={pic} width={'100%'}/>
+              </div>
+            </div>  : null}
+          { message ?
+            <Alert { ...alert }
+              show={true}>
+              <div className="global-pre" dangerouslySetInnerHTML={{__html:message}}/>
+            </Alert>: null}
         </div> : null
     )
   }

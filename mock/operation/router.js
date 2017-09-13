@@ -28,4 +28,11 @@ router.post("/rise/operation/free/share/*", (req, res) => {
     ), Math.random() * 1500)
 });
 
+router.get("/rise/operation/free/coupon", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      { "msg": false, "code": 200 }
+    ), Math.random() * 1500)
+});
+
 module.exports = router;
