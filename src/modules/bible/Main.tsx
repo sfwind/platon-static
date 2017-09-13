@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { loadArticleCertainDate, loadArticle, disLike, like, firstOpen, openArticle } from './async'
+import { loadArticleCertainDate, loadArticle, disLike, like, firstOpen, openArticle,complete } from './async'
 import './Main.less'
 import PullSlideTip from '../../components/PullSlideTip'
 import PullElement from 'pull-element'
@@ -33,7 +33,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: '打点', function: '学札学习', action: '浏览文章'})
+    mark({ module: '打点', function: '学札学习', action: '浏览文章' })
     const { dispatch } = this.props
     const { today } = this.state
     let last_time = window.localStorage.getItem(LAST_TIME)
@@ -120,6 +120,15 @@ export default class Main extends React.Component<any, any> {
     window.localStorage.setItem(BROWSE_DATE, browseDate)
   }
 
+  complete(articleId, index, dateIdx) {
+    const { data } = this.state
+    const { articleList } = data[ dateIdx ]
+    complete(articleId);
+    _.set(articleList[ index ], 'showOpsButtons', false)
+    _.set(data[ dateIdx ], 'articleList', articleList)
+      this.setState({ data })
+  }
+
   dislike(articleId, index, dateIdx) {
     const { data } = this.state
     const { articleList } = data[ dateIdx ]
@@ -132,7 +141,9 @@ export default class Main extends React.Component<any, any> {
       disLike(articleId)
     }
     _.set(articleList[ index ], 'disfavor', dislike)
+    _.set(articleList[ index ], 'showOpsButtons', false)
     _.set(data[ dateIdx ], 'articleList', articleList)
+
     this.setState({ data })
   }
 
@@ -141,6 +152,13 @@ export default class Main extends React.Component<any, any> {
     const { data } = this.state
     const { articleList } = data[ dateIdx ]
     _.set(articleList[ index ], 'acknowledged', true)
+    if(!article.showOpsButtons){
+      // 没有显示操作按钮
+      if(article.disfavor === 0 && !article.pointStatus){
+        // 并非不喜欢 && 没有加过分
+        _.set(articleList[ index ], 'showOpsButtons', true)
+      }
+    }
     _.set(data[ dateIdx ], 'articleList', articleList)
     this.setState({ data })
 
@@ -163,7 +181,6 @@ export default class Main extends React.Component<any, any> {
 
   render() {
     const { data, end, openTip } = this.state
-    console.log('data', data);
     const renderDailyArticles = () => {
       if(data.length !== 0) {
         return (
@@ -188,16 +205,27 @@ export default class Main extends React.Component<any, any> {
               <div className="article-item" key={index}>
                 <div className="article-body" onClick={()=>this.open(article, index, dateIdx)}>
                   <div className={`title ${article.acknowledged? 'read': ''}`}>{article.title}</div>
-                  <div className={`source ${article.acknowledged? 'read': ''}`}>{article.source}</div>
+                  <div className={`source ${article.acknowledged? 'read': ''}`}>来源：{article.source}</div>
                 </div>
                 <div className='article-bottom'>
-                  <div className="tag-line">
+                  <span className="tag-line">
                     {renderTag(article.tagName)}
-                  </div>
-                  <div className={`favor-button ${article.disfavor === 0? '': 'disfavor'}`}
-                       onClick={()=>this.dislike(article.id, index, dateIdx)}>
-                    不感兴趣
-                  </div>
+                  </span>
+                  {article.showOpsButtons ?<div className="ops-area">
+                    <div className="ops-tips">
+                      是否加入学习记录?
+                    </div>
+                    <div className="ops-button-area">
+                      <div className="ops-button blue first"
+                           onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
+                        是，已认真学习
+                      </div>
+                      <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
+                           onClick={()=>this.dislike(article.id, index, dateIdx)}>
+                        否，随便看了看
+                      </div>
+                    </div>
+                  </div>: null}
                 </div>
               </div>
             )
@@ -274,7 +302,8 @@ class NoteTip extends React.Component<any, any> {
         <div className="tip-word">{word}</div>
         <div className="tip-button" onClick={()=>this.click()}>{buttonWord}</div>
         <div className="tip-feedback" onClick={
-          ()=>window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16466490'}>意见反馈</div>
+          ()=>window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16466490'}>意见反馈
+        </div>
       </div>
     )
 
