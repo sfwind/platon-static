@@ -36,7 +36,6 @@ export default class BibleTag extends React.Component<any,any> {
 
   clickTag(click_tag) {
     const { tags } = this.state
-    console.log(click_tag)
     tags.forEach((tag) => {
       if(tag.id === click_tag.id) {
         tag.chosen = !click_tag.chosen
@@ -48,11 +47,22 @@ export default class BibleTag extends React.Component<any,any> {
   submitTag() {
     const { dispatch } = this.props
     const { tags } = this.state
+    let chooseCount = 0
+    tags.forEach((tag) => {
+      if(tag.chosen) {
+        chooseCount++
+      }
+    })
+    if(chooseCount == 0) {
+      dispatch(alertMsg('请选择标签'))
+      return
+    }
+
     changeTag(tags).then(res => {
       if(res.code !== 200) {
         dispatch(alertMsg(res.msg))
       } else {
-        dispatch(alertMsg('提交成功'))
+        this.context.router.push('/rise/static/note/list')
       }
     }).catch(e => {
       dispatch(alertMsg(e))

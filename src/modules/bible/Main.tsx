@@ -9,10 +9,15 @@ import _ from "lodash"
 import AssetImg from '../../components/AssetImg'
 import { BibleToolBar } from './BibleToolBar'
 import { mark } from 'utils/request'
+import { scroll } from 'utils/helpers'
 var moment = require('moment')
 
+// 上次浏览的日期
 const BROWSE_DATE = 'bible_browse_date'
+// 上次浏览时间
 const LAST_TIME = 'bible_last_browse_time'
+// 上次浏览文章id
+const LAST_BROWSE_ID = 'bible_last_browse_article'
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -33,13 +38,13 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: '打点', function: '学札学习', action: '浏览文章'})
+    mark({ module: '打点', function: '学札学习', action: '浏览文章' })
     const { dispatch } = this.props
     const { today } = this.state
     let last_time = window.localStorage.getItem(LAST_TIME)
     dispatch(startLoad())
     let browse_date = today
-    if(last_time) {
+    if(this.compareWithNow(last_time)>=1) {
       browse_date = window.localStorage.getItem(BROWSE_DATE)
     } else {
       this.saveBrowseDate(today)
@@ -49,15 +54,30 @@ export default class Main extends React.Component<any, any> {
 
     loadArticle(browse_date).then(res => {
       dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ data: res.msg.list, end: res.msg.isDateEnd, openTip: res.msg.firstOpen })
+      const {code, msg} = res
+      if(code === 200) {
+        if(!msg.editTag){
+          //首次进入先选标签
+          this.context.router.push('/rise/static/note/tag')
+        }else{
+          this.setState({ data: msg.list, end: msg.isDateEnd, openTip: msg.firstOpen }, () => {
+            let articleId = window.localStorage.getItem(LAST_BROWSE_ID)
+            window.localStorage.removeItem(LAST_BROWSE_ID)
+            scroll('#acticle-item-' + articleId, '.subscribe-article-container')
+          })
+        }
       } else {
-        dispatch(alertMsg(res.msg))
+        dispatch(alertMsg(msg))
       }
     }).catch(e => {
       dispatch(endLoad())
       dispatch(alertMsg(e))
     })
+  }
+
+  compareWithNow(last_time){
+    let diff= moment(last_time).diff(moment(),'days')
+    return diff
   }
 
   componentDidUpdate() {
@@ -143,7 +163,7 @@ export default class Main extends React.Component<any, any> {
     _.set(articleList[ index ], 'acknowledged', true)
     _.set(data[ dateIdx ], 'articleList', articleList)
     this.setState({ data })
-
+    window.localStorage.setItem(LAST_BROWSE_ID, article.id)
     openArticle(article.id).then(res => {
       if(res.code === 200) {
         window.location.href = article.url
@@ -163,7 +183,6 @@ export default class Main extends React.Component<any, any> {
 
   render() {
     const { data, end, openTip } = this.state
-    console.log('data', data);
     const renderDailyArticles = () => {
       if(data.length !== 0) {
         return (
@@ -185,7 +204,7 @@ export default class Main extends React.Component<any, any> {
         return (
           list.map((article, index) => {
             return (
-              <div className="article-item" key={index}>
+              <div className="article-item" key={index} id={'acticle-item-'+article.id}>
                 <div className="article-body" onClick={()=>this.open(article, index, dateIdx)}>
                   <div className={`title ${article.acknowledged? 'read': ''}`}>{article.title}</div>
                   <div className={`source ${article.acknowledged? 'read': ''}`}>{article.source}</div>
@@ -274,7 +293,8 @@ class NoteTip extends React.Component<any, any> {
         <div className="tip-word">{word}</div>
         <div className="tip-button" onClick={()=>this.click()}>{buttonWord}</div>
         <div className="tip-feedback" onClick={
-          ()=>window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16466490'}>意见反馈</div>
+          ()=>window.location.href = 'https://www.iquanwai.com/survey/wjx?activity=16466490'}>意见反馈
+        </div>
       </div>
     )
 
