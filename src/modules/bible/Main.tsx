@@ -9,10 +9,15 @@ import _ from "lodash"
 import AssetImg from '../../components/AssetImg'
 import { BibleToolBar } from './BibleToolBar'
 import { mark } from 'utils/request'
+import { scroll } from 'utils/helpers'
 var moment = require('moment')
 
+// 上次浏览的日期
 const BROWSE_DATE = 'bible_browse_date'
+// 上次浏览时间
 const LAST_TIME = 'bible_last_browse_time'
+// 上次浏览文章id
+const LAST_BROWSE_ID = 'bible_last_browse_article'
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -40,7 +45,7 @@ export default class Main extends React.Component<any, any> {
     let last_time = window.localStorage.getItem(LAST_TIME)
     dispatch(startLoad())
     let browse_date = today
-    if(last_time) {
+    if(this.compareWithNow(last_time) == 0) {
       browse_date = window.localStorage.getItem(BROWSE_DATE)
     } else {
       this.saveBrowseDate(today)
@@ -50,15 +55,30 @@ export default class Main extends React.Component<any, any> {
 
     loadArticle(browse_date).then(res => {
       dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ data: res.msg.list, end: res.msg.isDateEnd, openTip: res.msg.firstOpen })
+      const { code, msg } = res
+      if(code === 200) {
+        if(!msg.editTag) {
+          //首次进入先选标签
+          this.context.router.push('/rise/static/note/tag')
+        } else {
+          this.setState({ data: msg.list, end: msg.isDateEnd, openTip: msg.firstOpen }, () => {
+            let articleId = window.localStorage.getItem(LAST_BROWSE_ID)
+            window.localStorage.removeItem(LAST_BROWSE_ID)
+            scroll('#acticle-item-' + articleId, '.subscribe-article-container')
+          })
+        }
       } else {
-        dispatch(alertMsg(res.msg))
+        dispatch(alertMsg(msg))
       }
     }).catch(e => {
       dispatch(endLoad())
       dispatch(alertMsg(e))
     })
+  }
+
+  compareWithNow(last_time) {
+    let diff = moment(last_time).diff(moment(), 'days')
+    return diff
   }
 
   componentDidUpdate() {
@@ -152,19 +172,20 @@ export default class Main extends React.Component<any, any> {
     const { dispatch } = this.props
     const { data } = this.state
     const { articleList } = data[ dateIdx ]
-    _.set(articleList[ index ], 'acknowledged', true)
-    if(!article.showOpsButtons) {
-      // 没有显示操作按钮
-      if(article.disfavor === 0 && !article.pointStatus) {
-        // 并非不喜欢 && 没有加过分
-        _.set(articleList[ index ], 'showOpsButtons', true)
-      }
-    }
-    _.set(data[ dateIdx ], 'articleList', articleList)
-    this.setState({ data })
 
+    window.localStorage.setItem(LAST_BROWSE_ID, article.id)
     openArticle(article.id).then(res => {
       if(res.code === 200) {
+        _.set(articleList[ index ], 'acknowledged', true)
+        if(!article.showOpsButtons) {
+          // 没有显示操作按钮
+          if(article.disfavor === 0 && !article.pointStatus) {
+            // 并非不喜欢 && 没有加过分
+            _.set(articleList[ index ], 'showOpsButtons', true)
+          }
+        }
+        _.set(data[ dateIdx ], 'articleList', articleList)
+        this.setState({ data })
         window.location.href = article.url
       } else {
         dispatch(alertMsg(res.msg))
@@ -203,7 +224,7 @@ export default class Main extends React.Component<any, any> {
         return (
           list.map((article, index) => {
             return (
-              <div className="article-item" key={index}>
+              <div className="article-item" key={index} id={'acticle-item-'+article.id}>
                 <div className="article-body" onClick={()=>this.open(article, index, dateIdx)}>
                   <div className={`title ${article.acknowledged? 'read': ''}`}>{article.title}</div>
                   <div className={`source ${article.acknowledged? 'read': ''}`}>来源：{article.source}</div>
@@ -213,21 +234,21 @@ export default class Main extends React.Component<any, any> {
                     {renderTag(article.tagName)}
                   </span>
                   {article.showOpsButtons ?<div className="ops-area">
-                    <div className="ops-tips">
-                      是否加入学习记录?
-                    </div>
-                    <div className="ops-button-area">
-                      <div className="ops-button blue first"
-                           onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
-                        是，已认真学习
+                      <div className="ops-tips">
+                        是否加入学习记录?
                       </div>
-                      <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
-                           style={{marginLeft:`${this.notFirstBtnML}px`}}
-                           onClick={()=>this.dislike(article.id, index, dateIdx)}>
-                        否，随便看了看
+                      <div className="ops-button-area">
+                        <div className="ops-button blue first"
+                             onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
+                          是，已认真学习
+                        </div>
+                        <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
+                             style={{marginLeft:`${this.notFirstBtnML}px`}}
+                             onClick={()=>this.dislike(article.id, index, dateIdx)}>
+                          否，随便看了看
+                        </div>
                       </div>
-                    </div>
-                  </div>: null}
+                    </div>: null}
                 </div>
               </div>
             )

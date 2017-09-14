@@ -308,7 +308,7 @@ export class Analysis extends React.Component <any, any> {
         {showDiscuss ?<Discuss isReply={isReply} placeholder={placeholder} limit={1000}
                                submit={()=>this.onSubmit()} onChange={(v)=>this.onChange(v)}
                                cancel={()=>this.cancel()}/>:
-          <div className="writeDiscuss" onClick={() => this.setState({showDiscuss: true})}>
+          <div className="write-discuss" onClick={() => this.setState({showDiscuss: true})}>
             <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
           </div>}
       </div>
