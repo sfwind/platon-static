@@ -62,7 +62,7 @@ export default class BibleTag extends React.Component<any,any> {
       if(res.code !== 200) {
         dispatch(alertMsg(res.msg))
       } else {
-        this.context.router.goBack()
+        window.history.back()
       }
     }).catch(e => {
       dispatch(alertMsg(e))

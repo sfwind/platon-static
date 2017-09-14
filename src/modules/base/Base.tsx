@@ -101,7 +101,7 @@ export default class Main extends React.Component<any, any> {
         {this.state.windowsClient ?
           <div
             style={{position:'absolute', left:5, top:5, height: 30, width:30, zIndex:999, cursor:'pointer', transparency:'10%'}}
-            onClick={()=> this.context.router.goBack()}>
+            onClick={()=> window.history.back()}>
             <AssetImg type="back_button" width={30} height={30} style={{opacity:0.3}}/>
           </div>
           : null}

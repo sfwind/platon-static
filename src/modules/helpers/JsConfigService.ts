@@ -79,7 +79,7 @@ class JsConfigService {
     if(!_.isNull(configBean)) {
       // 这个url有config参数
       configBean.configTimes += 1;
-      console.log('configTimes', configBean.configTimes);
+      // console.log('configTimes', configBean.configTimes);
       if(configBean.configTimes >= 3) {
         // 错误次数大于3则打日志,并放弃config
         configBean.error = true;
@@ -161,12 +161,12 @@ class JsConfigService {
     let configBean = this.getConfigBean(url);
     if(!_.isNull(configBean) && !configBean.error) {
       // 没有config参数，并且这个参数没有异常(失败超过三次)
-      console.log('已经有了config', configBean);
+      // console.log('已经有了config', configBean);
       // 调用签名方法
       this.jsConfig(apiList, callback);
     } else {
       // 没有有效的config参数，拉取config信息
-      console.log("没有config");
+      // console.log("没有config");
       pget(`/wx/js/signature?url=${encodeURIComponent(url)}`).then(res => {
         // 获取成功，设置这个url的config参数
         this.setConfigBean(url, res.msg);
