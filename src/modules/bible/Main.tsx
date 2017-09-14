@@ -172,19 +172,20 @@ export default class Main extends React.Component<any, any> {
     const { dispatch } = this.props
     const { data } = this.state
     const { articleList } = data[ dateIdx ]
-    _.set(articleList[ index ], 'acknowledged', true)
-    if(!article.showOpsButtons) {
-      // 没有显示操作按钮
-      if(article.disfavor === 0 && !article.pointStatus) {
-        // 并非不喜欢 && 没有加过分
-        _.set(articleList[ index ], 'showOpsButtons', true)
-      }
-    }
-    _.set(data[ dateIdx ], 'articleList', articleList)
-    this.setState({ data })
+
     window.localStorage.setItem(LAST_BROWSE_ID, article.id)
     openArticle(article.id).then(res => {
       if(res.code === 200) {
+        _.set(articleList[ index ], 'acknowledged', true)
+        if(!article.showOpsButtons) {
+          // 没有显示操作按钮
+          if(article.disfavor === 0 && !article.pointStatus) {
+            // 并非不喜欢 && 没有加过分
+            _.set(articleList[ index ], 'showOpsButtons', true)
+          }
+        }
+        _.set(data[ dateIdx ], 'articleList', articleList)
+        this.setState({ data })
         window.location.href = article.url
       } else {
         dispatch(alertMsg(res.msg))
