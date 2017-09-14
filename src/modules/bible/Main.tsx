@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { loadArticleCertainDate, loadArticle, disLike, like, firstOpen, openArticle } from './async'
+import { loadArticleCertainDate, loadArticle, disLike, like, firstOpen, openArticle, complete } from './async'
 import './Main.less'
 import PullSlideTip from '../../components/PullSlideTip'
 import PullElement from 'pull-element'
@@ -35,6 +35,7 @@ export default class Main extends React.Component<any, any> {
       openTip: false,
     }
     this.pullElement = null
+    this.notFirstBtnML = (window.innerWidth - 50 - 24 - 80 * 2) / 3
   }
 
   componentWillMount() {
@@ -140,6 +141,15 @@ export default class Main extends React.Component<any, any> {
     window.localStorage.setItem(BROWSE_DATE, browseDate)
   }
 
+  complete(articleId, index, dateIdx) {
+    const { data } = this.state
+    const { articleList } = data[ dateIdx ]
+    complete(articleId);
+    _.set(articleList[ index ], 'showOpsButtons', false)
+    _.set(data[ dateIdx ], 'articleList', articleList)
+    this.setState({ data })
+  }
+
   dislike(articleId, index, dateIdx) {
     const { data } = this.state
     const { articleList } = data[ dateIdx ]
@@ -152,7 +162,9 @@ export default class Main extends React.Component<any, any> {
       disLike(articleId)
     }
     _.set(articleList[ index ], 'disfavor', dislike)
+    _.set(articleList[ index ], 'showOpsButtons', false)
     _.set(data[ dateIdx ], 'articleList', articleList)
+
     this.setState({ data })
   }
 
@@ -161,6 +173,13 @@ export default class Main extends React.Component<any, any> {
     const { data } = this.state
     const { articleList } = data[ dateIdx ]
     _.set(articleList[ index ], 'acknowledged', true)
+    if(!article.showOpsButtons) {
+      // 没有显示操作按钮
+      if(article.disfavor === 0 && !article.pointStatus) {
+        // 并非不喜欢 && 没有加过分
+        _.set(articleList[ index ], 'showOpsButtons', true)
+      }
+    }
     _.set(data[ dateIdx ], 'articleList', articleList)
     this.setState({ data })
     window.localStorage.setItem(LAST_BROWSE_ID, article.id)
@@ -207,16 +226,28 @@ export default class Main extends React.Component<any, any> {
               <div className="article-item" key={index} id={'acticle-item-'+article.id}>
                 <div className="article-body" onClick={()=>this.open(article, index, dateIdx)}>
                   <div className={`title ${article.acknowledged? 'read': ''}`}>{article.title}</div>
-                  <div className={`source ${article.acknowledged? 'read': ''}`}>{article.source}</div>
+                  <div className={`source ${article.acknowledged? 'read': ''}`}>来源：{article.source}</div>
                 </div>
                 <div className='article-bottom'>
-                  <div className="tag-line">
+                  <span className="tag-line">
                     {renderTag(article.tagName)}
-                  </div>
-                  <div className={`favor-button ${article.disfavor === 0? '': 'disfavor'}`}
-                       onClick={()=>this.dislike(article.id, index, dateIdx)}>
-                    不感兴趣
-                  </div>
+                  </span>
+                  {article.showOpsButtons ?<div className="ops-area">
+                    <div className="ops-tips">
+                      是否加入学习记录?
+                    </div>
+                    <div className="ops-button-area">
+                      <div className="ops-button blue first"
+                           onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
+                        是，已认真学习
+                      </div>
+                      <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
+                           style={{marginLeft:`${this.notFirstBtnML}px`}}
+                           onClick={()=>this.dislike(article.id, index, dateIdx)}>
+                        否，随便看了看
+                      </div>
+                    </div>
+                  </div>: null}
                 </div>
               </div>
             )
