@@ -45,7 +45,7 @@ export default class Main extends React.Component<any, any> {
     let last_time = window.localStorage.getItem(LAST_TIME)
     dispatch(startLoad())
     let browse_date = today
-    if(this.compareWithNow(last_time)>=1) {
+    if(this.compareWithNow(last_time) == 0) {
       browse_date = window.localStorage.getItem(BROWSE_DATE)
     } else {
       this.saveBrowseDate(today)
@@ -55,12 +55,12 @@ export default class Main extends React.Component<any, any> {
 
     loadArticle(browse_date).then(res => {
       dispatch(endLoad())
-      const {code, msg} = res
+      const { code, msg } = res
       if(code === 200) {
-        if(!msg.editTag){
+        if(!msg.editTag) {
           //首次进入先选标签
           this.context.router.push('/rise/static/note/tag')
-        }else{
+        } else {
           this.setState({ data: msg.list, end: msg.isDateEnd, openTip: msg.firstOpen }, () => {
             let articleId = window.localStorage.getItem(LAST_BROWSE_ID)
             window.localStorage.removeItem(LAST_BROWSE_ID)
@@ -76,8 +76,8 @@ export default class Main extends React.Component<any, any> {
     })
   }
 
-  compareWithNow(last_time){
-    let diff= moment(last_time).diff(moment(),'days')
+  compareWithNow(last_time) {
+    let diff = moment(last_time).diff(moment(), 'days')
     return diff
   }
 
@@ -234,21 +234,21 @@ export default class Main extends React.Component<any, any> {
                     {renderTag(article.tagName)}
                   </span>
                   {article.showOpsButtons ?<div className="ops-area">
-                    <div className="ops-tips">
-                      是否加入学习记录?
-                    </div>
-                    <div className="ops-button-area">
-                      <div className="ops-button blue first"
-                           onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
-                        是，已认真学习
+                      <div className="ops-tips">
+                        是否加入学习记录?
                       </div>
-                      <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
-                           style={{marginLeft:`${this.notFirstBtnML}px`}}
-                           onClick={()=>this.dislike(article.id, index, dateIdx)}>
-                        否，随便看了看
+                      <div className="ops-button-area">
+                        <div className="ops-button blue first"
+                             onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
+                          是，已认真学习
+                        </div>
+                        <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
+                             style={{marginLeft:`${this.notFirstBtnML}px`}}
+                             onClick={()=>this.dislike(article.id, index, dateIdx)}>
+                          否，随便看了看
+                        </div>
                       </div>
-                    </div>
-                  </div>: null}
+                    </div>: null}
                 </div>
               </div>
             )

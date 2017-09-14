@@ -62,7 +62,7 @@ export default class BibleTag extends React.Component<any,any> {
       if(res.code !== 200) {
         dispatch(alertMsg(res.msg))
       } else {
-        this.context.router.push('/rise/static/note/list')
+        this.context.router.goBack()
       }
     }).catch(e => {
       dispatch(alertMsg(e))
