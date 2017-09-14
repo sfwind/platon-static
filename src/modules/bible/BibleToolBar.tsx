@@ -9,7 +9,7 @@ import {
   TabBarLabel,
   Article
 } from 'react-weui';
-import "./BibleToolbar.less"
+import "./BibleToolBar.less"
 import { mark } from 'utils/request'
 
 
