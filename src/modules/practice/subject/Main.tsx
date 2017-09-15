@@ -227,7 +227,7 @@ export class Main extends React.Component <any, any> {
             {renderArticles()}
           </div>
         </div>
-        <div className="writeDiscuss" onClick={() => this.openWriteBox()}>
+        <div className="write-discuss" onClick={() => this.openWriteBox()}>
           <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
         {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}

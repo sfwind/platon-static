@@ -782,13 +782,17 @@ export class PlanMain extends React.Component <any, any> {
       let preSection = null
       if(currentIndex === 1) {
         preSection = (
-          <div className="psbf-w-pre-btn disabled">
-            上一节
+          <div className="click-btn">
+            <div className="psbf-w-pre-btn disabled">
+              上一节
+            </div>
           </div>
         )
       } else {
         preSection = (
-          <div className="click-btn" onClick={() => {this.goSection(currentIndex - 1)}}>
+          <div className="click-btn" onClick={() => {
+            this.goSection(currentIndex - 1)
+          }}>
             <div className="psbf-w-pre-btn">
               上一节
             </div>

@@ -771,6 +771,9 @@
         clear: both;
       }
       .psbf-w-pre-wrapper {
+        position: relative;
+        z-index: 1;
+        background: transparent;
         display: inline-block;
         float: left;
         .psbf-w-pre-btn {
@@ -800,7 +803,6 @@
       }
       .psbf-w-series-wrapper {
         padding: 18px 0;
-        width: 80%;
         height: 18px;
         text-align: center;
         top: 0;
@@ -819,8 +821,11 @@
         }
       }
       .psbf-w-next-wrapper {
+        position: relative;
+        z-index: 1;
         display: inline-block;
         float: right;
+        background: transparent;
         .psbf-w-next-btn {
           margin-top: 52px;
           float: right;
@@ -887,8 +892,8 @@
       }
 
       .click-btn {
-        width: 50px;
-        height: 60px;
+        width: 100px;
+        height: 76px;
       }
     }
   }
