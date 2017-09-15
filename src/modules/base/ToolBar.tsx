@@ -9,7 +9,7 @@ import {
   TabBarLabel,
   Article
 } from 'react-weui';
-import "./Toolbar.less"
+import "./ToolBar.less"
 import { startLoad, endLoad, alertMsg, set } from "redux/actions";
 import { loadOldCount } from '../message/async'
 var FastClick = require('fastclick');

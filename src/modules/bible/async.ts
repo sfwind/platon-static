@@ -34,6 +34,14 @@ export function openArticle(articleId) {
   return ppost(`/rise/bible/open/article/${articleId}`);
 }
 
+export function changeTag(tags){
+  return ppost(`/rise/bible/change/tag`, {subscribeArticleTags:tags});
+}
+
+export function loadTags() {
+  return pget(`/rise/bible/load/tag`);
+}
+
 export function complete(articleId) {
   return ppost(`/rise/bible/complete/article/${articleId}`);
 }
