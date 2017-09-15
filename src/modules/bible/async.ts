@@ -37,3 +37,4 @@ export function openArticle(articleId) {
 export function complete(articleId) {
   return ppost(`/rise/bible/complete/article/${articleId}`);
 }
+
