@@ -190,7 +190,7 @@ export default class Report extends React.Component<any, any> {
 
     return (
       <div className="learn-point-container">
-        <div className="personal-icon" onClick={()=>this.context.router.push('/rise/static/note/tag')}>
+        <div className="personal-icon" onClick={()=>this.context.router.push('/rise/static/note/customer')}>
           <AssetImg type="personal" size={26}/>
         </div>
         <div className="card-point">

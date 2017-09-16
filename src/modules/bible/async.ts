@@ -1,4 +1,5 @@
 import { pget, ppost } from "../../utils/request";
+import { all } from "axios";
 
 export function loadArticleCertainDate(date) {
   date = date.replace(/-/g, '')
@@ -7,7 +8,7 @@ export function loadArticleCertainDate(date) {
 
 export function loadArticle(date) {
   date = date.replace(/-/g, '')
-  return pget(`/rise/bible/load/article/${date}`, { pageId: 1 ,t:Math.random()});
+  return pget(`/rise/bible/load/article/${date}`, { pageId: 1, t: Math.random() });
 }
 
 export function disLike(articleId) {
@@ -34,8 +35,8 @@ export function openArticle(articleId) {
   return ppost(`/rise/bible/open/article/${articleId}`);
 }
 
-export function changeTag(tags){
-  return ppost(`/rise/bible/change/tag`, {subscribeArticleTags:tags});
+export function changeTag(tags) {
+  return ppost(`/rise/bible/change/tag`, { subscribeArticleTags: tags });
 }
 
 export function loadTags() {
@@ -46,3 +47,18 @@ export function complete(articleId) {
   return ppost(`/rise/bible/complete/article/${articleId}`);
 }
 
+export function loadNote(noteId) {
+  return pget(`/rise/bible/note/load/${noteId}`);
+}
+
+export function submitNote(note) {
+  return ppost(`/rise/bible/note/submit`, note)
+}
+
+export function loadNoteData(noteId) {
+  return all([ loadNote(noteId), loadTags() ]);
+}
+
+export function loadNoteList(page) {
+  return pget('/rise/bible/note/load/list', { page: page });
+}

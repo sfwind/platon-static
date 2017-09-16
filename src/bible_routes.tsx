@@ -7,6 +7,7 @@ import BibleMain from './modules/bible/Main'
 import BibleReport from './modules/bible/Report'
 import StudyNoteSubmit from "./modules/bible/StudyNoteSubmit"
 import BibleTag from './modules/bible/BibleTag'
+import BibleCustomer from './modules/bible/BibleCustomer';
 
 const routes = (
   <Route>
@@ -21,6 +22,7 @@ const routes = (
       <Route path="guest/note/report" component={BibleReport}/>
       <Route path="note/study/submit" component={StudyNoteSubmit}/>
       <Route path="note/tag" component={BibleTag}/>
+      <Route path="note/customer" component={BibleCustomer}/>
     </Route>
   </Route>
 )
