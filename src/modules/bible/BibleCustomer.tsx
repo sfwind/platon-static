@@ -7,6 +7,7 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { BibleToolBar } from './BibleToolBar'
 import PullSlideTip from '../../components/PullSlideTip'
 import PullElement from 'pull-element'
+import { mark } from 'utils/request'
 
 @connect(state => state)
 export default class BibleCustomer extends React.Component<any,any> {
@@ -26,6 +27,7 @@ export default class BibleCustomer extends React.Component<any,any> {
   componentWillMount() {
     const { dispatch } = this.props;
     dispatch(startLoad());
+    mark({ module: '打点', function: '学札报告', action: '进入扎中心' })
     loadNoteList(1).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
@@ -129,11 +131,13 @@ export default class BibleCustomer extends React.Component<any,any> {
     return (
       <div className="bible-customer">
         <div className="problem-galley-container">
-          <div className="galley-module">
+          <div className="galley-module" onClick={()=>this.context.router.push('/rise/static/note/tag')}>
             <div className="galley-module-header arrow">
               <div className="label">
                 我的学习主题
               </div>
+            </div>
+            <div className="galley-module-content">
             </div>
           </div>
           <div className="galley-module">

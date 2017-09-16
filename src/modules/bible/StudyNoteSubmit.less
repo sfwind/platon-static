@@ -1,18 +1,19 @@
 @import "../../style/variable";
 
 .study-note-submit {
-  .tag-card{
+  overflow-x: hidden;
+  .tag-card {
     margin: 0 22px;
     padding-bottom: 20px;
-    > .tag-card-hr{
+    > .tag-card-hr {
       margin-top: 20px;
       height: 1px;
       background-color: @color_weak_background;
     }
-    > .tag-catalog{
+    > .tag-catalog {
       padding-top: 20px;
       font-size: 1.7em;
-      &:before{
+      &:before {
         content: '| ';
         font-weight: bold;
         margin-left: 12px;
@@ -20,8 +21,8 @@
         vertical-align: top;
       }
     }
-    > .tag-detail{
-      > .tag-button{
+    > .tag-detail {
+      > .tag-button {
         margin: 20px 6px 0 12px;
         display: inline-block;
         height: 22px;
@@ -30,7 +31,7 @@
         border: 1px solid #007aff;
         font-size: 1.4em;
         color: #007aff;
-        &.chosen{
+        &.chosen {
           border: 1px solid #7898ee;
           color: @color_white;
           background-color: #7898ee;
@@ -58,11 +59,12 @@
   }
 
   .study-note-editor {
+    margin-bottom: 100px;
     .study-note-editor-tip {
-      line-height:55px;
-      font-size:14px;
+      line-height: 55px;
+      font-size: 14px;
       color: #999999;
-      padding:0 25px;
+      padding: 0 25px;
     }
     .note-editor-wrapper {
       text-align: center;
@@ -71,7 +73,7 @@
         height: 200px;
         width: calc(100% - 26px);
         display: inline-block;
-        margin:0 auto;
+        margin: 0 auto;
         resize: none;
         border: 1px solid #ccc;
         font-size: 16px;
@@ -79,7 +81,6 @@
         box-shadow: 0 0 0 transparent;
         -webkit-appearance: none;
       }
-      margin-bottom:100px;
     }
   }
   .note-footer-area {
@@ -87,11 +88,11 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height:60px;
+    height: 60px;
     .note-footer-btn {
       position: absolute;
-      top:50%;
-      left:50%;
+      top: 50%;
+      left: 50%;
       -webkit-transform: translate(-50%, -50%);
       -moz-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
@@ -105,19 +106,19 @@
       font-size: 1.8em;
       color: #fff;
       background: #7daeeb;
-      background: -webkit-gradient(linear,center top,center bottom,from(#7daeeb),to(#7899ef));
+      background: -webkit-gradient(linear, center top, center bottom, from(#7daeeb), to(#7899ef));
       letter-spacing: 10px;
       z-index: 200;
     }
     .note-footer-max {
       position: absolute;
-      top:0;
-      left:0;
+      top: 0;
+      left: 0;
       z-index: 100;
-      width:100%;
-      height:100%;
-      box-shadow: 0 -3px 10px rgba(0,0,0,.1);
-      background-color:hsla(0,0%,100%,.90);
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 -3px 10px rgba(0, 0, 0, .1);
+      background-color: hsla(0, 0%, 100%, .90);
     }
   }
 }

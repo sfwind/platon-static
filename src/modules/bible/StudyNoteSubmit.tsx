@@ -171,7 +171,7 @@ export default class StudyNoteSubmit extends React.Component<any,any> {
     console.log(studyNote);
     submitNote(studyNote).then(res => {
       dispatch(endLoad());
-      this.context.router.push('/rise/static/note/list');
+      this.context.router.push('/rise/static/note/report');
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
