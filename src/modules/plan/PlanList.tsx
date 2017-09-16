@@ -62,6 +62,7 @@ export default class PlanList extends React.Component<any, any> {
           showEmptyPage = true
           if(location.pathname === '/rise/static/plan/main') {
             this.context.router.push('/rise/static/problem/explore')
+            return
           }
         }
         if(!openWelcome) {
