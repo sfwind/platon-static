@@ -42,7 +42,6 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   componentWillMount() {
-
     mark({
       module: '打点',
       function: '学习',
@@ -52,24 +51,25 @@ export default class PlanList extends React.Component<any, any> {
 
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    const { runningPlanId, completedPlanId } = location.query
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator, openWelcome, recommendations = [] } = res.msg
-        let showEmptyPage = false
-        if(!runningPlans || runningPlans.length === 0) {
-          showEmptyPage = true
-          if(location.pathname === '/rise/static/plan/main') {
-            this.context.router.push('/rise/static/problem/explore')
-          }
-        }
+        const { runningPlans = [], openNavigator, openWelcome, recommendations = [] } = res.msg
+
         if(!openWelcome) {
           if(location.pathname !== '/rise/static/learn') {
             // 没有小课练习，并且不是从导航栏点进来的
             this.context.router.push({
               pathname: '/rise/static/welcome'
             })
+            return
+          }
+        }
+        let showEmptyPage = false
+        if(!runningPlans || runningPlans.length === 0) {
+          showEmptyPage = true
+          if(location.pathname === '/rise/static/plan/main') {
+            this.context.router.push('/rise/static/problem/explore')
             return
           }
         }
