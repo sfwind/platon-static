@@ -74,8 +74,8 @@ export default class PlanList extends React.Component<any, any> {
           }
         }
         this.setState({
-          planList: res.msg, showEmptyPage: showEmptyPage, openNavigator, showPage: true,
-          recommendations: recommendations
+          planList: res.msg, showEmptyPage: showEmptyPage, openNavigator,
+          recommendations: recommendations, showPage: true
         }, () => {
           var swiper = new Swiper('#problem-recommendation', {
             scrollbar: '#problem-recommendation-bar',
@@ -157,7 +157,6 @@ export default class PlanList extends React.Component<any, any> {
 
   render() {
     const { planList = {}, showEmptyPage, openNavigator, showPage, recommendations = [], showFloatCoupon } = this.state
-    if(!showPage) return <div/>
 
     const { location } = this.props
     const { runningPlanId, completedPlanId, trialClosedId } = location.query
@@ -177,12 +176,12 @@ export default class PlanList extends React.Component<any, any> {
 
     return (
       <div>
-        <div className="plan-list-page">
+        <div className="plan-list-page" style={{ minHeight: window.innerHeight + 30 }}>
           <ToolBar />
-          <Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}
-                    bgList={['https://static.iqycamp.com/images/fragment/rise_pl_0727_1_2.png',
-                      'https://static.iqycamp.com/images/fragment/rise_pl_0727_2.png']}
-                    topList={[0, 169]} bottomList={[55, 0]}/>
+          {/*<Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}*/}
+          {/*bgList={['https://static.iqycamp.com/images/fragment/rise_pl_0727_1_2.png',*/}
+          {/*'https://static.iqycamp.com/images/fragment/rise_pl_0727_2.png']}*/}
+          {/*topList={[0, 169]} bottomList={[55, 0]}/>*/}
           <div className="plp-running plp-block">
             <div className="p-r-header">
               <span className="p-r-h-title">进行中</span>
@@ -213,14 +212,14 @@ export default class PlanList extends React.Component<any, any> {
                   <div id={`problem-${item.planId}`} style={style}
                        className={`p-r-block ${key === 0 ? 'first' : ''} ${key === runningPlans.length - 1 ? 'last' : ''}`}
                        key={key} onClick={() => this.handleClickPlan(item)}>
-                    <div className="p-r-b-item" style={{padding: key === 0 ? "18px 15px 20px" : '20px 15px'}}>
+                    <div className="p-r-b-item" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                       <div className="p-r-b-i-pic">
                         <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
                         <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
                         <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
                         {/*<div className="complete-person">*/}
-                          {/*<div className="icon-person"/>*/}
-                          {/*<span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>*/}
+                        {/*<div className="icon-person"/>*/}
+                        {/*<span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>*/}
                         {/*</div>*/}
                       </div>
                       <div className="p-r-b-i-text">
@@ -270,8 +269,8 @@ export default class PlanList extends React.Component<any, any> {
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                           <div className="problem-item-subCatalog">{problem.abbreviation}</div>
                           {/*<div className="complete-person">*/}
-                            {/*<div className="icon-person"/>*/}
-                            {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                          {/*<div className="icon-person"/>*/}
+                          {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
                           {/*</div>*/}
                         </div>
                         <span>{problem.problem}</span>
@@ -303,7 +302,7 @@ export default class PlanList extends React.Component<any, any> {
                     return (
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
-                        <div className="p-c-b-text" style={{padding: key === 0 ? '18px 15px 20px' : '20px 15px'}}>
+                        <div className="p-c-b-text" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                           <div className="p-c-b-t-left">
                             <div className="p-c-b-t-l-title">
                               {plan.name}
@@ -334,7 +333,7 @@ export default class PlanList extends React.Component<any, any> {
                     return (
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
-                        <div className="p-c-b-text" style={{padding: key === 0 ? '18px 15px 20px' : '20px 15px'}}>
+                        <div className="p-c-b-text" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                           <div className="p-c-b-t-left">
                             <div className="p-c-b-t-l-title">
                               {plan.name}
