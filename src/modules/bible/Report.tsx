@@ -31,7 +31,7 @@ export default class Report extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module: '打点', function: '学札报告', action: '查看学渣报告'})
+    mark({ module: '打点', function: '学札报告', action: '查看学渣报告' })
   }
 
   componentDidMount() {
@@ -45,7 +45,7 @@ export default class Report extends React.Component<any, any> {
           dispatch(endLoad())
           this.setState({
             totalWords: res.msg.totalWords, qrCode: res.msg.qrCode,
-            guest: true, totalScore: res.msg.totalScore, nickName: res.msg.nickName
+            guest: true, totalScore: res.msg.totalScore, nickName: res.msg.nickName, readTime: res.msg.readTime
           })
           this.configWXShare(res.msg.totalScore, res.msg.riseId)
           this.renderChart(res.msg)
@@ -62,8 +62,10 @@ export default class Report extends React.Component<any, any> {
       loadScore().then(res => {
         if(res.code === 200) {
           dispatch(endLoad())
-          this.setState({ totalWords: res.msg.totalWords, totalScore: res.msg.totalScore,
-            nickName: res.msg.nickName, guest: false })
+          this.setState({
+            totalWords: res.msg.totalWords, totalScore: res.msg.totalScore,
+            nickName: res.msg.nickName, guest: false, readTime: res.msg.readTime
+          })
           this.configWXShare(res.msg.totalScore, res.msg.riseId)
           this.renderChart(res.msg)
         } else {
@@ -161,13 +163,13 @@ export default class Report extends React.Component<any, any> {
       '学札是一个多平台学习管理工具，通过跟踪和分析你的每一次学习记录，让学习更有目的，提升有迹可循，和信息焦虑说拜拜~')
   }
 
-  share(){
-    mark({module: '打点', function: '学札报告', action: '点击分享'})
-    this.setState({showTip:false})
+  share() {
+    mark({ module: '打点', function: '学札报告', action: '点击分享' })
+    this.setState({ showTip: false })
   }
 
   render() {
-    const { totalWords, qrCode, guest, showTip, totalScore, nickName } = this.state
+    const { totalWords, qrCode, guest, showTip, totalScore, nickName, readTime } = this.state
 
     const renderQrCode = () => {
       return (
@@ -180,7 +182,8 @@ export default class Report extends React.Component<any, any> {
             <div className="brand-pic">
               <AssetImg url='https://static.iqycamp.com/images/note_report_brand2.png' height={88}></AssetImg>
               <div className="logo">
-                <AssetImg url='https://static.iqycamp.com/images/note_report_logo.png' width={56} height={10}></AssetImg>
+                <AssetImg url='https://static.iqycamp.com/images/note_report_logo.png' width={56}
+                          height={10}></AssetImg>
               </div>
             </div>
           </div>
@@ -190,15 +193,15 @@ export default class Report extends React.Component<any, any> {
 
     return (
       <div className="learn-point-container">
-        <div className="personal-icon" onClick={()=>this.context.router.push('/rise/static/note/tag')}>
+        <div className="personal-icon" onClick={()=>this.context.router.push('/rise/static/note/customer')}>
           <AssetImg type="personal" size={26}/>
         </div>
         <div className="card-point">
           <div className="card-title">{nickName + ' '}今天在学札</div>
           <div className="read-word-container">
             <div className="read-word left">
-              <div className="read-word-head">阅读优质内容</div>
-              <div className="read-word-count"><span>{totalWords}</span>字</div>
+              <div className="read-word-head">核心学习时长</div>
+              <div className="read-word-count"><span>{readTime}</span>分钟</div>
             </div>
             <div className="read-word right">
               <div className="read-word-head">提升认知高度</div>

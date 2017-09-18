@@ -89,7 +89,8 @@ export class BibleToolBar extends React.Component<any,any> {
 
     if(tabIndex === 0) {
       mark({module: '打点', function: '学渣导航栏', action: '点击加号'})
-      dispatch(alertMsg(`添加学习内容的功能正在开发中<br/>敬请期待！<br/><br/>学札帮助你更好地管理自己的多平台学习，通过跟踪和分析你的每一次学习记录，让学习更有目的，提升有迹可循，和信息焦虑说拜拜~`))
+      // dispatch(alertMsg(`添加学习内容的功能正在开发中<br/>敬请期待！<br/><br/>学札帮助你更好地管理自己的多平台学习，通过跟踪和分析你的每一次学习记录，让学习更有目的，提升有迹可循，和信息焦虑说拜拜~`))
+      this.context.router.push('/rise/static/note/study/submit');
     } else if(tabIndex === 1) {
       this.context.router.push('/rise/static/note/list');
     } else if(tabIndex === 2) {
