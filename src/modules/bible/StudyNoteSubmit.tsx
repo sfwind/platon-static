@@ -9,10 +9,10 @@ import RiseCell from "../../components/RiseCell"
 import axios from 'axios';
 
 const catalogList = [
-  { id: 1, value: "书籍" },
   { id: 2, value: "课程" },
-  { id: 3, value: "视频" },
   { id: 4, value: "音频" },
+  { id: 3, value: "视频" },
+  { id: 1, value: "书籍" },
   { id: 5, value: "培训/讲座/工作坊" },
   { id: 6, value: "项目经验" },
 
