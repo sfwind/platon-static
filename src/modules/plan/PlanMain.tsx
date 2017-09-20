@@ -157,7 +157,6 @@ export class PlanMain extends React.Component <any, any> {
     let blockMsg
     dispatch(startLoad())
     loadPlan(planId).then(res => {
-      console.log(res)
       dispatch(endLoad())
       let { code, msg } = res
       blockMsg = msg
@@ -270,7 +269,6 @@ export class PlanMain extends React.Component <any, any> {
 
   componentDidUpdate() {
     let totalSeries = this.state.planData.totalSeries
-    console.log('totalSeries', totalSeries)
     if(totalSeries) {
       for(let i = 0; i < totalSeries; i++) {
         let clickBtns = document.getElementsByClassName(`start-btn${i}`)
