@@ -100,7 +100,14 @@ export class Explore extends React.Component<any, any> {
             banners.map((banner, index) => {
               return (
                 <div className="banner-item swiper-slide" key={index}
-                     onClick={() => this.context.router.push(banner.linkUrl) }>
+                     onClick={() => {
+                       let url = banner.linkUrl
+                       if(url.indexOf('https://') > 0 || url.indexOf('http://') > 0) {
+                         window.location.href = url
+                       } else {
+                         this.context.router.push(url)
+                       }
+                     }}>
                   <img style={{ width: 'auto', height: '100%' }}
                        src={banner.imageUrl}/>
                 </div>
