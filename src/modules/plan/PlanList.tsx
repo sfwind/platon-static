@@ -54,26 +54,11 @@ export default class PlanList extends React.Component<any, any> {
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { riseMember, runningPlans = [], openNavigator, recommendations = [] } = res.msg
+        const { runningPlans = [], openNavigator, recommendations = [] } = res.msg
 
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
           showEmptyPage = true
-        }
-        // 点击商学院
-        if(location.pathname === '/rise/static/rise' && (riseMember != 1 && riseMember != 2)) {
-          window.location.href = `https://${window.location.hostname}/pay/rise`
-          return
-        }
-        // 点击训练营
-        if(location.pathname === '/rise/static/camp' && (riseMember != 3)) {
-          window.location.href = `https://${window.location.hostname}/pay/camp`
-          return
-        }
-        // 点击老按钮
-        if(location.pathname === '/rise/static/plan/main') {
-          this.context.router.push('/rise/static/problem/explore')
-          return
         }
 
         this.setState({
