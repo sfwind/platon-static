@@ -431,7 +431,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       null
                   }
                   <div className={`left pay`}
-                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay`}>
+                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
                     加入商学院
                   </div>
                 </div>
@@ -483,7 +483,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               list.push(
                 <div className="button-footer">
                   <div className="split-left"
-                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay`}>
+                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
                     加入商学院
                   </div>
                   <div className="split-right" onClick={() => this.setState({ showEvaluation: true })}>

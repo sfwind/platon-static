@@ -561,7 +561,7 @@ export class PlanMain extends React.Component <any, any> {
 
   goRiseMemberTips() {
     mark({ module: '打点', function: '首页', action: '点击升级专业版按钮', memo: '首页' }).then(() => {
-      window.location.href = `https://${window.location.hostname}/pay/pay`
+      window.location.href = `https://${window.location.hostname}/pay/rise`
     })
   }
 
