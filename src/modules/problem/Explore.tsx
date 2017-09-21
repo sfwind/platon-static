@@ -85,8 +85,14 @@ export class Explore extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/problem/more', query: param })
   }
 
-  goBanner(id) {
-    this.context.router.push({ pathname: '/rise/static/problem/package', query: { showId: id } })
+  handleClickBanner(banner) {
+    let url = banner.linkUrl
+    mark({ module: '打点', function: '发现', action: '点击发现页面banner', memo: url });
+    if(url.indexOf('https') >= 0) {
+      window.location.href = url
+    } else {
+      this.context.router.push(url)
+    }
   }
 
   render() {
@@ -100,14 +106,7 @@ export class Explore extends React.Component<any, any> {
             banners.map((banner, index) => {
               return (
                 <div className="banner-item swiper-slide" key={index}
-                     onClick={() => {
-                       let url = banner.linkUrl
-                       if(url.indexOf('https') >= 0) {
-                         window.location.href = url
-                       } else {
-                         this.context.router.push(url)
-                       }
-                     }}>
+                     onClick={() => this.handleClickBanner(banner)}>
                   <img style={{ width: 'auto', height: '100%' }}
                        src={banner.imageUrl}/>
                 </div>
