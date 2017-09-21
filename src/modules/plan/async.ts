@@ -94,5 +94,5 @@ export function disCollectProblm(problemId) {
 
 
 export function hasPrivilege(){
-  return pget(`/check/business/school/privilege`);
+  return pget(`/signup/check/business/school/privilege`);
 }

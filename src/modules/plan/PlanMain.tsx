@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './PlanMain.less'
 import {
-  loadPlan, completePlan, updateOpenRise, markPlan, hasPrivilege
+  loadPlan, completePlan, updateOpenRise, markPlan, hasPrivilege,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess, loadRecommendations, disCollectProblm, collectProblem
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
