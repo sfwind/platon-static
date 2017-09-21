@@ -37,7 +37,7 @@ export function gradeProblem(problemScores, problemId) {
 }
 
 export function isRiseMember() {
-  return pget('/rise/plan/risemember')
+    return pget('/rise/plan/risemember')
 }
 
 export function learnKnowledge(knowledgeId) {
@@ -90,4 +90,9 @@ export function collectProblem(problemId) {
 // 取消收藏当前小课
 export function disCollectProblm(problemId) {
   return pget(`/rise/problem/discollect/${problemId}`)
+}
+
+
+export function hasPrivilege(){
+  return pget(`/check/business/school/privilege`);
 }
