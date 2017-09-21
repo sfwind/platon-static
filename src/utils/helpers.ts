@@ -188,8 +188,8 @@ class ButtonStatus {
 
 
   constructor() {
-    this.paymentGroup = [ 1, 8, 9 ];
-    this.notPaymentGroup = [ 2, 3, 4, 5, 6, 7, 10 ]
+    this.paymentGroup = [];
+    this.notPaymentGroup = [ 1, 2, 3, 4, 7, 8 ]
   }
 
   /**

@@ -67,6 +67,8 @@ const routes = (
       }
     }}>
       <Route path="welcome" component={Welcome}/>
+      <Route path="rise" component={PlanList}/>
+      <Route path="camp" component={PlanList}/>
       <Route path="problem/explore" component={Explore}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
       <Route path="problem/more" component={MoreProblem}/>

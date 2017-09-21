@@ -93,7 +93,8 @@ export class ToolBar extends React.Component<any,any> {
     // check url
     const { dispatch } = this.props;
     let tabIndex = 0;
-    if(window.location.pathname === '/rise/static/plan/main' ||
+    if(window.location.pathname === '/rise/static/rise' ||
+      window.location.pathname === '/rise/static/camp' ||
       window.location.pathname === '/rise/static/learn') {
       tabIndex = 0;
     } else if(window.location.pathname === '/rise/static/event/wall') {

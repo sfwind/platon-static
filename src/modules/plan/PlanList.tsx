@@ -54,25 +54,13 @@ export default class PlanList extends React.Component<any, any> {
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { runningPlans = [], openNavigator, openWelcome, recommendations = [] } = res.msg
+        const { runningPlans = [], openNavigator, recommendations = [] } = res.msg
 
-        if(!openWelcome) {
-          if(location.pathname !== '/rise/static/learn') {
-            // 没有小课练习，并且不是从导航栏点进来的
-            this.context.router.push({
-              pathname: '/rise/static/welcome'
-            })
-            return
-          }
-        }
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
           showEmptyPage = true
-          if(location.pathname === '/rise/static/plan/main') {
-            this.context.router.push('/rise/static/problem/explore')
-            return
-          }
         }
+
         this.setState({
           planList: res.msg, showEmptyPage: showEmptyPage, openNavigator,
           recommendations: recommendations, showPage: true
@@ -253,30 +241,30 @@ export default class PlanList extends React.Component<any, any> {
               <div className="swiper-container" id="problem-recommendation">
                 <div className="swiper-wrapper">
                   {recommendations ? recommendations.map((problem, key) => {
-                    return (
-                      <div onClick={() => this.handleClickRecommend(problem)}
-                           className="problem-item-show swiper-slide">
-                        <div className="img">
-                          { problem.newProblem ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                      style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
-                          }
-                          { problem.trial ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                      style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
-                          }
-                          <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
-                          <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-                          <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-                          {/*<div className="complete-person">*/}
-                          {/*<div className="icon-person"/>*/}
-                          {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
-                          {/*</div>*/}
+                      return (
+                        <div onClick={() => this.handleClickRecommend(problem)}
+                             className="problem-item-show swiper-slide">
+                          <div className="img">
+                            { problem.newProblem ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                        style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
+                            }
+                            { problem.trial ?
+                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                        style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
+                            }
+                            <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+                            <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+                            <div className="problem-item-subCatalog">{problem.abbreviation}</div>
+                            {/*<div className="complete-person">*/}
+                            {/*<div className="icon-person"/>*/}
+                            {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                            {/*</div>*/}
+                          </div>
+                          <span>{problem.problem}</span>
                         </div>
-                        <span>{problem.problem}</span>
-                      </div>
-                    )
-                  }) : null}
+                      )
+                    }) : null}
                   <div onClick={() => this.handleClickMoreProblem()}
                        className="swiper-slide problem-item-show found-more">
                     <div className="tips-word">
