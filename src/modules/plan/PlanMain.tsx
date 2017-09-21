@@ -242,7 +242,7 @@ export class PlanMain extends React.Component <any, any> {
     hasPrivilege().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg.riseMember })
-        if(res.msg != 1) {
+        if(res.msg.riseMember != 1) {
           setTimeout(() => {
             this.setState({ riseMemberTips: true })
           }, 10)
