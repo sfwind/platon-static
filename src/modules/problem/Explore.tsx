@@ -102,7 +102,7 @@ export class Explore extends React.Component<any, any> {
                 <div className="banner-item swiper-slide" key={index}
                      onClick={() => {
                        let url = banner.linkUrl
-                       if(url.indexOf('https://') > 0 || url.indexOf('http://') > 0) {
+                       if(url.indexOf('https') >= 0) {
                          window.location.href = url
                        } else {
                          this.context.router.push(url)
