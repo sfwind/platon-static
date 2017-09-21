@@ -59,7 +59,8 @@ export default class Main extends React.Component<any, any> {
     //windows客户端显示返回按钮
     if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
       //排除不显示返回按钮的页面
-      if(window.location.pathname !== '/rise/static/plan/main'
+      if(window.location.pathname !== '/rise/static/rise'
+        && window.location.pathname !== '/rise/static/camp'
         && window.location.pathname !== '/rise/static/practice/warmup/analysis'
         && window.location.pathname !== '/rise/static/practice/warmup') {
         if(!this.state.windowsClient) {
