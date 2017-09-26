@@ -13,7 +13,7 @@ import Work from '../components/NewWork'
 import PullElement from 'pull-element'
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
 import Tutorial from '../../../components/Tutorial'
-import Editor from '../../../components/editor/Editor'
+import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
@@ -43,7 +43,8 @@ export class Main extends React.Component <any, any> {
       isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
-      completdApplicationCnt: 1000
+      completdApplicationCnt: 1000,
+      autoPushDraftFlag: false,
     }
     this.pullElement = null
   }
@@ -59,17 +60,17 @@ export class Main extends React.Component <any, any> {
     this.setState({ integrated })
     dispatch(startLoad())
     loadApplicationPractice(id, planId).then(res => {
-      console.log(res)
       const { code, msg } = res
       if(code === 200) {
         dispatch(endLoad())
-
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-
+        console.log('storageDraft', storageDraft);
         // 对草稿数据进行处理
         if(storageDraft && id == storageDraft.id) {
+          console.log('draft&&localhost')
           if(res.msg.overrideLocalStorage) {
             // 查看是否覆盖本地 localStorage
+            console.log('override', msg.isSynchronized ? msg.content : msg.draft)
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: msg.isSynchronized ? msg.content : msg.draft,
@@ -77,10 +78,11 @@ export class Main extends React.Component <any, any> {
             })
           } else {
             let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
+            console.log('dis override', draft)
             this.setState({
-              edit: true,
+              edit: !msg.isSynchronized,
               editorValue: draft,
-              isSynchronized: false
+              isSynchronized: msg.isSynchronized
             }, () => {
               autoSaveApplicationDraft(planId, id, storageDraft.content)
             })
@@ -222,12 +224,14 @@ export class Main extends React.Component <any, any> {
   autoSave() {
     let value = this.refs.editor.getValue()
     let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
+    console.log('auto save');
     if(storageDraft) {
       if(this.props.location.query.id === storageDraft.id) {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
           id: this.props.location.query.id, content: value
         }))
       } else {
+        console.log('clear storage');
         this.clearStorage()
       }
     } else {
@@ -238,6 +242,7 @@ export class Main extends React.Component <any, any> {
   }
 
   clearStorage() {
+    console.log('remove save');
     window.localStorage.removeItem(APPLICATION_AUTO_SAVING)
   }
 
@@ -249,11 +254,13 @@ export class Main extends React.Component <any, any> {
       const applicationId = this.props.location.query.id
       const draft = this.refs.editor.getValue()
       if(draft.trim().length > 0) {
-        autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
-          if(res.code === 200) {
-            this.clearStorage()
-          }
-        })
+        if(this.state.autoPushDraftFlag) {
+          autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
+            if(res.code === 200) {
+              this.clearStorage()
+            }
+          })
+        }
       }
     }, 10000)
   }
@@ -388,7 +395,7 @@ export class Main extends React.Component <any, any> {
       showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
-
+    console.log('render', this.state.editorValue);
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
@@ -417,13 +424,13 @@ export class Main extends React.Component <any, any> {
         return (
           <div>
             <Work {...data}
-                  onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
-                  onEdit={() => this.onEdit()}
-                  headImage={window.ENV.headImage}
-                  userName={window.ENV.userName}
-                  type={CommentType.Application}
-                  articleModule={ArticleViewModule.Application}
-                  goComment={() => this.goComment(submitId)}/>
+              onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
+              onEdit={() => this.onEdit()}
+              headImage={window.ENV.headImage}
+              userName={window.ENV.userName}
+              type={CommentType.Application}
+              articleModule={ArticleViewModule.Application}
+              goComment={() => this.goComment(submitId)}/>
           </div>
         )
       }
@@ -565,16 +572,7 @@ export class Main extends React.Component <any, any> {
                   <Editor
                     ref="editor"
                     moduleId={3}
-                    onUploadError={(res) => {
-                      this.props.dispatch(alertMsg(res.msg))
-                    }}
-                    uploadStart={() => {
-                      this.props.dispatch(startLoad())
-                    }}
-                    uploadEnd={() => {
-                      this.props.dispatch(endLoad())
-                    }}
-                    defaultValue={this.state.editorValue}
+                    value={this.state.editorValue}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
                     autoSave={() => {
                       this.autoSave()

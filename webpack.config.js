@@ -43,10 +43,10 @@ module.exports = {
   resolve: {
     root: path.resolve("./src"),
     extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".jsx"],
-    alias: {
-      'react': 'react-lite',
-      'react-dom': 'react-lite'
-    },
+    // alias: {
+    //   'react': 'react-lite',
+    //   'react-dom': 'react-lite'
+    // },
   },
   module: {
     loaders: [
