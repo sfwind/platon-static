@@ -5,6 +5,7 @@ import React from 'react';
 import "./Editor.less"
 var $ = require('jquery');
 var Simditor = require('./simditor');
+import * as _ from "lodash";
 
 interface EditorProps {
   value?: string,
@@ -20,7 +21,6 @@ export default class Editor extends React.Component<EditorProps,any> {
     this.state = {
       editor: undefined
     }
-    console.log('constructor');
   }
 
   dataURLtoBlob(dataURL) {
@@ -87,7 +87,6 @@ export default class Editor extends React.Component<EditorProps,any> {
 
     editor.on('valuechanged', (e) => {
       // draft != submit
-      console.log('value change',this.state);
       this.handleValueChanged();
     })
     editor.on('pasting', (e, $content) => {
@@ -143,11 +142,10 @@ export default class Editor extends React.Component<EditorProps,any> {
       editor.setValue(this.props.value)
       this.calcValue(this.props.value)
     }
-    this.setState({ editor: editor }, () => {console.log('set edior')});
+    this.setState({ editor: editor });
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('receiveProps');
     if(nextProps.value && !this.props.value) {
       this.state.editor.setValue(nextProps.value)
       this.calcValue(nextProps.value)
@@ -164,12 +162,15 @@ export default class Editor extends React.Component<EditorProps,any> {
     return this.state.editor.getValue()
   }
 
-  handleValueChanged(value) {
+  handleValueChanged() {
     if(this.state.editor) {
       this.calcValue(this.getValue());
       //自动保存
       if(this.props.autoSave) {
         this.props.autoSave()
+      }
+      if(_.isFunction(this.props.onChange)){
+        this.props.onChange(this.getValue());
       }
     }
   }

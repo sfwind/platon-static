@@ -44,7 +44,7 @@ export class Main extends React.Component <any, any> {
       loading: false,
       showCompletedBox: false,
       completdApplicationCnt: 1000,
-      autoPushDraftFlag: false,
+      autoPushDraftFlag: null,
     }
     this.pullElement = null
   }
@@ -64,30 +64,28 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         dispatch(endLoad())
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        console.log('storageDraft', storageDraft);
-        // 对草稿数据进行处理
+        // localStorage里存的是这个小课的缓存
         if(storageDraft && id == storageDraft.id) {
-          console.log('draft&&localhost')
-          if(res.msg.overrideLocalStorage) {
-            // 查看是否覆盖本地 localStorage
-            console.log('override', msg.isSynchronized ? msg.content : msg.draft)
+          // 手动设置强制覆盖，或者msg是同步模式都需要清理localStorage
+          if(res.msg.overrideLocalStorage || msg.isSynchronized) {
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: msg.isSynchronized ? msg.content : msg.draft,
               isSynchronized: msg.isSynchronized
             })
+            this.clearStorage();
           } else {
-            let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
-            console.log('dis override', draft)
+            // 非同步的，展示localStorage,除非localStorage里没有内容
+            let draft = storageDraft.content ? storageDraft.content : msg.draft;
+            console.log('local',storageDraft.content,msg.draft)
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: draft,
               isSynchronized: msg.isSynchronized
-            }, () => {
-              autoSaveApplicationDraft(planId, id, storageDraft.content)
             })
           }
         } else {
+          // 没有localStorage
           this.setState({
             edit: !msg.isSynchronized,
             editorValue: msg.isSynchronized ? msg.content : msg.draft,
@@ -100,8 +98,10 @@ export class Main extends React.Component <any, any> {
           data: msg,
           submitId: msg.submitId,
           planId: msg.planId,
-          applicationScore: res.msg.applicationScore
+          applicationScore: res.msg.applicationScore,
+          autoPushDraftFlag: !msg.isSynchronized
         })
+
         const { content } = msg
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
@@ -224,14 +224,12 @@ export class Main extends React.Component <any, any> {
   autoSave() {
     let value = this.refs.editor.getValue()
     let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-    console.log('auto save');
     if(storageDraft) {
       if(this.props.location.query.id === storageDraft.id) {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
           id: this.props.location.query.id, content: value
         }))
       } else {
-        console.log('clear storage');
         this.clearStorage()
       }
     } else {
@@ -242,7 +240,6 @@ export class Main extends React.Component <any, any> {
   }
 
   clearStorage() {
-    console.log('remove save');
     window.localStorage.removeItem(APPLICATION_AUTO_SAVING)
   }
 
@@ -255,11 +252,13 @@ export class Main extends React.Component <any, any> {
       const draft = this.refs.editor.getValue()
       if(draft.trim().length > 0) {
         if(this.state.autoPushDraftFlag) {
+          console.log('set false');
           autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
             if(res.code === 200) {
               this.clearStorage()
             }
           })
+          this.setState({ autoPushDraftFlag: false });
         }
       }
     }, 10000)
@@ -389,13 +388,24 @@ export class Main extends React.Component <any, any> {
     })
   }
 
+  handleChangeValue(value) {
+    const { autoPushDraftFlag } = this.state;
+    console.log(autoPushDraftFlag);
+    if(_.isBoolean(autoPushDraftFlag)) {
+      // 非null(取到数据了) 并且没有打开保存draft的flag
+      if(!autoPushDraftFlag) {
+        console.log('value change');
+        this.setState({ autoPushDraftFlag: true });
+      }
+    }
+  }
+
   render() {
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
       showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
-    console.log('render', this.state.editorValue);
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
@@ -577,6 +587,7 @@ export class Main extends React.Component <any, any> {
                     autoSave={() => {
                       this.autoSave()
                     }}
+                    onChange={(value)=>this.handleChangeValue(value)}
                   />
                 </div> :
                 null
