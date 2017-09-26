@@ -444,7 +444,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   {
                     togetherClassMonth && togetherClassMonth !== '0' ?
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
-                        本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
+                        本小课为 {togetherClassMonth} 月训练营小课，记得在当月选择哦
                       </div> :
                       null
                   }
