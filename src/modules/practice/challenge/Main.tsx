@@ -1,14 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Main.less";
-import { loadChallengePractice,submitChallengePractice } from "./async";
+import { loadChallengePractice, submitChallengePractice } from "./async";
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import Work from "../components/NewWork"
-import Editor from "../../../components/editor/Editor"
-import {merge} from 'lodash'
+import Editor from "../../../components/simditor/Editor"
+import { merge } from 'lodash'
 import { mark } from "../../../utils/request"
 import AssetImg from "../../../components/AssetImg";
-
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -18,38 +17,38 @@ export class Main extends React.Component <any, any> {
       data: {},
       knowledge: {},
       submitId: 0,
-      page:1,
-      otherList:[],
-      opacity:0,
-      edit:true,
+      page: 1,
+      otherList: [],
+      opacity: 0,
+      edit: true,
     }
-    this.pullElement=null;
+    this.pullElement = null;
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
-  componentDidMount(){
+  componentDidMount() {
   }
 
-  componentWillUnmount(){
-    this.pullElement?this.pullElement.destroy():null;
+  componentWillUnmount() {
+    this.pullElement ? this.pullElement.destroy() : null;
   }
 
   componentWillMount() {
-    mark({module: "打点", function: "学习", action: "打开小目标页"});
+    mark({ module: "打点", function: "学习", action: "打开小目标页" });
 
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    loadChallengePractice(location.query.id,location.query.planId).then(res => {
+    loadChallengePractice(location.query.id, location.query.planId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
-      if (code === 200) {
+      if(code === 200) {
         const { content } = msg
-        this.setState({data: msg, submitId: msg.submitId, planId:msg.planId})
-        if (content !== null){
-          this.setState({edit:false})
+        this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId })
+        if(content !== null) {
+          this.setState({ edit: false })
         }
       }
       else dispatch(alertMsg(msg))
@@ -60,73 +59,74 @@ export class Main extends React.Component <any, any> {
   }
 
   onEdit() {
-    this.setState({edit:true})
+    this.setState({ edit: true })
   }
 
-  goComment(submitId){
-    this.context.router.push({pathname:"/rise/static/practice/challenge/comment",
-      query:merge({submitId:submitId},this.props.location.query)})
+  goComment(submitId) {
+    this.context.router.push({
+      pathname: "/rise/static/practice/challenge/comment",
+      query: merge({ submitId: submitId }, this.props.location.query)
+    })
   }
 
-
-  onSubmit(){
-    const { dispatch, location} = this.props;
-    const { data,planId } = this.state;
+  onSubmit() {
+    const { dispatch, location } = this.props;
+    const { data, planId } = this.state;
     const { complete, practicePlanId } = location.query;
     const answer = this.refs.editor.getValue();
-    if(answer == null || answer.length === 0){
+    if(answer == null || answer.length === 0) {
       dispatch(alertMsg('请填写作业'));
       return
     }
-    this.setState({showDisable: true});
-    submitChallengePractice(planId,location.query.id, {answer}).then(res => {
+    this.setState({ showDisable: true });
+    submitChallengePractice(planId, location.query.id, { answer }).then(res => {
       const { code, msg } = res;
-      if (code === 200) {
+      if(code === 200) {
         dispatch(startLoad());
-        if (complete == 'false') {
+        if(complete == 'false') {
           dispatch(set('completePracticePlanId', practicePlanId));
         }
-        loadChallengePractice(location.query.id,location.query.planId).then(res => {
+        loadChallengePractice(location.query.id, location.query.planId).then(res => {
           dispatch(endLoad());
-          const {code, msg} = res;
-          if (code === 200) {
-            this.setState({data: msg, submitId: msg.submitId, planId: msg.planId, edit: false})
+          const { code, msg } = res;
+          if(code === 200) {
+            this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId, edit: false })
           }
           else dispatch(alertMsg(msg))
         })
-        this.setState({showDisable: false})
+        this.setState({ showDisable: false })
       }
       else {
         dispatch(alertMsg(msg));
-        this.setState({showDisable: false})
+        this.setState({ showDisable: false })
       }
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
-      this.setState({showDisable: false})
+      this.setState({ showDisable: false })
     })
   }
 
   render() {
-    const { data, edit, showDisable} = this.state
-    const {content} = data
+    const { data, edit, showDisable } = this.state
+    const { content } = data
 
-    const renderTip = ()=>{
-      if(edit){
+    const renderTip = () => {
+      if(edit) {
         return (
-            <div className="no-comment">
-              <div className="content">
-                <div className="text">更喜欢电脑上提交?</div>
-                <div className="text">登录www.iquanwai.com/community</div>
-              </div>
+          <div className="no-comment">
+            <div className="content">
+              <div className="text">更喜欢电脑上提交?</div>
+              <div className="text">登录www.iquanwai.com/community</div>
             </div>
+          </div>
         )
       } else {
         return (
-            <div>
-              <Work onEdit={()=>this.onEdit()} operation={false}
-                    headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}/>
-            </div>
+          <div>
+            <Work onEdit={()=>this.onEdit()} operation={false}
+                  headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}/>
+          </div>
         )
       }
     }
@@ -151,22 +151,21 @@ export class Main extends React.Component <any, any> {
               </div>
             </div>
             <div ref="workContainer" className="work-container">
-              <div className="submit-bar">{ content === null?'提交方式':'我的目标'}</div>
+              <div className="submit-bar">{ content === null ? '提交方式' : '我的目标'}</div>
               {renderTip()}
-              {edit?
-                  <div className="editor">
-                    <Editor ref="editor" moduleId={3} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}} uploadStart={()=>{this.props.dispatch(startLoad())}}
-                            uploadEnd={()=>{this.props.dispatch(endLoad())}} defaultValue={content}
-                            placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"/>
-                  </div>: null}
+              {edit ?
+                <div className="editor">
+                  <Editor ref="editor" moduleId={3} value={content}
+                          placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"/>
+                </div>: null}
             </div>
           </div>
         </div>
         { showDisable ?
-            <div className="button-footer disabled">提交中</div>
-            :
-            edit?
-                <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>:null
+          <div className="button-footer disabled">提交中</div>
+          :
+          edit ?
+            <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>: null
         }
       </div>
     )

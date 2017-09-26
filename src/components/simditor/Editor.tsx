@@ -74,15 +74,15 @@ export default class Editor extends React.Component<EditorProps,any> {
   componentDidMount() {
     let editor = new Simditor({
       textarea: document.querySelector(`#${this.props.id ? this.props.id : "editor"}`),
-      toolbar: [ 'bold', 'italic', 'underline', 'strikethrough', 'ol', 'ul', 'blockquote',
-        'link', 'image', 'hr', 'indent', 'outdent', 'alignment' ],
+      toolbar: [ 'image' ],
       upload: {
         url: '/file/image/upload/' + this.props.moduleId || 2,
         fileKey: 'file'
       },
       pasteImage: false,
       imageButton: 'upload',
-      defaultImage: this.props.defaultImage || "https://static.iqycamp.com/images/imgLoading.png?imageslim" //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
+      defaultImage: this.props.defaultImage || "https://static.iqycamp.com/images/imgLoading.png?imageslim", //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
+      toolbarFloat: false
     });
 
     editor.on('valuechanged', (e) => {
@@ -142,7 +142,10 @@ export default class Editor extends React.Component<EditorProps,any> {
       editor.setValue(this.props.value)
       this.calcValue(this.props.value)
     }
-    this.setState({ editor: editor });
+    this.setState({ editor: editor }, () => {
+      // 这里初始化好了，查看是否显示maxLength
+      this.calcValue();
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -169,7 +172,7 @@ export default class Editor extends React.Component<EditorProps,any> {
       if(this.props.autoSave) {
         this.props.autoSave()
       }
-      if(_.isFunction(this.props.onChange)){
+      if(_.isFunction(this.props.onChange)) {
         this.props.onChange(this.getValue());
       }
     }
@@ -184,7 +187,18 @@ export default class Editor extends React.Component<EditorProps,any> {
       }
     }
     value = value.replace(/<[^>]+>/g, '')
-    this.setState({ length: value.length })
+    this.setState({ length: value.length }, () => {
+      const { editor, length } = this.state;
+      const { maxLength } = this.props;
+      if(maxLength && editor) {
+        let text = $('.simditor-toolbar ul .text-length');
+        if(text.length >= 1) {
+          text.text(`${length}/${maxLength}`)
+        } else {
+          $(`<span class="text-length">${length}/${maxLength}</span>`).appendTo('.simditor-toolbar ul');
+        }
+      }
+    })
   }
 
   render() {
