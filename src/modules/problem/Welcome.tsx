@@ -71,7 +71,7 @@ export default class Welcome extends React.Component<any, any> {
             </div>
             <div className="bottom-rise-tip">
               <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond_blue.jpg"/>
-              <span onClick={() => {window.location.href = '/pay/rise'}}>直接成为精英版年费会员</span>
+              <span onClick={() => {window.location.href = '/pay/rise'}}>直接成为商学院会员</span>
             </div>
           </div>
         </div>

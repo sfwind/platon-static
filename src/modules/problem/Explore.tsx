@@ -87,7 +87,7 @@ export class Explore extends React.Component<any, any> {
 
   handleClickBanner(banner) {
     let url = banner.linkUrl
-    mark({ module: '打点', function: '发现', action: '点击发现页面banner', memo: url });
+    mark({ module: '打点', function: '发现', action: '点击发现页面banner', memo: url })
     if(url.indexOf('https') >= 0) {
       window.location.href = url
     } else {
@@ -128,6 +128,7 @@ export class Explore extends React.Component<any, any> {
               </div>
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">
+                  {console.log('热门小课', hotList)}
                   {hotList ? hotList.map((problem, index) => {
                     return (
                       <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide"
