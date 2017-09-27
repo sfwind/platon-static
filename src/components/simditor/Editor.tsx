@@ -74,7 +74,7 @@ export default class Editor extends React.Component<EditorProps,any> {
   componentDidMount() {
     let editor = new Simditor({
       textarea: document.querySelector(`#${this.props.id ? this.props.id : "editor"}`),
-      toolbar: [ 'image' ],
+      toolbar: [ 'image', 'bold', 'ol', 'ul',  ],
       upload: {
         url: '/file/image/upload/' + this.props.moduleId || 2,
         fileKey: 'file'
@@ -89,6 +89,20 @@ export default class Editor extends React.Component<EditorProps,any> {
       // draft != submit
       this.handleValueChanged();
     })
+
+    editor.on('valuechanged', (e) => {
+      // draft != submit
+      this.handleValueChanged();
+    })
+
+    editor.on('focus',()=>{
+      $('.simditor').css('margin-bottom','150px');
+    })
+
+    editor.on('blur',()=>{
+      $('.simditor').css('margin-bottom','');
+    })
+
     editor.on('pasting', (e, $content) => {
       // 图片处理
       let images = $content.find('img');
