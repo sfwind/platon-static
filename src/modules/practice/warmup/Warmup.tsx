@@ -39,10 +39,6 @@ export default class Warumup extends React.Component<any,any> {
             }
           })
           if (idx !== -1) {
-            // this.context.router.push({
-            //   pathname: '/rise/static/practice/warmup/analysis',
-            //   query: location.query,
-            // })
             this.setState({page:"analysis",res:res});
           } else {
             this.setState({practiceCount: msg.practice.length,page:"warmup",res:res})
