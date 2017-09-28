@@ -131,7 +131,6 @@ export class Explore extends React.Component<any, any> {
                 <div className="swiper-wrapper">
                   {hotList ? hotList.map((problem, key) => {
                     return (
-
                       <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
                         <div className="img">
                           { problem.newProblem ?
@@ -209,7 +208,6 @@ export class Explore extends React.Component<any, any> {
                 </div>
               )
             }) : null}
-
           </div>
         </div>
         <div className="padding-footer"/>
