@@ -91,7 +91,7 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickPlan(plan) {
-    const { learnable } = plan
+    const { learnable, startDate } = plan
     const { dispatch } = this.props
     if(learnable) {
       this.context.router.push({
@@ -99,7 +99,7 @@ export default class PlanList extends React.Component<any, any> {
         query: { planId: plan.planId }
       })
     } else {
-      dispatch(alertMsg('当前小课未到开启日期，请耐心等待'))
+      dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
     }
   }
 
@@ -201,7 +201,7 @@ export default class PlanList extends React.Component<any, any> {
                 }
                 return (
                   <div id={`problem-${item.planId}`} style={style}
-                       className={`p-r-block ${key === 0 ? 'first' : ''} ${key === runningPlans.length - 1 ? 'last' : ''}`}
+                       className={`p-r-block`}
                        key={key} onClick={() => this.handleClickPlan(item)}>
                     <div className="p-r-b-item" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                       <div className="p-r-b-i-pic">
@@ -221,7 +221,9 @@ export default class PlanList extends React.Component<any, any> {
                           已完成：{`${item.completeSeries}/${item.totalSeries}节`}
                         </div>
                         {renderDeadline(item.deadline)}
-                        <div className="running-problem-button"/>
+                        <div className={`running-problem-button ${item.learnable ? '' : 'lock'}`}>
+                          {item.learnable ? '' : '即将开营'}
+                        </div>
                       </div>
                     </div>
                   </div>
