@@ -9,9 +9,6 @@ import { changeTitle } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 
-import Tutorial from '../../components/Tutorial'
-import { isBoolean, merge } from 'lodash'
-
 /**
  * rise_icon_hr 左侧较宽 TODO
  */
@@ -94,10 +91,16 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickPlan(plan) {
-    this.context.router.push({
-      pathname: '/rise/static/plan/study',
-      query: { planId: plan.planId }
-    })
+    const { learnable, startDate } = plan
+    const { dispatch } = this.props
+    if(learnable) {
+      this.context.router.push({
+        pathname: '/rise/static/plan/study',
+        query: { planId: plan.planId }
+      })
+    } else {
+      dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
+    }
   }
 
   handleClickProblemChoose() {
@@ -198,7 +201,7 @@ export default class PlanList extends React.Component<any, any> {
                 }
                 return (
                   <div id={`problem-${item.planId}`} style={style}
-                       className={`p-r-block ${key === 0 ? 'first' : ''} ${key === runningPlans.length - 1 ? 'last' : ''}`}
+                       className={`p-r-block`}
                        key={key} onClick={() => this.handleClickPlan(item)}>
                     <div className="p-r-b-item" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                       <div className="p-r-b-i-pic">
@@ -218,7 +221,9 @@ export default class PlanList extends React.Component<any, any> {
                           已完成：{`${item.completeSeries}/${item.totalSeries}节`}
                         </div>
                         {renderDeadline(item.deadline)}
-                        <div className="running-problem-button"/>
+                        <div className={`running-problem-button ${item.learnable ? '' : 'lock'}`}>
+                          {item.learnable ? '' : '即将开营'}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -241,30 +246,30 @@ export default class PlanList extends React.Component<any, any> {
               <div className="swiper-container" id="problem-recommendation">
                 <div className="swiper-wrapper">
                   {recommendations ? recommendations.map((problem, key) => {
-                      return (
-                        <div onClick={() => this.handleClickRecommend(problem)}
-                             className="problem-item-show swiper-slide">
-                          <div className="img">
-                            { problem.newProblem ?
-                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
-                                        style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
-                            }
-                            { problem.trial ?
-                              <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
-                                        style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
-                            }
-                            <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
-                            <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-                            <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-                            {/*<div className="complete-person">*/}
-                            {/*<div className="icon-person"/>*/}
-                            {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
-                            {/*</div>*/}
-                          </div>
-                          <span>{problem.problem}</span>
+                    return (
+                      <div onClick={() => this.handleClickRecommend(problem)}
+                           className="problem-item-show swiper-slide">
+                        <div className="img">
+                          { problem.newProblem ?
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                      style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
+                          }
+                          { problem.trial ?
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                      style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
+                          }
+                          <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
+                          <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
+                          <div className="problem-item-subCatalog">{problem.abbreviation}</div>
+                          {/*<div className="complete-person">*/}
+                          {/*<div className="icon-person"/>*/}
+                          {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                          {/*</div>*/}
                         </div>
-                      )
-                    }) : null}
+                        <span>{problem.problem}</span>
+                      </div>
+                    )
+                  }) : null}
                   <div onClick={() => this.handleClickMoreProblem()}
                        className="swiper-slide problem-item-show found-more">
                     <div className="tips-word">
