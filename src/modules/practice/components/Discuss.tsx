@@ -58,9 +58,9 @@ export default class Discuss extends React.Component <any, any> {
 
           <div className="comment-right-area">
             <div className="reply-tip" onClick={()=>cancel()}>取消评论</div>
-            { editDisable ?
-                <div className="comment-button disabled">评论中</div>
-                :
+            {
+              editDisable ?
+                <div className="comment-button disabled">评论中</div> :
                 <div className="comment-button" onClick={this.onSubmit.bind(this)}>评论</div>
             }
           </div>

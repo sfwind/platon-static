@@ -1,8 +1,8 @@
 @import "./style/variable";
 
 // 6s ios 10.3.2 反馈 点击选择题按钮闪屏幕
-*{
-  -webkit-tap-highlight-color: rgba(255,255,255,0);
+* {
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 #react-app {
@@ -16,8 +16,8 @@
       height: 100%;
     }
   }
-  .clear{
-      clear: both;
+  .clear {
+    clear: both;
   }
   > div {
     height: ~"calc(100% + 1px)" !important;
@@ -27,17 +27,17 @@
   }
 }
 
-.over-hidden{
+.over-hidden {
   overflow: hidden;
 }
 
-
 .page-header {
   width: 100%;
-  height: 45px;
-  line-height: 2.5em;
-  font-size: @font_title;
-  border-bottom: 2px solid @color_strong;
+  height: 50px;
+  box-sizing: border-box;
+  line-height: 50px;
+  font-size: 18px;
+  border-bottom: 2px solid #333;
   text-align: center;
   color: @color_title;
 }
@@ -52,7 +52,7 @@
   }
 }
 
-.container-no-pd{
+.container-no-pd {
   background-color: #fff;
   height: 100%;
   overflow: auto;
@@ -63,17 +63,17 @@
 
 .write-discuss {
   position: fixed !important;
-  height:55px;
-  width:55px;
-  left:15px;
+  height: 55px;
+  width: 55px;
+  left: 15px;
   bottom: 68px;
 }
 
 .show-more {
-  width:100%;
+  width: 100%;
   color: @color_help;
-  font-size:@font_help;
-  text-align:center;
+  font-size: @font_help;
+  text-align: center;
   padding: 10px 0;
 }
 
@@ -101,20 +101,20 @@
   height: @button_footer_height;
   text-align: center;
   line-height: @button_footer_height;
-  background-size:100% 100%;
-  background-image:url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
+  background-size: 100% 100%;
+  background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
   color: #fff;
   z-index: 10;
   > .left {
     display: inline-block;
     width: ~"calc(50% - 1px)";
     border-right: 1px solid white;
-    background-size:100% 100%;
-    background-image:url('https://static.iqycamp.com/images/left_button_bg2.png?imageslim');
+    background-size: 100% 100%;
+    background-image: url('https://static.iqycamp.com/images/left_button_bg2.png?imageslim');
     &.disabled {
       background: #cccccc;
     }
-    &.pay{
+    &.pay {
       width: ~"calc(61.8% - 1px)";
       float: left;
     }
@@ -122,12 +122,12 @@
   > .right {
     display: inline-block;
     width: 50%;
-    background-image:url('https://static.iqycamp.com/images/right_button_bg2.png?imageslim');
-    background-size:100% 100%;
+    background-image: url('https://static.iqycamp.com/images/right_button_bg2.png?imageslim');
+    background-size: 100% 100%;
     &.disabled {
       background: #cccccc;
     }
-    &.pay{
+    &.pay {
       width: 38.2%;
     }
   }
@@ -183,22 +183,21 @@
   overflow: hidden;
 }
 
-
 .weui_dialog {
-  -webkit-transform: translate(-50%,-50%);
-  -moz-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  -o-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
   > .weui_dialog_ft {
     display: -webkit-box;
-    display:-moz-box;
+    display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
-    display:-webkit-box;
+    display: -webkit-box;
     display: flex;
-    > a{
+    > a {
       -webkit-box-flex: 1.0;
       -moz-flex-grow: 1;
       -webkit-flex-grow: 1;
@@ -207,14 +206,14 @@
     }
     > .weui_btn_dialog {
       color: @color_strong;
-      &:nth-of-type(odd){
-        border-right:1px solid #D5D5D6;
+      &:nth-of-type(odd) {
+        border-right: 1px solid #D5D5D6;
       }
     }
   }
 }
 
-.global-pre{
+.global-pre {
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -o-pre-wrap;
@@ -224,30 +223,28 @@
   color: #333;
 }
 
-
-.padding-footer{
+.padding-footer {
   height: 55px;
   width: 100%;
 }
 
-img{
+img {
   background: none;
-  &.loading{
+  &.loading {
     background: url('https://static.iqycamp.com/images/imgLoading.png?imageslim') center center/100% 100%;
   }
 }
 
-
-.catalog-style-1{
-  height:55px;
-  padding-left:18px;
-  line-height:55px;
-  color:#666666;
+.catalog-style-1 {
+  height: 55px;
+  padding-left: 18px;
+  line-height: 55px;
+  color: #666666;
   border-bottom: 1px solid #f5f5f5;
-  background:#FFF;
-  font-size:17px;
-  &.arrow{
-    margin-bottom:10px;
+  background: #FFF;
+  font-size: 17px;
+  &.arrow {
+    margin-bottom: 10px;
     &:after {
       content: ' ';
       display: inline-block;
@@ -268,36 +265,37 @@ pre {
   word-wrap: break-word;
 }
 
-.scrollbar-thumb{
-  background:rgba(255,255,255,0.3) !important;
+.scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3) !important;
 }
 
-.sequence-dot{
+.sequence-dot {
   position: absolute;
-  bottom:20px;
+  bottom: 20px;
   left: 50%;
-  margin-left:-63px;
-  > .dot-box{
+  margin-left: -63px;
+  > .dot-box {
     height: 18px;
     width: 18px;
     cursor: pointer;
     border: 0px;
     background: none;
     padding: 0px;
-    > .dot{
+    > .dot {
       height: 8px;
-      width:  8px;
+      width: 8px;
       border-radius: 6px;
       margin: 3px;
     }
   }
 }
-.swiper-pagination{
+
+.swiper-pagination {
   .banner-bullet {
-    background:#8f8e94;
-    opacity:1;
-    &.swiper-pagination-bullet-active{
-      background:#55cbcb;
+    background: #8f8e94;
+    opacity: 1;
+    &.swiper-pagination-bullet-active {
+      background: #55cbcb;
     }
   }
 }
