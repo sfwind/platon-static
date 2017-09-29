@@ -4,8 +4,8 @@ var webpack = require("webpack")
 module.exports = {
   devtool: false, // 增加开发速度
   entry: {
-    "bundle": ["babel-polyfill","./src/index.tsx"],
-    "note": ["babel-polyfill","./src/bible.tsx"],
+    "rise_bundle": ["babel-polyfill","./src/index.tsx"],
+    "note_bundle": ["babel-polyfill","./src/bible.tsx"],
   },
   output: {
     path: path.join(__dirname, "__build__"),
@@ -15,7 +15,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor'],
+      names: ['rise_vendor'],
       filename: '[name].js',
       minChunks:function(module){
         //  下边return参考的vue-cli配置
