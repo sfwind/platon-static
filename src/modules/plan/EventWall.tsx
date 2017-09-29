@@ -36,26 +36,26 @@ export class EventWall extends React.Component<any, any> {
       if(res.code === 200) {
         let liveList = [], workList = [], offlineList = [], areaList = [], bannerList = []
         for(let i = 0; i < res.msg.length; i++) {
-          switch(res.msg[ i ].type) {
+          switch(res.msg[i].type) {
             case 1:
-              liveList.push(res.msg[ i ])
+              liveList.push(res.msg[i])
               break
             case 2:
-              workList.push(res.msg[ i ])
+              workList.push(res.msg[i])
               break
             case 3:
-              offlineList.push(res.msg[ i ])
+              offlineList.push(res.msg[i])
               break
             case 4:
-              areaList.push(res.msg[ i ])
+              areaList.push(res.msg[i])
               break
             default:
-              liveList.push(res.msg[ i ])
+              liveList.push(res.msg[i])
               break
           }
-          if(res.msg[ i ].banner) {
+          if(res.msg[i].banner) {
             // 放到banner 注意，如果要做刷新，这里会有坑
-            bannerList.push(res.msg[ i ])
+            bannerList.push(res.msg[i])
           }
         }
         this.setState({
@@ -74,6 +74,7 @@ export class EventWall extends React.Component<any, any> {
     mark({ module: '打点', function: '活动墙', action: '打开活动墙', memo: item.id })
     goOtherWeb(item.destUrl)
   }
+
   goBannerEvent(item) {
     mark({ module: '打点', function: '活动墙', action: '打开Banner', memo: item.id })
     goOtherWeb(item.destUrl)
@@ -136,11 +137,11 @@ export class EventWall extends React.Component<any, any> {
     const { bannerList } = this.state
     if(bannerList) {
       return (
-        <Banner height={this.bannerHeight}>
+        <Banner height={`17.5rem`}>
           {bannerList.map((item, key) => {
             return (
               <div className="banner-item swiper-slide" onClick={() => this.goBannerEvent(item)} key={key}>
-                <img src={item.pic} style={{ width: 'auto', height: '100%', minWidth: '100%' }}/>
+                <img src={item.pic} style={{ width: '100%', height: '17.5rem' }}/>
               </div>
             )
           })}
@@ -156,24 +157,21 @@ export class EventWall extends React.Component<any, any> {
         {this.renderBanner()}
         <div className="event-wall-tab">
           <div className="navbar">
-            <div style={{ margin: `0 ${this.barItemPd}px 0 0`, width: `${this.barItemWidth}px` }}
-                 className={`navbar-item ${this.state.tab == 1 ? 'active' : ''}`}
+            <div className={`navbar-item ${this.state.tab == 1 ? 'active' : ''}`}
                  onClick={e => this.setState({ tab: 1 })}>
               <span>作业分析</span>
             </div>
-            <div style={{ margin: `0 ${this.barItemPd}px`, width: `${this.barItemWidth}px` }}
-                 className={`navbar-item ${this.state.tab == 2 ? 'active' : ''}`}
+            <div className={`navbar-item ${this.state.tab == 2 ? 'active' : ''}`}
                  onClick={e => this.setState({ tab: 2 })}>
               <span>大咖直播</span>
             </div>
-            <div style={{ margin: `0 ${this.barItemPd}px`, width: `${this.barItemWidth}px` }}
-                 className={`navbar-item ${this.state.tab == 3 ? 'active' : ''}`}
+            <div className={`navbar-item ${this.state.tab == 3 ? 'active' : ''}`}
                  onClick={e => this.setState({ tab: 3 })}>
               <span>线下活动</span>
             </div>
-            <div style={{ margin: `0 0 0 ${this.barItemPd}px`, width: `${this.barItemWidth}px` }}
-                 className={`navbar-item ${this.state.tab == 4 ? 'active' : ''}`}
-                 onClick={e => this.setState({ tab: 4 })}>
+            <div
+              className={`navbar-item ${this.state.tab == 4 ? 'active' : ''}`}
+              onClick={e => this.setState({ tab: 4 })}>
               <span>更多精彩</span>
             </div>
           </div>

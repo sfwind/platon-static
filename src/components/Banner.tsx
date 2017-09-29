@@ -1,16 +1,15 @@
-import * as React from 'react';
-import Swiper from 'swiper';
+import * as React from 'react'
+import Swiper from 'swiper'
 
-
-export default class Banner extends React.Component<any,any> {
+export default class Banner extends React.Component<any, any> {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      index:0
+      index: 0
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     var swiper = new Swiper('#swiepr-banner', {
       pagination: '.swiper-pagination',
       paginationClickable: true,
@@ -18,20 +17,20 @@ export default class Banner extends React.Component<any,any> {
       centeredSlides: true,
       autoplay: 2500,
       autoplayDisableOnInteraction: false,
-      paginationBulletRender: function (swiper, index, className) {
-        return '<span class="banner-bullet ' + className + '"></span>';
+      paginationBulletRender: function(swiper, index, className) {
+        return '<span class="banner-bullet ' + className + '"></span>'
       }
-    });
+    })
   }
 
-  render(){
-    const { index } = this.state;
+  render() {
+    const { index } = this.state
     return (<div>
-      <div className="swiper-container" id="swiepr-banner" style={{height:`${this.props.height}px`}}>
+      <div className="swiper-container" id="swiepr-banner" style={{ height: `${this.props.height}` }}>
         <div className="swiper-wrapper">
           {this.props.children}
         </div>
-        <div className="swiper-pagination"></div>
+        <div className="swiper-pagination"/>
       </div>
     </div>)
   }
