@@ -1,71 +1,73 @@
-import * as React from "react";
-import "./Comment.less";
-import { connect } from "react-redux"
-import {loadCommentList, comment, deleteComment, commentReply, getApplicationPractice, vote} from "./async"
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import AssetImg from "../../../components/AssetImg";
-import PullElement from "pull-element"
-import { findIndex, remove, isString, truncate, merge } from "lodash";
-import DiscussShow from "../components/DiscussShow"
-import Discuss from "../components/Discuss"
-import {scroll, filterHtmlTag} from "../../../utils/helpers"
-import { mark } from "../../../utils/request"
+import * as React from 'react'
+import './Comment.less'
+import { connect } from 'react-redux'
+import { loadCommentList, comment, deleteComment, commentReply, getApplicationPractice, vote } from './async'
+import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import AssetImg from '../../../components/AssetImg'
+import PullElement from 'pull-element'
+import { findIndex, remove, isString, truncate, merge } from 'lodash'
+import DiscussShow from '../components/DiscussShow'
+import Discuss from '../components/Discuss'
+import { scroll, filterHtmlTag } from '../../../utils/helpers'
+import { mark } from '../../../utils/request'
 
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
   constructor() {
-    super();
+    super()
     this.state = {
       page: 1,
       editDisable: false,
       commentList: [],
       article: {},
       placeholder: '和作者切磋讨论一下吧',
-      filterContent:"",
-    };
-    this.commentHeight = window.innerHeight;
+      filterContent: ''
+    }
+    this.commentHeight = window.innerHeight
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  };
+  }
 
   componentWillMount() {
-    mark({module: "打点", function: "学习", action: "打开应用题评论页"});
-    const {dispatch, location} = this.props;
-    dispatch(startLoad());
+    mark({ module: '打点', function: '学习', action: '打开应用题评论页' })
+    const { dispatch, location } = this.props
+    dispatch(startLoad())
     getApplicationPractice(location.query.submitId).then(res => {
       if(res.code === 200) {
-        this.setState({article: res.msg, filterContent:filterHtmlTag(res.msg.content)});
+        this.setState({ article: res.msg, filterContent: filterHtmlTag(res.msg.content) })
         loadCommentList(location.query.submitId, 1).then(res => {
-          dispatch(endLoad());
+          dispatch(endLoad())
           if(res.code === 200) {
-            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
-              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+            this.setState({
+              commentList: res.msg.list, page: 1, end: res.msg.end,
+              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback
+            })
             //从消息中心打开时，锚定到指定评论
-            if(location.query.commentId){
-              scroll('#comment-'+location.query.commentId, '.application-comment');
+            if(location.query.commentId) {
+              scroll('#comment-' + location.query.commentId, '.application-comment')
             }
           } else {
-            dispatch(alertMsg(res.msg));
+            dispatch(alertMsg(res.msg))
           }
         }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
+        })
       } else {
-        dispatch(endLoad());
-        dispatch(alertMsg(res.msg));
+        dispatch(endLoad())
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
-    });
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
   }
 
   componentDidUpdate() {
-    const {commentList = [], end} = this.state;
-    const {dispatch, location} = this.props;
+    const { commentList = [], end } = this.state
+    const { dispatch, location } = this.props
     if(commentList && commentList.length !== 0 && !this.pullElement) {
       this.pullElement = new PullElement({
         target: '.pull-target',
@@ -74,46 +76,45 @@ export class Comment extends React.Component<any, any> {
         damping: 4,
         detectScroll: true,
         onPullUpEnd: (data) => {
-          loadCommentList(location.query.submitId, this.state.page + 1)
-          .then(res => {
+          loadCommentList(location.query.submitId, this.state.page + 1).then(res => {
             if(res.code === 200) {
               if(res.msg && res.msg.list.length !== 0) {
                 remove(res.msg.list, (item) => {
-                  return findIndex(this.state.commentList, item) !== -1;
-                });
+                  return findIndex(this.state.commentList, item) !== -1
+                })
                 this.setState({
                   commentList: this.state.commentList.concat(res.msg.list),
                   page: this.state.page + 1,
                   end: res.msg.end
-                });
+                })
               } else {
-                dispatch(alertMsg('没有更多了'));
+                dispatch(alertMsg('没有更多了'))
               }
             } else {
-              dispatch(alertMsg(res.msg));
+              dispatch(alertMsg(res.msg))
             }
           }).catch(ex => {
-            dispatch(alertMsg(ex));
-          });
+            dispatch(alertMsg(ex))
+          })
         }
-      });
-      this.pullElement.init();
+      })
+      this.pullElement.init()
     }
 
     if(this.pullElement && this.state.end) {
-      this.pullElement.disable();
+      this.pullElement.disable()
     }
   }
 
   componentWillUnmount() {
-    this.pullElement ? this.pullElement.destroy() : null;
+    this.pullElement ? this.pullElement.destroy() : null
   }
 
   onSubmit() {
-    const {dispatch, location} = this.props;
-    const {content, isReply} = this.state;
+    const { dispatch, location } = this.props
+    const { content, isReply } = this.state
     if(content) {
-      this.setState({editDisable: true});
+      this.setState({ editDisable: true })
       if(isReply) {
         commentReply(location.query.submitId, content, this.state.id).then(res => {
           if(res.code === 200) {
@@ -121,114 +122,115 @@ export class Comment extends React.Component<any, any> {
               commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
-            });
+            })
             if(!this.state.end && this.pullElement) {
-              this.pullElement.enable();
+              this.pullElement.enable()
             }
-            scroll('.comment-header', '.application-comment');
+            scroll('.comment-header', '.application-comment')
           } else {
-            dispatch(alertMsg(res.msg));
-            this.setState({editDisable: false});
+            dispatch(alertMsg(res.msg))
+            this.setState({ editDisable: false })
           }
         }).catch(ex => {
-          this.setState({editDisable: false});
-          dispatch(alertMsg(ex));
-        });
+          this.setState({ editDisable: false })
+          dispatch(alertMsg(ex))
+        })
       } else {
-        comment(location.query.submitId, content)
-        .then(res => {
+        comment(location.query.submitId, content).then(res => {
           if(res.code === 200) {
             this.setState({
               commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
-            });
+            })
             if(!this.state.end && this.pullElement) {
-              this.pullElement.enable();
+              this.pullElement.enable()
             }
-            scroll('.comment-header', '.application-comment');
+            scroll('.comment-header', '.application-comment')
           } else {
-            dispatch(alertMsg(res.msg));
-            this.setState({editDisable: false});
+            dispatch(alertMsg(res.msg))
+            this.setState({ editDisable: false })
           }
         }).catch(ex => {
-          this.setState({editDisable: false});
-          dispatch(alertMsg(ex));
+          this.setState({ editDisable: false })
+          dispatch(alertMsg(ex))
         })
       }
 
     } else {
-      dispatch(alertMsg('请先输入内容再提交'));
+      dispatch(alertMsg('请先输入内容再提交'))
     }
   }
 
   openWriteBox() {
-    this.setState({showDiscuss: true, content: '', isReply: false, placeholder: '和作者切磋讨论一下吧'})
+    this.setState({ showDiscuss: true, content: '', isReply: false, placeholder: '和作者切磋讨论一下吧' })
   }
 
   reply(item) {
     this.setState({
       id: item.id,
-      placeholder: '回复 ' + item.name + ":",
+      placeholder: '回复 ' + item.name + ':',
       showDiscuss: true,
       isReply: true,
-      content: '',
+      content: ''
     })
   }
 
   onDelete(id) {
-    const {dispatch, location} = this.props;
+    const { dispatch, location } = this.props
     deleteComment(id).then(res => {
       if(res.code === 200) {
         loadCommentList(location.query.submitId, 1).then(res => {
-          dispatch(endLoad());
+          dispatch(endLoad())
           if(res.code === 200) {
-            this.setState({commentList: res.msg.list, page: 1, end: res.msg.end,
-              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback});
+            this.setState({
+              commentList: res.msg.list, page: 1, end: res.msg.end,
+              isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback
+            })
           } else {
-            dispatch(alertMsg(res.msg));
+            dispatch(alertMsg(res.msg))
           }
         }).catch(ex => {
-          dispatch(endLoad());
-          dispatch(alertMsg(ex));
-        });
+          dispatch(endLoad())
+          dispatch(alertMsg(ex))
+        })
       }
     })
   }
 
   onChange(value) {
-    this.setState({content: value})
+    this.setState({ content: value })
   }
 
   cancel() {
-    const {showDiscuss} = this.state;
+    const { showDiscuss } = this.state
     if(showDiscuss) {
-      this.setState({showDiscuss: false})
+      this.setState({ showDiscuss: false })
     }
   }
 
-  show(showAll){
-    this.setState({showAll:!showAll})
+  show(showAll) {
+    this.setState({ showAll: !showAll })
   }
 
   voted(id, voteStatus, voteCount) {
     if(!voteStatus) {
-      this.setState({article: merge(this.state.article, {voteCount: voteCount + 1, voteStatus: true})});
-      vote(id);
+      this.setState({ article: merge(this.state.article, { voteCount: voteCount + 1, voteStatus: true }) })
+      vote(id)
     } else {
     }
   }
 
   render() {
-    const {commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount=60} = this.state;
-    const {topic, content, voteCount =0, voteStatus } = this.state.article;
-    const {submitId} = this.props.location.query;
+    const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60 } = this.state
+    const { topic, content, voteCount = 0, voteStatus } = this.state.article
+    const { submitId } = this.props.location.query
     const renderCommentList = () => {
       if(commentList && commentList.length !== 0) {
         return (
           commentList.map((item, seq) => {
             return (
-              <div id={'comment-'+item.id}>
+              <div id={'comment-' + item.id}>
                 <DiscussShow discuss={item} showLength={100} reply={() => {
                   this.reply(item)
                 }} onDelete={this.onDelete.bind(this, item.id)}/>
@@ -244,7 +246,7 @@ export class Comment extends React.Component<any, any> {
           还没有人评论过<br/>点击左下角按钮，发表第一条吧
         </div>)
       }
-    };
+    }
 
     const renderTips = () => {
       if(commentList && commentList.length !== 0) {
@@ -258,25 +260,25 @@ export class Comment extends React.Component<any, any> {
           )
         }
       }
-    };
+    }
 
-    const renderWorkContent = ()=>{
-      if(isString(content)){
-        if(filterContent.length>wordsCount && !showAll){
+    const renderWorkContent = () => {
+      if(isString(content)) {
+        if(filterContent.length > wordsCount && !showAll) {
           return (
-            <div onClick={()=>this.show(showAll)} className="application-content">
-              {truncate(filterContent,{length:wordsCount,omission:''})}
-              <span style={{letterSpacing:'-3px'}}>...</span>
+            <div onClick={() => this.show(showAll)} className="application-content">
+              {truncate(filterContent, { length: wordsCount, omission: '' })}
+              <span style={{ letterSpacing: '-3px' }}>...</span>
             </div>
           )
         } else {
           return (
-            <pre className="application-content" dangerouslySetInnerHTML={{__html:content}}/>
+            <pre className="application-content" dangerouslySetInnerHTML={{ __html: content }}/>
           )
         }
       }
-      return null;
-    };
+      return null
+    }
 
     return (
       <div>
@@ -284,22 +286,23 @@ export class Comment extends React.Component<any, any> {
           <div className="article">
             <div className="article-header">{topic}</div>
             {renderWorkContent()}
-            {filterContent && filterContent.length>wordsCount?
-              <div onClick={()=>this.show(showAll)} className="show-all">{showAll?'收起':'展开'}</div>:null}
-            {content?
-              <div onClick={()=>{this.voted(submitId, voteStatus, voteCount)}} className="vote">
-                <span className={`${voteStatus?'voted':'disVote'}`}>{voteCount}</span>
-              </div>:null}
+            {filterContent && filterContent.length > wordsCount ?
+              <div onClick={() => this.show(showAll)} className="show-all">{showAll ? '收起' : '展开'}</div> : null}
+            {content ?
+              <div onClick={() => {this.voted(submitId, voteStatus, voteCount)}} className="vote">
+                <span className={`${voteStatus ? 'voted' : 'disVote'}`}>{voteCount}</span>
+              </div> : null}
             <div className="comment-header">
               当前评论
             </div>
             {
-              this.state.isModifiedAfterFeedback
-                ? (<div className="comment-header-feedback">
-                  <span className="comment-feedback-tips">小提示：</span>
-                  该条教练点评后，作业被更新，可能有和教练点评不一致的内容
-                </div>)
-                : null
+              this.state.isModifiedAfterFeedback ?
+                (
+                  <div className="comment-header-feedback">
+                    <span className="comment-feedback-tips">小提示：</span>
+                    该条教练点评后，作业被更新，可能有和教练点评不一致的内容
+                  </div>
+                ) : null
             }
           </div>
           <div className="pull-target">
@@ -320,6 +323,6 @@ export class Comment extends React.Component<any, any> {
           </div>
         }
       </div>
-    );
+    )
   }
 }
