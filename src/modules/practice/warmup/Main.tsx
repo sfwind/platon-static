@@ -133,16 +133,14 @@ export class Main extends React.Component <any, any> {
       if(!selected) {
         selected = []
       }
-      let problemId = _.get(list, 'practice[0].problemId')
+      // let problemId = _.get(list, 'practice[0].problemId')
       let questionId = _.get(list, `practice[${currentIndex}].id`)
-      if(problemId == 9) {
-        mark({
-          module: '打点',
-          function: questionId,
-          action: '做选择题',
-          memo: currentIndex
-        })
-      }
+      mark({
+        module: '打点',
+        function: questionId,
+        action: '做选择题',
+        memo: currentIndex
+      })
       this.setState({ currentIndex: currentIndex + 1, selected })
     }
     scroll('.container', '.container')
@@ -157,16 +155,14 @@ export class Main extends React.Component <any, any> {
       return
     }
     if(currentIndex === practiceCount - 1) {
-      let problemId = _.get(list, 'practice[0].problemId')
+      // let problemId = _.get(list, 'practice[0].problemId')
       let questionId = _.get(list, `practice[${currentIndex}].id`)
-      if(problemId == 9) {
-        mark({
-          module: '打点',
-          function: questionId,
-          action: '做选择题',
-          memo: currentIndex
-        })
-      }
+      mark({
+        module: '打点',
+        function: questionId,
+        action: '做选择题',
+        memo: currentIndex
+      })
       this.setChoice(p => {
         dispatch(startLoad())
         answer({ practice: p }, practicePlanId).then(res => {
