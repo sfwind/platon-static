@@ -85,7 +85,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       const { msg, code } = res
       if(code === 200) {
         if(!buttonStatus.isValid(msg.buttonStatus)) {
-          dispatch(alertMsg("按钮状态异常"));
+          dispatch(alertMsg('按钮状态异常'))
         } else {
           if(buttonStatus.mustRefresh(msg.buttonStatus)) {
             mark({
@@ -157,7 +157,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25))
     this.whoFontSize = (window.innerWidth / (750 / 30)) > 15 ? 15 : (window.innerWidth / (750 / 30))
     this.whoNumFontSize = (window.innerWidth / (750 / 48)) > 24 ? 24 : (window.innerWidth / (750 / 48))
-
   }
 
   /**
@@ -259,91 +258,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
-  }
-
-  /**
-   * 支付完成
-   */
-  handlePayDone(planId) {
-    const { isFull, bindMobile } = this.state
-    if(!isFull) {
-      // 没有填写过
-      this.context.router.push({
-        pathname: '/rise/static/customer/profile', query: {
-          goRise: true, runningPlanId: planId
-        }
-      })
-      return
-    }
-    if(!bindMobile) {
-      // 没有填过手机号
-      this.context.router.push({
-        pathname: '/rise/static/customer/mobile/check', query: {
-          goRise: true, runningPlanId: planId
-        }
-      })
-      return
-    }
-    // 都填写过
-    this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: planId } })
-  }
-
-  /**
-   * 点击立即支付
-   */
-  handleClickPayImmediately(couponCnt) {
-    // 如果用户没有优惠券，则直接弹出付费
-    const { dispatch, location } = this.props
-    const { id } = location.query
-    dispatch(startLoad())
-    const { buttonStatus } = this.state
-    mark({
-      module: 'RISE',
-      function: '打点',
-      action: '点击购买按钮'
-    })
-    checkCreatePlan(id, buttonStatus).then(res => {
-      dispatch(endLoad())
-      if(res.code === 202) {
-        this.setState({ showConfirm: true, confirmMsg: res.msg })
-      } else if(res.code === 201 || res.code === 200) {
-        if(couponCnt === 0) {
-          // 直接弹出付费
-          this.refs.payInfo.handleClickPay()
-          return
-        } else {
-          // 显示支付按钮
-          this.refs.payInfo.handleClickOpen()
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-  }
-
-  /**
-   * 获取商品信息
-   */
-  handleGotGoods(goods) {
-    let price = get(goods, 'activity.price')
-    if(price) {
-      this.setState({ fee: goods.fee, coupons: goods.coupons, price: price })
-    } else {
-      this.setState({ fee: goods.fee, coupons: goods.coupons })
-    }
-  }
-
-  handleClickPayMember() {
-    mark({
-      module: '支付',
-      function: '小课单卖',
-      action: '点击加入会员',
-      memo: 'os:' + window.ENV.systemInfo
-    })
-    window.location.href = `https://${window.location.hostname}/pay/pay`
   }
 
   handleClickGoReview() {
@@ -449,7 +363,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,
+      monthlyCampMonth
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -495,18 +410,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       }
     }
 
-    const renderPrice = (fee, price) => {
-      if(price) {
-        return [
-          <span style={{ marginLeft: '10px', textDecoration: 'line-through' }}>¥{numeral(fee).format('0,0.00')}</span>,
-          <span style={{ marginLeft: '10px' }}>¥{numeral(price).format('0,0.00')}</span>,
-          <span style={{ marginLeft: '10px' }}>粉丝特惠</span>
-        ]
-      } else {
-        return `¥ ${numeral(fee).format('0,0.00')}，立即学习`
-      }
-    }
-
     const renderFooter = () => {
       if(!show) {
         let footerBar = <div className="padding-footer" style={{ height: '45px' }}/>
@@ -527,8 +430,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       </div> :
                       null
                   }
-                  <div className={`left pay`} onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    {renderPrice(fee, price)}
+                  <div className={`left pay`}
+                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
+                    加入商学院，立即学习
                   </div>
                 </div>
               )
@@ -540,7 +444,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   {
                     togetherClassMonth && togetherClassMonth !== '0' ?
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
-                        本小课为 {togetherClassMonth} 月精英会员训练营小课，记得在当月选择哦
+                        本小课为 {togetherClassMonth} 月训练营小课，记得在当月选择哦
                       </div> :
                       null
                   }
@@ -565,19 +469,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
               return list
             }
-            case 5:
-            case 6: {
-              list.push(
-                <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
-                  <div>
-                    <AssetImg size="24px" style={{ verticalAlign: 'middle', marginRight: '10px', marginTop: '-2px' }}
-                              type="rise_icon_trial_pay"/>
-                    <span style={{ fontWeight: 'bolder' }}>限时免费，立即开始学习</span>
-                  </div>
-                </div>
-              )
-              return list
-            }
             case 7: {
               list.push(
                 <div className="button-footer trial_pay" onClick={() => this.handleClickFreeProblem()}>
@@ -591,26 +482,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 8: {
               list.push(
                 <div className="button-footer">
-                  <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    ¥ {fee}，立即学习
+                  <div className="split-left"
+                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
+                    加入商学院，立即学习
                   </div>
                   <div className="split-right" onClick={() => this.setState({ showEvaluation: true })}>
                     免费获取
-                  </div>
-                </div>
-              )
-              return list
-            }
-            case 9: {
-              // "¥ {fee}，立即学习|获取训练营小课"
-              list.push(
-                <div className="button-footer">
-                  <div className="split-left" onClick={() => this.handleClickPayImmediately(coupons.length)}>
-                    ￥{fee}，自主学习
-                  </div>
-                  <div className="split-right"
-                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/pay?showId=5`}>
-                    ¥ 299，小课训练营
                   </div>
                 </div>
               )
@@ -629,13 +506,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pre-pay-message">
             <div>本课程是线上学习产品，由文字+语音+练习题+互动讨论区组成。课程一共有5章6小节，40道练习题。</div>
             <br/>
-
             <div>报名后7天内可免费学习，完成后可永久复习。随开随学，进度自控。</div>
             <br/>
-
             <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div>
             <br/>
-
           </div>
         )
       } else {
@@ -643,35 +517,15 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pre-pay-message">
             <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。</div>
             <br/>
-
             <div>课程一共有{data && data.chapterList ? data.chapterList.length : 'N'}章{data ? data.length : 'N'}小节。完成后可永久随开随学，进度自控。</div>
             <br/>
-
             <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div>
             <br/>
-
             <div>报名通过系统自动进行，支付成功后概不退款，请予以理解。</div>
             <br/>
-
           </div>
         )
       }
-    }
-
-    const renderPayInfo = () => {
-      const { location } = this.props
-
-      return (
-        <PayInfo ref="payInfo"
-                 gotGoods={(goods) => this.handleGotGoods(goods)}
-                 dispatch={this.props.dispatch}
-                 goodsId={location.query.id}
-                 goodsType={GoodsType.FRAG_COURSE}
-                 payedDone={(planId) => this.handlePayDone(planId)}
-                 payedError={(ex) => this.setState({ showErr: true })}
-                 payedCancel={ex => this.setState({ showErr: true })}
-        />
-      )
     }
 
     const renderEvaluateOperation = () => {
@@ -773,8 +627,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                       <div className="problem-item-subCatalog">{problem.subCatalog}</div>
                       {/*<div className="complete-person">*/}
-                        {/*<div className="icon-person"/>*/}
-                        {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                      {/*<div className="icon-person"/>*/}
+                      {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
                       {/*</div>*/}
                     </div>
                     <div className="problem-problem">{problem.problem}</div>
@@ -797,8 +651,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
             {/*<div className="complete-person">*/}
-              {/*<div className="icon-person"/>*/}
-              {/*<span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>*/}
+            {/*<div className="icon-person"/>*/}
+            {/*<span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>*/}
             {/*</div>*/}
           </div>
           <div className="section">
@@ -828,7 +682,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           renderRightRecommendation()}
         {renderFooter()}
         <Alert { ...this.state.alert }
-          show={this.state.showAlert}>
+               show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>
@@ -847,7 +701,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           </div>
           <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
         </div> : null}
-        {renderPayInfo()}
         {renderEvaluateOperation()}
       </div>
     )

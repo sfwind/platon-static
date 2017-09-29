@@ -9,9 +9,6 @@ import { changeTitle } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 
-import Tutorial from '../../components/Tutorial'
-import { isBoolean, merge } from 'lodash'
-
 /**
  * rise_icon_hr 左侧较宽 TODO
  */
@@ -42,7 +39,6 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   componentWillMount() {
-
     mark({
       module: '打点',
       function: '学习',
@@ -52,30 +48,19 @@ export default class PlanList extends React.Component<any, any> {
 
     const { dispatch, location } = this.props
     dispatch(startLoad())
-    const { runningPlanId, completedPlanId } = location.query
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { runningPlans = [], completedPlans = [], trialClosedPlans = [], openNavigator, openWelcome, recommendations = [] } = res.msg
+        const { runningPlans = [], openNavigator, recommendations = [] } = res.msg
+
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
           showEmptyPage = true
-          if(location.pathname === '/rise/static/plan/main') {
-            this.context.router.push('/rise/static/problem/explore')
-          }
         }
-        if(!openWelcome) {
-          if(location.pathname !== '/rise/static/learn') {
-            // 没有小课练习，并且不是从导航栏点进来的
-            this.context.router.push({
-              pathname: '/rise/static/welcome'
-            })
-            return
-          }
-        }
+
         this.setState({
-          planList: res.msg, showEmptyPage: showEmptyPage, openNavigator, showPage: true,
-          recommendations: recommendations
+          planList: res.msg, showEmptyPage: showEmptyPage, openNavigator,
+          recommendations: recommendations, showPage: true
         }, () => {
           var swiper = new Swiper('#problem-recommendation', {
             scrollbar: '#problem-recommendation-bar',
@@ -106,10 +91,16 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickPlan(plan) {
-    this.context.router.push({
-      pathname: '/rise/static/plan/study',
-      query: { planId: plan.planId }
-    })
+    const { learnable, startDate } = plan
+    const { dispatch } = this.props
+    if(learnable) {
+      this.context.router.push({
+        pathname: '/rise/static/plan/study',
+        query: { planId: plan.planId }
+      })
+    } else {
+      dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
+    }
   }
 
   handleClickProblemChoose() {
@@ -157,7 +148,6 @@ export default class PlanList extends React.Component<any, any> {
 
   render() {
     const { planList = {}, showEmptyPage, openNavigator, showPage, recommendations = [], showFloatCoupon } = this.state
-    if(!showPage) return <div/>
 
     const { location } = this.props
     const { runningPlanId, completedPlanId, trialClosedId } = location.query
@@ -177,12 +167,12 @@ export default class PlanList extends React.Component<any, any> {
 
     return (
       <div>
-        <div className="plan-list-page">
+        <div className="plan-list-page" style={{ minHeight: window.innerHeight + 30 }}>
           <ToolBar />
-          <Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}
-                    bgList={['https://static.iqycamp.com/images/fragment/rise_pl_0727_1_2.png',
-                      'https://static.iqycamp.com/images/fragment/rise_pl_0727_2.png']}
-                    topList={[0, 169]} bottomList={[55, 0]}/>
+          {/*<Tutorial show={isBoolean(openNavigator) && !openNavigator} onShowEnd={() => this.tutorialEnd()}*/}
+          {/*bgList={['https://static.iqycamp.com/images/fragment/rise_pl_0727_1_2.png',*/}
+          {/*'https://static.iqycamp.com/images/fragment/rise_pl_0727_2.png']}*/}
+          {/*topList={[0, 169]} bottomList={[55, 0]}/>*/}
           <div className="plp-running plp-block">
             <div className="p-r-header">
               <span className="p-r-h-title">进行中</span>
@@ -211,16 +201,16 @@ export default class PlanList extends React.Component<any, any> {
                 }
                 return (
                   <div id={`problem-${item.planId}`} style={style}
-                       className={`p-r-block ${key === 0 ? 'first' : ''} ${key === runningPlans.length - 1 ? 'last' : ''}`}
+                       className={`p-r-block`}
                        key={key} onClick={() => this.handleClickPlan(item)}>
-                    <div className="p-r-b-item" style={{padding: key === 0 ? "18px 15px 20px" : '20px 15px'}}>
+                    <div className="p-r-b-item" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                       <div className="p-r-b-i-pic">
                         <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
                         <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
                         <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
                         {/*<div className="complete-person">*/}
-                          {/*<div className="icon-person"/>*/}
-                          {/*<span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>*/}
+                        {/*<div className="icon-person"/>*/}
+                        {/*<span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>*/}
                         {/*</div>*/}
                       </div>
                       <div className="p-r-b-i-text">
@@ -231,7 +221,9 @@ export default class PlanList extends React.Component<any, any> {
                           已完成：{`${item.completeSeries}/${item.totalSeries}节`}
                         </div>
                         {renderDeadline(item.deadline)}
-                        <div className="running-problem-button"/>
+                        <div className={`running-problem-button ${item.learnable ? '' : 'lock'}`}>
+                          {item.learnable ? '' : '即将开营'}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -270,8 +262,8 @@ export default class PlanList extends React.Component<any, any> {
                           <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                           <div className="problem-item-subCatalog">{problem.abbreviation}</div>
                           {/*<div className="complete-person">*/}
-                            {/*<div className="icon-person"/>*/}
-                            {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
+                          {/*<div className="icon-person"/>*/}
+                          {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
                           {/*</div>*/}
                         </div>
                         <span>{problem.problem}</span>
@@ -303,7 +295,7 @@ export default class PlanList extends React.Component<any, any> {
                     return (
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
-                        <div className="p-c-b-text" style={{padding: key === 0 ? '18px 15px 20px' : '20px 15px'}}>
+                        <div className="p-c-b-text" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                           <div className="p-c-b-t-left">
                             <div className="p-c-b-t-l-title">
                               {plan.name}
@@ -334,7 +326,7 @@ export default class PlanList extends React.Component<any, any> {
                     return (
                       <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                            onClick={() => this.handleClickPlan(plan)}>
-                        <div className="p-c-b-text" style={{padding: key === 0 ? '18px 15px 20px' : '20px 15px'}}>
+                        <div className="p-c-b-text" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
                           <div className="p-c-b-t-left">
                             <div className="p-c-b-t-l-title">
                               {plan.name}

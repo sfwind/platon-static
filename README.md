@@ -1,4 +1,4 @@
-# confucius static
+# platon static
 
 react-lite
 redux

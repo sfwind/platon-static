@@ -51,9 +51,9 @@ export default class Welcome extends React.Component<any, any> {
 
   handleClickGoPayPage() {
     mark({ module: '打点', function: '付费相关', action: '点击成为RISER', memo: '欢迎页' }).then(() => {
-      window.location.href = `https://${window.location.hostname}/pay/pay`
+      window.location.href = `https://${window.location.hostname}/pay/rise`
     }).catch(() => {
-      window.location.href = `https://${window.location.hostname}/pay/pay`
+      window.location.href = `https://${window.location.hostname}/pay/rise`
     })
   }
 
@@ -71,7 +71,7 @@ export default class Welcome extends React.Component<any, any> {
             </div>
             <div className="bottom-rise-tip">
               <AssetImg url="https://static.iqycamp.com/images/fragment/problem_introduc_diamond_blue.jpg"/>
-              <span onClick={() => {window.location.href = '/pay/pay'}}>直接成为精英版年费会员</span>
+              <span onClick={() => {window.location.href = '/pay/rise'}}>直接成为商学院会员</span>
             </div>
           </div>
         </div>

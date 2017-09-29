@@ -79,7 +79,7 @@ class JsConfigService {
     if(!_.isNull(configBean)) {
       // 这个url有config参数
       configBean.configTimes += 1;
-      console.log('configTimes', configBean.configTimes);
+      // console.log('configTimes', configBean.configTimes);
       if(configBean.configTimes >= 3) {
         // 错误次数大于3则打日志,并放弃config
         configBean.error = true;
@@ -161,12 +161,12 @@ class JsConfigService {
     let configBean = this.getConfigBean(url);
     if(!_.isNull(configBean) && !configBean.error) {
       // 没有config参数，并且这个参数没有异常(失败超过三次)
-      console.log('已经有了config', configBean);
+      // console.log('已经有了config', configBean);
       // 调用签名方法
       this.jsConfig(apiList, callback);
     } else {
       // 没有有效的config参数，拉取config信息
-      console.log("没有config");
+      // console.log("没有config");
       pget(`/wx/js/signature?url=${encodeURIComponent(url)}`).then(res => {
         // 获取成功，设置这个url的config参数
         this.setConfigBean(url, res.msg);
@@ -179,6 +179,42 @@ class JsConfigService {
       });
     }
   }
+
+
+  public configShare(title, url, imgUrl, desc, apiList = []) {
+    pget(`/wx/js/signature?url=${encodeURIComponent(window.location.href)}`).then(res => {
+    if (res.code === 200) {
+      wx.config(_.merge({
+        debug: false,
+        jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline'].concat(apiList),
+      }, res.msg))
+      wx.ready(() => {
+        setTimeout(()=>{
+          wx.showOptionMenu();
+        },1500)
+        // hideOptionMenu()
+        wx.onMenuShareTimeline({
+          title: title, // 分享标题
+          link: url, // 分享链接
+          imgUrl: imgUrl, // 分享图标
+        });
+        // 获取“分享给朋友”按钮点击状态及自定义分享内容接口
+        wx.onMenuShareAppMessage({
+          title: title, // 分享标题
+          desc: desc, // 分享描述
+          link: url, // 分享链接
+          imgUrl: imgUrl, // 分享图标
+          type: 'link', // 分享类型,music、video或link，不填默认为link
+        });
+      })
+      wx.error(function (e) {
+        console.log(e)
+      })
+    } else {
+    }
+  }).catch((err) => {
+  })
+}
 }
 
 export default new JsConfigService();

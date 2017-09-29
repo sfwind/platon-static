@@ -9,7 +9,7 @@ export default class DropDownList extends React.Component<any,any> {
   }
 
   choice(){
-    const {level,data,userData,onChoice} = this.props;
+    const {level,data,userData,onChoice,placeholder} = this.props;
     if(this.dataCheck(level,data,userData)){
       new IosSelect(
         level,
@@ -63,7 +63,7 @@ export default class DropDownList extends React.Component<any,any> {
       let value="";
       for(let i=0; i<level;i++){
         if(!userData || !userData[i].id){
-          value = "请选择";
+          value = this.props.placeholder || "请选择";
           break;
         } else {
           value = value+userData[i].value+" ";

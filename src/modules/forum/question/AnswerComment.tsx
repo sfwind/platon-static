@@ -1,13 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux"
 import "./AnswerComment.less"
-import { DialogHead, DialogBottomIcon, PullSlideTip } from "../commons/ForumComponent"
+import { DialogHead, DialogBottomIcon } from "../commons/ForumComponent"
 import { approveAnswer, commentAnswer, commentAnswerDel, disApproveAnswer, getAnswer } from "../async";
 import { mark } from "../../../utils/request"
 import Discuss from "../../practice/components/Discuss";
 import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { Dialog } from "react-weui";
+import PullSlideTip from '../../../components/PullSlideTip'
 const { Alert } = Dialog;
 
 interface AnswerCommentState {

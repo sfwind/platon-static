@@ -1,4 +1,3 @@
-import { pget, mark } from "utils/request"
 import * as _ from "lodash"
 import JsConfigService from "./JsConfigService"
 
@@ -6,7 +5,6 @@ import JsConfigService from "./JsConfigService"
 export function config(apiList,callback){
   JsConfigService.config(apiList,callback);
 }
-
 
 export function preview(current, picList) {
   wx.previewImage({
@@ -22,6 +20,11 @@ export function closeWindow(current, picList) {
 export function hideOptionMenu(current, picList) {
   wx.hideOptionMenu();
 }
+
+export function configShare(title, url, imgUrl, desc){
+  JsConfigService.configShare(title, url, imgUrl, desc);
+}
+
 
 export function pay(config, success, cancel, error) {
   WeixinJSBridge.invoke(

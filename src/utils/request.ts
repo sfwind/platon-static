@@ -10,7 +10,9 @@ const config = {
 }
 
 export function mark(param){
-  return ppost('/rise/b/mark',param);
+  if(window.location.href.indexOf('/rise/static/guest') == -1){
+    return ppost('/rise/b/mark',param);
+  }
 }
 
 

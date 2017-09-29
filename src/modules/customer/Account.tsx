@@ -24,7 +24,6 @@ export default class Rise extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     pget('/rise/customer/account').then(res => {
-      console.log('res', res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg })
@@ -40,9 +39,6 @@ export default class Rise extends React.Component<any, any> {
   handleClickGoMemberDesc() {
     const memberType = this.state.data.memberType
     switch(memberType) {
-      case '精英版（一年）':
-        this.context.router.push('/rise/static/customer/member')
-        break
       case '小课训练营':
         window.location.href = 'https://shimo.im/doc/zPvwOCCxqygcof0B?r=L8QE82/'
         break
@@ -57,21 +53,38 @@ export default class Rise extends React.Component<any, any> {
     const { riseId, memberType, mobile, isRiseMember, nickName, memberId, coupons = [] } = data
 
     const renderCoupons = () => {
-      if(coupons.length !== 0) {
+      if(coupons.length === 0) {
         return (
-          coupons.map((coupon, index) => {
-            let jxjSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_jxj.png'
-            let yhqSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_yhq.png'
-            let imgSrc = (coupon.description && coupon.description.indexOf('奖学金')) >= 0 ? jxjSrc : yhqSrc
-            return (
-              <div className="item" key={index}>
-                <img src={imgSrc} alt={coupon.description}
-                     style={{ float: 'left' }}/>
-                <div className='label'>{coupon.description} ￥{coupon.amount} 元</div>
-                <div className='content-no-cut'>{coupon.expiredDateString}到期</div>
-              </div>
-            )
-          })
+          <div>
+            <div className="item ">
+              <div className="label">奖学金/优惠券</div>
+              <div className="content-no-cut">暂无</div>
+            </div>
+          </div>
+        )
+      } else {
+        return (
+          <div>
+            <div className="item ">奖学金/优惠券</div>
+            <div className="coupon-box">
+              {
+                coupons.map((coupon, index) => {
+                  let jxjSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_jxj.png'
+                  let yhqSrc = 'https://static.iqycamp.com/images/fragment/person_coupon_yhq.png'
+                  let imgSrc = (coupon.description && coupon.description.indexOf('奖学金')) >= 0 ? jxjSrc : yhqSrc
+                  return (
+                    <div className="item" key={index}>
+                      <img src={imgSrc} alt={coupon.description}
+                           style={{ float: 'left' }}/>
+                      <div className='label'>{coupon.description} ￥{coupon.amount} 元</div>
+                      <div className='content-no-cut'>{coupon.expiredDateString}到期</div>
+                    </div>
+                  )
+                })
+              }
+              <div style={{ height: 56 }}/>
+            </div>
+          </div>
         )
       }
     }
@@ -88,10 +101,10 @@ export default class Rise extends React.Component<any, any> {
         </div>
         {
           memberId ?
-          <div className="item">
-            <div className="label">学号</div>
-            <div className="content-no-cut">{memberId}</div>
-          </div> : null
+            <div className="item">
+              <div className="label">学号</div>
+              <div className="content-no-cut">{memberId}</div>
+            </div> : null
         }
         <div className="item" onClick={() => this.handleClickGoMemberDesc()}>
           <div className="label">圈外会员</div>
@@ -109,11 +122,7 @@ export default class Rise extends React.Component<any, any> {
             {mobile ? <span>{mobile}</span> : <span style={{ color: '#ccc' }}>去绑定手机号&nbsp;&nbsp;</span>}
           </div>
         </div>
-        <div className="item ">奖学金/优惠券</div>
-        <div className="coupon-box">
-          { renderCoupons() }
-          <div style={{ height: 56 }}/>
-        </div>
+        { renderCoupons() }
       </div>
     )
   }

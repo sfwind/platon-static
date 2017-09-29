@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './PlanMain.less'
 import {
-  loadPlan, completePlan, updateOpenRise, markPlan,
+  loadPlan, completePlan, updateOpenRise, markPlan, hasPrivilege,
   gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess, loadRecommendations, disCollectProblm, collectProblem
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
@@ -131,22 +131,6 @@ export class PlanMain extends React.Component <any, any> {
     window.removeEventListener('resize', this.resize)
   }
 
-  riseMemberCheck() {
-    const { dispatch } = this.props
-    return isRiseMember().then(res => {
-      if(res.code === 200) {
-        this.setState({ riseMember: res.msg })
-        if(res.msg != 1) {
-          setTimeout(() => {
-            this.setState({ riseMemberTips: true })
-          }, 10)
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    })
-  }
-
   componentWillMount(newProps) {
     this.resize()
     const { dispatch, location } = this.props
@@ -249,16 +233,16 @@ export class PlanMain extends React.Component <any, any> {
         this.setState({ chapterList: res.msg }, () => {
           Ps.initialize(this.refs.sideContent, {
             swipePropagation: false,
-            handlers: ['wheel', 'touch']
+            handlers: [ 'wheel', 'touch' ]
           })
         })
       }
     })
     FastClick.attach(document.querySelector('.click-btn'))
-    isRiseMember().then(res => {
+    hasPrivilege().then(res => {
       if(res.code === 200) {
-        this.setState({ riseMember: res.msg })
-        if(res.msg != 1) {
+        this.setState({ riseMember: res.msg.riseMember })
+        if(res.msg.riseMember != 1) {
           setTimeout(() => {
             this.setState({ riseMemberTips: true })
           }, 10)
@@ -275,25 +259,12 @@ export class PlanMain extends React.Component <any, any> {
         if(clickBtns.length > 0) {
           for(let i = 0; i < clickBtns.length; i++) {
             if(i !== 0) {
-              clickBtns[i].style.display = 'none'
+              clickBtns[ i ].style.display = 'none'
             }
           }
         }
       }
     }
-  }
-
-  riseMemberCheck() {
-    return isRiseMember().then(res => {
-      if(res.code === 200) {
-        this.setState({ riseMember: res.msg })
-        if(res.msg != 1) {
-          setTimeout(() => {
-            this.setState({ riseMemberTips: true })
-          }, 10)
-        }
-      }
-    })
   }
 
   onPracticeSelected(item) {
@@ -339,7 +310,7 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: false, planId, complete }
+        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: false, planId, complete }
       }) : null
     } else if(type === 12) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined))
@@ -347,19 +318,19 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: true, planId, complete }
+        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: true, planId, complete }
       }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
+        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, planId, complete }
       }) : null
     } else if(type === 31) {
+      // 关闭tutorial
+      if(!openRise) {
+        updateOpenRise()
+      }
       if(!complete) {
-        // 关闭tutorial
-        if(!openRise) {
-          updateOpenRise()
-        }
 
         learnKnowledge(practicePlanId).then(res => {
           const { code, msg } = res
@@ -560,8 +531,8 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips() {
-    mark({ module: '打点', function: '首页', action: '点击升级专业版按钮', memo: '首页' }).then(() => {
-      window.location.href = `https://${window.location.hostname}/pay/pay`
+    mark({ module: '打点', function: '首页', action: '点击升级商学院按钮', memo: '首页' }).then(() => {
+      window.location.href = `https://${window.location.hostname}/pay/rise`
     })
   }
 
@@ -592,7 +563,7 @@ export class PlanMain extends React.Component <any, any> {
     let section = this.refs.sideContent.querySelector(`#section${series}`)
     let sectionArr = this.refs.sideContent.querySelectorAll('.section')
     for(let i = 0; i < sectionArr.length; i++) {
-      sectionArr[i].setAttribute('class', 'section')
+      sectionArr[ i ].setAttribute('class', 'section')
     }
     if(section) {
       section.setAttribute('class', 'section open')
@@ -639,13 +610,11 @@ export class PlanMain extends React.Component <any, any> {
 
   render() {
     const {
-      currentIndex, planData, showScoreModal, bgList,
-      selectProblem, riseMember, riseMemberTips, chapterList, expired,
-      _t, relationTab
+      currentIndex, planData, showScoreModal, selectProblem, riseMember, riseMemberTips, chapterList, _t
     } = this.state
-    const { location, completePracticePlanId, dispatch } = this.props
+    const { completePracticePlanId } = this.props
     const {
-      problem = {}, sections = [], point, deadline, status, totalSeries, openRise, completeSeries, reportStatus, free
+      problem = {}, sections = [], point, totalSeries, reportStatus
     } = planData
 
     const completePracticeRender = (item) => {
@@ -693,10 +662,10 @@ export class PlanMain extends React.Component <any, any> {
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null}
               <div className="body">
                 <div className="title">
-                  {typeMap[item.type].type}
+                  {typeMap[ item.type ].type}
                   <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
                 </div>
-                <div className="desc">{typeMap[item.type].desc}</div>
+                <div className="desc">{typeMap[ item.type ].desc}</div>
                 {
                   item.status === 1 ?
                     <div className="completed-span">已完成</div> :
@@ -782,13 +751,17 @@ export class PlanMain extends React.Component <any, any> {
       let preSection = null
       if(currentIndex === 1) {
         preSection = (
-          <div className="psbf-w-pre-btn disabled">
-            上一节
+          <div className="click-btn">
+            <div className="psbf-w-pre-btn disabled">
+              上一节
+            </div>
           </div>
         )
       } else {
         preSection = (
-          <div className="click-btn" onClick={() => {this.goSection(currentIndex - 1)}}>
+          <div className="click-btn" onClick={() => {
+            this.goSection(currentIndex - 1)
+          }}>
             <div className="psbf-w-pre-btn">
               上一节
             </div>
@@ -864,7 +837,7 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
 
-      let currentSection = sections[currentIndex - 1]
+      let currentSection = sections[ currentIndex - 1 ]
       return (
         <div className="plan-study-btn-footer" id="plan-study-btn-footer">
           <div className="psbf-wrapper">
@@ -934,7 +907,7 @@ export class PlanMain extends React.Component <any, any> {
       let { cardUrl, displayCard, riseMember } = this.state
       let problemId = get(planData, 'problem.id')
       const renderCardBody = () => {
-        if(problemId === FREE_PROBLEM_ID && !riseMember) {
+        if(problemId === FREE_PROBLEM_ID && riseMember === -1) {
           return (
             <div>
               <div className="printer-top">
@@ -1053,10 +1026,6 @@ export class PlanMain extends React.Component <any, any> {
 
     return (
       <div className="rise-main-container" id="rise-main-container">
-        {isBoolean(openRise) && !openRise ? <div className="first-open-rise-mask">
-          <AssetImg url="https://static.iqycamp.com/images/point_tutorial3.gif" width={150} marginLeft={20}/>
-        </div> : null}
-
         {renderCard()}
         <Sidebar
           sidebar={ renderSidebar() } open={this.state.sidebarOpen}
@@ -1071,7 +1040,7 @@ export class PlanMain extends React.Component <any, any> {
             <div className="card-collection" onClick={() => this.goCardsCollection(problem.id)}>
               <span>卡包</span>
             </div>
-            {riseMember != 1 ?
+            {riseMember !== 1 ?
               <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
                    onClick={() => this.goRiseMemberTips()}>
               </div> :

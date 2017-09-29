@@ -44,19 +44,23 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    pget('/rise/index/msg').then(res => {
-      if(res.msg) {
-        const { url, message } = res.msg;
-        this.setState({ activityMsg: true, url, message });
-      }
-    })
+    if(window.location.href.indexOf("/rise/static/guest/") === -1) {
+      // 不是guest页面，判断这个用户是否可以看到活动提示
+      pget('/rise/index/msg').then(res => {
+        if(res.msg) {
+          const { url, message } = res.msg;
+          this.setState({ activityMsg: true, url, message });
+        }
+      });
+    }
   }
 
   componentWillUpdate() {
     //windows客户端显示返回按钮
     if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
       //排除不显示返回按钮的页面
-      if(window.location.pathname !== '/rise/static/plan/main'
+      if(window.location.pathname !== '/rise/static/rise'
+        && window.location.pathname !== '/rise/static/camp'
         && window.location.pathname !== '/rise/static/practice/warmup/analysis'
         && window.location.pathname !== '/rise/static/practice/warmup') {
         if(!this.state.windowsClient) {
@@ -98,13 +102,13 @@ export default class Main extends React.Component<any, any> {
         {this.state.windowsClient ?
           <div
             style={{position:'absolute', left:5, top:5, height: 30, width:30, zIndex:999, cursor:'pointer', transparency:'10%'}}
-            onClick={()=> this.context.router.goBack()}>
+            onClick={()=> window.history.back()}>
             <AssetImg type="back_button" width={30} height={30} style={{opacity:0.3}}/>
           </div>
           : null}
         {
           this.state.activityMsg && this.state.message ?
-            <Activity url={this.state.url} pic={this.state.message}/>
+            <Activity url={this.state.url} message={this.state.message}/>
             : null
         }
       </div>

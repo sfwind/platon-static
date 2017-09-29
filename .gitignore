@@ -12,6 +12,6 @@ tags
 .ftppass
 
 gulpfile.js
-__build__
+__build__/*.js
 
 stats.json

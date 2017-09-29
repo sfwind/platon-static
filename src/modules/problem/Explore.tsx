@@ -36,7 +36,7 @@ export class Explore extends React.Component<any, any> {
     loadUnChooseList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ catalogList: res.msg.catalogList, hotList: res.msg.hotList }, () => {
+        this.setState({ catalogList: res.msg.catalogList, hotList: res.msg.hotList, banners: res.msg.banners }, () => {
           for(let i = 0; i < res.msg.catalogList.length; i++) {
             let id = `#catalog${i}`
             let bar = `#catalogbar${i}`
@@ -85,43 +85,42 @@ export class Explore extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/problem/more', query: param })
   }
 
-  goBanner(id) {
-    this.context.router.push({ pathname: '/rise/static/problem/package', query: { showId: id } })
+  handleClickBanner(banner) {
+    let url = banner.linkUrl
+    mark({ module: '打点', function: '发现', action: '点击发现页面banner', memo: url })
+    if(url.indexOf('https') >= 0) {
+      window.location.href = url
+    } else {
+      this.context.router.push(url)
+    }
   }
 
   render() {
-    const { catalogList, hotList } = this.state
+    const { catalogList, hotList, banners = [] } = this.state
+
+    const renderBanners = () => {
+      if(banners.length === 0) return
+      return (
+        <Banner height={this.bannerHeight}>
+          {
+            banners.map((banner, index) => {
+              return (
+                <div className="banner-item swiper-slide" key={index}
+                     onClick={() => this.handleClickBanner(banner)}>
+                  <img style={{ width: 'auto', height: '100%' }}
+                       src={banner.imageUrl}/>
+                </div>
+              )
+            })
+          }
+        </Banner>
+      )
+    }
+
     return (
       <div>
         <div className="explore-container">
-          <Banner height={this.bannerHeight}>
-            <div className="banner-item swiper-slide"
-                 onClick={() => this.context.router.push('/rise/static/plan/view?id=6') }>
-              <img src={'https://static.iqycamp.com/images/fragment/problem_explore_banner_monthly_10.png?imageslim'}
-                   style={{ width: 'auto', height: '100%' }}/>
-            </div>
-            <div className="banner-item swiper-slide"
-                 onClick={() => this.context.router.push('/rise/static/eva/start') }>
-              <img src={'https://static.iqycamp.com/images/fragment/operation_insight.jpg?imageslim'}
-                   style={{ width: 'auto', height: '100%' }}/>
-            </div>
-            <div className="banner-item swiper-slide" onClick={() => this.goBanner(1)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_1_2.jpg?imageslim'}
-                   style={{ width: 'auto', height: '100%' }}/>
-            </div>
-            <div className="banner-item swiper-slide" onClick={() => this.goBanner(2)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_2_3.jpg?imageslim'}
-                   style={{ width: 'auto', height: '100%' }}/>
-            </div>
-            <div className="banner-item swiper-slide" onClick={() => this.goBanner(3)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_3_2.jpg?imageslim'}
-                   style={{ width: 'auto', height: '100%' }}/>
-            </div>
-            <div className="banner-item swiper-slide" onClick={() => this.goBanner(4)}>
-              <img src={'https://static.iqycamp.com/images/problem_explore_banner_4_2.jpg?imageslim'}
-                   style={{ width: 'auto', height: '100%' }}/>
-            </div>
-          </Banner>
+          {renderBanners()}
           <div className="problem-catalog-list">
             <div className="problem-catalog">
               <div className="header">
@@ -129,23 +128,24 @@ export class Explore extends React.Component<any, any> {
               </div>
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">
-                  {hotList ? hotList.map((problem, key) => {
+                  {console.log('热门小课', hotList)}
+                  {hotList ? hotList.map((problem, index) => {
                     return (
-                      <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                      <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide"
+                           key={index}>
                         <div className="img">
                           { problem.newProblem ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_04.png"
                                       style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null}
                           { problem.trial ?
-                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                            <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_02.png"
                                       style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null}
                           { problem.status === 2 ?
                             <div className="complete-problem">
                               <AssetImg type="success" size={12}
                                         style={{ margin: '0 3px', verticalAlign: 'middle' }}/>
                               <span className="complete-text">已完成</span>
-                            </div> : null
-                          }
+                            </div> : null}
                           {/*<div className="complete-person">*/}
                           {/*<div className="icon-person"/>*/}
                           {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
@@ -176,11 +176,11 @@ export class Explore extends React.Component<any, any> {
                           <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
                             <div className="img">
                               { problem.newProblem ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
+                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_04.png"
                                           style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
                               }
                               { problem.trial ?
-                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
+                                <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_02.png"
                                           style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
                               }
                               { problem.status === 2 ?
