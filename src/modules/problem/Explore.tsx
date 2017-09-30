@@ -101,13 +101,13 @@ export class Explore extends React.Component<any, any> {
     const renderBanners = () => {
       if(banners.length === 0) return
       return (
-        <Banner height={this.bannerHeight}>
+        <Banner height={`17.5rem`}>
           {
             banners.map((banner, index) => {
               return (
                 <div className="banner-item swiper-slide" key={index}
                      onClick={() => this.handleClickBanner(banner)}>
-                  <img style={{ width: 'auto', height: '100%' }}
+                  <img style={{ width: '100%', height: '17.5rem' }}
                        src={banner.imageUrl}/>
                 </div>
               )

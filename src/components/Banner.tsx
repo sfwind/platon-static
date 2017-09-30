@@ -25,15 +25,13 @@ export default class Banner extends React.Component<any, any> {
 
   render() {
     const { index } = this.state
-    return (
-      <div>
-        <div className="swiper-container" id="swiepr-banner" style={{ height: `${this.props.height}px` }}>
-          <div className="swiper-wrapper">
-            {this.props.children}
-          </div>
-          <div className="swiper-pagination"/>
+    return (<div>
+      <div className="swiper-container" id="swiepr-banner" style={{ height: `${this.props.height}` }}>
+        <div className="swiper-wrapper">
+          {this.props.children}
         </div>
+        <div className="swiper-pagination"/>
       </div>
-    )
+    </div>)
   }
 }
