@@ -10,6 +10,7 @@ import AssetImg from '../../components/AssetImg'
 import DiscussShow from '../practice/components/DiscussShow'
 import Discuss from '../practice/components/Discuss'
 import { loadApplicationCommentOfMessage, submitEvaluation } from './async'
+import { StarRating } from '../../components/starvote/StarRating'
 
 @connect(state => state)
 export default class ReplyApplicationComment extends React.Component<any, any> {
@@ -48,6 +49,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       dispatch(alertMsg(ex))
     })
     loadApplicationCommentOfMessage(location.query.submitId, location.query.commentId).then(res => {
+      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
@@ -55,7 +57,8 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
           commentList: msg.list,
           isModifiedAfterFeedback: msg.isModifiedAfterFeedback,
           evaluated: msg.evaluated,
-          showPage: true
+          showPage: true,
+          commentEvaluations: msg.commentEvaluations
         })
       } else {
         dispatch(alertMsg(msg))
@@ -72,7 +75,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
         commentReply(location.query.submitId, content, this.state.id).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [ res.msg ].concat(this.state.commentList),
+              commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
             })
@@ -92,7 +95,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
         comment(location.query.submitId, content).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [ res.msg ].concat(this.state.commentList),
+              commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
             })
@@ -151,15 +154,27 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     }
   }
 
-  handleClickSubmitEvaluation() {
-    const { usefulState, uselessState } = this.state
-    let useful = usefulState && !uselessState ? 1 : 0
-    if(!usefulState && !uselessState) {
-      useful = 3
-    }
-    const { dispatch } = this.props
-    submitEvaluation(this.props.location.query.commentId, useful, this.state.evaluateReason).catch(e => {
-      dispatch(alertMsg(e))
+  // handleClickSubmitEvaluation() {
+  //   const { usefulState, uselessState } = this.state
+  //   let useful = usefulState && !uselessState ? 1 : 0
+  //   if(!usefulState && !uselessState) {
+  //     useful = 3
+  //   }
+  //   const { dispatch } = this.props
+  //   submitEvaluation(this.props.location.query.commentId, useful, this.state.evaluateReason).catch(e => {
+  //     dispatch(alertMsg(e))
+  //   })
+  // }
+
+  handleEvaluateComment(ref, commentId) {
+    const { commentEvaluations } = this.state
+    let nodeState = this.refs[ref].getInnerState()
+    submitEvaluation(commentId, nodeState.chosenLevel, null).then(res => {
+      if(res.code === 200) {
+        this.setState({
+          commentEvaluations: commentEvaluations.filter((evaluation, index) => evaluation.commentId !== commentId)
+        })
+      }
     })
   }
 
@@ -168,7 +183,8 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
 
     const {
       commentList = [], showDiscuss, isReply, placeholder, showAll, filterContent, wordsCount = 60,
-      evaluated, showEvaluateBox = false, evaluateReason = '', usefulState, uselessState
+      evaluated, showEvaluateBox = false, evaluateReason = '', usefulState, uselessState,
+      commentEvaluations
     } = this.state
     const { topic, content, applicationId, planId } = this.state.article
 
@@ -247,6 +263,26 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       )
     }
 
+    const renderAsstEvaluate = () => {
+      if(commentEvaluations.length === 0) return
+      return (
+        <div className="star-rating-box">
+          {
+            commentEvaluations.map((evaluation, index) => {
+              return (
+                <StarRating
+                  key={evaluation.id}
+                  ref={`evaluation${evaluation.id}`}
+                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你的学习理解和应用有帮助吗？来匿名反馈，帮助教练做得更好吧！`}
+                  confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
+                />
+              )
+            })
+          }
+        </div>
+      )
+    }
+
     return (
       <div className="application-comment-message">
         <div className="article">
@@ -264,7 +300,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
           <div className="comment-header">当前评论</div>
           {renderCommentList()}
         </div>
-        {renderEvaluate()}
+        {/*{renderEvaluate()}*/}
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         {
           showDiscuss ?
@@ -288,11 +324,11 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
                     evaluateReason = node.value
                     const { dispatch } = this.props
                     if(evaluateReason.length > 0) {
-                      this.setState({ evaluateReason: evaluateReason, showEvaluateBox:false }, () => {
+                      this.setState({ evaluateReason: evaluateReason, showEvaluateBox: false }, () => {
                         this.handleClickSubmitEvaluation()
                       })
                     } else {
-                      dispatch(alertMsg("请输入反馈信息哦"))
+                      dispatch(alertMsg('请输入反馈信息哦'))
                     }
                   }
                 }}>提交
@@ -302,6 +338,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
             </div> :
             null
         }
+        {renderAsstEvaluate()}
       </div>
     )
   }

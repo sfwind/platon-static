@@ -310,7 +310,7 @@ export class Comment extends React.Component<any, any> {
                 <StarRating
                   key={evaluation.id}
                   ref={`evaluation${evaluation.id}`}
-                  desc={`${evaluation.nickName} ${evaluation.id}对你的评论是否有帮助呢`}
+                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你的学习理解和应用有帮助吗？来匿名反馈，帮助教练做得更好吧！`}
                   confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
                 />
               )
