@@ -82,7 +82,6 @@ export default class Editor extends React.Component<EditorProps,any> {
       pasteImage: false,
       imageButton: 'upload',
       defaultImage: this.props.defaultImage || "https://static.iqycamp.com/images/imgLoading.png?imageslim", //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'
-      toolbarFloat: false
     });
 
     editor.on('valuechanged', (e) => {
