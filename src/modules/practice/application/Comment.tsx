@@ -10,6 +10,8 @@ import DiscussShow from '../components/DiscussShow'
 import Discuss from '../components/Discuss'
 import { scroll, filterHtmlTag } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
+import { StarRating } from '../../../components/starvote/StarRating'
+import { submitEvaluation } from '../../message/async'
 
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
@@ -35,13 +37,18 @@ export class Comment extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
     getApplicationPractice(location.query.submitId).then(res => {
+      console.log('res1', res)
       if(res.code === 200) {
         this.setState({ article: res.msg, filterContent: filterHtmlTag(res.msg.content) })
         loadCommentList(location.query.submitId, 1).then(res => {
+          console.log('res2', res)
           dispatch(endLoad())
           if(res.code === 200) {
             this.setState({
-              commentList: res.msg.list, page: 1, end: res.msg.end,
+              page: 1,
+              end: res.msg.end,
+              commentList: res.msg.list,
+              commentEvaluations: res.msg.commentEvaluations,
               isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback
             })
             //从消息中心打开时，锚定到指定评论
@@ -221,8 +228,21 @@ export class Comment extends React.Component<any, any> {
     }
   }
 
+  handleEvaluateComment(ref, commentId) {
+    const { commentEvaluations } = this.state
+    let nodeState = this.refs[ref].getInnerState()
+    submitEvaluation(commentId, nodeState.chosenLevel, null).then(res => {
+      if(res.code === 200) {
+        this.setState({
+          commentEvaluations: commentEvaluations.filter((evaluation, index) => evaluation.commentId !== commentId)
+        })
+      }
+    })
+  }
+
   render() {
-    const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60 } = this.state
+    const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60, commentEvaluations = [] } = this.state
+    console.log(commentEvaluations)
     const { topic, content, voteCount = 0, voteStatus } = this.state.article
     const { submitId } = this.props.location.query
     const renderCommentList = () => {
@@ -280,8 +300,28 @@ export class Comment extends React.Component<any, any> {
       return null
     }
 
+    const renderAsstEvaluate = () => {
+      if(commentEvaluations.length === 0) return
+      return (
+        <div className="star-rating-box">
+          {
+            commentEvaluations.map((evaluation, index) => {
+              return (
+                <StarRating
+                  key={evaluation.id}
+                  ref={`evaluation${evaluation.id}`}
+                  desc={`${evaluation.nickName} ${evaluation.id}对你的评论是否有帮助呢`}
+                  confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
+                />
+              )
+            })
+          }
+        </div>
+      )
+    }
+
     return (
-      <div>
+      <div className="application-container">
         <div className="application-comment">
           <div className="article">
             <div className="article-header">{topic}</div>
@@ -312,16 +352,19 @@ export class Comment extends React.Component<any, any> {
             </div>
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
+
         </div>
-        {showDiscuss ?
-          <Discuss isReply={isReply} placeholder={placeholder} limit={10000}
-                   submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                   cancel={() => this.cancel()}
-          /> :
-          <div className="write-discuss" onClick={() => this.openWriteBox()}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-          </div>
+        {
+          showDiscuss ?
+            <Discuss isReply={isReply} placeholder={placeholder} limit={10000}
+                     submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                     cancel={() => this.cancel()}
+            /> :
+            <div className="write-discuss" onClick={() => this.openWriteBox()}>
+              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+            </div>
         }
+        {renderAsstEvaluate()}
       </div>
     )
   }

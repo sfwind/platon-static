@@ -4,6 +4,9 @@ import './StarRating.less'
 interface StarRatingProps {
   // 星星的个数，默认是五个
   levels?: number;
+  // 描述信息
+  desc: string;
+  confirmFunc: any;
 }
 interface StarRatingState {
   showConfirmButton: boolean;
@@ -27,14 +30,11 @@ export class StarRating extends React.Component<StarRatingProps, StarRatingState
   }
 
   componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
-      this.props = nextProps
-      this.render()
-    }
+    this.props = nextProps
+    this.render()
   }
 
   handleSelect(level) {
-    console.log('you click ' + level)
     const levelDesc = {
       '1': '没帮助',
       '2': '帮助不大',
@@ -51,7 +51,7 @@ export class StarRating extends React.Component<StarRatingProps, StarRatingState
   }
 
   render() {
-    const { levels = 5 } = this.props
+    const { levels = 5, desc = '觉得教练评论的怎么样？', confirmFunc = () => {this.getInnerState()} } = this.props
     const { showConfirmButton = false, chosenLevel, chosenLevelDesc = '' } = this.state
 
     const renderStars = () => {
@@ -68,7 +68,7 @@ export class StarRating extends React.Component<StarRatingProps, StarRatingState
     return (
       <div className={`star-rating-component ${showConfirmButton ? 'selected' : ''}`}>
         <div className="star-rating">
-          <span className="desc">1/1 三十文教练的评论，对你的学习理解和应用有帮助吗？来匿名反馈，帮助教练做得更好吧！</span>
+          <span className="desc">{desc}</span>
           <div className="stars">
             {renderStars()}
           </div>
@@ -77,7 +77,7 @@ export class StarRating extends React.Component<StarRatingProps, StarRatingState
         {
           showConfirmButton ?
             <div className="confirm">
-              <span>确定</span>
+              <span onClick={() => confirmFunc()}>确定</span>
             </div> :
             null
         }

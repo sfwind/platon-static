@@ -23,11 +23,11 @@ render(
   </Provider>,
   document.getElementById(window.ENV.reactMountPoint))
 
-var clientWidth = 0;
-if(document.body.clientWidth > 414){
-  clientWidth = 414
+var fontSize = 0
+if(document.body.clientWidth > 414) {
+  fontSize = 414 / 37.5
 } else {
-  clientWidth = document.body.clientWidth
+  fontSize = document.body.clientWidth / 37.5
 }
 
-document.getElementsByTagName('html')[0].style.fontSize = clientWidth / 37.5 + "px"
+document.getElementsByTagName('html')[0].style.fontSize = fontSize + 'px'
