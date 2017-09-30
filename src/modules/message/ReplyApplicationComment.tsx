@@ -184,7 +184,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     const {
       commentList = [], showDiscuss, isReply, placeholder, showAll, filterContent, wordsCount = 60,
       evaluated, showEvaluateBox = false, evaluateReason = '', usefulState, uselessState,
-      commentEvaluations
+      commentEvaluations = []
     } = this.state
     const { topic, content, applicationId, planId } = this.state.article
 
