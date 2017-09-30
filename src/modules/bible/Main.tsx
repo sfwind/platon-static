@@ -30,7 +30,7 @@ export default class Main extends React.Component<any, any> {
     this.state = {
       page: 1,
       data: [],
-      today: moment().format('YYYY-MM-DD'),
+      today: moment('2017-09-30').format('YYYY-MM-DD'),
       end: false,
       openTip: false,
     }
@@ -77,7 +77,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   compareWithNow(last_time) {
-    let diff = moment(last_time).diff(moment(), 'days')
+    let diff = moment(last_time).diff(moment('2017-09-30', 'YYYY-MM-DD'), 'days')
     return diff
   }
 
@@ -234,21 +234,21 @@ export default class Main extends React.Component<any, any> {
                     {renderTag(article.tagName)}
                   </span>
                   {article.showOpsButtons ?<div className="ops-area">
-                      <div className="ops-tips">
-                        是否加入学习记录?
+                    <div className="ops-tips">
+                      是否加入学习记录?
+                    </div>
+                    <div className="ops-button-area">
+                      <div className="ops-button blue first"
+                           onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
+                        是，已认真学习
                       </div>
-                      <div className="ops-button-area">
-                        <div className="ops-button blue first"
-                             onClick={()=>{ this.complete(article.id, index, dateIdx) }}>
-                          是，已认真学习
-                        </div>
-                        <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
-                             style={{marginLeft:`${this.notFirstBtnML}px`}}
-                             onClick={()=>this.dislike(article.id, index, dateIdx)}>
-                          否，随便看了看
-                        </div>
+                      <div className={`ops-button not-first ${article.disfavor === 0? '': 'disfavor'}`}
+                           style={{marginLeft:`${this.notFirstBtnML}px`}}
+                           onClick={()=>this.dislike(article.id, index, dateIdx)}>
+                        否，随便看了看
                       </div>
-                    </div>: null}
+                    </div>
+                  </div>: null}
                 </div>
               </div>
             )
