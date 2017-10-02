@@ -164,6 +164,9 @@ export default class PlanList extends React.Component<any, any> {
     const renderBanners = () => {
       // TODO:去掉hardcoding
       const banners = [ {
+        "imageUrl": "https://static.iqycamp.com/images/fragment/rise_member_banner_2.jpg?imageslim",
+        "linkUrl": "https://www.iquanwai.com/pay/rise"
+      }, {
         "imageUrl": "https://static.iqycamp.com/images/fragment/problem_explore_banner_monthly_10.png?imageslim",
         "linkUrl": "https://www.iquanwai.com/pay/camp"
       } ]
