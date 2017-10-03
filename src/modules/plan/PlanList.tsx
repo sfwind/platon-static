@@ -154,7 +154,7 @@ export default class PlanList extends React.Component<any, any> {
         return null
       } else {
         return (
-          <div className="p-r-b-i-text-close">
+          <div className="problem-item-text-close">
             距关闭：{deadline}&nbsp;天
           </div>
         )
@@ -210,10 +210,10 @@ export default class PlanList extends React.Component<any, any> {
             runningPlans.map((item, key) => {
               return (
                 <div id={`problem-${item.planId}`}
-                     className={`p-r-block`}
+                     className={`problem-block`}
                      key={key} onClick={() => this.handleClickPlan(item)}>
-                  <div className="p-r-b-item" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
-                    <div className="p-r-b-i-pic">
+                  <div className="problem-item" style={{ padding: key === 0 ? '18px 15px 20px' : '20px 15px' }}>
+                    <div className="problem-item-pic">
                       <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
                       <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
                       <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
@@ -222,11 +222,11 @@ export default class PlanList extends React.Component<any, any> {
                       {/*<span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>*/}
                       {/*</div>*/}
                     </div>
-                    <div className="p-r-b-i-text">
-                      <div className="p-r-b-i-text-title">
+                    <div className="problem-item-text">
+                      <div className="problem-item-text-title">
                         {item.name}
                       </div>
-                      <div className="p-r-b-i-text-done">
+                      <div className="problem-item-text-done">
                         已完成：{`${item.completeSeries}/${item.totalSeries}节`}
                       </div>
                       {renderDeadline(item.deadline)}
