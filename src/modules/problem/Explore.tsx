@@ -128,7 +128,6 @@ export class Explore extends React.Component<any, any> {
               </div>
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">
-                  {console.log('热门小课', hotList)}
                   {hotList ? hotList.map((problem, index) => {
                     return (
                       <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide"
