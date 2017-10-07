@@ -82,6 +82,8 @@ export default class ProblemGallery extends React.Component<any, any> {
                   {item.type == 2 ? '【优秀组长】' + item.month + '月小课训练营' : ''}
                   {item.type == 3 ? '【优秀学员】' + item.month + '月小课训练营' : ''}
                   {item.type == 4 ? '【优秀团队】' + item.month + '月小课训练营' : ''}
+                  {item.type == 5 ? '【毕业证书】' + item.month + '月小课训练营' : ''}
+                  {item.type == 6 ? '【优秀助教】' + item.month + '月小课训练营' : ''}
                 </div>
                 <div className="item-content">
 
