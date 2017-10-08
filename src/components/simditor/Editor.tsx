@@ -94,13 +94,13 @@ export default class Editor extends React.Component<EditorProps,any> {
       this.handleValueChanged();
     })
 
-    editor.on('focus',()=>{
-      $('.simditor').css('margin-bottom','150px');
-    })
-
-    editor.on('blur',()=>{
-      $('.simditor').css('margin-bottom','');
-    })
+    // editor.on('focus',()=>{
+    //   $('.simditor').css('margin-bottom','150px');
+    // })
+    //
+    // editor.on('blur',()=>{
+    //   $('.simditor').css('margin-bottom','');
+    // })
 
     editor.on('pasting', (e, $content) => {
       // 图片处理

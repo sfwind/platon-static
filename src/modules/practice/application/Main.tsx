@@ -223,20 +223,22 @@ export class Main extends React.Component <any, any> {
   }
 
   autoSave() {
-    let value = this.refs.editor.getValue()
-    let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-    if(storageDraft) {
-      if(this.props.location.query.id === storageDraft.id) {
+    if(this.refs.editor) {
+      let value = this.refs.editor.getValue()
+      let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
+      if(storageDraft) {
+        if(this.props.location.query.id === storageDraft.id) {
+          window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
+            id: this.props.location.query.id, content: value
+          }))
+        } else {
+          this.clearStorage()
+        }
+      } else {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
           id: this.props.location.query.id, content: value
         }))
-      } else {
-        this.clearStorage()
       }
-    } else {
-      window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-        id: this.props.location.query.id, content: value
-      }))
     }
   }
 
@@ -250,16 +252,18 @@ export class Main extends React.Component <any, any> {
     timer = setInterval(() => {
       const planId = this.state.planId
       const applicationId = this.props.location.query.id
-      const draft = this.refs.editor.getValue()
-      if(draft.trim().length > 0) {
-        if(this.state.autoPushDraftFlag) {
-          console.log('set false');
-          autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
-            if(res.code === 200) {
-              this.clearStorage()
-            }
-          })
-          this.setState({ autoPushDraftFlag: false });
+      if(this.refs.editor) {
+        const draft = this.refs.editor.getValue()
+        if(draft.trim().length > 0) {
+          if(this.state.autoPushDraftFlag) {
+            console.log('set false');
+            autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
+              if(res.code === 200) {
+                this.clearStorage()
+              }
+            })
+            this.setState({ autoPushDraftFlag: false });
+          }
         }
       }
     }, 10000)
@@ -354,7 +358,9 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true })
+          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
+            window.scrollTo(0, 0);
+          })
         }
         if(complete == 'false') {
           dispatch(set('completePracticePlanId', practicePlanId))
@@ -555,7 +561,7 @@ export class Main extends React.Component <any, any> {
             <div className="button-footer disabled">提交中</div> :
             edit ?
               <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
-              null}
+              <div/>}
         </RenderInBody>
         <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
           { renderCompleteBox() }
