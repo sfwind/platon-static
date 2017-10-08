@@ -432,7 +432,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   }
                   <div className={`left pay`}
                        onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
-                    加入商学院
+                    加入商学院，立即学习
                   </div>
                 </div>
               )
@@ -484,7 +484,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <div className="button-footer">
                   <div className="split-left"
                        onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
-                    加入商学院
+                    加入商学院，立即学习
                   </div>
                   <div className="split-right" onClick={() => this.setState({ showEvaluation: true })}>
                     免费获取
@@ -555,9 +555,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <div className="context-audio">
                   <Audio url={audio} words={audioWords}/>
                 </div> : null }
-              <div>
-                <pre className="pi-c-f-c-text">{why}</pre>
-              </div>
+              <pre className="pi-c-f-c-text" dangerouslySetInnerHTML={{ __html: why }}/>
             </div>
           </div>
           <div className="pi-c-man white-content mg-25">

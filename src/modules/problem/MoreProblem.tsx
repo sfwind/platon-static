@@ -2,7 +2,6 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { merge } from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { changeTitle } from 'utils/helpers'
 import './MoreProblem.less'
 import { loadCatalog } from './async'
 import ProblemItem from './components/ProblemItem'
@@ -20,8 +19,6 @@ export class MoreProblem extends React.Component<any, any> {
     }
     this.picWidth = window.innerWidth * 0.4 - 25
     this.picHeight = 80 / 130 * this.picWdith
-    this.bigFontSize = 13 / 375 * window.innerWidth
-    this.smallFontSize = 12 / 375 * window.innerWidth
   }
 
   componentWillMount() {

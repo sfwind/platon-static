@@ -470,63 +470,14 @@ export class Main extends React.Component <any, any> {
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
       if(!showCompletedBox || completdApplicationCnt === 0) return
-      if(isRiseMember == 1) {
-        return (
-          <div>
-            <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-            <div className="complete-box"
-                 style={{
-                   width: 310,
-                   left: (window.innerWidth - 310) / 2
-                 }}>
-              <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
-            </div>
+      return (
+        <div>
+          <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
+          <div className="complete-box">
+            <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore}积分。</div>
           </div>
-        )
-      } else {
-        if(completdApplicationCnt > 3) {
-          return (
-            <div>
-              <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-              <div className="complete-box"
-                   style={{
-                     width: 310,
-                     left: (window.innerWidth - 310) / 2
-                   }}>
-                <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore} 积分。</div>
-              </div>
-            </div>
-          )
-        } else {
-          switch(completdApplicationCnt) {
-            case 3:
-              return (
-                <div>
-                  <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-                  <div className="complete-box complete"
-                       onClick={() => {this.context.router.push('/rise/static/customer/account')}}>
-                    <div className="complete-tip-content">
-                      好厉害！你完成了3个应用练习，20元奖学金get！<br/>
-                      可以在个人中心里查看哦。
-                    </div>
-                  </div>
-                </div>
-              )
-            default:
-              return (
-                <div>
-                  <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-                  <div className="complete-box">
-                    <div className="complete-tip-content">
-                      好棒！你完成了 1 个应用练习，+10 积分。<br/>
-                      再完成 { 3 - completdApplicationCnt } 个应用练习，就可以获得20元奖学金了，加油哦！
-                    </div>
-                  </div>
-                </div>
-              )
-          }
-        }
-      }
+        </div>
+      )
     }
 
     return (
@@ -564,12 +515,6 @@ export class Main extends React.Component <any, any> {
               {
                 content === null ?
                   <div className="award_application">
-                    {
-                      isRiseMember != 1 && completdApplicationCnt < 3 ?
-                        <AssetImg url="https://static.iqycamp.com/images/fragment/award_application.png"
-                                  width={window.innerWidth}/> :
-                        null
-                    }
                     刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~
                   </div> :
                   '我的作业'

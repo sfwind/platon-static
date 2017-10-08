@@ -5,11 +5,6 @@ export default class ProblemItem extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {}
-
-    this.picWidth = (this.props.width ? this.props.width : window.innerWidth) * 0.4 - 25
-    this.picHeight = 80 / 130 * this.picWidth
-    this.bigFontSize = 13 / 375 * (this.props.width ? this.props.width : window.innerWidth)
-    this.smallFontSize = 12 / 375 * (this.props.width ? this.props.width : window.innerWidth)
   }
 
   render() {

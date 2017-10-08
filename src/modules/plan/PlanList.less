@@ -95,8 +95,8 @@
 
       span {
         display: block;
-        font-size: 1.2em;
-        line-height: 1.2em;
+        font-size: 1.2rem;
+        line-height: 1.2rem;
         white-space: normal;
         color: @color_context;
       }
@@ -108,11 +108,11 @@
       width: 50px;
       position: relative;
       .tips-word {
-        width: 1em;
+        width: 1rem;
         font-size: @font_click;
         color: @color_title;
         display: inline-block;
-        line-height: 1.3em;
+        line-height: 1.3rem;
         -webkit-transform: translateY(-50%);
         -moz-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
@@ -185,20 +185,22 @@
       }
     }
 
-    .p-r-block {
+    .problem-block {
       margin: 0 auto;
-      -webkit-transition: transform 1s;
-      -moz-transition: transform 1s;
-      -ms-transition: transform 1s;
-      -o-transition: transform 1s;
       transition: transform 1s;
-      &.last {
-        margin-bottom: 0;
-      }
-      &.first {
+      &:first-child {
         margin-top: 0;
       }
-      .p-r-b-item {
+      &:last-child {
+        margin-bottom: 0;
+      }
+      //&.last {
+      //  margin-bottom: 0;
+      //}
+      //&.first {
+      //  margin-top: 0;
+      //}
+      .problem-item {
         background-color: #FFF;
         padding: 20px 15px;
         position: relative;
@@ -208,8 +210,8 @@
           clear: both;
           display: block;
         }
-        .p-r-b-i-pic {
-          width: 120px;
+        .problem-item-pic {
+          width: 11rem;
           height: 75px;
           display: inline-block;
           overflow: hidden;
@@ -220,7 +222,7 @@
           -moz-border-radius: 3px;
           border-radius: 3px;
           .problem-background-electronic();
-          .p-r-b-i-pic-img {
+          .problem-item-pic-img {
             width: auto;
             height: 100%;
             position: absolute;
@@ -256,8 +258,8 @@
             }
           }
         }
-        .p-r-b-i-text {
-          width: ~"calc(100% - 120px)";
+        .problem-item-text {
+          width: ~"calc(100% - 11rem)";
           height: 75px;
           display: inline-block;
           position: relative;
@@ -265,24 +267,24 @@
           > div {
             position: relative;
           }
-          .p-r-b-i-text-title {
-            font-size: 1.5em;
-            line-height: 1.5em;
+          .problem-item-text-title {
+            font-size: 1.5rem;
+            line-height: 1.5rem;
             color: #333;
             word-wrap: break-word;
             padding: 0 0 0 15px;
           }
-          .p-r-b-i-text-done {
-            font-size: 1.2em;
-            line-height: 1.2em;
+          .problem-item-text-done {
+            font-size: 1.2rem;
+            line-height: 1.2rem;
             color: #666;
             word-wrap: break-word;
             margin-top: 5px;
             padding: 0 0 0 15px;
           }
-          .p-r-b-i-text-close {
-            font-size: 1.2em;
-            line-height: 1.2em;
+          .problem-item-text-close {
+            font-size: 1.2rem;
+            line-height: 1.2rem;
             color: #666;
             word-wrap: break-word;
             margin-top: 5px;
@@ -296,6 +298,16 @@
             background-size: 100% 100%;
             right: 0;
             bottom: 0;
+            font-size: 13px;
+            line-height: 24px;
+            text-align: center;
+            color: #FFFFFF;
+            border-radius: 3px;
+
+            &.lock {
+              background-image: none;
+              background-color: #CCCCCC;
+            }
           }
         }
       }
@@ -303,6 +315,7 @@
   }
 
   .plp-completed {
+    min-height: 30rem;
     border-bottom: 2px solid #F5F5F5;
     .p-c-header {
       height: 20px;
@@ -373,13 +386,13 @@
               position: relative;
               max-width: 90%;
               .p-c-b-t-l-title {
-                font-size: 1.5em;
-                line-height: 1.5em;
+                font-size: 1.5rem;
+                line-height: 1.5rem;
                 color: #333;
               }
               .p-c-b-t-l-close {
-                font-size: 1.2em;
-                line-height: 1.2em;
+                font-size: 1.2rem;
+                line-height: 1.2rem;
                 color: #666;
               }
             }
@@ -387,7 +400,7 @@
               position: absolute;
               right: 5%;
               top: 50%;
-              font-size: 1.5em;
+              font-size: 1.5rem;
               color: #333;
               transform: translateY(-50%);
             }
@@ -449,8 +462,8 @@
     color: #fff;
     position: absolute;
     text-align: center;
-    font-size: 2.0em;
-    line-height: 2.0em;
+    font-size: 2.0rem;
+    line-height: 2.0rem;
     top: 50%;
     transform: translateY(-50%);
   }
