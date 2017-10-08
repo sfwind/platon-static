@@ -695,7 +695,7 @@ router.get("/rise/problem/open/*", (req, res) => {
             }],
             "subCatalog": "思考能力",
             "catalog": "打造自己"
-          }, "fee": 0.01, "buttonStatus": 6, "planId": 10496, "bindMobile": true, "isFull": true
+          }, "fee": 0.01, "buttonStatus": 1, "planId": 10496, "bindMobile": true, "isFull": true
         }, "code": 200
       }
     ), Math.random() * 1500);

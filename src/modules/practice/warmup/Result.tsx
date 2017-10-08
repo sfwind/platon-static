@@ -4,6 +4,7 @@ import "./Result.less";
 // import { loadKnowledgeIntro } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export class Result extends React.Component <any, any> {
@@ -62,9 +63,12 @@ export class Result extends React.Component <any, any> {
                 <div className="count-circle">
                   <div className="context-img">
                     <div className="answer-pic">
-                      {rightNumber===total ? <AssetImg width="100%"  style={{margin:'0 auto'}} url="https://static.iqycamp.com/images/answer_allright.png" />
-                      :<AssetImg style={{margin:'0 auto'}}  width="100%"  url="https://static.iqycamp.com/images/answer_not_allright.png" />}
-                      <div className="answer-word"><span className="answer-right">{rightNumber}</span><span className="answer-total">{'/ '}{total}</span></div>
+                      {rightNumber === total ?<AssetImg width="100%" style={{margin:'0 auto'}}
+                                                        url="https://static.iqycamp.com/images/answer_allright.png"/>
+                        :<AssetImg style={{margin:'0 auto'}} width="100%"
+                                   url="https://static.iqycamp.com/images/answer_not_allright.png"/>}
+                      <div className="answer-word"><span className="answer-right">{rightNumber}</span><span
+                        className="answer-total">{'/ '}{total}</span></div>
                     </div>
                   </div>
                 </div>
@@ -78,10 +82,12 @@ export class Result extends React.Component <any, any> {
             </div>
           </div>
         </div>
-        <div className="button-footer">
-          <div className="left" onClick={this.nextTask.bind(this)}>返回</div>
-          <div className="right" onClick={this.onSubmit.bind(this)}>答题解析</div>
-        </div>
+        <RenderInBody>
+          <div className="button-footer">
+            <div className="left" onClick={this.nextTask.bind(this)}>返回</div>
+            <div className="right" onClick={this.onSubmit.bind(this)}>答题解析</div>
+          </div>
+        </RenderInBody>
       </div>
     )
   }

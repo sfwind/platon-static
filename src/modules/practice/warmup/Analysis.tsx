@@ -9,6 +9,7 @@ import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import _ from 'lodash'
 import { scroll } from '../../../utils/helpers'
+import RenderInBody from '../../../components/RenderInBody'
 
 const sequenceMap = {
   0: 'A',
@@ -53,8 +54,8 @@ export class Analysis extends React.Component <any, any> {
         this.setState({ currentIndex: warmupCurrentIndex })
       }
       this.setState({ list: msg, practiceCount: msg.practice.length })
-      if(msg.practice[0].knowledge) {
-        this.setState({ knowledgeId: msg.practice[0].knowledge.id })
+      if(msg.practice[ 0 ].knowledge) {
+        this.setState({ knowledgeId: msg.practice[ 0 ].knowledge.id })
       }
     }
     else dispatch(alertMsg(msg))
@@ -91,7 +92,7 @@ export class Analysis extends React.Component <any, any> {
     const { dispatch } = this.props
     let { list, currentIndex } = this.state
     const { practice = [] } = list
-    const { id } = practice[currentIndex]
+    const { id } = practice[ currentIndex ]
 
     loadWarmUpDiscuss(id, 1).then(res => {
       dispatch(endLoad())
@@ -130,7 +131,7 @@ export class Analysis extends React.Component <any, any> {
     const { dispatch } = this.props
     const { repliedId, content, list, currentIndex } = this.state
     const { practice = [] } = list
-    const { id } = practice[currentIndex]
+    const { id } = practice[ currentIndex ]
     if(content.length == 0) {
       dispatch(alertMsg('请填写评论'))
       return
@@ -160,7 +161,7 @@ export class Analysis extends React.Component <any, any> {
     deleteComment(discussId).then(res => {
       let { list, currentIndex } = this.state
       const { practice = [] } = list
-      const { id } = practice[currentIndex]
+      const { id } = practice[ currentIndex ]
 
       loadWarmUpDiscuss(id, 1).then(res => {
         dispatch(endLoad())
@@ -272,45 +273,51 @@ export class Analysis extends React.Component <any, any> {
       return (
         <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index${choice.selected ? ' selected' : ''}`}/>
-          <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
+          <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
         </div>
       )
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const myAnswerRender = (choice, idx) => {
-      return (choice.selected ? sequenceMap[idx] + ' ' : '')
+      return (choice.selected ? sequenceMap[ idx ] + ' ' : '')
     }
 
     return (
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-            {practice[currentIndex] && practice[currentIndex].knowledge ?
-              <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+            {practice[ currentIndex ] && practice[ currentIndex ].knowledge ?
+              <div className="page-header">{practice[ currentIndex ].knowledge.knowledge}</div> :
               <div className="page-header">综合练习</div>
             }
-            {questionRender(practice[currentIndex] || {})}
+            {questionRender(practice[ currentIndex ] || {})}
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {showDiscuss ? null :
-          <div className="button-footer">
-            <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>上一题
-            </div>
-            {currentIndex + 1 < practiceCount ?
-              <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-              <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
-          </div>}
-        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                cancel={() => this.cancel()}/> :
-          <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-          </div>}
+        <RenderInBody>
+          <div>
+            {showDiscuss ? null :
+              <div className="button-footer">
+                <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>
+                  上一题
+                </div>
+                {currentIndex + 1 < practiceCount ?
+                  <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+                  <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
+              </div>}
+            {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                    cancel={() => this.cancel()}/> :
+              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
+                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+              </div>}
+          </div>
+        </RenderInBody>
+
       </div>
     )
   }

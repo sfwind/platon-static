@@ -17,7 +17,7 @@ import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-
+import RenderInBody from '../../../components/RenderInBody'
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
@@ -77,7 +77,7 @@ export class Main extends React.Component <any, any> {
           } else {
             // 非同步的，展示localStorage,除非localStorage里没有内容
             let draft = storageDraft.content ? storageDraft.content : msg.draft;
-            console.log('local',storageDraft.content,msg.draft)
+            console.log('local', storageDraft.content, msg.draft)
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: draft,
@@ -151,11 +151,12 @@ export class Main extends React.Component <any, any> {
   }
 
   componentDidUpdate() {
-    if(!this.pullElement) {
+    const { showOthers, otherList } = this.state;
+    if(!this.pullElement && showOthers && !isEmpty(otherList)) {
       // 有内容并且米有pullElement
       const { dispatch } = this.props
       this.pullElement = new PullElement({
-        target: '.container',
+        target: '.app-work-list',
         scroller: '.container',
         damping: 3,
         detectScroll: true,
@@ -539,7 +540,7 @@ export class Main extends React.Component <any, any> {
             }
             {
               showOthers && !isEmpty(otherList) ?
-                <div>
+                <div className="app-work-list">
                   <div className="submit-bar">{'同学的作业'}</div>
                   {renderList(otherList)}</div> :
                 null
@@ -549,13 +550,13 @@ export class Main extends React.Component <any, any> {
           </div>
         </div>
 
-        {
-          showDisable ?
+        <RenderInBody>
+          {showDisable ?
             <div className="button-footer disabled">提交中</div> :
             edit ?
               <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
-              null
-        }
+              null}
+        </RenderInBody>
         <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
           { renderCompleteBox() }
         </div>

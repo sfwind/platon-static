@@ -6,6 +6,7 @@ import { queryEventList, mark } from './async'
 import { ToolBar } from '../base/ToolBar'
 import { changeTitle, goOtherWeb } from '../../utils/helpers'
 import Banner from '../../components/Banner'
+import RenderInBody from '../../components/RenderInBody'
 
 @connect(state => state)
 export class EventWall extends React.Component<any, any> {
@@ -26,7 +27,9 @@ export class EventWall extends React.Component<any, any> {
       this.barItemPd = ((window.innerWidth - 30) - (this.barItemWidth * 4)) / 6
     }
   }
-
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
   componentWillMount() {
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -36,26 +39,26 @@ export class EventWall extends React.Component<any, any> {
       if(res.code === 200) {
         let liveList = [], workList = [], offlineList = [], areaList = [], bannerList = []
         for(let i = 0; i < res.msg.length; i++) {
-          switch(res.msg[i].type) {
+          switch(res.msg[ i ].type) {
             case 1:
-              liveList.push(res.msg[i])
+              liveList.push(res.msg[ i ])
               break
             case 2:
-              workList.push(res.msg[i])
+              workList.push(res.msg[ i ])
               break
             case 3:
-              offlineList.push(res.msg[i])
+              offlineList.push(res.msg[ i ])
               break
             case 4:
-              areaList.push(res.msg[i])
+              areaList.push(res.msg[ i ])
               break
             default:
-              liveList.push(res.msg[i])
+              liveList.push(res.msg[ i ])
               break
           }
-          if(res.msg[i].banner) {
+          if(res.msg[ i ].banner) {
             // 放到banner 注意，如果要做刷新，这里会有坑
-            bannerList.push(res.msg[i])
+            bannerList.push(res.msg[ i ])
           }
         }
         this.setState({
@@ -177,7 +180,9 @@ export class EventWall extends React.Component<any, any> {
           </div>
         </div>
         {this.renderTabBody()}
-        <ToolBar />
+        <RenderInBody>
+          <ToolBar noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
+        </RenderInBody>
       </div>
     )
   }

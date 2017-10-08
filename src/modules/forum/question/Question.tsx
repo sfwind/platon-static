@@ -10,10 +10,10 @@ import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import _ from "lodash";
 import QuestionAnswer from "./QuestionAnswer"
 import FullScreenDialog from "../../../components/FullScreenDialog"
-
 import "./Question.less";
 import AssetImg from "../../../components/AssetImg";
 import PullSlideTip from '../../../components/PullSlideTip'
+import RenderInBody from '../../../components/RenderInBody'
 
 interface QuestionStates {
   questions: object;
@@ -305,7 +305,9 @@ export default class Question extends React.Component<any, QuestionStates> {
       return (
         <div>
           <div style={{ height: '50px' }} className="padding-footer"/>
-          <ToolBar/>
+          <RenderInBody>
+            <ToolBar  noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
+          </RenderInBody>
         </div>
       )
     }

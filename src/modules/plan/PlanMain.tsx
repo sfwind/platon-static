@@ -16,6 +16,7 @@ import SwipeableViews from 'react-swipeable-views'
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 import { mark } from '../../utils/request'
+import RenderInBody from '../../components/RenderInBody'
 import { ToolBar } from '../base/ToolBar'
 const { Alert } = Dialog
 var FastClick = require('fastclick')
@@ -892,7 +893,8 @@ export class PlanMain extends React.Component <any, any> {
                dangerouslySetInnerHTML={{ __html: '限免小课已到期，请到发现页面再次开启小课' }}/>
         </Alert>
       )
-      others.push(<ToolBar/>)
+      others.push(<RenderInBody><ToolBar noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex}
+                                         dispatch={this.props.dispatch} router={this.context.router}/></RenderInBody>)
       if(showScoreModal) {
         others.push(<DropChoice onSubmit={(questionList) => this.submitScore(questionList)}
                                 onClose={() => this.setState({ showScoreModal: false }, () => {
@@ -1025,7 +1027,7 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     return (
-      <div className="rise-main-container" id="rise-main-container">
+      <div className="rise-main-container" id="rise-main-container" style={{height:window.innerHeight}}>
         {renderCard()}
         <Sidebar
           sidebar={ renderSidebar() } open={this.state.sidebarOpen}

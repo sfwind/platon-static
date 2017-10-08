@@ -8,6 +8,7 @@ import Editor from "../../../components/simditor/Editor"
 import { merge } from 'lodash'
 import { mark } from "../../../utils/request"
 import AssetImg from "../../../components/AssetImg";
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -161,12 +162,14 @@ export class Main extends React.Component <any, any> {
             </div>
           </div>
         </div>
-        { showDisable ?
-          <div className="button-footer disabled">提交中</div>
-          :
-          edit ?
-            <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>: null
-        }
+        <RenderInBody>
+          { showDisable ?
+            <div className="button-footer disabled">提交中</div>
+            :
+            edit ?
+              <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>: null
+          }
+        </RenderInBody>
       </div>
     )
   }

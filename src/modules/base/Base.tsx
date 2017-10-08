@@ -8,7 +8,6 @@ import AssetImg from "../../components/AssetImg";
 const P = "base"
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
-// let iNoBounce = require('../../components/iNoBounce.js')
 const { Alert } = Dialog
 import { toLower, get } from "lodash";
 import { pget } from "utils/request";
@@ -75,11 +74,6 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    // iNoBounce(window);
-    // // window.iNoBounce = this.iNoBounce;
-    // // window.iNoBounce.disable();
-    // const { dispatch } = this.props;
-    // dispatch(set('iNoBounce', window.iNoBounce));
     config([ 'chooseWXPay' ])
   }
 

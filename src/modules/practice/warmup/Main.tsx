@@ -8,6 +8,7 @@ import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import Tutorial from '../../../components/Tutorial'
 import AssetImg from '../../../components/AssetImg'
 import { scroll } from '../../../utils/helpers'
+import RenderInBody from '../../../components/RenderInBody'
 
 const sequenceMap = {
   0: 'A',
@@ -57,8 +58,8 @@ export class Main extends React.Component <any, any> {
           currentIndex = selectedChoices.length - 1
         }
         this.setState({ list, practiceCount: msg.practice.length, currentIndex, selected })
-        if(msg.practice[0].knowledge) {
-          this.setState({ knowledgeId: msg.practice[0].knowledge.id })
+        if(msg.practice[ 0 ].knowledge) {
+          this.setState({ knowledgeId: msg.practice[ 0 ].knowledge.id })
         }
       }
     } else dispatch(alertMsg(msg))
@@ -84,13 +85,13 @@ export class Main extends React.Component <any, any> {
     if(storageDraft && storageDraft.id == practicePlanId) {
       let { selectedChoices } = storageDraft
       if(selectedChoices.length >= currentIndex + 1) {
-        selectedChoices[currentIndex] = _list
+        selectedChoices[ currentIndex ] = _list
       } else {
         selectedChoices.push(_list)
       }
     } else {
       // 初始化
-      storageDraft = { id: practicePlanId, selectedChoices: [_list] }
+      storageDraft = { id: practicePlanId, selectedChoices: [ _list ] }
     }
     window.localStorage.setItem(WARMUP_AUTO_SAVING, JSON.stringify(storageDraft))
     this.setState({ selected: _list })
@@ -110,7 +111,7 @@ export class Main extends React.Component <any, any> {
     const { currentIndex, list } = this.state
     if(currentIndex > 0) {
       this.setChoice()
-      const selected = list.practice[`${currentIndex - 1}`].choice
+      const selected = list.practice[ `${currentIndex - 1}` ].choice
       this.setState({ currentIndex: currentIndex - 1, selected })
       dispatch(set('warmup_currentIndex', currentIndex - 1))
     }
@@ -129,7 +130,7 @@ export class Main extends React.Component <any, any> {
 
     if(currentIndex < practiceCount - 1) {
       this.setChoice()
-      let selected = list.practice[`${currentIndex + 1}`].choice
+      let selected = list.practice[ `${currentIndex + 1}` ].choice
       if(!selected) {
         selected = []
       }
@@ -246,9 +247,9 @@ export class Main extends React.Component <any, any> {
       return (
         <div key={id} className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}
              onClick={e => this.onChoiceSelected(id)}>
-          <span className={`index ${selected.indexOf(id) > -1 ? ' selected' : ''}`}>{sequenceMap[idx]}</span>
+          <span className={`index ${selected.indexOf(id) > -1 ? ' selected' : ''}`}>{sequenceMap[ idx ]}</span>
           <span
-            className={`text`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
+            className={`text`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
         </div>
       )
     }
@@ -258,20 +259,22 @@ export class Main extends React.Component <any, any> {
         <div>
           <div className="container has-footer" style={{ height: window.innerHeight - 49 }}>
             <div className="warm-up">
-              {practice[currentIndex] && practice[currentIndex].knowledge ?
-                <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
+              {practice[ currentIndex ] && practice[ currentIndex ].knowledge ?
+                <div className="page-header">{practice[ currentIndex ].knowledge.knowledge}</div> :
                 <div className="page-header">综合练习</div>
               }
-              {questionRender(practice[currentIndex] || {})}
+              {questionRender(practice[ currentIndex ] || {})}
             </div>
           </div>
-          <div className="button-footer">
-            <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
+          <RenderInBody>
+            <div className="button-footer">
+              <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
+              </div>
+              { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
+              }
             </div>
-            { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-              <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
-            }
-          </div>
+          </RenderInBody>
         </div>
         <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']}
                   show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}
