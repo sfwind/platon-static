@@ -10,7 +10,7 @@ export default class ForumBase extends React.Component {
   render() {
     return (
       <div className="forumbase-container">
-        <div className="forumbase-page" style={{ minHeight: window.innerHeight, height: window.innerHeight }}>
+        <div className="forumbase-page">
           {this.props.children}
         </div>
       </div>

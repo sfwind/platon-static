@@ -156,10 +156,11 @@ export class Main extends React.Component <any, any> {
       // 有内容并且米有pullElement
       const { dispatch } = this.props
       this.pullElement = new PullElement({
-        target: '.app-work-list',
-        scroller: '.app-work-list',
+        target: '.react-app',
+        scroller: 'body',
+        trigger:'.app-work-list',
         damping: 3,
-        detectScroll: true,
+        detectScroll: false,
         detectScrollOnStart: true,
 
         onPullUp: (data) => {
@@ -492,7 +493,7 @@ export class Main extends React.Component <any, any> {
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <div className={`container ${edit ? 'has-footer' : ''}`}>
+        <div className={`container ${edit ? 'has-footer' : ''}`} >
           <div className="page-header">{topic}</div>
           <div className="intro-container">
             <div className="application-context">
@@ -548,7 +549,7 @@ export class Main extends React.Component <any, any> {
               showOthers && !isEmpty(otherList) ?
                 <div>
                   <div className="submit-bar">{'同学的作业'}</div>
-                  <div className="app-work-list" style={{maxHeight:`${window.innerHeight-20}px`}}>
+                  <div className="app-work-list">
                     {renderList(otherList)}
                     {renderEnd()}
                   </div>

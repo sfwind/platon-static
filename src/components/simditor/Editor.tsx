@@ -74,11 +74,12 @@ export default class Editor extends React.Component<EditorProps,any> {
   componentDidMount() {
     let editor = new Simditor({
       textarea: document.querySelector(`#${this.props.id ? this.props.id : "editor"}`),
-      toolbar: [ 'image', 'bold', 'ol', 'ul',  ],
+      toolbar: [ 'image', 'bold', 'ol', 'ul', ],
       upload: {
         url: '/file/image/upload/' + this.props.moduleId || 2,
         fileKey: 'file'
       },
+      toolbarFloat: true,
       pasteImage: false,
       imageButton: 'upload',
       defaultImage: this.props.defaultImage || "https://static.iqycamp.com/images/imgLoading.png?imageslim", //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'

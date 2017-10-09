@@ -192,11 +192,7 @@ export default class PlanList extends React.Component<any, any> {
     return (
       <div className="plan-list-page" style={{ minHeight: window.innerHeight + 30 }}>
         {renderBanners()}
-
-        <RenderInBody>
-          <ToolBar noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
-        </RenderInBody>
-
+        <ToolBar/>
         <div className="plp-running plp-block">
           <div className="p-r-header">
             <span className="p-r-h-title">进行中</span>

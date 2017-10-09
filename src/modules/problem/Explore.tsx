@@ -211,9 +211,7 @@ export class Explore extends React.Component<any, any> {
           </div>
         </div>
         <div className="padding-footer"/>
-        <RenderInBody>
-          <ToolBar noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
-        </RenderInBody>
+          <ToolBar/>
       </div>
     )
   }

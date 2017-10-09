@@ -65,12 +65,8 @@ const tabItems = {
  * 3.增加handleChangeTab，增加点击事件
  * 导航项最少三个，最多五个
  */
-@connect(state => state)
-export class ToolBar extends React.Component<any,any> {
+export class ToolBarNoConnect extends React.Component<any,any> {
 
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
 
   componentWillMount() {
     let tabs = [];
@@ -127,17 +123,17 @@ export class ToolBar extends React.Component<any,any> {
     const { dispatch } = this.props;
     dispatch(set('tabIndex', tabIndex))
     if(tabIndex === 0) {
-      this.context.router.push('/rise/static/learn');
+      this.props.router.push('/rise/static/learn');
     } else if(tabIndex === 1) {
-      this.context.router.push('/rise/static/event/wall');
+      this.props.router.push('/rise/static/event/wall');
     } else if(tabIndex === 2) {
-      this.context.router.push({
+      this.props.router.push({
         pathname: '/rise/static/problem/explore',
       })
     } else if(tabIndex === 3) {
-      this.context.router.push("/rise/static/customer/personal");
+      this.props.router.push("/rise/static/customer/personal");
     } else if(tabIndex === 4) {
-      this.context.router.push("/forum/static/question");
+      this.props.router.push("/forum/static/question");
     }
   }
 

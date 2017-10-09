@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import PullElement from 'pull-element';
-import { ToolBar } from "../../base/ToolBar";
+import { ToolBarNoConnect } from "../../base/ToolBarNoConnect";
 import { DialogHead } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions, getQuestion, searchQuestion } from "../async";
 import { mark } from "../../../utils/request"
@@ -100,11 +100,11 @@ export default class Question extends React.Component<any, QuestionStates> {
     if(!this.pullElement) {
       this.pullElement = new PullElement({
         target: '.question-page',
-        scroller: '.question-page',
+        scroller: '.question-container',
         // trigger: '.pull-slide-tips',
         damping: 4,
         detectScroll: true,
-        detectScrollOnStart: true,
+        detectScrollOnStart: false,
         onPullUp: (data) => {
           if(this.props.iNoBounce) {
             if(this.props.iNoBounce.isEnabled()) {
@@ -157,7 +157,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           }
         }
       })
-      this.pullElement.init();
+      // this.pullElement.init();
     }
     if(this.pullElement && this.state.end) {
       this.pullElement.destroy();
@@ -306,7 +306,7 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div>
           <div style={{ height: '50px' }} className="padding-footer"/>
           <RenderInBody>
-            <ToolBar  noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
+            <ToolBarNoConnect  noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
           </RenderInBody>
         </div>
       )

@@ -180,9 +180,7 @@ export class EventWall extends React.Component<any, any> {
           </div>
         </div>
         {this.renderTabBody()}
-        <RenderInBody>
-          <ToolBar noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
-        </RenderInBody>
+          <ToolBar/>
       </div>
     )
   }

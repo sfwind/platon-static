@@ -29,7 +29,7 @@ export class Customer extends React.Component<any,any> {
           triggerTab: () => this.triggerTab(), showTab: () => this.setState({ hiddenTab: false }),
           hiddenTab: () => this.setState({ hiddenTab: true })
         })}
-        {this.state.hiddenTab ? null :<RenderInBody><ToolBar noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/></RenderInBody>}
+        {this.state.hiddenTab ? null :<ToolBar/>}
         <div style={{width:'100%',height:'1px'}}></div>
       </div>
     )

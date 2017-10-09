@@ -893,8 +893,7 @@ export class PlanMain extends React.Component <any, any> {
                dangerouslySetInnerHTML={{ __html: '限免小课已到期，请到发现页面再次开启小课' }}/>
         </Alert>
       )
-      others.push(<RenderInBody><ToolBar noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex}
-                                         dispatch={this.props.dispatch} router={this.context.router}/></RenderInBody>)
+      others.push(<ToolBar/>)
       if(showScoreModal) {
         others.push(<DropChoice onSubmit={(questionList) => this.submitScore(questionList)}
                                 onClose={() => this.setState({ showScoreModal: false }, () => {
