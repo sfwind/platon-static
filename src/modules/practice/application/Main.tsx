@@ -157,7 +157,7 @@ export class Main extends React.Component <any, any> {
       const { dispatch } = this.props
       this.pullElement = new PullElement({
         target: '.app-work-list',
-        scroller: '.container',
+        scroller: '.app-work-list',
         damping: 3,
         detectScroll: true,
         detectScrollOnStart: true,
@@ -548,11 +548,12 @@ export class Main extends React.Component <any, any> {
               showOthers && !isEmpty(otherList) ?
                 <div className="app-work-list">
                   <div className="submit-bar">{'同学的作业'}</div>
-                  {renderList(otherList)}</div> :
+                  {renderList(otherList)}
+                  {renderEnd()}
+                </div> :
                 null
             }
             {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
-            {renderEnd()}
           </div>
         </div>
 
