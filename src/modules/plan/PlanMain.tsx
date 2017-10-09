@@ -801,7 +801,7 @@ export class PlanMain extends React.Component <any, any> {
         } else if(reportStatus === -2) {
           // 没有完成，需要先完成
           lastBtn = (
-            <div className="click-btn" onClick={() => this.handleClickUnComplete()}>
+            <div className="click-btn" onClick={() => this.complete()}>
               <div className="psbf-w-next-btn complete disabled">
                 完成小课
               </div>
