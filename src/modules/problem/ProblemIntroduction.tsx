@@ -555,9 +555,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <div className="context-audio">
                   <Audio url={audio} words={audioWords}/>
                 </div> : null }
-              <div>
-                <pre className="pi-c-f-c-text">{why}</pre>
-              </div>
+              <pre className="pi-c-f-c-text" dangerouslySetInnerHTML={{ __html: why }}/>
             </div>
           </div>
           <div className="pi-c-man white-content mg-25">

@@ -32,9 +32,9 @@ export default class Main extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         //用户没有填姓名时，跳转填写姓名
-        if(!res.msg.name){
-          this.context.router.push({pathname:'/rise/static/customer/certificate/profile', query:{certificateNo}})
-        }else{
+        if(!res.msg.name) {
+          this.context.router.push({ pathname: '/rise/static/customer/certificate/profile', query: { certificateNo } })
+        } else {
           this.setState(res.msg)
         }
       } else {
@@ -62,11 +62,15 @@ export default class Main extends React.Component<any, any> {
   }
 
   render() {
-    const { initialScale, backgroundPicHeight, backgroundPicWidth,
-      month, name, typeName, congratulation, problemName, certificateNo } = this.state
+    const {
+      initialScale, backgroundPicHeight, backgroundPicWidth,
+      month, name, typeName, congratulation, problemName, certificateNo, type
+    } = this.state
     return (
       <div className="certificate-container">
-        <div className="certificate" style={{width:backgroundPicWidth, height:backgroundPicHeight, transform: `scale(${initialScale})`,
+        {type ?
+        <div className={`certificate ${type === 5?'ordinary':'excellent'}`} style={{width:backgroundPicWidth, height:backgroundPicHeight, transform:
+         `scale(${initialScale})`,
            WebkitTransform: `scale(${initialScale})` }}>
           <div className="certificate-description">
             <div className="description-text1">圈外同学 • {month}月小课训练营</div>
@@ -81,10 +85,11 @@ export default class Main extends React.Component<any, any> {
           <pre className="cong">
             {congratulation}
           </pre>
-          <div className="certificate-number">
+          <div className={`certificate-number ${type === 5?'ordinary':''}`}>
             证书编号：{certificateNo}
           </div>
-        </div>
+        </div> : null
+        }
       </div>
     )
   }

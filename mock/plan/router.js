@@ -424,6 +424,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 27,
             "startDate": "2017-09-10",
             "closeTime": null,
+            "learnable":true,
             "problem": {
               "id": 6,
               "problem": "写出令HR过目难忘的简历",
@@ -469,6 +470,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 29,
             "startDate": "2017-09-12",
             "closeTime": null,
+            "learnable":true,
             "problem": {
               "id": 7,
               "problem": "在面试中脱颖而出",
@@ -515,6 +517,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 0,
             "startDate": "2017-08-09",
             "closeTime": "2017-09-09",
+            "learnable":true,
             "problem": {
               "id": 23,
               "problem": "如何高效学习",
@@ -560,6 +563,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 0,
             "startDate": "2017-08-08",
             "closeTime": "2017-09-08",
+            "learnable":true,
             "problem": {
               "id": 21,
               "problem": "双赢谈判：不撕逼也能得到你想要的",
@@ -605,6 +609,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 0,
             "startDate": "2017-05-20",
             "closeTime": "2017-06-20",
+            "learnable":true,
             "problem": {
               "id": 14,
               "problem": "如何用故事说服别人",
@@ -640,7 +645,6 @@ router.get("/rise/plan/list", (req, res) => {
               "monthlyCampMonth": null
             }
           }],
-          "trialClosedPlans": [],
           "recommendations": [{
             "id": 16,
             "problem": "影响力：让他人不再对我们说不",
