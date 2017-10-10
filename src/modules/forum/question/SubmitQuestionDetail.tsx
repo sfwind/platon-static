@@ -71,7 +71,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
   submit() {
     const { dispatch, location } = this.props
-    const { title, selectedTagList,tagList } = this.state
+    const { title, selectedTagList, tagList } = this.state
     const detail = this.refs.editor.getValue()
     if(!detail) {
       dispatch(alertMsg('问题描述不能为空哦'))
@@ -99,7 +99,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       })
     }
 
-    if(tagIds.length === 0){
+    if(tagIds.length === 0) {
       dispatch(alertMsg('请先选择标签哦'))
       return
     }
@@ -234,6 +234,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       return (
         <div className="editor">
           <Editor
+            toolbarFloat={false}
             ref="editor"
             moduleId="5"
             maxLength="1000"

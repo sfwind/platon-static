@@ -7,6 +7,14 @@ export default class ForumBase extends React.Component {
     super()
   }
 
+  componentDidMount() {
+    document.querySelector('#react-app').className = 'scrollable';
+  }
+
+  componentWillUnmount() {
+    document.querySelector('#react-app').className = '';
+  }
+
   render() {
     return (
       <div className="forumbase-container">

@@ -11,7 +11,8 @@ interface EditorProps {
   value?: string,
   placeholder?: string,
   moduleId: string,
-  defaultImage?: string
+  defaultImage?: string,
+  toolbarFloat?: boolean,
 }
 
 export default class Editor extends React.Component<EditorProps,any> {
@@ -79,7 +80,7 @@ export default class Editor extends React.Component<EditorProps,any> {
         url: '/file/image/upload/' + this.props.moduleId || 2,
         fileKey: 'file'
       },
-      toolbarFloat: true,
+      toolbarFloat: _.get(this.props, 'toolbarFloat', true),
       pasteImage: false,
       imageButton: 'upload',
       defaultImage: this.props.defaultImage || "https://static.iqycamp.com/images/imgLoading.png?imageslim", //'//p0.meituan.net/dprainbow/958829a6a26fc858e17c7594d38233187415.png'

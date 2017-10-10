@@ -18,6 +18,7 @@ import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
 import RenderInBody from '../../../components/RenderInBody'
+import MiniRefreshTools from 'minirefresh';
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
@@ -156,9 +157,9 @@ export class Main extends React.Component <any, any> {
       // 有内容并且米有pullElement
       const { dispatch } = this.props
       this.pullElement = new PullElement({
-        target: '.react-app',
+        target: '#react-app',
         scroller: 'body',
-        trigger:'.app-work-list',
+        trigger: '.app-work-list',
         damping: 3,
         detectScroll: false,
         detectScrollOnStart: true,
@@ -458,7 +459,7 @@ export class Main extends React.Component <any, any> {
       if(showOthers) {
         if(loading) {
           return (
-            <div style={{ textAlign: 'center', margin: '5px 0' }}>
+            <div style={{ textAlign: 'center', margin: '5px 0 60px' }}>
               <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
             </div>
           )
@@ -493,7 +494,7 @@ export class Main extends React.Component <any, any> {
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <div className={`container ${edit ? 'has-footer' : ''}`} >
+        <div className={`container ${edit ? 'has-footer' : ''}`}>
           <div className="page-header">{topic}</div>
           <div className="intro-container">
             <div className="application-context">
@@ -556,7 +557,8 @@ export class Main extends React.Component <any, any> {
                 </div>:
                 null
             }
-            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
+            {!showOthers ?<div className="show-others-tip" onClick={this.others.bind(this)}>
+              同学的作业</div> : (!isEmpty(otherList) ? null : renderEnd()) }
           </div>
         </div>
 

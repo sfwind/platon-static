@@ -15,6 +15,7 @@ import AssetImg from "../../../components/AssetImg";
 import PullSlideTip from '../../../components/PullSlideTip'
 import RenderInBody from '../../../components/RenderInBody'
 
+
 interface QuestionStates {
   questions: object;
   // 分页获取 Question 列表分页数
@@ -100,7 +101,7 @@ export default class Question extends React.Component<any, QuestionStates> {
     if(!this.pullElement) {
       this.pullElement = new PullElement({
         target: '.question-page',
-        scroller: '.question-container',
+        scroller: '.question-page',
         // trigger: '.pull-slide-tips',
         damping: 4,
         detectScroll: true,
@@ -157,7 +158,7 @@ export default class Question extends React.Component<any, QuestionStates> {
           }
         }
       })
-      // this.pullElement.init();
+      this.pullElement.init();
     }
     if(this.pullElement && this.state.end) {
       this.pullElement.destroy();

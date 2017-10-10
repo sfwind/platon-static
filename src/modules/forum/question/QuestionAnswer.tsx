@@ -63,7 +63,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     if(!questionId) {
       questionId = this.props.location.query.questionId
     }
-    mark({ module: "打点", function: "论坛", action: "打开问题详情页",memo: questionId})
+    mark({ module: "打点", function: "论坛", action: "打开问题详情页", memo: questionId })
 
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -408,6 +408,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return (
         <div className="answer-editor">
           <Editor
+            toolbarFloat={false}
             ref="editor" moduleId="6" maxLength="10000" scrollContainer="answer-container"
             value={this.state.myAnswer.answer}
             placeholder="回答问题时，可以试试以下的思路：<br>1，澄清对问题的理解；<br>2，分析可能的原因；<br>3，提供建议和解决方案；<br>4，说明使用的哪一门小课/知识点，帮助自己回顾学到的知识。"

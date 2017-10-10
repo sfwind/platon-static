@@ -9,15 +9,13 @@ html, body {
   //overflow: auto;
 }
 
-
 #react-app {
-  //overflow: auto;
-  //> * {
-  //  height: 100%;
-  //  > * {
-  //    height: 100%;
-  //  }
-  //}
+  overflow: auto;
+  &.scrollable {
+    height: 100vh;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .clear {
     clear: both;
   }
