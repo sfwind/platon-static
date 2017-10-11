@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { pget, ppost, mark } from 'utils/request'
-import { changeTitle } from 'utils/helpers'
+import { changeTitle, unScrollToBorder } from 'utils/helpers'
 import './Account.less'
 
 @connect(state => state)
@@ -26,7 +26,9 @@ export default class Rise extends React.Component<any, any> {
     pget('/rise/customer/account').then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ data: res.msg })
+        this.setState({ data: res.msg }, () => {
+          unScrollToBorder('.coupon-box');
+        })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -122,7 +124,7 @@ export default class Rise extends React.Component<any, any> {
             {mobile ? <span>{mobile}</span> : <span style={{ color: '#ccc' }}>去绑定手机号&nbsp;&nbsp;</span>}
           </div>
         </div>
-        { renderCoupons() }
+        {renderCoupons()}
       </div>
     )
   }

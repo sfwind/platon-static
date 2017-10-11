@@ -233,13 +233,20 @@ class ButtonStatus {
 
 export let buttonStatus = new ButtonStatus();
 
+function scrollLimit(e) {
+  let _this = this;
+  if(_this.scrollTop >= _this.scrollHeight - _this.clientHeight - 1) {
+    _this.scrollTop = _this.scrollHeight - _this.clientHeight - 1;
+  } else if(_this.scrollTop <= 1) {
+    _this.scrollTop = 1;
+  }
+}
+
 export function unScrollToBorder(selector) {
-  document.querySelector(selector).addEventListener('scroll', function(e) {
-    let _this = this;
-    if(_this.scrollTop >= _this.scrollHeight - _this.clientHeight - 1) {
-      _this.scrollTop = _this.scrollHeight - _this.clientHeight - 1;
-    } else if(_this.scrollTop <= 1) {
-      _this.scrollTop = 1;
-    }
-  })
+  console.log('绑定', selector);
+  document.querySelector(selector).addEventListener('scroll', scrollLimit)
+  return () => {
+    console.log('解绑')
+    document.querySelector(selector).removeEventListener('scroll', scrollLimit)
+  };
 }

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import "./FullScreenDialog.less";
+import { unScrollToBorder } from '../utils/helpers'
 
-export default class FullScreenDialog extends React.Component<any,any> {
+export default class FullScreenDialog extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,13 +34,14 @@ export default class FullScreenDialog extends React.Component<any,any> {
   }
 
   componentDidMount() {
-    document.querySelector('.full-screen-dialog').addEventListener('touchmove', (e) => {
-      e.stopPropagation();
-      console.log('dialog', e);
-    });
-    window.addEventListener('touchmove', (e) => {
-      console.log('window move', e);
-    })
+    this.setState({ removeScrollLimit: unScrollToBorder('.full-screen-dialog') });
+  }
+
+  componentWillUnmount() {
+    const { removeScrollLimit } = this.state;
+    if(removeScrollLimit) {
+      removeScrollLimit();
+    }
   }
 
   render() {

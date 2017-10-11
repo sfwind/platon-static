@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { queryEventList, mark } from './async'
 import { ToolBar } from '../base/ToolBar'
-import { changeTitle, goOtherWeb } from '../../utils/helpers'
+import { changeTitle, goOtherWeb, unScrollToBorder } from '../../utils/helpers'
 import Banner from '../../components/Banner'
 import RenderInBody from '../../components/RenderInBody'
 
@@ -27,9 +27,11 @@ export class EventWall extends React.Component<any, any> {
       this.barItemPd = ((window.innerWidth - 30) - (this.barItemWidth * 4)) / 6
     }
   }
+
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
+
   componentWillMount() {
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -71,6 +73,10 @@ export class EventWall extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+  }
+
+  componentDidMount() {
+    unScrollToBorder('.event-tab-body');
   }
 
   goEvent(item) {
@@ -180,7 +186,7 @@ export class EventWall extends React.Component<any, any> {
           </div>
         </div>
         {this.renderTabBody()}
-          <ToolBar/>
+        <ToolBar/>
       </div>
     )
   }

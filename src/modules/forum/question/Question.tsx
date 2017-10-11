@@ -5,7 +5,7 @@ import { ToolBarNoConnect } from "../../base/ToolBarNoConnect";
 import { DialogHead } from "../commons/ForumComponent";
 import { disFollow, follow, getAllQuestions, getQuestion, searchQuestion } from "../async";
 import { mark } from "../../../utils/request"
-import { splitText, removeHtmlTags, changeTitle } from "../../../utils/helpers"
+import { splitText, removeHtmlTags, changeTitle, unScrollToBorder } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import _ from "lodash";
 import QuestionAnswer from "./QuestionAnswer"
@@ -14,7 +14,6 @@ import "./Question.less";
 import AssetImg from "../../../components/AssetImg";
 import PullSlideTip from '../../../components/PullSlideTip'
 import RenderInBody from '../../../components/RenderInBody'
-
 
 interface QuestionStates {
   questions: object;
@@ -94,6 +93,10 @@ export default class Question extends React.Component<any, QuestionStates> {
     this.timer = setInterval(() => this.handleKeyboardUp(), 200);
 
     dispatch(set('title', undefined));
+  }
+
+  componentDidMount() {
+    // unScrollToBorder('.question-page');
   }
 
   componentDidUpdate() {
@@ -224,8 +227,8 @@ export default class Question extends React.Component<any, QuestionStates> {
     }
   }
 
-  closeDialog(){
-    this.setState({show:false})
+  closeDialog() {
+    this.setState({ show: false })
   }
 
   render() {
@@ -307,7 +310,8 @@ export default class Question extends React.Component<any, QuestionStates> {
         <div>
           <div style={{ height: '50px' }} className="padding-footer"/>
           <RenderInBody>
-            <ToolBarNoConnect  noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex} dispatch={this.props.dispatch} router={this.context.router}/>
+            <ToolBarNoConnect noticeMsgCount={this.props.noticeMsgCount} tabIndex={this.props.tabIndex}
+                              dispatch={this.props.dispatch} router={this.context.router}/>
           </RenderInBody>
         </div>
       )
@@ -316,7 +320,7 @@ export default class Question extends React.Component<any, QuestionStates> {
     return (
       <div className="question-container">
         <div className="question-feedback" onClick={() => this.handleClickFeedback()}><span>意见反馈&nbsp;&gt;</span></div>
-        <div className={`question-page ${show ? '': 'toolbar'}`}>
+        <div className={`question-page ${show ? '' : 'toolbar'}`}>
           <div className="search-nav">
             <div className="search">
               <input type="text" className="search-input" placeholder='去搜索' ref="searchInput"
@@ -325,7 +329,7 @@ export default class Question extends React.Component<any, QuestionStates> {
                      onBlur={(e) => this.handleSearch(e.currentTarget.value)}/>
             </div>
           </div>
-          { init ?
+          {init ?
             <div className="ques-nav-btn" onClick={this.handleClickGoQuestionInitPage.bind(this)}>
               <AssetImg url="https://static.iqycamp.com/images/rise_icon_go_question.png" height={27}
                         style={{ verticalAlign: 'middle' }}/>
@@ -335,7 +339,7 @@ export default class Question extends React.Component<any, QuestionStates> {
             </div>
           }
           {init ? <GreyBanner height="20px"/> : <GreyBanner height="35px" content={'相关问题'}/>}
-          <div style={{display: `${init ? '' : 'none'}`}}>
+          <div style={{ display: `${init ? '' : 'none'}` }}>
             {renderQuestionList()}
             <PullSlideTip isEnd={this.state.end}/>
           </div>
@@ -345,7 +349,7 @@ export default class Question extends React.Component<any, QuestionStates> {
 
         </div>
         {show ?
-          <FullScreenDialog close={()=> this.closeDialog()} hash="#answer" level={1}>
+          <FullScreenDialog close={() => this.closeDialog()} hash="#answer" level={1}>
             <QuestionAnswer questionId={questionId}/>
           </FullScreenDialog> :
           renderOtherComponents()}
