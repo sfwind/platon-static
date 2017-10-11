@@ -15,10 +15,11 @@ import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodas
 import Tutorial from '../../../components/Tutorial'
 import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
-import { scroll } from '../../../utils/helpers'
+import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
 import RenderInBody from '../../../components/RenderInBody'
 import MiniRefreshTools from 'minirefresh';
+
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
@@ -443,13 +444,13 @@ export class Main extends React.Component <any, any> {
         return (
           <div>
             <Work {...data}
-              onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
-              onEdit={() => this.onEdit()}
-              headImage={window.ENV.headImage}
-              userName={window.ENV.userName}
-              type={CommentType.Application}
-              articleModule={ArticleViewModule.Application}
-              goComment={() => this.goComment(submitId)}/>
+                  onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
+                  onEdit={() => this.onEdit()}
+                  headImage={window.ENV.headImage}
+                  userName={window.ENV.userName}
+                  type={CommentType.Application}
+                  articleModule={ArticleViewModule.Application}
+                  goComment={() => this.goComment(submitId)}/>
           </div>
         )
       }
@@ -491,7 +492,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div className="application">
-        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
+        <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
@@ -506,7 +507,7 @@ export class Main extends React.Component <any, any> {
                 pic ?
                   <div className="app-image">
                     <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                              onClick={() => {preview(pic, [pic])}}/>
+                              onClick={() => {preview(pic, [ pic ])}}/>
                   </div> :
                   null
               }
@@ -541,24 +542,24 @@ export class Main extends React.Component <any, any> {
                     autoSave={() => {
                       this.autoSave()
                     }}
-                    onChange={(value)=>this.handleChangeValue(value)}
+                    onChange={(value) => this.handleChangeValue(value)}
                   />
                 </div> :
                 null
             }
             {
-              showOthers && !isEmpty(otherList) ?
+              showOthers ?
                 <div>
                   <div className="submit-bar">{'同学的作业'}</div>
                   <div className="app-work-list">
                     {renderList(otherList)}
                     {renderEnd()}
                   </div>
-                </div>:
+                </div> :
                 null
             }
-            {!showOthers ?<div className="show-others-tip" onClick={this.others.bind(this)}>
-              同学的作业</div> : (!isEmpty(otherList) ? null : renderEnd()) }
+            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>
+              同学的作业</div> : null}
           </div>
         </div>
 
@@ -570,7 +571,7 @@ export class Main extends React.Component <any, any> {
               <div/>}
         </RenderInBody>
         <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
-          { renderCompleteBox() }
+          {renderCompleteBox()}
         </div>
       </div>
     )

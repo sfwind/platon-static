@@ -11,7 +11,7 @@ import DropChoice from '../../components/DropChoice'
 import { merge, isBoolean, get, isEmpty } from 'lodash'
 import { Toast, Dialog } from 'react-weui'
 import { Sidebar } from '../../components/Sidebar'
-import { NumberToChinese, changeTitle } from '../../utils/helpers'
+import { NumberToChinese, changeTitle, unScrollToBorder } from '../../utils/helpers'
 import SwipeableViews from 'react-swipeable-views'
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
@@ -236,6 +236,7 @@ export class PlanMain extends React.Component <any, any> {
             swipePropagation: false,
             handlers: [ 'wheel', 'touch' ]
           })
+          unScrollToBorder('#sidebar-content');
         })
       }
     })

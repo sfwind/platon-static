@@ -1,4 +1,5 @@
 import * as _ from "lodash"
+
 // import UA from "ua-device"
 
 export function ron(flag, render, normal) {
@@ -80,6 +81,7 @@ export function scroll(target, container) {
     }
   }
 }
+
 // 数字转汉字
 export function NumberToChinese(num) {
   var unitPos = 0;
@@ -180,12 +182,11 @@ class ButtonStatus {
   /**
    * 需要支付的按钮组
    */
-  private paymentGroup: [number];
+  private paymentGroup: [ number ];
   /**
    * 不需要支付的按钮组
    */
-  private notPaymentGroup: [number];
-
+  private notPaymentGroup: [ number ];
 
   constructor() {
     this.paymentGroup = [];
@@ -198,7 +199,7 @@ class ButtonStatus {
    * @returns {boolean} 按钮状态是否有效
    */
   public isValid(status: number): boolean {
-    if(status === -1){
+    if(status === -1) {
       return false;
     }
     for(let i = 0; i < this.paymentGroup.length; i++) {
@@ -231,3 +232,14 @@ class ButtonStatus {
 }
 
 export let buttonStatus = new ButtonStatus();
+
+export function unScrollToBorder(selector) {
+  document.querySelector(selector).addEventListener('scroll', function(e) {
+    let _this = this;
+    if(_this.scrollTop >= _this.scrollHeight - _this.clientHeight - 1) {
+      _this.scrollTop = _this.scrollHeight - _this.clientHeight - 1;
+    } else if(_this.scrollTop <= 1) {
+      _this.scrollTop = 1;
+    }
+  })
+}

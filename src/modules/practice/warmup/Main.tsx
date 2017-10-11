@@ -7,7 +7,7 @@ import { mark } from '../../../utils/request'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import Tutorial from '../../../components/Tutorial'
 import AssetImg from '../../../components/AssetImg'
-import { scroll } from '../../../utils/helpers'
+import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
 
 const sequenceMap = {
@@ -69,6 +69,10 @@ export class Main extends React.Component <any, any> {
         this.setState({ openStatus: res.msg })
       }
     })
+  }
+
+  componentDidMount() {
+    unScrollToBorder('.container');
   }
 
   onChoiceSelected(choiceId) {
@@ -270,13 +274,13 @@ export class Main extends React.Component <any, any> {
             <div className="button-footer">
               <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
               </div>
-              { currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+              {currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
                 <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
               }
             </div>
           </RenderInBody>
         </div>
-        <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']}
+        <Tutorial bgList={[ 'https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim' ]}
                   show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}
                   onShowEnd={() => this.tutorialEnd()}/>
       </div>
