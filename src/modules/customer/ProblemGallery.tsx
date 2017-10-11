@@ -15,6 +15,7 @@ export default class ProblemGallery extends React.Component<any, any> {
 
   constructor(props) {
     super(props)
+    this.state = {}
   }
 
   componentWillMount() {

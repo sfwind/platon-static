@@ -244,9 +244,16 @@ function scrollLimit(e) {
 
 export function unScrollToBorder(selector) {
   console.log('绑定', selector);
-  document.querySelector(selector).addEventListener('scroll', scrollLimit)
-  return () => {
-    console.log('解绑')
-    document.querySelector(selector).removeEventListener('scroll', scrollLimit)
-  };
+  let dom = document.querySelector(selector);
+  if(dom) {
+    dom.addEventListener('scroll', scrollLimit)
+    return () => {
+      console.log('解绑')
+      dom.removeEventListener('scroll', scrollLimit)
+    };
+  } else {
+    // return 空函数，防止报错
+    return () => {};
+  }
+
 }
