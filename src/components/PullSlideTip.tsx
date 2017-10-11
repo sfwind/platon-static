@@ -22,7 +22,7 @@ export default class PullSlideTip extends React.Component<PullSlideTipProps, Pul
       )
     }
     return (
-      <div className="pull-slide-tips">
+        <div className="pull-slide-tips">
         {renderTips()}
       </div>
     )

@@ -13,10 +13,12 @@ import Work from '../components/NewWork'
 import PullElement from 'pull-element'
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
 import Tutorial from '../../../components/Tutorial'
-import Editor from '../../../components/editor/Editor'
+import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
-import { scroll } from '../../../utils/helpers'
+import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
+import RenderInBody from '../../../components/RenderInBody'
+import MiniRefreshTools from 'minirefresh';
 
 let timer
 
@@ -43,7 +45,8 @@ export class Main extends React.Component <any, any> {
       isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
-      completdApplicationCnt: 1000
+      completdApplicationCnt: 1000,
+      autoPushDraftFlag: null,
     }
     this.pullElement = null
   }
@@ -59,33 +62,32 @@ export class Main extends React.Component <any, any> {
     this.setState({ integrated })
     dispatch(startLoad())
     loadApplicationPractice(id, planId).then(res => {
-      console.log(res)
       const { code, msg } = res
       if(code === 200) {
         dispatch(endLoad())
-
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-
-        // 对草稿数据进行处理
+        // localStorage里存的是这个小课的缓存
         if(storageDraft && id == storageDraft.id) {
-          if(res.msg.overrideLocalStorage) {
-            // 查看是否覆盖本地 localStorage
+          // 手动设置强制覆盖，或者msg是同步模式都需要清理localStorage
+          if(res.msg.overrideLocalStorage || msg.isSynchronized) {
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: msg.isSynchronized ? msg.content : msg.draft,
               isSynchronized: msg.isSynchronized
             })
+            this.clearStorage();
           } else {
-            let draft = storageDraft && storageDraft.id === id && storageDraft.content ? storageDraft.content : msg.draft
+            // 非同步的，展示localStorage,除非localStorage里没有内容
+            let draft = storageDraft.content ? storageDraft.content : msg.draft;
+            console.log('local', storageDraft.content, msg.draft)
             this.setState({
-              edit: true,
+              edit: !msg.isSynchronized,
               editorValue: draft,
-              isSynchronized: false
-            }, () => {
-              autoSaveApplicationDraft(planId, id, storageDraft.content)
+              isSynchronized: msg.isSynchronized
             })
           }
         } else {
+          // 没有localStorage
           this.setState({
             edit: !msg.isSynchronized,
             editorValue: msg.isSynchronized ? msg.content : msg.draft,
@@ -98,8 +100,10 @@ export class Main extends React.Component <any, any> {
           data: msg,
           submitId: msg.submitId,
           planId: msg.planId,
-          applicationScore: res.msg.applicationScore
+          applicationScore: res.msg.applicationScore,
+          autoPushDraftFlag: !msg.isSynchronized
         })
+
         const { content } = msg
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
@@ -149,14 +153,16 @@ export class Main extends React.Component <any, any> {
   }
 
   componentDidUpdate() {
-    if(!this.pullElement) {
+    const { showOthers, otherList } = this.state;
+    if(!this.pullElement && showOthers && !isEmpty(otherList)) {
       // 有内容并且米有pullElement
       const { dispatch } = this.props
       this.pullElement = new PullElement({
-        target: '.container',
-        scroller: '.container',
+        target: '#react-app',
+        scroller: 'body',
+        trigger: '.app-work-list',
         damping: 3,
-        detectScroll: true,
+        detectScroll: false,
         detectScrollOnStart: true,
 
         onPullUp: (data) => {
@@ -220,20 +226,22 @@ export class Main extends React.Component <any, any> {
   }
 
   autoSave() {
-    let value = this.refs.editor.getValue()
-    let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-    if(storageDraft) {
-      if(this.props.location.query.id === storageDraft.id) {
+    if(this.refs.editor) {
+      let value = this.refs.editor.getValue()
+      let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
+      if(storageDraft) {
+        if(this.props.location.query.id === storageDraft.id) {
+          window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
+            id: this.props.location.query.id, content: value
+          }))
+        } else {
+          this.clearStorage()
+        }
+      } else {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
           id: this.props.location.query.id, content: value
         }))
-      } else {
-        this.clearStorage()
       }
-    } else {
-      window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-        id: this.props.location.query.id, content: value
-      }))
     }
   }
 
@@ -247,13 +255,19 @@ export class Main extends React.Component <any, any> {
     timer = setInterval(() => {
       const planId = this.state.planId
       const applicationId = this.props.location.query.id
-      const draft = this.refs.editor.getValue()
-      if(draft.trim().length > 0) {
-        autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
-          if(res.code === 200) {
-            this.clearStorage()
+      if(this.refs.editor) {
+        const draft = this.refs.editor.getValue()
+        if(draft.trim().length > 0) {
+          if(this.state.autoPushDraftFlag) {
+            console.log('set false');
+            autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
+              if(res.code === 200) {
+                this.clearStorage()
+              }
+            })
+            this.setState({ autoPushDraftFlag: false });
           }
-        })
+        }
       }
     }, 10000)
   }
@@ -347,7 +361,9 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true })
+          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
+            window.scrollTo(0, 0);
+          })
         }
         if(complete == 'false') {
           dispatch(set('completePracticePlanId', practicePlanId))
@@ -382,13 +398,24 @@ export class Main extends React.Component <any, any> {
     })
   }
 
+  handleChangeValue(value) {
+    const { autoPushDraftFlag } = this.state;
+    console.log(autoPushDraftFlag);
+    if(_.isBoolean(autoPushDraftFlag)) {
+      // 非null(取到数据了) 并且没有打开保存draft的flag
+      if(!autoPushDraftFlag) {
+        console.log('value change');
+        this.setState({ autoPushDraftFlag: true });
+      }
+    }
+  }
+
   render() {
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
       showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
-
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
@@ -433,7 +460,7 @@ export class Main extends React.Component <any, any> {
       if(showOthers) {
         if(loading) {
           return (
-            <div style={{ textAlign: 'center', margin: '5px 0' }}>
+            <div style={{ textAlign: 'center', margin: '5px 0 60px' }}>
               <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
             </div>
           )
@@ -465,7 +492,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div className="application">
-        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
+        <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
@@ -480,7 +507,7 @@ export class Main extends React.Component <any, any> {
                 pic ?
                   <div className="app-image">
                     <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                              onClick={() => {preview(pic, [pic])}}/>
+                              onClick={() => {preview(pic, [ pic ])}}/>
                   </div> :
                   null
               }
@@ -510,45 +537,41 @@ export class Main extends React.Component <any, any> {
                   <Editor
                     ref="editor"
                     moduleId={3}
-                    onUploadError={(res) => {
-                      this.props.dispatch(alertMsg(res.msg))
-                    }}
-                    uploadStart={() => {
-                      this.props.dispatch(startLoad())
-                    }}
-                    uploadEnd={() => {
-                      this.props.dispatch(endLoad())
-                    }}
-                    defaultValue={this.state.editorValue}
+                    value={this.state.editorValue}
                     placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
                     autoSave={() => {
                       this.autoSave()
                     }}
+                    onChange={(value) => this.handleChangeValue(value)}
                   />
                 </div> :
                 null
             }
             {
-              showOthers && !isEmpty(otherList) ?
+              showOthers ?
                 <div>
                   <div className="submit-bar">{'同学的作业'}</div>
-                  {renderList(otherList)}</div> :
+                  <div className="app-work-list">
+                    {renderList(otherList)}
+                    {renderEnd()}
+                  </div>
+                </div> :
                 null
             }
-            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>同学的作业</div> : null}
-            {renderEnd()}
+            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>
+              同学的作业</div> : null}
           </div>
         </div>
 
-        {
-          showDisable ?
+        <RenderInBody>
+          {showDisable ?
             <div className="button-footer disabled">提交中</div> :
             edit ?
               <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
-              null
-        }
+              <div/>}
+        </RenderInBody>
         <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
-          { renderCompleteBox() }
+          {renderCompleteBox()}
         </div>
       </div>
     )

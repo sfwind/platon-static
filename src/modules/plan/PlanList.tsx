@@ -9,6 +9,7 @@ import { changeTitle } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 import Banner from '../../components/Banner'
+import RenderInBody from '../../components/RenderInBody'
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -191,7 +192,7 @@ export default class PlanList extends React.Component<any, any> {
     return (
       <div className="plan-list-page" style={{ minHeight: window.innerHeight + 30 }}>
         {renderBanners()}
-        <ToolBar />
+        <ToolBar/>
         <div className="plp-running plp-block">
           <div className="p-r-header">
             <span className="p-r-h-title">进行中</span>

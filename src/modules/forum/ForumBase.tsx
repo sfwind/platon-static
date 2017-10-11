@@ -7,10 +7,18 @@ export default class ForumBase extends React.Component {
     super()
   }
 
+  componentDidMount() {
+    document.querySelector('#react-app').className = 'scrollable';
+  }
+
+  componentWillUnmount() {
+    document.querySelector('#react-app').className = '';
+  }
+
   render() {
     return (
       <div className="forumbase-container">
-        <div className="forumbase-page" style={{ minHeight: window.innerHeight, height: window.innerHeight }}>
+        <div className="forumbase-page">
           {this.props.children}
         </div>
       </div>

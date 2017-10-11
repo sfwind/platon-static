@@ -1,36 +1,35 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import {ToolBar} from "../base/ToolBar"
-
+import { ToolBar } from "../base/ToolBar"
+import RenderInBody from '../../components/RenderInBody'
 
 @connect(state => state)
-export class Customer extends React.Component<any,any>{
+export class Customer extends React.Component<any,any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
-
-  constructor(){
+  constructor() {
     super();
     this.state = {
-      tabIndex:4,
-      hiddenTab:false,
+      tabIndex: 4,
+      hiddenTab: false,
     };
   }
 
-  triggerTab(){
-    this.setState({hiddenTab:!this.state.hiddenTab});
+  triggerTab() {
+    this.setState({ hiddenTab: !this.state.hiddenTab });
   }
 
-
-  render(){
+  render() {
     return (
       <div>
-        {this.props.children && React.cloneElement(this.props.children,{
-          triggerTab:()=>this.triggerTab(),showTab:()=>this.setState({hiddenTab:false}),hiddenTab:()=>this.setState({hiddenTab:true})
+        {this.props.children && React.cloneElement(this.props.children, {
+          triggerTab: () => this.triggerTab(), showTab: () => this.setState({ hiddenTab: false }),
+          hiddenTab: () => this.setState({ hiddenTab: true })
         })}
-        {this.state.hiddenTab?null:<ToolBar/>}
+        {this.state.hiddenTab ? null :<ToolBar/>}
         <div style={{width:'100%',height:'1px'}}></div>
       </div>
     )

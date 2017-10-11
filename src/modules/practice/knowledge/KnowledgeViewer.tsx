@@ -17,6 +17,7 @@ import _ from "lodash"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions";
 import { scroll } from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
+import RenderInBody from '../../../components/RenderInBody'
 
 const sequenceMap = {
   0: 'A',
@@ -199,11 +200,10 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
       analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
-      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio,keynoteAudioWords
+      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords
     } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
-
 
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
@@ -235,9 +235,10 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
-                { analysisAudio ? <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> : null }
+                { analysisAudio ?
+                  <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> : null }
                 <div className="text">
-                  <pre dangerouslySetInnerHTML={{ __html: analysis }} />
+                  <pre dangerouslySetInnerHTML={{ __html: analysis }}/>
                 </div>
                 { analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null }
               </div>
@@ -247,9 +248,10 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                 </div>
-                { meansAudio ? <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div> : null }
+                { meansAudio ?
+                  <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div> : null }
                 <div className="text">
-                  <pre dangerouslySetInnerHTML={{ __html: means }} />
+                  <pre dangerouslySetInnerHTML={{ __html: means }}/>
                 </div>
                 { meansPic ? <div className="context-img"><img src={meansPic}/></div> : null }
               </div>
@@ -259,9 +261,10 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                 </div>
-                { keynoteAudio ? <div className="context-audio"><Audio url={keynoteAudio}  words={keynoteAudioWords}/></div> : null }
+                { keynoteAudio ?
+                  <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords}/></div> : null }
                 <div className="text">
-                  <pre dangerouslySetInnerHTML={{ __html: keynote }} />
+                  <pre dangerouslySetInnerHTML={{ __html: keynote }}/>
                 </div>
                 { keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null }
               </div>
@@ -317,14 +320,19 @@ export class KnowledgeViewer extends React.Component<any, any> {
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {practicePlanId && !showDiscuss ?
-          <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> : null}
-        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                cancel={() => this.cancel()}/> :
-          <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-          </div>}
+        <RenderInBody>
+          <div>
+            {practicePlanId && !showDiscuss ?
+              <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> : null}
+            {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                    cancel={() => this.cancel()}/> :
+              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
+                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+              </div>}
+          </div>
+        </RenderInBody>
+
       </div>
     )
   }

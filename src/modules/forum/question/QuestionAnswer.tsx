@@ -4,12 +4,13 @@ import { connect } from "react-redux"
 import { DialogHead, DialogBottomBtn, DialogBottomIcon, ForumButton } from "../commons/ForumComponent";
 import { approveAnswer, disApproveAnswer, disFollow, follow, getQuestion, submitAnswer } from "../async";
 import { mark } from "../../../utils/request"
-import Editor from "../../../components/editor/Editor";
+import Editor from "../../../components/simditor/Editor";
 import { splitText, removeHtmlTags, scroll, changeTitle } from "../../../utils/helpers"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AnswerComment from "./AnswerComment"
 import FullScreenDialog from "../../../components/FullScreenDialog"
 import PullSlideTip from '../../../components/PullSlideTip'
+import RenderInBody from '../../../components/RenderInBody'
 
 interface QuestionAnswerStates {
   question: object;
@@ -62,7 +63,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
     if(!questionId) {
       questionId = this.props.location.query.questionId
     }
-    mark({ module: "打点", function: "论坛", action: "打开问题详情页",memo: questionId})
+    mark({ module: "打点", function: "论坛", action: "打开问题详情页", memo: questionId })
 
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -407,20 +408,14 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
       return (
         <div className="answer-editor">
           <Editor
+            toolbarFloat={false}
             ref="editor" moduleId="6" maxLength="10000" scrollContainer="answer-container"
-            defaultValue={this.state.myAnswer.answer}
+            value={this.state.myAnswer.answer}
             placeholder="回答问题时，可以试试以下的思路：<br>1，澄清对问题的理解；<br>2，分析可能的原因；<br>3，提供建议和解决方案；<br>4，说明使用的哪一门小课/知识点，帮助自己回顾学到的知识。"
-            uploadStart={() => {
-              this.props.dispatch(startLoad())
-            }}
-            uploadEnd={() => {
-              this.props.dispatch(endLoad())
-            }}
-            onUploadError={(res) => {
-              this.props.dispatch(alertMsg(res.msg))
-            }}
           />
-          <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>
+          <RenderInBody>
+            <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>
+          </RenderInBody>
         </div>
       )
     }

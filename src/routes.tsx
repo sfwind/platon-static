@@ -14,7 +14,6 @@ import { Start } from 'modules/promotion/evalution/Start'
 import { Main as Eva } from 'modules/promotion/evalution/Main'
 import { Result as EvaResult } from 'modules/promotion/evalution/Result'
 import { Share as EvaShare } from "modules/promotion/evalution/Share"
-import { Submit as ChallengePracticeSubmit } from 'modules/practice/challenge/Submit'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
 import { MessageCenter } from 'modules/message/MessageCenter'
@@ -84,7 +83,6 @@ const routes = (
       <Route path="practice/warmup/result" component={WarmUpResult}/>
       <Route path="practice/application" component={Application}/>
       <Route path="practice/challenge" component={Challenge}/>
-      <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
       <Route path="practice/application/comment" component={ApplicationComment}/>
       <Route path="practice/subject" component={Subject}/>
       <Route path="practice/subject/submit" component={SubjectSubmit}/>

@@ -1,9 +1,6 @@
 @import "../variable.less";
 
 .question-container {
-  overflow: scroll;
-  height: ~"calc(100% + 1px)";
-
   .question-feedback {
     height: 26px;
     background-color: @color_strong;
@@ -20,11 +17,11 @@
   .question-page {
     overflow: scroll;
     width: 100%;
-    height: ~"calc(100% - 26px)";
+    height: ~"calc(100vh - 26px)";
     &.toolbar{
-      height: ~"calc(100% - 26px - 50px)";
+      height: ~"calc(100vh - 26px - 50px)";
     }
-    .search-nav{
+    .search-nav {
       margin: 10px 0 10px 15px;
       width: ~"calc(100% - 135px)";
       display: inline-block;
@@ -32,9 +29,9 @@
       border-radius: @border-radius;
       background-color: @color_weak_background;
       vertical-align: top;
-      .search{
+      .search {
         width: 100%;
-        &:before{
+        &:before {
           background: url('https://static.iqycamp.com/images/fragment/search.png?imageslim') no-repeat bottom center/13px 13px;
           content: '';
           width: 13px;
@@ -53,7 +50,7 @@
           line-height: 25px;
           -webkit-appearance: none;
           background-color: @color_weak_background;
-          box-shadow:0 0 0 rgba(0,0,0,0);
+          box-shadow: 0 0 0 rgba(0, 0, 0, 0);
         }
       }
     }
@@ -64,9 +61,9 @@
       height: 47px;
       line-height: 47px;
       text-align: center;
-      float:right;
-      margin-right:15px;
-      .ques-btn{
+      float: right;
+      margin-right: 15px;
+      .ques-btn {
         font-size: @font_index;
         color: @color_title;
       }
@@ -111,8 +108,8 @@
           font-size: @font_click;
           line-height: @font_click;
           overflow: hidden;
-          text-overflow:ellipsis;
-          white-space:nowrap;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .ques-answer-persons {
           margin-top: 10px;

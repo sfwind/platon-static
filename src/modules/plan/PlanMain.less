@@ -1,7 +1,6 @@
 @import "../../style/variable";
 
 .rise-main-container {
-
   .sidebar-content {
     width: 100% !important;
     right: auto !important;
@@ -389,11 +388,13 @@
     z-index: 20;
     right: 0;
     bottom: 5px;
-    width: 74px;
+    width: 82px;
     height: 40px;
-    transform: translateX(84px);
+    transform: translateX(82px);
+    transition: transform 1s;
+    transition-delay: 1s;
     &.open {
-      animation: riseMember-left-show 1s alternate forwards;
+      transform: translateX(0px);
     }
   }
 

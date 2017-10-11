@@ -11,11 +11,12 @@ import DropChoice from '../../components/DropChoice'
 import { merge, isBoolean, get, isEmpty } from 'lodash'
 import { Toast, Dialog } from 'react-weui'
 import { Sidebar } from '../../components/Sidebar'
-import { NumberToChinese, changeTitle } from '../../utils/helpers'
+import { NumberToChinese, changeTitle, unScrollToBorder } from '../../utils/helpers'
 import SwipeableViews from 'react-swipeable-views'
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 import { mark } from '../../utils/request'
+import RenderInBody from '../../components/RenderInBody'
 import { ToolBar } from '../base/ToolBar'
 const { Alert } = Dialog
 var FastClick = require('fastclick')
@@ -235,6 +236,7 @@ export class PlanMain extends React.Component <any, any> {
             swipePropagation: false,
             handlers: [ 'wheel', 'touch' ]
           })
+          unScrollToBorder('#sidebar-content');
         })
       }
     })
@@ -1025,7 +1027,7 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     return (
-      <div className="rise-main-container" id="rise-main-container">
+      <div className="rise-main-container" id="rise-main-container" style={{height:window.innerHeight}}>
         {renderCard()}
         <Sidebar
           sidebar={ renderSidebar() } open={this.state.sidebarOpen}
