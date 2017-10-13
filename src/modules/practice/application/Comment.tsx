@@ -10,6 +10,9 @@ import DiscussShow from '../components/DiscussShow'
 import Discuss from '../components/Discuss'
 import { scroll, filterHtmlTag } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
+import { StarRating } from '../../../components/starvote/StarRating'
+import { submitEvaluation } from '../../message/async'
+import Toast from '../../../components/Toast'
 import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
@@ -22,7 +25,8 @@ export class Comment extends React.Component<any, any> {
       commentList: [],
       article: {},
       placeholder: '和作者切磋讨论一下吧',
-      filterContent: ''
+      filterContent: '',
+      showToast: false
     }
     this.commentHeight = window.innerHeight
   }
@@ -36,13 +40,18 @@ export class Comment extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
     getApplicationPractice(location.query.submitId).then(res => {
+      console.log('res1', res)
       if(res.code === 200) {
         this.setState({ article: res.msg, filterContent: filterHtmlTag(res.msg.content) })
         loadCommentList(location.query.submitId, 1).then(res => {
+          console.log('res2', res)
           dispatch(endLoad())
           if(res.code === 200) {
             this.setState({
-              commentList: res.msg.list, page: 1, end: res.msg.end,
+              page: 1,
+              end: res.msg.end,
+              commentList: res.msg.list,
+              commentEvaluations: res.msg.commentEvaluations,
               isModifiedAfterFeedback: res.msg.isModifiedAfterFeedback
             })
             //从消息中心打开时，锚定到指定评论
@@ -222,8 +231,26 @@ export class Comment extends React.Component<any, any> {
     }
   }
 
+  handleEvaluateComment(ref, commentId) {
+    const { commentEvaluations } = this.state
+    let nodeState = this.refs[ref].getInnerState()
+    submitEvaluation(commentId, nodeState.chosenLevel, null).then(res => {
+      if(res.code === 200) {
+        this.setState({
+          commentEvaluations: commentEvaluations.filter((evaluation, index) => evaluation.commentId !== commentId),
+          showToast: true
+        }, () => {
+          setTimeout(() => {
+            this.setState({ showToast: false })
+          }, 2000)
+        })
+      }
+    })
+  }
+
   render() {
-    const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60 } = this.state
+    const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60, commentEvaluations = [], showToast } = this.state
+    console.log(commentEvaluations)
     const { topic, content, voteCount = 0, voteStatus } = this.state.article
     const { submitId } = this.props.location.query
     const renderCommentList = () => {
@@ -281,8 +308,36 @@ export class Comment extends React.Component<any, any> {
       return null
     }
 
+    const renderAsstEvaluate = () => {
+      if(commentEvaluations.length === 0) return
+      return (
+        <div className="star-rating-box">
+          {
+            commentEvaluations.map((evaluation, index) => {
+              return (
+                <StarRating
+                  key={evaluation.id}
+                  ref={`evaluation${evaluation.id}`}
+                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你有帮助吗？来匿名打个分，帮助教练做得更好吧！`}
+                  confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
+                />
+              )
+            })
+          }
+        </div>
+      )
+    }
+
+    const renderOtherComponents = () => {
+      return (
+        <Toast show={showToast} timeout={2000} height={200} width={200} top={160}>
+          <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
+        </Toast>
+      )
+    }
+
     return (
-      <div>
+      <div className="application-container">
         <div className="application-comment">
           <div className="article">
             <div className="article-header">{topic}</div>
@@ -313,6 +368,7 @@ export class Comment extends React.Component<any, any> {
             </div>
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
+
         </div>
         <RenderInBody>
           {showDiscuss ?
@@ -325,6 +381,8 @@ export class Comment extends React.Component<any, any> {
             </div>
           }
         </RenderInBody>
+        {renderAsstEvaluate()}
+        {renderOtherComponents()}
       </div>
     )
   }
