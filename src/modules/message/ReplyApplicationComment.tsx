@@ -11,6 +11,7 @@ import DiscussShow from '../practice/components/DiscussShow'
 import Discuss from '../practice/components/Discuss'
 import { loadApplicationCommentOfMessage, submitEvaluation } from './async'
 import { StarRating } from '../../components/starvote/StarRating'
+import Toast from '../../components/Toast'
 
 @connect(state => state)
 export default class ReplyApplicationComment extends React.Component<any, any> {
@@ -25,7 +26,8 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       evaluated: false,
       usefulState: false,
       uselessState: false,
-      showPage: false
+      showPage: false,
+      showToast: false
     }
     this.commentHeight = window.innerHeight
   }
@@ -172,7 +174,12 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     submitEvaluation(commentId, nodeState.chosenLevel, null).then(res => {
       if(res.code === 200) {
         this.setState({
-          commentEvaluations: commentEvaluations.filter((evaluation, index) => evaluation.commentId !== commentId)
+          commentEvaluations: commentEvaluations.filter((evaluation, index) => evaluation.commentId !== commentId),
+          showToast: true
+        }, () => {
+          setTimeout(() => {
+            this.setState({ showToast: false })
+          }, 2000)
         })
       }
     })
@@ -184,7 +191,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
     const {
       commentList = [], showDiscuss, isReply, placeholder, showAll, filterContent, wordsCount = 60,
       evaluated, showEvaluateBox = false, evaluateReason = '', usefulState, uselessState,
-      commentEvaluations = []
+      commentEvaluations = [], showToast
     } = this.state
     const { topic, content, applicationId, planId } = this.state.article
 
@@ -273,13 +280,21 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
                 <StarRating
                   key={evaluation.id}
                   ref={`evaluation${evaluation.id}`}
-                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你的学习理解和应用有帮助吗？来匿名反馈，帮助教练做得更好吧！`}
+                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你有帮助吗？来匿名打个分，帮助教练做得更好吧！`}
                   confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
                 />
               )
             })
           }
         </div>
+      )
+    }
+
+    const renderOtherComponent = () => {
+      return (
+        <Toast show={showToast} timeout={2000} height={200} width={200} top={160}>
+          <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
+        </Toast>
       )
     }
 
@@ -339,6 +354,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
             null
         }
         {renderAsstEvaluate()}
+        {renderOtherComponent()}
       </div>
     )
   }

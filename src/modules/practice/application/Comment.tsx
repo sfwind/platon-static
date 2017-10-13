@@ -12,6 +12,7 @@ import { scroll, filterHtmlTag } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 import { StarRating } from '../../../components/starvote/StarRating'
 import { submitEvaluation } from '../../message/async'
+import Toast from '../../../components/Toast'
 
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
@@ -23,7 +24,8 @@ export class Comment extends React.Component<any, any> {
       commentList: [],
       article: {},
       placeholder: '和作者切磋讨论一下吧',
-      filterContent: ''
+      filterContent: '',
+      showToast: false
     }
     this.commentHeight = window.innerHeight
   }
@@ -234,14 +236,19 @@ export class Comment extends React.Component<any, any> {
     submitEvaluation(commentId, nodeState.chosenLevel, null).then(res => {
       if(res.code === 200) {
         this.setState({
-          commentEvaluations: commentEvaluations.filter((evaluation, index) => evaluation.commentId !== commentId)
+          commentEvaluations: commentEvaluations.filter((evaluation, index) => evaluation.commentId !== commentId),
+          showToast: true
+        }, () => {
+          setTimeout(() => {
+            this.setState({ showToast: false })
+          }, 2000)
         })
       }
     })
   }
 
   render() {
-    const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60, commentEvaluations = [] } = this.state
+    const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60, commentEvaluations = [], showToast } = this.state
     console.log(commentEvaluations)
     const { topic, content, voteCount = 0, voteStatus } = this.state.article
     const { submitId } = this.props.location.query
@@ -310,13 +317,21 @@ export class Comment extends React.Component<any, any> {
                 <StarRating
                   key={evaluation.id}
                   ref={`evaluation${evaluation.id}`}
-                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你的学习理解和应用有帮助吗？来匿名反馈，帮助教练做得更好吧！`}
+                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你有帮助吗？来匿名打个分，帮助教练做得更好吧！`}
                   confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
                 />
               )
             })
           }
         </div>
+      )
+    }
+
+    const renderOtherComponents = () => {
+      return (
+        <Toast show={showToast} timeout={2000} height={200} width={200} top={160}>
+          <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
+        </Toast>
       )
     }
 
@@ -365,6 +380,7 @@ export class Comment extends React.Component<any, any> {
             </div>
         }
         {renderAsstEvaluate()}
+        {renderOtherComponents()}
       </div>
     )
   }
