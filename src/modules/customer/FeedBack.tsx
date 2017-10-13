@@ -38,15 +38,13 @@ export default class FeedBack extends React.Component<any,any>{
             <p className="q">-为什么我的小课到期关闭了？</p>
             <p>-书非借不能读，为了每个人能有动力坚持完成练习，每个小课的开放天数=30天(拖延症福利)，到期后自动关闭</p><br/>
 
-
             <p className="q">-课程的老师是谁啊？</p>
             <p>-圈外的小课多数是圈圈设计、整个团队一同打磨出来的，另外的是和一些业界大V合作开发的</p><br/>
 
-            <p className="q">-之前报名的是半年版，现在我想升级成一年版，可以吗？</p>
-            <p>-可以的，补差价即可。<br/>请微信添加圈外助手小黑完成付款（ID：quanwaizhushou2）</p>
-            <br/>
-            <p className="q">啊哦～还想了解更多关于【圈外同学】使用的问题？戳链接直达吧——</p>
-            <p><a style={{color:'#55cbcb',textDecoration:'underline'}} href="https://shimo.im/doc/lRPFODOw4CY7eHfv/">{'https://shimo.im/doc/lRPFODOw4CY7eHfv/'}</a></p>
+            <p className="q">还想了解更多【商学院】的使用问题？戳链接直达：</p>
+            <p><a style={{color:'#55cbcb',textDecoration:'underline'}} href="https://shimo.im/doc/TlGjkheoUysG7ME2?r=L8QE82/">
+              {'https://shimo.im/doc/TlGjkheoUysG7ME2?r=L8QE82/'}</a>
+            </p>
             <br/>
           </div>
         </div>

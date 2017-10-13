@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { loadApplicationPractice, submitApplicationPractice } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import "./Submit.less"
-import Editor from "../../../components/editor/Editor"
+import Editor from "../../../components/simditor/Editor"
 
 @connect(state => state)
 export class Submit extends React.Component<any, any> {
@@ -73,9 +73,8 @@ export class Submit extends React.Component<any, any> {
       <div className="submit-container">
         <div className="description" dangerouslySetInnerHTML={{__html: description}}>
         </div>
-        <Editor ref="editor" moduleId={3} onUploadError={(res)=>{this.props.dispatch(alertMsg(res.msg))}}
-                uploadStart={()=>{this.props.dispatch(startLoad())}} uploadEnd={()=>{this.props.dispatch(endLoad())}}
-                defaultValue={this.state.answer} placeholder="离开页面前请提交，以免内容丢失。"/>
+        <Editor ref="editor" moduleId={3}
+                value={this.state.answer} placeholder="离开页面前请提交，以免内容丢失。"/>
 
         <div className="btn-container">
           { showDisable ?

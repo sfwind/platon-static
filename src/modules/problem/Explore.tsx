@@ -7,6 +7,7 @@ import { loadUnChooseList, mark } from './async'
 import { changeTitle } from '../../utils/helpers'
 import Swiper from 'swiper'
 import { merge } from 'lodash'
+import RenderInBody from '../../components/RenderInBody'
 
 import './Explore.less'
 import AssetImg from '../../components/AssetImg'
@@ -210,7 +211,7 @@ export class Explore extends React.Component<any, any> {
           </div>
         </div>
         <div className="padding-footer"/>
-        <ToolBar/>
+          <ToolBar/>
       </div>
     )
   }

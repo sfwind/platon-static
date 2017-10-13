@@ -15,6 +15,7 @@ export default class ProblemGallery extends React.Component<any, any> {
 
   constructor(props) {
     super(props)
+    this.state = {}
   }
 
   componentWillMount() {
@@ -100,7 +101,7 @@ export default class ProblemGallery extends React.Component<any, any> {
     }
 
     const renderProblemCollection = () => {
-      if(problemCollections.length === 0) {
+      if(!problemCollections.length === 0) {
         return (
           <div className="item">
             <div className="item-label" style={{ color: '#999999' }}>无</div>

@@ -389,11 +389,13 @@
     z-index: 20;
     right: 0;
     bottom: 5px;
-    width: 8.2rem;
-    height: 4rem;
-    transform: translateX(8.2rem);
+    width: 82px;
+    height: 40px;
+    transform: translateX(82px);
+    transition: transform 1s;
+    transition-delay: 1s;
     &.open {
-      animation: riseMember-left-show 1s alternate forwards;
+      transform: translateX(0px);
     }
   }
 
@@ -618,7 +620,7 @@
         }
         .section {
           font-size: 15px;
-          line-height: @font_click;
+          line-height: @font_context;
           height: 50px;
           &.open {
             background-color: #1c1f28;

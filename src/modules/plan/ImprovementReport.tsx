@@ -9,6 +9,7 @@ import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { NumberToChinese } from '../../utils/helpers'
 import AssetImg from "../../components/AssetImg";
 import { mark } from "../../utils/request";
+import RenderInBody from '../../components/RenderInBody'
 const numeral = require('numeral');
 
 @connect(state => state)
@@ -131,10 +132,12 @@ export class ImprovementReport extends React.Component<any, any> {
 
   renderBtns() {
     return (
-      <div className="button-footer">
-        <div className="left" onClick={()=>this.handleClickClose()}>关闭</div>
-        <div className="right" onClick={this.goBack.bind(this)}>返回</div>
-      </div>
+      <RenderInBody>
+        <div className="button-footer">
+          <div className="left" onClick={()=>this.handleClickClose()}>关闭</div>
+          <div className="right" onClick={this.goBack.bind(this)}>返回</div>
+        </div>
+      </RenderInBody>
     )
   }
 

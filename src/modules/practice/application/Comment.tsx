@@ -13,6 +13,7 @@ import { mark } from '../../../utils/request'
 import { StarRating } from '../../../components/starvote/StarRating'
 import { submitEvaluation } from '../../message/async'
 import Toast from '../../../components/Toast'
+import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
@@ -128,7 +129,7 @@ export class Comment extends React.Component<any, any> {
         commentReply(location.query.submitId, content, this.state.id).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [res.msg].concat(this.state.commentList),
+              commentList: [ res.msg ].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
             })
@@ -148,7 +149,7 @@ export class Comment extends React.Component<any, any> {
         comment(location.query.submitId, content).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [res.msg].concat(this.state.commentList),
+              commentList: [ res.msg ].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
             })
@@ -369,8 +370,8 @@ export class Comment extends React.Component<any, any> {
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
 
         </div>
-        {
-          showDiscuss ?
+        <RenderInBody>
+          {showDiscuss ?
             <Discuss isReply={isReply} placeholder={placeholder} limit={10000}
                      submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
                      cancel={() => this.cancel()}
@@ -378,7 +379,8 @@ export class Comment extends React.Component<any, any> {
             <div className="write-discuss" onClick={() => this.openWriteBox()}>
               <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
             </div>
-        }
+          }
+        </RenderInBody>
         {renderAsstEvaluate()}
         {renderOtherComponents()}
       </div>

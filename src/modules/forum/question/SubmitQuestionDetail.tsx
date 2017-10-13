@@ -5,7 +5,7 @@ import { submitQuestion, getQuestion, loadTag } from "../async"
 import { startLoad, endLoad, alertMsg, set } from "../../../redux/actions"
 import { removeHtmlTags, changeTitle } from "../../../utils/helpers"
 import { mark } from "../../../utils/request"
-import Editor from "../../../components/editor/Editor"
+import Editor from "../../../components/simditor/Editor"
 import _ from "lodash"
 import "./SubmitQuestionDetail.less"
 
@@ -71,7 +71,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
 
   submit() {
     const { dispatch, location } = this.props
-    const { title, selectedTagList,tagList } = this.state
+    const { title, selectedTagList, tagList } = this.state
     const detail = this.refs.editor.getValue()
     if(!detail) {
       dispatch(alertMsg('问题描述不能为空哦'))
@@ -99,7 +99,7 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       })
     }
 
-    if(tagIds.length === 0){
+    if(tagIds.length === 0) {
       dispatch(alertMsg('请先选择标签哦'))
       return
     }
@@ -234,20 +234,12 @@ export default class SubmitQuestionDetail extends React.Component<any, any> {
       return (
         <div className="editor">
           <Editor
+            toolbarFloat={false}
             ref="editor"
             moduleId="5"
             maxLength="1000"
             scrollContainer="question-detail-container"
-            defaultValue={this.state.detail}
-            onUploadError={(res) => {
-              this.props.dispatch(alertMsg(res.msg))
-            }}
-            uploadStart={() => {
-              this.props.dispatch(startLoad())
-            }}
-            uploadEnd={() => {
-              this.props.dispatch(endLoad())
-            }}
+            value={this.state.detail}
             placeholder="写下问题的详细背景，帮助他人更好地分析和解答你的问题（1000字以内）。"
           />
         </div>

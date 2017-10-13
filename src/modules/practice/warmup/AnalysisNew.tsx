@@ -9,6 +9,7 @@ import _ from 'lodash'
 import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import { scroll } from '../../../utils/helpers'
+import RenderInBody from '../../../components/RenderInBody'
 
 const sequenceMap = {
   0: 'A',
@@ -32,7 +33,7 @@ export class AnalysisNew extends React.Component <any, any> {
       integrated: false,
       placeholder: '解答同学的提问（限1000字）',
       isReply: false,
-      content:'',
+      content: '',
     }
   }
 
@@ -156,7 +157,7 @@ export class AnalysisNew extends React.Component <any, any> {
         <div>
           <div className="intro-container">
             {pic ? <div className="context-img">
-                <AssetImg url={pic}/></div> : null
+              <AssetImg url={pic}/></div> : null
             }
             <div className="question">
               <div dangerouslySetInnerHTML={{ __html: question }}/>
@@ -222,7 +223,7 @@ export class AnalysisNew extends React.Component <any, any> {
     const subDiscussRender = (discuss, idx) => {
       return (
         <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
-                     onDelete={this.onDelete.bind(this, discuss.id)}/>
+                        onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
 
@@ -256,14 +257,18 @@ export class AnalysisNew extends React.Component <any, any> {
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
-        {showDiscuss ? null : <div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
+        <RenderInBody>
+          <div>
+            {showDiscuss ? null : <div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
 
-        {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                cancel={() => this.cancel()}/> :
-          <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-            <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-          </div>}
+            {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                    cancel={() => this.cancel()}/> :
+              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
+                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+              </div>}
+          </div>
+        </RenderInBody>
       </div>
     )
   }

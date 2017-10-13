@@ -23,14 +23,14 @@ var serverConfig = {
 }
 
 // 所有的配置 https://github.com/nodejitsu/node-http-proxy#options
-if (Boolean(PROXY)) {
+if(Boolean(PROXY)) {
   serverConfig.proxy = {
-    "/rise/*": (function() {
+    "/forum/*": (function () {
       var config = {
         target: RISE_PROXY || PROXY,
         secure: false,
-        bypass: function(req) {
-          if (req.headers.accept && req.headers.accept.indexOf("html") !== -1) {
+        bypass: function (req) {
+          if(req.headers.accept && req.headers.accept.indexOf("html") !== -1) {
             console.log(chalk.cyan("Bypass the proxy - " + req.headers.accept));
             return "/index.html";
           }
@@ -38,24 +38,37 @@ if (Boolean(PROXY)) {
       }
       return config
     })(),
-    "/": (function() {
-        var config = {
-          target: PROXY,
-          secure: false,
-          bypass: function(req) {
-            if (req.headers.accept && req.headers.accept.indexOf("html") !== -1) {
-              console.log(chalk.cyan("Bypass the proxy - " + req.headers.accept));
-              return "/index.html";
-            }
+    "/rise/*": (function () {
+      var config = {
+        target: RISE_PROXY || PROXY,
+        secure: false,
+        bypass: function (req) {
+          if(req.headers.accept && req.headers.accept.indexOf("html") !== -1) {
+            console.log(chalk.cyan("Bypass the proxy - " + req.headers.accept));
+            return "/index.html";
           }
         }
+      }
+      return config
+    })(),
+    "/": (function () {
+      var config = {
+        target: PROXY,
+        secure: false,
+        bypass: function (req) {
+          if(req.headers.accept && req.headers.accept.indexOf("html") !== -1) {
+            console.log(chalk.cyan("Bypass the proxy - " + req.headers.accept));
+            return "/index.html";
+          }
+        }
+      }
       return config
     })(),
   }
 }
 
-new WebpackDevServer(webpack(devConfig), serverConfig).listen(4000, "0.0.0.0", function(err, result) {
-  if (err) {
+new WebpackDevServer(webpack(devConfig), serverConfig).listen(4000, "0.0.0.0", function (err, result) {
+  if(err) {
     console.log(err);
   }
 

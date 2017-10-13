@@ -9,6 +9,7 @@ import { changeTitle } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 import Banner from '../../components/Banner'
+import RenderInBody from '../../components/RenderInBody'
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -163,13 +164,13 @@ export default class PlanList extends React.Component<any, any> {
 
     const renderBanners = () => {
       // TODO:去掉hardcoding
-      const banners = [ {
-        "imageUrl": "https://static.iqycamp.com/images/fragment/rise_member_banner_2.jpg?imageslim",
-        "linkUrl": "https://www.iquanwai.com/pay/rise"
+      const banners = [{
+        'imageUrl': 'https://static.iqycamp.com/images/fragment/rise_member_banner_2.jpg?imageslim',
+        'linkUrl': `https://${window.location.hostname}/pay/rise`
       }, {
-        "imageUrl": "https://static.iqycamp.com/images/fragment/problem_explore_banner_monthly_10.png?imageslim",
-        "linkUrl": "https://www.iquanwai.com/pay/camp"
-      } ]
+        'imageUrl': 'https://static.iqycamp.com/images/fragment/camp_promotion_banner_11_1.jpg?imageslim',
+        'linkUrl': `https://${window.location.hostname}/pay/camp`
+      }]
       if(banners.length === 0 || riseMember === 1) return
       return (
         <Banner>
@@ -191,7 +192,7 @@ export default class PlanList extends React.Component<any, any> {
     return (
       <div className="plan-list-page" style={{ minHeight: window.innerHeight + 30 }}>
         {renderBanners()}
-        <ToolBar />
+        <ToolBar/>
         <div className="plp-running plp-block">
           <div className="p-r-header">
             <span className="p-r-h-title">进行中</span>
@@ -278,7 +279,7 @@ export default class PlanList extends React.Component<any, any> {
                       <span>{problem.problem}</span>
                     </div>
                   )
-                  }) : null}
+                }) : null}
                 <div onClick={() => this.handleClickMoreProblem()}
                      className="swiper-slide problem-item-show found-more">
                   <div className="tips-word">

@@ -12,6 +12,7 @@ export default class Editor extends React.Component<any, any> {
     this.state = {
       editor: null,
       length: 0,
+      focused: false,
       placeHolder: '<span id="editor-placeholder" style="color:#cccccc;" >离开页面前请提交，以免内容丢失。</span>'
     }
   }
@@ -132,12 +133,14 @@ export default class Editor extends React.Component<any, any> {
     const { length } = this.state
 
     return (
-      <div className="publish-article-content"
+      <div className={`publish-article-content ${this.state.focused?'focus':''}`}
+
            onClick={() => {
              let node = document.getElementById('editor-placeholder')
              if(node) {
                node.parentNode.removeChild(node)
              }
+
              if(scrollContainer) {
                if(window.navigator.userAgent.indexOf('Android') > 0) {
                  if(document.querySelector('.publish-article-content')) {
@@ -148,7 +151,14 @@ export default class Editor extends React.Component<any, any> {
            }}
       >
         <input type="hidden" id="target" value=""/>
-        <div ref="editor" className="article-content" id="content" onChange={() => this.calcValue()}>
+        <div ref="editor" onFocus={()=>{
+          this.setState({focused:true});
+          setTimeout(()=>{
+
+          document.querySelector('#content').scrollIntoView(true);
+          })
+        }} onBlur={()=>this.setState({focused:false})}
+             className={`article-content ${this.state.focused?'focus':''}`} id="content" onChange={() => this.calcValue()}>
         </div>
         <div className="length-div">
           {maxLength ?

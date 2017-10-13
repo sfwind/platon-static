@@ -56,8 +56,6 @@ import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
 import Certificate from './modules/customer/certificate/Main'
 import CertificateProfile from './modules/customer/certificate/Personal'
 
-import { StarRating } from './components/starvote/StarRating'
-
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={() => {
@@ -68,7 +66,6 @@ const routes = (
       {/*}*/
       }
     }}>
-      <Route path="test" component={StarRating}/>
       <Route path="welcome" component={Welcome}/>
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={PlanList}/>
@@ -87,7 +84,6 @@ const routes = (
       <Route path="practice/warmup/result" component={WarmUpResult}/>
       <Route path="practice/application" component={Application}/>
       <Route path="practice/challenge" component={Challenge}/>
-      <Route path="practice/challenge/submit" component={ChallengePracticeSubmit}/>
       <Route path="practice/application/comment" component={ApplicationComment}/>
       <Route path="practice/subject" component={Subject}/>
       <Route path="practice/subject/submit" component={SubjectSubmit}/>
