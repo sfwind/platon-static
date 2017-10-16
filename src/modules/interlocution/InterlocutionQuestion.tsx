@@ -6,6 +6,7 @@ import { getInterlocutionQuestions, loadInterlocutionDateInfo, follow, unfollow 
 import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
 import * as _ from 'lodash';
 import PullElement from 'pull-element';
+import PullSlideTip from '../../components/PullSlideTip'
 
 @connect(state => state)
 export default class InterlocutionQuestion extends Component {
@@ -30,7 +31,7 @@ export default class InterlocutionQuestion extends Component {
       if(res.code === 200) {
         this.setState({
           data: res.msg.list,
-          // end: res.msg.end
+          end: res.msg.end
         })
       } else {
         dispatch(alertMsg(res.msg));
@@ -72,12 +73,31 @@ export default class InterlocutionQuestion extends Component {
           }
         },
         onPullUpEnd: () => {
-          alert('end')
           if(this.props.iNoBounce) {
             if(!this.props.iNoBounce.isEnabled()) {
               this.props.iNoBounce.enable();
             }
           }
+          const { page, data } = this.state;
+          const { date } = location.query;
+          dispatch(startLoad());
+          getInterlocutionQuestions(page + 1, date).then(res => {
+            console.log(res);
+            dispatch(endLoad());
+            if(res.code === 200) {
+              let newData = data.concat(res.msg.list);
+              this.setState({
+                data: newData,
+                end: res.msg.end,
+                page: page + 1
+              })
+            } else {
+              dispatch(alertMsg(res.msg));
+            }
+          }).catch(ex => {
+            dispatch(endLoad());
+            dispatch(alertMsg(ex));
+          })
         }
       })
       this.pullElement.init();
@@ -124,7 +144,7 @@ export default class InterlocutionQuestion extends Component {
   }
 
   render() {
-    const { dateInfo = {}, data = [] } = this.state;
+    const { dateInfo = {}, data = [], end } = this.state;
 
     const renderQuestion = () => {
       if(data) {
@@ -154,6 +174,7 @@ export default class InterlocutionQuestion extends Component {
         <div className="question-list">
           <div className="gutter"/>
           {renderQuestion()}
+          <PullSlideTip isEnd={end}/>
           <div className="gutter px65"/>
         </div>
         <div className="footer" onClick={() => this.handleClickGoSubmit()}>
