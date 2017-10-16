@@ -58,7 +58,6 @@ export default class ForumQuestion extends React.Component<any,any> {
   }
 
   handleClickAnswer(answer) {
-    console.log(answer);
     this.context.router.push({
       pathname: "/forum/static/answer",
       query: { questionId: answer.questionId }

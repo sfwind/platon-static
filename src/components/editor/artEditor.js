@@ -41,7 +41,6 @@ module.exports = function init($) {
               data = _this.compressHandler(img);
             }
             if(_this._opt.showServer) {
-              console.log(file);
               _this.upload(file);
               // _this.upload(data);
               return;
@@ -108,7 +107,6 @@ module.exports = function init($) {
       if(_this._opt.data) {
         for(key in _this._opt.data) {
           if(_this._opt.data.hasOwnProperty(key)) {
-            console.log(key, _this._opt.data[key]);
             formData.append(key, _this._opt.data[key]);
           }
         }

@@ -79,7 +79,6 @@ export class Main extends React.Component <any, any> {
           } else {
             // 非同步的，展示localStorage,除非localStorage里没有内容
             let draft = storageDraft.content ? storageDraft.content : msg.draft;
-            console.log('local', storageDraft.content, msg.draft)
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: draft,
@@ -259,7 +258,6 @@ export class Main extends React.Component <any, any> {
         const draft = this.refs.editor.getValue()
         if(draft.trim().length > 0) {
           if(this.state.autoPushDraftFlag) {
-            console.log('set false');
             autoSaveApplicationDraft(planId, applicationId, draft).then(res => {
               if(res.code === 200) {
                 this.clearStorage()
@@ -400,11 +398,9 @@ export class Main extends React.Component <any, any> {
 
   handleChangeValue(value) {
     const { autoPushDraftFlag } = this.state;
-    console.log(autoPushDraftFlag);
     if(_.isBoolean(autoPushDraftFlag)) {
       // 非null(取到数据了) 并且没有打开保存draft的flag
       if(!autoPushDraftFlag) {
-        console.log('value change');
         this.setState({ autoPushDraftFlag: true });
       }
     }
