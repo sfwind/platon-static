@@ -54,6 +54,9 @@ import CardsCollection from './modules/problem/CardsCollection'
 import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
 import Certificate from './modules/customer/certificate/Main'
 import CertificateProfile from './modules/customer/certificate/Personal'
+import InterlocutionQuestion from "./modules/interlocution/InterlocutionQuestion";
+import InterlocutionQuestionSubmit from "./modules/interlocution/InterlocutionQuestionSubmit"
+import InterlocutionQuanAnswer from "./modules/interlocution/InterlocutionQuanAnswer"
 
 const routes = (
   <Route>
@@ -126,6 +129,9 @@ const routes = (
         <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
+      <Route path="inter/questions" component={InterlocutionQuestion}/>
+      <Route path="inter/question/submit" component={InterlocutionQuestionSubmit}/>
+      <Route path="inter/quan/answer" component={InterlocutionQuanAnswer}/>
     </Route>
   </Route>
 )
