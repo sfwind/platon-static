@@ -42,8 +42,13 @@ export default class FeedBack extends React.Component<any,any>{
             <p>-圈外的小课多数是圈圈设计、整个团队一同打磨出来的，另外的是和一些业界大V合作开发的</p><br/>
 
             <p className="q">还想了解更多【商学院】的使用问题？戳链接直达：</p>
-            <p><a style={{color:'#55cbcb',textDecoration:'underline'}} href="https://shimo.im/doc/TlGjkheoUysG7ME2?r=L8QE82/">
-              {'https://shimo.im/doc/TlGjkheoUysG7ME2?r=L8QE82/'}</a>
+            <p><a style={{color:'#55cbcb',textDecoration:'underline'}} href="https://shimo.im/doc/EQFflI3uWg4mE9FZ?r=GQ373Y/">
+              {'https://shimo.im/doc/EQFflI3uWg4mE9FZ?r=GQ373Y/'}</a>
+            </p>
+            <br/>
+            <p className="q">还想了解更多【训练营】的使用问题？戳链接直达：</p>
+            <p><a style={{color:'#55cbcb',textDecoration:'underline'}} href="https://shimo.im/doc/DjJ32owqYC0iBTIw?r=GQ373Y/">
+              {'https://shimo.im/doc/DjJ32owqYC0iBTIw?r=GQ373Y/'}</a>
             </p>
             <br/>
           </div>

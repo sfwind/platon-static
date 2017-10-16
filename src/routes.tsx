@@ -13,7 +13,8 @@ import { Main as Subject } from 'modules/practice/subject/Main'
 import { Start } from 'modules/promotion/evalution/Start'
 import { Main as Eva } from 'modules/promotion/evalution/Main'
 import { Result as EvaResult } from 'modules/promotion/evalution/Result'
-import { Share as EvaShare } from "modules/promotion/evalution/Share"
+import { Share as EvaShare } from 'modules/promotion/evalution/Share'
+import { Submit as ChallengePracticeSubmit } from 'modules/practice/challenge/Submit'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
 import { MessageCenter } from 'modules/message/MessageCenter'
@@ -64,7 +65,7 @@ const routes = (
       {/*if(window.ENV.osName !== 'ios'){*/
       }
       // ios不需要每个页面都刷
-      config([ 'chooseWXPay' ])
+      config(['chooseWXPay'])
       {/*}*/
       }
     }}>
