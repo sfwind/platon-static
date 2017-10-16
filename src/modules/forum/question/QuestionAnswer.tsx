@@ -262,7 +262,6 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
    * @param questionId 本页面的quesitonid
    */
   bindProblemHrefClickHandle(node, questionId) {
-    console.log('bind')
     let problemHrefGroup = node.querySelectorAll('a');
     for(let idx = 0; idx < problemHrefGroup.length; idx++) {
       let problemHref = problemHrefGroup[ idx ];

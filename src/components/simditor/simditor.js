@@ -8,7 +8,6 @@
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
     define('simditor', ["jquery","simple-module","simple-hotkeys","simple-uploader"], function ($, SimpleModule, simpleHotkeys, simpleUploader) {
-      console.log(this,root,window)
       return (root['Simditor'] = factory($, SimpleModule, simpleHotkeys, simpleUploader));
     });
   } else if (typeof exports === 'object') {

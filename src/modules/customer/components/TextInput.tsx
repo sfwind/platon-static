@@ -12,7 +12,6 @@ interface TextInputProps{
 export default class TextInput extends React.Component<TextInputProps,any>{
   constructor(props){
     super(props);
-    console.log('构造器',props.placeholder,props.label);
     this.state = {showPlaceHolder:true};
   }
 

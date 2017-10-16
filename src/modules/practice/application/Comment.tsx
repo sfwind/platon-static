@@ -40,11 +40,9 @@ export class Comment extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
     getApplicationPractice(location.query.submitId).then(res => {
-      console.log('res1', res)
       if(res.code === 200) {
         this.setState({ article: res.msg, filterContent: filterHtmlTag(res.msg.content) })
         loadCommentList(location.query.submitId, 1).then(res => {
-          console.log('res2', res)
           dispatch(endLoad())
           if(res.code === 200) {
             this.setState({
@@ -250,7 +248,6 @@ export class Comment extends React.Component<any, any> {
 
   render() {
     const { commentList = [], showDiscuss, end, isReply, placeholder, showAll, filterContent, wordsCount = 60, commentEvaluations = [], showToast } = this.state
-    console.log(commentEvaluations)
     const { topic, content, voteCount = 0, voteStatus } = this.state.article
     const { submitId } = this.props.location.query
     const renderCommentList = () => {

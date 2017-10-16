@@ -27,7 +27,6 @@ export default class InterlocutionQuestion extends Component {
     const { date } = location.query;
     dispatch(startLoad());
     getInterlocutionQuestions(1, date).then(res => {
-      console.log(res);
       dispatch(endLoad());
       if(res.code === 200) {
         this.setState({
@@ -83,7 +82,6 @@ export default class InterlocutionQuestion extends Component {
           const { date } = location.query;
           dispatch(startLoad());
           getInterlocutionQuestions(page + 1, date).then(res => {
-            console.log(res);
             dispatch(endLoad());
             if(res.code === 200) {
               let newData = data.concat(res.msg.list);

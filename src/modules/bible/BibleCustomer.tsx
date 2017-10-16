@@ -31,7 +31,6 @@ export default class BibleCustomer extends React.Component<any,any> {
     loadNoteList(1).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        console.log(res.msg);
         this.setState({ noteList: res.msg.list, end: res.msg.end });
       } else {
         dispatch(alertMsg(res.msg));
@@ -65,7 +64,6 @@ export default class BibleCustomer extends React.Component<any,any> {
           loadNoteList(page + 1).then(res => {
             dispatch(endLoad());
             if(res.code === 200) {
-              console.log(res.msg);
               let list = [].concat(noteList).concat(res.msg.list);
               this.setState({ noteList: list, end: res.msg.end, page: page + 1 });
             } else {

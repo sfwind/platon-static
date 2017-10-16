@@ -112,7 +112,6 @@ export default class InterlocutionQuestionSubmit extends Component {
     const { dispatch, location } = this.props;
     const { title, id } = this.state;
     const { date } = location.query;
-    console.log(date);
     if(title) {
       dispatch(startLoad());
       submitInterlocutionQuestion({

@@ -51,7 +51,6 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
       dispatch(alertMsg(ex))
     })
     loadApplicationCommentOfMessage(location.query.submitId, location.query.commentId).then(res => {
-      console.log(res)
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
