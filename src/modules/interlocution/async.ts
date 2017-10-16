@@ -21,3 +21,7 @@ export function follow(id) {
 export function unfollow(id) {
   return ppost(`/rise/interlocution/follow/cancel/${id}`);
 }
+
+export function loadQuanAnswer(date) {
+  return pget(`/rise/interlocution/load/quanquan/${date}`);
+}
