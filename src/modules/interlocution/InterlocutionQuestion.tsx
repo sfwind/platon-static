@@ -7,6 +7,7 @@ import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
 import * as _ from 'lodash';
 import PullElement from 'pull-element';
 import PullSlideTip from '../../components/PullSlideTip'
+import RenderInBody from '../../components/RenderInBody'
 
 @connect(state => state)
 export default class InterlocutionQuestion extends Component {
@@ -176,9 +177,11 @@ export default class InterlocutionQuestion extends Component {
           <PullSlideTip isEnd={end}/>
           <div className="gutter px65"/>
         </div>
-        <div className="footer" onClick={() => this.handleClickGoSubmit()}>
-          <div className="button">去提问</div>
-        </div>
+        <RenderInBody>
+          <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
+            <div className="button">去提问</div>
+          </div>
+        </RenderInBody>
       </div>
     )
   }

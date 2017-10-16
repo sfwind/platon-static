@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
-import { submitInterlocutionQuestion } from './async';
+import { submitInterlocutionQuestion, loadInterlocutionDateInfo } from './async';
 import * as _ from 'lodash';
 
 const headerStyle = {
@@ -14,6 +14,7 @@ const headerStyle = {
 const questionStyle = {
   width: `${window.innerWidth - 30}px`,
   marginLeft: '15px',
+  padding: '5px 0'
 }
 
 const lengthDiv = {
@@ -34,21 +35,26 @@ const footerStyle = {
   bottom: 0,
   left: 0,
   zIndex: 1000,
-  height: '49px',
+  height: '65px',
   borderTop: '1px solid #ccc',
   backgroundColor: '#fff'
 }
 
 const btnStyle = {
-  color: '#55cbcb',
-  border: '1px solid #55cbcb',
-  backgroundColor: '#fff',
-  margin: '8px auto',
-  fontSize: '1.6em',
-  borderRadius: '4px',
-  height: '30px',
-  lineHeight: '30px',
-  width: '150px',
+  position: 'absolute',
+  top: '50%',
+  left: 0,
+  margin: '0 6%',
+  width: '88%',
+  webKitTransform: 'translateY(-50%)',
+  transform: 'translateY(-50%)',
+  backgroundColor: '#55cbcb',
+  color: '#fff',
+  height: '40px',
+  borderRadius: '20px',
+  textAlign: 'center',
+  lineHeight: '40px',
+  fontSize: '2rem'
 }
 
 const txtStyle = {
@@ -71,7 +77,7 @@ export default class InterlocutionQuestionSubmit extends Component {
     this.state = {
       length: 0,
       title: '',
-      lengthLimit: 200,
+      lengthLimit: 50,
       id: null,
     }
   }
@@ -81,29 +87,24 @@ export default class InterlocutionQuestionSubmit extends Component {
   }
 
   componentWillMount() {
+    const { dispatch } = this.props;
+    let interloctionDate = _.get(this.props, 'location.query.date');
+    dispatch(startLoad());
+    loadInterlocutionDateInfo(interloctionDate).then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        this.setState({ dateInfo: res.msg });
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
 
-  }
-
-  getQueryDate() {
-    let interloctionDate = _.get(this.props, 'location,query.date');
-    if(interloctionDate) {
-      return Promise.resolve(interloctionDate);
-    } else {
-
-    }
   }
 
   writeTitle(title) {
-    const { dispatch } = this.props;
-    const { searchWord } = this.state;
-    if(searchWord === title && !!title) {
-      return;
-    }
-
-    if(!title) {
-      return;
-    }
-
     this.setState({ title, length: title.length });
   }
 
@@ -139,16 +140,16 @@ export default class InterlocutionQuestionSubmit extends Component {
   }
 
   render() {
-    const { title, length, lengthLimit } = this.state;
+    const { title, length, lengthLimit, dateInfo = {} } = this.state;
     return (
       <div>
         <div style={headerStyle}>
-          圈圈问答提问
+          提问
         </div>
         <div style={questionStyle}>
             <textarea
               style={txtStyle}
-              placeholder="写下问题的标题吧，清晰的标题能够吸引更多的人来回答问题（50字以内）"
+              placeholder={`提出你关于“${dateInfo.topic ? dateInfo.topic : ''}”的问题（50字以内）`}
               id="textarea" maxLength={lengthLimit} defaultValue={title} value={title}
               onChange={(e) => this.writeTitle(e.currentTarget.value)}
             />
