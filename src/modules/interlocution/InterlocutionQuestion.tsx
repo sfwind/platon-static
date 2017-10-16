@@ -59,9 +59,9 @@ export default class InterlocutionQuestion extends Component {
     const { dispatch, location } = this.props;
     if(!this.pullElement) {
       this.pullElement = new PullElement({
-        target: '.question-list',
-        scroller: '.question-list',
-        // trigger: '.question-list',
+        target: '.inter-question',
+        scroller: '.inter-question',
+        trigger: '.question-list',
         damping: 4,
         detectScroll: true,
         detectScrollOnStart: true,
@@ -169,10 +169,9 @@ export default class InterlocutionQuestion extends Component {
       <div className="inter-question">
         <div className="header">
           <span className="big">{dateInfo.topic}</span>
-          <span className="small">{dateInfo.description}</span>
+          <div className="small" dangerouslySetInnerHTML={{ __html: dateInfo.description }}/>
         </div>
         <div className="question-list">
-          <div className="gutter"/>
           {renderQuestion()}
           <PullSlideTip isEnd={end}/>
           <div className="gutter px65"/>

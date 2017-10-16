@@ -29,5 +29,4 @@ if(document.body.clientWidth > 414){
 } else {
   clientWidth = document.body.clientWidth
 }
-
 document.getElementsByTagName('html')[0].style.fontSize = clientWidth / 37.5 + "px"
