@@ -1,5 +1,8 @@
 .quan-answer {
   background-color: #EFEFEF;
+  > img.assetImg {
+    display: block;
+  }
   .quan-avatar {
     width: 5rem;
     height: 5rem;
@@ -104,11 +107,22 @@
         bottom: 0;
         left: 0;
         width: 100%;
+        margin-left: -50px;
+        padding-left: 50px;
         height: 28px;
         text-align: center;
         background: url('../../../assets/img/bg_rectangle.png') no-repeat center center/100% auto;
         font-size: 1.2rem;
         color: #55cbcb;
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 12px;
+          height: 20px;
+          background: url('../../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
+          vertical-align: bottom;
+          margin-left: 5px;
+        }
       }
     }
   }

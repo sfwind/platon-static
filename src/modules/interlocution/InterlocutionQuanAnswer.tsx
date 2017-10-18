@@ -44,7 +44,7 @@ export default class InterlocutionQuanAnswer extends Component {
     this.context.router.push({
       pathname: '/rise/static/inter/question/submit',
       query: {
-        date: nextDate.interlocutionDate
+        date: nextDate.startDate
       }
     });
   }
