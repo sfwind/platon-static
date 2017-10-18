@@ -1,32 +1,178 @@
 .quan-answer {
-  position: relative;
-  padding: 20px 15px 15px;
-  background-color: #fff;
-  .title {
-    margin-bottom: 10px;
-    line-height: 1.4;
-    font-weight: 400;
-    font-size: 2.4rem;
+  background-color: #EFEFEF;
+  .quan-avatar {
+    width: 5rem;
+    height: 5rem;
+    -webkit-border-radius: 5rem;
+    -moz-border-radius: 5rem;
+    border-radius: 5rem;
   }
-  .info {
-    color: #8c8c8c;
-    font-size: 1.5rem;
-    .border {
-      display: inline-block;
-      padding: 2px 7px;
-      line-height: 1.5rem;
-      -webkit-border-radius: 15px;
-      -moz-border-radius: 15px;
-      border-radius: 15px;
-      border: 1px solid #9e9e9e;
+  .header {
+  }
+  .header-msg {
+    position: relative;
+    width: 100%;
+    background-color: #FFFFFF;
+    .quan-avatar {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
     }
     .msg {
-      margin-left: 10px;
+      margin-left: 7rem;
+      padding: 2rem;
+      color: #666666;
+      font-size: 1.3rem;
     }
   }
-  .content {
-    font-size: 17px;
-    margin-top: 2rem;
+  .question-answer {
+    background-color: #FFFFFF;
+    margin-top: 1.5rem;
+
+    .title-name {
+      position: relative;
+      margin: 0 4rem;
+      border-bottom: 1px solid #CCC;
+      text-align: center;
+      color: #333;
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+      padding: 1.5rem;
+      display: block;
+      &:before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('../../../assets/img/question_icon.png') no-repeat center center/100% auto;
+        vertical-align: bottom;
+        margin-right: 10px;
+      }
+    }
+  }
+  .qa-question {
+    font-size: 2rem;
+    color: #333;
+    background-color: #FFFFFF;
+    .qa-bg {
+      background: url('https://static.iqycamp.com/images/qa-bg-q.png?imageslim') no-repeat 15px 20px;
+      background-size: 100px auto;
+    }
+    span {
+      display: inline-block;
+      border-bottom: 1px solid #CCC;
+      margin: 0 4rem 0 5.5rem;
+      padding: 4.5rem 0 3rem;
+    }
+  }
+  .qa-verse {
+    padding: 0 4rem 0 5.5rem;
+    background-color: #FFF;
+    .qa-bg {
+      background: url('../../../assets/img/qa-bg-a.png') no-repeat right 50px;
+      background-size: 80px auto;
+    }
+    .quan-avatar {
+      display: block;
+      padding: 1.5rem 0;
+    }
+    .verse {
+      font-size: 2rem;
+      color: #333333;
+    }
+  }
+  .audio-words {
+    background-color: #FFFFFF;
+    color: #333;
+    padding: 5rem 4rem 4rem 5.5rem;
+    .tips {
+      color: #666666;
+      font-size: 1.2rem;
+      text-align: center;
+      display: block;
+    }
+    .text {
+      font-size: 1.5rem;
+    }
+    .qa-answer-part {
+      height: 5rem;
+      position: relative;
+      overflow: hidden;
+      .show-tips {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 28px;
+        text-align: center;
+        background: url('../../../assets/img/bg_rectangle.png') no-repeat center center/100% auto;
+        font-size: 1.2rem;
+        color: #55cbcb;
+      }
+    }
+  }
+  .audio-wrapper {
+    background-color: #FFF;
+    padding: 10px 4rem 10px 5.5rem;
+    .audio {
+      margin: 0;
+    }
   }
 
+  .next-question {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: #FFF;
+    .title-name {
+      position: relative;
+      margin: 0 4rem;
+      border-bottom: 1px solid #CCC;
+      text-align: center;
+      color: #333;
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+      padding: 1.5rem;
+      display: block;
+      &:before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('../../../assets/img/bg_next.png') no-repeat center center/100% auto;
+        vertical-align: bottom;
+        margin-right: 10px;
+      }
+    }
+    .text {
+      padding: 2rem 4rem;
+      font-size: 1.5rem;
+      color: #333;
+
+    }
+  }
+  .footer {
+    box-shadow: 0 0 8px 4px rgba(0, 0, 0, .04);
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 65px;
+    z-index: 10;
+    background-color: #FFFFFF;
+    .button {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      margin: 0 6%;
+      width: 88%;
+      transform: translateY(-50%);
+      background-color: #55cbcb;
+      color: #fff;
+      height: 40px;
+      border-radius: 20px;
+      text-align: center;
+      line-height: 40px;
+      font-size: 2rem;
+    }
+  }
 }
