@@ -7,6 +7,7 @@ import "./InterlocutionQuanAnswer.less"
 import { loadQuanAnswer } from "./async";
 import Audio from "../../components/Audio"
 import AssetImg from '../../components/AssetImg'
+import RenderInBody from '../../components/RenderInBody'
 
 @connect(state => state)
 export default class InterlocutionQuanAnswer extends Component {
@@ -42,7 +43,7 @@ export default class InterlocutionQuanAnswer extends Component {
     const { data = {}, showAll } = this.state;
     const { answer = {}, nextDate = {}, dateInfo = {}, topic, batch } = data;
     this.context.router.push({
-      pathname: '/rise/static/inter/question/submit',
+      pathname: '/rise/static/inter/questions',
       query: {
         date: nextDate.startDate
       }
@@ -117,9 +118,12 @@ export default class InterlocutionQuanAnswer extends Component {
           <div className="text" dangerouslySetInnerHTML={{ __html: nextDate.description }}>
           </div>
         </div>
-        <div className="footer" onClick={() => this.handleClickGoSubmit()}>
-          <div className="button">去提问</div>
-        </div>
+        <div className="gutter"/>
+        <RenderInBody>
+          <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
+            <div className="button">去提问</div>
+          </div>
+        </RenderInBody>
       </div>
     )
   }
