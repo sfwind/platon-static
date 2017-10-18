@@ -48,7 +48,7 @@ const btnStyle = {
   width: '88%',
   webKitTransform: 'translateY(-50%)',
   transform: 'translateY(-50%)',
-  backgroundColor: '#55cbcb',
+  backgroundColor: '#363d43',
   color: '#fff',
   height: '40px',
   borderRadius: '20px',

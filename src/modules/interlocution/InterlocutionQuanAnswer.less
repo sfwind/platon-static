@@ -23,8 +23,7 @@
       transform: translateY(-50%);
     }
     .msg {
-      margin-left: 7rem;
-      padding: 2rem;
+      padding: 2rem 4rem;
       color: #666666;
       font-size: 1.3rem;
     }
@@ -34,23 +33,31 @@
     margin-top: 1.5rem;
 
     .title-name {
-      position: relative;
       margin: 0 4rem;
       border-bottom: 1px solid #CCC;
       text-align: center;
       color: #333;
       font-size: 1.5rem;
-      line-height: 1.5rem;
+      line-height: 20px;
+      height: 20px;
       padding: 1.5rem;
       display: block;
-      &:before {
-        content: '';
+      .title-text {
+        position: relative;
         display: inline-block;
-        width: 20px;
-        height: 20px;
-        background: url('../../../assets/img/brain_thunder_icon.png') no-repeat center center/100% auto;
-        vertical-align: bottom;
-        margin-right: 10px;
+        margin-left: 25px;
+        &:before {
+          position: absolute;
+          top: 50%;
+          left: -10px;
+          transform: translate(-100%, -50%);
+          content: '';
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background: url('../../../assets/img/brain_thunder_icon.png') no-repeat center center/100% auto;
+          vertical-align: top;
+        }
       }
     }
   }
@@ -84,6 +91,12 @@
       font-size: 2rem;
       color: #333333;
     }
+  }
+  .qa-audio-msg {
+    font-size: 1.2rem;
+    color: #333333;
+    padding: 3rem 4rem 0 5.5rem;
+    background-color: #FFFFFF;
   }
   .audio-words {
     background-color: #FFFFFF;
@@ -135,29 +148,37 @@
   }
 
   .next-question {
-    margin-top: .5rem;
-    margin-bottom: .5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     background-color: #FFF;
     .title-name {
-      position: relative;
       margin: 0 4rem;
       border-bottom: 1px solid #CCC;
       text-align: center;
       color: #333;
       font-size: 1.5rem;
       height: 20px;
-      line-height:20px;
+      line-height: 20px;
 
       padding: 1.5rem;
       display: block;
-      &:before {
-        content: '';
+      .title-text {
+        position: relative;
         display: inline-block;
-        width: 20px;
-        height: 20px;
-        background: url('../../../assets/img/pc_word_icon.png') no-repeat center center/100% auto;
-        vertical-align: top;
-        margin-right: 10px;
+        margin-left: 25px;
+        &:before {
+          position: absolute;
+          top: 50%;
+          left: -10px;
+          transform: translate(-100%, -50%);
+          content: '';
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background: url('../../../assets/img/pc_word_icon.png') no-repeat center center/100% auto;
+          vertical-align: top;
+          margin-right: 10px;
+        }
       }
     }
     .text {
@@ -170,5 +191,16 @@
   .gutter {
     background-color: #EFEFEF;
     height: 65px;
+  }
+  .audio-wrapper .audio {
+    height: 46px;
+    .audio-btn .assetImg {
+      width: 30px !important;
+      height: 30px !important;
+    }
+    .audio-progress {
+      width: ~"calc(100% - 140px)";
+    }
+
   }
 }

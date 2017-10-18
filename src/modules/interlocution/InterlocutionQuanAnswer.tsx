@@ -70,7 +70,7 @@ export default class InterlocutionQuanAnswer extends Component {
               {answer.answer}
             </pre>
             <div className="show-tips" onClick={() => this.setState({ showAll: true })}>
-              展开阅读全文
+              查看语音文稿
             </div>
           </div>
         )
@@ -79,17 +79,19 @@ export default class InterlocutionQuanAnswer extends Component {
 
     return (
       <div className="quan-answer">
-        <AssetImg url={"https://static.iqycamp.com/images/interlocution_banner.png?imageslim"} width={'100%'}/>
+        <AssetImg url={"https://static.iqycamp.com/images/quanquan-qa-banner.png?imageslim"} width={'100%'}/>
         <div className="header-msg">
-          <div className="quan-avatar">
-            <AssetImg url={"https://static.iqycamp.com/images/quanquan_avatar.png?imageslim"} size={"100%"}/>
-          </div>
+          {/*<div className="quan-avatar">*/}
+          {/*<AssetImg url={"https://static.iqycamp.com/images/quanquan_avatar.png?imageslim"} size={"100%"}/>*/}
+          {/*</div>*/}
           <div className={"msg"}>
             你打开的是第{batch}期【圈外商学院|一期一会】每周二早上8点，圈外创始人孙圈圈会为你解答一个职场问题
           </div>
         </div>
         <div className="question-answer">
-          <span className="title-name">本期问答</span>
+          <span className="title-name">
+            <div className="title-text">本期问答</div>
+          </span>
         </div>
         <div className="qa-question">
           <div className="qa-bg">
@@ -108,20 +110,26 @@ export default class InterlocutionQuanAnswer extends Component {
             </pre>
           </div>
         </div>
-        <Audio url={'balabalba'}/>
+        <div className="qa-audio-msg">听圈圈语音回答</div>
+        <Audio url={answer.audio}/>
         <div className="audio-words">
           <span className="tips">语音文字版</span>
           {renderAudioWords()}
         </div>
         <div className="next-question">
-          <span className="title-name">下期预告</span>
-          <div className="text" dangerouslySetInnerHTML={{ __html: nextDate.description }}>
+          <span className="title-name">
+            <div class="title-text">下期预告</div>
+          </span>
+          <div className="text">
+            下期主题是{nextDate.topic}，点击下方按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！
+            <br/><br/>
+            一期一会，不见不散。
           </div>
         </div>
         <div className="gutter"/>
         <RenderInBody>
           <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
-            <div className="button">去提问</div>
+            <div className="button" style={{ backgroundColor: '#363d43' }}>去提问</div>
           </div>
         </RenderInBody>
       </div>
