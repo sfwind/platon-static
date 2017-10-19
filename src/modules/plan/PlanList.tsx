@@ -10,7 +10,7 @@ import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 import Banner from '../../components/Banner'
 import { Dialog } from 'react-weui'
-import { createPlan } from '../problem/async'
+import { createCampPlan } from '../problem/async'
 const { Alert } = Dialog
 
 /**
@@ -130,7 +130,7 @@ export default class PlanList extends React.Component<any, any> {
               console.log('调取开课接口')
               dispatch(startLoad())
               this.setState({ dialogShow: false })
-              createPlan(problemId).then(res => {
+              createCampPlan(problemId).then(res => {
                 dispatch(endLoad())
                 if(res.code === 200) {
                   console.log('tiaozhuan')
@@ -198,10 +198,11 @@ export default class PlanList extends React.Component<any, any> {
     const { completedPlans, runningPlans = [] } = planList
 
     const renderCampProblems = () => {
+      if(!riseMember) return
       return (
         <div className="problem-camp">
           <div className="camp-header">
-            <span className="header-title">小课训练营课程</span>
+            <span className="header-title">本月训练营</span>
           </div>
           {
             currentCampPlans.map((item, index) => {
@@ -220,14 +221,18 @@ export default class PlanList extends React.Component<any, any> {
                       <div className="problem-item-text-title">
                         {item.name}
                       </div>
-                      {/*{*/}
-                        {/*item.completeSeries && item.totalSeries ?*/}
-                          {/*<div className="problem-item-text-done">*/}
-                            {/*已完成：{`${item.completeSeries}/${item.totalSeries}节`}*/}
-                          {/*</div> : null*/}
-                      {/*}*/}
-                      {/*{renderDeadline(item.deadline)}*/}
-                      <div className={`running-problem-button`}/>
+                      {
+                        item.planId ?
+                          <div className="problem-item-text-done">
+                            已完成：{`${item.completeSeries}/${item.totalSeries}节`}
+                          </div> : null
+                      }
+                      {renderDeadline(item.deadline)}
+                      {
+                        item.planId ?
+                          <div className={`running-problem-button`}>去上课</div> :
+                          <div className={`running-problem-button`}>开课</div>
+                      }
                     </div>
                   </div>
                 </div>
@@ -332,7 +337,7 @@ export default class PlanList extends React.Component<any, any> {
                       </div>
                       {renderDeadline(item.deadline)}
                       <div className={`running-problem-button ${item.learnable ? '' : 'lock'}`}>
-                        {item.learnable ? '' : '即将开营'}
+                        {item.learnable ? '去上课' : '即将开营'}
                       </div>
                     </div>
                   </div>

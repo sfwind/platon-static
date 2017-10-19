@@ -21,6 +21,10 @@ export function createPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
 
+export function createCampPlan(problemId) {
+  return ppost(`/rise/plan/choose/problem/camp/${problemId}`)
+}
+
 /**
  * 检查是否能够选择当前小课
  */
