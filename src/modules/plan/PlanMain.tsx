@@ -18,6 +18,7 @@ import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 import { mark } from '../../utils/request'
 import RenderInBody from '../../components/RenderInBody'
 import { ToolBar } from '../base/ToolBar'
+
 const { Alert } = Dialog
 var FastClick = require('fastclick')
 
@@ -1026,11 +1027,20 @@ export class PlanMain extends React.Component <any, any> {
       )
     }
 
+    const containerStyle = () => {
+      let dom = document.querySelector('.global-notify');
+      if(dom) {
+        return { height: window.innerHeight - dom.clientHeight };
+      } else {
+        return { height: window.innerHeight };
+      }
+    }
+
     return (
-      <div className="rise-main-container" id="rise-main-container" style={{height:window.innerHeight}}>
+      <div className="rise-main-container" id="rise-main-container" style={containerStyle()}>
         {renderCard()}
         <Sidebar
-          sidebar={ renderSidebar() } open={this.state.sidebarOpen}
+          sidebar={renderSidebar()} open={this.state.sidebarOpen}
           contentClassName="sidebar-content" contentId="sidebar-content"
           onSetOpen={(open) => this.onSetSidebarOpen(open)}
           trigger={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>

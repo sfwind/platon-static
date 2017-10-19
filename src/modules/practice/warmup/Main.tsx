@@ -258,10 +258,19 @@ export class Main extends React.Component <any, any> {
       )
     }
 
+    const containerStyle = () => {
+      let dom = document.querySelector('.global-notify');
+      if(dom) {
+        return { height: window.innerHeight - 49 - dom.clientHeight };
+      } else {
+        return { height: window.innerHeight - 49 };
+      }
+    }
+
     return (
       <div>
         <div>
-          <div className="container has-footer" style={{ height: window.innerHeight - 49 }}>
+          <div className="container has-footer" style={containerStyle()}>
             <div className="warm-up">
               {practice[ currentIndex ] && practice[ currentIndex ].knowledge ?
                 <div className="page-header">{practice[ currentIndex ].knowledge.knowledge}</div> :
