@@ -7,7 +7,7 @@ import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon
+  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon, unlockCampPlan
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
@@ -234,6 +234,28 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/learn' })
   }
 
+  handleClickProblemChooseConfirm() {
+    const chooseConfirm = {
+      buttons: [
+        {
+          label: '取消',
+          onClick: () => {
+            this.setState({ showAlert: false })
+          }
+        },
+        {
+          label: '确认',
+          onClick: () => {
+            this.setState({ showAlert: false })
+            this.handleClickChooseProblem()
+          }
+        }
+      ]
+    }
+
+    this.setState({ showAlert: true, alert: chooseConfirm, tipMsg: '小课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？' })
+  }
+
   /**
    * 点击选择小课按钮
    */
@@ -440,7 +462,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             }
             case 2: {
               list.push(
-                <div className="button-footer" onClick={() => this.handleClickChooseProblem()}>
+                <div className="button-footer" onClick={() => this.handleClickProblemChooseConfirm()}>
                   {
                     togetherClassMonth && togetherClassMonth !== '0' ?
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>

@@ -10,7 +10,7 @@ import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 import Banner from '../../components/Banner'
 import { Dialog } from 'react-weui'
-import { createCampPlan } from '../problem/async'
+import { createCampPlan, unlockCampPlan } from '../problem/async'
 const { Alert } = Dialog
 
 /**
@@ -149,7 +149,15 @@ export default class PlanList extends React.Component<any, any> {
       })
     } else {
       // 如果 planId 不为 null，则当前课程正在学习当中，点击进入学习页面开始学习
-      this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
+      new Promise(function(resolve) {
+        resolve(unlockCampPlan(planId))
+      }).then(res => {
+        if(res.code === 200) {
+          this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
+        }
+      }).catch(e => {
+        dispatch(alertMsg(e))
+      })
     }
   }
 
