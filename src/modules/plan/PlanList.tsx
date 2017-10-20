@@ -3,13 +3,15 @@ import './PlanList.less'
 import { connect } from 'react-redux'
 import { loadHasGetOperationCoupon, loadPlanList } from './async'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { loadProblem, createPlan, checkCreatePlan, mark } from './async'
+import { loadProblem, checkCreatePlan, mark } from './async'
 import AssetImg from '../../components/AssetImg'
 import { changeTitle } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 import Banner from '../../components/Banner'
-import RenderInBody from '../../components/RenderInBody'
+import { Dialog } from 'react-weui'
+import { createCampPlan, unlockCampPlan } from '../problem/async'
+const { Alert } = Dialog
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -50,10 +52,11 @@ export default class PlanList extends React.Component<any, any> {
 
     const { dispatch, location } = this.props
     dispatch(startLoad())
+
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { runningPlans = [], riseMember, recommendations = [] } = res.msg
+        const { runningPlans = [], riseMember, recommendations = [], currentCampPlans = [] } = res.msg
 
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
@@ -61,8 +64,12 @@ export default class PlanList extends React.Component<any, any> {
         }
 
         this.setState({
-          planList: res.msg, showEmptyPage: showEmptyPage, riseMember,
-          recommendations: recommendations, showPage: true
+          planList: res.msg,
+          showEmptyPage: showEmptyPage,
+          riseMember,
+          currentCampPlans: currentCampPlans,
+          recommendations: recommendations,
+          showPage: true
         }, () => {
           var swiper = new Swiper('#problem-recommendation', {
             scrollbar: '#problem-recommendation-bar',
@@ -105,6 +112,53 @@ export default class PlanList extends React.Component<any, any> {
     }
   }
 
+  handleClickCampPlan(planId, problemId) {
+    const { dispatch } = this.props
+    if(planId === null) {
+      // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
+      this.setState({
+        dialogButtons: [
+          {
+            label: '取消',
+            onClick: () => {
+              this.setState({ dialogShow: false, dialogButtons: [], dialogContent: '' })
+            }
+          },
+          {
+            label: '确认',
+            onClick: () => {
+              dispatch(startLoad())
+              this.setState({ dialogShow: false })
+              createCampPlan(problemId).then(res => {
+                dispatch(endLoad())
+                if(res.code === 200) {
+                  this.context.router.push(`/rise/static/plan/study?planId=${res.msg}`)
+                } else {
+                  dispatch(alertMsg(res.msg))
+                }
+              }).catch(e => {
+                dispatch(alertMsg(e))
+              })
+            }
+          }
+        ],
+        dialogShow: true,
+        dialogContent: '小课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
+      })
+    } else {
+      // 如果 planId 不为 null，则当前课程正在学习当中，点击进入学习页面开始学习
+      unlockCampPlan(planId).then(res => {
+        if(res.code === 200) {
+          this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(e => {
+        dispatch(alertMsg(e))
+      })
+    }
+  }
+
   handleClickProblemChoose() {
     this.context.router.push({
       pathname: '/rise/static/problem/explore'
@@ -144,14 +198,59 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   render() {
-    const { planList = {}, showEmptyPage, riseMember, showPage, recommendations = [], showFloatCoupon } = this.state
+    const { planList = {}, showEmptyPage, riseMember, showPage, currentCampPlans = [], recommendations = [], showFloatCoupon } = this.state
 
     const { location } = this.props
-    const { runningPlanId, completedPlanId } = location.query
     const { completedPlans, runningPlans = [] } = planList
 
+    const renderCampProblems = () => {
+      if(!riseMember) return
+      return (
+        <div className="problem-camp">
+          <div className="camp-header">
+            <span className="header-title">本月训练营</span>
+          </div>
+          {
+            currentCampPlans.map((item, index) => {
+              return (
+                <div className="problem-block" key={index}
+                     onClick={() => {
+                       this.handleClickCampPlan(item.planId, item.problemId)
+                     }}>
+                  <div className="problem-item" style={{ padding: index === 0 ? '18px 15px 20px' : '20px 15px' }}>
+                    <div className="problem-item-pic">
+                      <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
+                      <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
+                      <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
+                    </div>
+                    <div className="problem-item-text">
+                      <div className="problem-item-text-title">
+                        {item.name}
+                      </div>
+                      {
+                        item.planId ?
+                          <div className="problem-item-text-done">
+                            已完成：{`${item.completeSeries}/${item.totalSeries}节`}
+                          </div> : null
+                      }
+                      {renderDeadline(item.deadline)}
+                      {
+                        item.planId ?
+                          <div className={`running-problem-button`}>去上课</div> :
+                          <div className={`running-problem-button`}>开课</div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </div>
+      )
+    }
+
     const renderDeadline = (deadline) => {
-      if(deadline < 0) {
+      if(!deadline || deadline < 0) {
         return null
       } else {
         return (
@@ -189,10 +288,26 @@ export default class PlanList extends React.Component<any, any> {
       )
     }
 
+    const renderDialog = () => {
+      const { dialogShow = false, dialogButtons = [], dialogContent } = this.state
+
+      return (
+        <Alert
+          show={dialogShow}
+          buttons={dialogButtons}
+        >
+          {dialogContent}
+        </Alert>
+      )
+    }
+
     return (
       <div className="plan-list-page" style={{ minHeight: window.innerHeight + 30 }}>
         {renderBanners()}
         <ToolBar/>
+
+        {renderCampProblems()}
+
         <div className="plp-running plp-block">
           <div className="p-r-header">
             <span className="p-r-h-title">进行中</span>
@@ -218,10 +333,6 @@ export default class PlanList extends React.Component<any, any> {
                       <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
                       <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
                       <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
-                      {/*<div className="complete-person">*/}
-                      {/*<div className="icon-person"/>*/}
-                      {/*<span className="completed-person-count">&nbsp;{item.problem.chosenPersonCount}</span>*/}
-                      {/*</div>*/}
                     </div>
                     <div className="problem-item-text">
                       <div className="problem-item-text-title">
@@ -232,7 +343,7 @@ export default class PlanList extends React.Component<any, any> {
                       </div>
                       {renderDeadline(item.deadline)}
                       <div className={`running-problem-button ${item.learnable ? '' : 'lock'}`}>
-                        {item.learnable ? '' : '即将开营'}
+                        {item.learnable ? '去上课' : '即将开营'}
                       </div>
                     </div>
                   </div>
@@ -329,6 +440,7 @@ export default class PlanList extends React.Component<any, any> {
             </div> : null}
         </div>
         <div className="padding-footer"/>
+        {renderDialog()}
       </div>
     )
   }

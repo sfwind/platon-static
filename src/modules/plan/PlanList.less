@@ -294,7 +294,160 @@
             position: absolute;
             width: 60px;
             height: 24px;
-            background-image: url("https://static.iqycamp.com/images/fragment/go_learn.png?imageslim");
+            background-image: url("https://static.iqycamp.com/images/fragment/go_learn_1.png?imageslim");
+            background-size: 100% 100%;
+            right: 0;
+            bottom: 0;
+            font-size: 13px;
+            line-height: 24px;
+            text-align: center;
+            color: #FFFFFF;
+            border-radius: 3px;
+
+            &.lock {
+              background-image: none;
+              background-color: #CCCCCC;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .problem-camp {
+    border-bottom: 1px solid #F5F5F5;
+    .camp-header {
+      height: 20px;
+      position: relative;
+      padding: 20px 0 0 0;
+      .header-title {
+        line-height: 20px;
+        font-size: @font_title;
+        color: #666;
+        &:before {
+          content: "";
+          width: 2px;
+          height: 17px;
+          margin-top: -4px;
+          border-radius: 10px;
+          display: inline-block;
+          background-color: #666;
+          margin-left: 15px;
+          margin-right: 5px;
+          vertical-align: middle;
+        }
+      }
+    }
+    .problem-block {
+      margin: 0 auto;
+      transition: transform 1s;
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+      //&.last {
+      //  margin-bottom: 0;
+      //}
+      //&.first {
+      //  margin-top: 0;
+      //}
+      .problem-item {
+        background-color: #FFF;
+        padding: 20px 15px;
+        position: relative;
+        border-bottom: 1px solid #F5F5F5;
+        &:after {
+          content: '';
+          clear: both;
+          display: block;
+        }
+        .problem-item-pic {
+          width: 11rem;
+          height: 75px;
+          display: inline-block;
+          overflow: hidden;
+          position: relative;
+          vertical-align: top;
+          float: left;
+          -webkit-border-radius: 3px;
+          -moz-border-radius: 3px;
+          border-radius: 3px;
+          .problem-background-electronic();
+          .problem-item-pic-img {
+            width: auto;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+          }
+          .complete-person {
+            position: absolute;
+            line-height: 12px;
+            height: 12px;
+            right: 5px;
+            bottom: 8px;
+            z-index: 1;
+            .icon-person {
+              float: left;
+              position: relative;
+              top: 0;
+              display: inline-block;
+              width: 12px;
+              height: 12px;
+              background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon_5.png?imageslim");
+              background-size: 12px 12px;
+            }
+            .completed-person-count {
+              float: left;
+              position: relative;
+              top: 1px;
+              display: inline-block;
+              height: 12px;
+              line-height: 12px;
+              font-size: 12px;
+              color: #fff;
+            }
+          }
+        }
+        .problem-item-text {
+          width: ~"calc(100% - 11rem)";
+          height: 75px;
+          display: inline-block;
+          position: relative;
+
+          > div {
+            position: relative;
+          }
+          .problem-item-text-title {
+            font-size: 1.5rem;
+            line-height: 1.5rem;
+            color: #333;
+            word-wrap: break-word;
+            padding: 0 0 0 15px;
+          }
+          .problem-item-text-done {
+            font-size: 1.2rem;
+            line-height: 1.2rem;
+            color: #666;
+            word-wrap: break-word;
+            margin-top: 5px;
+            padding: 0 0 0 15px;
+          }
+          .problem-item-text-close {
+            font-size: 1.2rem;
+            line-height: 1.2rem;
+            color: #666;
+            word-wrap: break-word;
+            margin-top: 5px;
+            padding: 0 0 0 15px;
+          }
+          .running-problem-button {
+            position: absolute;
+            width: 60px;
+            height: 24px;
+            background-image: url("https://static.iqycamp.com/images/fragment/go_learn_1.png?imageslim");
             background-size: 100% 100%;
             right: 0;
             bottom: 0;
