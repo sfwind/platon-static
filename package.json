@@ -73,6 +73,7 @@
     "weui": "^0.4.3"
   },
   "devDependencies": {
+    "@types/react-weui": "^1.0.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",

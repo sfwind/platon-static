@@ -1,4 +1,4 @@
-import { pget, ppost } from "utils/request";
+import { pget, ppost } from 'utils/request'
 
 export function loadProblemList() {
   return pget(`/rise/problem/load`)
@@ -21,6 +21,14 @@ export function createPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
 
+export function createCampPlan(problemId) {
+  return ppost(`/rise/plan/choose/problem/camp/${problemId}`)
+}
+
+export function unlockCampPlan(planId) {
+  return ppost(`/rise/plan/choose/problem/camp/unlock/${planId}`)
+}
+
 /**
  * 检查是否能够选择当前小课
  */
@@ -29,7 +37,7 @@ export function checkCreatePlan(problemId, type) {
 }
 
 export function loadGoodsInfo(goodsType, goodsId) {
-  return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId });
+  return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId })
 }
 
 export function welcome() {
@@ -37,15 +45,15 @@ export function welcome() {
 }
 
 export function mark(param) {
-  return ppost('/rise/b/mark', param);
+  return ppost('/rise/b/mark', param)
 }
 
 export function loadAllProblems() {
-  return pget('/rise/problem/list/all');
+  return pget('/rise/problem/list/all')
 }
 
 export function loadCatalog(catalogId) {
-  return pget(`/rise/problem/list/${catalogId}`);
+  return pget(`/rise/problem/list/${catalogId}`)
 }
 // 获取小课扩展相关数据
 export function loadProblemExtension(problemId) {
@@ -69,27 +77,27 @@ export function calculateCoupon(couponId, problemId) {
 }
 
 export function loadUserCoupons() {
-  return pget(`/signup/coupon/list`);
+  return pget(`/signup/coupon/list`)
 }
 
 export function loadPayParam(param) {
-  return ppost('/signup/rise/course/pay', param);
+  return ppost('/signup/rise/course/pay', param)
 }
 
-export function loadTrainPayParam(param){
-  return ppost('/signup/rise/train/pay', param);
+export function loadTrainPayParam(param) {
+  return ppost('/signup/rise/train/pay', param)
 }
 
 export function afterPayDone(productId) {
-  return ppost(`/signup/paid/rise/${productId}`);
+  return ppost(`/signup/paid/rise/${productId}`)
 }
 
 export function logPay(functionValue, type, param) {
-  pget(`/signup/mark/pay/${functionValue}/${type}${param ? '?param=' + param : ''}`);
+  pget(`/signup/mark/pay/${functionValue}/${type}${param ? '?param=' + param : ''}`)
 }
 
 export function sendCustomerMsg() {
-  return ppost(`/rise/operation/free/choose/problem/msg`);
+  return ppost(`/rise/operation/free/choose/problem/msg`)
 }
 
 export function loadHasGetOperationCoupon() {
@@ -100,12 +108,12 @@ export function loadHasGetOperationCoupon() {
  * 获取支付信息
  */
 export function loadPaymentParam(param) {
-  return ppost('/signup/load/pay/param', param);
+  return ppost('/signup/load/pay/param', param)
 }
 
 /**
  * 计算优惠券信息
  */
 export function calculateCoupons(param) {
-  return ppost('/signup/payment/coupon/calculate', param);
+  return ppost('/signup/payment/coupon/calculate', param)
 }
