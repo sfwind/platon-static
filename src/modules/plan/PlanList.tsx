@@ -149,7 +149,7 @@ export default class PlanList extends React.Component<any, any> {
       })
     } else {
       // 如果 planId 不为 null，则当前课程正在学习当中，点击进入学习页面开始学习
-      new Promise(function(resolve) {
+      new Promise(resolve => {
         resolve(unlockCampPlan(planId))
       }).then(res => {
         if(res.code === 200) {
