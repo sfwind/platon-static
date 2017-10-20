@@ -22,8 +22,7 @@ export default class PlanList extends React.Component<any, any> {
     super()
     this.state = {
       riseMember: 1,
-      showPage: false,
-      showFloatCoupon: false
+      showPage: false
     }
     this.picWidth = (window.innerWidth - 15 - 10 - 10) / 2.5
     this.picHeight = (80 / 130) * this.picWidth
@@ -80,16 +79,6 @@ export default class PlanList extends React.Component<any, any> {
             grabCursor: true
           })
         })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-    loadHasGetOperationCoupon().then(res => {
-      if(res.code === 200) {
-        this.setState({ showFloatCoupon: res.msg })
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -198,7 +187,7 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   render() {
-    const { planList = {}, showEmptyPage, riseMember, showPage, currentCampPlans = [], recommendations = [], showFloatCoupon } = this.state
+    const { planList = {}, showEmptyPage, riseMember, showPage, currentCampPlans = [], recommendations = [] } = this.state
 
     const { location } = this.props
     const { completedPlans, runningPlans = [] } = planList
@@ -356,13 +345,6 @@ export default class PlanList extends React.Component<any, any> {
           <div className="problem-recommendation ">
             <div className="recommendation-header">
               <span className="header-title">推荐学习</span>
-              {
-                showFloatCoupon ?
-                  <div className="operation-coupon">
-                    <AssetImg url="https://static.iqycamp.com/images/fragment/float_coupon_reward.png"/>
-                  </div> :
-                  null
-              }
             </div>
             <div className="swiper-container" id="problem-recommendation">
               <div className="swiper-wrapper">
