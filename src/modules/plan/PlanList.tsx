@@ -127,13 +127,11 @@ export default class PlanList extends React.Component<any, any> {
           {
             label: '确认',
             onClick: () => {
-              console.log('调取开课接口')
               dispatch(startLoad())
               this.setState({ dialogShow: false })
               createCampPlan(problemId).then(res => {
                 dispatch(endLoad())
                 if(res.code === 200) {
-                  console.log('tiaozhuan')
                   this.context.router.push(`/rise/static/plan/study?planId=${res.msg}`)
                 } else {
                   dispatch(alertMsg(res.msg))
@@ -149,11 +147,11 @@ export default class PlanList extends React.Component<any, any> {
       })
     } else {
       // 如果 planId 不为 null，则当前课程正在学习当中，点击进入学习页面开始学习
-      new Promise(resolve => {
-        resolve(unlockCampPlan(planId))
-      }).then(res => {
+      unlockCampPlan(planId).then(res => {
         if(res.code === 200) {
           this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
+        } else {
+          dispatch(alertMsg(res.msg))
         }
       }).catch(e => {
         dispatch(alertMsg(e))
