@@ -107,12 +107,7 @@ export default class InterlocutionQuestion extends Component {
   }
 
   handleClickGoSubmit() {
-    this.context.router.push({
-      pathname: '/rise/static/inter/question/submit',
-      query: {
-        date: this.props.location.query.date
-      }
-    });
+    window.location.href = `https://${window.location.hostname}/rise/static/inter/question/submit?date=${this.props.location.query.date}`;
   }
 
   handleClickVote(question) {
