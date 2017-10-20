@@ -14,8 +14,8 @@ enum Device {
 }
 
 interface AudioProps {
-  url:string,
-  words?:string,
+  url: string,
+  words?: string,
 }
 
 export default class Audio extends React.Component<AudioProps, any> {
@@ -58,7 +58,7 @@ export default class Audio extends React.Component<AudioProps, any> {
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(timer);
     clearInterval(duration_load_timer);
   }
@@ -151,17 +151,17 @@ export default class Audio extends React.Component<AudioProps, any> {
     return (
       <div className="audio">
         <div className="audio-container">
-          { loading ?
+          {loading ?
             <div className="audio-btn" onClick={this.pause.bind(this)}>
               <AssetImg url="https://www.iqycamp.com/images/audio_loading.gif" size={20}/>
             </div>
             : playing ?
-            <div className="audio-btn" onClick={this.pause.bind(this)}>
-              <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
-            </div> :
-            <div className="audio-btn" onClick={this.start.bind(this)}>
-              <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
-            </div>
+              <div className="audio-btn" onClick={this.pause.bind(this)}>
+                <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
+              </div> :
+              <div className="audio-btn" onClick={this.start.bind(this)}>
+                <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
+              </div>
           }
           <div className="audio-progress">
             <Slider min={0} max={duration} value={currentSecond} onChange={this.onProgressChange.bind(this)}
@@ -182,15 +182,28 @@ export default class Audio extends React.Component<AudioProps, any> {
     this.setState({ showWords: !showWords });
   }
 
-  renderWordsComponent(showWords, words) {
+  temprenderWordsComponent(showWords, words) {
     return (
       <div className="audio-words-container">
-        <div className={`audio-words-btn ${showWords?'open':''}`} onClick={()=>this.handleClickShowWords(showWords)}>
+        <div className={`audio-words-btn ${showWords ? 'open' : ''}`}
+             onClick={() => this.handleClickShowWords(showWords)}>
           <span className="awb-tips">语音文字版</span>
         </div>
         {showWords ?
-          <pre className="audio-words" dangerouslySetInnerHTML={{__html:words}}/>
+          <pre className="audio-words" dangerouslySetInnerHTML={{ __html: words }}/>
           : null}
+      </div>
+    )
+  }
+
+  renderWordsComponent(showWords, words) {
+    return (
+      <div className={`audio-words-container ${showWords ? 'show-all' : ''}`}>
+        <div className="audio-words" dangerouslySetInnerHTML={{ __html: words }}/>
+        <div className={`audio-mask ${showWords ? 'hide' : 'show'}`}
+             onClick={() => this.handleClickShowWords(showWords)}>
+          {showWords ? '点击收起' : '点击查看语音文字稿'}
+        </div>
       </div>
     )
   }
@@ -198,7 +211,7 @@ export default class Audio extends React.Component<AudioProps, any> {
   render() {
     const { url } = this.props
     const { words } = this.props;
-    const { showWords, device }  = this.state;
+    const { showWords, device } = this.state;
     let renderList = [];
     let wordsComponent = null;
     if(words) {
