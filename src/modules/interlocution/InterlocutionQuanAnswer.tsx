@@ -52,7 +52,7 @@ export default class InterlocutionQuanAnswer extends Component {
 
   render() {
     const { data = {}, showAll } = this.state;
-    const { answer = {}, nextDate = {}, dateInfo = {}, topic, batch } = data;
+    const { answer = {}, nextDate = {}, dateInfo = {}, topic } = data;
     const renderAudioWords = () => {
       if(showAll) {
         // 实现全部
@@ -79,13 +79,13 @@ export default class InterlocutionQuanAnswer extends Component {
 
     return (
       <div className="quan-answer">
-        <AssetImg url={"https://static.iqycamp.com/images/quanquan-qa-banner.png?imageslim"} width={'100%'}/>
+        <AssetImg url={"https://static.iqycamp.com/images/quanquan-qa-banner-2.png?imageslim"} width={'100%'}/>
         <div className="header-msg">
           {/*<div className="quan-avatar">*/}
           {/*<AssetImg url={"https://static.iqycamp.com/images/quanquan_avatar.png?imageslim"} size={"100%"}/>*/}
           {/*</div>*/}
           <div className={"msg"}>
-            你打开的是第{batch}期【圈外商学院|一期一会】每周二早上8点，圈外创始人孙圈圈会为你解答一个职场问题
+            你打开的是第{dateInfo.batch}期【圈外商学院|一期一会】每周二早上8点，圈外创始人孙圈圈会为你解答一个职场问题
           </div>
         </div>
         <div className="question-answer">
@@ -117,9 +117,9 @@ export default class InterlocutionQuanAnswer extends Component {
           {renderAudioWords()}
         </div>
         <div className="next-question">
-          <span className="title-name">
-            <div class="title-text">下期预告</div>
-          </span>
+          <div className="title-name">
+            <div className="title-text">下期预告</div>
+          </div>
           <div className="text">
             下期主题是{nextDate.topic}，点击下方按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！
             <br/><br/>

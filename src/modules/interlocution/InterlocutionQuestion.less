@@ -73,8 +73,40 @@
       }
     }
   }
-}
+  .qr_dialog {
+    top: 0;
+    left: 0;
+    z-index: 300;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    .qr_dialog_mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      height: 100%;
+      width: 100%;
+    }
+    .qr_dialog_content {
+      position: absolute;
+      top: 40%;
+      left: 10%;
+      width: 80%;
+      transform: translateY(-50%);
+      text-align: center;
+      background-color: #FFF;
+      span {
+        font-size: 1.3rem;
+      }
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
 
+  }
+}
 
 .inter-question.footer {
   box-shadow: 0 0 8px 4px rgba(0, 0, 0, .04);

@@ -206,7 +206,7 @@ export default class Audio extends React.Component<AudioProps, any> {
       wordsComponent = this.renderWordsComponent(showWords, words);
     }
     // 区分平台显示不同的音频组件
-    if(device === Device.ANDROID) {
+    if(device === Device.ANDROID ) {
       renderList.push(this.renderOrigin(url));
     } else {
       renderList.push(this.renderCustomize(url));
