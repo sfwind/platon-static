@@ -19,10 +19,15 @@ export default class Work extends React.Component<any,any> {
 
     this.state = {
       showAll: false,
-      filterContent:isString(props.content)?props.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):"",
+      filterContent:isString(props.content)?this.simpleContent(props.content):"",
       showRequestComment:false,
       request:false,
     }
+  }
+
+  simpleContent(content){
+    //删除标签，删除空格，删除空行
+    return content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,"").replace(/^(\s*)\n/g, "")
   }
 
   disOpen(filterContent,showAll){
@@ -38,7 +43,7 @@ export default class Work extends React.Component<any,any> {
   componentWillReceiveProps(nextProps){
     if(nextProps.content && !this.props.content){
       this.setState({
-        filterContent:isString(nextProps.content)?nextProps.content.replace(/<[^>]+>/g,"").replace(/&nbsp;/g,""):""
+        filterContent:isString(nextProps.content)?this.simpleContent(nextProps.content):""
       })
     }
   }
@@ -105,7 +110,7 @@ export default class Work extends React.Component<any,any> {
           return (
             <div className={`${avatarStyle}`} onClick={()=>this.show(showAll)}>
               {truncate(filterContent,{length:wordsCount,omission:''})}
-              <span style={{letterSpacing:'-3px'}}>...</span>
+              <span>...</span>
             </div>
           )
         } else {
@@ -151,7 +156,7 @@ export default class Work extends React.Component<any,any> {
                   编辑
                 </div>
               </div>
-                {!request && requestCommentCount!=null && requestCommentCount>0?
+              {!request && requestCommentCount!=null && requestCommentCount>0?
                 <div className="function-area" onClick={this.click.bind(this)}>
                   <AssetImg type="request_comment" height={12}/>
                   <div className={`submit-button`}>
@@ -159,13 +164,13 @@ export default class Work extends React.Component<any,any> {
                   </div>
                 </div>
                 :null}
-                {request || (requestCommentCount!=null && requestCommentCount===0)?<div className="function-area" onClick={this.click.bind(this)}>
-                      <AssetImg type="request_comment_disable" height={12}/>
-                      <div className={`submit-button disabled`}>
-                        求点评
-                      </div>
-                    </div>:null}
-          </div>:null}
+              {request || (requestCommentCount!=null && requestCommentCount===0)?<div className="function-area" onClick={this.click.bind(this)}>
+                  <AssetImg type="request_comment_disable" height={12}/>
+                  <div className={`submit-button disabled`}>
+                    求点评
+                  </div>
+                </div>:null}
+            </div>:null}
         </div>
       )
     }
@@ -180,7 +185,7 @@ export default class Work extends React.Component<any,any> {
     return (
       <div className={`new-work`} >
         <Alert { ...alertProps }
-            show={showRequestComment}>
+          show={showRequestComment}>
           <div className="global-pre" dangerouslySetInnerHTML={{__html:`当前小课还剩${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>
         </Alert>
         <div className="submit-cell">
@@ -192,7 +197,7 @@ export default class Work extends React.Component<any,any> {
                                                                    className="show-all">{showAll?'收起':'展开'}</div>:null}
             {
               showOperation()
-              ? <div className={`operation-area`}>
+                ? <div className={`operation-area`}>
                   <div onClick={()=>{isFunction(goComment)?goComment():null}} className="comment">
                     <span>{commentCount}</span>
                   </div>
@@ -202,16 +207,16 @@ export default class Work extends React.Component<any,any> {
                   {
                     feedback
                       ? <div className="operation-asset" onClick={()=>{isFunction(goComment)?goComment():null}}>
-                          <AssetImg
-                            url="https://static.iqycamp.com/images/fragment/application_asset_comment.png"
-                            width="42px"
-                            height="11px"
-                          />
-                        </div>
+                        <AssetImg
+                          url="https://static.iqycamp.com/images/fragment/application_asset_comment.png"
+                          width="42px"
+                          height="11px"
+                        />
+                      </div>
                       : null
                   }
                 </div>
-              : null
+                : null
             }
           </div>
         </div>
