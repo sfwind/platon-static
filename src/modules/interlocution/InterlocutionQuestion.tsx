@@ -182,7 +182,9 @@ export default class InterlocutionQuestion extends Component {
     return (
       <div className="inter-question">
         <div className="header">
-          <span className="big">{dateInfo.topic}</span>
+          <div className="big">
+            <span>{dateInfo.topic}</span>
+          </div>
           <div className="small" dangerouslySetInnerHTML={{ __html: dateInfo.description }}/>
         </div>
         <div className="question-list">
@@ -203,7 +205,7 @@ export default class InterlocutionQuestion extends Component {
             }}>
             </div>
             <div className="qr_dialog_content">
-              <span>请扫描二维码</span>
+              <span>扫码去“圈外商学院”提问吧！</span>
               <AssetImg url={qrCode}/>
             </div>
           </div> : null
