@@ -110,7 +110,7 @@ export default class InterlocutionQuanAnswer extends Component {
             </pre>
           </div>
         </div>
-        <div className="qa-audio-msg">听圈圈语音回答</div>
+        <div className="qa-audio-msg">听完整语音解答</div>
         <Audio url={answer.audio}/>
         <div className="audio-words">
           <span className="tips">语音文字版</span>

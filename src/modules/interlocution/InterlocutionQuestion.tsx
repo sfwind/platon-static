@@ -194,7 +194,7 @@ export default class InterlocutionQuestion extends Component {
         </div>
         <RenderInBody>
           <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
-            <div className="button" style={{ backgroundColor: '#363d43' }}>去提问</div>
+            <div className="button" style={{ backgroundColor: '#363d43' }}>新增问题</div>
           </div>
         </RenderInBody>
         {showQrDialog ?
