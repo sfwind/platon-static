@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
 import { submitInterlocutionQuestion, loadInterlocutionDateInfo } from './async';
+import { mark } from 'utils/request'
 import * as _ from 'lodash';
 
 const headerStyle = {
@@ -101,7 +102,7 @@ export default class InterlocutionQuestionSubmit extends Component {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
-
+    mark({ module: "打点", function: "圈圈问答", action: "打开提交页面" })
   }
 
   writeTitle(title) {
