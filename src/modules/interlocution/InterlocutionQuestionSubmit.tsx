@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
 import { submitInterlocutionQuestion, loadInterlocutionDateInfo } from './async';
+import { mark } from 'utils/request'
 import * as _ from 'lodash';
 
 const headerStyle = {

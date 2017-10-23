@@ -9,6 +9,7 @@ import PullElement from 'pull-element';
 import PullSlideTip from '../../components/PullSlideTip'
 import RenderInBody from '../../components/RenderInBody'
 import AssetImg from '../../components/AssetImg'
+import { mark } from 'utils/request'
 
 @connect(state => state)
 export default class InterlocutionQuestion extends Component {
