@@ -51,7 +51,7 @@ export default class InterlocutionQuestion extends Component {
         dispatch(alertMsg(res.msg));
       }
     })
-
+    mark({ module: "打点", function: "圈圈问答", action: "打开提问墙" })
   }
 
   componentDidMount() {

@@ -101,7 +101,7 @@ export default class InterlocutionQuestionSubmit extends Component {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
-
+    mark({ module: "打点", function: "圈圈问答", action: "打开提交页面" })
   }
 
   writeTitle(title) {
