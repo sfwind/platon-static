@@ -134,7 +134,7 @@
   .audio-words {
     background-color: #FFFFFF;
     color: #333;
-    padding: 4rem 4rem 4rem 5.5rem;
+    padding: 1rem 4rem 4rem 5.5rem;
     .tips {
       color: #666666;
       font-size: 1.2rem;
@@ -145,7 +145,7 @@
       font-size: 1.5rem;
     }
     .qa-answer-part {
-      height: 5rem;
+      height: 6rem;
       position: relative;
       overflow: hidden;
       .show-tips {
@@ -155,19 +155,23 @@
         width: 100%;
         margin-left: -50px;
         padding-left: 50px;
-        height: 25px;
+        height: 55px;
         text-align: center;
         background: url('../../../assets/img/bg_rectangle.png') no-repeat center center/100% auto;
         font-size: 1.2rem;
         color: #55cbcb;
-        &:after {
-          content: '';
+        span {
+          margin-top:34px;
           display: inline-block;
-          width: 12px;
-          height: 20px;
-          background: url('../../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
-          vertical-align: bottom;
-          margin-left: 5px;
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 20px;
+            background: url('../../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
+            vertical-align: bottom;
+            margin-left: 5px;
+          }
         }
       }
     }

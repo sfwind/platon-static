@@ -8,6 +8,7 @@ import { loadQuanAnswer } from "./async";
 import Audio from "../../components/Audio"
 import AssetImg from '../../components/AssetImg'
 import RenderInBody from '../../components/RenderInBody'
+import { mark } from 'utils/request'
 
 @connect(state => state)
 export default class InterlocutionQuanAnswer extends Component {
@@ -50,6 +51,11 @@ export default class InterlocutionQuanAnswer extends Component {
     });
   }
 
+  handleClickShowAll(){
+    mark({ module: "临时", function: "圈圈问答", action: "查看语音文稿" })
+    this.setState({ showAll: true })
+  }
+
   render() {
     const { data = {}, showAll } = this.state;
     const { answer = {}, nextDate = {}, dateInfo = {}, topic } = data;
@@ -69,8 +75,8 @@ export default class InterlocutionQuanAnswer extends Component {
             <pre className={"text"}>
               {answer.answer}
             </pre>
-            <div className="show-tips" onClick={() => this.setState({ showAll: true })}>
-              查看语音文稿
+            <div className="show-tips" onClick={() => this.handleClickShowAll()}>
+              <span>查看语音文稿</span>
             </div>
           </div>
         )
