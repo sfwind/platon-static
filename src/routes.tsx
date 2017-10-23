@@ -130,9 +130,9 @@ const routes = (
         <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
-      <Route path="inter/questions" component={InterlocutionQuestion}/>
+      <Route path="guest/inter/questions" component={InterlocutionQuestion}/>
       <Route path="inter/question/submit" component={InterlocutionQuestionSubmit}/>
-      <Route path="inter/quan/answer" component={InterlocutionQuanAnswer}/>
+      <Route path="guest/inter/quan/answer" component={InterlocutionQuanAnswer}/>
     </Route>
   </Route>
 )
