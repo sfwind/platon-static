@@ -103,11 +103,12 @@
       position: absolute;
       top: 0;
       left: 0;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 0, 0, 0.7);
       height: 100%;
       width: 100%;
     }
     .qr_dialog_content {
+      border-radius: 5px;
       position: absolute;
       top: 40%;
       left: 10%;
@@ -115,15 +116,19 @@
       transform: translateY(-50%);
       text-align: center;
       background-color: #FFF;
+      .qr_code {
+        padding: 0 25px 10px;
+        img {
+          display: block;
+          width: 100%;
+        }
+      }
       span {
         font-size: 1.7rem;
         padding: .5rem;
         display: inline-block;
       }
-      img {
-        display: block;
-        width: 100%;
-      }
+
     }
 
   }

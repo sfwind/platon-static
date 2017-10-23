@@ -16,8 +16,8 @@ export default class InterlocutionQuestion extends Component {
     super();
     this.state = {
       page: 1,
-      showQrDialog: false,
-      qrCode: "",
+      showQrDialog: true,
+      qrCode: "https://qr.api.cli.im/qr?data=fwefweuhfupoweihfo&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=10118baa774fc5dea1febfa626d66d58",
     }
   }
 
@@ -206,7 +206,9 @@ export default class InterlocutionQuestion extends Component {
             </div>
             <div className="qr_dialog_content">
               <span>扫码去“圈外商学院”提问吧！</span>
-              <AssetImg url={qrCode}/>
+              <div className="qr_code">
+                <AssetImg url={qrCode}/>
+              </div>
             </div>
           </div> : null
         }
