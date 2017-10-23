@@ -183,7 +183,7 @@ export default class InterlocutionQuestion extends Component {
       <div className="inter-question">
         <div className="header">
           <div className="big">
-            <span>{dateInfo.topic}</span>
+            <span dangerouslySetInnerHTML={{ __html: dateInfo.topic}}></span>
           </div>
           <div className="small" dangerouslySetInnerHTML={{ __html: dateInfo.description }}/>
         </div>
