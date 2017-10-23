@@ -52,15 +52,15 @@ export default class Main extends React.Component<any, any> {
           this.setState({ activityMsg: true, url, message })
         }
       })
+      pget(`/rise/customer/notify/expire`).then(res => {
+        if(res.code === 200) {
+          this.setState({
+            expired: res.msg.expired,
+            expiredInSevenDays: res.msg.expiredInSevenDays
+          })
+        }
+      })
     }
-    pget(`/rise/customer/notify/expire`).then(res => {
-      if(res.code === 200) {
-        this.setState({
-          expired: res.msg.expired,
-          expiredInSevenDays: res.msg.expiredInSevenDays
-        })
-      }
-    })
   }
 
   componentWillUpdate() {
