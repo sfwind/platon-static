@@ -66,7 +66,7 @@
     color: #333;
     background-color: #FFFFFF;
     .qa-bg {
-      background: url('https://static.iqycamp.com/images/qa-bg-q.png?imageslim') no-repeat 15px 20px;
+      background: url('https://static.iqycamp.com/images/qa-bg-q.png?imageslim') no-repeat 30px 20px;
       background-size: 100px auto;
     }
     span {
@@ -88,8 +88,24 @@
       padding: 1.5rem 0;
     }
     .verse {
+      position: relative;
       font-size: 2rem;
       color: #333333;
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        -webkit-transform: translate(-140%, -50%);
+        -moz-transform: translate(-140%, -50%);
+        -ms-transform: translate(-140%, -50%);
+        -o-transform: translate(-140%, -50%);
+        transform: translate(-140%, -50%);
+        background: url('../../../assets/img/quotation_icon.png') no-repeat center center/ 100% auto;
+      }
     }
   }
   .qa-audio-msg {
