@@ -124,7 +124,7 @@ export default class InterlocutionQuanAnswer extends Component {
             <div className="title-text">下期预告</div>
           </div>
           <div className="text">
-            下期主题是{nextDate.topic}，点击下方按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！
+            下期主题是{nextDate.topic}，点击下方的按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！
             <br/><br/>
             一期一会，不见不散。
           </div>
