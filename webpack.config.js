@@ -11,24 +11,8 @@ module.exports = {
     path: path.join(__dirname, "__build__"),
     filename: "[name].js",
     publicPath: "/",
-    chunkFilename: "[id].chunk.js"
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['rise_vendor'],
-      filename: '[name].js',
-      minChunks:function(module){
-        //  下边return参考的vue-cli配置
-        // any required modules inside node_modules are extracted to vendor
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, './node_modules')
-          ) === 0
-        )
-      }
-    }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production")
     }),
