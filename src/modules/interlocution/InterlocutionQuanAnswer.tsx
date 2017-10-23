@@ -85,7 +85,7 @@ export default class InterlocutionQuanAnswer extends Component {
           {/*<AssetImg url={"https://static.iqycamp.com/images/quanquan_avatar.png?imageslim"} size={"100%"}/>*/}
           {/*</div>*/}
           <div className={"msg"}>
-            你打开的是第{dateInfo.batch}期【圈外商学院|一期一会】每周二早上8点，圈外创始人孙圈圈会为你解答一个职场问题
+            你打开的是第{dateInfo.batch}期【圈外商学院|一期一会】。每周二早上8点，圈外创始人孙圈圈为你解答一个职场问题
           </div>
         </div>
         <div className="question-answer">
