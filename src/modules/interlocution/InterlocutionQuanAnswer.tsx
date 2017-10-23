@@ -43,7 +43,7 @@ export default class InterlocutionQuanAnswer extends Component {
     const { data = {}, showAll } = this.state;
     const { answer = {}, nextDate = {}, dateInfo = {}, topic, batch } = data;
     this.context.router.push({
-      pathname: '/rise/static/inter/questions',
+      pathname: '/rise/static/guest/inter/questions',
       query: {
         date: nextDate.startDate
       }

@@ -121,7 +121,7 @@ export default class InterlocutionQuestionSubmit extends Component {
         if(res.code === 200) {
           // 提交成功
           this.context.router.push({
-            pathname: '/rise/static/inter/questions',
+            pathname: '/rise/static/guest/inter/questions',
             query: { date: date },
           })
         } else {
