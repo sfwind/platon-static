@@ -12,38 +12,8 @@ module.exports = {
     path: path.join(__dirname, "__build__"),
     filename: "[name].js",
     publicPath: "/",
-    chunkFilename: "[id].chunk.js"
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name:'vendor',
-      filename: '[name].js',
-      minChunks:function(module){
-        //  下边return参考的vue-cli配置
-        // any required modules inside node_modules are extracted to vendor
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf(
-            path.join(__dirname, './node_modules')
-          ) === 0
-        )
-      }
-    }) ,
-    // // 以下才是关键
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name:'charts',
-    //   chunks:['commons'],
-    //   minChunks:function(module){
-    //     return (
-    //       module.resource &&
-    //       /\.js$/.test(module.resource) &&
-    //       module.resource.indexOf(
-    //         path.join(__dirname, './node_modules')
-    //       ) === 0 && ['react-dom', 'react', 'react-router', 'echarts', 'react-lite'].indexOf( module.resource.substr(module.resource.lastIndexOf('/')+1).toLowerCase() ) != -1
-    //     )
-    //   }
-    // }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development")
     }),
