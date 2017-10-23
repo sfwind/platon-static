@@ -16,8 +16,8 @@ export default class InterlocutionQuestion extends Component {
     super();
     this.state = {
       page: 1,
-      showQrDialog: true,
-      qrCode: "https://qr.api.cli.im/qr?data=fwefweuhfupoweihfo&level=H&transparent=false&bgcolor=%23ffffff&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&size=280&kid=cliim&key=10118baa774fc5dea1febfa626d66d58",
+      showQrDialog: false,
+      qrCode: "",
     }
   }
 
@@ -183,7 +183,7 @@ export default class InterlocutionQuestion extends Component {
       <div className="inter-question">
         <div className="header">
           <div className="big">
-            <span dangerouslySetInnerHTML={{ __html: dateInfo.topic}}></span>
+            <span dangerouslySetInnerHTML={{ __html: dateInfo.topic}}/>
           </div>
           <div className="small" dangerouslySetInnerHTML={{ __html: dateInfo.description }}/>
         </div>
