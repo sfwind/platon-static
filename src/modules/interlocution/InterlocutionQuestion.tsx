@@ -183,7 +183,7 @@ export default class InterlocutionQuestion extends Component {
       <div className="inter-question">
         <div className="header">
           <div className="big">
-            <span dangerouslySetInnerHTML={{ __html: dateInfo.topic}}/>
+            <span dangerouslySetInnerHTML={{ __html: dateInfo.topic }}/>
           </div>
           <div className="small" dangerouslySetInnerHTML={{ __html: dateInfo.description }}/>
         </div>
@@ -198,19 +198,20 @@ export default class InterlocutionQuestion extends Component {
           </div>
         </RenderInBody>
         {showQrDialog ?
-          <div className="qr_dialog">
-            <div className="qr_dialog_mask" onClick={() => {
-              console.log('close');
-              this.setState({ showQrDialog: false });
-            }}>
-            </div>
-            <div className="qr_dialog_content">
-              <span>扫码去“圈外商学院”提问吧！</span>
-              <div className="qr_code">
-                <AssetImg url={qrCode}/>
+          <RenderInBody>
+            <div className="qr_dialog">
+              <div className="qr_dialog_mask" onClick={() => {
+                this.setState({ showQrDialog: false });
+              }}>
+              </div>
+              <div className="qr_dialog_content">
+                <span>扫码去“圈外商学院”提问吧！</span>
+                <div className="qr_code">
+                  <AssetImg url={qrCode}/>
+                </div>
               </div>
             </div>
-          </div> : null
+          </RenderInBody> : null
         }
 
       </div>

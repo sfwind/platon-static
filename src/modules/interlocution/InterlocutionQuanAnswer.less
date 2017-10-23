@@ -66,14 +66,31 @@
     color: #333;
     background-color: #FFFFFF;
     .qa-bg {
-      background: url('https://static.iqycamp.com/images/qa-bg-q.png?imageslim') no-repeat 30px 20px;
-      background-size: 100px auto;
-    }
-    span {
-      display: inline-block;
-      border-bottom: 1px solid #CCC;
+      background: url('../../../assets/img/letter_q_icon.png') no-repeat left 10px;
+      background-size: 60px auto;
+      padding: 4.5rem 0 0;
       margin: 0 4rem 0 5.5rem;
-      padding: 4.5rem 0 3rem;
+      span {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 3rem;
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 30px;
+          height: 30px;
+          -webkit-transform: translate(-140%, -50%);
+          -moz-transform: translate(-140%, -50%);
+          -ms-transform: translate(-140%, -50%);
+          -o-transform: translate(-140%, -50%);
+          transform: translate(-140%, -50%);
+          background: url('../../../assets/img/quotation_icon.png') no-repeat center center/ 100% auto;
+        }
+      }
     }
   }
   .qa-verse {
@@ -117,7 +134,7 @@
   .audio-words {
     background-color: #FFFFFF;
     color: #333;
-    padding: 5rem 4rem 4rem 5.5rem;
+    padding: 4rem 4rem 4rem 5.5rem;
     .tips {
       color: #666666;
       font-size: 1.2rem;

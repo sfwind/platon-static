@@ -81,11 +81,8 @@ export default class InterlocutionQuanAnswer extends Component {
       <div className="quan-answer">
         <AssetImg url={"https://static.iqycamp.com/images/quanquan-qa-banner-2.png?imageslim"} width={'100%'}/>
         <div className="header-msg">
-          {/*<div className="quan-avatar">*/}
-          {/*<AssetImg url={"https://static.iqycamp.com/images/quanquan_avatar.png?imageslim"} size={"100%"}/>*/}
-          {/*</div>*/}
           <div className={"msg"}>
-            你打开的是第{dateInfo.batch}期【圈外商学院|一期一会】。每周二早上8点，圈外创始人孙圈圈为你解答一个职场问题
+            你打开的是第{dateInfo.batch}期【圈外商学院|一期一会】。每周二早上8点，圈外创始人孙圈圈为你解答一个职场问题。
           </div>
         </div>
         <div className="question-answer">
@@ -113,7 +110,6 @@ export default class InterlocutionQuanAnswer extends Component {
         <div className="qa-audio-msg">听完整语音解答</div>
         <Audio url={answer.audio}/>
         <div className="audio-words">
-          <span className="tips">语音文字版</span>
           {renderAudioWords()}
         </div>
         <div className="next-question">
