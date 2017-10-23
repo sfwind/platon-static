@@ -193,7 +193,7 @@ export default class PlanList extends React.Component<any, any> {
     const { completedPlans, runningPlans = [] } = planList
 
     const renderCampProblems = () => {
-      if(!riseMember) return
+      if(riseMember !== 1) return
       return (
         <div className="problem-camp">
           <div className="camp-header">
