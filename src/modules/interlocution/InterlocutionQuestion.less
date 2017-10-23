@@ -9,21 +9,40 @@
   .header {
     //height: 300px;
     //width: 100%;
-    background-color: #363D42;
-    color: #FFFFFF;
+    background-color: #FFFFFF;
+    color: #222222;
     .big {
       padding-top: 10px;
       padding-bottom: 5px;
       font-size: 24px;
       display: block;
       text-align: center;
+      border-bottom: 1px solid #222222;
+      margin: 0 45px 20px 40px;
+      padding-left: 30px;
+      span {
+        position: relative;
+        &:before {
+          position: absolute;
+          top: 50%;
+          left: -10px;
+          transform: translate(-100%, -50%);
+          content: '';
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          background: url('../../../assets/img/question_topic.png') no-repeat center center/auto 100%;
+          vertical-align: top;
+        }
+      }
     }
     .small {
       font-size: @font_index;
       line-height: @font_click;
-      color: @color_weak_background;
-      padding: 0 25px 10px;
+      color: @color_context;
+      padding: 0 25px 20px;
       display: block;
+      margin-bottom: 20px;
     }
   }
   .question-list {
@@ -73,8 +92,48 @@
       }
     }
   }
-}
+  .qr_dialog {
+    top: 0;
+    left: 0;
+    z-index: 300;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    .qr_dialog_mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      height: 100%;
+      width: 100%;
+    }
+    .qr_dialog_content {
+      border-radius: 5px;
+      position: absolute;
+      top: 40%;
+      left: 10%;
+      width: 80%;
+      transform: translateY(-50%);
+      text-align: center;
+      background-color: #FFF;
+      .qr_code {
+        padding: 0 45px 40px;
+        img {
+          display: block;
+          width: 100%;
+        }
+      }
+      span {
+        font-size: 1.7rem;
+        padding: 40px .5rem 10px;
+        display: inline-block;
+        color: #333333;
+      }
 
+    }
+
+  }
+}
 
 .inter-question.footer {
   box-shadow: 0 0 8px 4px rgba(0, 0, 0, .04);
