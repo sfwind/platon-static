@@ -63,7 +63,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       show: true,
       showPayInfo: false,
       showErr: false,
-      showFloatCoupon: false,
       togetherClassMonth: null,
 
       relationTab: 'left',
@@ -143,14 +142,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
-    })
-    // 特指活动得到的50推广优惠券
-    loadHasGetOperationCoupon().then(res => {
-      if(res.code === 200) {
-        this.setState({ showFloatCoupon: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
     })
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
     this.headerContentTop = (window.innerWidth / (750 / 104)) > 52 ? 52 : (window.innerWidth / (750 / 104))
@@ -380,7 +371,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   render() {
     const {
       data = {}, buttonStatus, showPayInfo, final, fee, price, coupons = [], chose, showErr, free,
-      showFloatCoupon, togetherClassMonth, relationTab, problemCollected, relationProblems = []
+      togetherClassMonth, relationTab, problemCollected, relationProblems = []
     } = this.state
     const { show } = this.props.location.query
     const {
@@ -445,13 +436,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 1: {
               list.push(
                 <div className="button-footer">
-                  {
-                    showFloatCoupon ?
-                      <div className="operation-coupon">
-                        <AssetImg url="https://static.iqycamp.com/images/fragment/float_coupon_reward_rec.png"/>
-                      </div> :
-                      null
-                  }
                   <div className={`left pay`}
                        onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
                     加入商学院，立即学习

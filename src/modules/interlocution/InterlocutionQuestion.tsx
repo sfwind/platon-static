@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import "./InterlocutionQuestion.less";
 import { unScrollToBorder } from '../../utils/helpers'
-import { getInterlocutionQuestions, loadInterlocutionDateInfo, follow, unfollow } from './async';
+import { getInterlocutionQuestions, loadInterlocutionDateInfo, follow, unfollow, goSubmitPage } from './async';
 import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
 import * as _ from 'lodash';
 import PullElement from 'pull-element';
 import PullSlideTip from '../../components/PullSlideTip'
 import RenderInBody from '../../components/RenderInBody'
+import AssetImg from '../../components/AssetImg'
+import { mark } from 'utils/request'
 
 @connect(state => state)
 export default class InterlocutionQuestion extends Component {
@@ -15,6 +17,8 @@ export default class InterlocutionQuestion extends Component {
     super();
     this.state = {
       page: 1,
+      showQrDialog: false,
+      qrCode: "",
     }
   }
 
@@ -48,7 +52,7 @@ export default class InterlocutionQuestion extends Component {
         dispatch(alertMsg(res.msg));
       }
     })
-
+    mark({ module: "打点", function: "圈圈问答", action: "打开提问墙" })
   }
 
   componentDidMount() {
@@ -107,7 +111,24 @@ export default class InterlocutionQuestion extends Component {
   }
 
   handleClickGoSubmit() {
-    window.location.href = `https://${window.location.hostname}/rise/static/inter/question/submit?date=${this.props.location.query.date}`;
+    const { dispatch, location } = this.props;
+    const { date } = location.query;
+    dispatch(startLoad());
+    goSubmitPage(date).then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        if(res.msg === 'ok') {
+          this.context.router.push({
+            pathname: '/rise/static/inter/question/submit',
+            query: { date: date }
+          })
+        } else {
+          this.setState({ showQrDialog: true, qrCode: res.msg });
+        }
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+    })
   }
 
   handleClickVote(question) {
@@ -138,7 +159,7 @@ export default class InterlocutionQuestion extends Component {
   }
 
   render() {
-    const { dateInfo = {}, data = [], end } = this.state;
+    const { dateInfo = {}, data = [], end, qrCode, showQrDialog } = this.state;
 
     const renderQuestion = () => {
       if(data) {
@@ -162,7 +183,9 @@ export default class InterlocutionQuestion extends Component {
     return (
       <div className="inter-question">
         <div className="header">
-          <span className="big">{dateInfo.topic}</span>
+          <div className="big">
+            <span dangerouslySetInnerHTML={{ __html: dateInfo.topic }}/>
+          </div>
           <div className="small" dangerouslySetInnerHTML={{ __html: dateInfo.description }}/>
         </div>
         <div className="question-list">
@@ -172,9 +195,26 @@ export default class InterlocutionQuestion extends Component {
         </div>
         <RenderInBody>
           <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
-            <div className="button" style={{ backgroundColor: '#363d43' }}>去提问</div>
+            <div className="button" style={{ backgroundColor: '#363d43' }}>新增问题</div>
           </div>
         </RenderInBody>
+        {showQrDialog ?
+          <RenderInBody>
+            <div className="qr_dialog">
+              <div className="qr_dialog_mask" onClick={() => {
+                this.setState({ showQrDialog: false });
+              }}>
+              </div>
+              <div className="qr_dialog_content">
+                <span>扫码去“圈外商学院”提问吧！</span>
+                <div className="qr_code">
+                  <AssetImg url={qrCode}/>
+                </div>
+              </div>
+            </div>
+          </RenderInBody> : null
+        }
+
       </div>
     )
   }

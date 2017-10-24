@@ -66,18 +66,35 @@
     color: #333;
     background-color: #FFFFFF;
     .qa-bg {
-      background: url('https://static.iqycamp.com/images/qa-bg-q.png?imageslim') no-repeat 15px 20px;
-      background-size: 100px auto;
-    }
-    span {
-      display: inline-block;
-      border-bottom: 1px solid #CCC;
-      margin: 0 4rem 0 5.5rem;
-      padding: 4.5rem 0 3rem;
+      background: url('../../../assets/img/letter_q_icon.png') no-repeat 10px 10px;
+      background-size: 60px auto;
+      padding: 4.5rem 0 0;
+      margin: 0 4rem 0 4rem;
+      span {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px solid #CCC;
+        padding-bottom: 3rem;
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 30px;
+          height: 30px;
+          -webkit-transform: translate(-110%, -50%);
+          -moz-transform: translate(-110%, -50%);
+          -ms-transform: translate(-110%, -50%);
+          -o-transform: translate(-110%, -50%);
+          transform: translate(-110%, -50%);
+          background: url('../../../assets/img/quotation_icon.png') no-repeat center center/ 100% auto;
+        }
+      }
     }
   }
   .qa-verse {
-    padding: 0 4rem 0 5.5rem;
+    padding: 0 4rem;
     background-color: #FFF;
     .qa-bg {
       background: url('../../../assets/img/qa-bg-a.png') no-repeat right 50px;
@@ -88,20 +105,36 @@
       padding: 1.5rem 0;
     }
     .verse {
+      position: relative;
       font-size: 2rem;
       color: #333333;
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        -webkit-transform: translate(-110%, -50%);;
+        -moz-transform: translate(-110%, -50%);;
+        -ms-transform: translate(-110%, -50%);;
+        -o-transform: translate(-110%, -50%);;
+        transform: translate(-110%, -50%);;
+        background: url('../../../assets/img/quotation_icon.png') no-repeat center center/ 100% auto;
+      }
     }
   }
   .qa-audio-msg {
     font-size: 1.2rem;
     color: #333333;
-    padding: 3rem 4rem 0 5.5rem;
+    padding: 3rem 4rem 0 4rem;
     background-color: #FFFFFF;
   }
   .audio-words {
     background-color: #FFFFFF;
     color: #333;
-    padding: 5rem 4rem 4rem 5.5rem;
+    padding: 1rem 4rem 4rem 4rem;
     .tips {
       color: #666666;
       font-size: 1.2rem;
@@ -112,36 +145,40 @@
       font-size: 1.5rem;
     }
     .qa-answer-part {
-      height: 5rem;
+      height: 7rem;
       position: relative;
       overflow: hidden;
       .show-tips {
         position: absolute;
-        bottom: 0;
+        bottom: -3px;
         left: 0;
         width: 100%;
         margin-left: -50px;
         padding-left: 50px;
-        height: 25px;
+        height: 40px;
         text-align: center;
         background: url('../../../assets/img/bg_rectangle.png') no-repeat center center/100% auto;
         font-size: 1.2rem;
         color: #55cbcb;
-        &:after {
-          content: '';
+        span {
+          margin-top:10px;
           display: inline-block;
-          width: 12px;
-          height: 20px;
-          background: url('../../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
-          vertical-align: bottom;
-          margin-left: 5px;
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 20px;
+            background: url('../../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
+            vertical-align: bottom;
+            margin-left: 5px;
+          }
         }
       }
     }
   }
   .audio-wrapper {
     background-color: #FFF;
-    padding: 10px 4rem 10px 5.5rem;
+    padding: 10px 4rem;
     .audio {
       margin: 0;
     }
@@ -152,7 +189,7 @@
     margin-bottom: 1.5rem;
     background-color: #FFF;
     .title-name {
-      margin: 0 4rem;
+      margin: 0 4.5rem 0 4rem;
       border-bottom: 1px solid #CCC;
       text-align: center;
       color: #333;

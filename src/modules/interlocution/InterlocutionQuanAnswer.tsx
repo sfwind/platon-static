@@ -8,6 +8,7 @@ import { loadQuanAnswer } from "./async";
 import Audio from "../../components/Audio"
 import AssetImg from '../../components/AssetImg'
 import RenderInBody from '../../components/RenderInBody'
+import { mark } from 'utils/request'
 
 @connect(state => state)
 export default class InterlocutionQuanAnswer extends Component {
@@ -37,22 +38,28 @@ export default class InterlocutionQuanAnswer extends Component {
     }).catch(ex => {
       dispatch(endLoad());
     })
+    mark({ module: "打点", function: "圈圈问答", action: "打开回答页面" })
   }
 
   handleClickGoSubmit() {
     const { data = {}, showAll } = this.state;
     const { answer = {}, nextDate = {}, dateInfo = {}, topic, batch } = data;
     this.context.router.push({
-      pathname: '/rise/static/inter/questions',
+      pathname: '/rise/static/guest/inter/questions',
       query: {
         date: nextDate.startDate
       }
     });
   }
 
+  handleClickShowAll(){
+    mark({ module: "临时", function: "圈圈问答", action: "查看语音文稿" })
+    this.setState({ showAll: true })
+  }
+
   render() {
     const { data = {}, showAll } = this.state;
-    const { answer = {}, nextDate = {}, dateInfo = {}, topic, batch } = data;
+    const { answer = {}, nextDate = {}, dateInfo = {}, topic } = data;
     const renderAudioWords = () => {
       if(showAll) {
         // 实现全部
@@ -69,8 +76,8 @@ export default class InterlocutionQuanAnswer extends Component {
             <pre className={"text"}>
               {answer.answer}
             </pre>
-            <div className="show-tips" onClick={() => this.setState({ showAll: true })}>
-              查看语音文稿
+            <div className="show-tips" onClick={() => this.handleClickShowAll()}>
+              <span>查看语音文稿</span>
             </div>
           </div>
         )
@@ -79,13 +86,10 @@ export default class InterlocutionQuanAnswer extends Component {
 
     return (
       <div className="quan-answer">
-        <AssetImg url={"https://static.iqycamp.com/images/quanquan-qa-banner.png?imageslim"} width={'100%'}/>
+        <AssetImg url={"https://static.iqycamp.com/images/quanquan-qa-banner-2.png?imageslim"} width={'100%'}/>
         <div className="header-msg">
-          {/*<div className="quan-avatar">*/}
-          {/*<AssetImg url={"https://static.iqycamp.com/images/quanquan_avatar.png?imageslim"} size={"100%"}/>*/}
-          {/*</div>*/}
           <div className={"msg"}>
-            你打开的是第{batch}期【圈外商学院|一期一会】每周二早上8点，圈外创始人孙圈圈会为你解答一个职场问题
+            你打开的是第{dateInfo.batch}期【圈外商学院|一期一会】。每周二早上8点，圈外创始人孙圈圈为你解答一个职场问题。
           </div>
         </div>
         <div className="question-answer">
@@ -110,18 +114,17 @@ export default class InterlocutionQuanAnswer extends Component {
             </pre>
           </div>
         </div>
-        <div className="qa-audio-msg">听圈圈语音回答</div>
+        <div className="qa-audio-msg">听完整语音解答</div>
         <Audio url={answer.audio}/>
         <div className="audio-words">
-          <span className="tips">语音文字版</span>
           {renderAudioWords()}
         </div>
         <div className="next-question">
-          <span className="title-name">
-            <div class="title-text">下期预告</div>
-          </span>
+          <div className="title-name">
+            <div className="title-text">下期预告</div>
+          </div>
           <div className="text">
-            下期主题是{nextDate.topic}，点击下方按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！
+            下期主题是{nextDate.topic}，点击下方的按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！
             <br/><br/>
             一期一会，不见不散。
           </div>

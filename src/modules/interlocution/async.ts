@@ -25,3 +25,7 @@ export function unfollow(id) {
 export function loadQuanAnswer(date) {
   return pget(`/rise/interlocution/load/quanquan/${date}`);
 }
+
+export function goSubmitPage(date) {
+  return pget(`/rise/interlocution/go/question/submit/${date}`);
+}

@@ -1,5 +1,5 @@
 import qs from "qs";
-import { merge,isUndefined,isNull,values } from "lodash";
+import { merge, isUndefined, isNull, values } from "lodash";
 import { get, post } from "axios";
 import * as $ from "jquery";
 
@@ -9,24 +9,21 @@ const config = {
   timeout: 10000,
 }
 
-export function mark(param){
-  if(window.location.href.indexOf('/rise/static/guest') == -1){
-    return ppost('/rise/b/mark',param);
-  }
+export function mark(param) {
+  return ppost('/rise/b/mark', param);
 }
 
-
-export function appendQs(query:Object):string {
-  let queryCount = values(query).filter(item=> !isNull(item) && !(isUndefined(item))).length;
+export function appendQs(query: Object): string {
+  let queryCount = values(query).filter(item => !isNull(item) && !(isUndefined(item))).length;
   return queryCount === 0 ? "" : `?${qs.stringify(merge(query, { debug: debug }))}`
 }
 
-export function pget(url:string, query?:Object) {
+export function pget(url: string, query?: Object) {
   return get(`${url}${appendQs(merge(query, { debug: debug }))}`).then((res) => {
       return res.data
     }
   ).catch(error => {
-    if (error.response) {
+    if(error.response) {
       log(url, JSON.stringify(error.response))
     } else {
       log(url, error.message)
@@ -35,10 +32,9 @@ export function pget(url:string, query?:Object) {
   })
 }
 
-export function ppost(url:string, body:Object) {
-  return post(url, body).then((res) => res.data)
-  .catch(error => {
-    if (error.response) {
+export function ppost(url: string, body: Object) {
+  return post(url, body).then((res) => res.data).catch(error => {
+    if(error.response) {
       log(url, JSON.stringify(error.response))
     } else {
       log(url, error.message)
@@ -52,12 +48,12 @@ export class Stop {
 }
 
 export function log(url, msg) {
- $.ajax('/rise/b/log',{
+  $.ajax('/rise/b/log', {
     type: "POST",
-    contentType:"application/json",
-    data: JSON.stringify({url: url, result: msg, cookie: document.cookie}),
-    dataType:"json",
-    success: function(){},
+    contentType: "application/json",
+    data: JSON.stringify({ url: url, result: msg, cookie: document.cookie }),
+    dataType: "json",
+    success: function() {},
   });
   // ppost('/rise/b/log', { url: url, result: msg, cookie: document.cookie });
 }
@@ -65,8 +61,8 @@ export function log(url, msg) {
 function getQueryString(name) {
   var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
   var r = window.location.search.substr(1).match(reg);
-  if (r != null) {
-    return unescape(r[2]);
+  if(r != null) {
+    return unescape(r[ 2 ]);
   }
   return undefined;
 }
