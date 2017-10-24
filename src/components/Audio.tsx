@@ -3,6 +3,7 @@ import "./Audio.less";
 import Slider from "react-rangeslider";
 import AssetImg from "./AssetImg";
 import render = ReactDOM.render
+import { mark } from '../utils/request'
 
 let timer;
 let duration_load_timer;
@@ -14,8 +15,8 @@ enum Device {
 }
 
 interface AudioProps {
-  url:string,
-  words?:string,
+  url: string,
+  words?: string,
 }
 
 export default class Audio extends React.Component<AudioProps, any> {
@@ -58,7 +59,7 @@ export default class Audio extends React.Component<AudioProps, any> {
     }
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(timer);
     clearInterval(duration_load_timer);
   }
@@ -72,6 +73,7 @@ export default class Audio extends React.Component<AudioProps, any> {
     let self = this
     // 首次点击播放按钮
     this.setState({ playing: true, start: true })
+    mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
     // 首次加载
     if(this.state.duration === 0 && !this.state.start) {
       // 加载音频
@@ -151,17 +153,17 @@ export default class Audio extends React.Component<AudioProps, any> {
     return (
       <div className="audio">
         <div className="audio-container">
-          { loading ?
+          {loading ?
             <div className="audio-btn" onClick={this.pause.bind(this)}>
               <AssetImg url="https://www.iqycamp.com/images/audio_loading.gif" size={20}/>
             </div>
             : playing ?
-            <div className="audio-btn" onClick={this.pause.bind(this)}>
-              <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
-            </div> :
-            <div className="audio-btn" onClick={this.start.bind(this)}>
-              <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
-            </div>
+              <div className="audio-btn" onClick={this.pause.bind(this)}>
+                <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
+              </div> :
+              <div className="audio-btn" onClick={this.start.bind(this)}>
+                <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
+              </div>
           }
           <div className="audio-progress">
             <Slider min={0} max={duration} value={currentSecond} onChange={this.onProgressChange.bind(this)}
@@ -185,11 +187,12 @@ export default class Audio extends React.Component<AudioProps, any> {
   renderWordsComponent(showWords, words) {
     return (
       <div className="audio-words-container">
-        <div className={`audio-words-btn ${showWords?'open':''}`} onClick={()=>this.handleClickShowWords(showWords)}>
+        <div className={`audio-words-btn ${showWords ? 'open' : ''}`}
+             onClick={() => this.handleClickShowWords(showWords)}>
           <span className="awb-tips">语音文字版</span>
         </div>
         {showWords ?
-          <pre className="audio-words" dangerouslySetInnerHTML={{__html:words}}/>
+          <pre className="audio-words" dangerouslySetInnerHTML={{ __html: words }}/>
           : null}
       </div>
     )
@@ -198,7 +201,7 @@ export default class Audio extends React.Component<AudioProps, any> {
   render() {
     const { url } = this.props
     const { words } = this.props;
-    const { showWords, device }  = this.state;
+    const { showWords, device } = this.state;
     let renderList = [];
     let wordsComponent = null;
     if(words) {
@@ -206,7 +209,7 @@ export default class Audio extends React.Component<AudioProps, any> {
       wordsComponent = this.renderWordsComponent(showWords, words);
     }
     // 区分平台显示不同的音频组件
-    if(device === Device.ANDROID ) {
+    if(device === Device.ANDROID) {
       renderList.push(this.renderOrigin(url));
     } else {
       renderList.push(this.renderCustomize(url));
