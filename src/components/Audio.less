@@ -89,44 +89,58 @@
     width: 100%;
   }
   .audio-words-container {
-    .audio-words-btn {
-      padding: 5px 0 10px;
-      .awb-tips {
-        color: @color_strong;
-        font-size: 1.4em;
-        line-height: 1.4em;
-        font-weight: 300;
-      }
-      &:before {
-        background: url('../../assets/img/rise_icon_audio.png') no-repeat center center / 15px auto;
-        width: 15px;
-        height: 20px;
-        display: inline-block;
-        vertical-align: top;
-        margin-right: 8px;
-        content: '';
-      }
-      &:after {
-        background: url('../../assets/img/rise_icon_arrow_down.png') no-repeat center center / 12px auto;
-        width: 12px;
-        height: 17px;
-        display: inline-block;
-        vertical-align: text-bottom;
-        margin-left: 5px;
-        content: '';
-      }
-      &.open {
-        &:after {
-          background: url('../../assets/img/rise_icon_arrow_up.png') no-repeat center center / 12px auto;
+    position: relative;
+    height: 7rem;
+    overflow: hidden;
+    margin: 2rem 0;
+
+    .audio-words {
+      border-radius: 3px;
+      color: @color_title;
+      font-size: 1.5em;
+    }
+    &.show-all {
+      height: auto;
+      overflow: visible;
+      margin-bottom: 3rem;
+      .words-text-mask {
+        background: none;
+        .words-mask-tips {
+          bottom: -2.5rem;
         }
       }
     }
-    .audio-words {
-      background-color: @color_weak_background;
-      border-radius: 3px;
-      padding: 15px 10px;
-      color: @color_title;
-      font-size: 1.5em;
+    .words-text-mask {
+      background: url('../../assets/img/bg_rectangle.png') no-repeat center center/auto 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      .words-mask-tips {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 1.2rem;
+        color: #55cbcb;
+        span {
+          font-weight: 300;
+          &.hide:after {
+            background: url('../../assets/img/rise_icon_arrow_up.png') no-repeat center center/100% auto;
+          }
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 20px;
+            vertical-align: bottom;
+            margin-left: 5px;
+            background: url('../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
+          }
+        }
+      }
     }
   }
 }
