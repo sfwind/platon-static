@@ -127,7 +127,7 @@ export class Comment extends React.Component<any, any> {
         commentReply(location.query.submitId, content, this.state.id).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [ res.msg ].concat(this.state.commentList),
+              commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
             })
@@ -147,7 +147,7 @@ export class Comment extends React.Component<any, any> {
         comment(location.query.submitId, content).then(res => {
           if(res.code === 200) {
             this.setState({
-              commentList: [ res.msg ].concat(this.state.commentList),
+              commentList: [res.msg].concat(this.state.commentList),
               showDiscuss: false,
               editDisable: false
             })
@@ -359,7 +359,7 @@ export class Comment extends React.Component<any, any> {
             }
           </div>
           <div className="pull-target">
-            <div className="comment-body">
+            <div className="comment-body" style={{ marginBottom: `${commentEvaluations.length * 15.5}rem` }}>
               {renderCommentList()}
               {renderTips()}
             </div>
