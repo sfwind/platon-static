@@ -115,10 +115,10 @@ export default class InterlocutionQuanAnswer extends Component {
           </div>
         </div>
         <div className="qa-audio-msg">听完整语音解答</div>
-        <Audio url={answer.audio}/>
-        <div className="audio-words">
-          {renderAudioWords()}
-        </div>
+        <Audio url={answer.audio} words={answer.answer}/>
+        {/*<div className="audio-words">*/}
+          {/*{renderAudioWords()}*/}
+        {/*</div>*/}
         <div className="next-question">
           <div className="title-name">
             <div className="title-text">下期预告</div>
