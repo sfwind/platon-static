@@ -138,16 +138,14 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      margin-left: -50px;
-      padding-left: 50px;
-      height: 25px;
+      height: 30px;
       text-align: center;
       &.hide {
-        -webkit-transform: translateY(100%);
-        -moz-transform: translateY(100%);
-        -ms-transform: translateY(100%);
-        -o-transform: translateY(100%);
-        transform: translateY(100%);
+        //-webkit-transform: translateY(100%);
+        //-moz-transform: translateY(100%);
+        //-ms-transform: translateY(100%);
+        //-o-transform: translateY(100%);
+        //transform: translateY(100%);
       }
       &.hide:after {
         transform: rotate(-180deg);
@@ -155,14 +153,19 @@
       background: url('../../assets/img/bg_rectangle.png') no-repeat center center/100% auto;
       font-size: 1.2rem;
       color: #55cbcb;
-      &:after {
-        content: '';
-        display: inline-block;
-        width: 12px;
+      .tips {
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 12px;
+          height: 20px;
+          vertical-align: bottom;
+          margin-left: 5px;
+          background: url('../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
+        }
+      }
+      .gutter {
         height: 20px;
-        vertical-align: bottom;
-        margin-left: 5px;
-        background: url('../../assets/img/arrow_down_icon.png') no-repeat center center/100% auto;
       }
     }
 

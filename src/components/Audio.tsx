@@ -204,7 +204,8 @@ export default class Audio extends React.Component<AudioProps, any> {
         <div className="audio-words" dangerouslySetInnerHTML={{ __html: words }}/>
         <div className={`audio-mask ${showWords ? 'hide' : 'show'}`}
              onClick={() => this.handleClickShowWords(showWords)}>
-          {showWords ? '点击收起' : '点击查看语音文字稿'}
+          <div className="gutter"/>
+          <div className={`tips ${showWords ? 'hide' : 'show'}`}>{showWords ? '点击收起' : '点击查看语音文字稿'}</div>
         </div>
       </div>
     )
