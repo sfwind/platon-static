@@ -143,7 +143,9 @@ export default class Audio extends React.Component<AudioProps, any> {
   renderOrigin(url) {
     const { words } = this.props;
     return (
-      <audio ref="sound" src={url} controls="controls"/>
+      <audio ref="sound" onPlaying={() => {
+        mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
+      }} src={url} controls="controls"/>
     )
   }
 
@@ -181,31 +183,23 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   handleClickShowWords(showWords) {
+    if(!showWords) {
+      // 原来是关闭的，现在展开
+      mark({ module: "打点", function: "语音", action: '查看语音文稿', memo: this.props.url })
+    }
     this.setState({ showWords: !showWords });
-  }
-
-  temprenderWordsComponent(showWords, words) {
-    return (
-      <div className="audio-words-container">
-        <div className={`audio-words-btn ${showWords ? 'open' : ''}`}
-             onClick={() => this.handleClickShowWords(showWords)}>
-          <span className="awb-tips">语音文字版</span>
-        </div>
-        {showWords ?
-          <pre className="audio-words" dangerouslySetInnerHTML={{ __html: words }}/>
-          : null}
-      </div>
-    )
   }
 
   renderWordsComponent(showWords, words) {
     return (
-      <div className={`audio-words-container ${showWords ? 'show-all' : ''}`}>
-        <div className="audio-words" dangerouslySetInnerHTML={{ __html: words }}/>
-        <div className={`audio-mask ${showWords ? 'hide' : 'show'}`}
-             onClick={() => this.handleClickShowWords(showWords)}>
-          <div className="gutter"/>
-          <div className={`tips ${showWords ? 'hide' : 'show'}`}>{showWords ? '点击收起' : '点击查看语音文字稿'}</div>
+      <div className={`audio-words-container ${showWords ? 'show-all' : 'hide'}`}>
+        <div className={`audio-words`} dangerouslySetInnerHTML={{ __html: words }}/>
+        <div className={`words-text-mask`}>
+          <div className={`words-mask-tips`} onClick={() => this.handleClickShowWords(showWords)}>
+            <span className={`awb-tips ${showWords ? 'hide' : 'show'}`}>
+              {showWords ? '收起' : '查看语音文稿'}
+            </span>
+          </div>
         </div>
       </div>
     )
