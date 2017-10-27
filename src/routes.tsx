@@ -29,7 +29,7 @@ import { Customer } from 'modules/customer/Customer'
 import Personal from 'modules/customer/Personal'
 import PointTip from 'modules/customer/PointTip'
 import Profile from 'modules/customer/Profile'
-import Account from 'modules/customer/Account'
+import Account from 'modules/customer/account/Account'
 import ProblemGallery from 'modules/customer/ProblemGallery'
 import RiseMember from 'modules/customer/RiseMember'
 import FeedBack from 'modules/customer/FeedBack'
@@ -55,9 +55,11 @@ import CardsCollection from './modules/problem/CardsCollection'
 import ReplyApplicationComment from './modules/message/ReplyApplicationComment'
 import Certificate from './modules/customer/certificate/Main'
 import CertificateProfile from './modules/customer/certificate/Personal'
-import InterlocutionQuestion from "./modules/interlocution/InterlocutionQuestion";
-import InterlocutionQuestionSubmit from "./modules/interlocution/InterlocutionQuestionSubmit"
-import InterlocutionQuanAnswer from "./modules/interlocution/InterlocutionQuanAnswer"
+import InterlocutionQuestion from './modules/interlocution/InterlocutionQuestion'
+import InterlocutionQuestionSubmit from './modules/interlocution/InterlocutionQuestionSubmit'
+import InterlocutionQuanAnswer from './modules/interlocution/InterlocutionQuanAnswer'
+import { NickName } from './modules/customer/account/components/NickName'
+import { HeadImage } from './modules/customer/account/components/HeadImage'
 
 const routes = (
   <Route>
@@ -107,6 +109,8 @@ const routes = (
         <Route path="personal" component={Personal}/>
         <Route path="profile" component={Profile}/>
         <Route path="account" component={Account}/>
+        <Route path="modify/nickname" component={NickName}/>
+        <Route path="modify/headImg" component={HeadImage}/>
         <Route path="point/tip" component={PointTip}/>
         <Route path="problem" component={ProblemGallery}/>
         <Route path="member" component={RiseMember}/>
