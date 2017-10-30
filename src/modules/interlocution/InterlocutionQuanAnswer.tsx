@@ -61,7 +61,7 @@ export default class InterlocutionQuanAnswer extends Component {
   beforeShowWords() {
     const { dispatch } = this.props;
     dispatch(startLoad());
-    return checkSubscribe(window.location.href).then(res => {
+    return checkSubscribe(window.location.href,'show_word').then(res => {
       dispatch(endLoad());
       return res;
     });
