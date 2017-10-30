@@ -31,5 +31,5 @@ export function goSubmitPage(date) {
 }
 
 export function checkSubscribe(callback, key) {
-  return pget(`/rise/customer/check/subscribe/{key}`, { callback: callback });
+  return pget(`/rise/customer/check/subscribe/${key}`, { callback: callback });
 }
