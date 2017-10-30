@@ -174,7 +174,7 @@ export class HeadImage extends React.Component {
             {modify ? '修改' : '提交'}
           </span>
         </div>
-        <div className="mask"/>
+        <div className="mask" style={{ background: `url(${headImgUrl})` }}/>
       </div>
     )
   }

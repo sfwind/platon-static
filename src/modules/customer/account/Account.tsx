@@ -4,7 +4,6 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { pget, ppost, mark } from 'utils/request'
 import { changeTitle, unScrollToBorder } from 'utils/helpers'
 import './Account.less'
-import { UrlObject } from 'url'
 
 @connect(state => state)
 export default class Rise extends React.Component<any, any> {
@@ -25,7 +24,6 @@ export default class Rise extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(startLoad())
     pget('/rise/customer/account').then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg }, () => {
@@ -116,7 +114,7 @@ export default class Rise extends React.Component<any, any> {
         <div className="item">
           <div className="label">头像</div>
           <div className="content header-img" onClick={() => this.handleClickGoHeadImgModifyPage(headImgUrl)}>
-            <img ref="headImg" src={headImgUrl} alt="头像"/>
+            <img ref="headImg" src={headImgUrl} alt=""/>
           </div>
         </div>
         <div className="item" onClick={() => this.handleClickGoNickNameModifyPage(nickName)}>
