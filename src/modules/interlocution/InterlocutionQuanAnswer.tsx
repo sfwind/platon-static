@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
-import { submitInterlocutionQuestion } from './async';
+import { submitInterlocutionQuestion, checkSubscribe } from './async';
 import * as _ from 'lodash';
 import "./InterlocutionQuanAnswer.less"
 import { loadQuanAnswer } from "./async";
@@ -15,7 +15,9 @@ export default class InterlocutionQuanAnswer extends Component {
   constructor() {
     super();
     this.state = {
-      showAll: false
+      showAll: false,
+      showQrDialog: false,
+      qrCode: "",
     }
   }
 
@@ -29,7 +31,6 @@ export default class InterlocutionQuanAnswer extends Component {
     dispatch(startLoad());
     loadQuanAnswer(date).then(res => {
       dispatch(endLoad());
-      console.log(res.msg);
       if(res.code === 200) {
         this.setState({ data: res.msg });
       } else {
@@ -52,14 +53,33 @@ export default class InterlocutionQuanAnswer extends Component {
     });
   }
 
-  handleClickShowAll(){
+  handleClickShowAll() {
     mark({ module: "临时", function: "圈圈问答", action: "查看语音文稿" })
     this.setState({ showAll: true })
   }
 
+  beforeShowWords() {
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    return checkSubscribe(window.location.href).then(res => {
+      dispatch(endLoad());
+      return res;
+    });
+  }
+
+  cantShowWords(data) {
+    this.setState({ qrCode: data, showQrDialog: true })
+  }
+
+  handleClickGoRecently() {
+    const { data = {} } = this.state;
+    const { nextAnswer = {} } = data;
+    window.location.href = this.props.location.pathname + "?date=" + nextAnswer.interlocutionDate;
+  }
+
   render() {
-    const { data = {}, showAll } = this.state;
-    const { answer = {}, nextDate = {}, dateInfo = {}, topic } = data;
+    const { data = {}, showAll, showQrDialog, qrCode } = this.state;
+    const { answer = {}, nextDate = {}, dateInfo = {}, topic, nextAnswer } = data;
     const renderAudioWords = () => {
       if(showAll) {
         // 实现全部
@@ -79,6 +99,23 @@ export default class InterlocutionQuanAnswer extends Component {
             <div className="show-tips" onClick={() => this.handleClickShowAll()}>
               <span>查看语音文稿</span>
             </div>
+          </div>
+        )
+      }
+    }
+
+    const renderButtons = () => {
+      if(nextAnswer) {
+        // 最近的圈圈问答不是下一期
+        return (
+          <div className="inter-question footer" onClick={() => this.handleClickGoRecently()}>
+            <div className="button" style={{ backgroundColor: '#363d43' }}>{nextDate.topic}</div>
+          </div>
+        )
+      } else {
+        return (
+          <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
+            <div className="button" style={{ backgroundColor: '#363d43' }}>去提问</div>
           </div>
         )
       }
@@ -115,26 +152,41 @@ export default class InterlocutionQuanAnswer extends Component {
           </div>
         </div>
         <div className="qa-audio-msg">听完整语音解答</div>
-        <Audio url={answer.audio} words={answer.answer}/>
+        <Audio url={answer.audio} words={answer.answer} beforeShowWords={() => this.beforeShowWords()}
+               cantShowWords={(data) => this.cantShowWords(data)}/>
         {/*<div className="audio-words">*/}
-          {/*{renderAudioWords()}*/}
+        {/*{renderAudioWords()}*/}
         {/*</div>*/}
         <div className="next-question">
           <div className="title-name">
             <div className="title-text">下期预告</div>
           </div>
           <div className="text">
-            下期主题是{nextDate.topic}，点击下方的按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！
+            下期主题是{nextDate.topic}，{nextAnswer ? '点击下方按钮查看内容。' : '点击下方的按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！'}
             <br/><br/>
             一期一会，不见不散。
           </div>
         </div>
         <div className="gutter"/>
         <RenderInBody>
-          <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
-            <div className="button" style={{ backgroundColor: '#363d43' }}>去提问</div>
-          </div>
+          {renderButtons()}
         </RenderInBody>
+        {showQrDialog ?
+          <RenderInBody>
+            <div className="qr_dialog">
+              <div className="qr_dialog_mask" onClick={() => {
+                this.setState({ showQrDialog: false });
+              }}>
+              </div>
+              <div className="qr_dialog_content">
+                <span>扫码后可查看语音文字稿哦</span>
+                <div className="qr_code">
+                  <AssetImg url={qrCode}/>
+                </div>
+              </div>
+            </div>
+          </RenderInBody> : null
+        }
       </div>
     )
   }

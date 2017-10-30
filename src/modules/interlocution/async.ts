@@ -29,3 +29,7 @@ export function loadQuanAnswer(date) {
 export function goSubmitPage(date) {
   return pget(`/rise/interlocution/go/question/submit/${date}`);
 }
+
+export function checkSubscribe(callback) {
+  return pget(`/rise/customer/check/subscribe`, { callback: callback });
+}
