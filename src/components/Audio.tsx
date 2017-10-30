@@ -1,9 +1,12 @@
-import * as React from 'react'
-import './Audio.less'
-import Slider from 'react-rangeslider'
-import AssetImg from './AssetImg'
+import * as React from "react";
+import "./Audio.less";
+import Slider from "react-rangeslider";
+import AssetImg from "./AssetImg";
 import render = ReactDOM.render
 import { mark } from '../utils/request'
+
+let timer;
+let duration_load_timer;
 
 enum Device {
   IPHONE = 1,
@@ -14,6 +17,8 @@ enum Device {
 interface AudioProps {
   url: string,
   words?: string,
+  beforeShowWords?: any,
+  cantShowWords?: any,
 }
 
 export default class Audio extends React.Component<AudioProps, any> {
@@ -23,36 +28,23 @@ export default class Audio extends React.Component<AudioProps, any> {
       duration: 0,
       currentSecond: 0,
       cntSecond: 0,
-      device: '',
+      device: "",
       playing: false,
       pause: false,
       loading: false,
       start: false,
-      showWords: false
+      showWords: false,
     }
   }
 
-  // 定时器
-  timer
-  duration_load_timer
-  currentSecondTimer
-
-  getInnerState() {
-    return this.state
-  }
-
   componentWillMount() {
-    if(window.navigator.userAgent.indexOf('Android') > 0) {
+    if(window.navigator.userAgent.indexOf("Android") > 0) {
       this.setState({ device: Device.ANDROID })
-    } else if(window.navigator.userAgent.indexOf('iPhone') > 0 || window.navigator.userAgent.indexOf('iPad') > 0) {
+    } else if(window.navigator.userAgent.indexOf("iPhone") > 0 || window.navigator.userAgent.indexOf("iPad") > 0) {
       this.setState({ device: Device.IPHONE })
     } else {
       this.setState({ device: Device.OTHER })
     }
-
-    this.currentSecondTimer = setInterval(() => {
-      // console.log(Math.floor(this.state.currentSecond))
-    }, 1000)
   }
 
   componentDidMount() {
@@ -70,29 +62,28 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer)
-    clearInterval(this.duration_load_timer)
-    clearInterval(this.currentSecondTimer)
+    clearInterval(timer);
+    clearInterval(duration_load_timer);
   }
 
   onEnd() {
     this.setState({ currentSecond: this.state.duration, playing: false })
-    clearInterval(this.timer)
+    clearInterval(timer)
   }
 
   start() {
     let self = this
     // 首次点击播放按钮
     this.setState({ playing: true, start: true })
-    mark({ module: '打点', function: '语音', action: '播放语音', memo: this.props.url })
+    mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
     // 首次加载
     if(this.state.duration === 0 && !this.state.start) {
       // 加载音频
       this.setState({ loading: true })
       self.refs.sound.load()
-      this.duration_load_timer = setInterval(() => {
+      duration_load_timer = setInterval(() => {
         if(self.state.duration) {
-          clearInterval(this.duration_load_timer)
+          clearInterval(duration_load_timer)
           return
         }
         //【IOS bug解决方法】先播放，再暂停，获取控件duration
@@ -114,17 +105,17 @@ export default class Audio extends React.Component<AudioProps, any> {
 
   play() {
     const self = this
-    if(this.timer) {
-      clearInterval(this.timer)
+    if(timer) {
+      clearInterval(timer)
     }
     this.setState({ playing: true, pause: false }, () => {
       self.refs.sound.play()
-      this.timer = setInterval(() => {
+      timer = setInterval(() => {
         if(this.state.currentSecond < this.state.duration) {
           //设置已播放时长
           self.setState({ currentSecond: self.refs.sound.currentTime })
         } else {
-          clearInterval(this.timer)
+          clearInterval(timer)
           this.setState({ playing: false })
         }
       }, 100)
@@ -133,7 +124,7 @@ export default class Audio extends React.Component<AudioProps, any> {
 
   pause() {
     this.setState({ playing: false, pause: true })
-    clearInterval(this.timer)
+    clearInterval(timer)
     this.refs.sound.pause()
   }
 
@@ -143,7 +134,7 @@ export default class Audio extends React.Component<AudioProps, any> {
     if(this.state.duration === 0) {
       return
     }
-    clearInterval(this.timer)
+    clearInterval(timer)
     this.setState({ playing: true, currentSecond: value }, () => {
       this.refs.sound.currentTime = value
       this.play()
@@ -152,10 +143,10 @@ export default class Audio extends React.Component<AudioProps, any> {
 
   //使用原生audio标签
   renderOrigin(url) {
-    const { words } = this.props
+    const { words } = this.props;
     return (
       <audio ref="sound" onPlaying={() => {
-        mark({ module: '打点', function: '语音', action: '播放语音', memo: this.props.url })
+        mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
       }} src={url} controls="controls"/>
     )
   }
@@ -194,11 +185,28 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   handleClickShowWords(showWords) {
+    const { beforeShowWords, cantShowWords } = this.props;
     if(!showWords) {
       // 原来是关闭的，现在展开
-      mark({ module: '打点', function: '语音', action: '查看语音文稿', memo: this.props.url })
+      if(beforeShowWords) {
+        beforeShowWords().then(res => {
+          if(res.code === 200) {
+            if(res.msg !== 'ok'){
+              if(cantShowWords){
+                cantShowWords(res.msg);
+              }
+            } else {
+              this.setState({ showWords: !showWords });
+            }
+          }
+        })
+      } else {
+        this.setState({ showWords: !showWords });
+      }
+      mark({ module: "打点", function: "语音", action: '查看语音文稿', memo: this.props.url })
+    } else {
+      this.setState({ showWords: !showWords });
     }
-    this.setState({ showWords: !showWords })
   }
 
   renderWordsComponent(showWords, words) {
@@ -218,30 +226,30 @@ export default class Audio extends React.Component<AudioProps, any> {
 
   render() {
     const { url } = this.props
-    const { words } = this.props
-    const { showWords, device } = this.state
-    let renderList = []
-    let wordsComponent = null
+    const { words } = this.props;
+    const { showWords, device } = this.state;
+    let renderList = [];
+    let wordsComponent = null;
     if(words) {
       // 有文字，显示文字提示
-      wordsComponent = this.renderWordsComponent(showWords, words)
+      wordsComponent = this.renderWordsComponent(showWords, words);
     }
     // 区分平台显示不同的音频组件
     if(device === Device.ANDROID) {
-      renderList.push(this.renderOrigin(url))
+      renderList.push(this.renderOrigin(url));
     } else {
-      renderList.push(this.renderCustomize(url))
+      renderList.push(this.renderCustomize(url));
     }
 
     // 语音文字
     if(wordsComponent) {
-      renderList.push(wordsComponent)
+      renderList.push(wordsComponent);
     }
     return (
       <div className="audio-wrapper">
         {renderList}
       </div>
-    )
+    );
   }
 }
 
