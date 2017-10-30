@@ -17,6 +17,8 @@ enum Device {
 interface AudioProps {
   url: string,
   words?: string,
+  beforeShowWords?: any,
+  cantShowWords?: any,
 }
 
 export default class Audio extends React.Component<AudioProps, any> {
@@ -183,11 +185,28 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   handleClickShowWords(showWords) {
+    const { beforeShowWords, cantShowWords } = this.props;
     if(!showWords) {
       // 原来是关闭的，现在展开
+      if(beforeShowWords) {
+        beforeShowWords().then(res => {
+          if(res.code === 200) {
+            if(res.msg !== 'ok'){
+              if(cantShowWords){
+                cantShowWords(res.msg);
+              }
+            } else {
+              this.setState({ showWords: !showWords });
+            }
+          }
+        })
+      } else {
+        this.setState({ showWords: !showWords });
+      }
       mark({ module: "打点", function: "语音", action: '查看语音文稿', memo: this.props.url })
+    } else {
+      this.setState({ showWords: !showWords });
     }
-    this.setState({ showWords: !showWords });
   }
 
   renderWordsComponent(showWords, words) {
