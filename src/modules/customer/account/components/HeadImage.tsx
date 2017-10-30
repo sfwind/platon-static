@@ -9,11 +9,14 @@ import * as ExifJs from 'exif-js'
 export class HeadImage extends React.Component {
 
   timer // 自动提交定时器
-  autoOpenTimer
   dispatch // redux dispatch 对象
 
   constructor() {
     super()
+    this.state = {
+      headImgUrl: '',
+      modify: true
+    }
   }
 
   static contextTypes = {
@@ -25,16 +28,6 @@ export class HeadImage extends React.Component {
     hiddenTab()
     this.dispatch = this.props.dispatch
     this.setState({ headImgUrl: this.props.location.query.headImgUrl })
-  }
-
-  componentDidMount() {
-    this.autoOpenTimer = setInterval(() => {
-      let node = this.refs.changeImg
-      if(node) {
-        clearInterval(this.autoOpenTimer)
-        this.handleClickSelectHeadImg()
-      }
-    }, 500)
   }
 
   componentWillUnmount() {
@@ -61,11 +54,7 @@ export class HeadImage extends React.Component {
   getExifJsFile(file) {
     return new Promise((resolve) => {
       ExifJs.getData(file, () => {
-        console.log('file1', file)
-        console.log('file1', ExifJs.getAllTags(file))
         let orientation = ExifJs.getTag(file, 'Orientation')
-        console.log('orientation', orientation)
-        alert('orientation:' + orientation)
         resolve(orientation)
       })
     })
@@ -84,8 +73,6 @@ export class HeadImage extends React.Component {
           let halfHeight = image.height / 2
           let ctx = canvas.getContext('2d')
           ctx.translate(halfWidth, halfHeight)
-          alert('准备旋转')
-          console.log('准备旋转')
           switch(orientation) {
             case 1:
               break
@@ -115,29 +102,6 @@ export class HeadImage extends React.Component {
     })
   }
 
-  test() {
-    let node = this.refs.changeImg
-    if(node && node.files && node.files[0]) {
-      let file = node.files[0]
-      let orientation = ExifJs.getTag(file, 'Orientation')
-      this.readBlobAsDataURL(file, (dataUrl) => {
-        let image = new Image()
-        image.src = dataUrl
-        image.onload = () => {
-          let canvas = document.createElement('canvas')
-          canvas.width = image.width
-          canvas.height = image.height
-          let ctx = canvas.getContext('2d')
-          ctx.translate(canvas.width / 2, canvas.height / 2)
-          ctx.rotate(90 * Math.PI / 180)
-          ctx.translate(-canvas.width / 2, -canvas.height / 2)
-          ctx.drawImage(image, 0, 0)
-          document.querySelector('.headimg-edit').appendChild(canvas)
-        }
-      })
-    }
-  }
-
   autoUploadHeadImg() {
     let node = this.refs.changeImg
     this.timer = setInterval(() => {
@@ -154,11 +118,12 @@ export class HeadImage extends React.Component {
               clearInterval(this.timer)
               if(res.code === 200) {
                 this.setState({
-                  headImgUrl: res.msg
+                  headImgUrl: res.msg,
+                  modify: false
                 }, () => {
-                  setTimeout(() => {
+                  this.refs.headImg.onload = () => {
                     this.dispatch(endLoad())
-                  }, 1000)
+                  }
                 })
               } else {
                 this.dispatch(endLoad())
@@ -181,17 +146,21 @@ export class HeadImage extends React.Component {
   }
 
   handleClickUpdateHeadImg() {
-    ppost(`/rise/customer/profile/headImg/update?headImgUrl=${this.state.headImgUrl}`).then(res => {
-      if(res.code === 200) {
-        window.ENV.headImage = this.state.headImgUrl
-        this.context.router.goBack()
-      }
-    })
+    const { modify } = this.state
+    if(modify) {
+      this.handleClickSelectHeadImg()
+    } else {
+      ppost(`/rise/customer/profile/headImg/update?headImgUrl=${this.state.headImgUrl}`).then(res => {
+        if(res.code === 200) {
+          window.ENV.headImage = this.state.headImgUrl
+          this.context.router.goBack()
+        }
+      })
+    }
   }
 
   render() {
-    const { headImgUrl = '' } = this.state
-
+    const { headImgUrl, modify } = this.state
     return (
       <div className="headimg-modify-component">
         <div className="headimg-edit">
@@ -201,11 +170,9 @@ export class HeadImage extends React.Component {
         </div>
 
         <div className="headimg-submit">
-          <span onClick={() => this.handleClickUpdateHeadImg()}>提交</span>
-        </div>
-
-        <div id="hello">
-
+          <span onClick={() => this.handleClickUpdateHeadImg()}>
+            {modify ? '修改' : '提交'}
+          </span>
         </div>
         <div className="mask"/>
       </div>
