@@ -26,6 +26,7 @@ export class NickName extends React.Component {
   handleUpdateNickName() {
     ppost(`/rise/customer/profile/nickName/update?nickName=${this.refs.text.value}`).then(res => {
       if(res.code === 200) {
+        window.ENV.userName = this.refs.text.value
         this.context.router.goBack()
       }
     })
