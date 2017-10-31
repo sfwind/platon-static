@@ -27,7 +27,7 @@ export default class Rise extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg }, () => {
-          unScrollToBorder('.coupon-box');
+          unScrollToBorder('.coupon-box')
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -50,15 +50,33 @@ export default class Rise extends React.Component<any, any> {
     }
   }
 
+  handleClickGoNickNameModifyPage(nickName) {
+    this.context.router.push({
+      pathname: `/rise/static/customer/modify/nickname`,
+      query: {
+        nickName: nickName
+      }
+    })
+  }
+
+  handleClickGoHeadImgModifyPage(headImgUrl) {
+    this.context.router.push({
+      pathname: `/rise/static/customer/modify/headImg`,
+      query: {
+        headImgUrl: headImgUrl
+      }
+    })
+  }
+
   render() {
     const { data } = this.state
-    const { riseId, memberType, mobile, isRiseMember, nickName, memberId, coupons = [] } = data
+    const { riseId, memberType, mobile, nickName, headImgUrl, memberId, coupons = [] } = data
 
     const renderCoupons = () => {
       if(coupons.length === 0) {
         return (
           <div>
-            <div className="item ">
+            <div className="item">
               <div className="label">奖学金/优惠券</div>
               <div className="content-no-cut">暂无</div>
             </div>
@@ -77,7 +95,7 @@ export default class Rise extends React.Component<any, any> {
                   return (
                     <div className="item" key={index}>
                       <img src={imgSrc} alt={coupon.description}
-                           style={{ float: 'left' }}/>
+                           className="coupon-img" style={{ float: 'left' }}/>
                       <div className='label'>{coupon.description} ￥{coupon.amount} 元</div>
                       <div className='content-no-cut'>{coupon.expiredDateString}到期</div>
                     </div>
@@ -94,10 +112,16 @@ export default class Rise extends React.Component<any, any> {
     return (
       <div className="account">
         <div className="item">
-          <div className="label">昵称</div>
-          <div className="content-no-cut">{nickName}</div>
+          <div className="label">头像</div>
+          <div className="content header-img" onClick={() => this.handleClickGoHeadImgModifyPage(headImgUrl)}>
+            <img ref="headImg" src={headImgUrl} alt=""/>
+          </div>
         </div>
-        <div className="item">
+        <div className="item" onClick={() => this.handleClickGoNickNameModifyPage(nickName)}>
+          <div className="label">昵称</div>
+          <div className="content">{nickName}</div>
+        </div>
+        <div className="item" onClick={() => this.check()}>
           <div className="label">圈外 ID</div>
           <div className="content-no-cut">{riseId}</div>
         </div>
