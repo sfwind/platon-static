@@ -43,12 +43,14 @@ export class Start extends React.Component<any,any> {
   render() {
     const { initialScale, backgroundPicHeight, backgroundPicWidth } = this.state
     return (
-      <div className="eva-start" style={{width:backgroundPicWidth, height:backgroundPicHeight, transform: `scale(${initialScale})`,
-         WebkitTransform: `scale(${initialScale})`, transformOrigin: '50% 0 0', WebkitTransformOrigin: '50% 0 0',
-         marginLeft: (window.innerWidth - backgroundPicWidth) / 2,
-         background: `url('https://static.iqycamp.com/images/evaluation_start8.png?imageslim')` }}>
-        <div className="click-start" style={{height: 97, width: 402, position: 'absolute', top: '945', left: '174'}}
-             onClick={()=>this.context.router.push('/rise/static/eva')}/>
+      <div style={{height:window.innerHeight}}>
+        <div className="eva-start" style={{width:backgroundPicWidth, height:backgroundPicHeight, transform: `scale(${initialScale})`,
+           WebkitTransform: `scale(${initialScale})`, transformOrigin: '50% 0 0', WebkitTransformOrigin: '50% 0 0',
+           marginLeft: (window.innerWidth - backgroundPicWidth) / 2,
+           background: `url('https://static.iqycamp.com/images/evaluation_start8.png?imageslim')` }}>
+          <div className="click-start" style={{height: 97, width: 402, position: 'absolute', top: '945', left: '174'}}
+               onClick={()=>this.context.router.push('/rise/static/eva')}/>
+        </div>
       </div>
     )
   }
