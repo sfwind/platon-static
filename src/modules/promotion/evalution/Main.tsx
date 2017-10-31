@@ -237,7 +237,7 @@ export class Main extends React.Component <any, any> {
     }
 
     return (
-      <div className="eva-warm-up">
+      <div className="eva-warm-up" style={{minHeight: window.innerHeight}}>
         <div className="eva-container">
           <div className="eva-page-header">圈外职场研究所-洞察力</div>
           <div className="eva-progress">
