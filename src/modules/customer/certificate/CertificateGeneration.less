@@ -1,0 +1,67 @@
+@import "../../../style/variable";
+
+.certificate-generation-container {
+  height: 100%;
+  .certificate {
+    position: relative;
+    transform-origin: 0 0 0;
+    -webkit-transform-origin: 0 0 0;
+    background-size: 1550px 2668px !important;
+    &.excellent {
+      background: url('https://static.iqycamp.com/images/certificate_bg.jpg?imageslim');
+    }
+    &.ordinary {
+      background: url('https://static.iqycamp.com/images/certificate_normal_bg_1.jpg?imageslim');
+    }
+    > .certificate-description {
+      position: absolute;
+      top: 130 * 2px;
+      color: @color_white;
+      width: 100%;
+      text-align: center;
+      > .description-text1 {
+        font-size: 20 * 2px;
+      }
+      > .description-text2 {
+        font-size: 32 * 2px;
+      }
+    }
+    > .certificate-name {
+      width: 100%;
+      position: absolute;
+      top: 326 * 2px;
+      color: @color_title;
+      text-align: center;
+      font-size: 72 * 2px;
+    }
+    > .name {
+      width: 100%;
+      position: absolute;
+      top: 486 * 2px;
+      color: @color_title;
+      text-align: center;
+      font-size: 50 * 2px;
+    }
+    > .cong {
+      width: ~"calc(100% - 164 * 2px)";
+      position: absolute;
+      color: @color_title;
+      font-size: 32 * 2px;
+      top: 577 * 2px;
+      margin: 0 82 * 2px;
+      text-align: center;
+    }
+    > .certificate-number {
+      width: 100%;
+      position: absolute;
+      top: 1264 * 2px;
+      color: #b6902f;
+      text-align: center;
+      font-size: 20 * 2px;
+      &.ordinary {
+        top: 1244 * 2px;
+      }
+    }
+  }
+}
+
