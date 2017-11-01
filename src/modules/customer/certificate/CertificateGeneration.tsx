@@ -90,7 +90,7 @@ export default class CertificateGeneration extends React.Component<any, any> {
         }
       }
     }).catch(e => {
-      dispatch(alert((e)))
+      dispatch(alertMsg((e)))
     })
   }
 
