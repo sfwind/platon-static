@@ -10,7 +10,8 @@ export default class AssetImg extends React.Component<any, any> {
   }
 
   render() {
-    const { size, type, width, height, marginTop, marginBottom, marginLeft, style, marginRight } = this.props
+    const { size, type, width, height, marginTop, marginBottom, marginLeft, style, marginRight, onClick } = this.props
+
     let { url } = this.props
     //来自七牛云的图片，自动添加瘦身参数
     if(url) {
@@ -29,11 +30,15 @@ export default class AssetImg extends React.Component<any, any> {
     }
 
     return (
-      <img className={`${loading ? 'loading' : 'assetImg'}`}
+      <img className={`${loading ? 'loading' : 'assetImg'} ${this.props.className}`}
            src={type ? require(`../../assets/img/${type}.png`) : url}
+           onClick={() => {
+             if(onClick && isFunction(onClick)) {
+               onClick()
+             }
+           }}
            onLoad={() => this.setState({ loading: false })}
            style={merge(_style, style)}
-           {...this.props}
       />
     )
   }
