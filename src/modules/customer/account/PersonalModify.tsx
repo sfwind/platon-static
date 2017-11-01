@@ -2,6 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import './PersonalModify.less'
+import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
 export default class PersonalModify extends React.Component {
@@ -38,7 +39,7 @@ export default class PersonalModify extends React.Component {
         <div className="item">
           <div className="label">头像</div>
           <div className="content header-img" onClick={() => this.handleClickGoHeadImgModifyPage(window.ENV.headImage)}>
-            <img ref="headImg" src={window.ENV.headImage} alt=""/>
+            <AssetImg ref="headImg" src={window.ENV.headImage} alt=""/>
           </div>
         </div>
         <div className="item" onClick={() => this.handleClickGoNickNameModifyPage(window.ENV.userName)}>

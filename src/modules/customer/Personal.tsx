@@ -7,6 +7,7 @@ import { getOldMsg, openNotifyStatus, closeNotifyStatus, getNotifyStatus } from 
 import './Personal.less'
 import { ron } from '../../utils/helpers'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
+import AssetImg from '../../components/AssetImg'
 
 @connect(state => state)
 export default class Personal extends React.Component<any, any> {
@@ -95,9 +96,10 @@ export default class Personal extends React.Component<any, any> {
           <div className="personal-name">
             {window.ENV.userName}
           </div>
-          <div className="personal-edit" onClick={() => {this.context.router.push(`/rise/static/customer/personal/modify`)}}>
-            <img className="edit-icon" alt="icon"
-                 src="https://static.iqycamp.com/images/person_edit_icon.png?imageslim"/>
+          <div className="personal-edit"
+               onClick={() => {this.context.router.push(`/rise/static/customer/personal/modify`)}}>
+            <AssetImg className="edit-icon" alt="icon"
+                      url="https://static.iqycamp.com/images/person_edit_icon.png"/>
             <span className="edit-text">修改</span>
           </div>
         </div>
@@ -148,7 +150,8 @@ export default class Personal extends React.Component<any, any> {
     return (
       <div className="personal">
         <div className="personal-header" style={{ height: this.picHeight }}>
-          <div className="personal-mask" style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
+          <div className="personal-mask"
+               style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
           {renderHeader()}
         </div>
         <div className="personal-container">
