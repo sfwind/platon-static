@@ -95,7 +95,7 @@ export default class Personal extends React.Component<any, any> {
           <div className="personal-name">
             {window.ENV.userName}
           </div>
-          <div className="personal-edit">
+          <div className="personal-edit" onClick={() => {this.context.router.push(`/rise/static/customer/personal/modify`)}}>
             <img className="edit-icon" alt="icon"
                  src="https://static.iqycamp.com/images/person_edit_icon.png?imageslim"/>
             <span className="edit-text">修改</span>
@@ -148,14 +148,13 @@ export default class Personal extends React.Component<any, any> {
     return (
       <div className="personal">
         <div className="personal-header" style={{ height: this.picHeight }}>
+          <div className="personal-mask" style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
           {renderHeader()}
-          <div className="personal-mask"
-               style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
         </div>
         <div className="personal-container">
           {renderContainer()}
         </div>
-        <div className="padding-footer"></div>
+        <div className="padding-footer"/>
       </div>
     )
   }

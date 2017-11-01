@@ -58,6 +58,7 @@ import InterlocutionQuestionSubmit from './modules/interlocution/InterlocutionQu
 import InterlocutionQuanAnswer from './modules/interlocution/InterlocutionQuanAnswer'
 import { NickName } from './modules/customer/account/components/NickName'
 import { HeadImage } from './modules/customer/account/components/HeadImage'
+import PersonalModify from './modules/customer/account/PersonalModify'
 
 const routes = (
   <Route>
@@ -104,6 +105,7 @@ const routes = (
       <Route path="eva/result" component={EvaResult}/>
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
+        <Route path="personal/modify" component={PersonalModify}/>
         <Route path="profile" component={Profile}/>
         <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>

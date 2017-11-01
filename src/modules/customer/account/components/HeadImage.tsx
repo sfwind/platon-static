@@ -68,7 +68,7 @@ export class HeadImage extends React.Component {
           })
         })
       }
-    }, 2000)
+    }, 200)
   }
 
   handleClickSelectHeadImg() {
