@@ -272,7 +272,7 @@ export default class PlanList extends React.Component<any, any> {
                       {
                         item.planId ?
                           <div className={`running-problem-button`}>去上课</div> :
-                          <div className={`running-problem-button`}>开课</div>
+                          <div className={`running-problem-button`}>{item.errMsg?'即将开课':'开课'}</div>
                       }
                     </div>
                   </div>
