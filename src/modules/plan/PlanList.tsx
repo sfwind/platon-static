@@ -10,7 +10,9 @@ import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 import Banner from '../../components/Banner'
 import { Dialog } from 'react-weui'
-import { createCampPlan, unlockCampPlan } from '../problem/async'
+import * as _ from 'lodash';
+import { createCampPlan, openAudition, unlockCampPlan } from '../problem/async'
+
 const { Alert } = Dialog
 
 /**
@@ -22,7 +24,8 @@ export default class PlanList extends React.Component<any, any> {
     super()
     this.state = {
       riseMember: 1,
-      showPage: false
+      showPage: false,
+      auditions: []
     }
     this.picWidth = (window.innerWidth - 15 - 10 - 10) / 2.5
     this.picHeight = (80 / 130) * this.picWidth
@@ -55,19 +58,19 @@ export default class PlanList extends React.Component<any, any> {
     loadPlanList().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        const { runningPlans = [], riseMember, recommendations = [], currentCampPlans = [] } = res.msg
+        const { runningPlans = [], riseMember, recommendations = [], currentCampPlans = [], auditions = [] } = res.msg
 
         let showEmptyPage = false
         if(!runningPlans || runningPlans.length === 0) {
           showEmptyPage = true
         }
-
         this.setState({
           planList: res.msg,
           showEmptyPage: showEmptyPage,
           riseMember,
           currentCampPlans: currentCampPlans,
           recommendations: recommendations,
+          auditions: auditions,
           showPage: true
         }, () => {
           var swiper = new Swiper('#problem-recommendation', {
@@ -98,6 +101,44 @@ export default class PlanList extends React.Component<any, any> {
       })
     } else {
       dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
+    }
+  }
+
+  handleClickAuditionPlan(planId) {
+    const { dispatch } = this.props
+    // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
+    if(planId) {
+      this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
+    } else {
+      this.setState({
+        dialogButtons: [
+          {
+            label: '取消',
+            onClick: () => {
+              this.setState({ dialogShow: false, dialogButtons: [], dialogContent: '' })
+            }
+          },
+          {
+            label: '确认',
+            onClick: () => {
+              dispatch(startLoad())
+              this.setState({ dialogShow: false })
+              openAudition().then(res => {
+                dispatch(endLoad())
+                if(res.code === 200) {
+                  this.context.router.push(`/rise/static/plan/study?planId=${res.msg}`)
+                } else {
+                  dispatch(alertMsg(res.msg))
+                }
+              }).catch(e => {
+                dispatch(alertMsg(e))
+              })
+            }
+          }
+        ],
+        dialogShow: true,
+        dialogContent: '试听课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
+      })
     }
   }
 
@@ -187,11 +228,57 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   render() {
-    const { planList = {}, showEmptyPage, riseMember, showPage, currentCampPlans = [], recommendations = [] } = this.state
-
+    const { planList = {}, showEmptyPage, riseMember, showPage, currentCampPlans = [], recommendations = [], auditions } = this.state
     const { location } = this.props
     const { completedPlans, runningPlans = [] } = planList
+    const renderAuditions = () => {
+      // if(riseMember !== 1) return
+      if(_.isEmpty(auditions)) return;
+      return (
+        <div className="problem-camp">
+          <div className="camp-header">
+            <span className="header-title">试听课</span>
+          </div>
+          {
+            auditions.map((item, index) => {
+              return (
+                <div className="problem-block" key={index}
+                     onClick={() => {
+                       this.handleClickAuditionPlan(item.planId)
+                     }}>
+                  <div className="problem-item" style={{ padding: index === 0 ? '18px 15px 20px' : '20px 15px' }}>
+                    <div className="problem-item-pic">
+                      <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
+                      <div className={`problem-item-backimg catalog${item.problem.catalogId}`}/>
+                      <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
+                    </div>
+                    <div className="problem-item-text">
+                      <div className="problem-item-text-title">
+                        {item.name}
+                      </div>
+                      {
+                        item.planId ?
+                          <div className="problem-item-text-done">
+                            已完成：{`${item.completeSeries}/${item.totalSeries}节`}
+                          </div> : null
+                      }
+                      {item.planId ?
+                        renderDeadline(item.deadline) : null}
+                      {
+                        item.planId ?
+                          <div className={`running-problem-button`}>去上课</div> :
+                          <div className={`running-problem-button`}>开课</div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          }
+        </div>
+      )
 
+    }
     const renderCampProblems = () => {
       if(riseMember !== 1) return
       return (
@@ -252,13 +339,13 @@ export default class PlanList extends React.Component<any, any> {
 
     const renderBanners = () => {
       // TODO:去掉hardcoding
-      const banners = [{
+      const banners = [ {
         'imageUrl': 'https://static.iqycamp.com/images/fragment/rise_member_banner_2.jpg?imageslim',
         'linkUrl': `https://${window.location.hostname}/pay/rise`
       }, {
         'imageUrl': 'https://static.iqycamp.com/images/fragment/camp_promotion_banner_11_1.jpg?imageslim',
         'linkUrl': `https://${window.location.hostname}/pay/camp`
-      }]
+      } ]
       if(banners.length === 0 || riseMember === 1) return
       return (
         <Banner>
@@ -294,14 +381,15 @@ export default class PlanList extends React.Component<any, any> {
       <div className="plan-list-page" style={{ minHeight: window.innerHeight + 30 }}>
         {renderBanners()}
         <ToolBar/>
-
+        {renderAuditions()}
         {renderCampProblems()}
+
 
         <div className="plp-running plp-block">
           <div className="p-r-header">
             <span className="p-r-h-title">进行中</span>
           </div>
-          { showEmptyPage ?
+          {showEmptyPage ?
             <div className="plp-empty-container">
               <div className="plp-empty-img">
                 <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" width={55} height={56}/>
@@ -341,7 +429,7 @@ export default class PlanList extends React.Component<any, any> {
             })}
         </div>
 
-        { recommendations && recommendations.length !== 0 ?
+        {recommendations && recommendations.length !== 0 ?
           <div className="problem-recommendation ">
             <div className="recommendation-header">
               <span className="header-title">推荐学习</span>
@@ -353,11 +441,11 @@ export default class PlanList extends React.Component<any, any> {
                     <div onClick={() => this.handleClickRecommend(problem)}
                          className="problem-item-show swiper-slide">
                       <div className="img">
-                        { problem.newProblem ?
+                        {problem.newProblem ?
                           <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
                                     style={{ zIndex: 1, left: 0, top: 0 }} size={25}/> : null
                         }
-                        { problem.trial ?
+                        {problem.trial ?
                           <AssetImg url="https://static.iqycamp.com/images/fragment/problem_trial_icon_01.png"
                                     style={{ zIndex: 1, left: 6, top: 6 }} width={20}/> : null
                         }
@@ -391,10 +479,10 @@ export default class PlanList extends React.Component<any, any> {
           <div className="p-c-header">
             <span className="p-c-h-title">已完成</span>
           </div>
-          { completedPlans && completedPlans.length !== 0 ?
+          {completedPlans && completedPlans.length !== 0 ?
             <div className="p-c-container">
               <div className="p-c-c-right">
-                { completedPlans.map((plan, key) => {
+                {completedPlans.map((plan, key) => {
                   return (
                     <div id={`problem-${plan.planId}`} className={`p-c-c-r-block ${key === 0 ? 'first' : ''}`}
                          onClick={() => this.handleClickPlan(plan)}>
@@ -416,7 +504,7 @@ export default class PlanList extends React.Component<any, any> {
                 })}
               </div>
             </div> : null}
-          { completedPlans && completedPlans.length === 0 ?
+          {completedPlans && completedPlans.length === 0 ?
             <div className="complete-plan-empty">
               <AssetImg url='https://static.iqycamp.com/images/complete_plan_empty.png?imageslim'/>
             </div> : null}
