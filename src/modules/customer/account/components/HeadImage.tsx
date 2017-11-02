@@ -4,6 +4,7 @@ import { ppost } from '../../../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { adjustRotateImage } from '../../../../components/rotate/imageRotate'
+import AssetImg from '../../../../components/AssetImg'
 
 @connect(state => state)
 export class HeadImage extends React.Component {
@@ -96,7 +97,7 @@ export class HeadImage extends React.Component {
     return (
       <div className="headimg-modify-component">
         <div className="headimg-edit">
-          <img ref="headImg" className="headimg-img" src={headImgUrl} onClick={() => this.handleClickSelectHeadImg()}/>
+          <AssetImg ref="headImg" className="headimg-img" url={headImgUrl} onClick={() => this.handleClickSelectHeadImg()}/>
           <input ref="changeImg" type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
                  style={{ display: 'none' }}/>
         </div>
