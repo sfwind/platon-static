@@ -39,7 +39,7 @@ export default class PersonalModify extends React.Component {
         <div className="item">
           <div className="label">头像</div>
           <div className="content header-img" onClick={() => this.handleClickGoHeadImgModifyPage(window.ENV.headImage)}>
-            <AssetImg ref="headImg" src={window.ENV.headImage} alt=""/>
+            <AssetImg ref="headImg" url={window.ENV.headImage} alt=""/>
           </div>
         </div>
         <div className="item" onClick={() => this.handleClickGoNickNameModifyPage(window.ENV.userName)}>
