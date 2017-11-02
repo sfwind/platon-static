@@ -104,9 +104,14 @@ export default class PlanList extends React.Component<any, any> {
     }
   }
 
-  handleClickAuditionPlan(planId) {
+  handleClickAuditionPlan(plan) {
+    const { planId, errMsg } = plan;
     const { dispatch } = this.props
     // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
+    if(errMsg) {
+      dispatch(alertMsg(errMsg));
+      return;
+    }
     if(planId) {
       this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
     } else {
@@ -244,7 +249,7 @@ export default class PlanList extends React.Component<any, any> {
               return (
                 <div className="problem-block" key={index}
                      onClick={() => {
-                       this.handleClickAuditionPlan(item.planId)
+                       this.handleClickAuditionPlan(item)
                      }}>
                   <div className="problem-item" style={{ padding: index === 0 ? '18px 15px 20px' : '20px 15px' }}>
                     <div className="problem-item-pic">
