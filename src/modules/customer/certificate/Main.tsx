@@ -15,17 +15,12 @@ export default class Main extends React.Component<any, any> {
 
   constructor() {
     super()
-    this.state = {
-      initialScale: 0,
-      backgroundPicWidth: 750,
-      backgroundPicHeight: 1334
-    }
+    this.state = {}
   }
 
   componentWillMount() {
     changeTitle('圈外证书')
     const { dispatch, location } = this.props
-    this.fit()
     const { certificateNo } = location.query
     dispatch(startLoad())
     getCertificate(certificateNo).then(res => {
@@ -50,15 +45,6 @@ export default class Main extends React.Component<any, any> {
     })
   }
 
-  fit() {
-    let windowWidth = window.innerWidth
-    let pageWidth = this.state.backgroundPicWidth
-
-    let initialScale = windowWidth / pageWidth
-
-    this.setState({ initialScale })
-  }
-
   componentDidMount() {
     const { hiddenTab } = this.props
     hiddenTab()
@@ -69,8 +55,9 @@ export default class Main extends React.Component<any, any> {
     return (
       <div className="certificate-container">
         <span className="tips">长按下方图片可保存至相册</span>
-        <AssetImg className="certificate-image" url={imageUrl} ref="targetImage"
-                  width={`${375 / 667 * (window.innerHeight - 80) / window.innerWidth * 100}%`}/>
+        <AssetImg
+          className="certificate-image" url={imageUrl} ref="targetImage"
+          width={`${375 / 667 * (window.innerHeight - 80) / window.innerWidth * 100}%`}/>
       </div>
     )
   }

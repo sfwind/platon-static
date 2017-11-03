@@ -59,7 +59,6 @@ import InterlocutionQuanAnswer from './modules/interlocution/InterlocutionQuanAn
 import { NickName } from './modules/customer/account/components/NickName'
 import { HeadImage } from './modules/customer/account/components/HeadImage'
 import PersonalModify from './modules/customer/account/PersonalModify'
-import CertificateGeneration from './modules/customer/certificate/CertificateGeneration'
 
 const routes = (
   <Route>
@@ -120,7 +119,6 @@ const routes = (
         <Route path="forum/mine" component={ForumQuestion}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
-        <Route path="certificate/generate" component={CertificateGeneration}/>
       </Route>
       <Route path="message" component={Customer}>
         <Route path="center" component={MessageCenter}/>
