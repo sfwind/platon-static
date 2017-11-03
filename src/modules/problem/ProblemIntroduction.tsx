@@ -490,7 +490,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <div className="button-footer">
                   <div className={`left pay`}
                        onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
-                    加入商学院，立即学习
+                    去试听
                   </div>
                 </div>
               )
