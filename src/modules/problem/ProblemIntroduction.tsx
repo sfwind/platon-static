@@ -488,12 +488,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 8: {
               list.push(
                 <div className="button-footer">
-                  <div className="split-left"
+                  <div className={`left pay`}
                        onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
                     加入商学院，立即学习
-                  </div>
-                  <div className="split-right" onClick={() => this.setState({ showEvaluation: true })}>
-                    免费获取
                   </div>
                 </div>
               )

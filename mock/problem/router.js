@@ -345,7 +345,179 @@ router.post("/rise/problem/grade/*", (req, res) => {
 router.get("/rise/problem/open/*", (req, res) => {
   setTimeout(() =>
     res.status(200).json(
-      {"msg":{"problem":{"id":15,"problem":"如何改变自己","pic":"https://static.iqycamp.com/images/fragment/problem15_3.png","length":9,"catalogId":4,"subCatalogId":7,"author":"孙圈圈","authorDesc":null,"authorPic":"https://static.iqycamp.com/images/rise_problem_author_pic_sunquanquanV2.png?imageslim","difficultyScore":3.0,"usefulScore":4.2784,"descPic":"https://static.iqycamp.com/images/problem_desc_15_1.jpg","audio":"https://www.iqycamp.com/audio/rise_p15.m4a","audioId":178,"audioWords":"改变不能单单依靠意志力，因为意志力是会被耗尽的。心理学家罗伊·鲍迈斯特的研究表明——意志力是一种有限的生理资源：当意志力消耗越多时，被压抑的欲望反弹得也更强烈。\n\n真正让改变发生的，是三个关键因素：理性、感性和情境。我们可以把改变自己看做是骑马奔向目标的过程，你想达到的最终状态就是那个目标。理性就好比骑手，感性是骑手驾驭的野马，而情境则是骑手驾马驰骋的草原。要想到达终点，需要骑手、野马和草原的共同作用。\n\n理性的力量为我们指引改变的方向、寻找解决办法；感性的力量让我们在改变的过程中，更愿意坚持；理性和感性都是我们自身拥有的资源，除此之外，合适的外部情境能让改变更容易发生。\n\n需要注意的是，在进行改变的时候，我们并不一定要动用所有的方法。有的情况下，调动情感最有效，而有的情况下可能调整环境最有效。\n\n接下来，我们将会用9小节，依次学习这些知识，其中，最后1节是对前期所学内容的综合复习和应用。一起行动起来，让改变真正发生。","who":"曾经想要改变却找不到方向的人;想要改变却无法坚持的人;想要改变却始终不能成功的人","how":"<p>真正让改变发生有三个关键因素：理性、感性和情境。只要我们能善用理性、借助感性、制造情境，就能让改变更轻松。</p>","why":"<p>想要早起、少玩手机、坚持运动、不对家人发脾气、工作更有效率……每个想改变自己的努力，似乎都是一场反人性的斗争，需要极强的意志力，才能真正改变。</p><p></p><p>事实上，改变也可以来的更轻松。通过学习这门小课，你将掌握改变自己的科学方法，轻松改变自己；也可以借助这些方法，引导别人向你想要的方向改变。</p>","del":false,"newProblem":false,"trial":false,"hot":null,"categoryPic":"https://static.iqycamp.com/images/fragment/category3_3.jpeg","abbreviation":"改变自己","done":null,"status":null,"hasProblemScore":false,"chapterList":[{"chapter":1,"sections":[{"section":1,"knowledgeId":73,"name":"设定目标","series":1,"chapter":1,"integrated":false,"chapterName":"善用理性","practices":[]},{"section":2,"knowledgeId":74,"name":"分析关键因素","series":2,"chapter":1,"integrated":false,"chapterName":"善用理性","practices":[]}],"name":"善用理性","myWarmScore":null,"totalWarmScore":null,"integrated":false},{"chapter":2,"sections":[{"section":1,"knowledgeId":76,"name":"调动情感","series":3,"chapter":2,"integrated":false,"chapterName":"借助感性","practices":[]},{"section":2,"knowledgeId":75,"name":"小处做起","series":4,"chapter":2,"integrated":false,"chapterName":"借助感性","practices":[]},{"section":3,"knowledgeId":77,"name":"获得认同","series":5,"chapter":2,"integrated":false,"chapterName":"借助感性","practices":[]}],"name":"借助感性","myWarmScore":null,"totalWarmScore":null,"integrated":false},{"chapter":3,"sections":[{"section":1,"knowledgeId":78,"name":"调整环境","series":6,"chapter":3,"integrated":false,"chapterName":"制造情境","practices":[]},{"section":2,"knowledgeId":79,"name":"培养习惯","series":7,"chapter":3,"integrated":false,"chapterName":"制造情境","practices":[]},{"section":3,"knowledgeId":80,"name":"找到同伴","series":8,"chapter":3,"integrated":false,"chapterName":"制造情境","practices":[]}],"name":"制造情境","myWarmScore":null,"totalWarmScore":null,"integrated":false},{"chapter":4,"sections":[{"section":1,"knowledgeId":59,"name":"内容回顾 & 综合练习","series":9,"chapter":4,"integrated":true,"chapterName":"综合案例","practices":[]}],"name":"综合案例","myWarmScore":null,"totalWarmScore":null,"integrated":true}],"subCatalog":"行为管理","catalog":"管理自己","chosenPersonCount":0,"monthlyCampMonth":null},"fee":0.01,"buttonStatus":1,"planId":null,"bindMobile":false,"isFull":false,"togetherClassMonth":null,"problemCollected":false},"code":200}
+      {
+        "msg": {
+          "problem": {
+            "id": 15,
+            "problem": "如何改变自己",
+            "pic": "https://static.iqycamp.com/images/fragment/problem15_3.png",
+            "length": 9,
+            "catalogId": 4,
+            "subCatalogId": 7,
+            "author": "孙圈圈",
+            "authorDesc": null,
+            "authorPic": "https://static.iqycamp.com/images/rise_problem_author_pic_sunquanquanV2.png?imageslim",
+            "difficultyScore": 3,
+            "usefulScore": 4.2784,
+            "descPic": "https://static.iqycamp.com/images/problem_desc_15_1.jpg",
+            "audio": "https://www.iqycamp.com/audio/rise_p15.m4a",
+            "audioId": 178,
+            "audioWords": "改变不能单单依靠意志力，因为意志力是会被耗尽的。心理学家罗伊·鲍迈斯特的研究表明——意志力是一种有限的生理资源：当意志力消耗越多时，被压抑的欲望反弹得也更强烈。\n\n真正让改变发生的，是三个关键因素：理性、感性和情境。我们可以把改变自己看做是骑马奔向目标的过程，你想达到的最终状态就是那个目标。理性就好比骑手，感性是骑手驾驭的野马，而情境则是骑手驾马驰骋的草原。要想到达终点，需要骑手、野马和草原的共同作用。\n\n理性的力量为我们指引改变的方向、寻找解决办法；感性的力量让我们在改变的过程中，更愿意坚持；理性和感性都是我们自身拥有的资源，除此之外，合适的外部情境能让改变更容易发生。\n\n需要注意的是，在进行改变的时候，我们并不一定要动用所有的方法。有的情况下，调动情感最有效，而有的情况下可能调整环境最有效。\n\n接下来，我们将会用9小节，依次学习这些知识，其中，最后1节是对前期所学内容的综合复习和应用。一起行动起来，让改变真正发生。",
+            "who": "曾经想要改变却找不到方向的人;想要改变却无法坚持的人;想要改变却始终不能成功的人",
+            "how": "<p>真正让改变发生有三个关键因素：理性、感性和情境。只要我们能善用理性、借助感性、制造情境，就能让改变更轻松。</p>",
+            "why": "<p>想要早起、少玩手机、坚持运动、不对家人发脾气、工作更有效率……每个想改变自己的努力，似乎都是一场反人性的斗争，需要极强的意志力，才能真正改变。</p><p></p><p>事实上，改变也可以来的更轻松。通过学习这门小课，你将掌握改变自己的科学方法，轻松改变自己；也可以借助这些方法，引导别人向你想要的方向改变。</p>",
+            "del": false,
+            "newProblem": false,
+            "trial": false,
+            "hot": null,
+            "categoryPic": "https://static.iqycamp.com/images/fragment/category3_3.jpeg",
+            "abbreviation": "改变自己",
+            "done": null,
+            "status": null,
+            "hasProblemScore": false,
+            "chapterList": [
+              {
+                "chapter": 1,
+                "sections": [
+                  {
+                    "section": 1,
+                    "knowledgeId": 73,
+                    "name": "设定目标",
+                    "series": 1,
+                    "chapter": 1,
+                    "integrated": false,
+                    "chapterName": "善用理性",
+                    "practices": []
+                  },
+                  {
+                    "section": 2,
+                    "knowledgeId": 74,
+                    "name": "分析关键因素",
+                    "series": 2,
+                    "chapter": 1,
+                    "integrated": false,
+                    "chapterName": "善用理性",
+                    "practices": []
+                  }
+                ],
+                "name": "善用理性",
+                "myWarmScore": null,
+                "totalWarmScore": null,
+                "integrated": false
+              },
+              {
+                "chapter": 2,
+                "sections": [
+                  {
+                    "section": 1,
+                    "knowledgeId": 76,
+                    "name": "调动情感",
+                    "series": 3,
+                    "chapter": 2,
+                    "integrated": false,
+                    "chapterName": "借助感性",
+                    "practices": []
+                  },
+                  {
+                    "section": 2,
+                    "knowledgeId": 75,
+                    "name": "小处做起",
+                    "series": 4,
+                    "chapter": 2,
+                    "integrated": false,
+                    "chapterName": "借助感性",
+                    "practices": []
+                  },
+                  {
+                    "section": 3,
+                    "knowledgeId": 77,
+                    "name": "获得认同",
+                    "series": 5,
+                    "chapter": 2,
+                    "integrated": false,
+                    "chapterName": "借助感性",
+                    "practices": []
+                  }
+                ],
+                "name": "借助感性",
+                "myWarmScore": null,
+                "totalWarmScore": null,
+                "integrated": false
+              },
+              {
+                "chapter": 3,
+                "sections": [
+                  {
+                    "section": 1,
+                    "knowledgeId": 78,
+                    "name": "调整环境",
+                    "series": 6,
+                    "chapter": 3,
+                    "integrated": false,
+                    "chapterName": "制造情境",
+                    "practices": []
+                  },
+                  {
+                    "section": 2,
+                    "knowledgeId": 79,
+                    "name": "培养习惯",
+                    "series": 7,
+                    "chapter": 3,
+                    "integrated": false,
+                    "chapterName": "制造情境",
+                    "practices": []
+                  },
+                  {
+                    "section": 3,
+                    "knowledgeId": 80,
+                    "name": "找到同伴",
+                    "series": 8,
+                    "chapter": 3,
+                    "integrated": false,
+                    "chapterName": "制造情境",
+                    "practices": []
+                  }
+                ],
+                "name": "制造情境",
+                "myWarmScore": null,
+                "totalWarmScore": null,
+                "integrated": false
+              },
+              {
+                "chapter": 4,
+                "sections": [
+                  {
+                    "section": 1,
+                    "knowledgeId": 59,
+                    "name": "内容回顾 & 综合练习",
+                    "series": 9,
+                    "chapter": 4,
+                    "integrated": true,
+                    "chapterName": "综合案例",
+                    "practices": []
+                  }
+                ],
+                "name": "综合案例",
+                "myWarmScore": null,
+                "totalWarmScore": null,
+                "integrated": true
+              }
+            ],
+            "subCatalog": "行为管理",
+            "catalog": "管理自己",
+            "chosenPersonCount": 0,
+            "monthlyCampMonth": null
+          },
+          "fee": 0.01,
+          "buttonStatus": 8,
+          "planId": null,
+          "bindMobile": false,
+          "isFull": false,
+          "togetherClassMonth": null,
+          "problemCollected": false
+        },
+        "code": 200
+      }
     ), Math.random() * 1500);
 });
 
