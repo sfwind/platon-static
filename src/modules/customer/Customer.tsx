@@ -37,7 +37,6 @@ export class Customer extends React.Component<any, any> {
       <div>
         {childrenWithProps}
         {this.state.hiddenTab ? null : <ToolBar/>}
-        <div style={{ width: '100%', height: '1px' }}/>
       </div>
     )
   }
