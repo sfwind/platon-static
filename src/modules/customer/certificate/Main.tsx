@@ -67,7 +67,7 @@ export default class Main extends React.Component<any, any> {
       month, name, typeName, congratulation, problemName, certificateNo, type
     } = this.state
     return (
-      <div className="certificate-container">
+      <div className="certificate-container" style={{height:window.innerHeight}}>
         {type ?
           <div className={`certificate ${type === 5?'ordinary':'excellent'}`} style={{width:backgroundPicWidth, height:backgroundPicHeight, transform:
          `scale(${initialScale})`,
