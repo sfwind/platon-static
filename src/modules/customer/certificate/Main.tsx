@@ -1,10 +1,10 @@
-import * as React from 'react'
-import './Main.less'
-import { connect } from 'react-redux'
+import * as React from "react"
+import "./Main.less"
+import { connect } from "react-redux"
 import { getCertificate } from './async'
-import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { changeTitle } from 'utils/helpers'
-import AssetImg from '../../../components/AssetImg'
+import { set, startLoad, endLoad, alertMsg } from "redux/actions"
+import { ButtonArea, Button } from "react-weui"
+import { changeTitle } from "utils/helpers"
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -15,12 +15,17 @@ export default class Main extends React.Component<any, any> {
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      initialScale: 0,
+      backgroundPicWidth: 750,
+      backgroundPicHeight: 1334,
+    }
   }
 
   componentWillMount() {
-    changeTitle('圈外证书')
+    changeTitle("圈外证书");
     const { dispatch, location } = this.props
+    this.fit()
     const { certificateNo } = location.query
     dispatch(startLoad())
     getCertificate(certificateNo).then(res => {
@@ -30,12 +35,7 @@ export default class Main extends React.Component<any, any> {
         if(!res.msg.name) {
           this.context.router.push({ pathname: '/rise/static/customer/certificate/profile', query: { certificateNo } })
         } else {
-          dispatch(startLoad())
-          this.setState(res.msg, () => {
-            setTimeout(() => {
-              dispatch(endLoad())
-            }, 1000)
-          })
+          this.setState(res.msg)
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -45,19 +45,51 @@ export default class Main extends React.Component<any, any> {
     })
   }
 
+  fit() {
+    // let windowHeight = window.innerHeight
+    let windowWidth = window.innerWidth
+    // let pageHeight = this.state.backgroundPicHeight
+    let pageWidth = this.state.backgroundPicWidth
+
+    let initialScale = windowWidth / pageWidth
+
+    this.setState({ initialScale })
+  }
+
   componentDidMount() {
-    const { hiddenTab } = this.props
-    hiddenTab()
+    const { hiddenTab } = this.props;
+    hiddenTab();
   }
 
   render() {
-    const { imageUrl } = this.state
+    const {
+      initialScale, backgroundPicHeight, backgroundPicWidth,
+      month, name, typeName, congratulation, problemName, certificateNo, type
+    } = this.state
     return (
       <div className="certificate-container">
-        <span className="tips">长按下方图片可保存至相册</span>
-        <AssetImg
-          className="certificate-image" url={imageUrl} ref="targetImage"
-          width={`${375 / 667 * (window.innerHeight - 80) / window.innerWidth * 100}%`}/>
+        {type ?
+          <div className={`certificate ${type === 5?'ordinary':'excellent'}`} style={{width:backgroundPicWidth, height:backgroundPicHeight, transform:
+         `scale(${initialScale})`,
+           WebkitTransform: `scale(${initialScale})` }}>
+            <div className="certificate-description">
+              <div className="description-text1">圈外同学 • {month}月小课训练营</div>
+              <div className="description-text2">《{problemName}》</div>
+            </div>
+            <div className="certificate-name">
+              {typeName}
+            </div>
+            <div className="name">
+              {name}
+            </div>
+            <pre className="cong">
+            {congratulation}
+          </pre>
+            <div className={`certificate-number ${type === 5?'ordinary':''}`}>
+              证书编号：{certificateNo}
+            </div>
+          </div> : null
+        }
       </div>
     )
   }
