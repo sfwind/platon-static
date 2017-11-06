@@ -28,6 +28,7 @@
     "@types/react-router": "^2.0.30",
     "@types/redux": "^3.5.27",
     "@types/redux-thunk": "^2.1.28",
+    "animate.css": "^3.5.2",
     "axios": "^0.15.2",
     "echarts": "^3.7.1",
     "exif-js": "^2.3.0",

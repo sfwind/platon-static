@@ -21,7 +21,7 @@ export default class ScheduleNotice extends Component {
 
   handleClickStart() {
     mark({ module: "打点", function: "课程计划", action: "点击开始制定计划按钮" })
-    this.context.router.push("");
+    this.context.router.push("/rise/static/course/schedule/choice");
   }
 
   render() {
