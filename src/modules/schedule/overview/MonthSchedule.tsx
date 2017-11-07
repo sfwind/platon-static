@@ -4,7 +4,8 @@ import Sortable from 'sortablejs'
 
 interface MonthScheduleProps {
   id: any,
-  schedules: any
+  schedules: any,
+  draggable: boolean
 }
 interface MonthScheduleState {
 
@@ -19,8 +20,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
   sortbale
 
   componentWillMount() {
-    const { id, schedules } = this.props
-    this.setState({ id: id, schedules: schedules })
+    const { id, schedules, draggable} = this.props
+    this.setState({ id: id, schedules: schedules, draggable: draggable })
   }
 
   componentDidMount() {
@@ -34,13 +35,27 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       ghostClass: 'ghost',  // Class name for the drop placeholder
       dragClass: 'drag'  // Class name for the dragging item
     })
+    document.body.addEventListener('touchend', () => {
+      for(let node of document.getElementsByClassName('drag')) {
+        if(node.classList.contains('drag')) {
+          node.classList.remove('drag')
+        }
+      }
+    })
+    document.body.addEventListener('touchcancel', () => {
+      for(let node of document.getElementsByClassName('drag')) {
+        if(node.classList.contains('drag')) {
+          node.classList.remove('drag')
+        }
+      }
+    })
   }
 
   componentWillReceiveProps(nextProps) {
     if(JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
       this.props = nextProps
-      const { id, schedules } = this.props
-      this.setState({ id: id, schedules: schedules })
+      const { id, schedules, draggable } = this.props
+      this.setState({ id: id, schedules: schedules, draggable: draggable })
     }
   }
 
@@ -59,7 +74,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
   }
 
   render() {
-    const { id, schedules = [] } = this.state
+    const { id, schedules = [], draggable } = this.state
     let firstSchedule = schedules[0]
     let majors = schedules.filter(schedule => schedule.type === 1)
     let minors = schedules.filter(schedule => schedule.type === 2)
@@ -90,11 +105,11 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                          className={
                            `problem minor-problem
                             ${schedule.selected ? 'selected' : 'no-selected'}
-                           `}
-                         onClick={() => this.handleClickChangeSelected(schedule)}>
-                      <span className="draggable">点击拖动</span>
+                           `}>
+                      <span className="draggable" style={{ display: draggable ? '' : 'none' }}
+                            onTouchStartCapture={() => {window.scrollTo(window.scrollX, window.scrollY + 1)}}>点击拖动</span>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      {schedule.problem.problem}
+                      <span onClick={() => this.handleClickChangeSelected(schedule)}>{schedule.problem.problem}</span>
                     </div>
                   </li>
                 )

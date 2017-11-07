@@ -66,12 +66,19 @@ export default class OverView extends React.Component {
     })
   }
 
+  changeEdit() {
+    this.setState({
+      draggable: !this.state.draggable
+    })
+  }
+
   render() {
-    const { scheduleList = [] } = this.state
+    const { scheduleList = [], draggable = false } = this.state
 
     return (
       <div className="overview-container"
            id="overview-container">
+        <h2 onClick={() => this.changeEdit()}>改变编辑</h2>
         <div id="overview-scroll" className="overview-scroll"
              style={{
                position: 'relative'
@@ -79,7 +86,7 @@ export default class OverView extends React.Component {
           {
             scheduleList.map((schedules, index) => {
               return (
-                <MonthSchedule key={index} id={index} schedules={schedules}/>
+                <MonthSchedule key={index} id={index} schedules={schedules} draggable={draggable}/>
               )
             })
           }
