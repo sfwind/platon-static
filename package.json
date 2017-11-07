@@ -36,6 +36,7 @@
     "gulp": "^3.9.1",
     "iosselect": "0.0.5",
     "jquery": "^3.2.1",
+    "jqueryui": "^1.11.1",
     "lodash": "^4.14.1",
     "minirefresh": "^1.0.6",
     "moment": "^2.18.1",
@@ -69,6 +70,7 @@
     "shelljs": "^0.7.3",
     "simditor": "^2.3.6",
     "smooth-scrollbar": "^7.2.10",
+    "sortablejs": "^1.6.1",
     "swiper": "^3.4.2",
     "ua-device": "^0.1.10",
     "weui": "^0.4.3"
