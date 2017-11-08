@@ -52,7 +52,7 @@ router.get("/rise/schedule/count/down", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
       "msg": {
-        days: 8,
+        days: 32,
         hasSchedule: true
       },
       "code": 200

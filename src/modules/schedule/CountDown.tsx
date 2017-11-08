@@ -45,6 +45,7 @@ export default class CountDown extends Component {
         if(days > 0) {
           // 两位数
           if(daysStr.length > 1) {
+            console.log(daysStr);
             ones = daysStr[ 1 ];
             tens = daysStr[ 0 ];
           } else {
