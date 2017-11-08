@@ -4,6 +4,7 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import './CountDown.less';
 import { loadCountDownInfo } from './async'
 import AssetImg from '../../components/AssetImg'
+import { preview } from '../helpers/JsConfig'
 
 let _ = require('lodash');
 
