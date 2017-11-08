@@ -4,10 +4,10 @@
   position: relative;
   .header {
     text-align: center;
-    padding-top: 8rem;
+    padding-top: 7rem;
     .msg {
       color: rgb(242, 200, 81);
-      font-size: 2rem;
+      font-size: 2.4rem;
       display: inline-block;
       position: relative;
       &:before {
@@ -15,9 +15,9 @@
         display: block;
         position: absolute;
         top: 50%;
-        right: 0;
-        transform: translateX(100%);
-        width: 4rem;
+        left: -6px;
+        transform: translateX(-100%);
+        width: 4.4rem;
         height: 1px;
         background-color: rgb(242, 200, 81);
       }
@@ -26,9 +26,9 @@
         display: block;
         position: absolute;
         top: 50%;
-        left: 0;
-        transform: translateX(-100%);
-        width: 4rem;
+        right: -5px;
+        transform: translateX(100%);
+        width: 4.4rem;
         height: 1px;
         background-color: rgb(242, 200, 81);
       }
@@ -39,14 +39,18 @@
     .day {
       //display: inline-block;
       position: absolute;
-      top: 8rem;
+      top: 5rem;
       left: 50%;
       transform: translateX(-50%);
       .place {
+        height: 10.1rem;
+        text-align: center;
+        line-height: 10.1rem;
+        width: 6rem;
+        font-size: 8rem;
         display: inline-block;
-        padding: .5rem .5rem;
-        font-size: 4rem;
-        background-color: #FDFDFD;
+        color: #041931;
+        background: url('../../../assets/img/number_card.png') no-repeat center center/100% 100%;
       }
       .ones-place {
         margin-left: 1rem;;
@@ -57,18 +61,54 @@
           position: absolute;
           bottom: 0;
           right: -1.5rem;
-          font-size:1.5rem;
-          line-height:1.5rem;
-          color:#FFFFFF;
-          transform:translateX(100%);
+          font-size: 1.5rem;
+          line-height: 1.5rem;
+          color: #FFFFFF;
+          transform: translateX(100%);
         }
       }
     }
   }
   .footer {
-    padding-top:24rem;
-    text-align:center;
-    font-size:2rem;
-    color:#FFFFFF;
+    padding-top: 26rem;
+    text-align: center;
+    font-size: 1.5rem;
+    color: #FFFFFF;
+  }
+  .guide-tips {
+    padding-top: 2rem;
+    text-align: center;
+    > div {
+      position: relative;
+      &:before {
+        color: #FFFFFF;
+        display: block;
+        content: attr(data-step);
+        position: absolute;
+        width: 70%;
+        text-align: center;
+        height: 1.5rem;
+        font-size: 1.5rem;
+        top: 0;
+        right: 0;
+      }
+      &.left {
+        height: 13rem;
+        &:before {
+          left: 0;
+          top: -1rem;
+        }
+      }
+      &.right:before {
+        top: -1.8rem;
+      }
+      height: 12.3rem;
+      display: inline-block;
+      padding: 1rem;
+      img {
+        height: 100%;
+        width: auto;
+      }
+    }
   }
 }

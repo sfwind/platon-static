@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import './CountDown.less';
 import { loadCountDownInfo } from './async'
+import AssetImg from '../../components/AssetImg'
 
 let _ = require('lodash');
 
@@ -79,6 +80,14 @@ export default class CountDown extends Component {
         <div className="footer">
           请置顶公众号<br/>
           以及时接到开学典礼通知
+        </div>
+        <div className="guide-tips">
+          <div className="left" data-step='- 1 -'>
+            <AssetImg url='https://static.iqycamp.com/images/count_down_left_tips.png?imageslim'/>
+          </div>
+          <div className="right" data-step='- 2 -'>
+            <AssetImg url='https://static.iqycamp.com/images/count_down_right_tips.png?imageslim'/>
+          </div>
         </div>
       </div>
     )
