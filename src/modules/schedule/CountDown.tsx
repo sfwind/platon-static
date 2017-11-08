@@ -45,8 +45,8 @@ export default class CountDown extends Component {
         if(days > 0) {
           // 两位数
           if(daysStr.length > 1) {
-            ones = daysStr[ 0 ];
-            tens = daysStr[ 1 ];
+            ones = daysStr[ 1 ];
+            tens = daysStr[ 0 ];
           } else {
             // 1位数
             ones = daysStr[ 0 ];
