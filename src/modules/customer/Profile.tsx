@@ -156,6 +156,7 @@ export default class Profile extends React.Component<any, any> {
     const functionValue = _.get(this.state, "function");
     const { runningPlanId, goRise } = location.query;
     const { city, province, industry, workingYear, bindMobile, realName, address } = this.state;
+    console.log(realName, address)
     if(goRise) {
       if(city && province && industry && workingYear && functionValue && realName && address) {
         return true;
@@ -379,7 +380,9 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
           {goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none", height: '80px' }}>
-            <textarea className="address" placeholder="请填写详细地址"/>
+            <textarea className="address" placeholder="请填写详细地址" value={address}
+                      onChange={(e) => this.setState({ address: e.currentTarget.value })}
+            />
           </div> : null}
           {goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none" }}>
             <div className="item-label">
