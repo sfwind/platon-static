@@ -81,7 +81,7 @@ export default class CountDown extends Component {
         </div>
         <div className="footer">
           请置顶公众号<br/>
-          以及时接到开学典礼通知
+          以便及时收到开学典礼通知
           <div className="guide-tips">
             <div className="left" data-step='- 1 -'>
               <AssetImg url='https://static.iqycamp.com/images/count_down_left_tips.png?imageslim'/>
