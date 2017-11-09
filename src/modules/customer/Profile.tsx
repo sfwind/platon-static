@@ -67,13 +67,22 @@ export default class Profile extends React.Component<any, any> {
   componentWillMount() {
     mark({ module: "打点", function: "个人中心", action: "打开我的信息页面" });
     changeTitle("个人信息");
-    const { dispatch, region } = this.props;
+    const { dispatch, region, location } = this.props;
+    const { goRise } = location.query;
     dispatch(startLoad());
     loadUserProfileInfo().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState(_.merge({}, { defaultIsFull: res.msg.isFull }, res.msg), () => {});
-        this.checkIsFull()
+        let defaultIsFull = goRise ? false : res.msg.isFull;
+        this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
+          if(this.checkIsFull() && goRise) {
+            // 加载的时候就填写过，然后是goRise，则去绑定电话页面
+            this.context.router.push({
+              pathname: '/rise/static/customer/mobile/check',
+              query: { goRise: true }
+            })
+          }
+        });
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -230,7 +239,9 @@ export default class Profile extends React.Component<any, any> {
   }
 
   checkIsFull() {
-    this.setState({ isFull: this.checkFull() })
+    let isFull = this.checkFull();
+    this.setState({ isFull: isFull })
+    return isFull;
   }
 
   render() {
