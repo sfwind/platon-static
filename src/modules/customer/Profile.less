@@ -5,22 +5,22 @@
   position: relative;
   width: 100%;
   //height:~'calc(100% - 50px)' !important;
-  height:100%;
+  height: 100%;
   overflow-y: scroll;
   background-color: @color_weak_background;
-
+  height: 100vh;
   > .go-rise {
-    margin-bottom:20px;
-    > .guide{
+    margin-bottom: 20px;
+    > .guide {
       height: 73px;
       background-color: @color_weak_background;
       text-align: center;
-      > .first-guide{
+      > .first-guide {
         margin: 20px 28px 0;
         font-size: 14px;
         color: #333;
       }
-      > .second-guide{
+      > .second-guide {
         margin-top: 5px;
         font-size: 12px;
         color: #999;
@@ -28,13 +28,12 @@
     }
   }
 
-
   > .profile-header {
-    > .profile-header-tip{
+    > .profile-header-tip {
       height: 40px;
-      line-height:40px;
+      line-height: 40px;
       font-size: 10px;
-      border-bottom: 1px solid  #f5f5f5;
+      border-bottom: 1px solid #f5f5f5;
       text-align: center;
     }
   }
@@ -48,8 +47,18 @@
       border-bottom: 1px solid #f5f5f5;
       overflow: hidden;
       vertical-align: middle;
-      background-color:#ffffff;
-
+      background-color: #ffffff;
+      > .address {
+        width: ~"calc(100% - 4px)";
+        resize: none;
+        outline: none;
+        border: 0;
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        -webkit-appearance: none;
+        font-size: 13px;
+        height: ~"calc(100% - 15px)";
+        padding-top: 15px;
+      }
       > .item-label {
         float: left;
       }
@@ -77,8 +86,8 @@
             > .form-item {
               display: inline-block;
               color: @color_title;
-              > .pc-box{
-                > span{
+              > .pc-box {
+                > span {
                 }
               }
             }
@@ -89,12 +98,12 @@
               border: none;
             }
             &-no-cut {
-              margin-right:10px;
+              margin-right: 10px;
               > .form-item {
                 display: inline-block;
                 color: @color_title;
-                > .pc-box{
-                  > span{
+                > .pc-box {
+                  > span {
                   }
                 }
               }
@@ -132,18 +141,17 @@
     }
   }
 
-
-  > .profile-bottom{
-    margin:40px auto;
-    > .submit-btn{
-      margin:0 auto;
-      background-color:@color_strong;
-      color:#ffffff;
-      height:40px;
-      font-size:15px;
-      line-height:40px;
+  > .profile-bottom {
+    margin: 40px auto;
+    > .submit-btn {
+      margin: 0 auto;
+      background-color: @color_strong;
+      color: #ffffff;
+      height: 40px;
+      font-size: 15px;
+      line-height: 40px;
       text-align: center;
-      border-radius:5px;
+      border-radius: 5px;
       &.disabled {
         background: #cccccc;
       }
