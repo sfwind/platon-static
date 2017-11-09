@@ -151,20 +151,42 @@ export default class Profile extends React.Component<any, any> {
     this.checkIsFull()
   }
 
-  submitProfile() {
+  checkFull() {
     const { dispatch, location } = this.props;
-    const { city, province, industry, workingLife, bindMobile } = this.state;
     const functionValue = _.get(this.state, "function");
     const { runningPlanId, goRise } = location.query;
-    if(city && province && industry && workingLife && functionValue) {
-      dispatch(startLoad());
-      ppost("/rise/customer/profile", {
+    const { city, province, industry, workingYear, bindMobile, realName, address } = this.state;
+    if(goRise) {
+      if(city && province && industry && workingYear && functionValue && realName && address) {
+        return true;
+      }
+    } else {
+      if(city && province && industry && workingYear && functionValue) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  submitProfile() {
+    const { dispatch, location } = this.props;
+    const { city, province, industry, workingYear, bindMobile, realName, address } = this.state;
+    const functionValue = _.get(this.state, "function");
+    const { runningPlanId, goRise } = location.query;
+    if(this.checkFull()) {
+      let param = {
         city: city,
         province: province,
         industry: industry,
-        workingLife: workingLife,
+        workingYear: workingYear,
         function: functionValue
-      }).then(res => {
+      }
+      if(goRise) {
+        _.merge(param, { realName: realName, address: address });
+      }
+      console.log(param);
+      dispatch(startLoad());
+      ppost("/rise/customer/profile", param).then(res => {
         dispatch(endLoad());
         if(res.code === 200) {
           //从rise付款页跳转过来的，填完个人信息后引导去学习页面
@@ -178,7 +200,9 @@ export default class Profile extends React.Component<any, any> {
               })
             } else {
               // 绑定过
-              this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: runningPlanId } });
+              // 类似于点商学院
+              window.location.href = `https://${window.location.hostname}/rise/static/rise`;
+              // this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: runningPlanId } });
             }
           } else {
             dispatch(alertMsg("提交成功"));
@@ -197,8 +221,8 @@ export default class Profile extends React.Component<any, any> {
   }
 
   checkIsFull() {
-    const { city, province, industry, workingLife } = this.state;
-    if(city && province && industry && workingLife) {
+    const { city, province, industry, workingYear } = this.state;
+    if(city && province && industry && workingYear) {
       this.setState({ isFull: true })
     }
   }
@@ -283,7 +307,7 @@ export default class Profile extends React.Component<any, any> {
       return (
         <div className={workingYear ? "select-wrapper-has" : "select-wrapper"}>
           <DropDownList level={1} data={[ workingYearList ]} userData={myWorkingLife.id ? [ myWorkingLife ] : null}
-                        defaultData={[ { id: '2010', value: '2010' } ]}
+                        defaultData={[ { id: '2000', value: '2000' } ]}
                         onChoice={(one) => this.onChoiceWorkingYear(one)}/>
         </div>
       )
