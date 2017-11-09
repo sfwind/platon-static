@@ -60,15 +60,14 @@ import { NickName } from './modules/customer/account/components/NickName'
 import { HeadImage } from './modules/customer/account/components/HeadImage'
 import PersonalModify from './modules/customer/account/PersonalModify'
 
+import ScheduleNotice from './modules/schedule/ScheduleNotice';
+import ScheduleChoice from './modules/schedule/ScheduleChoice';
+import CountDown from './modules/schedule/CountDown';
+
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={() => {
-      {/*if(window.ENV.osName !== 'ios'){*/
-      }
-      // ios不需要每个页面都刷
-      config(['chooseWXPay'])
-      {/*}*/
-      }
+      config([ 'chooseWXPay' ])
     }}>
       <Route path="welcome" component={Welcome}/>
       <Route path="rise" component={PlanList}/>
@@ -136,6 +135,11 @@ const routes = (
       <Route path="guest/inter/questions" component={InterlocutionQuestion}/>
       <Route path="inter/question/submit" component={InterlocutionQuestionSubmit}/>
       <Route path="guest/inter/quan/answer" component={InterlocutionQuanAnswer}/>
+
+      <Route path="course/schedule/start" component={ScheduleNotice}/>
+      <Route path="course/schedule/choice" component={ScheduleChoice}/>
+      <Route path="business/count/down" component={CountDown}/>
+
     </Route>
   </Route>
 )

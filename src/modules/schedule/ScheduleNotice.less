@@ -1,0 +1,44 @@
+@import "../../style/variable";
+
+.schedule-notice {
+  height: 100vh;
+  text-align: center;
+  background: url('https://static.iqycamp.com/images/bg_diwen.png?imageslim') repeat-y center top/100% auto;
+  .header-msg {
+    span {
+      background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#feff1c), to(#FF7800));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    font-size: 2.4rem;
+    color: @color_title;
+    padding: 7rem 0 0;
+  }
+
+  > .img-wrapper {
+    padding: 3rem 11.5rem 13rem;
+    > .img {
+      display: inline-block;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  > .start-btn {
+    box-shadow: 0 0 12px rgba(254,229,59,.7);
+    background-color: #FEE53B;
+    color: #041931;
+    font-size: 2rem;
+    line-height: 2rem;
+    display: inline-block;
+    width: 90px;
+    padding: 1rem 7rem;
+    border-radius: 2rem;
+  }
+
+  > .tips {
+    margin-top: 1rem;
+    color: @color_white;
+    font-size: 1.5rem;
+  }
+}
