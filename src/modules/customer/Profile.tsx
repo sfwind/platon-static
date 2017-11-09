@@ -72,7 +72,8 @@ export default class Profile extends React.Component<any, any> {
     loadUserProfileInfo().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState(_.merge({}, { defaultIsFull: res.msg.isFull }, res.msg));
+        this.setState(_.merge({}, { defaultIsFull: res.msg.isFull }, res.msg), () => {});
+        this.checkIsFull()
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -107,16 +108,21 @@ export default class Profile extends React.Component<any, any> {
     // }
   }
 
-  changeValue(path, value) {
-    this.setState(_.set(_.merge({}, this.state), path, value))
+  changeValue(path, value, callback) {
+    this.setState(_.set(_.merge({}, this.state), path, value), () => {
+      if(callback) {
+        callback();
+      }
+    })
   }
 
   bind(field, getValue) {
     return {
       value: this.state[ field ],
       onChange: (e) => {
-        this.changeValue(field, getValue ? getValue(e) : e)
-        this.checkIsFull()
+        this.changeValue(field, getValue ? getValue(e) : e, () => {
+          this.checkIsFull()
+        })
       }
     }
 
@@ -132,23 +138,27 @@ export default class Profile extends React.Component<any, any> {
       provinceId: provinceRegion.id,
       city: cityRegion.value,
       cityId: cityRegion.id
+    }, () => {
+      this.checkIsFull()
     });
-    this.checkIsFull()
   }
 
   onChoiceIndustry(industry) {
-    this.setState({ industry: industry.value });
-    this.checkIsFull()
+    this.setState({ industry: industry.value }, () => {
+      this.checkIsFull()
+    });
   }
 
   onChoiceWorkingLife(workingLife) {
-    this.setState({ workingLife: workingLife.value });
-    this.checkIsFull()
+    this.setState({ workingLife: workingLife.value }, () => {
+      this.checkIsFull()
+    });
   }
 
   onChoiceWorkingYear(workingYear) {
-    this.setState({ workingYear: workingYear.value });
-    this.checkIsFull()
+    this.setState({ workingYear: workingYear.value }, () => {
+      this.checkIsFull()
+    });
   }
 
   checkFull() {
@@ -156,7 +166,6 @@ export default class Profile extends React.Component<any, any> {
     const functionValue = _.get(this.state, "function");
     const { runningPlanId, goRise } = location.query;
     const { city, province, industry, workingYear, bindMobile, realName, address } = this.state;
-    console.log(realName, address)
     if(goRise) {
       if(city && province && industry && workingYear && functionValue && realName && address) {
         return true;
@@ -185,7 +194,6 @@ export default class Profile extends React.Component<any, any> {
       if(goRise) {
         _.merge(param, { realName: realName, address: address });
       }
-      console.log(param);
       dispatch(startLoad());
       ppost("/rise/customer/profile", param).then(res => {
         dispatch(endLoad());
@@ -222,10 +230,7 @@ export default class Profile extends React.Component<any, any> {
   }
 
   checkIsFull() {
-    const { city, province, industry, workingYear } = this.state;
-    if(city && province && industry && workingYear) {
-      this.setState({ isFull: true })
-    }
+    this.setState({ isFull: this.checkFull() })
   }
 
   render() {
@@ -337,7 +342,7 @@ export default class Profile extends React.Component<any, any> {
               works={[ { text: '填写信息', done: !!defaultIsFull, cur: true },
                 { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false } ]}/>
             <div className="guide">
-              <div className="first-guide">完善信息，才有机会认识同行的小伙伴，参加圈外线下活动哦！</div>
+              <div className="first-guide">填写工作和地址信息，才能加入校友会，收到入学礼包！</div>
               <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
             </div>
           </div>
@@ -381,7 +386,9 @@ export default class Profile extends React.Component<any, any> {
           </div>
           {goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none", height: '80px' }}>
             <textarea className="address" placeholder="请填写详细地址" value={address}
-                      onChange={(e) => this.setState({ address: e.currentTarget.value })}
+                      onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
+                        this.checkIsFull()
+                      })}
             />
           </div> : null}
           {goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none" }}>
