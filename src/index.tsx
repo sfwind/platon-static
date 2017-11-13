@@ -10,6 +10,7 @@ import routes from './routes'
 import 'weui/dist/style/weui.min.css'
 import 'components/CustomerWeuiSwitch.less'
 import 'swiper/dist/css/swiper.css'
+import 'animate.css/animate.min.css'
 // import 'minirefresh/dist/debug/minirefresh.css'
 const store = configureStore()
 

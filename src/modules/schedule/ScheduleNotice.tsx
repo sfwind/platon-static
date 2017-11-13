@@ -21,18 +21,22 @@ export default class ScheduleNotice extends Component {
 
   handleClickStart() {
     mark({ module: "打点", function: "课程计划", action: "点击开始制定计划按钮" })
-    this.context.router.push("");
+    this.context.router.push("/rise/static/course/schedule/choice");
   }
 
   render() {
     return (
       <div className="schedule-notice">
-        <div className="header-msg">制定你的<br/>商学院学习计划</div>
+        <div className="header-msg">
+          <span>制定你的商学院</span>
+          <br/>
+          <span>学习计划</span>
+        </div>
         <div className="img-wrapper">
-          <AssetImg className="img" url="https://www.iqycamp.com/images/rise_event_wall_vote.jpg"/>
+          <AssetImg className="img" url="https://www.iqycamp.com/images/icon_maps.png?imageslim"/>
         </div>
         <div className="start-btn btn" onClick={() => this.handleClickStart()}>开始</div>
-        <div className="tips">9道题，约5分钟</div>
+        <div className="tips">9道题，约3分钟</div>
       </div>
     )
   }

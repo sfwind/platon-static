@@ -1,51 +1,53 @@
 @import "../../style/variable";
 
-.mobile-bind{
+.mobile-bind {
   position: relative;
   width: 100%;
-  height:100%;
+  height: 100vh;
   background-color: @color_weak_background;
   > .go-rise {
-    > .guide{
+    > .guide {
       height: 53px;
       background-color: @color_weak_background;
       text-align: center;
-      > .first-guide{
+      > .first-guide {
         margin: 20px 28px 0;
         font-size: 14px;
         color: #333;
       }
-      > .second-guide{
+      > .second-guide {
         margin-top: 5px;
         font-size: 12px;
         color: #999;
       }
     }
 
-    margin-bottom:20px;
+    margin-bottom: 20px;
   }
-  .send-code{
+  .send-code {
     //display: inline-block;
     float: right;
     border-radius: @border-radius;
     margin-left: 10px;
     height: 33px;
     line-height: 33px;
-    margin-top:11px;
+    margin-top: 11px;
     padding: 0 10px;
     text-align: center;
     vertical-align: middle;
     margin-bottom: 1px;
-    &.sending{
+    &.sending {
       background-color: @color_weak;
       color: #fff;
+      border: 1px solid @color_weak;
     }
-    &.free{
-      background-color: @color_strong;
-      color: #fff;
+    &.free {
+      background-color: #FFF;
+      color: #399BD3;
+      border: 1px solid #399BD3;
     }
   }
-  > .item{
+  > .item {
     background-color: #ffffff;
     height: 55px;
     line-height: 55px;
@@ -55,15 +57,15 @@
     border-bottom: 1px solid @color_weak_background;
     overflow: hidden;
     //&.show-area{
-    color: @color_strong;
+    color: #399BD3;
     cursor: pointer;
     //}
-    > .label{
-      float:left;
+    > .label {
+      float: left;
     }
-    > .input{
+    > .input {
       margin-left: 100px;
-      > input{
+      > input {
         border: 1px solid @color_weak;
         border-radius: @border-radius;
         height: 33px;
@@ -73,7 +75,7 @@
         -webkit-appearance: none;
       }
 
-      > .clean{
+      > .clean {
         display: inline-block;
         height: 55px;
         width: 20px;
@@ -83,18 +85,18 @@
       }
     }
   }
-  >.submit-div{
-    padding:0 20px;
-    margin-top:30px;
-    >.submit-button{
-      &.disable{
+  > .submit-div {
+    padding: 0 20px;
+    margin-top: 30px;
+    > .submit-button {
+      &.disable {
         background-color: @color_weak;
-        color: #fff;
+        color: #FFF;
       }
       text-align: center;
       margin: 0 auto;
-      background-color: @color_strong;
-      color: #fff;
+      background-color: #FFE51D;
+      color: #041932;
       height: 40px;
       font-size: 15px;
       line-height: 40px;
@@ -102,7 +104,7 @@
     }
   }
 
-  .text{
+  .text {
     color: #fff;
     font-size: @font_context;
   }

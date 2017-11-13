@@ -64,6 +64,9 @@ import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import OverView from './modules/schedule/overview/OverView'
 import Modify from './modules/schedule/modify/Modify'
+import ScheduleNotice from './modules/schedule/ScheduleNotice';
+import ScheduleChoice from './modules/schedule/ScheduleChoice';
+import CountDown from './modules/schedule/CountDown';
 
 const routes = (
   <Route>
@@ -141,6 +144,8 @@ const routes = (
       <Route path="course/schedule/choice" component={ScheduleChoice}/>
       <Route path="course/schedule/overview" component={OverView}/>
       <Route path="course/schedule/modify" component={Modify}/>
+      <Route path="business/count/down" component={CountDown}/>
+
     </Route>
   </Route>
 )
