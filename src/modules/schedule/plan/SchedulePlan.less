@@ -1,121 +1,187 @@
 @import "../../../style/variable.less";
 
-.schedule-plan-container{
+.schedule-plan-container {
   background-color: #000;
   padding: 0 1.5rem;
-  .monthly-topic{
+  .monthly-topic {
     font-size: 2.5rem;
+    line-height: 2.5rem;
     color: goldenrod;
     text-align: center;
+    padding-top: 40px;
   }
-  .schedule-plan{
+  .schedule-plan {
     font-size: @font_click;
     color: @color_white;
     height: 20px;
-    > .plan-button{
-      text-align: center;
-      width: 80px;
+    margin-top: 5px;
+    > .plan-button {
       float: right;
-      border-radius: 10px;
-      border: 1px solid #fff;
+      color: @color_white;
+      text-decoration: underline;
+      &:before{
+        margin-right: 5px;
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-bottom: 3px;
+        vertical-align: middle;
+        display: inline-block;
+        content: '';
+        background-size: 100% 100%;
+        background-image: url('../../../../assets/img/schedule_plan.png');
+      }
     }
   }
 
-  .card{
+  .card {
     background-color: @color_white;
+    border-radius: @border-radius;
     margin-top: 20px;
 
-    > .course-category{
+    > .course-category {
       text-align: center;
-      > .category-line{
-        width: ~"calc(50% - 80px)";
+      > .category-line {
+        width: ~"calc(50% - 58px)";
         height: 1px;
         display: inline-block;
         vertical-align: middle;
         background-color: #000;
       }
 
-      > .category-title{
+      > .category-title {
+        margin: 0 10px;
         width: 40px;
         display: inline-block;
+        font-size: @font_index;
+        line-height: @font_index;
       }
     }
 
-    > .course-container{
+    > .course-container {
       display: flex;
       flex-wrap: wrap;
     }
-    > .today{
+    > .today {
       display: inline-block;
       float: right;
-    }
-    > .card-icon{
-      display: inline-block;
-    }
-
-    > .card-topic{
-      display: inline-block;
-    }
-    .progress-name{
-      display: inline-block;
-      margin-right: 30px;
+      margin-top: 28px;
+      margin-right: 15px;
+      line-height: @font_index;
       font-size: @font_index;
     }
-    .progress-bar{
+    > .card-icon {
       display: inline-block;
-      width: 165px;
+      height: 18px;
+      margin: 25px 15px 0;
+    }
+
+    > .card-topic {
+      margin-top: 25px;
+      display: inline-block;
+      font-size: 18px;
+      line-height: 18px;
+      color: @color_context;
+      margin-bottom: 30px;
+      vertical-align: top;
+    }
+    .progress-name {
+      display: inline-block;
+      font-size: @font_index;
+      line-height: @font_index;
+      margin: 10px 20px 20px 15px;
+    }
+    .major-progress {
+      .weui_progress_inner_bar {
+        background: #63bed4;
+        background: -webkit-radial-gradient(left center, #1acef9, #63bed4);
+      }
+      .progress-percent {
+        margin-left: 20px;
+        display: inline-block;
+        color: #63bed4;
+      }
+    }
+    .minor-progress {
+      .weui_progress_inner_bar {
+        background: #63cd8b;
+        background: -webkit-radial-gradient(left center, #3fe67e, #63cd8b);
+      }
+      .progress-percent {
+        margin-left: 20px;
+        display: inline-block;
+        color: #63cd8b;
+      }
+      padding-bottom: 20px;
+    }
+    .progress-bar {
+      display: inline-block;
+      width: 58%;
       height: 10px;
       border-radius: @border-radius;
-    }
-    .progress-percent{
-      margin-left: 30px;
-      display: inline-block;
-    }
-
-    > .complete-course-container{
-      > .process-line{
-        display: inline-block;
-        width: 1px;
-        background-color: blue;
-        margin-left: 10px;
+      .weui_progress_bar {
+        height: 5px;
       }
-      > .complete-course-detail{
-        width: ~"calc(100% - 11px)";
-        display: inline-block;
-        vertical-align: top;
-        > .complete-plan{
-          &:before{
-            content: '·';
-            margin-left: -3px;
-            font-size: 18px;
-            vertical-align: middle;
-          }
-          border-top: 1px solid;
-          border-bottom: 1px solid;
-          > .plan-close-date{
-            display: inline-block;
-            margin: 0 10px;
+    }
+
+    > .complete-course-container {
+      width: ~"calc(100% - 27px)";
+      display: inline-block;
+      margin-left: 25px;
+      border-left: 2px solid @color_weak;
+      > .complete-plan {
+        height: 55px;
+        &:before {
+          content: '·';
+          margin-left: -6px;
+          font-size: 36px;
+          vertical-align: top;
+          color: @color_weak;
+        }
+        border-top: 1px solid @color_weak;
+        > .plan-close {
+          display: inline-block;
+          margin: 0 15px 0 10px;
+          font-size: @font_index;
+          color: @color_title;
+          vertical-align: middle;
+          > .plan-close-year {
+            text-align: center;
           }
 
-          > .plan-name{
-            font-size: 13px;
-            display: inline-block;
-            width: 69%;
-          }
+        }
 
-          > .plan-click{
-            font-size: 16px;
-            display: inline-block;
-          }
+        > .plan-name {
+          font-size: 15px;
+          line-height: 15px;
+          display: inline-block;
+          margin-top: 20px;
+          color: @color_context;
+        }
+
+        > .plan-click {
+          font-size: 16px;
+          display: inline-block;
+          float: right;
+          margin-top: 13px;
+          margin-right: 8px;
+          color: @color_title;
         }
       }
     }
   }
-  .course-card{
-    width: ~"calc(50% - 20px)";
-    margin: 10px;
+  .course-card {
+    width: 50%;
+    margin: 25px 0;
+    .problem-name {
+      margin-left: ~"calc((100% - 120px) / 2)";
+      margin-right: ~"calc((100% - 120px) / 2)";
+      font-size: @font_index;
+    }
     .img {
       border-radius: 3px;
+      position: relative;
+      margin-left: ~"calc((100% - 120px) / 2)";
+      margin-right: ~"calc((100% - 120px) / 2)";
       margin-bottom: 10px;
       overflow: hidden;
       width: 120px;
@@ -123,7 +189,6 @@
       background-repeat: no-repeat;
       background-size: auto 130%;
       background-position: 100% 10%;
-      position: relative;
       .problem-item-backcolor {
         width: 100%;
         height: 100%;
@@ -133,17 +198,11 @@
         &.catalog1 {
           background: -webkit-gradient(linear, 0 top, 0 bottom, from(#71d2aa), to(#4aa680)) !important;
         }
-        &.catalog2 {
-          background: -webkit-gradient(linear, 0 top, 0 bottom, from(#e8cb5e), to(#ea9f00)) !important;
-        }
         &.catalog3 {
           background: -webkit-gradient(linear, 0 top, 0 bottom, from(#e7a674), to(#e96a06)) !important;
         }
         &.catalog4 {
           background: -webkit-gradient(linear, 0 top, 0 bottom, from(#6bd2ea), to(#05789c)) !important;
-        }
-        &.catalog5 {
-          background: -webkit-gradient(linear, 0 top, 0 bottom, from(#a0b5eb), to(#376cd5)) !important;
         }
       }
       .problem-item-backimg {
@@ -156,17 +215,11 @@
         &.catalog1 {
           background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
         }
-        &.catalog2 {
-          background: url("https://static.iqycamp.com/images/fragment/back_img_yellow_1.png?imageslim");
-        }
         &.catalog3 {
-          background: url("https://static.iqycamp.com/images/fragment/back_img_orange_1.png?imageslim");
+          background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
         }
         &.catalog4 {
-          background: url("https://static.iqycamp.com/images/fragment/back_img_blue_1.png?imageslim");
-        }
-        &.catalog5 {
-          background: url("https://static.iqycamp.com/images/fragment/back_img_purple_1.png?imageslim");
+          background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
         }
       }
       .problem-item-subCatalog {
@@ -181,9 +234,5 @@
       }
     }
   }
-
-
-
-
 
 }

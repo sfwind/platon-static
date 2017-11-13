@@ -6,6 +6,7 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { changeTitle } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 import { Dialog, Progress } from 'react-weui'
+import AssetImg from '../../../components/AssetImg'
 
 const { Alert } = Dialog
 
@@ -20,6 +21,7 @@ export default class SchedulePlan extends React.Component<any, any> {
       data:{},
     }
     changeTitle('圈外同学')
+    this.moment = require('moment')
   }
 
   static contextTypes = {
@@ -68,7 +70,7 @@ export default class SchedulePlan extends React.Component<any, any> {
                 <div className={`problem-item-backimg catalog4`}/>
                 <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
               </div>
-              <span>{item.problem.problem}</span>
+              <div className="problem-name">{item.problem.problem}</div>
             </div>
           )
         }
@@ -84,7 +86,7 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className={`problem-item-backimg catalog1`}/>
               <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
             </div>
-            <span>{item.problem.problem}</span>
+            <div className="problem-name">{item.problem.problem}</div>
           </div>
         )
       })
@@ -99,7 +101,7 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className={`problem-item-backimg catalog3`}/>
               <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
             </div>
-            <span>{item.problem.problem}</span>
+            <div className="problem-name">{item.problem.problem}</div>
           </div>
         )
       })
@@ -107,9 +109,14 @@ export default class SchedulePlan extends React.Component<any, any> {
 
     const renderCompleteCourse = ()=>{
       return completeProblem.map((item, index)=>{
+        var year = this.moment(item.closeTime).format('YYYY')
+        var date = this.moment(item.closeTime).format('MM.DD')
         return (
           <div className="complete-plan">
-            <div className="plan-close-date">{item.closeTime}</div>
+            <div className="plan-close">
+              <div className="plan-close-date">{date}</div>
+              <div className="plan-close-year">{year}</div>
+            </div>
             <div className="plan-name">{item.problem.problem}</div>
             <div className="plan-click" onClick={()=> this.learn(item)}>{'>'}</div>
           </div>
@@ -129,16 +136,17 @@ export default class SchedulePlan extends React.Component<any, any> {
 
     return (
       <div className="schedule-plan-container" style={{minHeight:window.innerHeight}}>
+
         <div className="monthly-topic">
-          {month}月{' '+topic}
+          { topic ? month+'月 '+topic: null}
         </div>
         <div className="schedule-plan">
           <div className="plan-button">
-            {'学习计划 >'}
+            {'学习计划'}
           </div>
         </div>
         <div className="card">
-          <div className="card-icon"></div>
+          <div className="card-icon"><AssetImg type="current_month_progress" size={18}/></div>
           <div className="card-topic">本月进度</div>
           <div className="today">{today}</div>
           <div className="major-progress">
@@ -162,7 +170,7 @@ export default class SchedulePlan extends React.Component<any, any> {
           </div>
         </div>
         <div className="card">
-          <div className="card-icon"></div>
+          <div className="card-icon"><AssetImg type="running_plan" size={18}/></div>
           <div className="card-topic">进行中</div>
           {renderCourseCategory('主修课')}
           <div className="course-container">
@@ -178,13 +186,10 @@ export default class SchedulePlan extends React.Component<any, any> {
           </div>
         </div>
         <div className="card">
-          <div className="card-icon"></div>
+          <div className="card-icon"><AssetImg type="complete_plan" size={18}/></div>
           <div className="card-topic">已完成</div>
           <div className="complete-course-container">
-            <div className="process-line" style={{height:completeProblem.length*30}}></div>
-            <div className="complete-course-detail">
-              {renderCompleteCourse()}
-            </div>
+            {renderCompleteCourse()}
           </div>
         </div>
       </div>
