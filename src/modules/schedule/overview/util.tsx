@@ -2,7 +2,6 @@ const calcScheduleData = (node) => {
   let scheduleData = []
   for(let monthItem of node.childNodes) {
     let newItem = {}
-    console.log(monthItem)
     let monthItemDataArr = monthItem.id.split('-')
     newItem.year = monthItemDataArr[1]
     newItem.month = monthItemDataArr[3]

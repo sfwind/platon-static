@@ -59,15 +59,12 @@ import InterlocutionQuanAnswer from './modules/interlocution/InterlocutionQuanAn
 import { NickName } from './modules/customer/account/components/NickName'
 import { HeadImage } from './modules/customer/account/components/HeadImage'
 import PersonalModify from './modules/customer/account/PersonalModify'
-
-import ScheduleNotice from './modules/schedule/ScheduleNotice'
-import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import OverView from './modules/schedule/overview/OverView'
 import Modify from './modules/schedule/modify/Modify'
 import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
-import { ProblemDescription } from './modules/schedule/overview/components/ProblemDescription'
+import Middle from './modules/schedule/overview/components/Middle'
 
 const routes = (
   <Route>
@@ -146,8 +143,7 @@ const routes = (
       <Route path="course/schedule/overview" component={OverView}/>
       <Route path="course/schedule/modify" component={Modify}/>
       <Route path="business/count/down" component={CountDown}/>
-      <Route path="/test" component={ProblemDescription}/>
-
+      <Route path="/test" component={Middle}/>
     </Route>
   </Route>
 )
