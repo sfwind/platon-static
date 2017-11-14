@@ -1,6 +1,8 @@
 import * as React from 'react'
 import './MonthSchedule.less'
 import Sortable from 'sortablejs'
+import { ProblemDescription } from './ProblemDescription'
+import AssetImg from '../../../../components/AssetImg'
 
 interface MonthScheduleProps {
   id: any,
@@ -8,19 +10,18 @@ interface MonthScheduleProps {
   draggable: boolean
 }
 interface MonthScheduleState {
-
 }
 export class MonthSchedule extends React.Component<MonthScheduleProps, MonthScheduleState> {
 
   constructor() {
     super()
+    this.state = {}
   }
 
-  state = {}
   sortbale
 
   componentWillMount() {
-    const { id, schedules, draggable} = this.props
+    const { id, schedules, draggable } = this.props
     this.setState({ id: id, schedules: schedules, draggable: draggable })
   }
 
@@ -31,7 +32,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       sort: true,
       animation: 150,
       // filter: '.disable'
-      handle: '.draggable',
+      handle: '.draggable-item',
       ghostClass: 'ghost',  // Class name for the drop placeholder
       dragClass: 'drag'  // Class name for the dragging item
     })
@@ -59,6 +60,10 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     }
   }
 
+  componentWillUnmount() {
+    document.body.style.overflow = 'auto'
+  }
+
   getInnerState() {
     return this.state
   }
@@ -74,19 +79,31 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
   }
 
   render() {
-    const { id, schedules = [], draggable } = this.state
+    const { id, schedules = [], draggable, showDescBox = false } = this.state
     let firstSchedule = schedules[0]
     let majors = schedules.filter(schedule => schedule.type === 1)
     let minors = schedules.filter(schedule => schedule.type === 2)
+    console.log(schedules)
     return (
       <section id={`year-${firstSchedule.year}-month-${firstSchedule.month}`} className="month-schedule-component">
         <div className="schedule-topic">{`${firstSchedule.month} 月 ${firstSchedule.topic}`}</div>
+        {
+          !draggable ?
+            <div className="month-problem-desc"
+                 onClick={() => {
+                   this.setState({ showDescBox: true })
+                   document.body.style.overflow = 'hidden'
+                 }}>查看当月小课介绍
+            </div> :
+            null
+        }
+        <div className="split-line"/>
         <div className="schedule-major">
           <span className="type">主修课</span>
           {
             majors.map((schedule, index) => {
               return (
-                <div key={index} className="problem major-problem">
+                <div key={index} className={`problem ${draggable ? 'draggable' : ''}`}>
                   {schedule.problem.problem}
                 </div>
               )
@@ -99,17 +116,22 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
             {
               minors.map((schedule, index) => {
                 return (
-                  <li>
-                    <div key={index}
-                         id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
-                         className={
-                           `problem minor-problem
-                            ${schedule.selected ? 'selected' : 'no-selected'}
-                           `}>
-                      <span className="draggable" style={{ display: draggable ? '' : 'none' }}
-                            onTouchStartCapture={() => {window.scrollTo(window.scrollX, window.scrollY + 1)}}>点击拖动</span>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <span onClick={() => this.handleClickChangeSelected(schedule)}>{schedule.problem.problem}</span>
+                  <li key={index}>
+                    <div
+                      id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
+                      className={`problem ${schedule.selected ? 'selected' : 'no-selected'} ${draggable ? 'draggable' : ''}`}
+                      onClick={() => this.handleClickChangeSelected(schedule)}>
+                      <span>{schedule.problem.problem}</span>
+                      {console.log(schedule.recommend)}
+                      {
+                        draggable ?
+                          <AssetImg className="draggable-item"
+                                    url="https://static.iqycamp.com/images/course_schedule_drag.png"/> :
+                          schedule.recommend ?
+                            <AssetImg className="problem-recommed-tag"
+                                      url="https://static.iqycamp.com/images/course_schedule_recommend.png"/> :
+                            null
+                      }
                     </div>
                   </li>
                 )
@@ -117,6 +139,11 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
             }
           </ul>
         </div>
+        <ProblemDescription show={showDescBox} schedules={schedules}
+                            closeCallBack={() => {
+                              this.setState({ showDescBox: false })
+                              document.body.style.overflow = 'auto'
+                            }}/>
       </section>
     )
   }
