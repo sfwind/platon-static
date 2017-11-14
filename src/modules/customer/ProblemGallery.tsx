@@ -49,7 +49,8 @@ export default class ProblemGallery extends React.Component<any, any> {
   render() {
     const { runningPlans = [], donePlans = [], point, riseCertificates = [], problemCollections = [] } = this.state
 
-    const renderGalleyList = (plans, isHistory) => {
+    const renderGalleyList = (plans) => {
+      plans = plans.filter(plan => plan.learnable === true)
       return (
         <div className="galley-module-content">
           {plans && plans.length > 0 ? plans.map((item, index) => {
@@ -160,7 +161,7 @@ export default class ProblemGallery extends React.Component<any, any> {
                 进行中
               </div>
             </div>
-            {renderGalleyList(runningPlans, false)}
+            {renderGalleyList(runningPlans)}
           </div>
 
           <div className="galley-module">
@@ -169,7 +170,7 @@ export default class ProblemGallery extends React.Component<any, any> {
                 已完成
               </div>
             </div>
-            {renderGalleyList(donePlans, true)}
+            {renderGalleyList(donePlans)}
           </div>
         </div>
         <div className="problem-galley-header arrow" style={{ marginTop: '10px' }}

@@ -1,35 +1,55 @@
 @import "../../style/variable";
 
 .schedule-choice {
-  background: #423268;
-  background: -webkit-radial-gradient(center center, #423268, #000000);
-  color: #ededed;
+  //background: #423268;
+  //background: -webkit-radial-gradient(center center, #423268, #000000);
+  color: #333;
   //padding-bottom: 40px;
+  .btn-wrapper {
+    background: #FFFFFF;
+    box-shadow: 0 0 8px 4px rgba(0, 0, 0, .04);
+    .submit-btn {
+      height: 40px;
+      margin: 0 6%;
+      position: absolute;
+      width: 88%;
+      top: 50%;
+      left: 0;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+      background: rgb(251, 228, 82);
+      border-radius: 20px;
+      font-size: 20px;
+      color: #333;
+      line-height: 40px;
+      overflow: hidden;
+    }
+  }
 
-  .modal-container{
+  .modal-container {
     position: fixed;
     height: 100%;
     width: 100%;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     transition: opacity 500ms;
     -webkit-transition: opacity 500ms;
-    .eva-modal-outbound{
-      position:absolute;
+    .eva-modal-outbound {
+      position: absolute;
       top: 100px;
       width: 249px;
       left: ~"calc((100% - 249px) / 2)";
-      .modal-outbound{
+      .modal-outbound {
         border: solid 2px #11c2c4;
         width: 249px;
         height: 230px;
         border-radius: @border-radius;
-        &.wrong{
+        &.wrong {
           border: solid 2px #d67210;
         }
-        >.modal{
+        > .modal {
           margin: 3px;
           padding: 20px 10px;
           height: ~"calc(100% - 46px)";
@@ -37,25 +57,25 @@
           background: -webkit-gradient(linear, center top, center bottom, from(#11c2c4), to(#069acd));
           font-size: 17px;
           color: #ededed;
-          &.wrong{
+          &.wrong {
             background: #D64E0F;
             background: -webkit-gradient(linear, center top, center bottom, from(#FF9658), to(#D64E0F));
           }
         }
       }
 
-      >.modal-button{
+      > .modal-button {
         margin: 20px auto 0;
-        width:174px;
+        width: 174px;
         height: 57px;
         background: url('https://static.iqycamp.com/images/eva_modal_next.png?imageslim') no-repeat center center / 174px 57px;
         &.wrong {
           background: url('https://static.iqycamp.com/images/eva_modal_next_wrong2.png?imageslim') no-repeat center center / 174px 57px;
         }
       }
-      >.modal-button2{
+      > .modal-button2 {
         margin: 20px auto 0;
-        width:174px;
+        width: 174px;
         height: 57px;
         background: url('https://static.iqycamp.com/images/eva_modal_submit_3.png?imageslim') no-repeat center center / 174px 57px;
         &.wrong {
@@ -66,34 +86,43 @@
 
   }
 
-  .eva-container{
+  .eva-container {
     overflow: auto;
     padding: 0 45px;
-    .eva-progress{
+    .eva-progress {
       height: 4px;
-      border: 1px solid #724dad;
-      .eva-progress-bar{
-        background: #9667e1;
-        background: -webkit-gradient(linear, left center, right center, from(#39c5e1), to(#ee407b));
+      background: rgb(243, 243, 243);
+      .eva-progress-bar {
+        background: rgb(247, 180, 61);
+        background: -webkit-gradient(linear, left center, right center, from(rgb(248, 225, 161)), to(rgb(247, 180, 61)));
         height: 4px;
+        border-radius: 4px;
+
+        transition: width 0.5s;
       }
     }
-    .eva-page-header{
+    .eva-page-header {
       width: 100%;
-      height: 45px;
-      line-height: 2.5em;
-      font-size: @font_title;
+      height: 30px;
+      padding-top: 1rem;
+      line-height: 30px;
       text-align: center;
+      font-size: @font_title;
+    }
+    .rate {
+      font-size: @font_title;
+      color: #f4ad00;
+      text-align: right;
     }
   }
 
-  .eva-button-footer{
+  .eva-button-footer {
     font-size: @font_title;
     text-align: center;
     margin-top: 30px;
   }
 
-  .eva-last-question{
+  .eva-last-question {
     left: 18%;
     font-size: 19px;
     line-height: 19px;
@@ -101,7 +130,7 @@
     margin-top: 20px;
     padding-bottom: 20px;
     width: 100px;
-    &:before{
+    &:before {
       content: "";
       background: url('../../../assets/img/last_question.png') no-repeat bottom center/19px 19px;
       height: 19px;
@@ -116,7 +145,12 @@
     > .intro-index {
       margin: 5px 0 10px 0;
       display: block;
+      min-height: 1.5rem;
       color: #06E6E8;
+      .prev {
+        color: rgb(244, 173, 0);
+        font-size: 1.5rem;
+      }
 
       span {
         display: inline-block;
@@ -142,7 +176,11 @@
         }
       }
     }
-    > .question {
+    .question-group {
+      animation-duration: 0.7s;
+      animation-timing-function: ease-in-out;
+    }
+    .question {
       width: 100%;
       margin-bottom: 37.5px;
       white-space: normal;
@@ -150,7 +188,7 @@
       font-size: @font_context;
     }
 
-    > .choice-list {
+    .choice-list {
       margin-bottom: 10px;
       > .choice {
         width: 100%;
@@ -163,9 +201,9 @@
           width: 25px;
           height: 100%;
           min-height: 50px;
-          border-left: 1px solid @color_weak;
-          border-top: 1px solid @color_weak;
-          border-bottom: 1px solid @color_weak;
+          border-left: 1px solid @color_context;
+          border-top: 1px solid @color_context;
+          border-bottom: 1px solid @color_context;
           border-top-left-radius: @border-radius;
           border-bottom-left-radius: @border-radius;
           text-align: center;
@@ -179,30 +217,19 @@
           padding-left: 5px;
           border-top-right-radius: @border-radius;
           border-bottom-right-radius: @border-radius;
-          border: 1px solid @color_weak;
+          border: 1px solid @color_context;
         }
         &.selected {
           border-radius: @border-radius;
+          color: #FFFFFF;
+          background: rgb(45, 67, 98);
           > .text {
-            background: #069BCD;
             padding-left: 5px;
-            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069BCD));
-            &.wrong{
-              background: #D64E0F;
-              background: -webkit-gradient(linear, center top, center bottom, from(#FF9658), to(#D64E0F));
-            }
-          }
-          > .index {
-            background: #069BCD;
-            background: -webkit-gradient(linear, center top, center bottom, from(#11c3c4), to(#069BCD));
-            &.wrong{
-              background: #D64E0F;
-              background: -webkit-gradient(linear, center top, center bottom, from(#FF9658), to(#D64E0F));
-            }
+            border-left-color: #FFF;
           }
         }
       }
-      > .choice + .choice {
+      .choice + .choice {
         margin-top: 15px;
       }
     }

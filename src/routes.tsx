@@ -59,10 +59,10 @@ import InterlocutionQuanAnswer from './modules/interlocution/InterlocutionQuanAn
 import { NickName } from './modules/customer/account/components/NickName'
 import { HeadImage } from './modules/customer/account/components/HeadImage'
 import PersonalModify from './modules/customer/account/PersonalModify'
-
-import ScheduleNotice from './modules/schedule/ScheduleNotice';
-import ScheduleChoice from './modules/schedule/ScheduleChoice';
-import SchedulePlan from './modules/schedule/plan/SchedulePlan';
+import ScheduleNotice from './modules/schedule/ScheduleNotice'
+import ScheduleChoice from './modules/schedule/ScheduleChoice'
+import SchedulePlan from './modules/schedule/plan/SchedulePlan'
+import CountDown from './modules/schedule/CountDown'
 
 const routes = (
   <Route>
@@ -139,6 +139,7 @@ const routes = (
       <Route path="course/schedule/start" component={ScheduleNotice}/>
       <Route path="course/schedule/choice" component={ScheduleChoice}/>
       <Route path="course/schedule/plan" component={SchedulePlan}/>
+      <Route path="business/count/down" component={CountDown}/>
     </Route>
   </Route>
 )

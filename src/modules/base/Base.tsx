@@ -5,6 +5,7 @@ import { Toast, Dialog } from 'react-weui'
 import { set, alertMsg } from 'redux/actions'
 import { config } from '../helpers/JsConfig'
 import AssetImg from '../../components/AssetImg'
+
 const P = 'base'
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
@@ -14,6 +15,18 @@ import { pget } from 'utils/request'
 import Activity from '../../components/Activity'
 import UA from 'ua-device'
 import './Base.less'
+import $ from 'jquery';
+
+$.fn.extend({
+  animateCss: function(animationName, callback) {
+    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+    this.addClass('animated ' + animationName).one(animationEnd, function() {
+      $(this).removeClass('animated ' + animationName);
+      if(callback) callback()
+    });
+    return this;
+  }
+});
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -83,7 +96,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   closeAnswer() {
@@ -114,7 +127,7 @@ export default class Main extends React.Component<any, any> {
         <Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
           <div style={{ fontSize: 13, paddingTop: 10 }}>加载中...</div>
         </Toast>
-        <Alert { ...this.state.alert }
+        <Alert {...this.state.alert}
                show={this.props.base.showModal}>
           <div className="global-pre" dangerouslySetInnerHTML={{ __html: this.props.base.alertMsg }}/>
         </Alert>

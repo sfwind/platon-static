@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import "./Personal.less"
 import * as _ from "lodash"
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
-import DropDownList from  "../components/DropDownList"
+import DropDownList from "../components/DropDownList"
 import { loadUserProfileInfo, submitProfileInfo, getRegions } from "./async"
 import { ButtonArea, Button } from "react-weui"
 
@@ -39,7 +39,7 @@ const workingLifeList = [
 ]
 
 @connect(state => state)
-export default class Profile extends React.Component<any,any> {
+export default class Profile extends React.Component<any, any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
@@ -53,20 +53,20 @@ export default class Profile extends React.Component<any,any> {
       city: null,
       province: null,
       realName: null,
-      ready:false,
+      ready: false,
     }
     this.btnWidth = 690 / 750 * window.innerWidth
   }
 
   componentWillMount() {
     // mark({module: "打点", function: "个人中心", action: "打开我的信息页面"})
-    const { dispatch, location }= this.props
+    const { dispatch, location } = this.props
     const { certificateNo } = location.query
     dispatch(startLoad())
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.setState(_.merge({}, { ready:true }, res.msg))
+        this.setState(_.merge({}, { ready: true }, res.msg))
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -125,7 +125,7 @@ export default class Profile extends React.Component<any,any> {
   }
 
   submitProfile() {
-    const { dispatch, location }= this.props
+    const { dispatch, location } = this.props
     const { city, province, industry, workingLife, realName } = this.state
     const { certificateNo } = location.query
     const functionValue = _.get(this.state, "function")
@@ -138,7 +138,7 @@ export default class Profile extends React.Component<any,any> {
         industry: industry,
         workingLife: workingLife,
         function: functionValue,
-        realName: realName,
+        realName: realName ? realName.trim() : '',
       }).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
@@ -168,14 +168,14 @@ export default class Profile extends React.Component<any,any> {
 
     const renderName = () => {
       return (
-        <div className={realName?"select-wrapper-has-no-cut":"select-wrapper"}>
+        <div className={realName ? "select-wrapper-has-no-cut" : "select-wrapper"}>
           <input placeholder="请填写" type="text" {...this.bind('realName', this.getInputValue)}/>
         </div>
       )
     }
     const renderFunction = () => {
       return (
-        <div className={functionValue?"select-wrapper-has-no-cut":"select-wrapper"}>
+        <div className={functionValue ? "select-wrapper-has-no-cut" : "select-wrapper"}>
           <input placeholder="请填写" type="text" {...this.bind('function', this.getInputValue)}/>
         </div>
       )
@@ -184,9 +184,9 @@ export default class Profile extends React.Component<any,any> {
     const renderRegion = () => {
       const userData = [ { value: province, id: provinceId }, { value: city, id: cityId } ]
       return (
-        <div className={provinceId && cityId?"select-wrapper-has":"select-wrapper"}>
-          <DropDownList level={2} data={[provinceList,cityList]} userData={userData[1].id?userData:null}
-                        onChoice={(one,two)=>this.onChoiceRegion(one,two)}/>
+        <div className={provinceId && cityId ? "select-wrapper-has" : "select-wrapper"}>
+          <DropDownList level={2} data={[ provinceList, cityList ]} userData={userData[ 1 ].id ? userData : null}
+                        onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
         </div>
       )
     }
@@ -201,9 +201,9 @@ export default class Profile extends React.Component<any,any> {
       }
 
       return (
-        <div className={industry?"select-wrapper-has":"select-wrapper"}>
-          <DropDownList level={1} data={[industryList]} userData={myIndustry.id?[myIndustry]:null}
-                        onChoice={(one)=>this.onChoiceIndustry(one)}/>
+        <div className={industry ? "select-wrapper-has" : "select-wrapper"}>
+          <DropDownList level={1} data={[ industryList ]} userData={myIndustry.id ? [ myIndustry ] : null}
+                        onChoice={(one) => this.onChoiceIndustry(one)}/>
         </div>
       )
     }
@@ -218,14 +218,14 @@ export default class Profile extends React.Component<any,any> {
       }
 
       return (
-        <div className={workingLife?"select-wrapper-has":"select-wrapper"}>
-          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id?[myWorkingLife]:null}
-                        onChoice={(one)=>this.onChoiceWorkingLife(one)}/>
+        <div className={workingLife ? "select-wrapper-has" : "select-wrapper"}>
+          <DropDownList level={1} data={[ workingLifeList ]} userData={myWorkingLife.id ? [ myWorkingLife ] : null}
+                        onChoice={(one) => this.onChoiceWorkingLife(one)}/>
         </div>
       )
     }
 
-    if(!ready){
+    if(!ready) {
       return null
     }
     return (
@@ -255,7 +255,7 @@ export default class Profile extends React.Component<any,any> {
               {renderIndustry()}
             </div>
           </div>
-          <div className="profile-item" style={{marginBottom:"10px",borderBottom:"none"}}>
+          <div className="profile-item" style={{ marginBottom: "10px", borderBottom: "none" }}>
             <div className="item-label">
               职业
             </div>
@@ -263,7 +263,7 @@ export default class Profile extends React.Component<any,any> {
               {renderFunction()}
             </div>
           </div>
-          <div className="profile-item" style={{borderBottom:"none"}}>
+          <div className="profile-item" style={{ borderBottom: "none" }}>
             <div className="item-label">
               省份/城市
             </div>
@@ -273,7 +273,7 @@ export default class Profile extends React.Component<any,any> {
           </div>
         </div>
         <div className="profile-bottom">
-          <div className={`submit-btn`} style={{width:`${this.btnWidth}px`}}
+          <div className={`submit-btn`} style={{ width: `${this.btnWidth}px` }}
                onClick={this.submitProfile.bind(this)}>
             生成证书
           </div>
