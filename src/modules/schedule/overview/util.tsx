@@ -8,14 +8,17 @@ const calcScheduleData = (node) => {
 
     newItem.courseSchedules = []
     let courseSchedules = monthItem.getElementsByClassName('minor-problem')
-    for(let courseShedule of courseSchedules) {
+
+    for(let i = 0; i < courseSchedules.length; i++) {
+      let courseSchedule = courseSchedules[i]
       let newProblem = {}
-      let dataArr = courseShedule.id.split('-')
+      let dataArr = courseSchedule.id.split('-')
       newProblem.problemId = dataArr[1]
       newProblem.id = dataArr[3]
-      newProblem.selected = courseShedule.classList.contains('selected')
+      newProblem.selected = courseSchedule.classList.contains('selected')
       newItem.courseSchedules.push(newProblem)
     }
+
     scheduleData.push(newItem)
   }
   return scheduleData

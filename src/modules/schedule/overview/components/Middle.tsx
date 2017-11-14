@@ -11,9 +11,7 @@ export default class Middle extends React.Component {
   }
 
   componentWillMount() {
-    const { callback } = this.props.location.query
-    console.log(callback)
-    this.context.router.push(callback)
+    this.context.router.goBack()
   }
 
   render() {

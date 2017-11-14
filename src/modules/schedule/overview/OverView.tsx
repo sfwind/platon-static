@@ -56,29 +56,23 @@ export default class OverView extends React.Component {
     })
   }
 
-  switchDraggableStatus() {
-    // if(draggable) {
-    let node = document.getElementById('overview-scroll')
-    let result = calcScheduleData(node)
-    console.log(result)
-    updateCourseScheduleAll(result).then(res => {
-      if(res.code === 200) {
-        this.context.router.push({
-          pathname: '/test',
-          query: {
-            callback: window.location.pathname
-          }
-        })
-      }
-    })
-    this.setState({
-      draggable: !this.state.draggable
-    })
-    // } else {
-    //   this.setState({
-    //     draggable: !this.state.draggable
-    //   })
-    // }
+  switchDraggableStatus(draggable) {
+    if(draggable) {
+      let node = document.getElementById('overview-scroll')
+      let result = calcScheduleData(node)
+      updateCourseScheduleAll(result).then(res => {
+        if(res.code === 200) {
+          this.context.router.push('/test')
+        }
+      })
+      this.setState({
+        draggable: !this.state.draggable
+      })
+    } else {
+      this.setState({
+        draggable: !this.state.draggable
+      })
+    }
   }
 
   render() {
@@ -93,28 +87,14 @@ export default class OverView extends React.Component {
             draggable ?
               <section>
                 <span className="modify-restore" onClick={() => {
-                  this.context.router.push({
-                    pathname: '/test',
-                    query: {
-                      callback: window.location.pathname
-                    }
-                  })
+                  this.context.router.push('/test')
                 }}>恢复默认排序</span>
                 <span className="modify-drag-tips">按住小课右侧按钮，即可拖动到其他月份（仅辅修课）</span>
               </section>
               : null
           }
-          {
-            draggable ?
-              <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
-                    onClick={() => this.switchDraggableStatus(draggable)}>完成</span> :
-              <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
-                    onClick={() => this.setState({
-                      draggable: !this.state.draggable
-                    })}>
-                    调整课程顺序
-              </span>
-          }
+          <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
+                onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '完成' : '调整课程顺序'}</span>
         </div>
         <div id="overview-scroll" className="overview-scroll">
           {
