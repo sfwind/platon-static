@@ -5,6 +5,7 @@ import { loadPersonalSchedule, updateCourseScheduleAll } from '../async'
 import { calcScheduleData } from './util'
 import { MonthSchedule } from './components/MonthSchedule'
 import { ProblemDescription } from './components/ProblemDescription'
+import { SubmitButton } from '../components/SubmitButton'
 import './OverView.less'
 
 @connect(state => state)
@@ -48,10 +49,10 @@ export default class OverView extends React.Component {
       let clientY = e.changedTouches[0].clientY
       let pageY = e.changedTouches[0].pageY
       if(clientY < window.innerHeight / 8 && pageY > 0) {
-        window.scrollTo(window.scrollX, window.scrollY - 8)
+        window.scrollTo(window.scrollX, window.scrollY - 2)
       }
       if(clientY > window.innerHeight * 7 / 8 && pageY < containerHeight - window.innerHeight / 8) {
-        window.scrollTo(window.scrollX, window.scrollY + 8)
+        window.scrollTo(window.scrollX, window.scrollY + 2)
       }
     })
   }
@@ -62,7 +63,7 @@ export default class OverView extends React.Component {
       let result = calcScheduleData(node)
       updateCourseScheduleAll(result).then(res => {
         if(res.code === 200) {
-          this.context.router.push('/test')
+          this.context.router.push('/middle')
         }
       })
       this.setState({
@@ -87,7 +88,7 @@ export default class OverView extends React.Component {
             draggable ?
               <section>
                 <span className="modify-restore" onClick={() => {
-                  this.context.router.push('/test')
+                  this.context.router.push('/middle')
                 }}>恢复默认排序</span>
                 <span className="modify-drag-tips">按住小课右侧按钮，即可拖动到其他月份（仅辅修课）</span>
               </section>
@@ -106,6 +107,7 @@ export default class OverView extends React.Component {
           }
         </div>
         {showDescBox ? <ProblemDescription show={showDescBox} schedules={monthSchedules}/> : null}
+        <SubmitButton clickFunc={() => this.context.router.push(`/rise/static/learn`)} buttonText="确定"/>
       </div>
     )
   }
