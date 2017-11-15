@@ -39,7 +39,17 @@ export class ProblemDescription extends React.Component<any, ProblemDescriptionP
           <span className="desc-title">查看当月小课介绍</span>
           <span className="desc-tips">选择你需要查看的小课</span>
           {
-            schedules.map((schedule, index) => {
+            schedules.filter(schedule => schedule.type === 1).map((schedule, index) => {
+              return (
+                <div key={index} className="desc-problem"
+                     onClick={() => {
+                       this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)
+                     }}>{schedule.problem.problem}</div>
+              )
+            })
+          }
+          {
+            schedules.filter(schedule => schedule.type === 2).map((schedule, index) => {
               return (
                 <div key={index} className="desc-problem"
                      onClick={() => {

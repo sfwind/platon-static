@@ -68,15 +68,17 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     return this.state
   }
 
-  handleClickChangeSelected(schedule) {
-    updateSelected(schedule.id, !schedule.selected)
-    const { schedules } = this.state
-    schedules.forEach(item => {
-      if(item.id === schedule.id) {
-        item.selected = !schedule.selected
-      }
-    })
-    this.setState({ schedules: schedules })
+  handleClickChangeSelected(schedule, draggable) {
+    if(!draggable) {
+      updateSelected(schedule.id, !schedule.selected)
+      const { schedules } = this.state
+      schedules.forEach(item => {
+        if(item.id === schedule.id) {
+          item.selected = !schedule.selected
+        }
+      })
+      this.setState({ schedules: schedules })
+    }
   }
 
   render() {
@@ -119,11 +121,11 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                   <li key={index}>
                     <div
                       id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
-                      className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'} ${draggable ? 'draggable' : ''}`}
-                      onClick={() => this.handleClickChangeSelected(schedule)}>
+                      className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'} ${draggable && schedule.adjustable ? 'draggable' : ''}`}
+                      onClick={() => this.handleClickChangeSelected(schedule, draggable)}>
                       <span>{schedule.problem.problem}</span>
                       {
-                        draggable ?
+                        draggable && schedule.adjustable ?
                           <div className="draggable-item"/> :
                           schedule.recommend ?
                             <AssetImg className="problem-recommed-tag"
