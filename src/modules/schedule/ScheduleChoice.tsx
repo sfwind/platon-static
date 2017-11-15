@@ -8,6 +8,7 @@ import { initSchedule, loadQuestions } from './async';
 import $ from 'jquery';
 
 let _ = require('lodash');
+let numeral = require('numeral');
 
 const sequenceMap = {
   0: 'A',
@@ -113,8 +114,17 @@ export default class ScheduleChoice extends Component {
       question.question = undefined;
     });
 
+    dispatch(startLoad());
     initSchedule(questionList).then(res => {
-      console.log(res);
+      dispatch(endLoad());
+      if(res.code === 200){
+        this.context.router.push('/rise/static/course/schedule/overview');
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex=>{
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
     })
   }
 
@@ -123,6 +133,7 @@ export default class ScheduleChoice extends Component {
     const { practice, currentIndex, practiceCount, } = this.state
 
     const isSelected = (scheduleChoices, choice) => {
+      console.log(currentIndex,practiceCount,(currentIndex / (practiceCount - 1)).toFixed(2))
       return !_.isEmpty(_.find(scheduleChoices, {
         id: choice.id, choice: true
       }));
@@ -161,7 +172,7 @@ export default class ScheduleChoice extends Component {
       <div className="schedule-choice" style={{ minHeight: window.innerHeight }}>
         <div className="eva-container">
           <div className="eva-page-header">制定学习计划</div>
-          <div className="rate">{(currentIndex / (practiceCount - 1)).toFixed(2) * 100}%</div>
+          <div className="rate">{numeral(((currentIndex / (practiceCount - 1)).toFixed(2))  * 100).format('0.00') }%</div>
           <div className="eva-progress">
             <div className="eva-progress-bar"
                  style={{ width: (window.innerWidth - 90) * (currentIndex / (practiceCount - 1)) }}/>
