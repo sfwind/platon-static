@@ -49,10 +49,10 @@ export default class OverView extends React.Component {
       let clientY = e.changedTouches[0].clientY
       let pageY = e.changedTouches[0].pageY
       if(clientY < window.innerHeight / 8 && pageY > 0) {
-        window.scrollTo(window.scrollX, window.scrollY - 2)
+        window.scrollTo(window.scrollX, window.scrollY - 5)
       }
       if(clientY > window.innerHeight * 7 / 8 && pageY < containerHeight - window.innerHeight / 8) {
-        window.scrollTo(window.scrollX, window.scrollY + 2)
+        window.scrollTo(window.scrollX, window.scrollY + 5)
       }
     })
   }
@@ -107,7 +107,7 @@ export default class OverView extends React.Component {
           }
         </div>
         {showDescBox ? <ProblemDescription show={showDescBox} schedules={monthSchedules}/> : null}
-        <SubmitButton clickFunc={() => this.context.router.push(`/rise/static/learn`)} buttonText="确定"/>
+        <SubmitButton clickFunc={() => this.context.router.push(`/rise/static/course/schedule/plan`)} buttonText="确定"/>
       </div>
     )
   }
