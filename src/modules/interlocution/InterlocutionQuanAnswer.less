@@ -46,6 +46,7 @@
         position: relative;
         display: inline-block;
         margin-left: 25px;
+        vertical-align: middle;
         &:before {
           position: absolute;
           top: 50%;
@@ -181,10 +182,28 @@
     }
   }
 
+
   .next-question {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     background-color: #FFF;
+
+    &.other-dates {
+      ul {
+        list-style-type: none;
+        li {
+          span {
+            color: #399BD3;
+            cursor: pointer;
+            border-bottom: 1px solid #399BD3;
+          }
+        }
+        li + li {
+          padding-top: 20px;
+        }
+      }
+    }
+
     .title-name {
       margin: 0 4.5rem 0 4rem;
       border-bottom: 1px solid #CCC;
@@ -200,6 +219,7 @@
         position: relative;
         display: inline-block;
         margin-left: 25px;
+        vertical-align: middle;
         &:before {
           position: absolute;
           top: 50%;
@@ -212,6 +232,9 @@
           background: url('../../../assets/img/pc_word_icon.png') no-repeat center center/100% auto;
           vertical-align: top;
           margin-right: 10px;
+        }
+        &.other-date:before {
+          background: url('../../../assets/img/other_date_icon.png') no-repeat center center/100% auto;
         }
       }
     }
@@ -226,10 +249,10 @@
     background-color: #EFEFEF;
     height: 65px;
   }
-  .audio-wrapper  {
+  .audio-wrapper {
     background-color: #FFF;
     padding: 10px 40px;
-    .audio{
+    .audio {
       height: 46px;
       margin: 0;
       .audio-btn .assetImg {
