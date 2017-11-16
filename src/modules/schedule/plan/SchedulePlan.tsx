@@ -115,14 +115,14 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="img">
                 <div className={`problem-item-backcolor major`}/>
                 <div className={`problem-item-backimg`}/>
-                <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
+                <div className="problem-item-subCatalog">{item.abbreviation}</div>
                 <div className="problem-month major">
                   <span className="month-large">{item.month}</span>
                   <span className="month-small">{'月'}</span>
                 </div>
                 {item.id ? null : <div className="wait-open">待开课</div> }
               </div>
-              <div className="problem-name">{item.problem.problem}</div>
+              <div className="problem-name">{item.problem}</div>
 
             </div>
           )
@@ -131,20 +131,21 @@ export default class SchedulePlan extends React.Component<any, any> {
     }
 
     const renderMinorCourse = ()=>{
+      console.log(minorProblem)
       return minorProblem.map((item, index)=>{
         return (
           <div className="course-card" onClick={()=>this.clickCourse(MINOR_PROBLEM, item)} key={index}>
             <div className="img">
               <div className={`problem-item-backcolor minor`}/>
               <div className={`problem-item-backimg`}/>
-              <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
+              <div className="problem-item-subCatalog">{item.abbreviation}</div>
               <div className="problem-month minor">
                 <span className="month-large">{item.month}</span>
                 <span className="month-small">{'月'}</span>
               </div>
               {item.id ? null : <div className="wait-open">待开课</div> }
             </div>
-            <div className="problem-name">{item.problem.problem}</div>
+            <div className="problem-name">{item.problem}</div>
           </div>
         )
       })
@@ -157,9 +158,9 @@ export default class SchedulePlan extends React.Component<any, any> {
             <div className="img">
               <div className={`problem-item-backcolor trial`}/>
               <div className={`problem-item-backimg`}/>
-              <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
+              <div className="problem-item-subCatalog">{item.abbreviation}</div>
             </div>
-            <div className="problem-name">{item.problem.problem}</div>
+            <div className="problem-name">{item.problem}</div>
           </div>
         )
       })
@@ -175,7 +176,7 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="plan-close-date">{date}</div>
               <div className="plan-close-year">{year}</div>
             </div>
-            <div className="plan-name">{item.problem.problem}</div>
+            <div className="plan-name">{item.problem}</div>
             <div className="plan-click" onClick={()=> this.learn(item)}>{'>'}</div>
           </div>
         )

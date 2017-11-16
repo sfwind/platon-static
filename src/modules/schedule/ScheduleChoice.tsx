@@ -64,7 +64,7 @@ export default class ScheduleChoice extends Component {
 
   prevChoice() {
     const { practice, currentIndex, practiceCount } = this.state
-    let scheduleChoices = practice[currentIndex].scheduleChoices
+    let scheduleChoices = practice[ currentIndex ].scheduleChoices
     $(this.refs.questionGroup).animateCss('fadeOutRight', () => {
       console.log('exit')
       this.setState({ practice: practice, currentIndex: currentIndex - 1 },
@@ -77,7 +77,7 @@ export default class ScheduleChoice extends Component {
 
   handleClickChoice(choice) {
     const { practice, currentIndex, practiceCount } = this.state
-    let scheduleChoices = practice[currentIndex].scheduleChoices
+    let scheduleChoices = practice[ currentIndex ].scheduleChoices
     _.forEach(scheduleChoices, (item) => {
       item.choice = item.id === choice.id
     })
@@ -150,7 +150,7 @@ export default class ScheduleChoice extends Component {
           </div>
           <div ref="questionGroup" className='question-group'>
             <div className="question">
-              <div dangerouslySetInnerHTML={{ __html: (currentIndex + 1) + '.' + question }}/>
+              <div dangerouslySetInnerHTML={{ __html: question ? ((currentIndex + 1) + '.' + question) : '' }}/>
             </div>
             <div className="choice-list">
               {scheduleChoices.map((choice, idx) => {
@@ -158,7 +158,7 @@ export default class ScheduleChoice extends Component {
                   <div key={choice.id}
                        className={`choice${isSelected(scheduleChoices, choice) ? ' selected' : ''}`}
                        onClick={e => this.handleClickChoice(choice)}>
-                    <span className={`index`}>{sequenceMap[idx]}</span>
+                    <span className={`index`}>{sequenceMap[ idx ]}</span>
                     <span className={`text`}>{choice.subject}</span>
                   </div>
                 )
@@ -173,13 +173,13 @@ export default class ScheduleChoice extends Component {
       <div className="schedule-choice" style={{ minHeight: window.innerHeight }}>
         <div className="eva-container">
           <div className="eva-page-header">制定学习计划</div>
-          <div className="rate">{numeral(((currentIndex / (practiceCount - 1)).toFixed(2)) * 100).format('0.00') }%
+          <div className="rate">{numeral(((currentIndex / (practiceCount - 1)).toFixed(2)) * 100).format('0.00')}%
           </div>
           <div className="eva-progress">
             <div className="eva-progress-bar"
                  style={{ width: (window.innerWidth - 90) * (currentIndex / (practiceCount - 1)) }}/>
           </div>
-          {questionRender(practice[currentIndex] || {})}
+          {questionRender(practice[ currentIndex ] || {})}
         </div>
         {currentIndex === practiceCount - 1 ?
           <SubmitButton clickFunc={() => this.handleClickSubmit()} buttonText="提交"/>
