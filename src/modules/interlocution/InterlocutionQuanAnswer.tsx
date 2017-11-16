@@ -42,7 +42,7 @@ export default class InterlocutionQuanAnswer extends Component {
     }).catch(ex => {
       dispatch(endLoad());
     })
-    mark({ module: "打点", function: "圈圈问答", action: "打开回答页面" })
+    mark({ module: "打点", function: "圈圈问答", action: "打开回答页面", Memo: date })
   }
 
   handleClickGoSubmit() {
@@ -176,13 +176,14 @@ export default class InterlocutionQuanAnswer extends Component {
         </div>
         <div className="next-question other-dates">
           <div className="title-name">
-            <div className="title-text">往期问答</div>
+            <div className="title-text other-date">问答集锦</div>
           </div>
           <div className="text">
             <ul>
               {otherDates ? otherDates.map((item, key) => {
                 return <li className="other-date" key={key}
-                           onClick={() => this.handleClickGoRecently(item.startDate)}>{`第${item.batch}期：${item.topic}`}</li>
+                           onClick={() => this.handleClickGoRecently(item.startDate)}>
+                  <span>{`第${item.batch}期：${item.title}`}</span></li>
               }) : null}
             </ul>
           </div>
