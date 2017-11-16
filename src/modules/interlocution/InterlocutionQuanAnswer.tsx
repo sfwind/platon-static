@@ -27,7 +27,10 @@ export default class InterlocutionQuanAnswer extends Component {
 
   componentWillMount() {
     const { location, dispatch } = this.props;
-    const { date } = location.query;
+    let date = location.query.date;
+    if(date === 'temp_2017-11-07') {
+      date = '2017-11-07';
+    }
     dispatch(startLoad());
     loadQuanAnswer(date).then(res => {
       dispatch(endLoad());
@@ -61,7 +64,7 @@ export default class InterlocutionQuanAnswer extends Component {
   beforeShowWords() {
     const { dispatch } = this.props;
     dispatch(startLoad());
-    return checkSubscribe(window.location.href,'show_word').then(res => {
+    return checkSubscribe(window.location.href, 'show_word').then(res => {
       dispatch(endLoad());
       return res;
     });
