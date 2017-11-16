@@ -66,6 +66,11 @@ import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import SchedulePlan from './modules/schedule/plan/SchedulePlan'
 import CountDown from './modules/schedule/CountDown'
 
+import ScheduleNotice from './modules/schedule/ScheduleNotice'
+import ScheduleChoice from './modules/schedule/ScheduleChoice'
+import CountDown from './modules/schedule/CountDown'
+import PrizeCard from './modules/promotion/prizecard/PrizeCard'
+
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={() => {
@@ -143,6 +148,8 @@ const routes = (
       <Route path="course/schedule/overview" component={OverView}/>
       <Route path="course/schedule/plan" component={SchedulePlan}/>
       <Route path="business/count/down" component={CountDown}/>
+
+      <Route path="prize" component={PrizeCard}/>
       <Route path="/middle" component={Middle}/>
     </Route>
   </Route>
