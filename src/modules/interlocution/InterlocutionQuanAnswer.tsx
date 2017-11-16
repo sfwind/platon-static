@@ -74,11 +74,9 @@ export default class InterlocutionQuanAnswer extends Component {
     this.setState({ qrCode: data, showQrDialog: true })
   }
 
-  handleClickGoRecently() {
-    const { data = {} } = this.state;
-    const { nextAnswer = {} } = data;
-    let date = nextAnswer.interlocutionDate;
-    if(date === '2017-11-07'){
+  handleClickGoRecently(interlocutionDate) {
+    let date = interlocutionDate;
+    if(date === '2017-11-07') {
       date = 'temp_2017-11-07';
     }
     window.location.href = this.props.location.pathname + "?date=" + date;
@@ -86,7 +84,8 @@ export default class InterlocutionQuanAnswer extends Component {
 
   render() {
     const { data = {}, showAll, showQrDialog, qrCode } = this.state;
-    const { answer = {}, nextDate = {}, dateInfo = {}, topic, nextAnswer } = data;
+    const { answer = {}, nextDate = {}, dateInfo = {}, topic, nextAnswer, otherDates } = data;
+    console.log(otherDates);
     const renderAudioWords = () => {
       if(showAll) {
         // 实现全部
@@ -115,7 +114,8 @@ export default class InterlocutionQuanAnswer extends Component {
       if(nextAnswer) {
         // 最近的圈圈问答不是下一期
         return (
-          <div className="inter-question footer" onClick={() => this.handleClickGoRecently()}>
+          <div className="inter-question footer"
+               onClick={() => this.handleClickGoRecently(nextAnswer.interlocutionDate)}>
             <div className="button" style={{ backgroundColor: '#363d43' }}>{nextDate.topic}</div>
           </div>
         )
@@ -172,6 +172,19 @@ export default class InterlocutionQuanAnswer extends Component {
             下期主题是{nextDate.topic}，{nextAnswer ? '点击下方按钮查看内容。' : '点击下方的按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！'}
             <br/><br/>
             一期一会，不见不散。
+          </div>
+        </div>
+        <div className="next-question other-dates">
+          <div className="title-name">
+            <div className="title-text">往期问答</div>
+          </div>
+          <div className="text">
+            <ul>
+              {otherDates ? otherDates.map((item, key) => {
+                return <li className="other-date" key={key}
+                           onClick={() => this.handleClickGoRecently(item.startDate)}>{`第${item.batch}期：${item.topic}`}</li>
+              }) : null}
+            </ul>
           </div>
         </div>
         <div className="gutter"/>
