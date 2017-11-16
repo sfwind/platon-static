@@ -60,14 +60,15 @@ import { NickName } from './modules/customer/account/components/NickName'
 import { HeadImage } from './modules/customer/account/components/HeadImage'
 import PersonalModify from './modules/customer/account/PersonalModify'
 
-import ScheduleNotice from './modules/schedule/ScheduleNotice';
-import ScheduleChoice from './modules/schedule/ScheduleChoice';
-import CountDown from './modules/schedule/CountDown';
+import ScheduleNotice from './modules/schedule/ScheduleNotice'
+import ScheduleChoice from './modules/schedule/ScheduleChoice'
+import CountDown from './modules/schedule/CountDown'
+import PrizeCard from './modules/promotion/prizecard/PrizeCard'
 
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={() => {
-      config([ 'chooseWXPay' ])
+      config(['chooseWXPay'])
     }}>
       <Route path="welcome" component={Welcome}/>
       <Route path="rise" component={PlanList}/>
@@ -140,6 +141,7 @@ const routes = (
       <Route path="course/schedule/choice" component={ScheduleChoice}/>
       <Route path="business/count/down" component={CountDown}/>
 
+      <Route path="prize" component={PrizeCard}/>
     </Route>
   </Route>
 )
