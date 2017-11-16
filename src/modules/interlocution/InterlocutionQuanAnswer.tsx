@@ -77,7 +77,11 @@ export default class InterlocutionQuanAnswer extends Component {
   handleClickGoRecently() {
     const { data = {} } = this.state;
     const { nextAnswer = {} } = data;
-    window.location.href = this.props.location.pathname + "?date=" + nextAnswer.interlocutionDate;
+    let date = nextAnswer.interlocutionDate;
+    if(date === '2017-11-07'){
+      date = 'temp_2017-11-07';
+    }
+    window.location.href = this.props.location.pathname + "?date=" + date;
   }
 
   render() {
