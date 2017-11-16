@@ -66,7 +66,7 @@ export default class PrizeCard extends React.Component {
         {
           exchanged ?
             <div className="prize-success">
-              <SubmitButton clickFunc={() => this.handleClickGoRise()} buttonText="申请 / 入学商学院"/>
+              <SubmitButton clickFunc={() => this.handleClickGoRise()} buttonText="入学商学院"/>
             </div> :
             <div className="prize-waiting">
               <span className="prize-title">小组案例PK赛优胜奖</span>
