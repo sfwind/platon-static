@@ -9,7 +9,9 @@ interface MonthScheduleProps {
   id: any,
   schedules: any,
   draggable: boolean,
-  switchSubmitButton: any
+  switchSubmitButton: any,
+  enableAutoScroll: any,
+  disableAutoScroll: any
 }
 interface MonthScheduleState {
 }
@@ -28,6 +30,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
   }
 
   componentDidMount() {
+    const { enableAutoScroll, disableAutoScroll } = this.props
+
     let node = document.getElementById(this.props.id)
     this.sortbale = Sortable.create(node, {
       group: 'sorting',
@@ -35,9 +39,22 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       animation: 150,
       handle: '.draggable-item',
       ghostClass: 'ghost',
-      dragClass: 'drag'
+      dragClass: 'drag',
+      onStart: function(evt) {
+        enableAutoScroll()
+        evt.oldIndex  // element index within parent
+      },
+      onEnd: function(evt) {
+        disableAutoScroll()
+        var itemEl = evt.item  // dragged HTMLElement
+        evt.to    // target list
+        evt.from  // previous list
+        evt.oldIndex  // element's old index within old parent
+        evt.newIndex  // element's new index within new parent
+      }
     })
     document.body.addEventListener('touchend', () => {
+      disableAutoScroll()
       for(let node of document.getElementsByClassName('drag')) {
         if(node.classList.contains('drag')) {
           node.classList.remove('drag')
@@ -45,6 +62,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       }
     })
     document.body.addEventListener('touchcancel', () => {
+      disableAutoScroll()
       for(let node of document.getElementsByClassName('drag')) {
         if(node.classList.contains('drag')) {
           node.classList.remove('drag')

@@ -33,27 +33,29 @@ export default class OverView extends React.Component {
     })
   }
 
-  componentDidMount() {
-    this.enableAutoScroll()
+  componentWillUnmount() {
+    this.disableAutoScroll()
   }
 
-  componentWillUnmount() {
-    document.body.removeEventListener('touchmove', true)
+  scrollFunc(e) {
+    let container = document.getElementById('overview-container')
+    let containerHeight = container.offsetHeight
+    let clientY = e.changedTouches[0].clientY
+    let pageY = e.changedTouches[0].pageY
+    if(clientY < window.innerHeight / 5 && pageY > 0) {
+      window.scrollTo(window.scrollX, window.scrollY - 10)
+    }
+    if(clientY > window.innerHeight * 4 / 5 && pageY < containerHeight - window.innerHeight / 5) {
+      window.scrollTo(window.scrollX, window.scrollY + 10)
+    }
   }
 
   enableAutoScroll() {
-    document.body.addEventListener('touchmove', e => {
-      let container = document.getElementById('overview-container')
-      let containerHeight = container.offsetHeight
-      let clientY = e.changedTouches[0].clientY
-      let pageY = e.changedTouches[0].pageY
-      if(clientY < window.innerHeight / 8 && pageY > 0) {
-        window.scrollTo(window.scrollX, window.scrollY - 5)
-      }
-      if(clientY > window.innerHeight * 7 / 8 && pageY < containerHeight - window.innerHeight / 8) {
-        window.scrollTo(window.scrollX, window.scrollY + 5)
-      }
-    })
+    document.body.addEventListener('touchmove', this.scrollFunc, false)
+  }
+
+  disableAutoScroll() {
+    document.body.removeEventListener('touchmove', this.scrollFunc, false)
   }
 
   switchDraggableStatus(draggable) {
@@ -102,7 +104,9 @@ export default class OverView extends React.Component {
                 <MonthSchedule key={index} id={index} schedules={schedules} draggable={draggable}
                                switchSubmitButton={(submitButtonStatus) => {
                                  this.setState({ showSubmitButton: submitButtonStatus })
-                               }}/>
+                               }}
+                               enableAutoScroll={() => this.enableAutoScroll()}
+                               disableAutoScroll={() => this.disableAutoScroll()}/>
               )
             })
           }
