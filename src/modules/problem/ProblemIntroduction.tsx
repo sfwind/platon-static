@@ -257,7 +257,23 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     checkCreatePlan(this.props.location.query.id, buttonStatus).then(res => {
       dispatch(endLoad())
       if(res.code === 202) {
-        this.setState({ showConfirm: true, confirmMsg: res.msg })
+        const chooseAlert = {
+          buttons: [
+            {
+              label: '取消',
+              onClick: () => {
+                this.setState({ showAlert: false })
+              }
+            },
+            {
+              label: '确认',
+              onClick: () => {
+                this.setState({ showAlert: false })
+              }
+            }
+          ]
+        }
+        this.setState({ showAlert: true, alert: chooseAlert, tipMsg: res.msg })
       } else if(res.code === 201) {
         // 选第二门了，需要提示
         // this.setState({showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？"});
