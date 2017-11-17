@@ -1,0 +1,58 @@
+.problem-desc-component {
+  display: block;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  .desc-box {
+    z-index: 10;
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 27.5rem;
+    min-height: 13.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    .desc-cancel {
+      display: block;
+      position: absolute;
+      width: 2.3rem;
+      height: 2.3rem;
+      top: 1rem;
+      right: 1rem;
+    }
+    .desc-title {
+      display: block;
+      font-size: 18px;
+      color: #333;
+      padding-top: 3rem;
+      text-align: center;
+    }
+    .desc-tips {
+      display: block;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      padding: 1.2rem 0 2.4rem 0;
+    }
+    .desc-problem {
+      display: block;
+      box-sizing: border-box;
+      height: 44px;
+      font-size: 15px;
+      line-height: 45px;
+      color: #399BD3;
+      text-align: center;
+      border-top: 1px solid #ccc;
+    }
+  }
+  .mask {
+    z-index: 5;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}

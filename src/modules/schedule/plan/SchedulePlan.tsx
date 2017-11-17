@@ -131,6 +131,7 @@ export default class SchedulePlan extends React.Component<any, any> {
     }
 
     const renderMinorCourse = ()=>{
+      console.log(minorProblem)
       return minorProblem.map((item, index)=>{
         return (
           <div className="course-card" onClick={()=>this.clickCourse(MINOR_PROBLEM, item)} key={index}>

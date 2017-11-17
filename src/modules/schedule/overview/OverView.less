@@ -1,0 +1,107 @@
+.overview-container {
+  position: relative;
+  background-color: #041931;
+  box-sizing: border-box;
+  padding: 2rem 2rem 8rem 2rem;
+  .overview-title {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    padding: 0 0 1.5rem 0;
+    font-size: 28px;
+    line-height: 28px;
+    text-align: center;
+    background: linear-gradient(to bottom, #feff1c, #ff7800);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    &::before {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      content: ' ';
+      width: 50%;
+      height: 1px;
+      right: 50%;
+      background: linear-gradient(to left, #feff1c, transparent);
+    }
+    &::after {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      content: ' ';
+      width: 50%;
+      height: 1px;
+      left: 50%;
+      background: linear-gradient(to right, #feff1c, transparent);
+    }
+  }
+  .overview-tips {
+    display: block;
+    box-sizing: border-box;
+    margin-top: 2rem;
+    color: #fff;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: center;
+  }
+  .modify-tips-block {
+    display: block;
+    position: relative;
+    height: 7rem;
+    width: 100%;
+
+    .modify-restore {
+      display: inline-block;
+      box-sizing: border-box;
+      position: absolute;
+      text-decoration: underline;
+      color: #FFF;
+      font-size: 14px;
+      left: 0;
+      bottom: 3rem;
+      height: 1.5rem;
+      line-height: 1.4rem;
+      padding-left: 1.8rem;
+      &::before {
+        display: block;
+        content: ' ';
+        position: absolute;
+        left: 0;
+        background-image: url("https://static.iqycamp.com/images/course_schedule_restore.png");
+        width: 12px;
+        height: 14px;
+        background-size: 12px 14px;
+      }
+    }
+    .modify-drag-tips {
+      display: inline-block;
+      box-sizing: border-box;
+      font-size: 12px;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      color: #fff;
+      text-align: right;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+    .modify-sequence {
+      display: inline-block;
+      box-sizing: border-box;
+      width: 11rem;
+      height: 2.5rem;
+      font-size: 15px;
+      line-height: 23px;
+      color: #fff;
+      border: 1px solid #fff;
+      text-align: center;
+      position: absolute;
+      bottom: 1.5rem;
+      right: 0;
+      border-radius: 4px;
+      &.draggable {
+        bottom: 3rem;
+      }
+    }
+  }
+}
