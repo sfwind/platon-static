@@ -24,6 +24,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": null,
             "closeTime": null,
             "learnable": null,
+            "month":10,
             "problem": {
               "id": 6,
               "problem": "写出令HR过目难忘的简历",
@@ -71,6 +72,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": null,
             "closeTime": null,
             "learnable": null,
+            "month":11,
             "problem": {
               "id": 6,
               "problem": "写出令HR过目难忘的简历",
@@ -118,6 +120,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": null,
             "closeTime": null,
             "learnable": null,
+            "month":11,
             "problem": {
               "id": 7,
               "problem": "在面试中脱颖而出",
@@ -167,6 +170,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": "2017-11-04",
             "closeTime": null,
             "learnable": true,
+            "month":11,
             "problem": {
               "id": 20,
               "problem": "认识自己：让你的人生不再迷茫",
@@ -216,6 +220,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": "2017-10-30",
             "closeTime": "2017.11.04",
             "learnable": true,
+            "month":10,
             "problem": {
               "id": 10,
               "problem": "普通人的第一堂营销课",
@@ -263,6 +268,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": "2017-10-30",
             "closeTime": "2017.11.04",
             "learnable": true,
+            "month":11,
             "problem": {
               "id": 10,
               "problem": "普通人的第一堂营销课",
@@ -312,6 +318,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": "2017-10-30",
             "closeTime": "2017-11-04",
             "learnable": true,
+            "month":10,
             "problem": {
               "id": 9,
               "problem": "找到本质问题，减少无效努力",

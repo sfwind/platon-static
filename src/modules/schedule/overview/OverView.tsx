@@ -18,8 +18,7 @@ export default class OverView extends React.Component {
   state = {
     scheduleList: [],
     draggable: false,
-    showDescBox: false,
-    monthSchedules: []
+    showSubmitButton: true
   }
 
   static contextTypes = {
@@ -77,8 +76,7 @@ export default class OverView extends React.Component {
   }
 
   render() {
-    const { scheduleList = [], draggable = false, showDescBox = false, monthSchedules = [] } = this.state
-
+    const { scheduleList = [], draggable = false, showSubmitButton = true } = this.state
     return (
       <div className="overview-container" id="overview-container" ref="overview-container">
         <div className="overview-title">学习计划</div>
@@ -101,13 +99,17 @@ export default class OverView extends React.Component {
           {
             scheduleList.map((schedules, index) => {
               return (
-                <MonthSchedule key={index} id={index} schedules={schedules} draggable={draggable}/>
+                <MonthSchedule key={index} id={index} schedules={schedules} draggable={draggable}
+                               switchSubmitButton={(submitButtonStatus) => {
+                                 this.setState({ showSubmitButton: submitButtonStatus })
+                               }}/>
               )
             })
           }
         </div>
-        {showDescBox ? <ProblemDescription show={showDescBox} schedules={monthSchedules}/> : null}
-        <SubmitButton clickFunc={() => this.context.router.push(`/rise/static/course/schedule/plan`)} buttonText="确定"/>
+        {showSubmitButton ?
+          <SubmitButton clickFunc={() => this.context.router.push(`/rise/static/course/schedule/plan`)}
+                        buttonText="确定"/> : null}
       </div>
     )
   }

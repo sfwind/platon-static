@@ -14,6 +14,12 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
     super()
   }
 
+  FastClick = require('fastclick')
+
+  componentDidMount() {
+    this.FastClick.attach(document.querySelector('.submit-btn'))
+  }
+
   render() {
     const { clickFunc = () => {}, buttonText } = this.props
 

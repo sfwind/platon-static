@@ -57,13 +57,15 @@
   .problem {
     display: block;
     position: relative;
-    box-sizing: border-box;
+    box-sizing: content-box;
     padding: 20px 12px 20px 45px;
     border-radius: 5px;
     border: 1px solid #333;
     background-color: #fff;
     color: #333;
     font-size: 15px;
+    line-height: 13px;
+    height: 13px;
   }
   .schedule-major {
     .problem {
@@ -104,14 +106,6 @@
           width: 19px;
           height: 19px;
         }
-        &.draggable {
-          padding: 20px 45px 20px 12px;
-          background-color: #041931;
-          color: #fff;
-          &::before {
-            display: none;
-          }
-        }
       }
       &.no-selected {
         color: #888;
@@ -129,14 +123,16 @@
           top: 50%;
           transform: translateY(-50%);
         }
-        &.draggable {
-          padding: 20px 45px 20px 12px;
-          background-color: #041931;
-          color: #fff;
-          &::before {
-            display: none;
-          }
+      }
+      &.draggable {
+        padding: 20px 45px 20px 12px;
+        &::before {
+          display: none;
         }
+      }
+      &.adjustable {
+        background-color: #041931;
+        color: #fff;
       }
       .problem-recommed-tag {
         display: block;
