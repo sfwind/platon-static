@@ -74,14 +74,25 @@ export class ToolBarNoConnect extends React.Component<any,any> {
       tabs.push(tabItems.forum);
       tabs.push(tabItems.activity);
       tabs.push(tabItems.learn);
-      tabs.push(tabItems.explore);
+      if(window.ENV.showExplore !== 'false'){
+        console.log('show explore');
+        tabs.push(tabItems.explore);
+      } else {
+        console.log('hide explore');
+      }
       tabs.push(tabItems.mine);
     } else {
       tabs.push(tabItems.learn);
       tabs.push(tabItems.activity);
-      tabs.push(tabItems.explore);
+      if(window.ENV.showExplore !== 'false') {
+        console.log('show explore');
+        tabs.push(tabItems.explore);
+      } else {
+        console.log('hide explore');
+      }
       tabs.push(tabItems.mine);
     }
+
 
     this.state = {
       tabs: tabs
@@ -123,7 +134,11 @@ export class ToolBarNoConnect extends React.Component<any,any> {
     const { dispatch } = this.props;
     dispatch(set('tabIndex', tabIndex))
     if(tabIndex === 0) {
-      this.props.router.push('/rise/static/learn');
+      if(window.ENV.showExplore !== 'false') {
+        this.context.router.push('/rise/static/learn');
+      } else {
+        this.context.router.push('/rise/static/course/schedule/plan');
+      }
     } else if(tabIndex === 1) {
       this.props.router.push('/rise/static/event/wall');
     } else if(tabIndex === 2) {
