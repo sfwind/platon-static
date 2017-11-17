@@ -8,7 +8,8 @@ import { updateSelected } from '../../async'
 interface MonthScheduleProps {
   id: any,
   schedules: any,
-  draggable: boolean
+  draggable: boolean,
+  switchSubmitButton: any
 }
 interface MonthScheduleState {
 }
@@ -82,6 +83,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
   }
 
   render() {
+    const { switchSubmitButton } = this.props
     const { id, schedules = [], draggable, showDescBox = false } = this.state
     let firstSchedule = schedules[0]
     let majors = schedules.filter(schedule => schedule.type === 1)
@@ -94,6 +96,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
             <div className="month-problem-desc"
                  onClick={() => {
                    this.setState({ showDescBox: true })
+                   switchSubmitButton(false)
                    document.body.style.overflow = 'hidden'
                  }}>查看当月小课介绍
             </div> :
@@ -121,7 +124,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                   <li key={index}>
                     <div
                       id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
-                      className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'} ${draggable && schedule.adjustable ? 'draggable' : ''}`}
+                      className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'}
+                                  ${draggable ? 'draggable' : ''} ${draggable && schedule.adjustable ? 'adjustable' : ''}`}
                       onClick={() => this.handleClickChangeSelected(schedule, draggable)}>
                       <span>{schedule.problem.problem}</span>
                       {
@@ -142,6 +146,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
         <ProblemDescription show={showDescBox} schedules={schedules}
                             closeCallBack={() => {
                               this.setState({ showDescBox: false })
+                              switchSubmitButton(true)
                               document.body.style.overflow = 'auto'
                             }}/>
       </section>
