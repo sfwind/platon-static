@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { loadPersonalSchedule, updateCourseScheduleAll } from '../async'
 import { calcScheduleData } from './util'
 import { MonthSchedule } from './components/MonthSchedule'
-import { ProblemDescription } from './components/ProblemDescription'
 import { SubmitButton } from '../components/SubmitButton'
 import './OverView.less'
 
@@ -26,11 +25,18 @@ export default class OverView extends React.Component {
   }
 
   componentWillMount() {
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadPersonalSchedule().then(res => {
-      this.setState({
-        scheduleList: res.msg
-      })
-    })
+      if(res.code === 200) {
+        dispatch(endLoad())
+        this.setState({
+          scheduleList: res.msg
+        })
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(e => dispatch(alertMsg(e)))
   }
 
   componentWillUnmount() {
@@ -43,10 +49,14 @@ export default class OverView extends React.Component {
     let clientY = e.changedTouches[0].clientY
     let pageY = e.changedTouches[0].pageY
     if(clientY < window.innerHeight / 5 && pageY > 0) {
-      window.scrollTo(window.scrollX, window.scrollY - 10)
+      for(let i = 0; i < 10; i++) {
+        window.scrollTo(window.scrollX, window.scrollY - 1)
+      }
     }
     if(clientY > window.innerHeight * 4 / 5 && pageY < containerHeight - window.innerHeight / 5) {
-      window.scrollTo(window.scrollX, window.scrollY + 10)
+      for(let i = 0; i < 10; i++) {
+        window.scrollTo(window.scrollX, window.scrollY + 1)
+      }
     }
   }
 
@@ -75,6 +85,21 @@ export default class OverView extends React.Component {
         draggable: !this.state.draggable
       })
     }
+  }
+
+  handleSubmitButton() {
+    let node = document.getElementById('overview-scroll')
+    let result = calcScheduleData(node)
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    updateCourseScheduleAll(result).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.context.router.push(`/rise/static/course/schedule/plan`)
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(e => dispatch(alertMsg(e)))
   }
 
   render() {
@@ -111,9 +136,7 @@ export default class OverView extends React.Component {
             })
           }
         </div>
-        {showSubmitButton ?
-          <SubmitButton clickFunc={() => this.context.router.push(`/rise/static/course/schedule/plan`)}
-                        buttonText="确定"/> : null}
+        {showSubmitButton ? <SubmitButton clickFunc={() => this.handleSubmitButton()} buttonText="确定"/> : null}
       </div>
     )
   }
