@@ -112,15 +112,12 @@ export default class OverView extends React.Component {
           {
             draggable ?
               <section>
-                <span className="modify-restore" onClick={() => {
-                  this.context.router.push('/middle')
-                }}>恢复默认排序</span>
                 <span className="modify-drag-tips">按住小课右侧按钮，即可拖动到其他月份（仅辅修课）</span>
               </section>
               : null
           }
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
-                onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '完成' : '调整课程顺序'}</span>
+                onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
         </div>
         <div id="overview-scroll" className="overview-scroll">
           {

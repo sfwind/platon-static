@@ -70,6 +70,7 @@ import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import PrizeCard from './modules/promotion/prizecard/PrizeCard'
+import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
 
 const routes = (
   <Route>
@@ -147,7 +148,9 @@ const routes = (
       <Route path="course/schedule/choice" component={ScheduleChoice}/>
       <Route path="course/schedule/overview" component={OverView}/>
       <Route path="course/schedule/plan" component={SchedulePlan}/>
+      <Route path="course/schedule/nopublish" component={ProblemNoPublish}/>
       <Route path="business/count/down" component={CountDown}/>
+
 
       <Route path="prize" component={PrizeCard}/>
       <Route path="/middle" component={Middle}/>
