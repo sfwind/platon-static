@@ -88,7 +88,7 @@ export function collectProblem(problemId) {
 }
 
 // 取消收藏当前小课
-export function disCollectProblm(problemId) {
+export function disCollectProblem(problemId) {
   return pget(`/rise/problem/discollect/${problemId}`)
 }
 

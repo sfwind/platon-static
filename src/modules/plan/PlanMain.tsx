@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './PlanMain.less'
 import {
   loadPlan, completePlan, updateOpenRise, markPlan, hasPrivilege,
-  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess, loadRecommendations, disCollectProblm, collectProblem
+  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess, loadRecommendations, disCollectProblem, collectProblem
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import AssetImg from '../../components/AssetImg'
