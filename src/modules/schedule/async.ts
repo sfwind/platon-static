@@ -11,3 +11,7 @@ export function loadQuestions() {
 export function loadCountDownInfo(){
   return pget('/rise/schedule/count/down');
 }
+
+export function chooseAuditionCourse(){
+  return ppost('/rise/plan/choose/audition/course');
+}
