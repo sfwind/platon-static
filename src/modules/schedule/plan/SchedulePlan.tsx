@@ -37,8 +37,7 @@ export default class SchedulePlan extends React.Component<any, any> {
     mark({
       module: '打点',
       function: '学习',
-      action: '打开学习计划页面',
-      memo: window.ENV.osName
+      action: '打开学习计划页面'
     })
 
     const { dispatch, location } = this.props
