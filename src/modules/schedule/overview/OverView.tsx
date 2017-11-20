@@ -6,6 +6,7 @@ import { calcScheduleData } from './util'
 import { MonthSchedule } from './components/MonthSchedule'
 import { SubmitButton } from '../components/SubmitButton'
 import './OverView.less'
+import { randomStr } from '../../../utils/helpers'
 
 @connect(state => state)
 export default class OverView extends React.Component {
@@ -123,7 +124,7 @@ export default class OverView extends React.Component {
           {
             scheduleList.map((schedules, index) => {
               return (
-                <MonthSchedule key={index} id={index} schedules={schedules} draggable={draggable}
+                <MonthSchedule key={randomStr(16)} id={randomStr(16)} schedules={schedules} draggable={draggable}
                                switchSubmitButton={(submitButtonStatus) => {
                                  this.setState({ showSubmitButton: submitButtonStatus })
                                }}

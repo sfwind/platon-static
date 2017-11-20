@@ -4,6 +4,7 @@ import Sortable from 'sortablejs'
 import { ProblemDescription } from './ProblemDescription'
 import AssetImg from '../../../../components/AssetImg'
 import { updateSelected } from '../../async'
+import { randomStr } from '../../../../utils/helpers'
 
 interface MonthScheduleProps {
   id: any,
@@ -51,22 +52,6 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
         evt.from  // previous list
         evt.oldIndex  // element's old index within old parent
         evt.newIndex  // element's new index within new parent
-      }
-    })
-    document.body.addEventListener('touchend', () => {
-      disableAutoScroll()
-      for(let node of document.getElementsByClassName('drag')) {
-        if(node.classList.contains('drag')) {
-          node.classList.remove('drag')
-        }
-      }
-    })
-    document.body.addEventListener('touchcancel', () => {
-      disableAutoScroll()
-      for(let node of document.getElementsByClassName('drag')) {
-        if(node.classList.contains('drag')) {
-          node.classList.remove('drag')
-        }
       }
     })
   }
@@ -126,7 +111,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
           {
             majors.map((schedule, index) => {
               return (
-                <div key={index} className={`problem major-problem ${draggable ? 'draggable' : ''}`}>
+                <div key={randomStr(16)} className={`problem major-problem ${draggable ? 'draggable' : ''}`}>
                   {schedule.problem.problem}
                 </div>
               )
@@ -139,7 +124,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
             {
               minors.map((schedule, index) => {
                 return (
-                  <li key={index}>
+                  <li key={randomStr(16)}>
                     <div
                       id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
                       className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'}
