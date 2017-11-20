@@ -124,7 +124,7 @@ export default class OverView extends React.Component {
           {
             scheduleList.map((schedules, index) => {
               return (
-                <MonthSchedule key={randomStr(16)} id={randomStr(16)} schedules={schedules} draggable={draggable}
+                <MonthSchedule key={randomStr(16)} id={index} schedules={schedules} draggable={draggable}
                                switchSubmitButton={(submitButtonStatus) => {
                                  this.setState({ showSubmitButton: submitButtonStatus })
                                }}
