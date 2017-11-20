@@ -43,7 +43,11 @@ export class ProblemDescription extends React.Component<any, ProblemDescriptionP
               return (
                 <div key={index} className="desc-problem"
                      onClick={() => {
-                       this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)
+                       if(schedule.problem.publish) {
+                         this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)
+                       } else {
+                         this.context.router.push(`/rise/static/course/schedule/nopublish`)
+                       }
                      }}>{schedule.problem.problem}</div>
               )
             })
@@ -53,7 +57,11 @@ export class ProblemDescription extends React.Component<any, ProblemDescriptionP
               return (
                 <div key={index} className="desc-problem"
                      onClick={() => {
-                       this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)
+                       if(schedule.problem.publish) {
+                         this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)
+                       } else {
+                         this.context.router.push(`/rise/static/course/schedule/nopublish`)
+                       }
                      }}>{schedule.problem.problem}</div>
               )
             })
