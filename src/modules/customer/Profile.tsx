@@ -75,7 +75,7 @@ export default class Profile extends React.Component<any, any> {
       if(res.code === 200) {
         let defaultIsFull = goRise ? false : res.msg.isFull;
         this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
-          if(this.checkIsFull() && goRise) {
+          if(this.checkIsFull() && goRise && !res.msg.bindMobile) {
             // 加载的时候就填写过，然后是goRise，则去绑定电话页面
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',

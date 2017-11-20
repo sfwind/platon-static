@@ -3,11 +3,10 @@ import { connect } from 'react-redux'
 import './ProblemIntroduction.less'
 import Audio from '../../components/Audio'
 import AssetImg from '../../components/AssetImg'
-import PayInfo from './components/PayInfo'
 import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
-  openProblemIntroduction, createPlan, checkCreatePlan, loadHasGetOperationCoupon, unlockCampPlan
+  openProblemIntroduction, createPlan, checkCreatePlan
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
@@ -15,7 +14,7 @@ const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
 import { GoodsType, buttonStatus } from '../../utils/helpers'
-import { collectProblem, disCollectProblm, loadRecommendations } from '../plan/async'
+import { collectProblem, disCollectProblem } from '../plan/async'
 //限免小课id
 const FREE_PROBLEM_ID = 9
 
@@ -257,7 +256,23 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     checkCreatePlan(this.props.location.query.id, buttonStatus).then(res => {
       dispatch(endLoad())
       if(res.code === 202) {
-        this.setState({ showConfirm: true, confirmMsg: res.msg })
+        const chooseAlert = {
+          buttons: [
+            {
+              label: '取消',
+              onClick: () => {
+                this.setState({ showAlert: false })
+              }
+            },
+            {
+              label: '确认',
+              onClick: () => {
+                this.setState({ showAlert: false })
+              }
+            }
+          ]
+        }
+        this.setState({ showAlert: true, alert: chooseAlert, tipMsg: res.msg })
       } else if(res.code === 201) {
         // 选第二门了，需要提示
         // this.setState({showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？"});
@@ -299,28 +314,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
   }
 
-  /**
-   * 加载关联小课
-   **/
-  onClickLoadRelationProblems(problemId) {
-    if(this.state.relationProblems && this.state.relationProblems.length > 0) return
-    const { dispatch } = this.props
-    loadRecommendations(problemId).then(res => {
-      let relationProblems = []
-      res.msg.map((category, index1) => category.recommendProblems.map((item, index2) => {
-        relationProblems.push(item)
-      }))
-      this.setState({ relationProblems: relationProblems })
-    }).catch(e => {
-      dispatch(alertMsg(e))
-    })
-  }
-
   onClickHandleProblemCollection(selected, problemId) {
     const { dispatch } = this.props
     if(selected) {
       // 已经关注
-      disCollectProblm(problemId).then(res => {
+      disCollectProblem(problemId).then(res => {
         if(res.code === 200) {
           this.setState({ problemCollected: false })
         }
@@ -666,21 +664,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <span>{problemCollected ? '已收藏' : '收藏小课'}</span>
           </div>
         </div>
-        <div className="relation-tab">
-          <div onClick={() => {this.onClickExchangeRelationTab('left')}}>
-            <div className={`${relationTab === 'left' ? 'selected' : ''} `}>小课详情</div>
-          </div>
-          <div onClick={() => {
-            // 1. 更改显示状态，获取关联小课
-            this.onClickExchangeRelationTab('right')
-            this.onClickLoadRelationProblems(data.id)
-          }}>
-            <div className={`${relationTab === 'right' ? 'selected' : ''} `}>关联小课</div>
-          </div>
-        </div>
-        {relationTab === 'left' ?
-          renderLeftContent() :
-          renderRightRecommendation()}
+        {renderLeftContent()}
         {renderFooter()}
         <Alert { ...this.state.alert }
                show={this.state.showAlert}>
