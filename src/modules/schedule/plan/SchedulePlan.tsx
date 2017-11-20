@@ -105,7 +105,8 @@ export default class SchedulePlan extends React.Component<any, any> {
   }
 
   handleClickAuditionPlan(plan) {
-    const { planId, errMsg } = plan;
+    let planId = plan.id;
+    let errMsg = plan.errMsg;
     const { dispatch } = this.props
     // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
     if(errMsg) {
