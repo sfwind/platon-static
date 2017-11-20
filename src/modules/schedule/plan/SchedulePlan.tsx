@@ -8,6 +8,7 @@ import { mark } from '../../../utils/request'
 import { Dialog, Progress } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
 import * as _ from 'lodash';
+import { openAudition } from '../../problem/async'
 
 const { Alert } = Dialog
 
@@ -103,6 +104,49 @@ export default class SchedulePlan extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
   }
 
+  handleClickAuditionPlan(plan) {
+    const { planId, errMsg } = plan;
+    const { dispatch } = this.props
+    // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
+    if(errMsg) {
+      dispatch(alertMsg(errMsg));
+      return;
+    }
+    if(planId) {
+      this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
+    } else {
+      this.setState({
+        dialogButtons: [
+          {
+            label: '取消',
+            onClick: () => {
+              this.setState({ dialogShow: false, dialogButtons: [], dialogContent: '' })
+            }
+          },
+          {
+            label: '确认',
+            onClick: () => {
+              dispatch(startLoad())
+              this.setState({ dialogShow: false })
+              openAudition().then(res => {
+                dispatch(endLoad())
+                if(res.code === 200) {
+                  this.context.router.push(`/rise/static/plan/study?planId=${res.msg}`)
+                } else {
+                  dispatch(alertMsg(res.msg))
+                }
+              }).catch(e => {
+                dispatch(alertMsg(e))
+              })
+            }
+          }
+        ],
+        dialogShow: true,
+        dialogContent: '试听课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
+      })
+    }
+  }
+
   render() {
     const { data } = this.state
     const { month, topic, today, majorProblem = [], minorProblem = [], minorPercent = 0, majorPercent = 0, trialProblem = [], completeProblem = [] } = data
@@ -152,7 +196,10 @@ export default class SchedulePlan extends React.Component<any, any> {
     const renderTrialCourse = () => {
       return trialProblem.map((item, index) => {
         return (
-          <div className="course-card" key={index}>
+          <div className="course-card" key={index}
+               onClick={() => {
+                 this.handleClickAuditionPlan(item)
+               }}>
             <div className="img">
               <div className={`problem-item-backcolor trial`}/>
               <div className={`problem-item-backimg`}/>
