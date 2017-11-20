@@ -118,7 +118,9 @@ export default class ScheduleChoice extends Component {
     initSchedule(questionList).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.context.router.push('/rise/static/course/schedule/overview')
+        this.context.router.push({
+          pathname: '/rise/static/course/schedule/overview'
+        })
       } else {
         dispatch(alertMsg(res.msg))
       }
