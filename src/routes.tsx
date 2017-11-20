@@ -64,6 +64,7 @@ import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import PrizeCard from './modules/promotion/prizecard/PrizeCard'
+import BusinessApply from './modules/bsapply/BusinessApply';
 
 const routes = (
   <Route>
@@ -142,6 +143,7 @@ const routes = (
       <Route path="business/count/down" component={CountDown}/>
 
       <Route path="prize" component={PrizeCard}/>
+      <Route path="business/apply/start" component={BusinessApply}/>
     </Route>
   </Route>
 )
