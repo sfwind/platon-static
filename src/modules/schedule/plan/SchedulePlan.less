@@ -40,7 +40,14 @@
     background-color: @color_white;
     border-radius: @border-radius;
     margin-top: 20px;
-
+    > .empty-container {
+      padding-bottom: 30px;
+      text-align: center;
+      >.empty-text {
+        font-size: @font_click;
+        color: @color_title;
+      }
+    }
     > .course-category {
       text-align: center;
       > .category-line {

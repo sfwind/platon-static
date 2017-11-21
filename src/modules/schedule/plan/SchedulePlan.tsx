@@ -291,10 +291,20 @@ export default class SchedulePlan extends React.Component<any, any> {
         <div className="card">
           <div className="card-icon"><AssetImg type="running_plan" size={18}/></div>
           <div className="card-topic">进行中</div>
-          {renderCourseCategory('主修课')}
-          <div className="course-container">
+          {_.isEmpty(majorProblem) && _.isEmpty(minorProblem) ?
+            <div className="empty-container">
+              <div className="empty-img">
+                <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" width={55} height={56}/>
+              </div>
+              <div className="empty-text">
+                <span>还没有学习中的课程哦</span>
+              </div>
+            </div>: null }
+
+          {!_.isEmpty(majorProblem) ? renderCourseCategory('主修课') : null}
+          {!_.isEmpty(majorProblem) ? <div className="course-container">
             {renderMajorCourse()}
-          </div>
+          </div> : null}
           {!_.isEmpty(minorProblem) ? renderCourseCategory('辅修课') : null}
           {!_.isEmpty(minorProblem) ? <div className="course-container">
             {renderMinorCourse()}
