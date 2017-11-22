@@ -5,9 +5,10 @@ import { loadPersonalSchedule, updateCourseScheduleAll } from '../async'
 import { calcScheduleData } from './util'
 import { MonthSchedule } from './components/MonthSchedule'
 import { SubmitButton } from '../components/SubmitButton'
-import './OverView.less'
 import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
+import { randomStr } from '../../../utils/helpers'
+import './OverView.less'
 
 @connect(state => state)
 export default class OverView extends React.Component {
@@ -27,6 +28,8 @@ export default class OverView extends React.Component {
   }
 
   componentWillMount() {
+    console.log(window.location.pathname)
+    console.log(this.props)
     const { dispatch } = this.props
     dispatch(startLoad())
     loadPersonalSchedule().then(res => {
@@ -34,6 +37,14 @@ export default class OverView extends React.Component {
         dispatch(endLoad())
         this.setState({
           scheduleList: res.msg
+        }, () => {
+          const { key } = this.props.location.query
+          if(key && key === 'showToast') {
+            this.setState({ showToast: true })
+            setTimeout(() => {
+              this.setState({ showToast: false })
+            }, 2000)
+          }
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -76,7 +87,12 @@ export default class OverView extends React.Component {
       let result = calcScheduleData(node)
       updateCourseScheduleAll(result).then(res => {
         if(res.code === 200) {
-          this.context.router.push('/middle')
+          this.context.router.push({
+            pathname: '/rise/static/middle',
+            query: {
+              'history': window.location.pathname
+            }
+          })
         }
       })
     } else {
@@ -95,11 +111,15 @@ export default class OverView extends React.Component {
       updateCourseScheduleAll(result).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
-          this.setState({ showToast: true, draggable: false })
-        } else {
-          dispatch(alertMsg(res.msg))
+          this.context.router.push({
+            pathname: '/rise/static/middle',
+            query: {
+              'history': window.location.pathname,
+              'key': 'showToast'
+            }
+          })
         }
-      }).catch(e => dispatch(alertMsg(e)))
+      })
     } else {
       this.context.router.push(`/rise/static/course/schedule/plan`)
     }
@@ -108,7 +128,7 @@ export default class OverView extends React.Component {
   render() {
     const { scheduleList = [], draggable = false, showSubmitButton = true, showToast = false } = this.state
     return (
-      <div className="overview-container" id="overview-container" ref="overview-container">
+      <div key={randomStr(16)} className="overview-container" id="overview-container" ref="overview-container">
         <div className="overview-title">学习计划</div>
         {
           draggable ?
@@ -153,7 +173,7 @@ export default class OverView extends React.Component {
         }
         <Toast show={showToast} timeout={2000} height={220} width={200} top={160}>
           <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
-          <div className="text">绑定成功</div>
+          <div className="text">调整完成</div>
         </Toast>
       </div>
     )

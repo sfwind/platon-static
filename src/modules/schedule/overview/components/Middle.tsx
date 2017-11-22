@@ -11,7 +11,18 @@ export default class Middle extends React.Component {
   }
 
   componentWillMount() {
-    this.context.router.goBack()
+    console.log('middle', this.props)
+    const { history, key } = this.props.location.query
+    if(history) {
+      this.context.router.push({
+        pathname: history,
+        query: {
+          key
+        }
+      })
+    } else {
+      this.context.router.goBack()
+    }
   }
 
   render() {

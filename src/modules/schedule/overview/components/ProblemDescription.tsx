@@ -1,7 +1,6 @@
 import * as React from 'react'
 import './ProblemDescription.less'
 import AssetImg from '../../../../components/AssetImg'
-import { randomStr } from '../../../../utils/helpers'
 
 interface ProblemDescriptionProps {
   show: boolean,
@@ -42,7 +41,7 @@ export class ProblemDescription extends React.Component<any, ProblemDescriptionP
           {
             schedules.filter(schedule => schedule.type === 1).map((schedule, index) => {
               return (
-                <div key={randomStr(16)} className="desc-problem"
+                <div key={index} className="desc-problem"
                      onClick={() => {
                        if(schedule.problem.publish) {
                          this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)
@@ -56,7 +55,7 @@ export class ProblemDescription extends React.Component<any, ProblemDescriptionP
           {
             schedules.filter(schedule => schedule.type === 2).map((schedule, index) => {
               return (
-                <div key={randomStr(16)} className="desc-problem"
+                <div key={index} className="desc-problem"
                      onClick={() => {
                        if(schedule.problem.publish) {
                          this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)

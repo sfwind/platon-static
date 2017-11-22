@@ -120,7 +120,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
           {
             majors.map((schedule, index) => {
               return (
-                <div key={randomStr(16)} className={`problem major-problem ${draggable ? 'draggable' : ''}`}>
+                <div key={index} className={`problem major-problem ${draggable ? 'draggable' : ''}`}>
                   {schedule.problem.problem}
                 </div>
               )
@@ -133,7 +133,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
             {
               minors.map((schedule, index) => {
                 return (
-                  <li key={randomStr(16)}>
+                  <li key={index}>
                     <div
                       id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
                       className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'}

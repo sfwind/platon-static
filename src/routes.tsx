@@ -150,7 +150,7 @@ const routes = (
 
 
       <Route path="prize" component={PrizeCard}/>
-      <Route path="/middle" component={Middle}/>
+      <Route path="middle" component={Middle}/>
     </Route>
   </Route>
 )
