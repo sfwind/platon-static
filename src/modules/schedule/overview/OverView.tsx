@@ -134,7 +134,7 @@ export default class OverView extends React.Component {
   render() {
     const { scheduleList = [], draggable = false, showSubmitButton = true, showToast = false } = this.state
     return (
-      <div key={randomStr(16)} className="overview-container" id="overview-container" ref="overview-container">
+      <div className="overview-container" id="overview-container" ref="overview-container">
         <div className="overview-title">学习计划</div>
         {
           draggable ?
