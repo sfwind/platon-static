@@ -9,6 +9,7 @@ import { Dialog, Progress } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
 import * as _ from 'lodash';
 import { openAudition } from '../../problem/async'
+import { ToolBar } from '../../base/ToolBar'
 
 const { Alert } = Dialog
 
@@ -322,6 +323,7 @@ export default class SchedulePlan extends React.Component<any, any> {
           </div>
         </div> : null}
         {renderDialog()}
+        <ToolBar/>
       </div>
     )
   }
