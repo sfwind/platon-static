@@ -6,7 +6,8 @@ import { calcScheduleData } from './util'
 import { MonthSchedule } from './components/MonthSchedule'
 import { SubmitButton } from '../components/SubmitButton'
 import './OverView.less'
-import { randomStr } from '../../../utils/helpers'
+import Toast from '../../../components/Toast'
+import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
 export default class OverView extends React.Component {
@@ -78,9 +79,6 @@ export default class OverView extends React.Component {
           this.context.router.push('/middle')
         }
       })
-      this.setState({
-        draggable: !this.state.draggable
-      })
     } else {
       this.setState({
         draggable: !this.state.draggable
@@ -88,23 +86,27 @@ export default class OverView extends React.Component {
     }
   }
 
-  handleSubmitButton() {
-    let node = document.getElementById('overview-scroll')
-    let result = calcScheduleData(node)
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    updateCourseScheduleAll(result).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.context.router.push(`/rise/static/course/schedule/plan`)
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(e => dispatch(alertMsg(e)))
+  handleSubmitButton(draggable) {
+    if(draggable) {
+      let node = document.getElementById('overview-scroll')
+      let result = calcScheduleData(node)
+      const { dispatch } = this.props
+      dispatch(startLoad())
+      updateCourseScheduleAll(result).then(res => {
+        dispatch(endLoad())
+        if(res.code === 200) {
+          this.setState({ showToast: true, draggable: false })
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(e => dispatch(alertMsg(e)))
+    } else {
+      this.context.router.push(`/rise/static/course/schedule/plan`)
+    }
   }
 
   render() {
-    const { scheduleList = [], draggable = false, showSubmitButton = true } = this.state
+    const { scheduleList = [], draggable = false, showSubmitButton = true, showToast = false } = this.state
     return (
       <div className="overview-container" id="overview-container" ref="overview-container">
         <div className="overview-title">学习计划</div>
@@ -144,7 +146,15 @@ export default class OverView extends React.Component {
             })
           }
         </div>
-        {showSubmitButton ? <SubmitButton clickFunc={() => this.handleSubmitButton()} buttonText="确定"/> : null}
+        {
+          showSubmitButton ?
+            <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)}
+                          buttonText={draggable ? '完成顺序调整' : '确定'}/> : null
+        }
+        <Toast show={showToast} timeout={2000} height={220} width={200} top={160}>
+          <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
+          <div className="text">绑定成功</div>
+        </Toast>
       </div>
     )
   }
