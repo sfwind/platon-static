@@ -2,7 +2,7 @@
 
 .schedule-plan-container {
   background-color: #041931;
-  padding: 0 15px 20px;
+  padding: 0 1.5rem 7.0rem;
   .monthly-topic {
     font-size: 2.5rem;
     line-height: 2.5rem;
@@ -10,14 +10,14 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
-    padding-top: 40px;
+    padding-top: 4.0rem;
   }
   .schedule-plan {
     font-size: @font_click;
     color: @color_white;
-    height: 20px;
-    margin-top: 5px;
-    margin-bottom: -10px;
+    height: 2.0rem;
+    margin-top: 0.5rem;
+    margin-bottom: -1.0rem;
     > .plan-button {
       float: right;
       color: @color_white;
@@ -39,9 +39,10 @@
   .card {
     background-color: @color_white;
     border-radius: @border-radius;
-    margin-top: 20px;
+    margin-top: 2.0rem;
+    padding: 0 3.0rem;
     > .empty-container {
-      padding-bottom: 30px;
+      padding-bottom: 3.0rem;
       text-align: center;
       >.empty-text {
         font-size: @font_click;
@@ -51,7 +52,7 @@
     > .course-category {
       text-align: center;
       > .category-line {
-        width: ~"calc(50% - 58px)";
+        width: ~"calc(50% - 3.0rem)";
         height: 1px;
         display: inline-block;
         vertical-align: middle;
@@ -59,8 +60,8 @@
       }
 
       > .category-title {
-        margin: 0 10px;
-        width: 40px;
+        margin: 0 1.0rem;
+        width: 4.0rem;
         display: inline-block;
         font-size: @font_index;
         line-height: @font_index;
@@ -68,37 +69,38 @@
     }
 
     > .course-container {
+      margin: 0 -3.0rem;
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
     }
     > .today {
       display: inline-block;
       float: right;
-      margin-top: 28px;
-      margin-right: 15px;
+      margin-top: 2.8rem;
       line-height: @font_index;
       font-size: @font_index;
     }
     > .card-icon {
       display: inline-block;
-      height: 18px;
-      margin: 25px 15px 0;
+      height: 1.8rem;
+      margin: 2.5rem 1.5rem 0 0;
     }
 
     > .card-topic {
-      margin-top: 25px;
+      margin-top: 2.5rem;
       display: inline-block;
-      font-size: 18px;
-      line-height: 18px;
+      font-size: 1.8rem;
+      line-height: 1.8rem;
       color: @color_context;
-      margin-bottom: 30px;
+      margin-bottom: 3.0rem;
       vertical-align: top;
     }
     .progress-name {
       display: inline-block;
       font-size: @font_index;
       line-height: @font_index;
-      margin: 10px 20px 20px 15px;
+      margin: 1.0rem 1.5rem 2.0rem 0;
     }
     .major-progress {
       .weui_progress_inner_bar {
@@ -106,7 +108,7 @@
         background: -webkit-radial-gradient(left center, #1acef9, #63bed4);
       }
       .progress-percent {
-        margin-left: 20px;
+        margin-left: 2.0rem;
         display: inline-block;
         color: #63bed4;
         font-size: @font_index;
@@ -118,30 +120,30 @@
         background: -webkit-radial-gradient(left center, #3fe67e, #63cd8b);
       }
       .progress-percent {
-        margin-left: 20px;
+        margin-left: 2.0rem;
         display: inline-block;
         color: #63cd8b;
         font-size: @font_index;
       }
-      padding-bottom: 20px;
+      padding-bottom: 2.0rem;
     }
     .progress-bar {
       display: inline-block;
       width: 58%;
-      height: 10px;
+      height: 1.0rem;
       border-radius: @border-radius;
       .weui_progress_bar {
-        height: 5px;
+        height: .5rem;
       }
     }
 
     > .complete-course-container {
-      width: ~"calc(100% - 27px)";
+      width: ~"calc(100% - 0.2rem)";
       display: inline-block;
-      margin-left: 25px;
       border-left: 2px solid @color_weak;
       > .complete-plan {
-        height: 55px;
+        height: 5.5rem;
+        margin-right: -3.0rem;
         &:before {
           content: '·';
           margin-left: -6px;
@@ -152,7 +154,7 @@
         border-top: 1px solid @color_weak_background;
         > .plan-close {
           display: inline-block;
-          margin: 0 15px 0 10px;
+          margin: 0 1.5rem 0 1.0rem;
           font-size: @font_index;
           color: @color_title;
           vertical-align: middle;
@@ -163,19 +165,19 @@
         }
 
         > .plan-name {
-          font-size: 15px;
-          line-height: 15px;
+          font-size: 1.5rem;
+          line-height: 1.5rem;
           display: inline-block;
-          margin-top: 20px;
+          margin-top: 2.0rem;
           color: @color_context;
         }
 
         > .plan-click {
-          font-size: 16px;
+          font-size: 1.6rem;
           display: inline-block;
           float: right;
-          margin-top: 13px;
-          margin-right: 8px;
+          margin-top: 1.5rem;
+          margin-right: .8rem;
           color: @color_title;
         }
       }
@@ -183,21 +185,20 @@
   }
   .course-card {
     width: 50%;
-    margin: 25px 0;
+    margin: 2.5rem 0 1.5rem;
+    //display: inline-block;
     > .problem-name {
-      margin-left: ~"calc((100% - 120px) / 2)";
-      margin-right: ~"calc((100% - 120px) / 2)";
+      margin: 0 auto;
       font-size: @font_index;
+      width: 12.0rem;
     }
     > .img {
-      border-radius: 3px;
+      border-radius: 0.3rem;
       position: relative;
-      margin-left: ~"calc((100% - 120px) / 2)";
-      margin-right: ~"calc((100% - 120px) / 2)";
-      margin-bottom: 10px;
+      margin: 0 auto 1.0rem;
       overflow: hidden;
-      width: 120px;
-      height: 75px;
+      width: 12.0rem;
+      height: 7.5rem;
       background-repeat: no-repeat;
       background-size: auto 130%;
       background-position: 100% 10%;
@@ -206,7 +207,7 @@
         height: 100%;
         position: absolute;
         background-size: 100% 100% !important;
-        border-radius: 5px;
+        border-radius: @border-radius;
         &.major {
           background: #63bed4;
         }
@@ -218,10 +219,10 @@
         }
       }
       > .problem-item-backimg {
-        width: 60px;
-        height: 60px;
-        left: ~"calc(50% - 30px)";
-        top: ~"calc(50% - 30px)";
+        width: 6.0rem;
+        height: 6.0rem;
+        left: ~"calc(50% - 3.0rem)";
+        top: ~"calc(50% - 3.0rem)";
         position: absolute;
         background-size: 100% 100% !important;
         background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
@@ -241,12 +242,12 @@
         position: absolute;
         bottom: 0;
         left:0;
-        height: 20px;
+        height: 2.0rem;
         width: 100%;
         background-color: rgba(0,0,0,0.5);
         color: @color_white;
         text-align: center;
-        line-height: 20px;
+        line-height: 2.0rem;
         font-size: 1.2rem;
       }
       > .problem-month{
@@ -264,14 +265,14 @@
           vertical-align: baseline;
         }
         &.major{
-          height: 25px;
-          width: 27px;
+          height: 2.5rem;
+          width: 2.7rem;
           background: url('../../../../assets/img/blue_flag.png');
           background-size: 100% 100%;
         }
         &.minor{
-          height: 25px;
-          width: 27px;
+          height: 2.5rem;
+          width: 2.7rem;
           background: url('../../../../assets/img/green_flag.png');
           background-size: 100% 100%;
         }
