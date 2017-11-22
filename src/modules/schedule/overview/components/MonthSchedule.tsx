@@ -2,6 +2,8 @@ import * as React from 'react'
 import './MonthSchedule.less'
 import Sortable from 'sortablejs'
 import { ProblemDescription } from './ProblemDescription'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { connect } from 'react-redux'
 import AssetImg from '../../../../components/AssetImg'
 import { updateSelected } from '../../async'
 import { randomStr } from '../../../../utils/helpers'
@@ -11,11 +13,13 @@ interface MonthScheduleProps {
   schedules: any,
   draggable: boolean,
   switchSubmitButton: any,
+  showDescBox: boolean,
   enableAutoScroll: any,
-  disableAutoScroll: any
+  disableAutoScroll: any,
 }
 interface MonthScheduleState {
 }
+@connect(state => state)
 export class MonthSchedule extends React.Component<MonthScheduleProps, MonthScheduleState> {
 
   constructor() {
@@ -82,6 +86,11 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
         }
       })
       this.setState({ schedules: schedules })
+    } else {
+      if(!schedule.problem.publish) {
+        const { dispatch } = this.props
+        dispatch(alertMsg('课程开发中，暂时不能移动'))
+      }
     }
   }
 

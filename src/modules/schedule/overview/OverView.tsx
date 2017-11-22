@@ -108,7 +108,14 @@ export default class OverView extends React.Component {
     return (
       <div className="overview-container" id="overview-container" ref="overview-container">
         <div className="overview-title">学习计划</div>
-        <span className="overview-tips">根据你的回答，为你制定的学习计划：</span>
+        {
+          draggable ?
+            null :
+            <div>
+              <span className="overview-tips">根据你的回答，为您制定的学习计划如下</span>
+              <span className="overview-tips" style={{ marginTop: '1rem' }}>（仅辅修课可点击选择/取消）</span>
+            </div>
+        }
         <div className="modify-tips-block">
           {
             draggable ?
@@ -124,7 +131,10 @@ export default class OverView extends React.Component {
           {
             scheduleList.map((schedules, index) => {
               return (
-                <MonthSchedule key={randomStr(16)} id={index} schedules={schedules} draggable={draggable}
+                <MonthSchedule key={index}
+                               id={index}
+                               schedules={schedules}
+                               draggable={draggable}
                                switchSubmitButton={(submitButtonStatus) => {
                                  this.setState({ showSubmitButton: submitButtonStatus })
                                }}
