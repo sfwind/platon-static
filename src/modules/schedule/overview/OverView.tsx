@@ -28,8 +28,6 @@ export default class OverView extends React.Component {
   }
 
   componentWillMount() {
-    console.log(window.location.pathname)
-    console.log(this.props)
     const { dispatch } = this.props
     dispatch(startLoad())
     new Promise(resolve => {
@@ -39,15 +37,21 @@ export default class OverView extends React.Component {
     }).then(res => {
       dispatch(endLoad())
       const { key } = this.props.location.query
-      if(res.code === 200 && key && key === 'showToast') {
-        this.setState({
-          showToast: true,
-          scheduleList: res.msg
-        }, () => {
-          setTimeout(() => {
-            this.setState({ showToast: false })
-          }, 2000)
-        })
+      if(res.code === 200) {
+        if(key && key === 'showToast') {
+          this.setState({
+            showToast: true,
+            scheduleList: res.msg
+          }, () => {
+            setTimeout(() => {
+              this.setState({ showToast: false })
+            }, 2000)
+          })
+        } else {
+          this.setState({
+            scheduleList: res.msg
+          })
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
