@@ -32,19 +32,21 @@ export default class OverView extends React.Component {
     console.log(this.props)
     const { dispatch } = this.props
     dispatch(startLoad())
-    loadPersonalSchedule().then(res => {
-      if(res.code === 200) {
-        dispatch(endLoad())
+    new Promise(resolve => {
+      loadPersonalSchedule().then(res => {
+        resolve(res)
+      })
+    }).then(res => {
+      dispatch(endLoad())
+      const { key } = this.props.location.query
+      if(res.code === 200 && key && key === 'showToast') {
         this.setState({
+          showToast: true,
           scheduleList: res.msg
         }, () => {
-          const { key } = this.props.location.query
-          if(key && key === 'showToast') {
-            this.setState({ showToast: true })
-            setTimeout(() => {
-              this.setState({ showToast: false })
-            }, 2000)
-          }
+          setTimeout(() => {
+            this.setState({ showToast: false })
+          }, 2000)
         })
       } else {
         dispatch(alertMsg(res.msg))
