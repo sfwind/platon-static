@@ -7,7 +7,6 @@ import { MonthSchedule } from './components/MonthSchedule'
 import { SubmitButton } from '../components/SubmitButton'
 import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
-import { randomStr } from '../../../utils/helpers'
 import './OverView.less'
 
 @connect(state => state)
