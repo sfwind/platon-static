@@ -6,7 +6,7 @@
   .monthly-topic {
     font-size: 2.5rem;
     line-height: 2.5rem;
-    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#feff1c), to(#FF7800));
+    background: linear-gradient(to bottom, #feff1c, #ff7800);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
@@ -101,6 +101,7 @@
       font-size: @font_index;
       line-height: @font_index;
       margin: 1.0rem 1.5rem 2.0rem 0;
+      width: 3.6rem;
     }
     .major-progress {
       .weui_progress_inner_bar {
@@ -112,6 +113,8 @@
         display: inline-block;
         color: #63bed4;
         font-size: @font_index;
+        width: 3.5rem;
+        text-align: right;
       }
     }
     .minor-progress {
@@ -124,12 +127,14 @@
         display: inline-block;
         color: #63cd8b;
         font-size: @font_index;
+        width: 3.5rem;
+        text-align: right;
       }
       padding-bottom: 2.0rem;
     }
     .progress-bar {
       display: inline-block;
-      width: 58%;
+      width: ~"calc(100% - 10.6rem)";
       height: 1.0rem;
       border-radius: @border-radius;
       .weui_progress_bar {
@@ -138,9 +143,10 @@
     }
 
     > .complete-course-container {
-      width: ~"calc(100% - 0.2rem)";
+      width: ~"calc(100% - 1.0rem)";
       display: inline-block;
       border-left: 2px solid @color_weak;
+      margin-left: .8rem;
       > .complete-plan {
         height: 5.5rem;
         margin-right: -3.0rem;

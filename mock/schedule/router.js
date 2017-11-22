@@ -9,7 +9,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
         "month":10,
         "topic":"向上管理",
         "today":"2017年11月05日",
-        "majorPercent":80,
+        "majorPercent":100,
         "minorPercent":40,
         "majorProblem": [
           {
