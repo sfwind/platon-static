@@ -151,7 +151,7 @@ export default class ScheduleChoice extends Component {
           </div>
           <div ref="questionGroup" className='question-group'>
             <div className="question">
-              <div dangerouslySetInnerHTML={{ __html: question ? ((currentIndex + 1) + '.' + question) : '' }}/>
+              <div dangerouslySetInnerHTML={{ __html: question ? ((currentIndex + 1) + '.&nbsp;&nbsp;' + question) : '' }}/>
             </div>
             <div className="choice-list">
               {scheduleChoices.map((choice, idx) => {
