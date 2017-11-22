@@ -142,6 +142,9 @@ export default class Personal extends React.Component<any, any> {
           <div className="personal-item" onClick={() => {this.context.router.push('/rise/static/customer/feedback')}}>
             <span>帮助</span>
           </div>
+          <div className="personal-item" onClick={() => {window.location.href='/pay/static/share'}}>
+            <span>转发</span>
+          </div>
         </div>
       )
     }
