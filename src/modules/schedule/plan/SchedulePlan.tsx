@@ -218,13 +218,13 @@ export default class SchedulePlan extends React.Component<any, any> {
         var year = this.moment(item.closeTime).format('YYYY')
         var date = this.moment(item.closeTime).format('MM.DD')
         return (
-          <div className="complete-plan" key={index}>
+          <div className="complete-plan" key={index} onClick={() => this.learn(item)}>
             <div className="plan-close">
               <div className="plan-close-date">{date}</div>
               <div className="plan-close-year">{year}</div>
             </div>
             <div className="plan-name">{item.problem.problem}</div>
-            <div className="plan-click" onClick={() => this.learn(item)}>
+            <div className="plan-click">
               <AssetImg type="arrow_right" height={10} width={7}/>
             </div>
           </div>
