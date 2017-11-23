@@ -152,7 +152,8 @@ export default class ScheduleChoice extends Component {
           </div>
           <div ref="questionGroup" className='question-group'>
             <div className="question">
-              <div dangerouslySetInnerHTML={{ __html: question ? ((currentIndex + 1) + '.&nbsp;&nbsp;' + question) : '' }}/>
+              <div
+                dangerouslySetInnerHTML={{ __html: question ? ((currentIndex + 1) + '.&nbsp;&nbsp;' + question) : '' }}/>
             </div>
             <div className="choice-list">
               {scheduleChoices.map((choice, idx) => {
@@ -175,7 +176,7 @@ export default class ScheduleChoice extends Component {
       <div className="schedule-choice" style={{ minHeight: window.innerHeight }}>
         <div className="eva-container">
           <div className="eva-page-header">制定学习计划</div>
-          <div className="rate">{(currentIndex / practiceCount).toFixed(2) * 100}%
+          <div className="rate">{((currentIndex / practiceCount) * 100).toFixed(2)}%
           </div>
           <div className="eva-progress">
             <div className="eva-progress-bar"
