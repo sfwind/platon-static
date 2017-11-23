@@ -65,7 +65,6 @@ export default class ScheduleChoice extends Component {
     const { practice, currentIndex, practiceCount } = this.state
     let scheduleChoices = practice[ currentIndex ].scheduleChoices
     $(this.refs.questionGroup).animateCss('fadeOutRight', () => {
-      console.log('exit')
       this.setState({ practice: practice, currentIndex: currentIndex - 1 },
         () => {
           $(this.refs.questionGroup).animateCss('fadeInLeft')
@@ -136,7 +135,6 @@ export default class ScheduleChoice extends Component {
     const { practice, currentIndex, practiceCount } = this.state
 
     const isSelected = (scheduleChoices, choice) => {
-      console.log(currentIndex, practiceCount, (currentIndex / (practiceCount - 1)).toFixed(2))
       return !_.isEmpty(_.find(scheduleChoices, {
         id: choice.id, choice: true
       }))
@@ -176,7 +174,7 @@ export default class ScheduleChoice extends Component {
       <div className="schedule-choice" style={{ minHeight: window.innerHeight }}>
         <div className="eva-container">
           <div className="eva-page-header">制定学习计划</div>
-          <div className="rate">{((currentIndex / practiceCount) * 100).toFixed(2)}%
+          <div className="rate">{((currentIndex / practiceCount) * 100).toFixed(0)}%
           </div>
           <div className="eva-progress">
             <div className="eva-progress-bar"
