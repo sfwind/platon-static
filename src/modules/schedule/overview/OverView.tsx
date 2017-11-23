@@ -139,7 +139,7 @@ export default class OverView extends React.Component {
           draggable ?
             null :
             <div>
-              <span className="overview-tips">根据你的回答，为您制定的学习计划如下</span>
+              <span className="overview-tips">根据你的回答，为你制定的学习计划如下</span>
               <span className="overview-tips" style={{ marginTop: '1rem' }}>（仅辅修课可点击选择/取消）</span>
             </div>
         }
