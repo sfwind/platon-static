@@ -147,7 +147,7 @@ export default class OverView extends React.Component {
           {
             draggable ?
               <section>
-                <span className="modify-drag-tips">按住小课右侧按钮，即可拖动到其他月份（仅辅修课）</span>
+                <span className="modify-drag-tips">尚未开课的辅修课，按住右侧按钮，可拖动到其他月份</span>
               </section>
               : null
           }

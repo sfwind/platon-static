@@ -76,7 +76,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     return this.state
   }
 
-  handleClickChangeSelected(schedule, draggable) {
+  handleClickChangePosition(schedule, draggable) {
     if(!draggable) {
       updateSelected(schedule.id, !schedule.selected)
       const { schedules } = this.state
@@ -87,9 +87,17 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       })
       this.setState({ schedules: schedules })
     } else {
-      if(!schedule.problem.publish) {
-        const { dispatch } = this.props
-        dispatch(alertMsg('课程开发中，暂时不能移动'))
+      const { dispatch } = this.props
+      if(schedule.type === 1) {
+        dispatch(alertMsg('主修课为每月小班教学，无法移动'))
+      } else {
+        if(!schedule.adjustable) {
+          if(schedule.problem.publish) {
+            dispatch(alertMsg('已开课的课程，无法移动'))
+          } else {
+            dispatch(alertMsg('课程开发中，暂时不能移动'))
+          }
+        }
       }
     }
   }
@@ -120,7 +128,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
           {
             majors.map((schedule, index) => {
               return (
-                <div key={index} className={`problem major-problem ${draggable ? 'draggable' : ''}`}>
+                <div key={index} className={`problem major-problem ${draggable ? 'draggable' : ''}`}
+                     onClick={() => this.handleClickChangePosition(schedule, draggable)}>
                   {schedule.problem.problem}
                 </div>
               )
@@ -136,9 +145,9 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                   <li key={index}>
                     <div
                       id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
-                      className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'}
+                      className={`problem minor-problem ${schedule.selected || draggable ? 'selected' : 'no-selected'}
                                   ${draggable ? 'draggable' : ''} ${draggable && schedule.adjustable ? 'adjustable' : ''}`}
-                      onClick={() => this.handleClickChangeSelected(schedule, draggable)}>
+                      onClick={() => this.handleClickChangePosition(schedule, draggable)}>
                       <span>{schedule.problem.problem}</span>
                       {
                         draggable && schedule.adjustable ?

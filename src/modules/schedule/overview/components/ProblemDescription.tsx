@@ -44,7 +44,7 @@ export class ProblemDescription extends React.Component<any, ProblemDescriptionP
                 <div key={index} className="desc-problem"
                      onClick={() => {
                        if(schedule.problem.publish) {
-                         this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}`)
+                         this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}&show=true`)
                        } else {
                          this.context.router.push(`/rise/static/course/schedule/nopublish`)
                        }
