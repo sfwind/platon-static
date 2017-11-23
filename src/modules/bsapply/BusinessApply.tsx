@@ -1,24 +1,47 @@
-import React,{ Component } from 'react';
-import connect from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './BusinessApply.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import * as _ from 'lodash';
 import { mark } from "../../utils/request"
 import { SubmitButton } from '../../components/submitbutton/SubmitButton'
 import AssetImg from '../../components/AssetImg'
+import { checkSubmitApply } from './async';
 
-export default class BusinessApply extends Component<any,any> {
-  constructor(){
+@connect(state => state)
+export default class BusinessApply extends Component<any, any> {
+  constructor() {
     super();
     this.state = {}
   }
 
-  componentWillMount(){
-    // 如果用户在审核中，则点击后提示已经在审核中
-    mark({module: "打点", function: "商学院审核", action: "进入申请开始页面"})
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   }
 
-  render(){
+  componentWillMount() {
+    // 如果用户在审核中，则点击后提示已经在审核中
+    mark({ module: "打点", function: "商学院审核", action: "进入申请开始页面" })
+  }
+
+  goApplySubmitPage() {
+    const { dispatch } = this.props;
+    mark({ module: "打点", function: "商学院审核", action: "点击开始申请商学院" })
+    dispatch(startLoad());
+    checkSubmitApply().then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        this.context.router.push('/rise/static/business/apply/choice');
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(res.msg));
+    })
+  }
+
+  render() {
     return (
       <div className="business-apply">
         <div className="ba-header">
@@ -37,7 +60,7 @@ export default class BusinessApply extends Component<any,any> {
         <div className="ba-sub-body">
           申请填写需花5分钟时间，提交后无法修改，请认真填写，录取和奖学金申请结果将在提交申请两个工作日内，通过手机短信和【圈外同学】微信公众号发放。
         </div>
-        <SubmitButton clickFunc={()=>{}} buttonText="开始"/>
+        <SubmitButton clickFunc={() => this.goApplySubmitPage()} buttonText="开始"/>
       </div>
     )
   }
