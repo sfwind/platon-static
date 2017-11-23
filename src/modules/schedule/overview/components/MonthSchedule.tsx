@@ -6,7 +6,6 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import AssetImg from '../../../../components/AssetImg'
 import { updateSelected } from '../../async'
-import { randomStr } from '../../../../utils/helpers'
 
 interface MonthScheduleProps {
   id: any,
@@ -145,7 +144,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                   <li key={index}>
                     <div
                       id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
-                      className={`problem minor-problem ${schedule.selected || draggable ? 'selected' : 'no-selected'}
+                      className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'}
                                   ${draggable ? 'draggable' : ''} ${draggable && schedule.adjustable ? 'adjustable' : ''}`}
                       onClick={() => this.handleClickChangePosition(schedule, draggable)}>
                       <span>{schedule.problem.problem}</span>
