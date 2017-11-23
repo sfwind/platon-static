@@ -180,7 +180,7 @@ export default class ScheduleChoice extends Component {
           </div>
           <div className="eva-progress">
             <div className="eva-progress-bar"
-                 style={{ width: (window.innerWidth - 90) * (currentIndex / (practiceCount - 1)) }}/>
+                 style={{ width: (window.innerWidth - 90) * (currentIndex / practiceCount ) }}/>
           </div>
           {questionRender(practice[ currentIndex ] || {})}
         </div>
