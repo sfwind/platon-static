@@ -22,7 +22,7 @@
       float: right;
       color: @color_white;
       text-decoration: underline;
-      &:before{
+      &:before {
         margin-right: 5px;
         width: 1.5rem;
         height: 1.5rem;
@@ -44,7 +44,7 @@
     > .empty-container {
       padding-bottom: 3.0rem;
       text-align: center;
-      >.empty-text {
+      > .empty-text {
         font-size: @font_click;
         color: @color_title;
       }
@@ -151,6 +151,7 @@
       > .complete-plan {
         height: 5.5rem;
         margin-right: -3.0rem;
+        position: relative;
         &:before {
           content: '·';
           margin-left: -6px;
@@ -164,7 +165,9 @@
           margin: 0 1.5rem 0 1.0rem;
           font-size: @font_index;
           color: @color_title;
-          vertical-align: middle;
+          position: relative;
+          top: 50%;
+          transform: translateY(-50%);
           > .plan-close-year {
             text-align: center;
           }
@@ -175,8 +178,12 @@
           font-size: 1.5rem;
           line-height: 1.5rem;
           display: inline-block;
-          margin-top: 2.0rem;
           color: @color_context;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          box-sizing: content-box;
+          padding-right: 20px;
         }
 
         > .plan-click {
@@ -245,39 +252,39 @@
         transform: translateY(-50%);
       }
 
-      > .wait-open{
+      > .wait-open {
         position: absolute;
         bottom: 0;
-        left:0;
+        left: 0;
         height: 2.0rem;
         width: 100%;
-        background-color: rgba(0,0,0,0.5);
+        background-color: rgba(0, 0, 0, 0.5);
         color: @color_white;
         text-align: center;
         line-height: 2.0rem;
         font-size: 1.2rem;
       }
-      > .problem-month{
+      > .problem-month {
         text-align: center;
         position: absolute;
         top: 0;
         right: 5px;
-        > .month-large{
+        > .month-large {
           font-size: 1.3rem;
           vertical-align: baseline;
         }
-        > .month-small{
+        > .month-small {
           font-size: 0.8rem;
           vertical-align: baseline;
         }
-        &.major{
+        &.major {
           height: 2.5rem;
           width: 2.7rem;
           background: url('../../../../assets/img/yellow_flag.png');
           background-size: 100% 100%;
           color: @color_context;
         }
-        &.minor{
+        &.minor {
           height: 2.5rem;
           width: 2.7rem;
           background: url('../../../../assets/img/blue_flag.png');
