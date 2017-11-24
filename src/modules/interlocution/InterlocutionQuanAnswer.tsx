@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
-import { submitInterlocutionQuestion, checkSubscribe } from './async';
-import * as _ from 'lodash';
+import { checkSubscribe } from './async'
 import "./InterlocutionQuanAnswer.less"
-import { loadQuanAnswer } from "./async";
+import { loadQuanAnswer } from "./async"
 import Audio from "../../components/Audio"
 import AssetImg from '../../components/AssetImg'
 import RenderInBody from '../../components/RenderInBody'
 import { mark } from 'utils/request'
+import { configShare } from '../helpers/JsConfig'
 
 @connect(state => state)
 export default class InterlocutionQuanAnswer extends Component {
@@ -28,14 +28,23 @@ export default class InterlocutionQuanAnswer extends Component {
   componentWillMount() {
     const { location, dispatch } = this.props;
     let date = location.query.date;
+    // TODO: 12月初删除
     if(date === 'temp_2017-11-07') {
       date = '2017-11-07';
     }
     dispatch(startLoad());
     loadQuanAnswer(date).then(res => {
       dispatch(endLoad());
+      let url = `https://${window.location.hostname}/rise/static/guest/inter/quan/answer`
+      if (location.query.date){
+        url = url + `?date=${location.query.date}`
+      }
       if(res.code === 200) {
         this.setState({ data: res.msg });
+        configShare(res.msg.dateInfo.topic,
+          url,
+          'https://static.iqycamp.com/images/quanquan_qa.png?imageslim',
+          '圈外商学院|一期一会')
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -181,10 +190,10 @@ export default class InterlocutionQuanAnswer extends Component {
           <div className="text">
             <ul>
               {otherDates ? otherDates.map((item, key) => {
-                return <li className="other-date" key={key}
-                           onClick={() => this.handleClickGoRecently(item.startDate)}>
-                  <span>{`第${item.batch}期：${item.title}`}</span></li>
-              }) : null}
+                  return <li className="other-date" key={key}
+                             onClick={() => this.handleClickGoRecently(item.startDate)}>
+                    <span>{`第${item.batch}期：${item.title}`}</span></li>
+                }) : null}
             </ul>
           </div>
         </div>
