@@ -36,8 +36,8 @@ export class ProblemDescription extends React.Component<any, ProblemDescriptionP
         <div className="desc-box">
           <AssetImg className="desc-cancel" onClick={() => closeCallBack()}
                     url="https://static.iqycamp.com/images/course_schedule_cancel.png"/>
-          <span className="desc-title">查看当月小课介绍</span>
-          <span className="desc-tips">选择你需要查看的小课</span>
+          <span className="desc-title">查看当月课程介绍</span>
+          <span className="desc-tips">选择你需要查看的课程</span>
           {
             schedules.filter(schedule => schedule.type === 1).map((schedule, index) => {
               return (

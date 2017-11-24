@@ -121,7 +121,7 @@ export class ToolBar extends React.Component<any, any> {
     dispatch(set('tabIndex', tabIndex))
     if(tabIndex === 0) {
       if(window.ENV.showExplore !== 'false') {
-        this.context.router.push('/rise/static/learn');
+        this.context.router.push('/rise/static/rise');
       } else {
         this.context.router.push('/rise/static/course/schedule/plan');
       }

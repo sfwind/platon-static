@@ -66,7 +66,7 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         dispatch(endLoad())
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        // localStorage里存的是这个小课的缓存
+        // localStorage里存的是这个课程的缓存
         if(storageDraft && id == storageDraft.id) {
           // 手动设置强制覆盖，或者msg是同步模式都需要清理localStorage
           if(res.msg.overrideLocalStorage || msg.isSynchronized) {
@@ -298,11 +298,6 @@ export class Main extends React.Component <any, any> {
       vote(id)
     } else {
     }
-  }
-
-  back() {
-    const { location } = this.props
-    this.context.router.push({ pathname: '/rise/static/learn', query: { series: location.query.series } })
   }
 
   tutorialEnd() {

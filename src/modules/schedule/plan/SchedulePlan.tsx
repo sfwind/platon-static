@@ -94,7 +94,7 @@ export default class SchedulePlan extends React.Component<any, any> {
           }
         ],
         dialogShow: true,
-        dialogContent: '小课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
+        dialogContent: '课程开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
       })
     } else {
       this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })

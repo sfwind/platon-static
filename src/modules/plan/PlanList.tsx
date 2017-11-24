@@ -178,7 +178,7 @@ export default class PlanList extends React.Component<any, any> {
           }
         ],
         dialogShow: true,
-        dialogContent: '小课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
+        dialogContent: '课程开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
       })
     } else {
       // 如果 planId 不为 null，则当前课程正在学习当中，点击进入学习页面开始学习

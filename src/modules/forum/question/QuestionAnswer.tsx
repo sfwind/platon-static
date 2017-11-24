@@ -410,7 +410,7 @@ export default class QuestionAnswer extends React.Component<any, QuestionAnswerS
             toolbarFloat={false}
             ref="editor" moduleId="6" maxLength="10000" scrollContainer="answer-container"
             value={this.state.myAnswer.answer}
-            placeholder="回答问题时，可以试试以下的思路：<br>1，澄清对问题的理解；<br>2，分析可能的原因；<br>3，提供建议和解决方案；<br>4，说明使用的哪一门小课/知识点，帮助自己回顾学到的知识。"
+            placeholder="回答问题时，可以试试以下的思路：<br>1，澄清对问题的理解；<br>2，分析可能的原因；<br>3，提供建议和解决方案；<br>4，说明使用的哪一门课程/知识点，帮助自己回顾学到的知识。"
           />
           <RenderInBody>
             <ForumButton content="提交" clickFunc={this.submitAnswer.bind(this, question.id)}/>

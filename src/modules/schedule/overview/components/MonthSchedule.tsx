@@ -117,7 +117,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                    this.setState({ showDescBox: true })
                    switchSubmitButton(false)
                    document.body.style.overflow = 'hidden'
-                 }}>查看当月小课介绍
+                 }}>查看当月课程介绍
             </div> :
             null
         }

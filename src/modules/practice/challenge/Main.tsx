@@ -143,11 +143,11 @@ export class Main extends React.Component <any, any> {
               </div>
               <div className="challenge-context">
                 <div>
-                  <p className="challenge context">你有什么目标，可以利用本小课的训练实现呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
+                  <p className="challenge context">你有什么目标，可以利用本课程的训练实现呢？制定目标帮你更积极地学习，也带给你更多成就感！</p>
                   <p className="tip-title">小提示</p>
                   <p className="tip">本题答案仅自己可见</p>
                   <p className="tip">目标最好是某个具体问题或场景</p>
-                  <p className="tip">制定目标之前，可以先回顾该小课的知识体系</p>
+                  <p className="tip">制定目标之前，可以先回顾该课程的知识体系</p>
                 </div>
               </div>
             </div>
