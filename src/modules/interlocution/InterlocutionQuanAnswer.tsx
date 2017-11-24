@@ -35,10 +35,14 @@ export default class InterlocutionQuanAnswer extends Component {
     dispatch(startLoad());
     loadQuanAnswer(date).then(res => {
       dispatch(endLoad());
+      let url = `https://${window.location.hostname}/rise/static/guest/inter/quan/answer`
+      if (location.query.date){
+        url = url + `?date=${location.query.date}`
+      }
       if(res.code === 200) {
         this.setState({ data: res.msg });
-        configShare(res.msg.topic,
-          `https://${window.location.hostname}/guest/inter/quan/answer?date=` + date,
+        configShare(res.msg.dateInfo.topic,
+          url,
           'https://static.iqycamp.com/images/quanquan_qa.png?imageslim',
           '圈外商学院|一期一会')
       } else {
