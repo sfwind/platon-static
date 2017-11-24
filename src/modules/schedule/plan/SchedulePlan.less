@@ -215,13 +215,13 @@
         background-size: 100% 100% !important;
         border-radius: @border-radius;
         &.major {
-          background: #63bed4;
+          background: #FFB200;
         }
         &.minor {
-          background: #77bf92;
+          background: #399BD3;
         }
         &.trial {
-          background: #ffb200;
+          background: #8CD339;
         }
       }
       > .problem-item-backimg {
@@ -261,7 +261,6 @@
         position: absolute;
         top: 0;
         right: 5px;
-        color: @color_white;
         > .month-large{
           font-size: 1.3rem;
           vertical-align: baseline;
@@ -273,14 +272,16 @@
         &.major{
           height: 2.5rem;
           width: 2.7rem;
-          background: url('../../../../assets/img/blue_flag.png');
+          background: url('../../../../assets/img/yellow_flag.png');
           background-size: 100% 100%;
+          color: @color_context;
         }
         &.minor{
           height: 2.5rem;
           width: 2.7rem;
-          background: url('../../../../assets/img/green_flag.png');
+          background: url('../../../../assets/img/blue_flag.png');
           background-size: 100% 100%;
+          color: @color_white;
         }
       }
     }
