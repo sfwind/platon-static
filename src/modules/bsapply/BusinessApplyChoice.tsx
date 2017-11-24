@@ -4,7 +4,7 @@ import './BusinessApplyChoice.less';
 import { set, startLoad, endLoad, alertMsg } from "redux/actions"
 import * as _ from 'lodash';
 import { pget, ppost, mark } from "utils/request"
-import { loadBusinessApplyQuestion } from './async';
+import { loadBusinessApplyQuestion, submitApply } from './async';
 import DropDownList from "../customer/components/DropDownList";
 import { SubmitButton } from '../../components/submitbutton/SubmitButton'
 import AssetImg from '../../components/AssetImg'
@@ -72,12 +72,16 @@ export default class BusinessApplyChoice extends Component<any, any> {
    * @param userChoices 用户选项
    */
   checkQuestionComplete(question, userChoices) {
-    const { type, chosenId, preChoiceId, userValue, oneId, twoId } = question;
+    const { type, chosenId, preChoiceId, userValue, oneId, twoId, request } = question;
     if(!!preChoiceId) {
       if(_.indexOf(userChoices, preChoiceId) === -1) {
         // 不满足前置条件，则不检查
         return true;
       }
+    }
+    if(!request) {
+      // 不是必填
+      return true;
     }
 
     switch(type) {
@@ -148,6 +152,18 @@ export default class BusinessApplyChoice extends Component<any, any> {
 
     // 开始提交
     console.log('result', result);
+    dispatch(startLoad());
+    submitApply({ userSubmits: result }).then(res => {
+      dispatch(endLoad());
+      if(res.code === 200) {
+        // this.context.router.push('/rise/static/business/apply/submit/success');
+      } else {
+        dispatch(alertMsg(res.msg));
+      }
+    }).catch(ex => {
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    })
   }
 
   /**
