@@ -19,22 +19,7 @@ export class Result extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
-    // const { dispatch, location } = this.props
-    // dispatch(startLoad())
-    // loadKnowledgeIntro(location.query.kid).then(res => {
-    //   dispatch(endLoad())
-    //   const { code, msg } = res
-    //   if (code === 200)  this.setState({ data: msg })
-    //   else dispatch(alertMsg(msg))
-    // }).catch(ex => {
-    //   dispatch(endLoad())
-    //   dispatch(alertMsg(ex))
-    // })
-  }
-
   onSubmit() {
-    // this.context.router.push({ pathname: '/rise/static/practice/warmup/analysis', query: this.props.location.query })
     window.history.back();
   }
 
@@ -42,10 +27,6 @@ export class Result extends React.Component <any, any> {
     const { dispatch } = this.props
     const { series, planId } = this.props.location.query
     window.history.go(-2);
-    // this.context.router.push({
-    //   pathname: '/rise/static/learn',
-    //   query: {series,planId}
-    // })
   }
 
   render() {

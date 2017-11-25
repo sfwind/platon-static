@@ -28,7 +28,7 @@ export default class ProblemExtension extends React.Component<any, any> {
       if(res.code === 200) {
         this.setState({ data: res.msg, extension: res.msg.extension })
       } else {
-        dispatch(alertMsg("当前小课暂无延伸学习相关内容"))
+        dispatch(alertMsg("当前课程暂无延伸学习相关内容"))
       }
     }).catch(e => {
       dispatch(endLoad())
@@ -100,7 +100,7 @@ export default class ProblemExtension extends React.Component<any, any> {
           <div className="extension-share">
             <ExtensionHead
               icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 20 }}
-              content={`小课分享`}/>
+              content={`课程分享`}/>
             <div className="extension-share-content">深度好文&nbsp;遇见大咖&nbsp;分享心得</div>
             <div className="extension-share-view"
                  onClick={() => this.context.router.push({

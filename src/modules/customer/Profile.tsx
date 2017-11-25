@@ -220,7 +220,6 @@ export default class Profile extends React.Component<any, any> {
               // 绑定过
               // 类似于点商学院
               window.location.href = `https://${window.location.hostname}/rise/static/rise`;
-              // this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: runningPlanId } });
             }
           } else {
             dispatch(alertMsg("提交成功"));

@@ -6,7 +6,7 @@ import AssetImg from "../../components/AssetImg";
 import { loadCardData, loadEssenceCard, loadProblemCards } from "./async";
 import { mark } from "../../utils/request";
 
-// 小课卡包
+// 课程卡包
 interface CardsCollectionStates {
   problemId: number;
   problem: string;

@@ -157,11 +157,6 @@ export class Main extends React.Component <any, any> {
     }
   }
 
-  back(){
-    const {location} = this.props
-    this.context.router.push({pathname: '/rise/static/learn', query: { series: location.query.series}})
-  }
-
   openWriteBox(){
     const {location} = this.props
     this.context.router.push({pathname: '/rise/static/practice/subject/submit',
@@ -218,11 +213,11 @@ export class Main extends React.Component <any, any> {
         <div ref="container" className="container-no-pd">
           <div className="subject">
             <div className="header" style={{height:`${this.picHeight}px`}}>
-              <div className="main-tip" style={{paddingTop:`${this.paddingTop}px`}}>小课分享</div>
+              <div className="main-tip" style={{paddingTop:`${this.paddingTop}px`}}>课程分享</div>
               <div className="sec-tip">深度好文•遇见大咖•分享心得</div>
             </div>
             <div className="intro">
-              学习是为了更好地实践。不妨跟大家分享一下，你是如何应用小课所学的知识，解决实际问题的。好的分享能有机会获得圈外教练的点评，其他童鞋的点赞，以及被收录为精华！
+              学习是为了更好地实践。不妨跟大家分享一下，你是如何应用课程所学的知识，解决实际问题的。好的分享能有机会获得圈外教练的点评，其他童鞋的点赞，以及被收录为精华！
             </div>
             {renderArticles()}
           </div>
@@ -230,12 +225,6 @@ export class Main extends React.Component <any, any> {
         <div className="write-discuss" onClick={() => this.openWriteBox()}>
           <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
         </div>
-        {/*<div className="button-footer" onClick={this.back.bind(this)}>返回</div>*/}
-        {/*{showDiscuss ?<SubmitBox moduleId={4} height={this.commentHeight} placeholder={"发表你的精彩见解吧"} editDisable={this.state.editDisable}*/}
-                                 {/*onSubmit={(content,title,labels)=>this.onSubmit(content,title,labels)} desc={this.state.desc}*/}
-                                 {/*defaultTitle={this.state.defaultTitle} defaultContent={this.state.defaultContent}*/}
-                                 {/*labels={this.state.labels} defaultLabels={this.state.defaultLabels}*/}
-                                 {/*titleEnable={true} /> : null}*/}
       </div>
     )
   }
