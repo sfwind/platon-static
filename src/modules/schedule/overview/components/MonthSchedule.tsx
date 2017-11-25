@@ -109,7 +109,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     let minors = schedules.filter(schedule => schedule.type === 2)
     return (
       <section id={`year-${firstSchedule.year}-month-${firstSchedule.month}`} className="month-schedule-component">
-        <div className="schedule-topic">{`${firstSchedule.month} 月 ${firstSchedule.topic}`}</div>
+        <div className="schedule-topic">{`${firstSchedule.month}月 ${firstSchedule.topic}`}</div>
         {
           !draggable ?
             <div className="month-problem-desc"
