@@ -65,7 +65,7 @@ export default class ProblemGallery extends React.Component<any, any> {
               </div>
             )
           }) : <div className="item">
-            <div className="item-label" style={{ color: '#999999' }}>
+            <div className="item-label-none">
               无
             </div>
           </div>}
@@ -93,7 +93,7 @@ export default class ProblemGallery extends React.Component<any, any> {
               </div>
             )
           }) : <div className="item">
-            <div className="item-label" style={{ color: '#999999' }}>
+            <div className="item-label-none">
               无
             </div>
           </div>}
@@ -102,17 +102,17 @@ export default class ProblemGallery extends React.Component<any, any> {
     }
 
     const renderProblemCollection = () => {
-      if(!problemCollections.length === 0) {
+      if(problemCollections.length === 0) {
         return (
           <div className="item">
-            <div className="item-label" style={{ color: '#999999' }}>无</div>
+            <div className="item-label-none">无</div>
           </div>
         )
       } else {
         return (
           problemCollections.map((problem, index) => (
             <div key={index} className="item"
-                 onClick={() => this.context.router.push(`/rise/static/plan/view?id=${problem.id}`)}>
+                 onClick={() => this.context.router.push(`/rise/static/plan/view?id=${problem.id}&show=true`)}>
               <div className="item-label">
                 {problem.problem}
               </div>
