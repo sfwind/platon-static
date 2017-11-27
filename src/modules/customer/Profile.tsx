@@ -175,14 +175,18 @@ export default class Profile extends React.Component<any, any> {
     const functionValue = _.get(this.state, "function");
     const { runningPlanId, goRise } = location.query;
     const { city, province, industry, workingYear, bindMobile, realName, address } = this.state;
-    if(goRise) {
-      if(city && province && industry && workingYear && functionValue && realName && address) {
-        return true;
-      }
-    } else {
-      if(city && province && industry && workingYear && functionValue) {
-        return true;
-      }
+    // if(goRise) {
+    //   if(city && province && industry && workingYear && functionValue && realName && address) {
+    //     return true;
+    //   }
+    // } else {
+    //   if(city && province && industry && workingYear && functionValue) {
+    //     return true;
+    //   }
+    // }
+
+    if(city && province && industry && workingYear && functionValue && realName && address) {
+      return true;
     }
     return false;
   }
@@ -200,9 +204,11 @@ export default class Profile extends React.Component<any, any> {
         workingYear: workingYear,
         function: functionValue
       }
-      if(goRise) {
-        _.merge(param, { realName: realName, address: address });
-      }
+
+      _.merge(param, { realName: realName, address: address });
+      // if(goRise) {
+      //   _.merge(param, { realName: realName, address: address });
+      // }
       dispatch(startLoad());
       ppost("/rise/customer/profile", param).then(res => {
         dispatch(endLoad());
@@ -395,22 +401,40 @@ export default class Profile extends React.Component<any, any> {
               {renderRegion()}
             </div>
           </div>
-          {goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none", height: '80px' }}>
+          {/*{goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none", height: '80px' }}>*/}
+            {/*<div className="address-tips">地址</div>*/}
+            {/*<textarea className="address" placeholder="填写真实地址信息，才能接到入学礼包哦" value={address}*/}
+                      {/*onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {*/}
+                        {/*this.checkIsFull()*/}
+                      {/*})}*/}
+            {/*/>*/}
+          {/*</div> : null}*/}
+          {/*{goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none" }}>*/}
+            {/*<div className="item-label">*/}
+              {/*真实姓名*/}
+            {/*</div>*/}
+            {/*<div className="item-content">*/}
+              {/*{renderRealName()}*/}
+            {/*</div>*/}
+          {/*</div> : null}*/}
+
+           <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none", height: '80px' }}>
             <div className="address-tips">地址</div>
             <textarea className="address" placeholder="填写真实地址信息，才能接到入学礼包哦" value={address}
                       onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
                         this.checkIsFull()
                       })}
             />
-          </div> : null}
-          {goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none" }}>
+          </div>
+          <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none" }}>
             <div className="item-label">
               真实姓名
             </div>
             <div className="item-content">
               {renderRealName()}
             </div>
-          </div> : null}
+          </div>
+
         </div>
         <div className="profile-bottom">
           <div className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
