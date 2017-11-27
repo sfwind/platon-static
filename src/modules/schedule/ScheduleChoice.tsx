@@ -36,7 +36,8 @@ export default class ScheduleChoice extends Component {
       fadeOut: false,
       fadeIn: false,
       fadePrevOut: false,
-      fadePrevIn: false
+      fadePrevIn: false,
+      chooseAll: false,
     }
   }
 
@@ -88,7 +89,7 @@ export default class ScheduleChoice extends Component {
         })
       })
     } else {
-      this.setState({ practice: practice, selected: choice })
+      this.setState({ practice: practice, selected: choice, chooseAll: true })
     }
   }
 
@@ -132,7 +133,7 @@ export default class ScheduleChoice extends Component {
 
   render() {
 
-    const { practice, currentIndex, practiceCount } = this.state
+    const { practice, currentIndex, practiceCount,chooseAll } = this.state
 
     const isSelected = (scheduleChoices, choice) => {
       return !_.isEmpty(_.find(scheduleChoices, {
@@ -174,11 +175,11 @@ export default class ScheduleChoice extends Component {
       <div className="schedule-choice" style={{ minHeight: window.innerHeight }}>
         <div className="eva-container">
           <div className="eva-page-header">制定学习计划</div>
-          <div className="rate">{((currentIndex / practiceCount) * 100).toFixed(0)}%
+          <div className="rate">{(((((currentIndex === practiceCount - 1 ) && chooseAll) ? practiceCount : currentIndex) / practiceCount) * 100).toFixed(0)}%
           </div>
           <div className="eva-progress">
             <div className="eva-progress-bar"
-                 style={{ width: (window.innerWidth - 90) * (currentIndex / practiceCount ) }}/>
+                 style={{ width: (window.innerWidth - 90) * ((((currentIndex === practiceCount - 1 ) && chooseAll) ? practiceCount : currentIndex) / practiceCount) }}/>
           </div>
           {questionRender(practice[ currentIndex ] || {})}
         </div>
