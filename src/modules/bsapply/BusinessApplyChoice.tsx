@@ -156,7 +156,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
     submitApply({ userSubmits: result }).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        // this.context.router.push('/rise/static/business/apply/submit/success');
+        this.context.router.push('/rise/static/business/apply/submit/success');
       } else {
         dispatch(alertMsg(res.msg));
       }
