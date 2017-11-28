@@ -250,7 +250,7 @@ export default class BusinessApplyChoice extends Component<any, any> {
           <QuestionGroup group={questionGroup[ currentIndex ]} allGroup={questionGroup} region={this.props.region}
                          onGroupChanged={(group) => this.handleGroupChanged(group, currentIndex)}/>
         </div>
-
+        <div  style={{height: '65px',width:'100%'}}/>
         {currentIndex === seriesCount - 1 ? <SubmitButton clickFunc={() => this.handleClickSubmit()} buttonText="提交"/> :
           <SubmitButton clickFunc={() => {this.handleClickNextStep()}} buttonText="下一步"/>}
       </div>
@@ -362,6 +362,9 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             {request ? <span style={{ color: 'red' }}>*</span> : null}
           </div>
           {QuestionDom}
+          {tips ? <div className="tips">
+            {tips}
+          </div> : null}
         </div>
       )
     }

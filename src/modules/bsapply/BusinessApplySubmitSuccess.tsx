@@ -44,9 +44,9 @@ export default class BusinessApplySubmitSuccess extends Component<any, any> {
           收取录取和奖学金审核结果
         </div>
         <div className="ba-sub-tips">
-          如有疑问<br/>
-          也可以联系添加圈外同学助手“圈外小黑”<br/>
-          （微信ID：quanwaizhushou2）咨询
+          如有疑问，请添加圈外助手进行咨询<br/>
+          <img src="https://static.iqycamp.com/images/qrcode_xiaoy_20171117.jpeg?imageslim"
+               className="qrcode"/>
         </div>
         <SubmitButton clickFunc={() => this.handleClickClosePage()} buttonText="关闭"/>
       </div>
