@@ -58,7 +58,7 @@ export default class BusinessApply extends Component<any, any> {
         </div>
         <div className="ba-sub-tips">填写须知</div>
         <div className="ba-sub-body">
-          申请填写需花5分钟时间，提交后无法修改，请认真填写，录取和奖学金申请结果将在提交申请两个工作日内，通过手机短信和【圈外同学】微信公众号发放。
+          申请填写需花5分钟时间，提交后无法修改，请认真填写。录取和奖学金申请结果将在提交申请两个工作日内，通过手机短信和【圈外同学】微信公众号发放。
         </div>
         <SubmitButton clickFunc={() => this.goApplySubmitPage()} buttonText="开始"/>
       </div>
