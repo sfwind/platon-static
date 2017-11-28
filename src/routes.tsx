@@ -67,22 +67,27 @@ import PrizeCard from './modules/promotion/prizecard/PrizeCard'
 
 const routes = (
   <Route>
-    <Route path="/rise/static" component={Base} onChange={() => {
-      config(['chooseWXPay'])
-    }}>
+    <Route path="/rise/static" component={Base}
+           onChange={() => {
+             config(['chooseWXPay'])
+           }}>
+
       <Route path="welcome" component={Welcome}/>
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={PlanList}/>
+
       <Route path="problem/explore" component={Explore}/>
-      <Route path="plan/view" component={ProblemIntroduction}/>
       <Route path="problem/more" component={MoreProblem}/>
       <Route path="problem/package" component={BannerArticle}/>
       <Route path="problem/extension" component={ProblemExtension}/>
       <Route path="problem/cards" component={CardsCollection}/>
+
+      <Route path="learn" component={PlanList}/>
       <Route path="plan/main" component={PlanList}/>
+      <Route path="plan/view" component={ProblemIntroduction}/>
       <Route path="plan/study" component={PlanMain}/>
       <Route path="plan/report" component={ImprovementReport}/>
-      <Route path="learn" component={PlanList}/>
+
       <Route path="practice/warmup" component={WarmUpNew}/>
       <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
       <Route path="practice/warmup/result" component={WarmUpResult}/>
@@ -94,15 +99,18 @@ const routes = (
       <Route path="practice/subject/comment" component={SubjectComment}/>
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
+
       <Route path="member/explain" component={RiseMemberExplain}/>
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
+
       <Route path="eva/start" component={Start}/>
       <Route path="eva" component={Eva}/>
       <Route path="eva/result" component={EvaResult}/>
+
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
@@ -120,10 +128,13 @@ const routes = (
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
       </Route>
+
       <Route path="message" component={Customer}>
         <Route path="center" component={MessageCenter}/>
       </Route>
+
       <Route path="event/wall" component={EventWall}/>
+
       <Route component={ForumBase}>
         <Route path="/rise/static/message/question/answer" component={QuestionAnswer}/>
         <Route path="/rise/static/message/answer/comment" component={AnswerComment}/>
@@ -133,6 +144,7 @@ const routes = (
         <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
         <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
+
       <Route path="guest/inter/questions" component={InterlocutionQuestion}/>
       <Route path="inter/question/submit" component={InterlocutionQuestionSubmit}/>
       <Route path="guest/inter/quan/answer" component={InterlocutionQuanAnswer}/>

@@ -54,8 +54,8 @@ export class Analysis extends React.Component <any, any> {
         this.setState({ currentIndex: warmupCurrentIndex })
       }
       this.setState({ list: msg, practiceCount: msg.practice.length })
-      if(msg.practice[ 0 ].knowledge) {
-        this.setState({ knowledgeId: msg.practice[ 0 ].knowledge.id })
+      if(msg.practice[0].knowledge) {
+        this.setState({ knowledgeId: msg.practice[0].knowledge.id })
       }
     }
     else dispatch(alertMsg(msg))
@@ -69,7 +69,7 @@ export class Analysis extends React.Component <any, any> {
       //保存当前解析的题目index
       dispatch(set('warmupCurrentIndex', currentIndex + 1))
     }
-    scroll('.container', '.container')
+    window.scrollTo(0, 0)
   }
 
   prev() {
@@ -80,11 +80,10 @@ export class Analysis extends React.Component <any, any> {
       //保存当前解析的题目index
       dispatch(set('warmupCurrentIndex', currentIndex - 1))
     }
-    scroll('.container', '.container')
+    window.scrollTo(0, 0)
   }
 
   nextTask() {
-    const { series, planId } = this.props.location.query
     window.history.back()
   }
 
@@ -92,7 +91,7 @@ export class Analysis extends React.Component <any, any> {
     const { dispatch } = this.props
     let { list, currentIndex } = this.state
     const { practice = [] } = list
-    const { id } = practice[ currentIndex ]
+    const { id } = practice[currentIndex]
 
     loadWarmUpDiscuss(id, 1).then(res => {
       dispatch(endLoad())
@@ -131,7 +130,7 @@ export class Analysis extends React.Component <any, any> {
     const { dispatch } = this.props
     const { repliedId, content, list, currentIndex } = this.state
     const { practice = [] } = list
-    const { id } = practice[ currentIndex ]
+    const { id } = practice[currentIndex]
     if(content.length == 0) {
       dispatch(alertMsg('请填写评论'))
       return
@@ -161,7 +160,7 @@ export class Analysis extends React.Component <any, any> {
     deleteComment(discussId).then(res => {
       let { list, currentIndex } = this.state
       const { practice = [] } = list
-      const { id } = practice[ currentIndex ]
+      const { id } = practice[currentIndex]
 
       loadWarmUpDiscuss(id, 1).then(res => {
         dispatch(endLoad())
@@ -189,7 +188,7 @@ export class Analysis extends React.Component <any, any> {
       return (
         <div>
           <div className="intro-container">
-            { practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
+            {practiceCount !== 0 && currentIndex <= practiceCount - 1 ? <div className="intro-index">
               <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
               <span className="type"><span className="number">{score}</span>分</span>
             </div> : null}
@@ -224,8 +223,8 @@ export class Analysis extends React.Component <any, any> {
           <div className="discuss-container">
             <div className="discuss">
               <div className="discuss-bar">问答</div>
-              { _.isEmpty(discussList) ? null : discussList.map((discuss, idx) => discussRender(discuss, idx))}
-              { !_.isEmpty(discussList) ?
+              {_.isEmpty(discussList) ? null : discussList.map((discuss, idx) => discussRender(discuss, idx))}
+              {!_.isEmpty(discussList) ?
                 <div className="show-more">
                   你已经浏览完所有的讨论啦
                 </div>
@@ -235,7 +234,6 @@ export class Analysis extends React.Component <any, any> {
                     <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}/>
                   </div>
                   <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-
                 </div>
               }
             </div>
@@ -273,28 +271,28 @@ export class Analysis extends React.Component <any, any> {
       return (
         <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index${choice.selected ? ' selected' : ''}`}/>
-          <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
+          <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
         </div>
       )
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
+      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
     }
 
     const myAnswerRender = (choice, idx) => {
-      return (choice.selected ? sequenceMap[ idx ] + ' ' : '')
+      return (choice.selected ? sequenceMap[idx] + ' ' : '')
     }
 
     return (
       <div>
         <div className="container has-footer">
           <div className="warm-up">
-            {practice[ currentIndex ] && practice[ currentIndex ].knowledge ?
-              <div className="page-header">{practice[ currentIndex ].knowledge.knowledge}</div> :
+            {practice[currentIndex] && practice[currentIndex].knowledge ?
+              <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
               <div className="page-header">综合练习</div>
             }
-            {questionRender(practice[ currentIndex ] || {})}
+            {questionRender(practice[currentIndex] || {})}
           </div>
           {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>

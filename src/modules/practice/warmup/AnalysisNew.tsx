@@ -33,7 +33,7 @@ export class AnalysisNew extends React.Component <any, any> {
       integrated: false,
       placeholder: '解答同学的提问（限1000字）',
       isReply: false,
-      content: '',
+      content: ''
     }
   }
 
@@ -183,8 +183,8 @@ export class AnalysisNew extends React.Component <any, any> {
           <div className="discuss-container">
             <div className="discuss">
               <div className="title-bar">问答</div>
-              { _.isEmpty(discussList) ? null : discussList.map((discuss, idx) => discussRender(discuss, idx))}
-              { !_.isEmpty(discussList) ?
+              {_.isEmpty(discussList) ? null : discussList.map((discuss, idx) => discussRender(discuss, idx))}
+              {!_.isEmpty(discussList) ?
                 <div className="show-more">
                   你已经浏览完所有的讨论啦
                 </div>
@@ -207,7 +207,7 @@ export class AnalysisNew extends React.Component <any, any> {
       const { warmupPracticeDiscussList } = comment
       return (
         <div>
-          <DiscussShow discuss={comment} showLength={50} reply={()=>this.reply(comment)}
+          <DiscussShow discuss={comment} showLength={50} reply={() => this.reply(comment)}
                        onDelete={this.onDelete.bind(this, comment.id)}/>
           {!_.isEmpty(warmupPracticeDiscussList) ?
             <div>
@@ -222,7 +222,7 @@ export class AnalysisNew extends React.Component <any, any> {
 
     const subDiscussRender = (discuss, idx) => {
       return (
-        <SubDiscussShow discuss={discuss} showLength={50} reply={()=>this.reply(discuss)}
+        <SubDiscussShow discuss={discuss} showLength={50} reply={() => this.reply(discuss)}
                         onDelete={this.onDelete.bind(this, discuss.id)}/>
       )
     }
@@ -232,8 +232,7 @@ export class AnalysisNew extends React.Component <any, any> {
       return (
         <div key={id} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
-            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[ idx ]}
-            {/*{choice.selected ? <AssetImg type="wrong" size={10}/> : sequenceMap[idx]}*/}
+            {choice.isRight ? <AssetImg type="right" width={13} height={8}/> : sequenceMap[idx]}
           </span>
           <span className={`text`}>{subject}</span>
         </div>
@@ -241,11 +240,11 @@ export class AnalysisNew extends React.Component <any, any> {
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
+      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
     }
 
     const myAnswerRender = (choice, idx) => {
-      return (choice.selected ? sequenceMap[ idx ] + ' ' : '')
+      return (choice.selected ? sequenceMap[idx] + ' ' : '')
     }
 
     return (
