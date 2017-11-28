@@ -2,13 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import './ImprovementReport.less'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
-import { loadRecommendations, queryReport } from './async'
+import { queryReport } from './async'
 import { Modal } from '../../components/Modal'
 import { isNumber, merge } from 'lodash';
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { NumberToChinese } from '../../utils/helpers'
-import AssetImg from "../../components/AssetImg";
-import { mark } from "../../utils/request";
 import RenderInBody from '../../components/RenderInBody'
 const numeral = require('numeral');
 
@@ -39,16 +37,7 @@ export class ImprovementReport extends React.Component<any, any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
-    // 课程推荐测试用，可保留
-    // loadRecommendations(problemId).then(res => {
-    //   if(res.code === 200) {
-    //     this.setState({recommendations: res.msg})
-    //   } else {
-    //     dispatch(alertMsg(res.msg))
-    //   }
-    // }).catch(e => {
-    //   dispatch(alertMsg(e))
-    // })
+
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
   }
 
@@ -153,47 +142,6 @@ export class ImprovementReport extends React.Component<any, any> {
       applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore, recommendations, doneAllApps
     } = planData;
 
-    const renderRecommendation = () => {
-      if(!recommendations) return
-      return (
-        recommendations.map((recommendation, idx) => {
-          const { description, recommendProblems } = recommendation
-          return (
-            <div className="recommend-box" key={idx}>
-              <div className="recommend-descrip">{description}</div>
-              {
-                recommendProblems.map((problem, idx) => {
-                  return (
-                    <div className="recommend-problem" key="idx">
-                      <div className="problem-img">
-                        <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
-                        <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-                        <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                        {/*<AssetImg url={problem.pic} height={63}/>*/}
-                      </div>
-                      <div className="problem-problem">{problem.problem}</div>
-                      <div className="problem-view"
-                           onClick={() => {
-                             mark({module: "打点", function: "课程推荐进入课程学习", action: `${problem.id}`});
-                             this.context.router.push({
-                               pathname: `/rise/static/plan/view`,
-                               query: {
-                                 id: problem.id
-                               }
-                             })
-                           }}>查看
-                      </div>
-                    </div>
-                  )
-                })
-              }
-            </div>
-          )
-        })
-      )
-    }
-
-
 
     const renderTips = () => {
       if(doneAllApps){
@@ -248,10 +196,6 @@ export class ImprovementReport extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="body">
-            <div className="header"><span className="title">推荐学习</span></div>
-            {renderRecommendation()}
-          </div>
           <div className="tips">{renderTips()}</div>
           <div className="padding-footer" style={{height:'50px'}}/>
         </div>

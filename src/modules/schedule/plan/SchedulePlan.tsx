@@ -254,7 +254,6 @@ export default class SchedulePlan extends React.Component<any, any> {
         </Alert>
       )
     }
-
     return (
       <div className="schedule-plan-container" style={{ minHeight: window.innerHeight }}>
 
@@ -268,9 +267,11 @@ export default class SchedulePlan extends React.Component<any, any> {
           </div>
         </div>
         <div className="card">
-          <div className="card-icon"><AssetImg type="current_month_progress" size={18}/></div>
-          <div className="card-topic">本月进度</div>
-          <div className="today">{today}</div>
+          <div className="card-title">
+            <div className="card-icon"><AssetImg display={'inline-block'} type="current_month_progress" size={18}/></div>
+            <div className="card-topic">本月进度</div>
+            <div className="today">{today}</div>
+          </div>
           <div className="major-progress">
             <div className="progress-name">主修课</div>
             <div className="progress-bar">
@@ -292,8 +293,11 @@ export default class SchedulePlan extends React.Component<any, any> {
           </div>
         </div>
         <div className="card">
-          <div className="card-icon"><AssetImg type="running_plan" size={18}/></div>
-          <div className="card-topic">进行中</div>
+          <div className="card-title">
+            <div className="card-icon"><AssetImg display={'inline-block'} type="running_plan" size={18}/></div>
+            <div className="card-topic">进行中</div>
+          </div>
+
           {_.isEmpty(majorProblem) && _.isEmpty(minorProblem) ?
             <div className="empty-container">
               <div className="empty-img">
@@ -306,27 +310,30 @@ export default class SchedulePlan extends React.Component<any, any> {
 
           {!_.isEmpty(majorProblem) ? renderCourseCategory('主修课') : null}
           {!_.isEmpty(majorProblem) ? <div className="course-container">
-            {renderMajorCourse()}
-          </div> : null}
+              {renderMajorCourse()}
+            </div> : null}
           {!_.isEmpty(minorProblem) ? renderCourseCategory('辅修课') : null}
           {!_.isEmpty(minorProblem) ? <div className="course-container">
-            {renderMinorCourse()}
-          </div> : null}
+              {renderMinorCourse()}
+            </div> : null}
           {!_.isEmpty(trialProblem) ? renderCourseCategory('试听课') : null}
           {!_.isEmpty(trialProblem) ? <div className="course-container">
-            {renderTrialCourse()}
-          </div> : null}
+              {renderTrialCourse()}
+            </div> : null}
         </div>
         {!_.isEmpty(completeProblem) ? <div className="card">
-          <div className="card-icon"><AssetImg type="complete_plan" size={18}/></div>
-          <div className="card-topic">已完成</div>
-          <div className="complete-course-container">
-            {renderCompleteCourse()}
-          </div>
-        </div> : null}
+            <div className="card-title">
+              <div className="card-icon"><AssetImg display={'inline-block'} type="complete_plan" size={18}/></div>
+              <div className="card-topic">已完成</div>
+            </div>
+            <div className="complete-course-container">
+              {renderCompleteCourse()}
+            </div>
+          </div> : null}
         {renderDialog()}
         <ToolBar/>
       </div>
     )
+
   }
 }

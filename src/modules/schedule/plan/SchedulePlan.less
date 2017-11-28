@@ -6,7 +6,7 @@
   .monthly-topic {
     font-size: 2.5rem;
     line-height: 2.5rem;
-    background: linear-gradient(to bottom, #feff1c, #ff7800);
+    background: linear-gradient(to top, #feff1c, #ff7800);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
@@ -74,34 +74,41 @@
       flex-wrap: wrap;
       justify-content: space-between;
     }
-    > .today {
-      display: inline-block;
-      float: right;
-      margin-top: 2.8rem;
-      line-height: @font_index;
-      font-size: @font_index;
-    }
-    > .card-icon {
-      display: inline-block;
-      height: 1.8rem;
-      margin: 2.5rem 1.5rem 0 0;
+
+    > .card-title{
+      position: relative;
+      top: 2.5rem;
+      height: 50px;
+      margin-bottom: 1.5rem;
+      > .card-icon {
+        display: inline-block;
+        height: 18px;
+        position: absolute;
+      }
+      > .today {
+        right: 0;
+        line-height: 12px;
+        font-size: 12px;
+        top: 3px;
+        position: absolute;
+      }
+      > .card-topic {
+        display: inline-block;
+        left: 28px;
+        font-size: 18px;
+        line-height: 18px;
+        height: 18px;
+        color: @color_context;
+        position: absolute;
+      }
     }
 
-    > .card-topic {
-      margin-top: 2.5rem;
-      display: inline-block;
-      font-size: 1.8rem;
-      line-height: 1.8rem;
-      color: @color_context;
-      margin-bottom: 3.0rem;
-      vertical-align: top;
-    }
     .progress-name {
       display: inline-block;
       font-size: @font_index;
       line-height: @font_index;
       margin: 1.0rem 1.5rem 2.0rem 0;
-      width: 3.6rem;
+      width: 4.0rem;
     }
 
     .major-progress {
@@ -135,7 +142,7 @@
     }
     .progress-bar {
       display: inline-block;
-      width: ~"calc(100% - 10.6rem)";
+      width: ~"calc(100% - 11rem)";
       height: 1.0rem;
       border-radius: @border-radius;
       .weui_progress_bar {
