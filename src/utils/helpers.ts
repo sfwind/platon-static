@@ -1,27 +1,27 @@
-import * as _ from "lodash"
+import * as _ from 'lodash'
 
 // import UA from "ua-device"
 
 export function ron(flag, render, normal) {
   if(flag) {
     if(_.isFunction(render)) {
-      return render();
+      return render()
     } else {
-      return render;
+      return render
     }
   } else {
     if(_.isFunction(normal)) {
-      return normal();
+      return normal()
     } else if(_.isUndefined(normal)) {
-      return null;
+      return null
     } else {
-      return normal;
+      return normal
     }
   }
 }
 
 export function isPending(state, key): boolean {
-  return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[ key ] : false
+  return _.get(state, '$view.$pending') ? _.get(state, '$view.$pending')[key] : false
 }
 
 // export function isIOS() {
@@ -29,48 +29,48 @@ export function isPending(state, key): boolean {
 // }
 
 export function changeTitle(title) {
-  document.title = title;
-  const iframe = document.createElement('iframe');
-  iframe.style.cssText = 'display: none; width: 0; height: 0;';
-  iframe.src = 'https://static.iqycamp.com/images/logo.png';
+  document.title = title
+  const iframe = document.createElement('iframe')
+  iframe.style.cssText = 'display: none; width: 0; height: 0;'
+  iframe.src = 'https://static.iqycamp.com/images/logo.png'
   //iframe.src = require('./img/text_delete.png');
   const listener = () => {
     setTimeout(() => {
-      iframe.removeEventListener('load', listener);
+      iframe.removeEventListener('load', listener)
       setTimeout(() => {
-        document.body.removeChild(iframe);
-      }, 0);
-    }, 0);
-  };
-  iframe.addEventListener('load', listener);
-  document.body.appendChild(iframe);
+        document.body.removeChild(iframe)
+      }, 0)
+    }, 0)
+  }
+  iframe.addEventListener('load', listener)
+  document.body.appendChild(iframe)
 }
 
-var chnUnitChar = [ "", "十", "百", "千" ];
-var chnUnitSection = [ "", "万", "亿", "万亿", "亿亿" ];
-var chnNumChar = [ "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" ];
+var chnUnitChar = ['', '十', '百', '千']
+var chnUnitSection = ['', '万', '亿', '万亿', '亿亿']
+var chnNumChar = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
 
 function SectionToChinese(section) {
-  var strIns = '', chnStr = '';
-  var unitPos = 0;
-  var zero = true;
+  var strIns = '', chnStr = ''
+  var unitPos = 0
+  var zero = true
   while(section > 0) {
-    var v = section % 10;
+    var v = section % 10
     if(v === 0) {
       if(!zero) {
-        zero = true;
-        chnStr = chnNumChar[ v ] + chnStr;
+        zero = true
+        chnStr = chnNumChar[v] + chnStr
       }
     } else {
-      zero = false;
-      strIns = chnNumChar[ v ];
-      strIns += chnUnitChar[ unitPos ];
-      chnStr = strIns + chnStr;
+      zero = false
+      strIns = chnNumChar[v]
+      strIns += chnUnitChar[unitPos]
+      chnStr = strIns + chnStr
     }
-    unitPos++;
-    section = Math.floor(section / 10);
+    unitPos++
+    section = Math.floor(section / 10)
   }
-  return chnStr;
+  return chnStr
 }
 
 export function scroll(target, container) {
@@ -84,34 +84,34 @@ export function scroll(target, container) {
 
 // 数字转汉字
 export function NumberToChinese(num) {
-  var unitPos = 0;
-  var strIns = '', chnStr = '';
-  var needZero = false;
+  var unitPos = 0
+  var strIns = '', chnStr = ''
+  var needZero = false
 
   if(num === 0) {
-    return chnNumChar[ 0 ];
+    return chnNumChar[0]
   }
 
   while(num > 0) {
-    var section = num % 10000;
+    var section = num % 10000
     if(needZero) {
-      chnStr = chnNumChar[ 0 ] + chnStr;
+      chnStr = chnNumChar[0] + chnStr
     }
-    strIns = SectionToChinese(section);
-    strIns += (section !== 0) ? chnUnitSection[ unitPos ] : chnUnitSection[ 0 ];
-    chnStr = strIns + chnStr;
-    needZero = (section < 1000) && (section > 0);
-    num = Math.floor(num / 10000);
-    unitPos++;
+    strIns = SectionToChinese(section)
+    strIns += (section !== 0) ? chnUnitSection[unitPos] : chnUnitSection[0]
+    chnStr = strIns + chnStr
+    needZero = (section < 1000) && (section > 0)
+    num = Math.floor(num / 10000)
+    unitPos++
   }
 
-  return chnStr;
+  return chnStr
 }
 
 // 字符串截取方法
 export function splitText(text: string, length: number) {
   if(text) {
-    let cleanText = removeHtmlTags(text);
+    let cleanText = removeHtmlTags(text)
     return cleanText.length <= length ? text : cleanText.slice(0, length) + '...'
   }
 }
@@ -119,15 +119,15 @@ export function splitText(text: string, length: number) {
 export function removeHtmlTags(str) {
   str = _.trim(str)
   // 去除 html 标签
-  str = str.replace(/(&lt;)(&#47;)?[^(&gt;)]*(&gt;)/g, '');
-  str = str.replace(/<\/?[^>]*>/g, '');
+  str = str.replace(/(&lt;)(&#47;)?[^(&gt;)]*(&gt;)/g, '')
+  str = str.replace(/<\/?[^>]*>/g, '')
   // 去除实体字符
-  str = str.replace(/&[^;]+;/g, "");
+  str = str.replace(/&[^;]+;/g, '')
   return str
 }
 
 export function filterHtmlTag(content) {
-  return _.isString(content) ? content.replace(/<[^>]+>/g, "").replace(/&nbsp;/g, "") : "";
+  return _.isString(content) ? content.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, '') : ''
 }
 
 /**
@@ -137,12 +137,12 @@ export function filterHtmlTag(content) {
  */
 export function fixIosShimoBug() {
   if(window.ENV.osName === 'ios') {
-    window.addEventListener("popstate", function(e) {
-      if(window.ENV.configUrl.indexOf("shimo.im") != -1) {
+    window.addEventListener('popstate', function(e) {
+      if(window.ENV.configUrl.indexOf('shimo.im') != -1) {
         // alert("刷新:" + window.location.href + "," + document.referrer + ":" + document.title);
-        window.location.href = window.location.href;
+        window.location.href = window.location.href
       }
-    });
+    })
   }
 }
 
@@ -152,9 +152,9 @@ export function fixIosShimoBug() {
  */
 export function goOtherWeb(url) {
   if(window.ENV.osName === 'ios' && url.indexOf('shimo.im') != -1) {
-    window.ENV.configUrl = url;
+    window.ENV.configUrl = url
   }
-  window.location.href = url;
+  window.location.href = url
 }
 
 export class GoodsType {
@@ -168,11 +168,11 @@ export class CouponCategory {
   /**
    * 只能用来购买会员
    */
-  public static ONLY_MEMBERSHIP = "ELITE_RISE_MEMBER";
+  public static ONLY_MEMBERSHIP = 'ELITE_RISE_MEMBER'
   /**
    * 只能用来够买线下工作坊
    */
-  public static ONLY_WORKSHOP = "OFF_LINE_WORKSHOP";
+  public static ONLY_WORKSHOP = 'OFF_LINE_WORKSHOP'
 }
 
 /**
@@ -182,15 +182,15 @@ class ButtonStatus {
   /**
    * 需要支付的按钮组
    */
-  private paymentGroup: [ number ];
+  private paymentGroup: [number]
   /**
    * 不需要支付的按钮组
    */
-  private notPaymentGroup: [ number ];
+  private notPaymentGroup: [number]
 
   constructor() {
-    this.paymentGroup = [];
-    this.notPaymentGroup = [ 1, 2, 3, 4, 7, 8 ]
+    this.paymentGroup = []
+    this.notPaymentGroup = [1, 2, 3, 4, 7, 8]
   }
 
   /**
@@ -200,19 +200,19 @@ class ButtonStatus {
    */
   public isValid(status: number): boolean {
     if(status === -1) {
-      return false;
+      return false
     }
     for(let i = 0; i < this.paymentGroup.length; i++) {
-      if(status === this.paymentGroup[ i ]) {
-        return true;
+      if(status === this.paymentGroup[i]) {
+        return true
       }
     }
     for(let i = 0; i < this.notPaymentGroup.length; i++) {
-      if(status === this.notPaymentGroup[ i ]) {
-        return true;
+      if(status === this.notPaymentGroup[i]) {
+        return true
       }
     }
-    return false;
+    return false
   }
 
   /**
@@ -222,38 +222,35 @@ class ButtonStatus {
    */
   public mustRefresh(status: number): boolean {
     for(let i = 0; i < this.paymentGroup.length; i++) {
-      if(status === this.paymentGroup[ i ]) {
+      if(status === this.paymentGroup[i]) {
         /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
-        return window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios';
+        return window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios'
       }
     }
-    return false;
+    return false
   }
 }
 
-export let buttonStatus = new ButtonStatus();
+export let buttonStatus = new ButtonStatus()
 
 function scrollLimit(e) {
-  let _this = this;
+  let _this = this
   if(_this.scrollTop >= _this.scrollHeight - _this.clientHeight - 1) {
-    _this.scrollTop = _this.scrollHeight - _this.clientHeight - 1;
+    _this.scrollTop = _this.scrollHeight - _this.clientHeight - 1
   } else if(_this.scrollTop <= 1) {
-    _this.scrollTop = 1;
+    _this.scrollTop = 1
   }
 }
 
 export function unScrollToBorder(selector) {
-  console.log('绑定', selector);
-  let dom = document.querySelector(selector);
+  let dom = document.querySelector(selector)
   if(dom) {
     dom.addEventListener('scroll', scrollLimit)
     return () => {
-      console.log('解绑')
       dom.removeEventListener('scroll', scrollLimit)
-    };
+    }
   } else {
     // return 空函数，防止报错
-    return () => {};
+    return () => {}
   }
-
 }
