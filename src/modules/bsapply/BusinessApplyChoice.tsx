@@ -362,7 +362,7 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
             {request ? <span style={{ color: 'red' }}>*</span> : null}
           </div>
           {QuestionDom}
-          {tips ? <div className="tips">
+          {tips ? <div className="question-tips">
             {tips}
           </div> : null}
         </div>
