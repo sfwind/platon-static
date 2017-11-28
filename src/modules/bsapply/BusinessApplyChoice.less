@@ -1,0 +1,169 @@
+@import url('../../style/variable');
+
+.apply-choice {
+  .apply-container {
+    overflow: auto;
+    padding: 0 45px;
+    .apply-progress {
+      height: 4px;
+      background: rgb(243, 243, 243);
+      .apply-progress-bar {
+        background: rgb(247, 180, 61);
+        background: -webkit-gradient(linear, left center, right center, from(rgb(248, 225, 161)), to(rgb(247, 180, 61)));
+        height: 4px;
+        border-radius: 4px;
+
+        transition: width 0.5s;
+      }
+    }
+    .intro-index {
+      margin: 5px 0 0;
+      display: block;
+      min-height: 1.5rem;
+      color: #06e6e8;
+      .prev {
+        color: #f4ad00;
+        font-size: 1.5rem;
+        display: inline-block;
+      }
+    }
+    .apply-page-header {
+      width: 100%;
+      height: 30px;
+      padding-top: 1rem;
+      line-height: 30px;
+      text-align: center;
+      font-size: 2rem;
+    }
+    .apply_rate {
+      font-size: @font_title;
+      color: #f4ad00;
+      text-align: right;
+    }
+    .question {
+      padding-top: 3rem;
+      font-size: 1.5rem;
+      .question-label {
+        color: #333;
+      }
+      .picker-box {
+        margin-top: 2rem;
+        border-radius: 5px;
+        border: 1px solid #333;
+        height: 5.4rem;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        line-height: 5.4rem;
+        position: relative;
+        &:after {
+          content: '';
+          display: block;
+          width: 5px;
+          height: 5px;
+          border-left: 2px solid #333;
+          border-bottom: 2px solid #333;
+          position: absolute;
+          right: 1.5rem;
+          top: 50%;
+          transform: translateY(-50%) rotate(-45deg);
+        }
+
+        .input-value {
+          font-size: 1.5rem;
+        }
+        .apply-picker {
+          width: inherit;
+          padding-left: 1rem;
+          .picker-text {
+            line-height: 1.5rem;
+            height: 1.5rem;
+            &.placeholder {
+              color: #999;
+            }
+          }
+        }
+      }
+
+      .question-radio {
+        .radio-wrapper {
+          list-style: none;
+          .radio-choice {
+            padding: 2rem 0 0;
+            span {
+              vertical-align: middle;
+            }
+            .list-style {
+              display: inline-block;
+              height: 14px;
+              width: 14px;
+              border-radius: 14px;
+              border: 1px solid #999;
+              position: relative;
+              &.selected {
+                border-color: #000;
+                &:before {
+                  content: '';
+                  display: block;
+                  width: 10px;
+                  height: 10px;
+                  top: 50%;
+                  transform: translate(-50%, -50%);
+                  left: 50%;
+                  border-radius: 10px;
+                  background-color: #000;
+                  position: absolute;
+                }
+              }
+            }
+            .list-text {
+              padding-left: 1rem;
+            }
+          }
+        }
+      }
+      .question-blank {
+        border: 1px solid #333;
+        margin: 2rem 0 0;
+        background-color: #fff;
+        padding: 0;
+        border-radius: 3px;
+        input {
+          width: 100%;
+          background-color: #fff;
+          border: none !important;
+          border-radius: 5px;
+          padding: 1rem 1rem;
+          height: 5.4rem;
+          font-size: 1.5rem;
+          display: inline-block;
+          margin: 0;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+        }
+      }
+      .question-multi-blank {
+        padding-top: 1.5rem;
+        textarea {
+          width: 100%;
+          background-color: #fff;
+          border: 1px solid #333;
+          border-radius: 5px;
+          padding: 8px 10px;
+          font-size: 16px;
+          display: inline-block;
+          margin: 0;
+          -webkit-appearance: none;
+          resize: none;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+        }
+        textarea:focus {
+          margin-bottom: 100px;
+        }
+      }
+    }
+  }
+}

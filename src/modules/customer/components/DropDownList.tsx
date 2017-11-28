@@ -62,7 +62,7 @@ export default class DropDownList extends React.Component<any, any> {
   }
 
   render() {
-    const { level, data, userData, onChoice } = this.props;
+    const { level, data, userData, onChoice, rootClassName, textClassName } = this.props;
 
     const renderValue = () => {
       let value = "";
@@ -76,11 +76,13 @@ export default class DropDownList extends React.Component<any, any> {
       }
 
       return (
-        <span>{value}</span>
+        <span
+          className={`picker-text ${(value === (this.props.placeholder || "请选择")) ? 'placeholder' : ''} ${textClassName ? textClassName : ''}`}>{value}</span>
       )
     }
+
     return (
-      <div className="form-item item-line" onClick={() => this.choice()}>
+      <div className={`form-item item-line ${rootClassName ? rootClassName : ''}`} onClick={() => this.choice()}>
         <div className="pc-box">
           <span id="show_contact">{renderValue()}</span>
         </div>
