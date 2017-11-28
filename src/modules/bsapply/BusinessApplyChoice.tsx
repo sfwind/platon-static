@@ -338,11 +338,15 @@ class QuestionGroup extends Component<QuestionGroupProps, any> {
           userData.value = item.value;
         }
       });
-
+      //
+      let defaultValue = _.find(choices, { defaultSelected: true });
       return mixQuestionDom(questionInfo,
         <div className="picker-box">
           <DropDownList rootClassName="apply-picker"
                         level={1} data={[ choices ]} userData={chosenId ? [ userData ] : null}
+                        defaultData={defaultValue ? [ {
+                          id: defaultValue.id, value: defaultValue.subject
+                        } ] : undefined}
                         onChoice={(one) => this.commonHandleValueChange(questionInfo, Number.parseInt(one.id), 'chosenId')}/>
         </div>
       )
