@@ -36,7 +36,6 @@ export default class ScheduleNotice extends Component {
           <AssetImg className="img" url="https://www.iqycamp.com/images/icon_maps.png?imageslim"/>
         </div>
         <div className="start-btn btn" onClick={() => this.handleClickStart()}>开始</div>
-        <div className="tips">9道题，约3分钟</div>
       </div>
     )
   }
