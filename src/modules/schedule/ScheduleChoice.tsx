@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import './ScheduleChoice.less'
 import AssetImg from '../../components/AssetImg'
 import { mark } from '../../utils/request'
@@ -209,7 +209,7 @@ export default class ScheduleChoice extends Component {
             {sequenceMap[ idx ]}
             </span>
           <span
-            className={`text`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
+            className={`text`}>{subject}</span>
         </div>
       )
     }
