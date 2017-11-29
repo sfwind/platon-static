@@ -11,21 +11,21 @@ interface MonthScheduleProps {
   id: any,
   schedules: any,
   draggable: boolean,
-  switchSubmitButton: any,
   showDescBox: boolean,
   enableAutoScroll: any,
   disableAutoScroll: any,
 }
 
-interface MonthScheduleState {
-}
-
 @connect(state => state)
-export class MonthSchedule extends React.Component<MonthScheduleProps, MonthScheduleState> {
+export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
 
   constructor() {
     super()
     this.state = {}
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   }
 
   sortbale
@@ -77,10 +77,23 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     return this.state
   }
 
+  handleClickViewProblemDesc(draggable, schedule, e) {
+    if(!draggable) {
+      e.stopPropagation()
+      if(schedule.problem.publish) {
+        this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}&show=true`)
+      } else {
+        this.context.router.push(`/rise/static/course/schedule/nopublish`)
+      }
+    }
+  }
+
   handleClickChangePosition(schedule, draggable) {
+    const { dispatch } = this.props
     if(!draggable) {
       // 主修课无法选择或者取消
       if(schedule && schedule.type === 1) {
+        dispatch(alertMsg('主修课为每月小班教学，无法取消'))
         return
       }
       updateSelected(schedule.id, !schedule.selected)
@@ -92,7 +105,6 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       })
       this.setState({ schedules: schedules })
     } else {
-      const { dispatch } = this.props
       if(schedule.type === 1) {
         dispatch(alertMsg('主修课为每月小班教学，无法移动'))
       } else {
@@ -107,18 +119,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     }
   }
 
-  handleClickProblemDesc(draggable) {
-    if(!draggable) {
-      this.setState({ showDescBox: true })
-      switchSubmitButton(false)
-      document.body.style.overflow = 'hidden'
-    }
-
-  }
-
   render() {
-    const { switchSubmitButton } = this.props
-    const { id, draggable, showDescBox = false } = this.state
+    const { id, draggable } = this.state
     let { schedules = [] } = this.state
     schedules = _.orderBy(schedules, ['type'], ['asc'])
 
@@ -135,30 +137,23 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                     className={`
                       problem
                       ${schedule.type === 2 ? 'minor-problem' : ''}
-                      ${schedule.adjustable ? schedule.selected ? 'selected' : 'no-selected' : 'dis-ajustable'}
+                      ${schedule.selected ? 'selected' : 'no-selected'}
                       ${draggable ? 'hide' : ''}
                     `}
                     onClick={() => this.handleClickChangePosition(schedule, draggable)}>
                   <span className="problem-name">
                     {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
                   </span>
-                  <div
-                    className={`
-                      month-problem-desc
-                      ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
-                    `}
-                    onClick={() => this.handleClickProblemDesc(draggable)}/>
+                  <div className={`
+                          month-problem-desc
+                          ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                       `}
+                       onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
                 </li>
               )
             })
           }
         </ul>
-        <ProblemDescription show={showDescBox} schedules={schedules}
-                            closeCallBack={() => {
-                              this.setState({ showDescBox: false })
-                              switchSubmitButton(true)
-                              document.body.style.overflow = 'auto'
-                            }}/>
       </section>
     )
   }

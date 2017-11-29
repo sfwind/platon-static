@@ -60,7 +60,7 @@ import { NickName } from './modules/customer/account/components/NickName'
 import { HeadImage } from './modules/customer/account/components/HeadImage'
 import PersonalModify from './modules/customer/account/PersonalModify'
 import OverView from './modules/schedule/overview/OverView'
-import Middle from './modules/schedule/overview/components/Middle'
+import Transfer from './modules/schedule/overview/components/Transfer'
 import SchedulePlan from './modules/schedule/plan/SchedulePlan'
 
 import ScheduleNotice from './modules/schedule/ScheduleNotice'
@@ -68,9 +68,9 @@ import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import PrizeCard from './modules/promotion/prizecard/PrizeCard'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
-import BusinessApply from './modules/bsapply/BusinessApply';
-import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess';
-import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice';
+import BusinessApply from './modules/bsapply/BusinessApply'
+import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
+import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
 
 const routes = (
   <Route>
@@ -165,7 +165,7 @@ const routes = (
 
 
       <Route path="prize" component={PrizeCard}/>
-      <Route path="middle" component={Middle}/>
+      <Route path="transfer" component={Transfer}/>
       <Route path="business/apply/start" component={BusinessApply}/>
       <Route path="business/apply/choice" component={BusinessApplyChoice}/>
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>

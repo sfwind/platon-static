@@ -21,8 +21,7 @@ export default class OverView extends React.Component {
 
   state = {
     scheduleList: [],
-    draggable: false,
-    showSubmitButton: true
+    draggable: false
   }
 
   static contextTypes = {
@@ -97,16 +96,10 @@ export default class OverView extends React.Component {
 
   switchDraggableStatus(draggable) {
     if(draggable) {
-      let node = document.getElementById('overview-scroll')
-      let result = calcScheduleData(node)
-      updateCourseScheduleAll(result).then(res => {
-        if(res.code === 200) {
-          this.context.router.push({
-            pathname: '/rise/static/middle',
-            query: {
-              'history': window.location.pathname
-            }
-          })
+      this.context.router.push({
+        pathname: '/rise/static/transfer',
+        query: {
+          'history': window.location.pathname
         }
       })
     } else {
@@ -126,7 +119,7 @@ export default class OverView extends React.Component {
         dispatch(endLoad())
         if(res.code === 200) {
           this.context.router.push({
-            pathname: '/rise/static/middle',
+            pathname: '/rise/static/transfer',
             query: {
               'history': window.location.pathname,
               'key': 'showToast'
@@ -140,7 +133,7 @@ export default class OverView extends React.Component {
   }
 
   render() {
-    const { scheduleList = [], draggable = false, showSubmitButton = true, showToast = false, showFirstEntryAlert = false } = this.state
+    const { scheduleList = [], draggable = false, showToast = false, showFirstEntryAlert = false } = this.state
 
     const firstEntryAlertProps = {
       buttons: [
@@ -168,20 +161,15 @@ export default class OverView extends React.Component {
                                id={index}
                                schedules={schedules}
                                draggable={draggable}
-                               switchSubmitButton={(submitButtonStatus) => {
-                                 this.setState({ showSubmitButton: submitButtonStatus })
-                               }}
                                enableAutoScroll={() => this.enableAutoScroll()}
                                disableAutoScroll={() => this.disableAutoScroll()}/>
               )
             })
           }
         </div>
-        {
-          showSubmitButton ?
-            <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)}
-                          buttonText={draggable ? '完成顺序调整' : '确定'}/> : null
-        }
+
+        <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/>
+
         <Toast show={showToast} timeout={2000} height={220} width={200} top={160}>
           <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
           <div className="text">调整完成</div>

@@ -4,28 +4,28 @@
   box-sizing: border-box;
   background-color: #F5F5F5;
   .overview-header {
-    padding: 0 2rem;
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    padding: 2rem;
     background-color: #FFFFFF;
     border-bottom: 1px solid #ccc;
-    height: 6.8rem;
+    height: 68px;
     .overview-title {
       display: inline-block;
       position: relative;
       font-size: 28px;
       color: #041931;
       line-height: 28px;
-      top: 50%;
-      transform: translateY(-50%);
     }
     .modify-sequence {
       display: inline-block;
-      position: relative;
+      position: absolute;
       font-size: 15px;
       color: #0076ff;
       line-height: 15px;
-      float: right;
-      top: 70%;
-      transform: translateY(-50%);
+      right: 2rem;
+      bottom: 2rem;
     }
   }
   .modify-drag-tips {
