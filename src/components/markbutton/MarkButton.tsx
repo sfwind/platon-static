@@ -19,7 +19,22 @@ export class MarkButton extends React.Component {
 
   state = {}
 
+  componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(nextProps) != JSON.stringify(this.props)) {
+      this.props = nextProps
+    }
+  }
+
+  initState() {
+    const {} = this.props
+    this.setState({
+
+    })
+  }
+
   render() {
+    const {} = this.state
+
     return <div {...this.props}/>
   }
 
