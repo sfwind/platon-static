@@ -7,7 +7,12 @@ import { mark } from '../../utils/request'
 import { initSchedule, loadQuestions } from './async'
 import $ from 'jquery'
 import { SubmitButton } from './components/SubmitButton'
+import RenderInBody from '../../components/RenderInBody'
+import { FooterButton } from '../../components/submitbutton/FooterButton'
+import { Modal } from '../../components/Modal'
+import { Toast, Dialog } from "react-weui"
 
+const { Alert } = Dialog
 let _ = require('lodash')
 
 const sequenceMap = {
@@ -19,6 +24,11 @@ const sequenceMap = {
   5: 'F',
   6: 'G'
 }
+
+const NO_MINOR = 24;
+const ONE_MINOR = 25;
+const TWO_MINOR = 26;
+const THREE_MINOR = 37;
 
 @connect(state => state)
 export default class ScheduleChoice extends Component {
@@ -38,6 +48,7 @@ export default class ScheduleChoice extends Component {
       fadePrevOut: false,
       fadePrevIn: false,
       chooseAll: false,
+      showConfirmModal: false,
     }
   }
 
@@ -74,20 +85,50 @@ export default class ScheduleChoice extends Component {
     })
   }
 
+  nextChoice() {
+    const { dispatch } = this.props
+    const { practice, currentIndex, practiceCount } = this.state
+    let canSubmit = true
+    let matchObj = _.find(practice[ currentIndex ].scheduleChoices, { choice: true })
+
+    if(_.isEmpty(matchObj)) {
+      canSubmit = false
+    }
+    if(!canSubmit) {
+      dispatch(alertMsg('请选择答案'))
+      return
+    }
+
+    if(currentIndex == 0 && matchObj) {
+      if(matchObj.id === NO_MINOR) {
+        this.setState({ showConfirmModal: true });
+        return;
+      }
+    }
+
+    $(this.refs.questionGroup).animateCss('fadeOutLeft', () => {
+      this.setState({ currentIndex: currentIndex + 1 }, () => {
+        $(this.refs.questionGroup).animateCss('fadeInRight')
+      })
+    })
+
+  }
+
   handleClickChoice(choice) {
     const { practice, currentIndex, practiceCount } = this.state
-    let scheduleChoices = practice[ currentIndex ].scheduleChoices
+    // let scheduleChoices = practice[ currentIndex ].scheduleChoices
+    const { multiple, scheduleChoices } = practice[ currentIndex ];
     _.forEach(scheduleChoices, (item) => {
-      item.choice = item.id === choice.id
+      if(multiple) {
+        if(item.id === choice.id) {
+          item.choice = !item.choice;
+        }
+      } else {
+        item.choice = item.id === choice.id
+      }
     })
     if(currentIndex < (practiceCount - 1)) {
-      this.setState({ practice: practice }, () => {
-        $(this.refs.questionGroup).animateCss('fadeOutLeft', () => {
-          this.setState({ currentIndex: currentIndex + 1 }, () => {
-            $(this.refs.questionGroup).animateCss('fadeInRight')
-          })
-        })
-      })
+      this.setState({ practice: practice })
     } else {
       this.setState({ practice: practice, selected: choice, chooseAll: true })
     }
@@ -96,6 +137,7 @@ export default class ScheduleChoice extends Component {
   handleClickSubmit() {
     const { dispatch } = this.props
     const { practice, currentIndex, practiceCount } = this.state
+
     let canSubmit = true
     _.forEach(practice, question => {
       let matchObj = _.find(question.scheduleChoices, { choice: true })
@@ -104,13 +146,28 @@ export default class ScheduleChoice extends Component {
       }
     })
     if(!canSubmit) {
-      dispatch(alertMsg('请选择答案'))
-      return
+      // 查看是否选择了，没有辅修课这个选项
+      _.forEach(practice, question => {
+        let matchObj = _.find(question.scheduleChoices, { choice: true, id: NO_MINOR });
+        console.log(matchObj);
+        if(!!matchObj) {
+          canSubmit = !!matchObj;
+        }
+      })
+      if(!canSubmit) {
+        dispatch(alertMsg('请选择答案'))
+        return
+      }
     }
 
     let questionList = _.cloneDeep(practice)
     _.forEach(questionList, question => {
       question.scheduleChoices = _.remove(question.scheduleChoices, { choice: true })
+      _.forEach(question.scheduleChoices, (item) => {
+        // 不要再把答案传到后台了，这个字段比较长
+        item.subject = undefined;
+      })
+      // 不要再把答案传到后台了，这个字段比较长
       question.question = undefined
     })
 
@@ -120,7 +177,10 @@ export default class ScheduleChoice extends Component {
       if(res.code === 200) {
         window.ENV.showExplore = 'false'
         this.context.router.push({
-          pathname: '/rise/static/course/schedule/overview'
+          pathname: '/rise/static/course/schedule/overview',
+          query: {
+            firstEntry: true
+          }
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -133,7 +193,7 @@ export default class ScheduleChoice extends Component {
 
   render() {
 
-    const { practice, currentIndex, practiceCount,chooseAll } = this.state
+    const { practice, currentIndex, practiceCount, chooseAll, showConfirmModal } = this.state
 
     const isSelected = (scheduleChoices, choice) => {
       return !_.isEmpty(_.find(scheduleChoices, {
@@ -141,51 +201,131 @@ export default class ScheduleChoice extends Component {
       }))
     }
 
-    const questionRender = (practice) => {
-      const { question, scheduleChoices = [] } = practice
+    const choiceRender = (choice, idx, scheduleChoices) => {
+      const { id, subject } = choice
       return (
-        <div className="intro-container">
-          <div className="intro-index">
-            {practiceCount !== 0 && currentIndex <= practiceCount - 1 && currentIndex != 0 ?
-              <span className="prev" onClick={() => this.prevChoice()}>上一题</span> : null}
-          </div>
-          <div ref="questionGroup" className='question-group'>
-            <div className="question">
-              <div
-                dangerouslySetInnerHTML={{ __html: question ? ((currentIndex + 1) + '.&nbsp;&nbsp;' + question) : '' }}/>
-            </div>
-            <div className="choice-list">
-              {scheduleChoices.map((choice, idx) => {
-                return (
-                  <div key={choice.id}
-                       className={`choice${isSelected(scheduleChoices, choice) ? ' selected' : ''}`}
-                       onClick={e => this.handleClickChoice(choice)}>
-                    <span className={`index`}>{sequenceMap[ idx ]}</span>
-                    <span className={`text`}>{choice.subject}</span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
+        <div key={id}
+             className={`choice${isSelected(scheduleChoices, choice) ? ' selected' : ''} ${practice[ currentIndex ].multiple ? '' : 'radio'}`}
+             onClick={e => this.handleClickChoice(choice)}>
+          <span className={`index ${isSelected(scheduleChoices, choice) ? ' selected' : ''}`}>
+            {sequenceMap[ idx ]}
+            </span>
+          <span
+            className={`text`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
         </div>
       )
     }
 
+    const renderSpecialTips = (choiceId) => {
+      if(choiceId === NO_MINOR) {
+        return <span className="special-tips">
+          每月1门指定主修课；无辅修课，将跳过后续测试
+        </span>;
+      } else if(choiceId === ONE_MINOR) {
+        return <span className="special-tips">
+          每月1门指定主修课；<br/>根据你的后续题目答案，每月最多推荐1门辅修课
+        </span>;
+      } else if(choiceId === TWO_MINOR) {
+        return <span className="special-tips">
+          每月1门指定主修课；<br/>根据你的后续题目答案，每月最多推荐2门辅修课
+        </span>;
+      } else if(choiceId === THREE_MINOR) {
+        return <span className="special-tips">
+          每月1门指定主修课；<br/>根据你的后续题目答案，每月最多推荐3门辅修课
+        </span>;
+      }
+
+    }
+    const questionRender = (practice = {}) => {
+      const { question, scheduleChoices = [] } = practice
+
+      if(currentIndex === 0) {
+        return (
+          <div className="intro-container" ref="questionGroup">
+            <div className='question-group'>
+              <div className="question">
+                <div
+                  dangerouslySetInnerHTML={{ __html: question ? question : '' }}/>
+              </div>
+              <div className="choice-list">
+                {scheduleChoices.map((choice, idx) => {
+                  return (
+                    <div className="choice-wrapper" key={choice.id}>
+                      <div className={`choice ${isSelected(scheduleChoices, choice) ? ' selected' : ''}`}
+                           onClick={e => this.handleClickChoice(choice)}>
+                        <span className={`text`}>{choice.subject}</span>
+                      </div>
+                      {renderSpecialTips(choice.id)}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+            <div style={{ height: '48px' }}/>
+          </div>
+        )
+      } else {
+        return (
+          <div className="choice-intro-container" ref="questionGroup">
+            <div className="question">
+              <div dangerouslySetInnerHTML={{ __html: (currentIndex + '.&nbsp;&nbsp;' + question) }}/>
+            </div>
+            <div className="choice-list">
+              {scheduleChoices.map((choice, idx) => choiceRender(choice, idx, scheduleChoices))}
+            </div>
+            <div style={{ height: '48px' }}/>
+          </div>
+        )
+      }
+    }
+
+    const renderButtons = () => {
+      if(currentIndex === practiceCount - 1) {
+        return <FooterButton btnArray={[
+          { click: () => this.handleClickSubmit(), text: '提交' }
+        ]}/>
+        // return <SubmitButton clickFunc={() => this.handleClickSubmit()} buttonText="提交"/>
+      } else if(currentIndex === 0) {
+        return <FooterButton btnArray={[
+          { click: () => this.nextChoice(), text: '继续' }
+        ]}/>
+        // return <SubmitButton clickFunc={() => this.nextChoice()} buttonText="继续"/>
+      } else {
+        return <FooterButton btnArray={[
+          { click: () => this.prevChoice(), text: '上一题' },
+          { click: () => this.nextChoice(), text: '下一题' }
+        ]}/>
+      }
+    }
     return (
       <div className="schedule-choice" style={{ minHeight: window.innerHeight }}>
-        <div className="eva-container">
+        <div className={`eva-container ${currentIndex !== 0 ? 'small-pd' : ''}`}>
           <div className="eva-page-header">制定学习计划</div>
-          <div className="rate">{(((((currentIndex === practiceCount - 1 ) && chooseAll) ? practiceCount : currentIndex) / practiceCount) * 100).toFixed(0)}%
-          </div>
-          <div className="eva-progress">
-            <div className="eva-progress-bar"
-                 style={{ width: (window.innerWidth - 90) * ((((currentIndex === practiceCount - 1 ) && chooseAll) ? practiceCount : currentIndex) / practiceCount) }}/>
-          </div>
-          {questionRender(practice[ currentIndex ] || {})}
+          {currentIndex !== 0 ?
+            <div>
+              <div
+                className="rate">{(((((currentIndex === practiceCount - 1 ) && chooseAll) ? practiceCount : currentIndex) / practiceCount) * 100).toFixed(0)}%
+              </div>
+              <div className="eva-progress">
+                <div className="eva-progress-bar"
+                     style={{ width: (window.innerWidth - 90) * ((((currentIndex === practiceCount - 1 ) && chooseAll) ? practiceCount : currentIndex) / practiceCount) }}/>
+              </div>
+            </div> : null}
+          {questionRender(practice[ currentIndex ])}
         </div>
-        {currentIndex === practiceCount - 1 ?
-          <SubmitButton clickFunc={() => this.handleClickSubmit()} buttonText="提交"/>
-          : null}
+        {renderButtons()}
+        <Alert show={showConfirmModal} buttons={[
+          {
+            label: '确定',
+            onClick: () => this.handleClickSubmit()
+          }, {
+            label: '关闭',
+            onClick: () => this.setState({ showConfirmModal: false })
+          }
+        ]}>
+          <div className="global-pre"
+               dangerouslySetInnerHTML={{ __html: '由于你的每日学习时长少于30分钟，只能学习指定主修课，将跳过后续辅修课推荐测试题。' }}/>
+        </Alert>
       </div>
     )
   }
