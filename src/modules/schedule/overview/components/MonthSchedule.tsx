@@ -77,14 +77,14 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
     return this.state
   }
 
-  handleClickViewProblemDesc(schedule, e) {
-    console.log(111)
-    console.log(e)
-    e.stopPropagation()
-    if(schedule.problem.publish) {
-      this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}&show=true`)
-    } else {
-      this.context.router.push(`/rise/static/course/schedule/nopublish`)
+  handleClickViewProblemDesc(draggable, schedule, e) {
+    if(!draggable) {
+      e.stopPropagation()
+      if(schedule.problem.publish) {
+        this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}&show=true`)
+      } else {
+        this.context.router.push(`/rise/static/course/schedule/nopublish`)
+      }
     }
   }
 
@@ -148,7 +148,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                           month-problem-desc
                           ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
                        `}
-                       onClick={(e) => this.handleClickViewProblemDesc(schedule, e)}/>
+                       onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
                 </li>
               )
             })
