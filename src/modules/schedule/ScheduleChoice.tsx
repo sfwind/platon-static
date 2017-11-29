@@ -130,7 +130,8 @@ export default class ScheduleChoice extends Component {
     if(currentIndex < (practiceCount - 1)) {
       this.setState({ practice: practice })
     } else {
-      this.setState({ practice: practice, selected: choice, chooseAll: true })
+      let chooseAll = _.find(scheduleChoices, { choice: true });
+      this.setState({ practice: practice, selected: choice, chooseAll: !!chooseAll })
     }
   }
 
