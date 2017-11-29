@@ -1,7 +1,6 @@
 import * as React from 'react'
 import './MonthSchedule.less'
 import Sortable from 'sortablejs'
-import { ProblemDescription } from './ProblemDescription'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
