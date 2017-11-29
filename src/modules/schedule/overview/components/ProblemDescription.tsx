@@ -1,5 +1,5 @@
 import * as React from 'react'
-import './ProblemDescription.less'
+import './ProblemDescription_Bak.less'
 import AssetImg from '../../../../components/AssetImg'
 
 interface ProblemDescriptionProps {

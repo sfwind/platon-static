@@ -7,7 +7,10 @@ import { MonthSchedule } from './components/MonthSchedule'
 import { SubmitButton } from '../components/SubmitButton'
 import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
+import { Dialog } from 'react-weui'
 import './OverView.less'
+
+const { Alert } = Dialog
 
 @connect(state => state)
 export default class OverView extends React.Component {
@@ -28,6 +31,12 @@ export default class OverView extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props
+    const { firstEntry } = this.props.location.query
+
+    if(firstEntry) {
+      this.setState({ showFirstEntryAlert: true })
+    }
+
     dispatch(startLoad())
     new Promise(resolve => {
       loadPersonalSchedule().then(res => {
@@ -131,29 +140,26 @@ export default class OverView extends React.Component {
   }
 
   render() {
-    const { scheduleList = [], draggable = false, showSubmitButton = true, showToast = false } = this.state
+    const { scheduleList = [], draggable = false, showSubmitButton = true, showToast = false, showFirstEntryAlert = false } = this.state
+
+    const firstEntryAlertProps = {
+      buttons: [
+        { label: '我知道了', onClick: () => this.setState({ showFirstEntryAlert: false }) }
+      ]
+    }
+
     return (
       <div className="overview-container" id="overview-container" ref="overview-container">
-        <div className="overview-title">学习计划</div>
-        {
-          draggable ?
-            null :
-            <div>
-              <span className="overview-tips">根据你的回答，为你制定的学习计划如下</span>
-              <span className="overview-tips" style={{ marginTop: '1rem' }}>（仅辅修课可点击选择/取消）</span>
-            </div>
-        }
-        <div className="modify-tips-block">
-          {
-            draggable ?
-              <section>
-                <span className="modify-drag-tips">尚未开课的辅修课，按住右侧按钮，可拖动到其他月份</span>
-              </section>
-              : null
-          }
+        <div className="overview-header">
+          <span className="overview-title">学习计划</span>
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
                 onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
         </div>
+        {
+          draggable ?
+            <span className="modify-drag-tips">尚未开课的辅修课，按住右侧按钮，可拖动到其他月份</span>
+            : null
+        }
         <div id="overview-scroll" className="overview-scroll">
           {
             scheduleList.map((schedules, index) => {
@@ -180,6 +186,12 @@ export default class OverView extends React.Component {
           <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
           <div className="text">调整完成</div>
         </Toast>
+
+        <Alert {...firstEntryAlertProps} show={showFirstEntryAlert}>
+          <p>学习计划说明</p>
+          <p>已根据你的回答，为你制定了学习计划。</p>
+          <p>勾选的课程为推荐课。你可选择或取消其中的辅修课，或调整辅修课所在月份。</p>
+        </Alert>
       </div>
     )
   }
