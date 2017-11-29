@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { startLoad, endLoad, alertMsg, get, set } from 'redux/actions'
 import { connect } from 'react-redux'
 import { loadPersonalSchedule, updateCourseScheduleAll } from '../async'
 import { calcScheduleData } from './util'
@@ -30,7 +30,8 @@ export default class OverView extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props
-    const { firstEntry } = this.props.location.query
+    const firstEntry = dispatch(get('firstEntry'))
+    dispatch(set('firstEntry', undefined))
 
     if(firstEntry) {
       this.setState({ showFirstEntryAlert: true })
