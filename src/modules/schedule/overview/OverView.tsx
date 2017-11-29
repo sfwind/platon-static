@@ -97,16 +97,10 @@ export default class OverView extends React.Component {
 
   switchDraggableStatus(draggable) {
     if(draggable) {
-      let node = document.getElementById('overview-scroll')
-      let result = calcScheduleData(node)
-      updateCourseScheduleAll(result).then(res => {
-        if(res.code === 200) {
-          this.context.router.push({
-            pathname: '/rise/static/middle',
-            query: {
-              'history': window.location.pathname
-            }
-          })
+      this.context.router.push({
+        pathname: '/rise/static/middle',
+        query: {
+          'history': window.location.pathname
         }
       })
     } else {

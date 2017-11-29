@@ -28,6 +28,10 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     this.state = {}
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   sortbale
 
   componentWillMount() {
@@ -77,6 +81,14 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     return this.state
   }
 
+  handleClickViewProblemDesc(schedule) {
+    if(schedule.problem.publish) {
+      this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}&show=true`)
+    } else {
+      this.context.router.push(`/rise/static/course/schedule/nopublish`)
+    }
+  }
+
   handleClickChangePosition(schedule, draggable) {
     if(!draggable) {
       // 主修课无法选择或者取消
@@ -113,7 +125,6 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       switchSubmitButton(false)
       document.body.style.overflow = 'hidden'
     }
-
   }
 
   render() {
@@ -137,9 +148,9 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                       ${schedule.type === 2 ? 'minor-problem' : ''}
                       ${schedule.adjustable ? schedule.selected ? 'selected' : 'no-selected' : 'dis-ajustable'}
                       ${draggable ? 'hide' : ''}
-                    `}
-                    onClick={() => this.handleClickChangePosition(schedule, draggable)}>
-                  <span className="problem-name">
+                    `}>
+                  <span className="problem-name"
+                        onClick={() => this.handleClickChangePosition(schedule, draggable)}>
                     {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
                   </span>
                   <div
@@ -147,18 +158,12 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
                       month-problem-desc
                       ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
                     `}
-                    onClick={() => this.handleClickProblemDesc(draggable)}/>
+                    onClick={() => this.handleClickViewProblemDesc(schedule)}/>
                 </li>
               )
             })
           }
         </ul>
-        <ProblemDescription show={showDescBox} schedules={schedules}
-                            closeCallBack={() => {
-                              this.setState({ showDescBox: false })
-                              switchSubmitButton(true)
-                              document.body.style.overflow = 'auto'
-                            }}/>
       </section>
     )
   }
