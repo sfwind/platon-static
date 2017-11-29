@@ -64,17 +64,17 @@
     .month-problem-desc {
       display: inline-block;
       position: absolute;
-      width: 2.2rem;
-      height: 2.2rem;
+      width: 4rem;
+      height: 4rem;
       background-image: url("https://static.iqycamp.com/images/problem-intro-tips.png?imageslim");
       background-size: 2.2rem 2.2rem;
+      background-position: center;
+      background-repeat: no-repeat;
       right: 2rem;
       top: 50%;
       transform: translateY(-50%);
-
+      z-index: 10;
       &.draggable {
-        width: 2.2rem;
-        height: 0.9rem;
         background-image: url("https://static.iqycamp.com/images/problem-draggable.png?imageslim");
         background-size: 2.2rem 0.9rem;
       }
