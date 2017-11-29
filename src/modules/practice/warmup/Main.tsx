@@ -279,15 +279,13 @@ export class Main extends React.Component <any, any> {
               {questionRender(practice[ currentIndex ] || {})}
             </div>
           </div>
-          <RenderInBody>
-            <div className="button-footer">
-              <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
-              </div>
-              {currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
-              }
+          <div className="button-footer">
+            <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
             </div>
-          </RenderInBody>
+            {currentIndex !== practiceCount - 1 ? <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
+              <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
+            }
+          </div>
         </div>
         <Tutorial bgList={[ 'https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim' ]}
                   show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}
