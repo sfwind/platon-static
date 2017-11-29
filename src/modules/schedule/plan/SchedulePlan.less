@@ -1,45 +1,35 @@
 @import "../../../style/variable.less";
 
 .schedule-plan-container {
-  background-color: #041931;
-  padding: 0 1.5rem 7.0rem;
+  padding-bottom: 5.0rem;
   .monthly-topic {
     font-size: 2.5rem;
-    line-height: 2.5rem;
-    background: linear-gradient(to top, #feff1c, #ff7800);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    line-height: 6.6rem;
+    color: @color_context;
     text-align: center;
-    padding-top: 4.0rem;
+    height: 6.6rem;
+    background-color: @color_weak_background;
   }
-  .schedule-plan {
-    font-size: @font_click;
-    color: @color_white;
+  .column-span {
     height: 2.0rem;
-    margin-top: 0.5rem;
-    margin-bottom: -1.0rem;
-    > .plan-button {
-      float: right;
-      color: @color_white;
-      text-decoration: underline;
-      &:before {
-        margin-right: 5px;
-        width: 1.5rem;
-        height: 1.5rem;
-        margin-bottom: 3px;
-        vertical-align: middle;
-        display: inline-block;
-        content: '';
-        background-size: 100% 100%;
-        background-image: url('../../../../assets/img/schedule_plan.png');
-      }
-    }
+    background-color: @color_weak_background;
   }
 
+  .modify-schedule {
+    height: 5.0rem;
+    font-size: 1.8rem;
+    line-height: 5.0rem;
+    padding: 0 3.0rem;
+    color: @color_context;
+    > .modify-click {
+      font-size: 1.6rem;
+      display: inline-block;
+      float: right;
+    }
+  }
   .card {
     background-color: @color_white;
     border-radius: @border-radius;
-    margin-top: 2.0rem;
     padding: 0 3.0rem;
     > .empty-container {
       padding-bottom: 3.0rem;
@@ -69,52 +59,129 @@
     }
 
     > .course-container {
-      margin: 0 -3.0rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      display: block;
+      position: relative;
+      .course-card {
+        display: inline-block;
+        position: relative;
+        width: 14.5rem;
+        height: 16.5rem;
+        margin-bottom: 2rem;
+        &.even {
+          margin-left: 2.5rem;
+        }
+        .card-desc {
+          display: block;
+          position: absolute;
+          top: 9.1rem;
+          width: 100%;
+          > .problem-name {
+            display: block;
+            position: relative;
+            top: 0;
+            font-size: 14px;
+            color: @color_context;
+          }
+          > .problem-month {
+            display: block;
+            position: relative;
+            font-size: 12px;
+            color: @color_title;
+          }
+        }
+        > .img {
+          border-radius: 0.3rem;
+          position: relative;
+          margin: 0 auto 1.0rem;
+          overflow: hidden;
+          height: 9.1rem;
+          width: 14.5rem;
+          background-repeat: no-repeat;
+          background-size: auto 130%;
+          background-position: 100% 10%;
+          > .problem-item-backcolor {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-size: 100% 100% !important;
+            border-radius: @border-radius;
+            &.major {
+              background: #FFB200;
+            }
+            &.minor {
+              background: #399BD3;
+            }
+            &.trial {
+              background: #8CD339;
+            }
+          }
+          > .problem-item-backimg {
+            width: 6.0rem;
+            height: 6.0rem;
+            left: ~"calc(50% - 3.0rem)";
+            top: ~"calc(50% - 3.0rem)";
+            position: absolute;
+            background-size: 100% 100% !important;
+            background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
+          }
+          > .problem-item-subCatalog {
+            width: 100%;
+            color: @color_white;
+            position: absolute;
+            text-align: center;
+            font-size: 2.2rem;
+            line-height: 2.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+
+          > .wait-open {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2.5rem;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: @color_white;
+            text-align: center;
+            line-height: 2.5rem;
+            font-size: 1.2rem;
+          }
+        }
+      }
     }
 
-    > .card-title{
-      position: relative;
-      top: 2.5rem;
-      height: 50px;
-      margin-bottom: 1.5rem;
-      > .card-icon {
-        display: inline-block;
-        height: 18px;
-        position: absolute;
-      }
+    > .card-title {
+      margin-top: 2.5rem;
+      height: 1.8rem;
+      line-height: 1.8rem;
+      font-size: 1.8rem;
+      margin-bottom: 3.0rem;
       > .today {
-        right: 0;
-        line-height: 12px;
-        font-size: 12px;
-        top: 3px;
-        position: absolute;
+        line-height: 1.8rem;
+        font-size: 1.2rem;
+        float: right;
       }
       > .card-topic {
         display: inline-block;
-        left: 28px;
-        font-size: 18px;
-        line-height: 18px;
-        height: 18px;
+        font-size: 1.8rem;
+        line-height: 1.8rem;
         color: @color_context;
         position: absolute;
       }
-    }
-
-    .progress-name {
-      display: inline-block;
-      font-size: @font_index;
-      line-height: @font_index;
-      margin: 1.0rem 1.5rem 2.0rem 0;
-      width: 4.0rem;
     }
 
     .major-progress {
       .weui_progress_inner_bar {
         background: #FFB200;
         background: -webkit-radial-gradient(left center, #FEE53B, #FFB200);
+      }
+      .progress-name {
+        display: inline-block;
+        font-size: @font_index;
+        line-height: @font_index;
+        margin: 0 1.5rem 3.0rem 0;
+        width: 4.0rem;
       }
       .progress-percent {
         margin-left: 2.0rem;
@@ -130,6 +197,13 @@
         background: #007DCF;
         background: -webkit-radial-gradient(left center, #399BD3, #007DCF);
       }
+      .progress-name {
+        display: inline-block;
+        font-size: @font_index;
+        line-height: @font_index;
+        margin: 0 1.5rem 2.5rem 0;
+        width: 4.0rem;
+      }
       .progress-percent {
         margin-left: 2.0rem;
         display: inline-block;
@@ -138,7 +212,6 @@
         width: 3.5rem;
         text-align: right;
       }
-      padding-bottom: 2.0rem;
     }
     .progress-bar {
       display: inline-block;
@@ -151,10 +224,9 @@
     }
 
     > .complete-course-container {
-      width: ~"calc(100% - 1.0rem)";
+      width: ~"calc(100% - 0.2rem)";
       display: inline-block;
       border-left: 2px solid @color_weak;
-      margin-left: .8rem;
       > .complete-plan {
         height: 5.5rem;
         margin-right: -3.0rem;
@@ -198,105 +270,8 @@
           display: inline-block;
           float: right;
           margin-top: 1.5rem;
-          margin-right: .8rem;
+          margin-right: 3rem;
           color: @color_title;
-        }
-      }
-    }
-  }
-  .course-card {
-    width: 50%;
-    margin: 2.5rem 0 1.5rem;
-    //display: inline-block;
-    > .problem-name {
-      margin: 0 auto;
-      font-size: @font_index;
-      width: 12.0rem;
-    }
-    > .img {
-      border-radius: 0.3rem;
-      position: relative;
-      margin: 0 auto 1.0rem;
-      overflow: hidden;
-      width: 12.0rem;
-      height: 7.5rem;
-      background-repeat: no-repeat;
-      background-size: auto 130%;
-      background-position: 100% 10%;
-      > .problem-item-backcolor {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        background-size: 100% 100% !important;
-        border-radius: @border-radius;
-        &.major {
-          background: #FFB200;
-        }
-        &.minor {
-          background: #399BD3;
-        }
-        &.trial {
-          background: #8CD339;
-        }
-      }
-      > .problem-item-backimg {
-        width: 6.0rem;
-        height: 6.0rem;
-        left: ~"calc(50% - 3.0rem)";
-        top: ~"calc(50% - 3.0rem)";
-        position: absolute;
-        background-size: 100% 100% !important;
-        background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
-      }
-      > .problem-item-subCatalog {
-        width: 100%;
-        color: @color_white;
-        position: absolute;
-        text-align: center;
-        font-size: 2.0rem;
-        line-height: 2.0rem;
-        top: 50%;
-        transform: translateY(-50%);
-      }
-
-      > .wait-open {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 2.0rem;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: @color_white;
-        text-align: center;
-        line-height: 2.0rem;
-        font-size: 1.2rem;
-      }
-      > .problem-month {
-        text-align: center;
-        position: absolute;
-        top: 0;
-        right: 5px;
-        > .month-large {
-          font-size: 1.3rem;
-          vertical-align: baseline;
-        }
-        > .month-small {
-          font-size: 0.8rem;
-          vertical-align: baseline;
-        }
-        &.major {
-          height: 2.5rem;
-          width: 2.7rem;
-          background: url('../../../../assets/img/yellow_flag.png');
-          background-size: 100% 100%;
-          color: @color_context;
-        }
-        &.minor {
-          height: 2.5rem;
-          width: 2.7rem;
-          background: url('../../../../assets/img/blue_flag.png');
-          background-size: 100% 100%;
-          color: @color_white;
         }
       }
     }

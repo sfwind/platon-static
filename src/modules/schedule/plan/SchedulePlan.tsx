@@ -7,15 +7,15 @@ import { changeTitle } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 import { Dialog, Progress } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
-import * as _ from 'lodash';
+import * as _ from 'lodash'
 import { openAudition } from '../../problem/async'
 import { ToolBar } from '../../base/ToolBar'
 
 const { Alert } = Dialog
 
-const MAJOR_PROBLEM = 1;
-const MINOR_PROBLEM = 2;
-const TRIAL_PROBLEM = 3;
+const MAJOR_PROBLEM = 1
+const MINOR_PROBLEM = 2
+const TRIAL_PROBLEM = 3
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -25,7 +25,7 @@ export default class SchedulePlan extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      data: {},
+      data: {}
     }
     changeTitle('圈外同学')
     this.moment = require('moment')
@@ -106,13 +106,13 @@ export default class SchedulePlan extends React.Component<any, any> {
   }
 
   handleClickAuditionPlan(plan) {
-    let planId = plan.id;
-    let errMsg = plan.errMsg;
+    let planId = plan.id
+    let errMsg = plan.errMsg
     const { dispatch } = this.props
     // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
     if(errMsg) {
-      dispatch(alertMsg(errMsg));
-      return;
+      dispatch(alertMsg(errMsg))
+      return
     }
     if(planId) {
       this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
@@ -151,66 +151,35 @@ export default class SchedulePlan extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { month, topic, today, majorProblem = [], minorProblem = [], minorPercent = 0, majorPercent = 0, trialProblem = [], completeProblem = [] } = data
+    const { month, topic, today, runningProblem = [], minorPercent = 0, majorPercent = 0, completeProblem = [] } = data
 
-    const renderMajorCourse = () => {
-      return majorProblem.map((item, index) => {
+    const renderRunningCourse = () => {
+      return runningProblem.map((item, index) => {
+          let styleType = ''
+          if(item.type === 1) {
+            styleType = 'major'
+          } else if(item.type === 2) {
+            styleType = 'minor'
+          } else if(item.type === 3) {
+            styleType = 'trial'
+          }
           return (
-            <div className="course-card" onClick={() => this.clickCourse(MAJOR_PROBLEM, item)} key={index}>
+            <div key={index} className={`course-card ${index % 2 == 1 ? 'even' : ''}`}
+                 onClick={() => this.clickCourse(item.type, item)}>
               <div className="img">
-                <div className={`problem-item-backcolor major`}/>
+                <div className={`problem-item-backcolor ${styleType}`}/>
                 <div className={`problem-item-backimg`}/>
                 <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
-                <div className="problem-month major">
-                  <span className="month-large">{item.month}</span>
-                  <span className="month-small">{'月'}</span>
-                </div>
                 {item.id ? null : <div className="wait-open">待开课</div>}
               </div>
-              <div className="problem-name">{item.problem.problem}</div>
-
+              <div className="card-desc">
+                <div className="problem-name">{item.problem.problem}</div>
+                <div className="problem-month">{item.typeDesc}</div>
+              </div>
             </div>
           )
         }
       )
-    }
-
-    const renderMinorCourse = () => {
-      return minorProblem.map((item, index) => {
-        return (
-          <div className="course-card" onClick={() => this.clickCourse(MINOR_PROBLEM, item)} key={index}>
-            <div className="img">
-              <div className={`problem-item-backcolor minor`}/>
-              <div className={`problem-item-backimg`}/>
-              <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
-              <div className="problem-month minor">
-                <span className="month-large">{item.month}</span>
-                <span className="month-small">{'月'}</span>
-              </div>
-              {item.id ? null : <div className="wait-open">待开课</div>}
-            </div>
-            <div className="problem-name">{item.problem.problem}</div>
-          </div>
-        )
-      })
-    }
-
-    const renderTrialCourse = () => {
-      return trialProblem.map((item, index) => {
-        return (
-          <div className="course-card" key={index}
-               onClick={() => {
-                 this.handleClickAuditionPlan(item)
-               }}>
-            <div className="img">
-              <div className={`problem-item-backcolor trial`}/>
-              <div className={`problem-item-backimg`}/>
-              <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
-            </div>
-            <div className="problem-name">{item.problem.problem}</div>
-          </div>
-        )
-      })
     }
 
     const renderCompleteCourse = () => {
@@ -260,15 +229,8 @@ export default class SchedulePlan extends React.Component<any, any> {
         <div className="monthly-topic">
           {topic ? month + '月 ' + topic : null}
         </div>
-        <div className="schedule-plan">
-          <div className="plan-button"
-               onClick={() => this.context.router.push('/rise/static/course/schedule/overview')}>
-            {'学习计划'}
-          </div>
-        </div>
         <div className="card">
           <div className="card-title">
-            <div className="card-icon"><AssetImg display={'inline-block'} type="current_month_progress" size={18}/></div>
             <div className="card-topic">本月进度</div>
             <div className="today">{today}</div>
           </div>
@@ -280,7 +242,6 @@ export default class SchedulePlan extends React.Component<any, any> {
             <div className="progress-percent">
               {majorPercent + '%'}
             </div>
-
           </div>
           <div className="minor-progress">
             <div className="progress-name">辅修课</div>
@@ -292,13 +253,13 @@ export default class SchedulePlan extends React.Component<any, any> {
             </div>
           </div>
         </div>
+        <div className="column-span"/>
         <div className="card">
           <div className="card-title">
-            <div className="card-icon"><AssetImg display={'inline-block'} type="running_plan" size={18}/></div>
             <div className="card-topic">进行中</div>
           </div>
 
-          {_.isEmpty(majorProblem) && _.isEmpty(minorProblem) ?
+          {_.isEmpty(runningProblem) ?
             <div className="empty-container">
               <div className="empty-img">
                 <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" width={55} height={56}/>
@@ -306,30 +267,29 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="empty-text">
                 <span>还没有学习中的课程哦</span>
               </div>
-            </div>: null }
+            </div> :
+            <div className="course-container">
+              {renderRunningCourse()}
+            </div>}
 
-          {!_.isEmpty(majorProblem) ? renderCourseCategory('主修课') : null}
-          {!_.isEmpty(majorProblem) ? <div className="course-container">
-              {renderMajorCourse()}
-            </div> : null}
-          {!_.isEmpty(minorProblem) ? renderCourseCategory('辅修课') : null}
-          {!_.isEmpty(minorProblem) ? <div className="course-container">
-              {renderMinorCourse()}
-            </div> : null}
-          {!_.isEmpty(trialProblem) ? renderCourseCategory('试听课') : null}
-          {!_.isEmpty(trialProblem) ? <div className="course-container">
-              {renderTrialCourse()}
-            </div> : null}
         </div>
+        <div className="column-span"/>
+        <div className="modify-schedule"
+             onClick={() => this.context.router.push('/rise/static/course/schedule/overview')}>
+          学习计划
+          <div className="modify-click">
+            <AssetImg type="arrow_right" height={10} width={7}/>
+          </div>
+        </div>
+        <div className="column-span"/>
         {!_.isEmpty(completeProblem) ? <div className="card">
-            <div className="card-title">
-              <div className="card-icon"><AssetImg display={'inline-block'} type="complete_plan" size={18}/></div>
-              <div className="card-topic">已完成</div>
-            </div>
-            <div className="complete-course-container">
-              {renderCompleteCourse()}
-            </div>
-          </div> : null}
+          <div className="card-title">
+            <div className="card-topic">已完成</div>
+          </div>
+          <div className="complete-course-container">
+            {renderCompleteCourse()}
+          </div>
+        </div> : null}
         {renderDialog()}
         <ToolBar/>
       </div>

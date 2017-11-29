@@ -4,26 +4,28 @@ import Sortable from 'sortablejs'
 import { ProblemDescription } from './ProblemDescription'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
-import AssetImg from '../../../../components/AssetImg'
+import * as _ from 'lodash'
 import { updateSelected } from '../../async'
 
 interface MonthScheduleProps {
   id: any,
   schedules: any,
   draggable: boolean,
-  switchSubmitButton: any,
   showDescBox: boolean,
   enableAutoScroll: any,
   disableAutoScroll: any,
 }
-interface MonthScheduleState {
-}
+
 @connect(state => state)
-export class MonthSchedule extends React.Component<MonthScheduleProps, MonthScheduleState> {
+export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
 
   constructor() {
     super()
     this.state = {}
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
   }
 
   sortbale
@@ -39,7 +41,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     let node = document.getElementById(this.props.id)
     this.sortbale = Sortable.create(node, {
       group: 'sorting',
-      sort: true,
+      sort: false,
       animation: 150,
       handle: '.draggable-item',
       ghostClass: 'ghost',
@@ -75,8 +77,25 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
     return this.state
   }
 
-  handleClickChangePosition(schedule, draggable) {
+  handleClickViewProblemDesc(draggable, schedule, e) {
     if(!draggable) {
+      e.stopPropagation()
+      if(schedule.problem.publish) {
+        this.context.router.push(`/rise/static/plan/view?id=${schedule.problem.id}&show=true`)
+      } else {
+        this.context.router.push(`/rise/static/course/schedule/nopublish`)
+      }
+    }
+  }
+
+  handleClickChangePosition(schedule, draggable) {
+    const { dispatch } = this.props
+    if(!draggable) {
+      // 主修课无法选择或者取消
+      if(schedule && schedule.type === 1) {
+        dispatch(alertMsg('主修课为每月小班教学，无法取消'))
+        return
+      }
       updateSelected(schedule.id, !schedule.selected)
       const { schedules } = this.state
       schedules.forEach(item => {
@@ -86,7 +105,6 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       })
       this.setState({ schedules: schedules })
     } else {
-      const { dispatch } = this.props
       if(schedule.type === 1) {
         dispatch(alertMsg('主修课为每月小班教学，无法移动'))
       } else {
@@ -102,73 +120,40 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
   }
 
   render() {
-    const { switchSubmitButton } = this.props
-    const { id, schedules = [], draggable, showDescBox = false } = this.state
+    const { id, draggable } = this.state
+    let { schedules = [] } = this.state
+    schedules = _.orderBy(schedules, ['type'], ['asc'])
+
     let firstSchedule = schedules[0]
-    let majors = schedules.filter(schedule => schedule.type === 1)
-    let minors = schedules.filter(schedule => schedule.type === 2)
     return (
       <section id={`year-${firstSchedule.year}-month-${firstSchedule.month}`} className="month-schedule-component">
         <div className="schedule-topic">{`${firstSchedule.month}月 ${firstSchedule.topic}`}</div>
-        {
-          !draggable ?
-            <div className="month-problem-desc"
-                 onClick={() => {
-                   this.setState({ showDescBox: true })
-                   switchSubmitButton(false)
-                   document.body.style.overflow = 'hidden'
-                 }}>查看当月课程介绍
-            </div> :
-            null
-        }
         <div className="split-line"/>
-        <div className="schedule-major">
-          <span className="type">主修课</span>
+        <ul id={id} className="schedule-box">
           {
-            majors.map((schedule, index) => {
+            schedules.map((schedule, index) => {
               return (
-                <div key={index} className={`problem major-problem ${draggable ? 'draggable' : ''}`}
-                     onClick={() => this.handleClickChangePosition(schedule, draggable)}>
-                  {schedule.problem.problem}
-                </div>
+                <li key={index} id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
+                    className={`
+                      problem
+                      ${schedule.type === 2 ? 'minor-problem' : ''}
+                      ${schedule.selected ? 'selected' : 'no-selected'}
+                      ${draggable ? 'hide' : ''}
+                    `}
+                    onClick={() => this.handleClickChangePosition(schedule, draggable)}>
+                  <span className="problem-name">
+                    {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
+                  </span>
+                  <div className={`
+                          month-problem-desc
+                          ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                       `}
+                       onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
+                </li>
               )
             })
           }
-        </div>
-        <div className="schedule-minor">
-          <span className="type">辅修课</span>
-          <ul id={id} style={{ minHeight: 30 }}>
-            {
-              minors.map((schedule, index) => {
-                return (
-                  <li key={index}>
-                    <div
-                      id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
-                      className={`problem minor-problem ${schedule.selected ? 'selected' : 'no-selected'}
-                                  ${draggable ? 'draggable' : ''} ${draggable && schedule.adjustable ? 'adjustable' : ''}`}
-                      onClick={() => this.handleClickChangePosition(schedule, draggable)}>
-                      <span>{schedule.problem.problem}</span>
-                      {
-                        draggable && schedule.adjustable ?
-                          <div className="draggable-item"/> :
-                          schedule.recommend ?
-                            <AssetImg className="problem-recommed-tag"
-                                      url="https://static.iqycamp.com/images/course_schedule_recommend.png"/> :
-                            null
-                      }
-                    </div>
-                  </li>
-                )
-              })
-            }
-          </ul>
-        </div>
-        <ProblemDescription show={showDescBox} schedules={schedules}
-                            closeCallBack={() => {
-                              this.setState({ showDescBox: false })
-                              switchSubmitButton(true)
-                              document.body.style.overflow = 'auto'
-                            }}/>
+        </ul>
       </section>
     )
   }

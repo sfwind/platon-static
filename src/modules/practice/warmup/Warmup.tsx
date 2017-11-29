@@ -1,15 +1,15 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { answer, loadWarmUpAnalysis, getOpenStatus, openConsolidation } from "./async";
-import { remove, set, merge, get, findIndex, isBoolean, isString } from "lodash";
-import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
-import { Main } from "./Main";
-import { Analysis } from "./Analysis";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { answer, loadWarmUpAnalysis, getOpenStatus, openConsolidation } from './async'
+import { remove, set, merge, get, findIndex, isBoolean, isString } from 'lodash'
+import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
+import { Main } from './Main'
+import { Analysis } from './Analysis'
 
 @connect(state => state)
-export default class Warumup extends React.Component<any,any> {
+export default class Warumup extends React.Component<any, any> {
   constructor() {
-    super();
+    super()
   }
 
   static contextTypes = {
@@ -25,20 +25,20 @@ export default class Warumup extends React.Component<any,any> {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        const { practice } = msg;
+        const { practice } = msg
         if(practice) {
           let idx = findIndex(practice, (item) => {
-            const { choiceList } = item;
+            const { choiceList } = item
             if(choiceList) {
-              return choiceList.filter(choice => choice.selected).length > 0;
+              return choiceList.filter(choice => choice.selected).length > 0
             } else {
-              return false;
+              return false
             }
           })
           if(idx !== -1) {
-            this.setState({ page: "analysis", res: res });
+            this.setState({ page: 'analysis', res: res })
           } else {
-            this.setState({ practiceCount: msg.practice.length, page: "warmup", res: res })
+            this.setState({ practiceCount: msg.practice.length, page: 'warmup', res: res })
           }
         }
       }
@@ -50,17 +50,17 @@ export default class Warumup extends React.Component<any,any> {
   }
 
   render() {
-    const { page, res } = this.state;
-    const { location, dispatch } = this.props;
+    const { page, res } = this.state
+    const { location, dispatch } = this.props
 
     const renderPage = () => {
-      let pageView = null;
-      if(isString(page) && page === "analysis") {
-        pageView = <Analysis res={res} location={location} router={this.context.router} dispatch={dispatch}/>;
-      } else if(isString(page) && page === "warmup") {
+      let pageView = null
+      if(isString(page) && page === 'analysis') {
+        pageView = <Analysis res={res} location={location} router={this.context.router} dispatch={dispatch}/>
+      } else if(isString(page) && page === 'warmup') {
         pageView = <Main res={res} location={location} router={this.context.router} dispatch={dispatch}/>
       }
-      return pageView;
+      return pageView
     }
 
     return renderPage()
