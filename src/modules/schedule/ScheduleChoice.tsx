@@ -176,11 +176,9 @@ export default class ScheduleChoice extends Component {
       dispatch(endLoad())
       if(res.code === 200) {
         window.ENV.showExplore = 'false'
+        dispatch(set('firstEntry', true));
         this.context.router.push({
           pathname: '/rise/static/course/schedule/overview',
-          query: {
-            firstEntry: true
-          }
         })
       } else {
         dispatch(alertMsg(res.msg))
