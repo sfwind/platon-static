@@ -11,7 +11,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
         "today":"2017年11月05日",
         "majorPercent":100,
         "minorPercent":40,
-        "majorProblem": [
+        "runningProblem": [
           {
             "name": "写出令HR过目难忘的简历",
             "point": null,
@@ -24,7 +24,8 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": null,
             "closeTime": null,
             "learnable": null,
-            "month":10,
+            "typeDesc":"10月主修",
+            "type":1,
             "problem": {
               "id": 6,
               "problem": "写出令HR过目难忘的简历",
@@ -72,7 +73,8 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": null,
             "closeTime": null,
             "learnable": null,
-            "month":11,
+            "typeDesc":"11月主修",
+            "type":1,
             "problem": {
               "id": 6,
               "problem": "写出令HR过目难忘的简历",
@@ -120,7 +122,8 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": null,
             "closeTime": null,
             "learnable": null,
-            "month":11,
+            "typeDesc":"11月辅修",
+            "type":2,
             "problem": {
               "id": 7,
               "problem": "在面试中脱颖而出",
@@ -155,9 +158,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
               "monthlyCampMonth": null
             },
             "errMsg": null
-          }
-        ],
-        "minorProblem": [
+          },
           {
             "name": "认识自己：让你的人生不再迷茫",
             "point": 0,
@@ -170,7 +171,8 @@ router.get("/rise/schedule/load/plan", (req, res) => {
             "startDate": "2017-11-04",
             "closeTime": null,
             "learnable": true,
-            "month":11,
+            "typeDesc":"试听课",
+            "type":3,
             "problem": {
               "id": 20,
               "problem": "认识自己：让你的人生不再迷茫",
