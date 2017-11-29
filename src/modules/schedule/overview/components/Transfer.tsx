@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-export default class Middle extends React.Component {
+export default class Transfer extends React.Component {
 
   constructor() {
     super()
@@ -11,7 +11,6 @@ export default class Middle extends React.Component {
   }
 
   componentWillMount() {
-    console.log('middle', this.props)
     const { history, key } = this.props.location.query
     if(history) {
       this.context.router.push({
