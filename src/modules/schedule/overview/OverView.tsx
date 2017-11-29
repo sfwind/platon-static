@@ -9,6 +9,7 @@ import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
+import { MarkButton } from '../../../components/markbutton/MarkButton'
 
 const { Alert } = Dialog
 
