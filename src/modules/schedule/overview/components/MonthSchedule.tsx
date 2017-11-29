@@ -90,9 +90,11 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
   }
 
   handleClickChangePosition(schedule, draggable) {
+    const { dispatch } = this.props
     if(!draggable) {
       // 主修课无法选择或者取消
       if(schedule && schedule.type === 1) {
+        dispatch(alertMsg('主修课为每月小班教学，无法取消'))
         return
       }
       updateSelected(schedule.id, !schedule.selected)
@@ -104,7 +106,6 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
       })
       this.setState({ schedules: schedules })
     } else {
-      const { dispatch } = this.props
       if(schedule.type === 1) {
         dispatch(alertMsg('主修课为每月小班教学，无法移动'))
       } else {
@@ -141,16 +142,17 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, MonthSche
         <ul id={id} className="schedule-box">
           {
             schedules.map((schedule, index) => {
+              // ${schedule.adjustable ? schedule.selected ? 'selected' : 'no-selected' : 'dis-ajustable'}
               return (
                 <li key={index} id={`problemid-${schedule.problem.id}-id-${schedule.id}`}
                     className={`
                       problem
                       ${schedule.type === 2 ? 'minor-problem' : ''}
-                      ${schedule.adjustable ? schedule.selected ? 'selected' : 'no-selected' : 'dis-ajustable'}
+                      ${schedule.selected ? 'selected' : 'no-selected'}
                       ${draggable ? 'hide' : ''}
-                    `}>
-                  <span className="problem-name"
-                        onClick={() => this.handleClickChangePosition(schedule, draggable)}>
+                    `}
+                    onClick={() => this.handleClickChangePosition(schedule, draggable)}>
+                  <span className="problem-name">
                     {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
                   </span>
                   <div
