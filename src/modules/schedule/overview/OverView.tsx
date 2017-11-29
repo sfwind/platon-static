@@ -30,10 +30,11 @@ export default class OverView extends React.Component {
 
   componentWillMount() {
     const { dispatch } = this.props
-    const firstEntry = dispatch(get('firstEntry'))
-    dispatch(set('firstEntry', undefined))
+    const { firstEntry } = this.props
+    console.log(this.props)
 
     if(firstEntry) {
+      dispatch(set('firstEntry', false))
       this.setState({ showFirstEntryAlert: true })
     }
 
