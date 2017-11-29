@@ -15,7 +15,7 @@ const numeral = require('numeral')
 import { mark } from '../../utils/request'
 import { GoodsType, buttonStatus } from '../../utils/helpers'
 import { collectProblem, disCollectProblem } from '../plan/async'
-//限免小课id
+//限免课程id
 const FREE_PROBLEM_ID = 9
 
 @connect(state => state)
@@ -55,7 +55,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           },
           {
             label: '确定',
-            onClick: this.handleClickConfirm.bind(this)
+            onClick: this.handleClickGoStudy.bind(this)
           }
         ]
       },
@@ -75,10 +75,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     mark({
       module: '打点',
       function: '打开页面',
-      action: '打开小课介绍页',
+      action: '打开课程介绍页',
       memo: id
     })
-    /** 获取小课数据，以及价格／按钮状态 */
+    /** 获取课程数据，以及价格／按钮状态 */
     openProblemIntroduction(id, free).then(res => {
       const { msg, code } = res
       if(code === 200) {
@@ -157,7 +157,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   /**
-   * 确定生成小课
+   * 确定生成课程
    */
   handleSubmitProblemChoose() {
     this.setState({ showAlert: false })
@@ -168,11 +168,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        // 限免小课跳过填写信息
-        if(location.query.id == FREE_PROBLEM_ID) {
-          this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: msg } })
-          return
-        }
         if(!isFull) {
           // 没有填写过
           this.context.router.push({
@@ -192,7 +187,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           return
         }
         // 都填写过
-        this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: msg } })
+        this.handleClickGoStudy()
       } else {
         dispatch(alertMsg(msg))
       }
@@ -207,21 +202,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
    */
   handleClickCloseConfirm() {
     this.setState({ showConfirm: false })
-  }
-
-  /**
-   * 确认去完成小课，跳过去
-   */
-  handleClickConfirm() {
-    const { currentPlanId } = this.state
-    this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: currentPlanId } })
-  }
-
-  /**
-   * 点击选择小课按钮
-   */
-  handleClickFreeProblem() {
-    this.context.router.push({ pathname: '/rise/static/learn' })
   }
 
   handleClickProblemChooseConfirm() {
@@ -243,11 +223,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       ]
     }
 
-    this.setState({ showAlert: true, alert: chooseConfirm, tipMsg: '小课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？' })
+    this.setState({ showAlert: true, alert: chooseConfirm, tipMsg: '课程开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？' })
   }
 
   /**
-   * 点击选择小课按钮
+   * 点击选择课程按钮
    */
   handleClickChooseProblem() {
     const { dispatch } = this.props
@@ -274,8 +254,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         }
         this.setState({ showAlert: true, alert: chooseAlert, tipMsg: res.msg })
       } else if(res.code === 201) {
-        // 选第二门了，需要提示
-        // this.setState({showAlert: true, tipMsg: "为了更专注的学习，同时最多进行两门小课，确定选择吗？"});
         this.handleSubmitProblemChoose()
       } else if(res.code === 200) {
         this.handleSubmitProblemChoose()
@@ -288,14 +266,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     })
   }
 
-  handleClickGoReview() {
-    const { currentPlanId } = this.state
-    this.context.router.push({ pathname: '/rise/static/learn', query: { completedPlanId: currentPlanId } })
-  }
-
   handleClickGoStudy() {
-    const { currentPlanId } = this.state
-    this.context.router.push({ pathname: '/rise/static/learn', query: { runningPlanId: currentPlanId } })
+    if(window.ENV.showExplore !== 'false') {
+      this.context.router.push('/rise/static/rise');
+    } else {
+      this.context.router.push('/rise/static/course/schedule/plan');
+    }
   }
 
   /**
@@ -448,11 +424,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                   {
                     togetherClassMonth && togetherClassMonth !== '0' ?
                       <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
-                        本小课为 {togetherClassMonth} 月训练营小课，记得在当月选择哦
+                        本课程为 {togetherClassMonth} 月训练营课程，记得在当月选择哦
                       </div> :
                       null
                   }
-                  选择该小课
+                  选择该课程
                 </div>
               )
               return list
@@ -460,22 +436,22 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 3: {
               list.push(
                 <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
-                  小课已开始，去上课
+                  课程已开始，去上课
                 </div>
               )
               return list
             }
             case 4: {
               list.push(
-                <div className="button-footer" onClick={() => this.handleClickGoReview()}>
-                  小课已完成，去复习
+                <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
+                  课程已完成，去复习
                 </div>
               )
               return list
             }
             case 7: {
               list.push(
-                <div className="button-footer trial_pay" onClick={() => this.handleClickFreeProblem()}>
+                <div className="button-footer trial_pay" onClick={() => this.handleClickGoStudy()}>
                   <div>
                     <span style={{ fontWeight: 'bolder' }}>下一步</span>
                   </div>
@@ -594,7 +570,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             {/*<Header icon="rise_icon_ability" title="能力项" marginLeft={'-1em'}/>*/}
             {/*<div className="pi-c-a-content">*/}
               {/*<div className="text"*/}
-                   {/*dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的小课都根据“个人势能模型”进行设计，本小课在模型中的能力项为：' }}/>*/}
+                   {/*dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的课程都根据“个人势能模型”进行设计，本课程在模型中的能力项为：' }}/>*/}
               {/*<div className="pi-c-a-c-module"*/}
                    {/*onClick={() => window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>*/}
                 {/*<div className="pi-c-a-c-m-rise">【圈外】</div>*/}
@@ -661,7 +637,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           </div>
           <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
-            <span>{problemCollected ? '已收藏' : '收藏小课'}</span>
+            <span>{problemCollected ? '已收藏' : '收藏课程'}</span>
           </div>
         </div>
         {renderLeftContent()}

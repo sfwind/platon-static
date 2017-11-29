@@ -42,7 +42,6 @@ export default class Toast extends React.Component<any, any> {
     const { show, id, children, width = '60%', height, top = 210 } = this.props
 
     const style = {
-      marginLeft: width !== '60%' ? (window.innerWidth - width) / 2 : '20%',
       width: width,
       height: height,
       top: top

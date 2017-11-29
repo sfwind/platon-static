@@ -1,0 +1,43 @@
+@import "../../../style/variable.less";
+.overview-container {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  background-color: @color_weak_background;
+  .overview-header {
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    padding: 2rem;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid @color_weak_line;
+    height: 68px;
+    .overview-title {
+      display: inline-block;
+      position: relative;
+      font-size: 28px;
+      color: #041931;
+      line-height: 28px;
+    }
+    .modify-sequence {
+      display: inline-block;
+      position: absolute;
+      font-size: 15px;
+      color: #0076ff;
+      line-height: 15px;
+      right: 2rem;
+      bottom: 2rem;
+    }
+  }
+  .modify-drag-tips {
+    padding: 0 2rem;
+    display: block;
+    color: #999;
+    font-size: 12px;
+  }
+  .overview-scroll {
+    display: block;
+    position: relative;
+    padding-bottom: 60px;
+  }
+}

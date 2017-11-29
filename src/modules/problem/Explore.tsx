@@ -125,7 +125,7 @@ export class Explore extends React.Component<any, any> {
           <div className="problem-catalog-list">
             <div className="problem-catalog">
               <div className="header">
-                <span className="catalog-name hot">热门小课</span>
+                <span className="catalog-name hot">热门课程</span>
               </div>
               <div className="problem-box swiper-container" id="hot">
                 <div className="swiper-wrapper">

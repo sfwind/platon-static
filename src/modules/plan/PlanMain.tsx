@@ -29,7 +29,7 @@ const typeMap = {
   12: { type: '应用题', desc: '实际案例，学以致用' },
   21: { type: '小目标', desc: '制定目标，帮你更积极地学习' },
   31: { type: '知识点', desc: '作用、方法、要点、例题' },
-  32: { type: '知识回顾', desc: '小课知识点合集' }
+  32: { type: '知识回顾', desc: '课程知识点合集' }
 }
 
 const FREE_PROBLEM_ID = 9
@@ -59,7 +59,7 @@ export class PlanMain extends React.Component <any, any> {
       questionList: [
         {
           id: 1,
-          subject: '你已完成了本小课的训练<br/>对本小课的学习难度打个分吧',
+          subject: '你已完成了本课程的训练<br/>对本课程的学习难度打个分吧',
           choiceList: [
             {
               id: 5,
@@ -81,7 +81,7 @@ export class PlanMain extends React.Component <any, any> {
         },
         {
           id: 2,
-          subject: '本小课的训练对工作/生活有用吗？',
+          subject: '本课程的训练对工作/生活有用吗？',
           choiceList: [
             {
               id: 5,
@@ -162,7 +162,7 @@ export class PlanMain extends React.Component <any, any> {
       }
     }).then(() => {
       let completePracticePlanId = this.props.CompleteChapterPracticePlanId
-      // 如果当前 redux 存储最近完成的小课是本章的最后一节，则调用接口，获取当前章节卡片
+      // 如果当前 redux 存储最近完成的课程是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {
         dispatch(set('CompleteChapterPracticePlanId', undefined))
         loadChapterCardAccess(blockMsg.problemId, completePracticePlanId).then(res => {
@@ -386,7 +386,7 @@ export class PlanMain extends React.Component <any, any> {
   handleClickUnMinStudy() {
     const { dispatch } = this.props
     const { mustStudyDays } = this.state
-    dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
+    dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本课程推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一课程了`))
   }
 
   handleClickUnReport() {
@@ -457,12 +457,12 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   problemReview(problemId) {
-    mark({ module: '打点', function: '首页', action: '打开小课介绍', memo: problemId })
+    mark({ module: '打点', function: '首页', action: '打开课程介绍', memo: problemId })
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problemId, show: true } })
   }
 
   goCardsCollection(problemId) {
-    mark({ module: '打点', function: '首页', action: '打开小课卡包', memo: problemId })
+    mark({ module: '打点', function: '首页', action: '打开课程卡包', memo: problemId })
     this.context.router.push({
       pathname: '/rise/static/problem/cards',
       query: { planId: this.props.location.query.planId }
@@ -701,7 +701,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="cell">
                 <div className="chapter description" onClick={() => this.problemReview(problem.id)}>
                   <div/>
-                  <span>小课介绍</span>
+                  <span>课程介绍</span>
                 </div>
               </div>
             </div>
@@ -778,7 +778,7 @@ export class PlanMain extends React.Component <any, any> {
           lastBtn = (
             <div className="click-btn" onClick={() => this.complete()}>
               <div className="psbf-w-next-btn complete">
-                完成小课
+                完成课程
               </div>
             </div>
           )
@@ -796,7 +796,7 @@ export class PlanMain extends React.Component <any, any> {
           lastBtn = (
             <div className="click-btn" onClick={() => this.handleClickUnMinStudy()}>
               <div className="psbf-w-next-btn complete disabled">
-                完成小课
+                完成课程
               </div>
             </div>
           )
@@ -805,7 +805,7 @@ export class PlanMain extends React.Component <any, any> {
           lastBtn = (
             <div className="click-btn" onClick={() => this.complete()}>
               <div className="psbf-w-next-btn complete disabled">
-                完成小课
+                完成课程
               </div>
             </div>
           )
@@ -823,7 +823,7 @@ export class PlanMain extends React.Component <any, any> {
           lastBtn = (
             <div className="click-btn" onClick={() => this.complete()}>
               <div className="psbf-w-next-btn complete">
-                完成小课
+                完成课程
               </div>
             </div>
           )
@@ -892,7 +892,7 @@ export class PlanMain extends React.Component <any, any> {
       others.push(
         <Alert show={this.state.showExpiredDateWarning} {...alertProps}>
           <div className="global-pre"
-               dangerouslySetInnerHTML={{ __html: '限免小课已到期，请到发现页面再次开启小课' }}/>
+               dangerouslySetInnerHTML={{ __html: '限免课程已到期，请到发现页面再次开启课程' }}/>
         </Alert>
       )
       others.push(<ToolBar/>)

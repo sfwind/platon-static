@@ -32,14 +32,14 @@ export default class FeedBack extends React.Component<any,any>{
             </div>
             <p style={{fontSize:'15px',fontWeight:'bolder'}}>常见问题</p><br/>
 
-            <p className="q">-可以在电脑端完成圈外小课练习吗？</p>
+            <p className="q">-可以在电脑端完成圈外课程练习吗？</p>
             <p>-可以登录www.iquanwai.com/community完成</p><br/>
 
-            <p className="q">-为什么我的小课到期关闭了？</p>
-            <p>-书非借不能读，为了每个人能有动力坚持完成练习，每个小课的开放天数=30天(拖延症福利)，到期后自动关闭</p><br/>
+            <p className="q">-为什么我的课程到期关闭了？</p>
+            <p>-书非借不能读，为了每个人能有动力坚持完成练习，每个课程的开放天数=30天(拖延症福利)，到期后自动关闭</p><br/>
 
             <p className="q">-课程的老师是谁啊？</p>
-            <p>-圈外的小课多数是圈圈设计、整个团队一同打磨出来的，另外的是和一些业界大V合作开发的</p><br/>
+            <p>-圈外的课程多数是圈圈设计、整个团队一同打磨出来的，另外的是和一些业界大V合作开发的</p><br/>
 
             <p className="q">还想了解更多【商学院】的使用问题？戳链接直达：</p>
             <p><a style={{color:'#55cbcb',textDecoration:'underline'}} href="https://shimo.im/doc/EQFflI3uWg4mE9FZ?r=GQ373Y/">

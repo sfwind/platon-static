@@ -68,7 +68,7 @@ export default class Work extends React.Component<any,any> {
       return;
     }
     if(requestCommentCount===0){
-      dispatch(alertMsg('本小课求点评次数已用完'));
+      dispatch(alertMsg('本课程求点评次数已用完'));
       return;
     }
     this.setState({showRequestComment:true})
@@ -186,7 +186,7 @@ export default class Work extends React.Component<any,any> {
       <div className={`new-work`} >
         <Alert { ...alertProps }
           show={showRequestComment}>
-          <div className="global-pre" dangerouslySetInnerHTML={{__html:`当前小课还剩${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>
+          <div className="global-pre" dangerouslySetInnerHTML={{__html:`当前课程还剩${requestCommentCount}次请求教练点评的机会<br/>确定要在这次使用吗？`}}/>
         </Alert>
         <div className="submit-cell">
           <div className="submit-area">

@@ -1,0 +1,281 @@
+@import "../../../style/variable.less";
+
+.schedule-plan-container {
+  padding-bottom: 5.0rem;
+  .monthly-topic {
+    font-size: 2.5rem;
+    line-height: 6.6rem;
+    color: @color_context;
+    text-align: center;
+    height: 6.6rem;
+    background-color: @color_weak_background;
+  }
+  .column-span {
+    height: 2.0rem;
+    background-color: @color_weak_background;
+  }
+
+  .modify-schedule {
+    height: 5.0rem;
+    font-size: 1.8rem;
+    line-height: 5.0rem;
+    padding: 0 3.0rem;
+    color: @color_context;
+    > .modify-click {
+      font-size: 1.6rem;
+      display: inline-block;
+      float: right;
+    }
+  }
+  .card {
+    background-color: @color_white;
+    border-radius: @border-radius;
+    padding: 0 3.0rem;
+    > .empty-container {
+      padding-bottom: 3.0rem;
+      text-align: center;
+      > .empty-text {
+        font-size: @font_click;
+        color: @color_title;
+      }
+    }
+    > .course-category {
+      text-align: center;
+      > .category-line {
+        width: ~"calc(50% - 3.0rem)";
+        height: 1px;
+        display: inline-block;
+        vertical-align: middle;
+        background-color: #000;
+      }
+
+      > .category-title {
+        margin: 0 1.0rem;
+        width: 4.0rem;
+        display: inline-block;
+        font-size: @font_index;
+        line-height: @font_index;
+      }
+    }
+
+    > .course-container {
+      display: block;
+      position: relative;
+      .course-card {
+        display: inline-block;
+        position: relative;
+        width: 14.5rem;
+        height: 16.5rem;
+        margin-bottom: 2rem;
+        &.even {
+          margin-left: 2.4rem;
+        }
+        .card-desc {
+          display: block;
+          position: absolute;
+          top: 9.1rem;
+          width: 100%;
+          > .problem-name {
+            margin-top: 2px;
+            display: block;
+            position: relative;
+            top: 0;
+            font-size: 14px;
+            color: @color_context;
+          }
+          > .problem-month {
+            display: block;
+            position: relative;
+            font-size: 12px;
+            color: @color_title;
+          }
+        }
+        > .img {
+          border-radius: 0.3rem;
+          position: relative;
+          margin: 0 auto 1.0rem;
+          overflow: hidden;
+          height: 9.1rem;
+          width: 14.5rem;
+          background-repeat: no-repeat;
+          background-size: auto 130%;
+          background-position: 100% 10%;
+          > .problem-item-backcolor {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-size: 100% 100% !important;
+            border-radius: @border-radius;
+            &.major {
+              background: #FFB200;
+            }
+            &.minor {
+              background: #399BD3;
+            }
+            &.trial {
+              background: #8CD339;
+            }
+          }
+          > .problem-item-backimg {
+            width: 6.0rem;
+            height: 6.0rem;
+            left: ~"calc(50% - 3.0rem)";
+            top: ~"calc(50% - 3.0rem)";
+            position: absolute;
+            background-size: 100% 100% !important;
+            background: url("https://static.iqycamp.com/images/fragment/back_img_green_1.png?imageslim");
+          }
+          > .problem-item-subCatalog {
+            width: 100%;
+            color: @color_white;
+            position: absolute;
+            text-align: center;
+            font-size: 2.2rem;
+            line-height: 2.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+
+          > .wait-open {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2.5rem;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: @color_white;
+            text-align: center;
+            line-height: 2.5rem;
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+
+    > .card-title {
+      margin-top: 2.5rem;
+      height: 1.8rem;
+      line-height: 1.8rem;
+      font-size: 1.8rem;
+      margin-bottom: 3.0rem;
+      > .today {
+        line-height: 1.8rem;
+        font-size: 1.2rem;
+        float: right;
+      }
+      > .card-topic {
+        display: inline-block;
+        font-size: 1.8rem;
+        line-height: 1.8rem;
+        color: @color_context;
+        position: absolute;
+      }
+    }
+
+    .major-progress {
+      .weui_progress_inner_bar {
+        background: #FFB200;
+        background: -webkit-radial-gradient(left center, #FEE53B, #FFB200);
+      }
+      .progress-name {
+        display: inline-block;
+        font-size: @font_index;
+        line-height: @font_index;
+        margin: 0 1.5rem 3.0rem 0;
+        width: 4.0rem;
+      }
+      .progress-percent {
+        margin-left: 2.0rem;
+        display: inline-block;
+        color: #FFB200;
+        font-size: @font_index;
+        width: 3.5rem;
+        text-align: right;
+      }
+    }
+    .minor-progress {
+      .weui_progress_inner_bar {
+        background: #007DCF;
+        background: -webkit-radial-gradient(left center, #399BD3, #007DCF);
+      }
+      .progress-name {
+        display: inline-block;
+        font-size: @font_index;
+        line-height: @font_index;
+        margin: 0 1.5rem 2.5rem 0;
+        width: 4.0rem;
+      }
+      .progress-percent {
+        margin-left: 2.0rem;
+        display: inline-block;
+        color: #007DCF;
+        font-size: @font_index;
+        width: 3.5rem;
+        text-align: right;
+      }
+    }
+    .progress-bar {
+      display: inline-block;
+      width: ~"calc(100% - 11rem)";
+      height: 1.0rem;
+      border-radius: @border-radius;
+      .weui_progress_bar {
+        height: .5rem;
+      }
+    }
+
+    > .complete-course-container {
+      width: ~"calc(100% - 0.2rem)";
+      display: inline-block;
+      border-left: 2px solid @color_weak;
+      > .complete-plan {
+        height: 5.5rem;
+        margin-right: -3.0rem;
+        position: relative;
+        &:before {
+          content: '·';
+          margin-left: -6px;
+          font-size: 34px;
+          vertical-align: top;
+          color: @color_weak;
+        }
+        border-top: 1px solid @color_weak_background;
+        > .plan-close {
+          display: inline-block;
+          margin: 0 1.5rem 0 1.0rem;
+          font-size: @font_index;
+          color: @color_title;
+          position: relative;
+          top: 50%;
+          transform: translateY(-50%);
+          > .plan-close-year {
+            text-align: center;
+          }
+
+        }
+
+        > .plan-name {
+          font-size: 1.5rem;
+          line-height: 1.5rem;
+          display: inline-block;
+          color: @color_context;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          box-sizing: content-box;
+          padding-right: 20px;
+        }
+
+        > .plan-click {
+          font-size: 1.6rem;
+          display: inline-block;
+          float: right;
+          margin-top: 1.5rem;
+          margin-right: 3rem;
+          color: @color_title;
+        }
+      }
+    }
+  }
+
+}

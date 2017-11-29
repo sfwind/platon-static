@@ -12,6 +12,7 @@ import {
 import './ToolBar.less'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import { loadOldCount } from '../message/async'
+
 var FastClick = require('fastclick')
 
 const tabItems = {
@@ -68,11 +69,13 @@ const tabItems = {
 export class ToolBarNoConnect extends React.Component<any, any> {
 
   componentWillMount() {
-    let tabs = []
-    tabs.push(tabItems.learn)
-    tabs.push(tabItems.activity)
-    tabs.push(tabItems.explore)
-    tabs.push(tabItems.mine)
+    let tabs = [];
+    tabs.push(tabItems.learn);
+    tabs.push(tabItems.activity);
+    if(window.ENV.showExplore !== 'false') {
+      tabs.push(tabItems.explore);
+    }
+    tabs.push(tabItems.mine);
 
     this.state = {
       tabs: tabs
@@ -114,7 +117,11 @@ export class ToolBarNoConnect extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(set('tabIndex', tabIndex))
     if(tabIndex === 0) {
-      this.props.router.push('/rise/static/learn')
+      if(window.ENV.showExplore !== 'false') {
+        this.props.router.push('/rise/static/rise');
+      } else {
+        this.props.router.push('/rise/static/course/schedule/plan');
+      }
     } else if(tabIndex === 1) {
       this.props.router.push('/rise/static/event/wall')
     } else if(tabIndex === 2) {

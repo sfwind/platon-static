@@ -2,13 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import './ImprovementReport.less'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
-import { loadRecommendations, queryReport } from './async'
+import { queryReport } from './async'
 import { Modal } from '../../components/Modal'
 import { isNumber, merge } from 'lodash';
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { NumberToChinese } from '../../utils/helpers'
-import AssetImg from "../../components/AssetImg";
-import { mark } from "../../utils/request";
 import RenderInBody from '../../components/RenderInBody'
 const numeral = require('numeral');
 
@@ -39,16 +37,7 @@ export class ImprovementReport extends React.Component<any, any> {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
     })
-    // 小课推荐测试用，可保留
-    // loadRecommendations(problemId).then(res => {
-    //   if(res.code === 200) {
-    //     this.setState({recommendations: res.msg})
-    //   } else {
-    //     dispatch(alertMsg(res.msg))
-    //   }
-    // }).catch(e => {
-    //   dispatch(alertMsg(e))
-    // })
+
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
   }
 
@@ -106,7 +95,7 @@ export class ImprovementReport extends React.Component<any, any> {
     const { dispatch } = this.props;
     const { status, mustStudyDays } = planData;
     if(status !== 1 && isNumber(mustStudyDays) && mustStudyDays !== 0) {
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本小课推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一小课了`))
+      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本课程推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一课程了`))
     } else {
       this.setState({ showConfirmModal: true })
     }
@@ -127,7 +116,11 @@ export class ImprovementReport extends React.Component<any, any> {
   }
 
   handleClickClose(){
-    this.context.router.push("/rise/static/learn")
+    if(window.ENV.showExplore !== 'false') {
+      this.context.router.push('/rise/static/rise');
+    } else {
+      this.context.router.push('/rise/static/course/schedule/plan');
+    }
   }
 
   renderBtns() {
@@ -149,53 +142,12 @@ export class ImprovementReport extends React.Component<any, any> {
       applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore, recommendations, doneAllApps
     } = planData;
 
-    const renderRecommendation = () => {
-      if(!recommendations) return
-      return (
-        recommendations.map((recommendation, idx) => {
-          const { description, recommendProblems } = recommendation
-          return (
-            <div className="recommend-box" key={idx}>
-              <div className="recommend-descrip">{description}</div>
-              {
-                recommendProblems.map((problem, idx) => {
-                  return (
-                    <div className="recommend-problem" key="idx">
-                      <div className="problem-img">
-                        <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
-                        <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-                        <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                        {/*<AssetImg url={problem.pic} height={63}/>*/}
-                      </div>
-                      <div className="problem-problem">{problem.problem}</div>
-                      <div className="problem-view"
-                           onClick={() => {
-                             mark({module: "打点", function: "小课推荐进入小课学习", action: `${problem.id}`});
-                             this.context.router.push({
-                               pathname: `/rise/static/plan/view`,
-                               query: {
-                                 id: problem.id
-                               }
-                             })
-                           }}>查看
-                      </div>
-                    </div>
-                  )
-                })
-              }
-            </div>
-          )
-        })
-      )
-    }
-
-
 
     const renderTips = () => {
       if(doneAllApps){
         return <span>哇哦！你完成了全部的【应用题】，这是赤裸裸秒杀99%同学的节奏！</span>;
       } else {
-        return <span>不要在小课完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入小课补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
+        return <span>不要在课程完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入课程补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>;
       }
     };
 
@@ -208,10 +160,10 @@ export class ImprovementReport extends React.Component<any, any> {
                  { click: () => this.closeConfirmModal(), content: "取消" }
                ]}>
           <div className="content" style={{ marginTop: '0px' }}>
-            <div className="text">确定开始下一小课吗？</div>
+            <div className="text">确定开始下一课程吗？</div>
           </div>
           <div className="content2">
-            <div className="text2">当前小课可以进入我的-我的小课中复习</div>
+            <div className="text2">当前课程可以进入我的-我的课程中复习</div>
           </div>
         </Modal>
 
@@ -219,7 +171,7 @@ export class ImprovementReport extends React.Component<any, any> {
           <img className="bg" src={`https://static.iqycamp.com/images/study_report_bg.jpeg`}/>
           <div className="msg">
             <div className="title">学习报告</div>
-            <div className="problem-title">小课：{problem}</div>
+            <div className="problem-title">课程：{problem}</div>
             <div className="sub-text">
               总得分：<span className="socre top">{totalScore}</span> ，打败了<span className="percent"> {percent}% </span>的同学
             </div>
@@ -244,10 +196,6 @@ export class ImprovementReport extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="body">
-            <div className="header"><span className="title">推荐学习</span></div>
-            {renderRecommendation()}
-          </div>
           <div className="tips">{renderTips()}</div>
           <div className="padding-footer" style={{height:'50px'}}/>
         </div>

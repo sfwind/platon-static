@@ -152,10 +152,6 @@ export class MessageCenter extends React.Component <any, any> {
     }
   }
 
-  back() {
-    this.context.router.push({ pathname: '/rise/static/learn' })
-  }
-
   render() {
     const { list, no_message, end, loading } = this.state;
 
