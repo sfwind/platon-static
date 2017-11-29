@@ -281,7 +281,7 @@ export default class SchedulePlan extends React.Component<any, any> {
             <AssetImg type="arrow_right" height={10} width={7}/>
           </div>
         </div>
-        {!_.isEmpty(completeProblem) ? <div className="column-span"/> : null}
+        <div className="column-span"/>
         {!_.isEmpty(completeProblem) ? <div className="card">
           <div className="card-title">
             <div className="card-topic">已完成</div>
