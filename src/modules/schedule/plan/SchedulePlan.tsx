@@ -151,7 +151,7 @@ export default class SchedulePlan extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { month, topic, today, runningProblem = [], minorPercent = 0, majorPercent = 0, completeProblem = [] } = data
+    const { month, topic, today, minorSelected, runningProblem = [], minorPercent = 0, majorPercent = 0, completeProblem = [] } = data
 
     const renderRunningCourse = () => {
       return runningProblem.map((item, index) => {
@@ -243,15 +243,17 @@ export default class SchedulePlan extends React.Component<any, any> {
               {majorPercent + '%'}
             </div>
           </div>
-          <div className="minor-progress">
-            <div className="progress-name">辅修课</div>
-            <div className="progress-bar">
-              <Progress value={minorPercent}/>
-            </div>
-            <div className="progress-percent">
-              {minorPercent + '%'}
-            </div>
-          </div>
+          {minorSelected ?
+            <div className="minor-progress">
+              <div className="progress-name">辅修课</div>
+              <div className="progress-bar">
+                <Progress value={minorPercent}/>
+              </div>
+              <div className="progress-percent">
+                {minorPercent + '%'}
+              </div>
+            </div> : null
+          }
         </div>
         <div className="column-span"/>
         <div className="card">
@@ -283,13 +285,13 @@ export default class SchedulePlan extends React.Component<any, any> {
         </div>
         <div className="column-span"/>
         {!_.isEmpty(completeProblem) ? <div className="card">
-          <div className="card-title">
-            <div className="card-topic">已完成</div>
-          </div>
-          <div className="complete-course-container">
-            {renderCompleteCourse()}
-          </div>
-        </div> : null}
+            <div className="card-title">
+              <div className="card-topic">已完成</div>
+            </div>
+            <div className="complete-course-container">
+              {renderCompleteCourse()}
+            </div>
+          </div> : null}
         {renderDialog()}
         <ToolBar/>
       </div>
