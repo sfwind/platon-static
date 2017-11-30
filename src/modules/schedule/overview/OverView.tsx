@@ -177,8 +177,7 @@ export default class OverView extends React.Component {
           <div className="text">调整完成</div>
         </Toast>
 
-        <Alert {...firstEntryAlertProps} show={showFirstEntryAlert}>
-          <p>学习计划说明</p>
+        <Alert {...firstEntryAlertProps} show={showFirstEntryAlert} title='学习计划说明'>
           <p>已根据你的回答，为你制定了学习计划。</p>
           <p>勾选的课程为推荐课。你可选择或取消其中的辅修课，或调整辅修课所在月份。</p>
         </Alert>
