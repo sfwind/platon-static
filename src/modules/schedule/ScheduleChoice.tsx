@@ -116,7 +116,6 @@ export default class ScheduleChoice extends Component {
 
   handleClickChoice(choice) {
     const { practice, currentIndex, practiceCount } = this.state
-    // let scheduleChoices = practice[ currentIndex ].scheduleChoices
     const { multiple, scheduleChoices } = practice[ currentIndex ];
     _.forEach(scheduleChoices, (item) => {
       if(multiple) {
@@ -150,7 +149,6 @@ export default class ScheduleChoice extends Component {
       // 查看是否选择了，没有辅修课这个选项
       _.forEach(practice, question => {
         let matchObj = _.find(question.scheduleChoices, { choice: true, id: NO_MINOR });
-        console.log(matchObj);
         if(!!matchObj) {
           canSubmit = !!matchObj;
         }
@@ -281,6 +279,7 @@ export default class ScheduleChoice extends Component {
     const renderButtons = () => {
       if(currentIndex === practiceCount - 1) {
         return <FooterButton btnArray={[
+          { click: () => this.prevChoice(), text: '上一题' },
           { click: () => this.handleClickSubmit(), text: '提交' }
         ]}/>
         // return <SubmitButton clickFunc={() => this.handleClickSubmit()} buttonText="提交"/>
@@ -315,14 +314,14 @@ export default class ScheduleChoice extends Component {
         {renderButtons()}
         <Alert show={showConfirmModal} buttons={[
           {
-            label: '确定',
-            onClick: () => this.handleClickSubmit()
-          }, {
             label: '关闭',
             onClick: () => this.setState({ showConfirmModal: false })
+          }, {
+            label: '确定',
+            onClick: () => this.handleClickSubmit()
           }
-        ]}>
-          <div className="global-pre"
+        ]} title="将跳过后续题目">
+          <div className="global-pre" style={{ paddingTop: 0 }}
                dangerouslySetInnerHTML={{ __html: '由于你的每日学习时长少于30分钟，只能学习指定主修课，将跳过后续辅修课推荐测试题。' }}/>
         </Alert>
       </div>

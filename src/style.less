@@ -194,7 +194,9 @@ html, body {
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-
+  > .weui_dialog_bd {
+    color: @color_context;
+  }
   > .weui_dialog_ft {
     display: -webkit-box;
     display: -moz-box;
@@ -210,7 +212,7 @@ html, body {
       flex: 1;
     }
     > .weui_btn_dialog {
-      color: @color_strong;
+      color: @color_ios_btn;
       &:nth-of-type(odd) {
         border-right: 1px solid #D5D5D6;
       }
@@ -226,6 +228,10 @@ html, body {
   padding: 20px 0;
   line-height: 2.0em;
   color: #333;
+  .global-title {
+    display: block;
+    padding-bottom: 10px;
+  }
 }
 
 .padding-footer {
