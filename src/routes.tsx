@@ -107,16 +107,16 @@ const routes = (
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
 
-      <Route path="member/explain" component={RiseMemberExplain}/>
+      {/*<Route path="member/explain" component={RiseMemberExplain}/>*/}
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
 
-      <Route path="eva/start" component={Start}/>
-      <Route path="eva" component={Eva}/>
-      <Route path="eva/result" component={EvaResult}/>
+      {/*<Route path="eva/start" component={Start}/>*/}
+      {/*<Route path="eva" component={Eva}/>*/}
+      {/*<Route path="eva/result" component={EvaResult}/>*/}
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
@@ -161,12 +161,11 @@ const routes = (
       <Route path="course/schedule/overview" component={OverView}/>
       <Route path="course/schedule/plan" component={SchedulePlan}/>
       <Route path="course/schedule/nopublish" component={ProblemNoPublish}/>
-      <Route path="business/count/down" component={CountDown}/>
-
 
       <Route path="prize" component={PrizeCard}/>
       <Route path="transfer" component={Transfer}/>
       <Route path="business/apply/start" component={BusinessApply}/>
+      <Route path="business/count/down" component={CountDown}/>
       <Route path="business/apply/choice" component={BusinessApplyChoice}/>
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
     </Route>
