@@ -348,7 +348,7 @@ export default class PlanList extends React.Component<any, any> {
         'imageUrl': 'https://static.iqycamp.com/images/fragment/rise_member_banner_2.jpg?imageslim',
         'linkUrl': `https://${window.location.hostname}/pay/rise`
       }, {
-        'imageUrl': 'https://static.iqycamp.com/images/fragment/camp_promotion_banner_12_2.png?imageslim',
+        'imageUrl': 'https://static.iqycamp.com/images/fragment/camp_promotion_banner_01_1.png?imageslim',
         'linkUrl': `https://${window.location.hostname}/pay/camp`
       } ]
       if(banners.length === 0 || riseMember === 1) return
