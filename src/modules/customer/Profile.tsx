@@ -400,26 +400,10 @@ export default class Profile extends React.Component<any, any> {
               {renderRegion()}
             </div>
           </div>
-          {/*{goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none", height: '80px' }}>*/}
-            {/*<div className="address-tips">地址</div>*/}
-            {/*<textarea className="address" placeholder="填写真实地址信息，才能接到入学礼包哦" value={address}*/}
-                      {/*onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {*/}
-                        {/*this.checkIsFull()*/}
-                      {/*})}*/}
-            {/*/>*/}
-          {/*</div> : null}*/}
-          {/*{goRise ? <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none" }}>*/}
-            {/*<div className="item-label">*/}
-              {/*真实姓名*/}
-            {/*</div>*/}
-            {/*<div className="item-content">*/}
-              {/*{renderRealName()}*/}
-            {/*</div>*/}
-          {/*</div> : null}*/}
 
            <div className="profile-item" style={{ marginTop: "1px", borderBottom: "none", height: '80px' }}>
             <div className="address-tips">地址</div>
-            <textarea className="address" placeholder="填写真实地址信息，才能接到入学礼包哦" value={address}
+            <textarea className="address" placeholder="商学院学员入学后，礼包会寄送到该地址（限大陆，海外用户请填写国内住址信息）" value={address}
                       onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
                         this.checkIsFull()
                       })}

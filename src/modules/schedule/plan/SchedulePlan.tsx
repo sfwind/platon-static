@@ -192,7 +192,7 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="plan-close-date">{date}</div>
               <div className="plan-close-year">{year}</div>
             </div>
-            <div className="plan-name">{item.problem.problem}</div>
+            <div className="plan-name">{"【"+item.typeDesc+"】 "+item.problem.problem}</div>
             <div className="plan-click">
               <AssetImg type="arrow_right" height={10} width={7}/>
             </div>
