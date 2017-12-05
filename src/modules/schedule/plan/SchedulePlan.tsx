@@ -164,7 +164,7 @@ export default class SchedulePlan extends React.Component<any, any> {
             styleType = 'trial'
           }
           return (
-            <div key={index} className={`course-card ${index % 2 == 1 ? 'even' : ''}`}
+            <div key={index} className={`course-card`}
                  onClick={() => this.clickCourse(item.type, item)}>
               <div className="img">
                 <div className={`problem-item-backcolor ${styleType}`}/>
@@ -285,13 +285,13 @@ export default class SchedulePlan extends React.Component<any, any> {
         </div>
         <div className="column-span"/>
         {!_.isEmpty(completeProblem) ? <div className="card">
-            <div className="card-title">
-              <div className="card-topic">已完成</div>
-            </div>
-            <div className="complete-course-container">
-              {renderCompleteCourse()}
-            </div>
-          </div> : null}
+          <div className="card-title">
+            <div className="card-topic">已完成</div>
+          </div>
+          <div className="complete-course-container">
+            {renderCompleteCourse()}
+          </div>
+        </div> : null}
         {renderDialog()}
         <ToolBar/>
       </div>
