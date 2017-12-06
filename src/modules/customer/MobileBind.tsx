@@ -22,21 +22,21 @@ export default class MobileBind extends React.Component<any, any> {
       sending: false,
       seconds: 60,
       show: false,
-      showArea: false,
+      // showArea: false,
       disable: true,
+      oversea: false,
     }
     this.intervalTrigger = null;
   }
 
   componentWillMount() {
-
     mark({ module: "打点", function: "个人中心", action: "打开绑定电话页面" });
     const { dispatch, region } = this.props;
     dispatch(startLoad());
     loadUserProfileInfo().then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        this.setState(_.merge({ defaultIsFull: res.msg.isFull}, this.state, res.msg));
+        this.setState(_.merge({ defaultIsFull: res.msg.isFull }, this.state, res.msg));
       } else {
         dispatch(alertMsg(res.msg));
       }
@@ -55,7 +55,7 @@ export default class MobileBind extends React.Component<any, any> {
   }
 
   onClick() {
-    let { phone, areaCode, bindMobile, isFull } = this.state;
+    let { phone, areaCode, bindMobile, isFull, oversea, weixinId } = this.state;
     const { dispatch } = this.props;
 
     let NUMBER_REG = /^[0-9]+$/;
@@ -100,26 +100,47 @@ export default class MobileBind extends React.Component<any, any> {
   }
 
   onSubmit() {
-    const { code } = this.state;
+    const { code, oversea, weixinId } = this.state;
     const { dispatch, location } = this.props;
-    if(!code) {
-      dispatch(alertMsg('请输入验证码'));
-      return;
-    }
-    ppost('/rise/customer/valid/sms', { code: _.trim(code) }).then(res => {
-      if(res.code !== 200) {
-        dispatch(alertMsg('验证输入错误<br/>请重新输入'));
-      } else {
-        this.setState({ show: true });
-        setTimeout(() => {
-          if(location.query.goRise) {
-            window.location.href = `https://${window.location.hostname}/rise/static/rise`;
-          } else {
-            this.context.router.push('/rise/static/customer/account');
-          }
-        }, 2100);
+
+    // 海外用户
+    if(oversea){
+      ppost('/rise/customer/update/weixinId', { weixinId: _.trim(weixinId) }).then(res => {
+        if(res.code !== 200) {
+          dispatch(alertMsg(res.msg));
+        } else {
+          this.setState({ show: true });
+          setTimeout(() => {
+            if(location.query.goRise) {
+              window.location.href = `https://${window.location.hostname}/rise/static/rise`;
+            } else {
+              this.context.router.push('/rise/static/customer/account');
+            }
+          }, 2100);
+        }
+      })
+    }else{
+      //国内用户
+      if(!code) {
+        dispatch(alertMsg('请输入验证码'));
+        return;
       }
-    })
+      ppost('/rise/customer/valid/sms', { code: _.trim(code) }).then(res => {
+        if(res.code !== 200) {
+          dispatch(alertMsg('验证输入错误<br/>请重新输入'));
+        } else {
+          this.setState({ show: true });
+          setTimeout(() => {
+            if(location.query.goRise) {
+              window.location.href = `https://${window.location.hostname}/rise/static/rise`;
+            } else {
+              this.context.router.push('/rise/static/customer/account');
+            }
+          }, 2100);
+        }
+      })
+    }
+
   }
 
   cleanCode() {
@@ -142,6 +163,15 @@ export default class MobileBind extends React.Component<any, any> {
     }
   }
 
+  handleChangeWeixin(e) {
+    let value = e.currentTarget.value;
+    if(value && this.state.weixinId) {
+      this.setState({ weixinId: value, disable: false });
+    } else {
+      this.setState({ weixinId: value, disable: true });
+    }
+  }
+
   handleChangeCode(e) {
     let value = e.currentTarget.value;
     if(value && this.state.phone) {
@@ -152,7 +182,16 @@ export default class MobileBind extends React.Component<any, any> {
   }
 
   render() {
-    const { sending, seconds, bindMobile, isFull, showArea, defaultIsFull } = this.state;
+    const { sending, seconds, bindMobile, isFull, showArea, defaultIsFull, oversea } = this.state;
+    let { phone, weixinId } = this.state;
+
+    if(phone == null){
+      phone = ''
+    }
+    if(weixinId == null){
+      weixinId = ''
+    }
+
     const { location } = this.props;
 
     return (
@@ -169,34 +208,43 @@ export default class MobileBind extends React.Component<any, any> {
           </div>
           : null}
 
-        {/*${!showArea?'show-area':''}*/}
-        <div className={`item `} onClick={() => {
-          this.setState({ showArea: true })
-        }}>
-          <div className="label">
-            海外用户点此添加区号
-          </div>
-        </div>
-        {
-          showArea ? <TextInput placeholder={'请填写'} value={this.state.areaCode} label="区号"
-                                onChange={(e) => this.setState({ areaCode: e.currentTarget.value })}/> : null
-        }
-
-        <TextInput placeholder={"请填写手机号"} value={this.state.phone} label="手机号"
-                   onChange={(e) => this.handleChangePhone(e)}/>
-
-        <TextInput placeholder="请填写" value={this.state.code} inline={true} label="验证码"
-                   onChange={(e) => this.handleChangeCode(e)}>
-          {
-            sending ?
-              <div className={`send-code sending`}>
-                {seconds}秒后重新发送
-              </div> :
-              <div className={`send-code free`} onClick={() => this.onClick()}>
-                发送验证码
+        {oversea ?
+          <div>
+            <div className="mobile-switch" onClick={() => {
+              this.setState({ oversea: false })
+            }}>
+              <div className="label">
+                点击切换到国内用户模式
               </div>
-          }
-        </TextInput>
+            </div>
+            <TextInput placeholder={"不确定？微信点击右下角“我”可查看"} value={weixinId} label="微信号"
+                     onChange={(e) => this.handleChangeWeixin(e)}/>
+          </div>
+            :
+          <div>
+            <div className="mobile-switch" onClick={() => {
+              this.setState({ oversea: true })
+            }}>
+              <div className="label">
+                点击切换到国外用户模式
+              </div>
+            </div>
+            <TextInput placeholder={"请填写手机号"} value={phone} label="手机号"
+                       onChange={(e) => this.handleChangePhone(e)}/>
+            <TextInput placeholder="请填写" value={this.state.code} label="验证码"
+                       onChange={(e) => this.handleChangeCode(e)}>
+              {
+                sending ?
+                  <div className={`send-code sending`}>
+                    {seconds}秒后重新发送
+                  </div> :
+                  <div className={`send-code free`} onClick={() => this.onClick()}>
+                    发送验证码
+                  </div>
+              }
+            </TextInput>
+          </div>
+        }
 
 
         <div className="submit-div">
@@ -206,7 +254,7 @@ export default class MobileBind extends React.Component<any, any> {
         </div>
         <Toast show={this.state.show} timeout={2000} height={220} width={200} top={160}>
           <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
-          <div className="text">绑定成功</div>
+          <div className="text">提交成功</div>
         </Toast>
       </div>
     )
