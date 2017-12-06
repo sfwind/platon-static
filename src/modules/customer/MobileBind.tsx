@@ -214,10 +214,10 @@ export default class MobileBind extends React.Component<any, any> {
               this.setState({ oversea: false })
             }}>
               <div className="label">
-                国内用户点此
+                点击切换到国内用户模式
               </div>
             </div>
-            <TextInput placeholder={"请填写微信号"} value={weixinId} label="微信号"
+            <TextInput placeholder={"不确定？微信点击右下角“我”可查看"} value={weixinId} label="微信号"
                      onChange={(e) => this.handleChangeWeixin(e)}/>
           </div>
             :
@@ -226,7 +226,7 @@ export default class MobileBind extends React.Component<any, any> {
               this.setState({ oversea: true })
             }}>
               <div className="label">
-                海外用户点此
+                点击切换到国外用户模式
               </div>
             </div>
             <TextInput placeholder={"请填写手机号"} value={phone} label="手机号"
