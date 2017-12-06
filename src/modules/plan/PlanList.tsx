@@ -56,6 +56,7 @@ export default class PlanList extends React.Component<any, any> {
     dispatch(startLoad())
 
     loadPlanList().then(res => {
+      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         const { runningPlans = [], riseMember, recommendations = [], currentCampPlans = [], auditions = [] } = res.msg
@@ -71,7 +72,8 @@ export default class PlanList extends React.Component<any, any> {
           currentCampPlans: currentCampPlans,
           recommendations: recommendations,
           auditions: auditions,
-          showPage: true
+          showPage: true,
+          campBanner: res.msg.campBanner
         }, () => {
           var swiper = new Swiper('#problem-recommendation', {
             scrollbar: '#problem-recommendation-bar',
@@ -343,12 +345,11 @@ export default class PlanList extends React.Component<any, any> {
     }
 
     const renderBanners = () => {
-      // TODO:去掉hardcoding
       const banners = [ {
         'imageUrl': 'https://static.iqycamp.com/images/fragment/rise_member_banner_2.jpg?imageslim',
         'linkUrl': `https://${window.location.hostname}/pay/rise`
       }, {
-        'imageUrl': 'https://static.iqycamp.com/images/fragment/camp_promotion_banner_01_1.png?imageslim',
+        'imageUrl': this.state.campBanner,
         'linkUrl': `https://${window.location.hostname}/pay/camp`
       } ]
       if(banners.length === 0 || riseMember === 1) return
