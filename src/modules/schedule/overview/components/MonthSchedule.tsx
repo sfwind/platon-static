@@ -91,10 +91,16 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
     const { dispatch } = this.props
     if(!draggable) {
       // 主修课无法选择或者取消
-      if(schedule && schedule.type === 1) {
+      if(schedule.type === 1) {
         dispatch(alertMsg('主修课为每月小班教学，无法取消'))
         return
+      } else {
+        if(!schedule.adjustable && schedule.problem.publish) {
+          dispatch(alertMsg('已开课的课程，无法取消'))
+          return
+        }
       }
+
       updateSelected(schedule.id, !schedule.selected)
       const { schedules } = this.state
       schedules.forEach(item => {
