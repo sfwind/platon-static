@@ -31,7 +31,6 @@
     font-size: 14px;
     text-align: right;
     > .select-wrapper {
-      color: @color_strong;
 
       &-has {
         &:after {
@@ -52,14 +51,7 @@
             }
           }
         }
-        > input {
-          font-size: 14px !important;
-          color: @color_title;
-          text-align: right;
-          border: none;
-        }
         &-no-cut {
-          margin-right:10px;
           > .form-item {
             display: inline-block;
             color: @color_title;
@@ -81,21 +73,9 @@
       }
       > input {
         font-size: 14px;
-        color: @color_strong;
         text-align: right;
         border: none;
-        &::-webkit-input-placeholder { /* WebKit browsers */
-          color: @color_help;
-        }
-        &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-          color: @color_help;
-        }
-        &::-moz-placeholder { /* Mozilla Firefox 19+ */
-          color: @color_help;
-        }
-        &::-ms-input-placeholder { /* Internet Explorer 10+ */
-          color: @color_help;
-        }
+        color: @color_title;
       }
     }
   }
