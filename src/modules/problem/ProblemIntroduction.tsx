@@ -630,11 +630,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             {/*<span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>*/}
             {/*</div>*/}
           </div>
-          <div className="section">
-            {'#'.concat(data.catalog)}
-            {data.subCatalog ?
-              '-'.concat(data.subCatalog) : null}
-          </div>
+          {/*<div className="section">*/}
+            {/*{'#'.concat(data.catalog)}*/}
+            {/*{data.subCatalog ?*/}
+              {/*'-'.concat(data.subCatalog) : null}*/}
+          {/*</div>*/}
           <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
             <span>{problemCollected ? '已收藏' : '收藏课程'}</span>
