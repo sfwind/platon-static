@@ -107,16 +107,11 @@ const routes = (
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
 
-      {/*<Route path="member/explain" component={RiseMemberExplain}/>*/}
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
-
-      {/*<Route path="eva/start" component={Start}/>*/}
-      {/*<Route path="eva" component={Eva}/>*/}
-      {/*<Route path="eva/result" component={EvaResult}/>*/}
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
