@@ -10,6 +10,7 @@ import AssetImg from '../../../components/AssetImg'
 import * as _ from 'lodash'
 import { openAudition } from '../../problem/async'
 import { ToolBar } from '../../base/ToolBar'
+import ColumnSpan from '../../../components/ColumnSpan'
 
 const { Alert } = Dialog
 
@@ -255,7 +256,7 @@ export default class SchedulePlan extends React.Component<any, any> {
             </div> : null
           }
         </div>
-        <div className="column-span"/>
+        <ColumnSpan/>
         <div className="card">
           <div className="card-title">
             <div className="card-topic">进行中</div>
@@ -275,7 +276,7 @@ export default class SchedulePlan extends React.Component<any, any> {
             </div>}
 
         </div>
-        <div className="column-span"/>
+        <ColumnSpan/>
         <div className="modify-schedule"
              onClick={() => this.context.router.push('/rise/static/course/schedule/overview')}>
           学习计划
@@ -283,7 +284,7 @@ export default class SchedulePlan extends React.Component<any, any> {
             <AssetImg type="arrow_right" height={10} width={7}/>
           </div>
         </div>
-        <div className="column-span"/>
+        <ColumnSpan/>
         {!_.isEmpty(completeProblem) ? <div className="card">
           <div className="card-title">
             <div className="card-topic">已完成</div>

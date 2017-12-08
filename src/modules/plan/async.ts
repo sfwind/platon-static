@@ -96,3 +96,8 @@ export function disCollectProblem(problemId) {
 export function hasPrivilege(){
   return pget(`/signup/check/business/school/privilege`);
 }
+
+
+export function loadStudyline(planId){
+  return pget(`/rise/plan/load/studyline/${planId}`);
+}
