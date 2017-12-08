@@ -9,6 +9,7 @@ import { merge } from 'lodash'
 import { mark } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
 import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
+import { ColumnSpan } from '../../../components/ColumnSpan'
 
 @connect(state => state)
 export class Challenge extends React.Component <any, any> {
@@ -148,7 +149,7 @@ export class Challenge extends React.Component <any, any> {
             </div>
           </div>
 
-
+          <ColumnSpan height={20}/>
 
           <div ref="workContainer" className="work-container">
             <div className="submit-bar">{content === null ? '提交方式' : '我的目标'}</div>
