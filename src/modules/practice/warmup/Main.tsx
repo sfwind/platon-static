@@ -9,6 +9,7 @@ import Tutorial from '../../../components/Tutorial'
 import AssetImg from '../../../components/AssetImg'
 import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 const sequenceMap = {
   0: 'A',
@@ -252,31 +253,38 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container has-footer">
-          <div className="warm-up">
-            {practice[currentIndex] && practice[currentIndex].knowledge ?
-              <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-              <div className="page-header">综合练习</div>}
-            {questionRender(practice[currentIndex] || {})}
-          </div>
+        <div className="warm-up-container">
+          {/*{practice[currentIndex] && practice[currentIndex].knowledge ?*/}
+          {/*<div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :*/}
+          {/*<div className="page-header">综合练习</div>}*/}
+          {questionRender(practice[currentIndex] || {})}
+          {/*<div className="button-footer">*/}
+          {/*<div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题*/}
+          {/*</div>*/}
+          {/*{*/}
+          {/*currentIndex !== practiceCount - 1 ?*/}
+          {/*<div className={`right`}*/}
+          {/*onClick={*/}
+          {/*this.next.bind(this)*/}
+          {/*}>下一题</div> :*/}
+          {/*<div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>*/}
+          {/*}*/}
+          {/*</div>*/}
         </div>
-        <RenderInBody>
-          <div className="button-footer">
-            <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
-            </div>
-            {
-              currentIndex !== practiceCount - 1 ?
-                <div className={`right`}
-                     onClick={
-                       this.next.bind(this)
-                     }>下一题</div> :
-                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
-            }
-          </div>
-        </RenderInBody>
         <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']}
                   show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}
                   onShowEnd={() => this.tutorialEnd()}/>
+
+        <FooterButton btnArray={[
+          { click: () => this.prev(), text: '上一题' },
+          {
+            click: () => {
+              currentIndex !== practiceCount - 1 ?
+                this.next() : this.onSubmit()
+            },
+            text: currentIndex !== practiceCount - 1 ? '下一题' : '提交'
+          }
+        ]}/>
       </div>
     )
   }

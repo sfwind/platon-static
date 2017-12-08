@@ -10,6 +10,7 @@ import SubDiscussShow from '../components/SubDiscussShow'
 import _ from 'lodash'
 import { scroll } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 const sequenceMap = {
   0: 'A',
@@ -209,16 +210,16 @@ export class Analysis extends React.Component <any, any> {
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
             </div>
-            <div className="analysis">
-              <div className="analysis-icon">解析</div>
-              <div className="analysis-context"
-                   dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
-              {integrated == 'false' ?
-                <div className="knowledge-link"
-                     onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>
-                  点击查看相关知识</div> : null
-              }
-            </div>
+          </div>
+          <div className="analysis">
+            <div className="analysis-icon">解析</div>
+            <div className="analysis-context"
+                 dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
+            {integrated == 'false' ?
+              <div className="knowledge-link"
+                   onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>
+                点击查看相关知识</div> : null
+            }
           </div>
           <div className="discuss-container">
             <div className="discuss">
@@ -286,35 +287,50 @@ export class Analysis extends React.Component <any, any> {
 
     return (
       <div>
-        <div className="container has-footer">
-          <div className="warm-up">
-            {practice[currentIndex] && practice[currentIndex].knowledge ?
-              <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-              <div className="page-header">综合练习</div>
-            }
-            {questionRender(practice[currentIndex] || {})}
-          </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
+        <div className="warm-up-container">
+          {/*{practice[currentIndex] && practice[currentIndex].knowledge ?*/}
+          {/*<div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :*/}
+          {/*<div className="page-header">综合练习</div>*/}
+          {/*}*/}
+          {questionRender(practice[currentIndex] || {})}
         </div>
-        <RenderInBody>
-          <div>
-            {showDiscuss ? null :
-              <div className="button-footer">
-                <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>
-                  上一题
-                </div>
-                {currentIndex + 1 < practiceCount ?
-                  <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-                  <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
-              </div>}
-            {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                    cancel={() => this.cancel()}/> :
-              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-              </div>}
-          </div>
-        </RenderInBody>
+        {showDiscuss ? <div className="padding-comment-dialog"/> : null}
+        <div>
+          {/*{showDiscuss ? null :*/}
+          {/*<div className="button-footer">*/}
+          {/*<div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>*/}
+          {/*上一题*/}
+          {/*</div>*/}
+          {/*{currentIndex + 1 < practiceCount ?*/}
+          {/*<div className={`right`} onClick={this.next.bind(this)}>下一题</div> :*/}
+          {/*<div className="right" onClick={this.nextTask.bind(this)}>返回</div>}*/}
+          {/*</div>}*/}
+          {
+            !showDiscuss &&
+            <FooterButton btnArray={[
+              {
+                click: () => {
+                  this.prev()
+                },
+                text: '上一题'
+              },
+              {
+                click: () => {
+                  currentIndex + 1 < practiceCount ?
+                    this.next() : this.nextTask()
+                },
+                text: currentIndex + 1 < practiceCount ? '下一题' : '返回'
+              }
+            ]}/>
+          }
+          {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                                  submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                                  cancel={() => this.cancel()}/> :
+            <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
+              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+            </div>}
+        </div>
+
 
       </div>
     )
