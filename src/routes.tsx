@@ -112,10 +112,6 @@ const routes = (
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
 
-      {/*<Route path="eva/start" component={Start}/>*/}
-      {/*<Route path="eva" component={Eva}/>*/}
-      {/*<Route path="eva/result" component={EvaResult}/>*/}
-
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
