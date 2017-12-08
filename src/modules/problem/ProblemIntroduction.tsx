@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import './ProblemIntroduction.less'
 import Audio from '../../components/Audio'
 import AssetImg from '../../components/AssetImg'
-import Toast from '../../components/Toast'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import {
   openProblemIntroduction, createPlan, checkCreatePlan
@@ -101,28 +100,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         return Promise.reject(msg)
       }
     }).then(problemMsg => {
-      // TODO:限免活动，进入页面直接创建训练
-      if(free === 'true' && id == FREE_PROBLEM_ID) {
-        checkCreatePlan(this.props.location.query.id, problemMsg.buttonStatus).then(res => {
-          dispatch(endLoad())
-          if(res.code === 202) {
-            this.setState({ showConfirm: true, confirmMsg: res.msg })
-          } else if(res.code === 201 || res.code === 200) {
-            return createPlan(location.query.id).then(res => {
-              if(res.code === 200) {
-                this.setState({ showToast: true })
-              }
-            })
-          } else if(res.code === 204) {
-            // 已选课，不提示
-          } else {
-            dispatch(alertMsg(res.msg))
-          }
-        }).catch(ex => {
-          dispatch(endLoad())
-          dispatch(alertMsg(ex))
-        })
-      }
       this.setState({
         data: problemMsg.problem,
         buttonStatus: problemMsg.buttonStatus,
@@ -168,25 +145,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       dispatch(endLoad())
       const { code, msg } = res
       if(code === 200) {
-        if(!isFull) {
-          // 没有填写过
-          this.context.router.push({
-            pathname: '/rise/static/customer/profile', query: {
-              goRise: true, runningPlanId: msg
-            }
-          })
-          return
-        }
-        if(!bindMobile) {
-          // 没有填过手机号
-          this.context.router.push({
-            pathname: '/rise/static/customer/mobile/check', query: {
-              goRise: true, runningPlanId: msg
-            }
-          })
-          return
-        }
-        // 都填写过
         this.handleClickGoStudy()
       } else {
         dispatch(alertMsg(msg))
@@ -449,27 +407,27 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
               return list
             }
-            case 7: {
-              list.push(
-                <div className="button-footer trial_pay" onClick={() => this.handleClickGoStudy()}>
-                  <div>
-                    <span style={{ fontWeight: 'bolder' }}>下一步</span>
-                  </div>
-                </div>
-              )
-              return list
-            }
-            case 8: {
-              list.push(
-                <div className="button-footer">
-                  <div className={`left pay`}
-                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
-                    去试听
-                  </div>
-                </div>
-              )
-              return list
-            }
+            // case 7: {
+            //   list.push(
+            //     <div className="button-footer trial_pay" onClick={() => this.handleClickGoStudy()}>
+            //       <div>
+            //         <span style={{ fontWeight: 'bolder' }}>下一步</span>
+            //       </div>
+            //     </div>
+            //   )
+            //   return list
+            // }
+            // case 8: {
+            //   list.push(
+            //     <div className="button-footer">
+            //       <div className={`left pay`}
+            //            onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
+            //         去试听
+            //       </div>
+            //     </div>
+            //   )
+            //   return list
+            // }
             default:
               return null
           }
@@ -478,18 +436,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderPayMessage = () => {
-      if(data.id === FREE_PROBLEM_ID) {
-        return (
-          <div className="pre-pay-message">
-            <div>本课程是线上学习产品，由文字+语音+练习题+互动讨论区组成。课程一共有5章6小节，40道练习题。</div>
-            <br/>
-            <div>报名后7天内可免费学习，完成后可永久复习。随开随学，进度自控。</div>
-            <br/>
-            <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div>
-            <br/>
-          </div>
-        )
-      } else {
         return (
           <div className="pre-pay-message">
             <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。</div>
@@ -502,24 +448,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <br/>
           </div>
         )
-      }
-    }
-
-    const renderEvaluateOperation = () => {
-      let evaluationProps = {
-        buttons: [
-          { label: '取消', onClick: () => this.setState({ showEvaluation: false }) },
-          { label: '去测评', onClick: () => this.context.router.push('/rise/static/eva/start') }
-        ]
-      }
-      return (
-        <Alert { ...evaluationProps }
-               show={this.state.showEvaluation}>
-          <div className="global-pre">
-            点击下方去测评，完成测评，分享结果图片，邀请3人扫码并完成测试，即可免费领取。
-          </div>
-        </Alert>
-      )
     }
 
     const renderLeftContent = () => {
@@ -551,13 +479,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               {renderPayMessage()}
             </div>
           </div>
-          {/*<div className="pi-c-system white-content mg-25">*/}
-            {/*<Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={'12px'} height={17}/>*/}
-            {/*<div className="pi-c-s-content">*/}
-              {/*<pre className="pi-c-s-text" dangerouslySetInnerHTML={{ __html: how }}/>*/}
-              {/*<AssetImg width={'100%'} url={descPic} marginTop={'15px'}/>*/}
-            {/*</div>*/}
-          {/*</div>*/}
           <div className="pi-c-learn white-content mg-25">
             <Header icon="rise_icon_book" title="学习大纲"/>
             <div className="pi-c-l-content">
@@ -566,21 +487,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
             </div>
           </div>
-          {/*<div className="pi-c-ability white-content mg-25">*/}
-            {/*<Header icon="rise_icon_ability" title="能力项" marginLeft={'-1em'}/>*/}
-            {/*<div className="pi-c-a-content">*/}
-              {/*<div className="text"*/}
-                   {/*dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的课程都根据“个人势能模型”进行设计，本课程在模型中的能力项为：' }}/>*/}
-              {/*<div className="pi-c-a-c-module"*/}
-                   {/*onClick={() => window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>*/}
-                {/*<div className="pi-c-a-c-m-rise">【圈外】</div>*/}
-                {/*<div className="pi-c-a-c-m-text">*/}
-                  {/*个人势能模型*/}
-                {/*</div>*/}
-              {/*</div>*/}
-              {/*<AssetImg width={'100%'} url={categoryPic} marginTop="10"/>*/}
-            {/*</div>*/}
-          {/*</div>*/}
         </section>
       )
     }
@@ -601,10 +507,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                       <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                       <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                       <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                      {/*<div className="complete-person">*/}
-                      {/*<div className="icon-person"/>*/}
-                      {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
-                      {/*</div>*/}
                     </div>
                     <div className="problem-problem">{problem.problem}</div>
                     <div className="problem-catalog">
@@ -625,10 +527,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className={`back-img catalog${data.catalogId}`}/>
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
-            {/*<div className="complete-person">*/}
-            {/*<div className="icon-person"/>*/}
-            {/*<span className="completed-person-count">&nbsp;已有&nbsp;{data.chosenPersonCount}&nbsp;人学习</span>*/}
-            {/*</div>*/}
           </div>
           <div className="section">
             {'#'.concat(data.catalog)}
@@ -649,20 +547,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         <Alert { ...this.state.confirm } show={this.state.showConfirm}>
           <div className="global-pre">{this.state.confirmMsg}</div>
         </Alert>
-        <Toast show={this.state.showToast} timeout={4000} height={220} width={200} top={220}>
-          <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
-          <div className="toast-text">领取成功</div>
-          <div className="toast-text">点击下一步学习吧</div>
-        </Toast>
-        {showErr ? <div className="error-mask" onClick={() => this.setState({ showErr: false })}>
-          <div className="tips">
-            出现问题的童鞋看这里<br/>
-            1如果显示“URL未注册”/"跨号支付，请重新刷新页面即可<br/>
-            2如果遇到“支付问题”，扫码联系小黑，并将出现问题的截图发给小黑<br/>
-          </div>
-          <img className="xiaoQ" src="https://static.iqycamp.com/images/asst_xiaohei.jpeg?imageslim"/>
-        </div> : null}
-        {renderEvaluateOperation()}
       </div>
     )
   }

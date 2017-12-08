@@ -20,7 +20,6 @@ import { ReplyKnowledgeDiscussMessage } from 'modules/message/ReplyKnowledgeDisc
 import { AnalysisNew } from 'modules/practice/warmup/AnalysisNew'
 import { Comment as ApplicationComment } from 'modules/practice/application/Comment'
 import { Comment as SubjectComment } from 'modules/practice/subject/Comment'
-import { RiseMemberExplain } from 'modules/plan/RiseMemberExplain'
 import { KnowledgeReview } from 'modules/practice/knowledge/KnowledgeReview'
 import { ReplyCommentMessage } from 'modules/message/ReplyCommentMessage'
 import { Customer } from 'modules/customer/Customer'
@@ -107,7 +106,6 @@ const routes = (
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
 
-      {/*<Route path="member/explain" component={RiseMemberExplain}/>*/}
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
