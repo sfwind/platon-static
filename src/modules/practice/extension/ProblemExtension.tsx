@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { startLoad, endLoad, alertMsg } from "../../redux/actions";
-import AssetImg from "../../components/AssetImg";
-import { loadProblemExtension } from "./async";
+import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
+import AssetImg from "../../../components/AssetImg";
+import { loadProblemExtension } from "../../problem/async";
 import "./ProblemExtension.less";
 
 @connect(state => state)

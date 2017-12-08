@@ -167,11 +167,11 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
         ],
         "review": [
           {
-            "type": 1,
+            "type": 101,
             "status": -1
           },
           {
-            "type": 2,
+            "type": 102,
             "status": -1
           }
         ],

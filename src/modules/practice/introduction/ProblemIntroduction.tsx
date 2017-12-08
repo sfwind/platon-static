@@ -1,19 +1,19 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './ProblemIntroduction.less'
-import Audio from '../../components/Audio'
-import AssetImg from '../../components/AssetImg'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import Audio from '../../../components/Audio'
+import AssetImg from '../../../components/AssetImg'
+import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import {
   openProblemIntroduction, createPlan, checkCreatePlan
-} from './async'
+} from '../../problem/async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
 const { Alert } = Dialog
 const numeral = require('numeral')
-import { mark } from '../../utils/request'
-import { GoodsType, buttonStatus } from '../../utils/helpers'
-import { collectProblem, disCollectProblem } from '../plan/async'
+import { mark } from '../../../utils/request'
+import { GoodsType, buttonStatus } from '../../../utils/helpers'
+import { collectProblem, disCollectProblem } from '../../plan/async'
 //限免课程id
 const FREE_PROBLEM_ID = 9
 
@@ -276,23 +276,23 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       switch(tempCatalogId) {
         case 1:
           node.classList.add('rise-main-container-green')
-          require('../plan/PlanMainLessCategory/Green.less')
+          require('../../plan/PlanMainLessCategory/Green.less')
           break
         case 2:
           node.classList.add('rise-main-container-yellow')
-          require('../plan/PlanMainLessCategory/Yellow.less')
+          require('../../plan/PlanMainLessCategory/Yellow.less')
           break
         case 3:
           node.classList.add('rise-main-container-orange')
-          require('../plan/PlanMainLessCategory/Orange.less')
+          require('../../plan/PlanMainLessCategory/Orange.less')
           break
         case 4:
           node.classList.add('rise-main-container-blue')
-          require('../plan/PlanMainLessCategory/Blue.less')
+          require('../../plan/PlanMainLessCategory/Blue.less')
           break
         case 5:
           node.classList.add('rise-main-container-purple')
-          require('../plan/PlanMainLessCategory/Purple.less')
+          require('../../plan/PlanMainLessCategory/Purple.less')
           break
         default:
           break

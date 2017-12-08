@@ -10,7 +10,7 @@ import AssetImg from '../../../components/AssetImg'
 import * as _ from 'lodash'
 import { openAudition } from '../../problem/async'
 import { ToolBar } from '../../base/ToolBar'
-import ColumnSpan from '../../../components/ColumnSpan'
+import {ColumnSpan} from '../../../components/ColumnSpan'
 
 const { Alert } = Dialog
 
