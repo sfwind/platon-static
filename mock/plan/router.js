@@ -10,16 +10,177 @@ router.post("/rise/plan/choose/problem/*", (req, res) => {
     }), Math.random() * 1500)
 });
 
-router.get("/rise/plan/play/*", (req, res) => {
+router.get("/rise/plan/load/studyline/*", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
-      "code": 200,
       "msg": {
-        "length": 14, //持续天数
-        "endDate": "12月18日", //结束日期
-        "totalSeries": 7, //题目总数
-        "pic": "http://www.iquanwai.com/images/cintro1.png" //问题头图
-      }
+        "preview": [
+          {
+            "id": 740115,
+            "planId": 29989,
+            "type": 21,
+            "practiceId": "25",
+            "unlocked": true,
+            "series": 0,
+            "sequence": 5,
+            "knowledgeId": null,
+            "status": 0,
+            "summary": null
+          }
+        ],
+        "chapters": [
+          {
+            "chapter": 1,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 133,
+                "name": "你真的知道压力是什么吗",
+                "series": 1,
+                "chapter": 1,
+                "integrated": false,
+                "chapterName": "认识压力",
+                "practices": [],
+                "status": 0
+              },
+              {
+                "section": 2,
+                "knowledgeId": 135,
+                "name": "为什么我们会感觉到压力",
+                "series": 2,
+                "chapter": 1,
+                "integrated": false,
+                "chapterName": "认识压力",
+                "practices": [],
+                "status": 0
+              },
+              {
+                "section": 3,
+                "knowledgeId": 136,
+                "name": "为什么有的人总在说压力山大",
+                "series": 3,
+                "chapter": 1,
+                "integrated": false,
+                "chapterName": "认识压力",
+                "practices": [],
+                "status": 0
+              }
+            ],
+            "name": "认识压力",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": false
+          },
+          {
+            "chapter": 2,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 138,
+                "name": "揭开你的压力真面目",
+                "series": 4,
+                "chapter": 2,
+                "integrated": false,
+                "chapterName": "识别压力",
+                "practices": [],
+                "status": 0
+              }
+            ],
+            "name": "识别压力",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": false
+          },
+          {
+            "chapter": 3,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 140,
+                "name": "方法一：调整行为方式",
+                "series": 5,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": -1
+              },
+              {
+                "section": 2,
+                "knowledgeId": 142,
+                "name": "方法二：改变认知方式",
+                "series": 6,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": -1
+              },
+              {
+                "section": 3,
+                "knowledgeId": 144,
+                "name": "方法三：增加应对资源",
+                "series": 7,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": -1
+              },
+              {
+                "section": 4,
+                "knowledgeId": 145,
+                "name": "方法四：提升应对能力",
+                "series": 8,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": -1
+              }
+            ],
+            "name": "应对压力",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": false
+          },
+          {
+            "chapter": 4,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 59,
+                "name": "内容回顾 & 综合练习",
+                "series": 9,
+                "chapter": 4,
+                "integrated": true,
+                "chapterName": "综合案例",
+                "practices": [],
+                "status": -1
+              }
+            ],
+            "name": "综合案例",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": true
+          }
+        ],
+        "review": [
+          {
+            "type": 1,
+            "status": -1
+          },
+          {
+            "type": 2,
+            "status": -1
+          }
+        ],
+        "problemId": 25,
+        "problemName": "掌控压力：让我们不焦虑也不懒散",
+        "headPic": null,
+        "problemType": "minor"
+      },
+      "code": 200
     }), Math.random() * 1500)
 });
 
@@ -852,5 +1013,7 @@ router.get("/rise/plan/list", (req, res) => {
     );
   }, Math.random() * 1500)
 });
+
+
 
 module.exports = router;

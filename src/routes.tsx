@@ -5,6 +5,7 @@ import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import Welcome from 'modules/problem/Welcome'
 import { PlanMain } from 'modules/plan/PlanMain'
+import  StudyLine  from 'modules/plan/StudyLine'
 import { KnowledgeViewer } from 'modules/practice/knowledge/KnowledgeViewer'
 import { Result as WarmUpResult } from 'modules/practice/warmup/Result'
 import { Main as Application } from 'modules/practice/application/Main'
@@ -91,7 +92,7 @@ const routes = (
       <Route path="learn" component={PlanList}/>
       <Route path="plan/main" component={PlanList}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
-      <Route path="plan/study" component={PlanMain}/>
+      <Route path="plan/study" component={StudyLine}/>
       <Route path="plan/report" component={ImprovementReport}/>
 
       <Route path="practice/warmup" component={WarmUpNew}/>

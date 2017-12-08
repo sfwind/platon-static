@@ -21,14 +21,24 @@
     padding: 2.5rem 3.0rem;
     .preview-title{
       font-size: 1.8rem;
+      line-height: 1.8rem;
       color: @color_context;
       margin-bottom: 1.0rem;
     }
   }
 
   .practice-detail{
+    margin-top: 2.0rem;
     > .status-icon{
+      display: inline-block;
+      height: 2.0rem;
+      position: relative;
+      margin-right: 2.0rem;
       > .status-round{
+        position: relative;
+        border-radius: 2.0rem;
+        width: 2.0rem;
+        height: 2.0rem;
         &.major {
           background: #FFB200;
         }
@@ -38,6 +48,9 @@
       }
 
       > .status-line{
+        height: 2.0rem;
+        position: relative;
+        width: 0.1rem;
         &.major {
           background: #FFB200;
         }
@@ -46,15 +59,19 @@
         }
       }
     }
-
     > .title{
-
+      display: inline-block;
+      font-size: 1.4rem;
+      line-height: 2.0rem;
+      color: @color_context;
     }
   }
 
   .chapter-practice{
+    padding: 2.5rem 3.0rem;
     .chapter{
       font-size: 1.8rem;
+      line-height: 1.8rem;
       color: @color_context;
       margin-bottom: 1.0rem;
     }
@@ -64,6 +81,7 @@
     padding: 2.5rem 3.0rem;
     .review-title{
       font-size: 1.8rem;
+      line-height: 1.8rem;
       color: @color_context;
       margin-bottom: 1.0rem;
       span{
