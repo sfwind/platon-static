@@ -280,7 +280,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
               <div className="choice-list">
                 {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
               </div>
-
               {showTip ?
                 <div className="analysis">
                   <div className="title-bar">解析</div>
@@ -288,8 +287,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
                     正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
                   </div>
                   <pre dangerouslySetInnerHTML={{ __html: example.analysis }}></pre>
-                </div>
-                : <div className="analysis">
+                </div> :
+                <div className="analysis">
                   <div className="analysis-tip" onClick={() => this.setState({ showTip: true })}>点击查看解析</div>
                 </div>}
             </div>

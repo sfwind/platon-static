@@ -2,7 +2,7 @@
 
 .knowledge-view-container {
   box-sizing: border-box;
-  padding: 2.5rem 3rem;
+  padding: 2.5rem 3rem 0;
   
   &.no-footer {
     z-index: 1 !important;
@@ -46,6 +46,9 @@
     .analysis {
       font-size: @font_context;
       padding-bottom: 20px;
+      .context {
+        padding: 2rem 0 ;
+      }
       .analysis-tip {
         color: @color_strong;
         font-size: @font_click;
