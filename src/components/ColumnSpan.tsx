@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 
 interface ColumnSpanProps {
-  height: number
+  height?: number
 }
 
 export class ColumnSpan extends React.Component<ColumnSpanProps, any> {
@@ -12,7 +12,7 @@ export class ColumnSpan extends React.Component<ColumnSpanProps, any> {
   }
 
   render() {
-    let { style = {}, height = 0 } = this.props
+    let { style = {}, height = 20 } = this.props
 
     style = _.merge(style, {
       marginLeft: '-3rem',
