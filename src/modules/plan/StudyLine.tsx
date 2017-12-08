@@ -124,7 +124,7 @@ export default class StudyLine extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { problemName, problemId, preview, review, chapters, problemType } = data
+    const { problemName, problemId, preview = [], review = [], chapters = [], problemType } = data
 
     const renderPreview = () => {
       return (
@@ -191,11 +191,7 @@ export default class StudyLine extends React.Component<any, any> {
                 <div key={index} className={`practice-detail`} onClick={()=>this.onPracticeSelected(item)}>
                   <div className="status-icon">
                     <div className={`status-line ${problemType}`}></div>
-                    <div className={`status-round ${problemType}`}>
-                      {item.type === 1 ? '学习报告' : ''}
-                      {item.type === 2 ? '延伸学习' : ''}
-                      {item.type === 3 ? '学习报告' : ''}
-                    </div>
+                    <div className={`status-round ${problemType}`}></div>
                   </div>
                   <div className="title">{item.type === 1 ? '学习报告' : ''}{item.type === 2 ? '延伸学习' : ''}</div>
                 </div>
@@ -209,7 +205,7 @@ export default class StudyLine extends React.Component<any, any> {
     return (
       <div className="study-line-container">
 
-        <div className="problem-head">
+        <div className={`problem-head ${problemType}`}>
           <div className="problem-name">{problemName}</div>
         </div>
         {renderPreview()}
