@@ -1,7 +1,8 @@
 @import "../../style/variable";
 
-.study-line-container{
-  .problem-head{
+.study-line-container {
+  .problem-head {
+    position: relative;
     height: 17.5rem;
     &.major {
       background: #FFB200;
@@ -9,17 +10,17 @@
     &.minor {
       background: #399BD3;
     }
-    .problem-name{
-      position: relative;
+    .problem-name {
+      position: absolute;
       left: 3.0rem;
       color: @color_white;
       bottom: 2.5rem;
       font-size: 2.2rem;
     }
   }
-  .preview-practice{
+  .preview-practice {
     padding: 2.5rem 3.0rem;
-    .preview-title{
+    .preview-title {
       font-size: 1.8rem;
       line-height: 1.8rem;
       color: @color_context;
@@ -27,14 +28,17 @@
     }
   }
 
-  .practice-detail{
+  .practice-detail {
     margin-top: 2.0rem;
-    > .status-icon{
-      display: inline-block;
+    &:last-child {
+      > .status-line{
+        height: 0;
+      }
+    }
+    > .practice-column {
       height: 2.0rem;
-      position: relative;
-      margin-right: 2.0rem;
-      > .status-round{
+      > .status-round {
+        display: inline-block;
         position: relative;
         border-radius: 2.0rem;
         width: 2.0rem;
@@ -45,48 +49,61 @@
         &.minor {
           background: #399BD3;
         }
+        &.locked{
+          background: @color_weak !important;
+        }
       }
 
-      > .status-line{
-        height: 2.0rem;
-        position: relative;
-        width: 0.1rem;
-        &.major {
-          background: #FFB200;
-        }
-        &.minor {
-          background: #399BD3;
-        }
+      > .title {
+        display: inline-block;
+        font-size: 1.4rem;
+        line-height: 2.0rem;
+        color: @color_context;
+        position: absolute;
+        margin-left: 2.0rem;
       }
     }
-    > .title{
-      display: inline-block;
-      font-size: 1.4rem;
-      line-height: 2.0rem;
-      color: @color_context;
+    > .status-line {
+      height: 2.0rem;
+      position: absolute;
+      width: 0.2rem;
+      margin-left: 0.9rem;
+      &.major {
+        background: #FFB200;
+      }
+      &.minor {
+        background: #399BD3;
+      }
+      &.locked{
+        background: @color_weak !important;
+      }
     }
   }
 
-  .chapter-practice{
+  .chapter-practice {
     padding: 2.5rem 3.0rem;
-    .chapter{
+    .chapter {
+      font-size: 1.8rem;
+      line-height: 1.8rem;
+      color: @color_context;
+      margin-bottom: 3.0rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .review-practice {
+    padding: 2.5rem 3.0rem;
+    .review-title {
       font-size: 1.8rem;
       line-height: 1.8rem;
       color: @color_context;
       margin-bottom: 1.0rem;
-    }
-  }
-
-  .review-practice{
-    padding: 2.5rem 3.0rem;
-    .review-title{
-      font-size: 1.8rem;
-      line-height: 1.8rem;
-      color: @color_context;
-      margin-bottom: 1.0rem;
-      span{
+      span {
         font-size: 1.2rem;
       }
     }
   }
+
 }
