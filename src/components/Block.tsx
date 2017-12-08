@@ -7,7 +7,6 @@ export class Block extends React.Component {
   }
 
   render() {
-    console.log('render')
     return (
       <block style={{ display: 'block' }}>
         {this.props.children}

@@ -41,7 +41,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "认识压力",
                 "practices": [],
-                "status": 0
+                "status": 0,
+                "type": 31,
+                "practicePlanId": 740079
               },
               {
                 "section": 2,
@@ -52,7 +54,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "认识压力",
                 "practices": [],
-                "status": 0
+                "status": 0,
+                "type": 31,
+                "practicePlanId": 740080
               },
               {
                 "section": 3,
@@ -63,7 +67,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "认识压力",
                 "practices": [],
-                "status": 0
+                "status": 0,
+                "type": 31,
+                "practicePlanId": 740081
               }
             ],
             "name": "认识压力",
@@ -83,7 +89,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "识别压力",
                 "practices": [],
-                "status": 0
+                "status": 0,
+                "type": 31,
+                "practicePlanId": 740079
               }
             ],
             "name": "识别压力",
@@ -103,7 +111,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "应对压力",
                 "practices": [],
-                "status": -1
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740079
               },
               {
                 "section": 2,
@@ -114,7 +124,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "应对压力",
                 "practices": [],
-                "status": -1
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740080
               },
               {
                 "section": 3,
@@ -125,7 +137,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "应对压力",
                 "practices": [],
-                "status": -1
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740081
               },
               {
                 "section": 4,
@@ -136,7 +150,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "应对压力",
                 "practices": [],
-                "status": -1
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740082
               }
             ],
             "name": "应对压力",
@@ -156,7 +172,9 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": true,
                 "chapterName": "综合案例",
                 "practices": [],
-                "status": -1
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740079
               }
             ],
             "name": "综合案例",

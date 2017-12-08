@@ -8,6 +8,8 @@ import { mark } from '../../utils/request'
 import { Dialog, Progress } from 'react-weui'
 import AssetImg from '../../components/AssetImg'
 import { ColumnSpan } from '../../components/ColumnSpan'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
+import { ProblemTitle } from '../problem/components/ProblemTitle'
 
 const { Alert } = Dialog
 
@@ -80,35 +82,17 @@ export default class StudyLine extends React.Component<any, any> {
       complete = true
     }
 
-    //已解锁状态
-    if(type === 1 || type === 2) {
+    if(type === 20) {
       const { practicePlanId } = item
-      let integrated = true
-      if(type === 1) {
-        integrated = false
-      }
       this.context && this.context.router.push({
-        pathname: '/rise/static/practice/warmup',
-        query: { practicePlanId, integrated, planId, complete }
-      })
-    } else if(type === 11 || type === 12) {
-      const { practicePlanId } = item
-      let integrated = true
-      if(type === 11) {
-        integrated = false
-      }
-      dispatch(set('otherApplicationPracticeSubmitId', undefined))
-      dispatch(set('applicationId', undefined))
-      dispatch(set('articlePage', undefined))
-      this.context && this.context.router.push({
-        pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, integrated, planId, complete }
+        pathname: '/rise/static/plan/view',
+        query: { id: problemId }
       })
     } else if(type === 21) {
       const { practicePlanId } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, planId, complete }
+        query: { id: problemId, practicePlanId, planId, complete }
       })
     } else if(type === 31) {
       const { practicePlanId } = item
@@ -137,7 +121,7 @@ export default class StudyLine extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { problemName, problemId, preview = [], review = [], chapters = [], problemType } = data
+    const { problemName, problemId, preview = [], review = [], chapters = [], problemType, headPic } = data
 
     const renderPreview = () => {
       return (
@@ -169,7 +153,8 @@ export default class StudyLine extends React.Component<any, any> {
         source = 'complete_icon'
       }
       return (
-        <div className={`practice-detail`} onClick={()=>this.onPracticeSelected(item)}>
+        <MarkBlock className={`practice-detail`} onClick={()=>this.onPracticeSelected(item)} func="课程提纲"
+                   action="点击练习" memo={item.type}>
           <div className="practice-column">
             <div className={`status-round ${problemType} ${locked}`}>
               <AssetImg type={source} size="20"/>
@@ -177,7 +162,7 @@ export default class StudyLine extends React.Component<any, any> {
             <div className="title">{title}</div>
           </div>
           <div className={`status-line ${problemType} ${locked}`}></div>
-        </div>
+        </MarkBlock>
       )
     }
 
@@ -230,10 +215,7 @@ export default class StudyLine extends React.Component<any, any> {
 
     return (
       <div className="study-line-container">
-
-        <div className={`problem-head ${problemType}`}>
-          <div className="problem-name">{problemName}</div>
-        </div>
+        <ProblemTitle problemType={problemType} problemName={problemName} problemHeadPic={headPic}/>
         {renderPreview()}
         <ColumnSpan/>
         {renderChapter()}
