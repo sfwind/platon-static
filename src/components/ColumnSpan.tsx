@@ -1,14 +1,28 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 
-export default class ColumnSpan extends React.Component<any, any> {
+interface ColumnSpanProps {
+  height?: number
+}
+
+export class ColumnSpan extends React.Component<ColumnSpanProps, any> {
+
   constructor(props) {
     super(props)
   }
 
   render() {
+    let { style = {}, height = 20 } = this.props
+
+    style = _.merge(style, {
+      marginLeft: '-3rem',
+      marginRight: '-3rem',
+      backgroundColor: '#f3f4f6',
+      height: height
+    })
 
     return (
-      <div className="column-span"></div>
+      <div {...this.props} style={style}></div>
     )
   }
 }

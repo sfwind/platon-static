@@ -1,0 +1,52 @@
+@import "../../../style/variable";
+
+.challenge-container {
+  box-sizing: border-box;
+  padding: 2.5rem 3rem;
+  
+  .challenge-header {
+    box-sizing: border-box;
+    font-size: 1.8rem;
+    color: #2c2c2c;
+    line-height: 1.8rem;
+  }
+  
+  .challenge-context {
+    font-size: 1.5rem;
+    color: #333;
+    line-height: 150%;
+    margin-top: 2.5rem;
+  }
+  
+  .intro-container {
+    position: relative;
+    margin: 3rem 0 2rem;
+    width: 100%;
+    
+    .challenge-image {
+      display: inline-block;
+      box-sizing: border-box;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 11.5rem;
+      height: 5rem;
+      margin-left: -2.5rem;
+    }
+    
+    .challenge-tips {
+      display: inline-block;
+      box-sizing: border-box;
+      position: relative;
+      left: 9rem;
+      .tip-title {
+        color: @color_title;
+        font-size: 1.2em;
+      }
+      .tip {
+        font-size: @font_help;
+        color: @color_help;
+      }
+    }
+  }
+}
