@@ -228,6 +228,7 @@ router.get("/rise/problem/get/*", (req, res) => {
         "done": null,
         "status": null,
         "hasProblemScore": false,
+        "problemType":1,
         "chapterList": [{
           "chapter": 1,
           "sections": [{

@@ -121,7 +121,14 @@ export default class StudyLine extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { problemName, problemId, preview = [], review = [], chapters = [], problemType, headPic } = data
+    const { problemType, problemId, preview = [], review = [], chapters = [] } = data
+
+    let styleType = ''
+    if (problemType === MAJOR_PROBLEM) {
+      styleType = 'major'
+    } else if(problemType === MINOR_PROBLEM){
+      styleType = 'minor'
+    }
 
     const renderPreview = () => {
       return (
@@ -156,12 +163,12 @@ export default class StudyLine extends React.Component<any, any> {
         <MarkBlock className={`practice-detail`} onClick={()=>this.onPracticeSelected(item)} func="课程提纲"
                    action="点击练习" memo={item.type}>
           <div className="practice-column">
-            <div className={`status-round ${problemType} ${locked}`}>
+            <div className={`status-round ${styleType} ${locked}`}>
               <AssetImg type={source} size="20"/>
             </div>
             <div className="title">{title}</div>
           </div>
-          <div className={`status-line ${problemType} ${locked}`}></div>
+          <div className={`status-line ${styleType} ${locked}`}></div>
         </MarkBlock>
       )
     }
@@ -215,7 +222,7 @@ export default class StudyLine extends React.Component<any, any> {
 
     return (
       <div className="study-line-container">
-        <ProblemTitle problemType={problemType} problemName={problemName} problemHeadPic={headPic}/>
+        <ProblemTitle problemId={problemId} />
         {renderPreview()}
         <ColumnSpan/>
         {renderChapter()}
