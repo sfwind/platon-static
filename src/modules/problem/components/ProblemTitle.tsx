@@ -24,16 +24,22 @@ export class ProblemTitle extends React.Component<ProblemTitleProps, any> {
   }
 
   componentWillMount() {
-    const { dispatch, problemId } = this.props
-    loadProblem(problemId).then(res => {
-      if(res.code === 200) {
-        this.setState({data:res.msg})
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(e => {
-      dispatch(alertMsg(e))
-    })
+
+  }
+
+  componentWillReceiveProps(props){
+    const { dispatch, problemId } = props
+    if(problemId){
+      loadProblem(problemId).then(res => {
+        if(res.code === 200) {
+          this.setState({data:res.msg})
+        } else {
+          dispatch(alertMsg(res.msg))
+        }
+      }).catch(e => {
+        dispatch(alertMsg(e))
+      })
+    }
   }
 
   render() {
