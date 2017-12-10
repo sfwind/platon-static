@@ -21,7 +21,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
   }
 
   initParams() {
-    const { module, func, action, memo = '' } = this.props
+    const { module = '打点', func, action, memo = '' } = this.props
     this.setState({
       module: module,
       func: func,
@@ -31,9 +31,9 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
   }
 
   handleClickMarkBlock(onClickFunc) {
-    const { module, func, action, memo = '' } = this.state
+    const { module, func, action, memo } = this.state
     let param = {
-      module: module || '打点',
+      module: module,
       function: func,
       action: action,
       memo: memo
@@ -52,7 +52,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
 
     return (
       <div {...this.props}
-        onClick={() => {
+           onClick={() => {
              this.handleClickMarkBlock(onClick)
            }}>
         {this.props.children}

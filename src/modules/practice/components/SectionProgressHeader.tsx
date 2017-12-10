@@ -1,12 +1,14 @@
 import * as React from 'react'
 import './SectionProgressHeader.less'
 
+interface sectionPart {
+  text: string,
+  unlock: boolean,
+  complete: boolean
+}
+
 interface SectionProgressHeaderProps {
-  progress: [{
-    text: string,
-    unlock: boolean,
-    complete: boolean
-  }]
+  progress: [sectionPart]
 }
 
 export class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, any> {
@@ -16,7 +18,14 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
   }
 
   render() {
-    const { progress } = this.props
+    // const { progress } = this.props
+
+    const progress = [
+      { text: '知识点', unlock: true, complete: true },
+      { text: '选择题', unlock: true, complete: false },
+      { text: '基础应用题', unlock: false, complete: false },
+      { text: '进阶应用题', unlock: false, complete: false }
+    ]
 
     return (
       <div className="section-progress-component">
@@ -26,7 +35,9 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
             return (
               <div key={index} className="progress-part">
                 <span className="progress-text">{text}</span>
-                <div className="progress-icon"></div>
+                <div className={`${unlock ? complete ? 'complete' : 'unlock' : 'lock'} progress-icon`}>
+                  <div className='progress-content'></div>
+                </div>
               </div>
             )
           })

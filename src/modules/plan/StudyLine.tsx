@@ -17,7 +17,7 @@ const MAJOR_PROBLEM = 1
 const MINOR_PROBLEM = 2
 const TRIAL_PROBLEM = 3
 
-const hanzi = [ '零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十' ]
+const hanzi = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -153,8 +153,8 @@ export default class StudyLine extends React.Component<any, any> {
         source = 'complete_icon'
       }
       return (
-        <MarkBlock className={`practice-detail`} onClick={()=>this.onPracticeSelected(item)} func="课程提纲"
-                   action="点击练习" memo={item.type}>
+        <MarkBlock func={'课程提纲'} action={'点击练习'} memo={item.type}
+                   className={`practice-detail`} onClick={() => this.onPracticeSelected(item)} f>
           <div className="practice-column">
             <div className={`status-round ${problemType} ${locked}`}>
               <AssetImg type={source} size="20"/>
@@ -174,7 +174,7 @@ export default class StudyLine extends React.Component<any, any> {
               const { sections, chapter } = item
               return (
                 <div key={index} className={`chapter`}>
-                  {'第' + hanzi[ chapter ] + '章 '}{item.name}
+                  {'第' + hanzi[chapter] + '章 '}{item.name}
                   {
                     sections.map((item, index) => {
                       let title = chapter + '.' + item.section + ' ' + item.name
