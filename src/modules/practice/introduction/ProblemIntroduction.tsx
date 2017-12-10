@@ -83,17 +83,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       if(code === 200) {
         if(!buttonStatus.isValid(msg.buttonStatus)) {
           dispatch(alertMsg('按钮状态异常'))
-        } else {
-          if(buttonStatus.mustRefresh(msg.buttonStatus)) {
-            mark({
-              module: 'RISE',
-              function: '打点',
-              action: '刷新支付页面',
-              memo: window.ENV.configUrl + '++++++++++' + window.location.href
-            })
-            window.location.href = window.location.href
-            return Promise.reject('refresh')
-          }
         }
         return res.msg
       } else {
@@ -229,22 +218,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       this.context.router.push('/rise/static/rise');
     } else {
       this.context.router.push('/rise/static/course/schedule/plan');
-    }
-  }
-
-  /**
-   * 切换头图部分
-   */
-  onClickExchangeRelationTab(choose) {
-    switch(choose) {
-      case 'left':
-        this.setState({ relationTab: 'left' })
-        break
-      case 'right':
-        this.setState({ relationTab: 'right' })
-        break
-      default:
-        break
     }
   }
 
@@ -407,27 +380,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
               return list
             }
-            // case 7: {
-            //   list.push(
-            //     <div className="button-footer trial_pay" onClick={() => this.handleClickGoStudy()}>
-            //       <div>
-            //         <span style={{ fontWeight: 'bolder' }}>下一步</span>
-            //       </div>
-            //     </div>
-            //   )
-            //   return list
-            // }
-            // case 8: {
-            //   list.push(
-            //     <div className="button-footer">
-            //       <div className={`left pay`}
-            //            onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
-            //         去试听
-            //       </div>
-            //     </div>
-            //   )
-            //   return list
-            // }
             default:
               return null
           }
