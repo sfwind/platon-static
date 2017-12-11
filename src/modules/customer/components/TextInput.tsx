@@ -35,7 +35,7 @@ export default class TextInput extends React.Component<TextInputProps,any>{
         {/*${this.props.inline?'inline':''}*/}
         <div className={`text-input-content ${this.props.children?'has-child':''} `} >
           <div className={this.props.value?"select-wrapper-has-no-cut":"select-wrapper"}>
-            <input id="functionInput" placeholder={`${this.state.showPlaceHolder?this.props.placeholder:''}`} type="text"
+            <input placeholder={`${this.state.showPlaceHolder?this.props.placeholder:''}`} type="text"
                    onChange={(e)=>this.onChange(e)} value={this.props.value} onFocus={()=>this.setState({showPlaceHolder:false})} onBlur={()=>{
                      this.setState({showPlaceHolder:true})
                    }}/>
