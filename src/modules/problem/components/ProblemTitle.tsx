@@ -1,60 +1,67 @@
 import * as React from 'react'
 import './ProblemTitle.less'
-import { connect } from 'react-redux'
 import { loadProblem } from '../async'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
 
 interface ProblemTitleProps {
-  style?: object,
+  callBack?: any,
   problemId: number,
+  style?: object,
 }
 
-const MAJOR_PROBLEM = 1
-const MINOR_PROBLEM = 2
-const TRIAL_PROBLEM = 3
+const ProblemTitleType = {
+  MAJOR_PROBLEM: 1,
+  MINOR_PROBLEM: 2,
+  TRIAL_PROBLEM: 3
+}
 
-@connect(state => state)
-export class ProblemTitle extends React.Component<ProblemTitleProps, any> {
+class ProblemTitle extends React.Component<ProblemTitleProps, any> {
 
   constructor(props) {
     super(props)
     this.state = {
       data: {}
     }
-    this.getProblemType = this.getProblemType().bind(this)
+    this.getProblemType = this.getProblemType.bind(this)
   }
 
   componentWillMount() {
-
+    const { problemId } = this.props
+    if(problemId) {
+      this.loadData(problemId)
+    }
   }
 
   componentWillReceiveProps(props) {
-    const { dispatch, problemId } = props
+    if(JSON.stringify(props) !== JSON.stringify(this.props)) {
+      this.props = props
+      this.loadData(this.props.problemId)
+    }
+  }
+
+  loadData(problemId) {
+    const { callBack = () => {} } = this.props
     if(problemId) {
       loadProblem(problemId).then(res => {
         if(res.code === 200) {
           this.setState({ data: res.msg })
-        } else {
-          dispatch(alertMsg(res.msg))
+          callBack(res.msg.problemType)
         }
-      }).catch(e => {
-        dispatch(alertMsg(e))
       })
     }
   }
 
   getProblemType() {
-    return this.state.problemType
+    return this.state.data.problemType
   }
 
   render() {
-    const { style = {}, problemId } = this.props
+    const { style = {} } = this.props
     const { data } = this.state
     const { problemType, problem } = data
     let styleType = ''
-    if(problemType === MAJOR_PROBLEM) {
+    if(problemType === ProblemTitleType.MAJOR_PROBLEM) {
       styleType = 'major'
-    } else if(problemType === MINOR_PROBLEM) {
+    } else if(problemType === ProblemTitleType.MINOR_PROBLEM) {
       styleType = 'minor'
     }
     return (
@@ -64,3 +71,5 @@ export class ProblemTitle extends React.Component<ProblemTitleProps, any> {
     )
   }
 }
+
+export { ProblemTitleType, ProblemTitle }

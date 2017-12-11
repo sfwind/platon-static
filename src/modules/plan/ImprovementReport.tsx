@@ -8,7 +8,7 @@ import { isNumber, merge } from 'lodash'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { NumberToChinese } from '../../utils/helpers'
 import RenderInBody from '../../components/RenderInBody'
-import { ProblemTitle } from '../problem/components/ProblemTitle'
+import { ProblemTitle, ProblemTitleType } from '../problem/components/ProblemTitle'
 import { FooterButton } from '../../components/submitbutton/FooterButton'
 import AssetImg from '../../components/AssetImg'
 import { Block } from '../../components/Block'
@@ -48,9 +48,7 @@ export class ImprovementReport extends React.Component<any, any> {
 
   renderChapterScores() {
     const { planData = {} } = this.state
-    const {
-      chapterList
-    } = planData
+    const { chapterList } = planData
     if(chapterList) {
       return chapterList.map((item, key) => {
         let clazz = 'complete-item ' + (key === 0 ? 'first' : '')
@@ -65,8 +63,6 @@ export class ImprovementReport extends React.Component<any, any> {
           </div>
         )
       })
-    } else {
-      return null
     }
   }
 
@@ -95,24 +91,12 @@ export class ImprovementReport extends React.Component<any, any> {
     return renderArr
   }
 
-  chooseNew() {
-    const { planData = {}, showConfirmModal } = this.state
-    const { dispatch } = this.props
-    const { status, mustStudyDays } = planData
-    if(status !== 1 && isNumber(mustStudyDays) && mustStudyDays !== 0) {
-      dispatch(alertMsg(`学得太猛了，再复习一下吧<br/>本课程推荐学习天数至少为${mustStudyDays}天<br/>之后就可以开启下一课程了`))
-    } else {
-      this.setState({ showConfirmModal: true })
-    }
-  }
-
   goBack() {
     window.history.back()
   }
 
   nextPlan() {
-    const { dispatch, location } = this.props
-    const { planId } = location.query
+    const { location } = this.props
     this.context.router.push('/rise/static/problem/explore')
   }
 
@@ -139,25 +123,28 @@ export class ImprovementReport extends React.Component<any, any> {
     )
   }
 
+  calculateMedalTypeClass(problemType) {
+    if(problemType === ProblemTitleType.MAJOR_PROBLEM) {
+      return 'major'
+    } else if(problemType === ProblemTitleType.MINOR_PROBLEM) {
+      return 'minor'
+    } else if(problemType === ProblemTitleType.TRIAL_PROBLEM) {
+      return 'trial'
+    }
+  }
+
   render() {
-    const { planData = {}, showConfirmModal } = this.state
+    const { planData = {}, showConfirmModal, problemType = ProblemTitleType.TRIAL_PROBLEM } = this.state
     const {
       problem, problemId, studyDays = 0, percent = 0, receiveVoteCount, shareVoteCount, totalScore = 0, integratedTotalScore, integratedShouldCount,
       integratedScore, integratedCompleteCount, chapterList, applicationTotalScore, applicationShouldCount,
       applicationScore, applicationCompleteCount, pic, showNextBtn, votedScore, recommendations, doneAllApps
     } = planData
 
-    const renderTips = () => {
-      if(doneAllApps) {
-        return <span>哇哦！你完成了全部的【应用题】，这是赤裸裸秒杀99%同学的节奏！</span>
-      } else {
-        return <span>不要在课程完成后，就放松对这些知识的学习哦！<br/>你还可以在已完成列表中，进入课程补作业（偷偷告诉你：补完的作业依然可以获得积分～）</span>
-      }
-    }
-
     return (
       <div className="improvement-report">
-        <ProblemTitle problemId={problemId} style={{ margin: '0 -3rem' }}/>
+        <ProblemTitle ref={'problemTitle'} problemId={problemId} style={{ margin: '0 -3rem' }}
+                      callBack={(problemType) => this.setState({ problemType: problemType })}/>
         <Modal show={showConfirmModal}
                height={240}
                buttons={[
@@ -171,12 +158,11 @@ export class ImprovementReport extends React.Component<any, any> {
             <div className="text2">当前课程可以进入我的-我的课程中复习</div>
           </div>
         </Modal>
-
         <div className="report-header">
           <div className="report-title">学习报告</div>
-          <div className="report-global-data">
+          <div className={`report-global-data`}>
             <span className="nickname">{window.ENV.userName}</span>
-            {/*<img src="" className="global-medal"/>*/}
+            <img className={`global-medal ${this.calculateMedalTypeClass(problemType)}`}/>
             <div className="data-block">
               <div className="data">
                 <div className="type-str">总得分</div>
@@ -193,13 +179,11 @@ export class ImprovementReport extends React.Component<any, any> {
             </div>
           </div>
         </div>
-
         <div className="body-container">
           <div className="body">
             <div className="header"><span className="title">各章选择题得分</span></div>
             {this.renderChapterScores()}
           </div>
-
           <div className="body" style={{ marginTop: '36px' }}>
             <div className="header">
               <span className="title">应用题</span>

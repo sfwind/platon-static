@@ -152,13 +152,6 @@ export class Main extends React.Component <any, any> {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.location.query.id !== this.props.location.query.id) {
-      this.props = nextProps
-      this.componentWillMount()
-    }
-  }
-
   componentDidUpdate() {
     const { showOthers, otherList } = this.state
     if(!this.pullElement && showOthers && !isEmpty(otherList)) {
@@ -224,6 +217,13 @@ export class Main extends React.Component <any, any> {
       this.autoSaveApplicationDraftTimer()
     } else {
       clearInterval(timer)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.location.query.id !== this.props.location.query.id) {
+      // 应用题之间切换，强制刷新当前页面
+      window.location.reload()
     }
   }
 
@@ -399,7 +399,7 @@ export class Main extends React.Component <any, any> {
     })
   }
 
-  handleChangeValue(value) {
+  handleChangeValue() {
     const { autoPushDraftFlag } = this.state
     if(_.isBoolean(autoPushDraftFlag)) {
       // 非null(取到数据了) 并且没有打开保存draft的flag
@@ -414,7 +414,7 @@ export class Main extends React.Component <any, any> {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
       showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
-    const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
+    const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication } = data
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
@@ -478,8 +478,7 @@ export class Main extends React.Component <any, any> {
 
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
-      if(!showCompletedBox) return
-
+      if(!showCompletedBox || !isBaseApplication) return
       const AlertProps = {
         buttons: [
           {
@@ -552,7 +551,7 @@ export class Main extends React.Component <any, any> {
                   autoSave={() => {
                     this.autoSave()
                   }}
-                  onChange={(value) => this.handleChangeValue(value)}
+                  onChange={() => this.handleChangeValue()}
                 />
               </div>
             }
