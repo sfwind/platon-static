@@ -510,7 +510,7 @@ router.get("/rise/problem/open/*", (req, res) => {
             "monthlyCampMonth": null
           },
           "fee": 0.01,
-          "buttonStatus": 8,
+          "buttonStatus": 1,
           "planId": null,
           "bindMobile": false,
           "isFull": false,

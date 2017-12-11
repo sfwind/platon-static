@@ -14,6 +14,7 @@ const numeral = require('numeral')
 import { mark } from '../../../utils/request'
 import { GoodsType, buttonStatus } from '../../../utils/helpers'
 import { collectProblem, disCollectProblem } from '../../plan/async'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 //限免课程id
 const FREE_PROBLEM_ID = 9
 
@@ -31,9 +32,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       data: {},
       showAlert: false,
       showConfirm: false,
-      showTip: false,
       tipMsg: '',
-      showToast: false,
       alert: {
         buttons: [
           {
@@ -59,11 +58,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         ]
       },
       show: true,
-      showPayInfo: false,
-      showErr: false,
-      togetherClassMonth: null,
-
-      relationTab: 'left',
       problemCollected: false
     }
   }
@@ -98,7 +92,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         togetherClassMonth: problemMsg.togetherClassMonth,
         problemCollected: problemMsg.problemCollected
       })
-      this.handleLoadStyleSheet(problemMsg.problem.catalogId)
     }, reason => {
       dispatch(endLoad())
       if(reason !== 'refresh') {
@@ -241,48 +234,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
   }
 
-  handleLoadStyleSheet(catalogId) {
-    // 区分加载样式表
-    let node = document.getElementById('problem-introduction')
-    if(node) {
-      const tempCatalogId = catalogId
-      switch(tempCatalogId) {
-        case 1:
-          node.classList.add('rise-main-container-green')
-          require('../../plan/PlanMainLessCategory/Green.less')
-          break
-        case 2:
-          node.classList.add('rise-main-container-yellow')
-          require('../../plan/PlanMainLessCategory/Yellow.less')
-          break
-        case 3:
-          node.classList.add('rise-main-container-orange')
-          require('../../plan/PlanMainLessCategory/Orange.less')
-          break
-        case 4:
-          node.classList.add('rise-main-container-blue')
-          require('../../plan/PlanMainLessCategory/Blue.less')
-          break
-        case 5:
-          node.classList.add('rise-main-container-purple')
-          require('../../plan/PlanMainLessCategory/Purple.less')
-          break
-        default:
-          break
-      }
-    }
-  }
-
   render() {
     const {
-      data = {}, buttonStatus, showPayInfo, final, fee, price, coupons = [], chose, showErr, free,
-      togetherClassMonth, relationTab, problemCollected, relationProblems = []
+      data = {}, buttonStatus, free, problemCollected
     } = this.state
     const { show } = this.props.location.query
     const {
-      difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,
-      monthlyCampMonth
+      catalog, subCatalog, pic, why, how, what, who, audio, chapterList, problem, authorPic, audioWords
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -339,46 +297,58 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               return null
             }
             case 1: {
-              list.push(
-                <div className="button-footer">
-                  <div className={`left pay`}
-                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
-                    加入商学院，立即学习
-                  </div>
-                </div>
+              // list.push(
+              //   <div className="button-footer">
+              //     <div className={`left pay`}
+              //          onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
+              //       加入商学院，立即学习
+              //     </div>
+              //   </div>
+              // )
+              return (
+                <FooterButton btnArray={[{ click: () => window.location.href = `https://${window.location.hostname}/pay/rise`,
+                text: '加入商学院，立即学习' }]}/>
               )
-              return list
             }
             case 2: {
-              list.push(
-                <div className="button-footer" onClick={() => this.handleClickProblemChooseConfirm()}>
-                  {
-                    togetherClassMonth && togetherClassMonth !== '0' ?
-                      <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
-                        本课程为 {togetherClassMonth} 月训练营课程，记得在当月选择哦
-                      </div> :
-                      null
-                  }
-                  选择该课程
-                </div>
+              // list.push(
+              //   <div className="button-footer" onClick={() => this.handleClickProblemChooseConfirm()}>
+              //     {
+              //       togetherClassMonth && togetherClassMonth !== '0' ?
+              //         <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
+              //           本课程为 {togetherClassMonth} 月训练营课程，记得在当月选择哦
+              //         </div> :
+              //         null
+              //     }
+              //     选择该课程
+              //   </div>
+              // )
+              return (
+                <FooterButton btnArray={[{ click: () => this.handleClickProblemChooseConfirm(),
+                text: "选择该课程" }]}/>
               )
-              return list
             }
             case 3: {
-              list.push(
-                <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
-                  课程已开始，去上课
-                </div>
+              // list.push(
+              //   <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
+              //     课程已开始，去上课
+              //   </div>
+              // )
+              return (
+                <FooterButton btnArray={[{ click: () => this.handleClickGoStudy(),
+                text: "课程已开始，去上课" }]}/>
               )
-              return list
             }
             case 4: {
-              list.push(
-                <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
-                  课程已完成，去复习
-                </div>
+              // list.push(
+              //   <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
+              //     课程已完成，去复习
+              //   </div>
+              // )
+              return (
+                <FooterButton btnArray={[{ click: () => this.handleClickGoStudy(),
+                text: "课程已完成，去复习" }]}/>
               )
-              return list
             }
             default:
               return null
@@ -402,17 +372,17 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         )
     }
 
-    const renderLeftContent = () => {
+    const renderContent = () => {
       return (
         <section className="pi-content">
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
-              { audio ?
+              { audio &&
                 <div className="context-audio">
                   <Audio url={audio} words={audioWords}/>
-                </div> : null }
-              <pre className="pi-c-f-c-text" dangerouslySetInnerHTML={{ __html: why }}/>
+                </div>  }
+              { why && <pre className="pi-c-f-c-text" dangerouslySetInnerHTML={{ __html: why }}/> }
             </div>
           </div>
           <div className="pi-c-man white-content mg-25">
@@ -434,63 +404,28 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-learn white-content mg-25">
             <Header icon="rise_icon_book" title="学习大纲"/>
             <div className="pi-c-l-content">
-              {what ? <pre className="pi-c-text" dangerouslySetInnerHTML={{ __html: what }}/> : null}
+              {what && <pre className="pi-c-text" dangerouslySetInnerHTML={{ __html: what }}/> }
               <div
-                className="roadmap">{chapterList ? chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) : null}</div>
+                className="roadmap">{chapterList && chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) }</div>
             </div>
           </div>
         </section>
       )
     }
 
-    const renderRightRecommendation = () => {
-      return (
-        <section className="problem-relation" style={{ width: window.innerWidth - 40 }}>
-          <div className="problem-item-box">
-            <div className="split"/>
-            {
-              relationProblems.map((problem, index) => {
-                return (
-                  <div className={`relation-problem-item ${index === relationProblems.length - 1 ? 'last' : ''}`}
-                       onClick={() => {
-                         window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}`
-                       }}>
-                    <div className="problem-img">
-                      <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
-                      <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
-                      <div className="problem-item-subCatalog">{problem.subCatalog}</div>
-                    </div>
-                    <div className="problem-problem">{problem.problem}</div>
-                    <div className="problem-catalog">
-                      {'#'.concat(problem.catalog)}{problem.subCatalog ? '-'.concat(problem.subCatalog) : ''}
-                    </div>
-                  </div>
-                )
-              })
-            }
-          </div>
-        </section>
-      )
-    }
-
     return (
-      <div id="problem-introduction" className={`problem-introduction`}>
+      <div className={`problem-introduction`}>
         <div className="header-img">
           <div className={`back-img catalog${data.catalogId}`}/>
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
-          </div>
-          <div className="section">
-            {'#'.concat(data.catalog)}
-            {data.subCatalog ?
-              '-'.concat(data.subCatalog) : null}
           </div>
           <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
             <span>{problemCollected ? '已收藏' : '收藏课程'}</span>
           </div>
         </div>
-        {renderLeftContent()}
+        {renderContent()}
         {renderFooter()}
         <Alert { ...this.state.alert }
                show={this.state.showAlert}>
@@ -529,12 +464,6 @@ class Header extends React.Component<HeaderProps, any> {
     return (
       <div className="page-item-header">
         <div className="pih-icon-container">
-          <div className="pih-icon"
-               style={{
-                 marginLeft: this.props.marginLeft, lineHeight: this.props.lineHeight ? this.props.lineHeight : 0
-               }}>
-            <AssetImg type={this.props.icon} size={renderSize()} width={this.props.width} height={this.props.height}/>
-          </div>
           <div className="pih-title">
             {this.props.title}
           </div>
