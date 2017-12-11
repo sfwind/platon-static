@@ -16,6 +16,18 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
       "msg": {
         "preview": [
           {
+            "id": 740114,
+            "planId": 29989,
+            "type": 20,
+            "practiceId": "1",
+            "unlocked": true,
+            "series": 0,
+            "sequence": 1,
+            "knowledgeId": null,
+            "status": 0,
+            "summary": null
+          },
+          {
             "id": 740115,
             "planId": 29989,
             "type": 21,
