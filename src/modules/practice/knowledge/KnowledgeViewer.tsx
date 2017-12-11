@@ -194,7 +194,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
       analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
       analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords
     } = knowledge
-    console.log(knowledge)
     const { location } = this.props
     const { practicePlanId } = location.query
 
@@ -217,15 +216,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     return (
       <Block>
         <div className={`knowledge-view-container`}>
-          <SectionProgressHeader
-            title={knowledge.knowledge}
-            progress={[
-              { text: '知识点', unlock: true, complete: true },
-              { text: '选择题', unlock: true, complete: false },
-              { text: '基础应用题', unlock: false, complete: false },
-              { text: '进阶应用题', unlock: false, complete: false }
-            ]}/>
-          <ColumnSpan height={5} style={{ marginTop: '2.5rem' }}/>
+          <SectionProgressHeader practicePlanId={practicePlanId}/>
           <div className="intro-container">
             {audio ?
               <div className="context-audio">

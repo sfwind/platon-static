@@ -10,6 +10,7 @@ import AssetImg from '../../../components/AssetImg'
 import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 
 const sequenceMap = {
   0: 'A',
@@ -254,6 +255,7 @@ export class Main extends React.Component <any, any> {
     return (
       <div>
         <div className="warm-up-container">
+          <SectionProgressHeader practicePlanId={this.props.location.query.practicePlanId}/>
           {/*{practice[currentIndex] && practice[currentIndex].knowledge ?*/}
           {/*<div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :*/}
           {/*<div className="page-header">综合练习</div>}*/}

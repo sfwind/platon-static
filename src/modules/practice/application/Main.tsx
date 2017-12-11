@@ -18,7 +18,9 @@ import { mark } from '../../../utils/request'
 import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
 import RenderInBody from '../../../components/RenderInBody'
-import MiniRefreshTools from 'minirefresh';
+import MiniRefreshTools from 'minirefresh'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 let timer
 
@@ -46,7 +48,7 @@ export class Main extends React.Component <any, any> {
       loading: false,
       showCompletedBox: false,
       completdApplicationCnt: 1000,
-      autoPushDraftFlag: null,
+      autoPushDraftFlag: null
     }
     this.pullElement = null
   }
@@ -75,10 +77,10 @@ export class Main extends React.Component <any, any> {
               editorValue: msg.isSynchronized ? msg.content : msg.draft,
               isSynchronized: msg.isSynchronized
             })
-            this.clearStorage();
+            this.clearStorage()
           } else {
             // 非同步的，展示localStorage,除非localStorage里没有内容
-            let draft = storageDraft.content ? storageDraft.content : msg.draft;
+            let draft = storageDraft.content ? storageDraft.content : msg.draft
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: draft,
@@ -152,7 +154,7 @@ export class Main extends React.Component <any, any> {
   }
 
   componentDidUpdate() {
-    const { showOthers, otherList } = this.state;
+    const { showOthers, otherList } = this.state
     if(!this.pullElement && showOthers && !isEmpty(otherList)) {
       // 有内容并且米有pullElement
       const { dispatch } = this.props
@@ -263,7 +265,7 @@ export class Main extends React.Component <any, any> {
                 this.clearStorage()
               }
             })
-            this.setState({ autoPushDraftFlag: false });
+            this.setState({ autoPushDraftFlag: false })
           }
         }
       }
@@ -355,7 +357,7 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         if(code.msg !== 0) {
           this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0)
           })
         }
         if(complete == 'false') {
@@ -392,11 +394,11 @@ export class Main extends React.Component <any, any> {
   }
 
   handleChangeValue(value) {
-    const { autoPushDraftFlag } = this.state;
+    const { autoPushDraftFlag } = this.state
     if(_.isBoolean(autoPushDraftFlag)) {
       // 非null(取到数据了) 并且没有打开保存draft的flag
       if(!autoPushDraftFlag) {
-        this.setState({ autoPushDraftFlag: true });
+        this.setState({ autoPushDraftFlag: true })
       }
     }
   }
@@ -482,34 +484,31 @@ export class Main extends React.Component <any, any> {
     }
 
     return (
-      <div className="application">
-        <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
+      <div className="application-edit-container">
+        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <div className={`container ${edit ? 'has-footer' : ''}`}>
-          <div className="page-header">{topic}</div>
-          <div className="intro-container">
-            <div className="application-context">
-              <div className="application-title">
-                <AssetImg type="app" size={15}/><span>今日应用</span>
-              </div>
-              <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
-              {
-                pic ?
-                  <div className="app-image">
-                    <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                              onClick={() => {preview(pic, [ pic ])}}/>
-                  </div> :
-                  null
-              }
-              {
-                integrated == 'false' ?
-                  <div className="knowledge-link"
-                       onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
-                    点击查看相关知识点
-                  </div> : null
-              }
+        <SectionProgressHeader practicePlanId={this.props.location.query.practicePlanId}/>
+        <div className="intro-container">
+          <div className="application-context">
+            <div className="application-title">
+              <AssetImg type="app" size={15}/><span>今日应用</span>
             </div>
+            <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
+            {
+              pic &&
+              <div className="app-image">
+                <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
+                          onClick={() => {preview(pic, [pic])}}/>
+              </div>
+            }
+            {
+              integrated == 'false' &&
+              <div className="knowledge-link"
+                   onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
+                点击查看相关知识点
+              </div>
+            }
           </div>
           <div ref="workContainer" className="work-container">
             <div ref="submitBar" className="submit-bar">
@@ -553,14 +552,11 @@ export class Main extends React.Component <any, any> {
               同学的作业</div> : null}
           </div>
         </div>
-
-        <RenderInBody>
-          {showDisable ?
-            <div className="button-footer disabled">提交中</div> :
-            edit ?
-              <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
-              <div/>}
-        </RenderInBody>
+        {
+          showDisable ?
+            <FooterButton btnArray={[{ click: () => {}, text: '提交中' }]}/> :
+            edit && <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
+        }
         <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
           {renderCompleteBox()}
         </div>
