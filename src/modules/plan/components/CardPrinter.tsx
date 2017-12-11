@@ -15,17 +15,15 @@ interface CardPrinterProps {
   completePracticePlanId: number,
 }
 
-@connect(state => state)
+// @connect(state => state)
 export class CardPrinter extends React.Component <CardPrinterProps, any> {
-  constructor(props) {
+  constructor() {
     super()
-    this.state = {
-
-    }
+    this.state = {}
   }
 
-  componentWillMount(){
-    const {problemId, completePracticePlanId, dispatch} = this.props
+  componentWillMount() {
+    const { problemId, completePracticePlanId } = this.props
     loadChapterCardAccess(problemId, completePracticePlanId).then(res => {
       if(res.code === 200) {
         if(res.msg) {
@@ -42,7 +40,7 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
         }
       }
     }).catch(e => {
-      dispatch(alertMsg(e))
+      // dispatch(alertMsg(e))
     })
     let loadCardBeginTime = new Date()
     loadChapterCard(problemId, completePracticePlanId).then(res => {
@@ -61,8 +59,14 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
         this.setState({ cardUrl: res.msg })
       }
     }).catch(e => {
-      dispatch(alertMsg(e))
+      // dispatch(alertMsg(e))
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(nextProps) !== this.props) {
+      this.componentWillMount()
+    }
   }
 
   render() {
@@ -88,44 +92,47 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
     }
 
     return (
-      displayCard ? <div className="chapter-card-container">
-        <div className="printer-machine" style={{ width: window.innerWidth }}>
-          <div className="printer-close" onClick={() => {
-                this.setState({ displayCard: false })
-              }}>
-            <div style={{ display: 'inline-block', float: 'right' }}>
-              <AssetImg type="white_close_btn" size="24px" style={{ float: 'right', marginRight: '10px' }}/>
+      displayCard ?
+        <div className="chapter-card-container">
+          <div className="printer-machine" style={{ width: window.innerWidth }}>
+            <div className="printer-close"
+                 onClick={() => {
+                   this.setState({ displayCard: false })
+                 }}>
+              <div style={{ display: 'inline-block', float: 'right' }}>
+                <AssetImg type="white_close_btn" size="24px" style={{ float: 'right', marginRight: '10px' }}/>
+              </div>
             </div>
-          </div>
-          {renderCardBody()}
-          <div className="printer-gap"/>
-          <div className="printer-port">
-            <div className="clear-mg"/>
-            <div className="printer-push-port">
-              <div className="mask-port"/>
-              {
-                cardUrl &&
+            {renderCardBody()}
+            <div className="printer-gap"/>
+            <div className="printer-port">
+              <div className="clear-mg"/>
+              <div className="printer-push-port">
+                <div className="mask-port"/>
+                {
+                  cardUrl &&
                   <div className="chapter-card-wrapper"
                        style={{ height: window.innerHeight - 197 }}
                        onTouchStart={() => {
-                             startTime = new Date()
-                           }}
+                         startTime = new Date()
+                       }}
                        onTouchEnd={() => {
-                             endTime = new Date()
-                             if(endTime.getTime() - startTime.getTime() >= 500) {
-                               mark({ module: '打点', function: '弹窗卡片', action: '长按保存' })
-                             }
-                           }}>
+                         endTime = new Date()
+                         if(endTime.getTime() - startTime.getTime() >= 500) {
+                           mark({ module: '打点', function: '弹窗卡片', action: '长按保存' })
+                         }
+                       }}>
                     <img className={`${this.state.showCard ? 'show' : ''} card-pic`} src={cardUrl}/>
                   </div>
-              }
+                }
+              </div>
+              <div id="printer-waiting" className="printer-waiting"/>
             </div>
-            <div id="printer-waiting" className="printer-waiting"/>
+            <div className="printer-bottom"/>
           </div>
-          <div className="printer-bottom"/>
-        </div>
-        <div className="card-mask"/>
-      </div> : null
+          <div className="card-mask"/>
+        </div> :
+        <div/>
     )
   }
 }
