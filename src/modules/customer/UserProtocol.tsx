@@ -16,12 +16,12 @@ export default class UserProtocol extends React.Component<any, any> {
   render() {
     return (
       <div className="feedback">
-        <div className="feedback-header" style={{ fontSize: '13px' }}>
+        <div className="feedback-header" style={{ fontSize: '22px', fontWeight: 'bolder', color:'#2C2C2C', border: 'none' }}>
           圈外同学用户协议
         </div>
         <div className="feedback-container">
-          <div className="tip">
-            <p style={{ fontSize: '22px', fontWeight: 'bolder',color:'#2C2C2C' }}>欢迎您来到圈外同学</p>
+          <div className="tip user-protocol">
+            <p>欢迎您来到圈外同学</p>
             <p>请您仔细阅读以下条款，如果您对本协议的任何条款表示异议，您可以选择不进入圈外同学。当您进入圈外同学，或者是直接或通过各类方式（如站外API引用等）
               间接使用圈外同学服务和数据的行为，都将被视作已无条件接受本声明所涉全部内容。</p>
             <p>若您对本声明的任何条款有异议，请停止使用圈外同学所提供的全部服务。</p>
