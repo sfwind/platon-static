@@ -15,13 +15,13 @@ import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodas
 import Tutorial from '../../../components/Tutorial'
 import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
-import { scroll, unScrollToBorder } from '../../../utils/helpers'
+import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-import RenderInBody from '../../../components/RenderInBody'
-import MiniRefreshTools from 'minirefresh'
 import { SectionProgressHeader } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { Dialog } from 'react-weui'
 
+const { Alert } = Dialog
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
@@ -95,16 +95,15 @@ export class Main extends React.Component <any, any> {
             isSynchronized: msg.isSynchronized
           })
         }
-
         // 更新其余数据
         this.setState({
           data: msg,
           submitId: msg.submitId,
           planId: msg.planId,
           applicationScore: res.msg.applicationScore,
-          autoPushDraftFlag: !msg.isSynchronized
+          autoPushDraftFlag: !msg.isSynchronized,
+          showCompletedBox: false
         })
-
         const { content } = msg
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
@@ -151,6 +150,13 @@ export class Main extends React.Component <any, any> {
         this.setState({ completdApplicationCnt: res.msg })
       }
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.location.query.id !== this.props.location.query.id) {
+      this.props = nextProps
+      this.componentWillMount()
+    }
   }
 
   componentDidUpdate() {
@@ -472,14 +478,28 @@ export class Main extends React.Component <any, any> {
 
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
-      if(!showCompletedBox || completdApplicationCnt === 0) return
+      if(!showCompletedBox) return
+
+      const AlertProps = {
+        buttons: [
+          {
+            label: '取消',
+            onClick: () => this.setState({ showCompletedBox: false })
+          },
+          {
+            label: '确定',
+            onClick: () => this.refs.sectionProgress.goSeriesPage(3)
+          }
+        ]
+      }
+
       return (
-        <div>
-          <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-          <div className="complete-box">
-            <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore}积分。</div>
+        <Alert {...AlertProps} show={showCompletedBox}>
+          <div className="global-pre">
+            恭喜你完成必修课，已解锁下一节内容！<br/>
+            再接再厉，完成本节的选做应用题吧！
           </div>
-        </div>
+        </Alert>
       )
     }
 
@@ -488,7 +508,7 @@ export class Main extends React.Component <any, any> {
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <SectionProgressHeader practicePlanId={this.props.location.query.practicePlanId}/>
+        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={this.props.location.query.practicePlanId}/>
         <div className="intro-container">
           <div className="application-context">
             <div className="application-title">
@@ -522,34 +542,36 @@ export class Main extends React.Component <any, any> {
             </div>
             {renderTip()}
             {
-              edit ?
-                <div className="editor">
-                  <Editor
-                    ref="editor"
-                    moduleId={3}
-                    value={this.state.editorValue}
-                    placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
-                    autoSave={() => {
-                      this.autoSave()
-                    }}
-                    onChange={(value) => this.handleChangeValue(value)}
-                  />
-                </div> :
-                null
+              edit &&
+              <div className="editor">
+                <Editor
+                  ref="editor"
+                  moduleId={3}
+                  value={this.state.editorValue}
+                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
+                  autoSave={() => {
+                    this.autoSave()
+                  }}
+                  onChange={(value) => this.handleChangeValue(value)}
+                />
+              </div>
             }
             {
-              showOthers ?
-                <div>
-                  <div className="submit-bar">{'同学的作业'}</div>
-                  <div className="app-work-list">
-                    {renderList(otherList)}
-                    {renderEnd()}
-                  </div>
-                </div> :
-                null
+              showOthers &&
+              <div>
+                <div className="submit-bar">{'同学的作业'}</div>
+                <div className="app-work-list">
+                  {renderList(otherList)}
+                  {renderEnd()}
+                </div>
+              </div>
             }
-            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>
-              同学的作业</div> : null}
+            {
+              !showOthers &&
+              <div className="show-others-tip" onClick={this.others.bind(this)}>
+                同学的作业
+              </div>
+            }
           </div>
         </div>
         {
@@ -557,9 +579,7 @@ export class Main extends React.Component <any, any> {
             <FooterButton btnArray={[{ click: () => {}, text: '提交中' }]}/> :
             edit && <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
         }
-        <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
-          {renderCompleteBox()}
-        </div>
+        {renderCompleteBox()}
       </div>
     )
   }

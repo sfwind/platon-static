@@ -1,5 +1,5 @@
 import * as React from 'react'
-import "./ProblemTitle.less"
+import './ProblemTitle.less'
 import { connect } from 'react-redux'
 import { loadProblem } from '../async'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
@@ -19,20 +19,21 @@ export class ProblemTitle extends React.Component<ProblemTitleProps, any> {
   constructor(props) {
     super(props)
     this.state = {
-      data : {}
+      data: {}
     }
+    this.getProblemType = this.getProblemType().bind(this)
   }
 
   componentWillMount() {
 
   }
 
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(props) {
     const { dispatch, problemId } = props
-    if(problemId){
+    if(problemId) {
       loadProblem(problemId).then(res => {
         if(res.code === 200) {
-          this.setState({data:res.msg})
+          this.setState({ data: res.msg })
         } else {
           dispatch(alertMsg(res.msg))
         }
@@ -42,14 +43,18 @@ export class ProblemTitle extends React.Component<ProblemTitleProps, any> {
     }
   }
 
+  getProblemType() {
+    return this.state.problemType
+  }
+
   render() {
     const { style = {}, problemId } = this.props
     const { data } = this.state
     const { problemType, problem } = data
     let styleType = ''
-    if (problemType === MAJOR_PROBLEM) {
+    if(problemType === MAJOR_PROBLEM) {
       styleType = 'major'
-    } else if(problemType === MINOR_PROBLEM){
+    } else if(problemType === MINOR_PROBLEM) {
       styleType = 'minor'
     }
     return (

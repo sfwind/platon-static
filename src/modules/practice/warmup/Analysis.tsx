@@ -11,7 +11,7 @@ import _ from 'lodash'
 import { scroll } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { SectionProgressHeader } from '../components/SectionProgressHeader'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 
 const sequenceMap = {
   0: 'A',
@@ -83,10 +83,6 @@ export class Analysis extends React.Component <any, any> {
       dispatch(set('warmupCurrentIndex', currentIndex - 1))
     }
     window.scrollTo(0, 0)
-  }
-
-  nextTask() {
-    window.history.back()
   }
 
   reload() {
@@ -289,7 +285,7 @@ export class Analysis extends React.Component <any, any> {
     return (
       <div>
         <div className="warm-up-container">
-          <SectionProgressHeader practicePlanId={this.props.location.query.practicePlanId}/>
+          <SectionProgressHeader ref={'sectionProgress'} practicePlanId={this.props.location.query.practicePlanId}/>
           {/*{practice[currentIndex] && practice[currentIndex].knowledge ?*/}
           {/*<div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :*/}
           {/*<div className="page-header">综合练习</div>*/}
@@ -298,15 +294,6 @@ export class Analysis extends React.Component <any, any> {
         </div>
         {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         <div>
-          {/*{showDiscuss ? null :*/}
-          {/*<div className="button-footer">*/}
-          {/*<div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>*/}
-          {/*上一题*/}
-          {/*</div>*/}
-          {/*{currentIndex + 1 < practiceCount ?*/}
-          {/*<div className={`right`} onClick={this.next.bind(this)}>下一题</div> :*/}
-          {/*<div className="right" onClick={this.nextTask.bind(this)}>返回</div>}*/}
-          {/*</div>}*/}
           {
             !showDiscuss &&
             <FooterButton btnArray={[
@@ -319,18 +306,22 @@ export class Analysis extends React.Component <any, any> {
               {
                 click: () => {
                   currentIndex + 1 < practiceCount ?
-                    this.next() : this.nextTask()
+                    this.next() :
+                    this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION)
                 },
-                text: currentIndex + 1 < practiceCount ? '下一题' : '返回'
+                text: currentIndex + 1 < practiceCount ? '下一题' : '基础应用题'
               }
             ]}/>
           }
-          {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                                  submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                  cancel={() => this.cancel()}/> :
-            <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-            </div>}
+          {
+            showDiscuss ?
+              <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                       submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                       cancel={() => this.cancel()}/> :
+              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
+                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+              </div>
+          }
         </div>
       </div>
     )
