@@ -7,8 +7,7 @@ import { mark } from '../../../utils/request'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import Tutorial from '../../../components/Tutorial'
 import AssetImg from '../../../components/AssetImg'
-import { scroll, unScrollToBorder } from '../../../utils/helpers'
-import RenderInBody from '../../../components/RenderInBody'
+import { unScrollToBorder } from '../../../utils/helpers'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { SectionProgressHeader } from '../components/SectionProgressHeader'
 
@@ -154,7 +153,6 @@ export class Main extends React.Component <any, any> {
       return
     }
     if(currentIndex === practiceCount - 1) {
-      // let problemId = _.get(list, 'practice[0].problemId')
       let questionId = _.get(list, `practice[${currentIndex}].id`)
       mark({
         module: '打点',
@@ -213,18 +211,18 @@ export class Main extends React.Component <any, any> {
       return (
         <div className="intro-container">
           {
-            practiceCount !== 0 && currentIndex <= practiceCount - 1 ?
-              <div className="intro-index">
-                <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
-                <span className="tip">正确选项可能不止一个</span>
-                <div className="type"><span className="number">{score}</span>分</div>
-              </div> : null
+            practiceCount !== 0 && currentIndex <= practiceCount - 1 &&
+            <div className="intro-index">
+              <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
+              <span className="tip">正确选项可能不止一个</span>
+              <div className="type"><span className="number">{score}</span>分</div>
+            </div>
           }
           {
-            pic ?
-              <div className="context-img">
-                <AssetImg url={pic}/>
-              </div> : null
+            pic &&
+            <div className="context-img">
+              <AssetImg url={pic}/>
+            </div>
           }
           <div className="question">
             <div dangerouslySetInnerHTML={{ __html: question }}/>
@@ -232,10 +230,13 @@ export class Main extends React.Component <any, any> {
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          {integrated == 'false' ?
+          {
+            integrated == 'false' &&
             <div className="knowledge-link" style={{ backgroundColor: '#fff', marginTop: 20 }}
                  onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>
-              不确定?瞄一眼知识点</div> : null}
+              不确定?瞄一眼知识点
+            </div>
+          }
         </div>
       )
     }
@@ -256,27 +257,11 @@ export class Main extends React.Component <any, any> {
       <div>
         <div className="warm-up-container">
           <SectionProgressHeader practicePlanId={this.props.location.query.practicePlanId}/>
-          {/*{practice[currentIndex] && practice[currentIndex].knowledge ?*/}
-          {/*<div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :*/}
-          {/*<div className="page-header">综合练习</div>}*/}
           {questionRender(practice[currentIndex] || {})}
-          {/*<div className="button-footer">*/}
-          {/*<div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题*/}
-          {/*</div>*/}
-          {/*{*/}
-          {/*currentIndex !== practiceCount - 1 ?*/}
-          {/*<div className={`right`}*/}
-          {/*onClick={*/}
-          {/*this.next.bind(this)*/}
-          {/*}>下一题</div> :*/}
-          {/*<div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>*/}
-          {/*}*/}
-          {/*</div>*/}
         </div>
         <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']}
                   show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}
                   onShowEnd={() => this.tutorialEnd()}/>
-
         <FooterButton btnArray={[
           { click: () => this.prev(), text: '上一题' },
           {
