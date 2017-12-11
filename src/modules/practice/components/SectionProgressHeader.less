@@ -1,9 +1,16 @@
 .section-progress-component {
   box-sizing: border-box;
-  padding: 0 3rem;
+  
+  .progress-title {
+    font-size: 1.8rem;
+    line-height: 100%;
+    color: #2c2c2c;
+    text-align: left;
+  }
   
   .progress-part {
     position: relative;
+    margin-top: 2.5rem;
     width: 25%;
     display: inline-block;
     text-align: center;
@@ -106,6 +113,19 @@
           height: 0.3rem;
           background-color: orange;
           top: 3rem;
+        }
+      }
+    }
+    .beforenone {
+      &::before {
+        display: none;
+      }
+    }
+    
+    &:last-of-type {
+      .progress-icon {
+        &::after {
+          display: none;
         }
       }
     }

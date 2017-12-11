@@ -8,6 +8,7 @@ interface sectionPart {
 }
 
 interface SectionProgressHeaderProps {
+  title: string,
   progress: [sectionPart]
 }
 
@@ -18,7 +19,7 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
   }
 
   render() {
-    // const { progress } = this.props
+    const { title } = this.props
 
     const progress = [
       { text: '知识点', unlock: true, complete: true },
@@ -29,13 +30,14 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
 
     return (
       <div className="section-progress-component">
+        <div className="progress-title">{title}</div>
         {
           progress.map((part, index) => {
             const { text, unlock, complete } = part
             return (
               <div key={index} className="progress-part">
                 <span className="progress-text">{text}</span>
-                <div className={`${unlock ? complete ? 'complete' : 'unlock' : 'lock'} progress-icon`}>
+                <div className={`${unlock ? complete ? 'complete' : 'unlock' : 'lock'} progress-icon ${index === 0 ? 'beforenone': '' }`}>
                   <div className='progress-content'></div>
                 </div>
               </div>

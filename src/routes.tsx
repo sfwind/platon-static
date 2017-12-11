@@ -72,6 +72,7 @@ import BusinessApply from './modules/bsapply/BusinessApply'
 import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
 import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
 import { SectionProgressHeader } from './modules/practice/components/SectionProgressHeader'
+import StudyReport from './modules/plan/StudyReport'
 
 const routes = (
   <Route>
@@ -93,7 +94,8 @@ const routes = (
       <Route path="learn" component={PlanList}/>
       <Route path="plan/main" component={PlanList}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
-      <Route path="plan/study" component={StudyLine}/>
+      {/*<Route path="plan/study" component={StudyLine}/>*/}
+      <Route path="plan/study" component={PlanMain}/>
       <Route path="plan/report" component={ImprovementReport}/>
 
       <Route path="practice/warmup" component={WarmUpNew}/>
@@ -166,7 +168,7 @@ const routes = (
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
     </Route>
 
-    <Route path="/test" component={SectionProgressHeader}/>
+    <Route path="/test" component={StudyReport}/>
   </Route>
 )
 
