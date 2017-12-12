@@ -235,9 +235,9 @@ export class PlanMain extends React.Component <any, any> {
         this.setState({ chapterList: res.msg }, () => {
           Ps.initialize(this.refs.sideContent, {
             swipePropagation: false,
-            handlers: [ 'wheel', 'touch' ]
+            handlers: ['wheel', 'touch']
           })
-          unScrollToBorder('#sidebar-content');
+          unScrollToBorder('#sidebar-content')
         })
       }
     })
@@ -262,7 +262,7 @@ export class PlanMain extends React.Component <any, any> {
         if(clickBtns.length > 0) {
           for(let i = 0; i < clickBtns.length; i++) {
             if(i !== 0) {
-              clickBtns[ i ].style.display = 'none'
+              clickBtns[i].style.display = 'none'
             }
           }
         }
@@ -313,7 +313,7 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: false, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: false, planId, complete }
       }) : null
     } else if(type === 12) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined))
@@ -321,12 +321,12 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: true, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: true, planId, complete }
       }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
       }) : null
     } else if(type === 31) {
       // 关闭tutorial
@@ -566,7 +566,7 @@ export class PlanMain extends React.Component <any, any> {
     let section = this.refs.sideContent.querySelector(`#section${series}`)
     let sectionArr = this.refs.sideContent.querySelectorAll('.section')
     for(let i = 0; i < sectionArr.length; i++) {
-      sectionArr[ i ].setAttribute('class', 'section')
+      sectionArr[i].setAttribute('class', 'section')
     }
     if(section) {
       section.setAttribute('class', 'section open')
@@ -665,10 +665,10 @@ export class PlanMain extends React.Component <any, any> {
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null}
               <div className="body">
                 <div className="title">
-                  {typeMap[ item.type ].type}
+                  {typeMap[item.type].type}
                   <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
                 </div>
-                <div className="desc">{typeMap[ item.type ].desc}</div>
+                <div className="desc">{typeMap[item.type].desc}</div>
                 {
                   item.status === 1 ?
                     <div className="completed-span">已完成</div> :
@@ -840,7 +840,7 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
 
-      let currentSection = sections[ currentIndex - 1 ]
+      let currentSection = sections[currentIndex - 1]
       return (
         <div className="plan-study-btn-footer" id="plan-study-btn-footer">
           <div className="psbf-wrapper">
@@ -1028,11 +1028,11 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     const containerStyle = () => {
-      let dom = document.querySelector('.global-notify');
+      let dom = document.querySelector('.global-notify')
       if(dom) {
-        return { height: window.innerHeight - dom.clientHeight };
+        return { height: window.innerHeight - dom.clientHeight }
       } else {
-        return { height: window.innerHeight };
+        return { height: window.innerHeight }
       }
     }
 

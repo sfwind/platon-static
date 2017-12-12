@@ -38,45 +38,24 @@ export default class ProblemExtension extends React.Component<any, any> {
 
   render() {
     const { data } = this.state
-    const { extension, onlineActivities, offlineActivities } = data
+    const { extension, onlineActivities = [], offlineActivities = [] } = data
     const { problemId, series } = this.props.location.query
 
+    let activities = onlineActivities.concat(offlineActivities)
+
     const renderActivities = () => {
-      if((onlineActivities && onlineActivities.length > 0) || (offlineActivities && offlineActivities.length > 0)) {
+      if(activities.length > 0) {
         return (
           <div className="extension-activity">
             <ExtensionHead
               icon={{ uri: 'https://static.iqycamp.com/images/problem/extension_icon_bag.png', width: 21, height: 20 }}
               content={`学习活动`}/>
-            {renderOnlineActivities()}
-            {renderOfflineActivities()}
-          </div>
-        )
-      }
-    }
-
-    const renderOnlineActivities = () => {
-      if(onlineActivities && onlineActivities.length > 0) {
-        return (
-          <div style={{ marginBottom: 20 }}>
             {
-              onlineActivities.map((item, index) =>
-                <OnlineContentBox description={item.description} password={item.password} uri={item.uri} key={index}/>
-              )
-            }
-          </div>
-        )
-      }
-    }
-
-    const renderOfflineActivities = () => {
-      if(offlineActivities && offlineActivities.length > 0) {
-        return (
-          <div>
-            {
-              offlineActivities.map((item, index) =>
-                <OfflineContentBox description={item.description} location={item.location} workshop={item.workshop}
-                                   uri={item.uri}/>
+              activities.map((item, index) =>
+                <ActivityContentBox sequence={index + 1}
+                                    description={item.description}
+                                    password={item.password}
+                                    uri={item.uri} key={index}/>
               )
             }
           </div>
@@ -86,7 +65,6 @@ export default class ProblemExtension extends React.Component<any, any> {
 
     return (
       <div className="problem-extension-container">
-        {/*<div className="extension-head"/>*/}
         <div className="extension-read">
           <ExtensionHead
             icon={{ uri: 'https://static.iqycamp.com/images/problem/extension_icon_book.png', width: 21, height: 20 }}
@@ -103,7 +81,8 @@ export default class ProblemExtension extends React.Component<any, any> {
                onClick={() => this.context.router.push({
                  pathname: '/rise/static/practice/subject',
                  query: { id: problemId, series }
-               })}>进入
+               })}>
+            进入
           </div>
         </div>
       </div>
@@ -123,50 +102,15 @@ class ExtensionHead extends React.Component<{icon: {uri: string; width: number; 
   }
 }
 
-// 活动分类
-class ActivityTypeTitle extends React.Component<{content: string}, any> {
+class ActivityContentBox extends React.Component<{description: string, uri: string, password?: string}, any> {
   render() {
-    const { content } = this.props
+    const { sequence, description, uri, password } = this.props
     return (
-      <div className="activity-type-title">—&nbsp;{content}&nbsp;—</div>
-    )
-  }
-}
-
-// 线上活动列表
-class OnlineContentBox extends React.Component<{description: string, password: string, uri: string}, any> {
-  render() {
-    const { description, password, uri } = this.props
-    return (
-      <div className="online-content-box">
-        <div className="online-content">{description}</div>
-        {
-          password ? <div className="online-password">直播间密码:{password}</div> : null
-        }
-        <div className="online-view" onClick={() => window.location.href = uri}>点击查看</div>
-      </div>
-    )
-  }
-}
-
-// 线下活动列表
-class OfflineContentBox extends React.Component<{description: string, location: string, workshop: string, uri: string}, any> {
-  render() {
-    const { description, location, workshop, uri } = this.props
-    return (
-      <div className="offline-content-box">
-        <div className="offline-left-area">
-          <div className="offline-left-location">{location}</div>
-          <div className="offline-left-icon">
-            <AssetImg url="https://static.iqycamp.com/images/problem/extension_icon_location.png?imageslim" width={15}
-                      height={19}/>
-          </div>
-        </div>
-        <div className="offline-right-area">
-          <div className="offline-right-description">{description}</div>
-          <div className="offline-right-workshop">{workshop}</div>
-          <div className="offline-right-view" onClick={() => window.location.href = uri}>进入</div>
-        </div>
+      <div className="content-box">
+        <div className="content">{sequence + '. ' + description}</div>
+        {password && <div className="password">直播间密码:{password}</div>}
+        <div className="activity-type"># 线{password ? '上' : '下'}活动</div>
+        <div className="view" onClick={() => window.location.href = uri}>点击查看</div>
       </div>
     )
   }

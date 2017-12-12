@@ -37,11 +37,11 @@ export function gradeProblem(problemScores, problemId) {
 }
 
 export function isRiseMember() {
-    return pget('/rise/plan/risemember')
+  return pget('/rise/plan/risemember')
 }
 
-export function learnKnowledge(knowledgeId) {
-  return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
+export function learnKnowledge(practicePlanId) {
+  return ppost(`/rise/practice/knowledge/learn/${practicePlanId}`)
 }
 
 export function mark(param) {
@@ -92,12 +92,10 @@ export function disCollectProblem(problemId) {
   return pget(`/rise/problem/discollect/${problemId}`)
 }
 
-
-export function hasPrivilege(){
-  return pget(`/signup/check/business/school/privilege`);
+export function hasPrivilege() {
+  return pget(`/signup/check/business/school/privilege`)
 }
 
-
-export function loadStudyline(planId){
-  return pget(`/rise/plan/load/studyline/${planId}`);
+export function loadStudyline(planId) {
+  return pget(`/rise/plan/load/studyline/${planId}`)
 }

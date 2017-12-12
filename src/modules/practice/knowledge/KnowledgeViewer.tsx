@@ -8,7 +8,7 @@ import {
   discussKnowledge,
   loadKnowledge,
   loadKnowledges,
-  deleteKnowledgeDiscuss
+  deleteKnowledgeDiscuss, learnKnowledge
 } from './async'
 import DiscussShow from '../components/DiscussShow'
 import Discuss from '../components/Discuss'
@@ -183,6 +183,19 @@ export class KnowledgeViewer extends React.Component<any, any> {
     })
   }
 
+  handleClickGoWarmup(practicePlanId) {
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    learnKnowledge(practicePlanId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP)
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(er => alertMsg(er))
+  }
+
   render() {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
@@ -322,7 +335,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
           {
             practicePlanId && !showDiscuss &&
             <FooterButton btnArray={[{
-              click: () => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP),
+              click: () => this.handleClickGoWarmup(practicePlanId),
               text: '下一步'
             }]}/>
           }

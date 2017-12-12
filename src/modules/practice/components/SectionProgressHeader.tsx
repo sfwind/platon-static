@@ -105,7 +105,6 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
         {
           progress.map((part, index) => {
             const { unlock, complete } = part
-            console.log(this.PROGRESS_TEXT[index])
             return (
               <div key={index} className="progress-part"
                    onClick={() => this.goSeriesPage(index)}>
