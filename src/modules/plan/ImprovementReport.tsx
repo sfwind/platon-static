@@ -11,7 +11,6 @@ import RenderInBody from '../../components/RenderInBody'
 import { ProblemTitle, ProblemTitleType } from '../problem/components/ProblemTitle'
 import { FooterButton } from '../../components/submitbutton/FooterButton'
 import AssetImg from '../../components/AssetImg'
-import { Block } from '../../components/Block'
 
 const numeral = require('numeral')
 
@@ -46,7 +45,7 @@ export class ImprovementReport extends React.Component<any, any> {
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
   }
 
-  renderChapterScores() {
+  renderChapterScores(problemType) {
     const { planData = {} } = this.state
     const { chapterList } = planData
     if(chapterList) {
@@ -58,15 +57,17 @@ export class ImprovementReport extends React.Component<any, any> {
               <span className="name">{NumberToChinese(item.chapter)}、{item.name}</span>
               <div className="clear"/>
             </div>
-            <Progress progressStyle={{ width: `${window.innerWidth - 170}px` }} score={item.myWarmScore}
-                      totalScore={item.totalWarmScore}/>
+            <Progress progressStyle={{ width: `${window.innerWidth - 170}px` }}
+                      score={item.myWarmScore}
+                      totalScore={item.totalWarmScore}
+                      problemTypeClass={this.calculateMedalTypeClass(problemType)}/>
           </div>
         )
       })
     }
   }
 
-  renderApplicationScores() {
+  renderApplicationScores(problemType) {
     const { planData = {} } = this.state
     const {
       applicationTotalScore, applicationShouldCount,
@@ -83,7 +84,8 @@ export class ImprovementReport extends React.Component<any, any> {
         </div>
         <Progress holderClass="article" progressStyle={{ width: `${window.innerWidth - 170}px` }}
                   score={applicationScore}
-                  totalScore={applicationTotalScore}/>
+                  totalScore={applicationTotalScore}
+                  problemTypeClass={this.calculateMedalTypeClass(problemType)}/>
       </div>
     )
 
@@ -161,8 +163,8 @@ export class ImprovementReport extends React.Component<any, any> {
         <div className="report-header">
           <div className="report-title">学习报告</div>
           <div className={`report-global-data`}>
-            <span className="nickname">{window.ENV.userName}</span>
-            <img className={`global-medal ${this.calculateMedalTypeClass(problemType)}`}/>
+            <span className={`nickname ${this.calculateMedalTypeClass(problemType)}`}>{window.ENV.userName}</span>
+            <div className={`global-medal ${this.calculateMedalTypeClass(problemType)}`}/>
             <div className="data-block">
               <div className="data">
                 <div className="type-str">总得分</div>
@@ -182,13 +184,13 @@ export class ImprovementReport extends React.Component<any, any> {
         <div className="body-container">
           <div className="body">
             <div className="header"><span className="title">各章选择题得分</span></div>
-            {this.renderChapterScores()}
+            {this.renderChapterScores(problemType)}
           </div>
           <div className="body" style={{ marginTop: '36px' }}>
             <div className="header">
               <span className="title">应用题</span>
             </div>
-            {this.renderApplicationScores()}
+            {this.renderApplicationScores(problemType)}
             <div className="vote-info">
               共送出 <span className="big-point">{shareVoteCount}</span> 个赞，收获 <span
               className="big-point">{receiveVoteCount}</span> 个赞<br/>
@@ -209,7 +211,7 @@ export class ImprovementReport extends React.Component<any, any> {
           <AssetImg className="bottom-icon"
                     url={'https://static.iqycamp.com/images/improvement_report_bottom_icon.png?imageslim'}/>
         </div>
-        <FooterButton btnArray={[{ click: () => this.context.router.goBack(), text: '返回' }]}/>
+        <FooterButton btnArray={[{ click: () => this.context.router.goBack(), text: '关闭' }]}/>
       </div>
     )
   }
@@ -235,19 +237,22 @@ class Progress extends React.Component<any, any> {
   }
 
   render() {
-    const { holderClass, score, totalScore } = this.props
+    const { holderClass, score, totalScore, problemTypeClass } = this.props
+    console.log('problemclass', problemTypeClass)
     let progressStyle = merge({ width: '50%' }, this.props.progressStyle)
 
     return (
       <div>
         <div className="progress" style={progressStyle}>
           <div className="track"/>
-          <div className={`holder ${holderClass ? holderClass : ''}`}
+          <div className={`holder ${holderClass && holderClass} ${problemTypeClass}`}
                style={{ width: `${this.calculatePercent(score, totalScore)}%` }}>
           </div>
         </div>
         <span className="score" style={{ width: '65px' }}>
-          <span className="point number">{score}</span>&nbsp;/&nbsp;<span className="number">{totalScore}</span>
+          <span className={`point number ${problemTypeClass}`}>{score}</span>
+          &nbsp;/&nbsp;
+          <span className="number">{totalScore}</span>
         </span>
       </div>
     )

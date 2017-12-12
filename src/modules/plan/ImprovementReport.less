@@ -67,7 +67,12 @@
         }
         .number {
           &.point {
-            color: @color_strong;
+            &.major {
+              color: #FFB200;
+            }
+            &.minor {
+              color: #399bd3;
+            }
           }
           font-size: @font_help;
         }
@@ -87,17 +92,25 @@
           > .holder {
             height: 100%;
             position: absolute;
-            background: rgb(88, 177, 223);
-            background: -webkit-gradient(linear, left center, right center, from(#55cbcb), to(rgb(88, 177, 223)));
             width: 0;
             border-radius: 5px;
             overflow: hidden;
-            &.article {
-              background: rgb(88, 177, 223);
-              background: -webkit-gradient(linear, left center, right center, from(rgb(235, 214, 99)), to(rgb(175, 235, 95)));
+            
+            &.major {
+              background: #FFB200;
+              background: -webkit-gradient(linear, left center, right center, from(#ffd40c), to(#FFB200));
+            }
+            &.minor {
+              background: #399bd3;
+              background: -webkit-gradient(linear, left center, right center, from(#78caf9), to(#399bd3));
             }
             
-            > .slider {
+            //&.article {
+            //  background: rgb(88, 177, 223);
+            //  background: -webkit-gradient(linear, left center, right center, from(rgb(235, 214, 99)), to(rgb(175, 235, 95)));
+            //}
+            
+            .slider {
               position: absolute;
               background: #e6e6e6;
               right: 2.5px;
@@ -279,10 +292,26 @@
       .nickname {
         font-size: 1.5rem;
         line-height: 1.5rem;
-        color: #FFB200;
+        &.major {
+          color: #FFB200;
+        }
+        &.minor {
+          color: #399bd3;
+        }
       }
       .global-medal {
-      
+        position: absolute;
+        width: 6.3rem;
+        height: 9.3rem;
+        background-size: 6.3rem 9.3rem;
+        right: 1.5rem;
+        top: -0.5rem;
+        &.major {
+          background-image: url("https://static.iqycamp.com/images/report_medal_major.png?imageslim");
+        }
+        &.minor {
+          background-image: url("https://static.iqycamp.com/images/report_medal_minor.png?imageslim");
+        }
       }
       .data-block {
         width: 21rem;

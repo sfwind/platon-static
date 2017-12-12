@@ -17,7 +17,7 @@ import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-import { SectionProgressHeader } from '../components/SectionProgressHeader'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
 import { Block } from '../../../components/Block'
@@ -104,7 +104,8 @@ export class Main extends React.Component <any, any> {
           planId: msg.planId,
           applicationScore: res.msg.applicationScore,
           autoPushDraftFlag: !msg.isSynchronized,
-          showCompletedBox: false
+          showCompletedBox: false,
+          firstSubmit: !msg.content
         })
         const { content } = msg
         if(integrated == 'false') {
@@ -364,7 +365,7 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
+          this.setState({ completdApplicationCnt: res.msg, showCardPrinter: true }, () => {
             window.scrollTo(0, 0)
           })
         }
@@ -414,7 +415,7 @@ export class Main extends React.Component <any, any> {
   render() {
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
-      showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
+      showCompletedBox, showCardPrinter, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
@@ -480,30 +481,52 @@ export class Main extends React.Component <any, any> {
 
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
-      if(!showCompletedBox || !isBaseApplication) return
-      const AlertProps = {
-        buttons: [
-          {
-            label: '取消',
-            onClick: () => this.setState({ showCompletedBox: false })
-          },
-          {
-            label: '确定',
-            onClick: () => this.refs.sectionProgress.goSeriesPage(3)
-          }
-        ]
-      }
+      // !this.state.firstSubmit
+      if(showCompletedBox && isBaseApplication) {
+        const AlertProps = {
+          buttons: [
+            {
+              label: '取消',
+              onClick: () => {
+                this.setState({ firstSubmit: false })
+                this.setState({ showCompletedBox: false })
+              }
+            },
+            {
+              label: '确定',
+              onClick: () => {
+                this.setState({ firstSubmit: false })
+                this.refs.sectionProgress.goSeriesPage(3)
+              }
+            }
+          ]
+        }
 
-      return (
-        <Block>
-          <Alert {...AlertProps} show={showCompletedBox}>
-            <div className="global-pre">
-              恭喜你完成必修课，已解锁下一节内容！<br/>
-              再接再厉，完成本节的选做应用题吧！
-            </div>
-          </Alert>
-        </Block>
-      )
+        return (
+          <Block>
+            <Alert {...AlertProps} show={showCompletedBox}>
+              <div className="global-pre">
+                恭喜你完成必修课，已解锁下一节内容！<br/>
+                再接再厉，完成本节的选做应用题吧！
+              </div>
+            </Alert>
+          </Block>
+        )
+      }
+    }
+
+    const renderCardPrinter = () => {
+      // !this.state.firstSubmit
+      if(problemId && this.props.location.query.practicePlanId) {
+        if(showCardPrinter && isBaseApplication) {
+          return (
+            <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}
+                         afterClose={() => this.setState({
+                           showCompletedBox: true
+                         })}/>
+          )
+        }
+      }
     }
 
     return (
@@ -522,13 +545,13 @@ export class Main extends React.Component <any, any> {
               pic &&
               <div className="app-image">
                 <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                          onClick={() => {preview(pic, [pic])}}/>
+                          onClick={() => preview(pic, [pic])}/>
               </div>
             }
             {
               integrated == 'false' &&
               <div className="knowledge-link"
-                   onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
+                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDEGE)}>
                 点击查看相关知识点
               </div>
             }
@@ -571,7 +594,7 @@ export class Main extends React.Component <any, any> {
             }
             {
               !showOthers &&
-              <div className="show-others-tip" onClick={this.others.bind(this)}>
+              <div className="show-others-tip" onClick={() => this.others()}>
                 同学的作业
               </div>
             }
@@ -582,8 +605,8 @@ export class Main extends React.Component <any, any> {
             <FooterButton btnArray={[{ click: () => {}, text: '提交中' }]}/> :
             edit && <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
         }
+        {renderCardPrinter()}
         {renderCompleteBox()}
-        <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}/>
       </div>
     )
   }
