@@ -44,6 +44,11 @@ export default class StudyLine extends React.Component<any, any> {
       action: '打开新学习页面'
     })
 
+    window.addEventListener('popstate', (e) => {
+      window.location.href ='/rise/static/rise'
+    })
+    history.pushState('','','#main')
+
     const { dispatch, location } = this.props
     dispatch(startLoad())
 
