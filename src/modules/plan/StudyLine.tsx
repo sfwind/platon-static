@@ -45,9 +45,9 @@ export default class StudyLine extends React.Component<any, any> {
     })
 
     window.addEventListener('popstate', (e) => {
-      window.location.href ='/rise/static/rise'
+      window.location.href = '/rise/static/rise'
     })
-    history.pushState('','','#main')
+    history.pushState('', '', '#main')
 
     const { dispatch, location } = this.props
     dispatch(startLoad())
@@ -66,6 +66,7 @@ export default class StudyLine extends React.Component<any, any> {
   }
 
   onPracticeSelected(item) {
+    console.log('click', item)
     const { dispatch, location } = this.props
     const { planId } = location.query
     const { type, status } = item
@@ -129,9 +130,9 @@ export default class StudyLine extends React.Component<any, any> {
     const { problemType, problemId, preview = [], review = [], chapters = [] } = data
 
     let styleType = ''
-    if (problemType === MAJOR_PROBLEM) {
+    if(problemType === MAJOR_PROBLEM) {
       styleType = 'major'
-    } else if(problemType === MINOR_PROBLEM){
+    } else if(problemType === MINOR_PROBLEM) {
       styleType = 'minor'
     }
 
@@ -147,9 +148,7 @@ export default class StudyLine extends React.Component<any, any> {
               } else if(item.type === 20) {
                 title = '课程介绍'
               }
-              {
-                return renderPractice(title, item)
-              }
+              return renderPractice(title, item)
             })
           }
         </div>
@@ -189,13 +188,13 @@ export default class StudyLine extends React.Component<any, any> {
                   {'第' + hanzi[chapter] + '章 '}{item.name}
                   {
                     sections.map((item, index) => {
+                      console.log(item)
                       let title = chapter + '.' + item.section + ' ' + item.name
                       {
                         return renderPractice(title, item)
                       }
                     })
                   }
-
                 </div>
               )
             })
@@ -216,9 +215,7 @@ export default class StudyLine extends React.Component<any, any> {
               } else if(item.type === 102) {
                 title = '延伸学习'
               }
-              {
-                return renderPractice(title, item)
-              }
+              return renderPractice(title, item)
             })
           }
         </div>
@@ -227,7 +224,7 @@ export default class StudyLine extends React.Component<any, any> {
 
     return (
       <div className="study-line-container">
-        <ProblemTitle problemId={problemId} />
+        <ProblemTitle problemId={problemId}/>
         {renderPreview()}
         <ColumnSpan/>
         {renderChapter()}

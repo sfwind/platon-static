@@ -9,6 +9,7 @@ import {
 } from '../../problem/async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
+
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../../utils/request'
@@ -207,11 +208,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   handleClickGoStudy() {
-    if(window.ENV.showExplore !== 'false') {
-      this.context.router.push('/rise/static/rise');
-    } else {
-      this.context.router.push('/rise/static/course/schedule/plan');
-    }
+    this.context.router.push(`/rise/static/plan/study?planId=${this.state.currentPlanId}`)
   }
 
   onClickHandleProblemCollection(selected, problemId) {
@@ -306,8 +303,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               //   </div>
               // )
               return (
-                <FooterButton btnArray={[{ click: () => window.location.href = `https://${window.location.hostname}/pay/rise`,
-                text: '加入商学院，立即学习' }]}/>
+                <FooterButton btnArray={[{
+                  click: () => window.location.href = `https://${window.location.hostname}/pay/rise`,
+                  text: '加入商学院，立即学习'
+                }]}/>
               )
             }
             case 2: {
@@ -315,17 +314,13 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               //   <div className="button-footer" onClick={() => this.handleClickProblemChooseConfirm()}>
               //     {
               //       togetherClassMonth && togetherClassMonth !== '0' ?
-              //         <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160 }}>
-              //           本课程为 {togetherClassMonth} 月训练营课程，记得在当月选择哦
-              //         </div> :
-              //         null
-              //     }
-              //     选择该课程
-              //   </div>
-              // )
+              //         <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160
+              // }}> 本课程为 {togetherClassMonth} 月训练营课程，记得在当月选择哦 </div> : null } 选择该课程 </div> )
               return (
-                <FooterButton btnArray={[{ click: () => this.handleClickProblemChooseConfirm(),
-                text: "选择该课程" }]}/>
+                <FooterButton btnArray={[{
+                  click: () => this.handleClickProblemChooseConfirm(),
+                  text: '选择该课程'
+                }]}/>
               )
             }
             case 3: {
@@ -335,8 +330,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               //   </div>
               // )
               return (
-                <FooterButton btnArray={[{ click: () => this.handleClickGoStudy(),
-                text: "课程已开始，去上课" }]}/>
+                <FooterButton btnArray={[
+                  {
+                    click: () => this.handleClickGoStudy(),
+                    text: '课程已开始，去上课'
+                  }]}/>
               )
             }
             case 4: {
@@ -346,8 +344,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               //   </div>
               // )
               return (
-                <FooterButton btnArray={[{ click: () => this.handleClickGoStudy(),
-                text: "课程已完成，去复习" }]}/>
+                <FooterButton btnArray={[{
+                  click: () => this.handleClickGoStudy(),
+                  text: '课程已完成，去复习'
+                }]}/>
               )
             }
             default:
@@ -358,18 +358,18 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
 
     const renderPayMessage = () => {
-        return (
-          <div className="pre-pay-message">
-            <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。</div>
-            <br/>
-            <div>课程一共有{data && data.chapterList ? data.chapterList.length : 'N'}章{data ? data.length : 'N'}小节。完成后可永久随开随学，进度自控。</div>
-            <br/>
-            <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div>
-            <br/>
-            <div>报名通过系统自动进行，支付成功后概不退款，请予以理解。</div>
-            <br/>
-          </div>
-        )
+      return (
+        <div className="pre-pay-message">
+          <div>《{problem}》是线上学习产品，由文字+语音+练习题+互动讨论区组成。</div>
+          <br/>
+          <div>课程一共有{data && data.chapterList ? data.chapterList.length : 'N'}章{data ? data.length : 'N'}小节。完成后可永久随开随学，进度自控。</div>
+          <br/>
+          <div>在手机端”圈外同学“公众号，或网站www.iquanwai.com都可以学习。</div>
+          <br/>
+          <div>报名通过系统自动进行，支付成功后概不退款，请予以理解。</div>
+          <br/>
+        </div>
+      )
     }
 
     const renderContent = () => {
@@ -378,11 +378,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
-              { audio &&
-                <div className="context-audio">
-                  <Audio url={audio} words={audioWords}/>
-                </div>  }
-              { why && <pre className="pi-c-f-c-text" dangerouslySetInnerHTML={{ __html: why }}/> }
+              {audio &&
+              <div className="context-audio">
+                <Audio url={audio} words={audioWords}/>
+              </div>}
+              {why && <pre className="pi-c-f-c-text" dangerouslySetInnerHTML={{ __html: why }}/>}
             </div>
           </div>
           <div className="pi-c-man white-content mg-25">
@@ -404,9 +404,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-learn white-content mg-25">
             <Header icon="rise_icon_book" title="学习大纲"/>
             <div className="pi-c-l-content">
-              {what && <pre className="pi-c-text" dangerouslySetInnerHTML={{ __html: what }}/> }
+              {what && <pre className="pi-c-text" dangerouslySetInnerHTML={{ __html: what }}/>}
               <div
-                className="roadmap">{chapterList && chapterList.map((chapter, idx) => renderRoadMap(chapter, idx)) }</div>
+                className="roadmap">{chapterList && chapterList.map((chapter, idx) => renderRoadMap(chapter, idx))}</div>
             </div>
           </div>
         </section>
@@ -427,11 +427,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div>
         {renderContent()}
         {renderFooter()}
-        <Alert { ...this.state.alert }
+        <Alert {...this.state.alert}
                show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
-        <Alert { ...this.state.confirm } show={this.state.showConfirm}>
+        <Alert {...this.state.confirm} show={this.state.showConfirm}>
           <div className="global-pre">{this.state.confirmMsg}</div>
         </Alert>
       </div>
@@ -448,6 +448,7 @@ interface HeaderProps {
   marginLeft?: number,
   lineHeight?: number,
 }
+
 class Header extends React.Component<HeaderProps, any> {
   constructor(props: HeaderProps) {
     super(props)

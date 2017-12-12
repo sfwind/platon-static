@@ -53,9 +53,52 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
   goSeriesPage(index) {
     const { progress } = this.state
     const { planId, practicePlanId, practiceId, complete, unlock } = progress[index]
-    if(!unlock) {
-      return
+    let queryParam = {
+      complete: complete,
+      planId: planId,
+      practicePlanId: practicePlanId
     }
+    switch(index) {
+      case 0:
+        this.context.router.push({
+          pathname: '/rise/static/practice/knowledge',
+          query: queryParam
+        })
+        break
+      case 1:
+        this.context.router.push({
+          pathname: '/rise/static/practice/warmup',
+          query: queryParam
+        })
+        break
+      case 2:
+        this.context.router.push({
+          pathname: '/rise/static/practice/application',
+          query: _.merge(queryParam, {
+            id: practiceId
+          })
+        })
+        break
+      case 3:
+        this.context.router.push({
+          pathname: '/rise/static/practice/application',
+          query: _.merge(queryParam, {
+            id: practiceId
+          })
+        })
+        break
+      default:
+        break
+    }
+    return
+  }
+
+  selfSeriesSwitch(index) {
+    const { progress } = this.state
+    const { planId, practicePlanId, practiceId, complete, unlock } = progress[index]
+
+    if(!unlock) return
+
     let queryParam = {
       complete: complete,
       planId: planId,
@@ -107,7 +150,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
             const { unlock, complete } = part
             return (
               <div key={index} className="progress-part"
-                   onClick={() => this.goSeriesPage(index)}>
+                   onClick={() => this.selfSeriesSwitch(index)}>
                 <span className="progress-text">{this.PROGRESS_TEXT[index]}</span>
                 <div
                   className={`${unlock ? complete ? 'complete' : 'unlock' : 'lock'} progress-icon ${index === 0 ? 'beforenone' : '' } ${index === progress.length - 1 ? 'afternone' : ''}`}>
@@ -117,7 +160,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
             )
           })
         }
-        <ColumnSpan height={5} style={{ marginTop: '2.5rem' }}/>
+        <ColumnSpan height={5} style={{ margin: '2.5rem -3rem' }}/>
       </div>
     )
   }

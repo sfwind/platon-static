@@ -15,8 +15,6 @@ export class ColumnSpan extends React.Component<ColumnSpanProps, any> {
     let { style = {}, height = 20 } = this.props
 
     style = _.merge(style, {
-      marginLeft: '-3rem',
-      marginRight: '-3rem',
       backgroundColor: '#f3f4f6',
       height: height
     })

@@ -189,6 +189,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
+        console.log('跳转')
         this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP)
       } else {
         dispatch(alertMsg(res.msg))

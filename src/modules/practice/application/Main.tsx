@@ -97,6 +97,7 @@ export class Main extends React.Component <any, any> {
             isSynchronized: msg.isSynchronized
           })
         }
+        console.log('content:', msg.content)
         // 更新其余数据
         this.setState({
           data: msg,
@@ -307,7 +308,6 @@ export class Main extends React.Component <any, any> {
         this.setState({ otherList: newOtherList })
       }
       vote(id)
-    } else {
     }
   }
 
@@ -415,7 +415,7 @@ export class Main extends React.Component <any, any> {
   render() {
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
-      showCompletedBox, showCardPrinter, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
+      showCompletedBox = false, showCardPrinter, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
@@ -481,8 +481,7 @@ export class Main extends React.Component <any, any> {
 
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
-      // !this.state.firstSubmit
-      if(showCompletedBox && isBaseApplication) {
+      if(showCompletedBox && isBaseApplication && this.state.firstSubmit) {
         const AlertProps = {
           buttons: [
             {
@@ -516,8 +515,7 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderCardPrinter = () => {
-      // !this.state.firstSubmit
-      if(problemId && this.props.location.query.practicePlanId) {
+      if(problemId && this.props.location.query.practicePlanId && this.state.firstSubmit) {
         if(showCardPrinter && isBaseApplication) {
           return (
             <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}

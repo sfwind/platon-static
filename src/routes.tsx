@@ -94,8 +94,8 @@ const routes = (
       <Route path="learn" component={PlanList}/>
       <Route path="plan/main" component={PlanList}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
-      {/*<Route path="plan/study" component={StudyLine}/>*/}
-      <Route path="plan/study" component={PlanMain}/>
+      <Route path="plan/study" component={StudyLine}/>
+      {/*<Route path="plan/study" component={PlanMain}/>*/}
       <Route path="plan/report" component={ImprovementReport}/>
 
       <Route path="practice/warmup" component={WarmUpNew}/>

@@ -4,11 +4,7 @@ import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
 import { mark } from '../../../utils/request'
 import { loadChapterCard, loadChapterCardAccess } from '../async'
-import { connect } from 'react-redux'
 import { Block } from '../../../components/Block'
-import { Dialog } from 'react-weui'
-
-const { Alert } = Dialog
 
 let printerWaitingTimer = null
 let startTime
@@ -20,7 +16,6 @@ interface CardPrinterProps {
   afterClose: any
 }
 
-@connect(state => state)
 export class CardPrinter extends React.Component <CardPrinterProps, any> {
   constructor() {
     super()
@@ -32,16 +27,7 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
     this.loadData(problemId, completePracticePlanId)
   }
 
-  //
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.problemId !== this.props.problemId || nextProps.completePracticePlanId !== this.props.pra) {
-  //     const { problemId, completePracticePlanId } = this.props
-  //     this.loadData(problemId, completePracticePlanId)
-  //   }
-  // }
-
   loadData(problemId, completePracticePlanId) {
-    const { dispatch } = this.props
     if(problemId && completePracticePlanId) {
       loadChapterCardAccess(problemId, completePracticePlanId).then(res => {
         if(res.code === 200) {
@@ -74,32 +60,9 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
             clearInterval(printerWaitingTimer)
           }, 1000)
           this.setState({ cardUrl: res.msg })
-        } else {
-          dispatch(alertMsg(res.msg))
         }
       })
     }
-  }
-
-  renderAlert() {
-    const AlertProps = {
-      buttons: [
-        {
-          label: '关闭',
-          onClick: () => {
-            this.props.afterClose()
-          }
-        }
-      ]
-    }
-    return (
-      <Alert {...AlertProps} show={showCompletedBox}>
-        <div className="global-pre">
-          恭喜你完成必修课，已解锁下一节内容！<br/>
-          再接再厉，完成本节的选做应用题吧！
-        </div>
-      </Alert>
-    )
   }
 
   render() {
@@ -170,7 +133,6 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
             </div> :
             <div/>
         }
-        {this.renderAlert()}
       </Block>
     )
   }

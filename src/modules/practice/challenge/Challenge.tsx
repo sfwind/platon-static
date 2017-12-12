@@ -46,10 +46,7 @@ export class Challenge extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         const { content } = msg
-        this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId })
-        if(content !== null) {
-          this.setState({ edit: false })
-        }
+        this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId, edit: !content })
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -131,7 +128,7 @@ export class Challenge extends React.Component <any, any> {
             </div>
           </div>
 
-          <ColumnSpan/>
+          <ColumnSpan style={{ margin: '0 -3rem' }}/>
 
           {
             edit ?
