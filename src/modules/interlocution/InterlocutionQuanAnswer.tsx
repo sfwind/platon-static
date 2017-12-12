@@ -28,10 +28,7 @@ export default class InterlocutionQuanAnswer extends Component {
   componentWillMount() {
     const { location, dispatch } = this.props;
     let date = location.query.date;
-    // TODO: 12月初删除
-    if(date === 'temp_2017-11-07') {
-      date = '2017-11-07';
-    }
+
     dispatch(startLoad());
     loadQuanAnswer(date).then(res => {
       dispatch(endLoad());
@@ -41,7 +38,7 @@ export default class InterlocutionQuanAnswer extends Component {
       }
       if(res.code === 200) {
         this.setState({ data: res.msg });
-        configShare(res.msg.dateInfo.topic,
+        configShare(res.msg.dateInfo.title,
           url,
           'https://static.iqycamp.com/images/quanquan_qa.png?imageslim',
           '圈外商学院|一期一会')
