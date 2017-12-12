@@ -163,8 +163,6 @@ export default class SchedulePlan extends React.Component<any, any> {
           } else if(item.type === 3) {
             styleType = 'trial'
           }
-          console.log(item)
-          console.log('deadline', item.deadline)
           return (
             <div key={index} className={`course-card`}
                  onClick={() => this.clickCourse(item.type, item)}>
