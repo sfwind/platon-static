@@ -66,7 +66,6 @@ export default class StudyLine extends React.Component<any, any> {
   }
 
   onPracticeSelected(item) {
-    console.log('click', item)
     const { dispatch, location } = this.props
     const { planId } = location.query
     const { type, status } = item
@@ -188,11 +187,8 @@ export default class StudyLine extends React.Component<any, any> {
                   {'第' + hanzi[chapter] + '章 '}{item.name}
                   {
                     sections.map((item, index) => {
-                      console.log(item)
                       let title = chapter + '.' + item.section + ' ' + item.name
-                      {
-                        return renderPractice(title, item)
-                      }
+                      return renderPractice(title, item)
                     })
                   }
                 </div>
