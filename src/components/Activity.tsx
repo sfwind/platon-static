@@ -50,15 +50,29 @@ export default class Activity extends React.Component<any, any> {
   }
 
   render() {
-    const { pic, show, message } = this.state
+    const { pic, show, message, url } = this.state
+    let alert
+    if(url) {
+      alert =
+        {
+          buttons: [
+            {
+              label: '查看',
+              onClick: () => this.activityPage()
+            }
+          ]
+        }
 
-    const alert = {
-        buttons: [
-          {
-            label: '关闭',
-            onClick: ()=>this.setState({show:false})
-          }
-        ]
+    } else {
+      alert =
+        {
+          buttons: [
+            {
+              label: '关闭',
+              onClick: () => this.setState({ show: false })
+            }
+          ]
+        }
     }
 
     return (
