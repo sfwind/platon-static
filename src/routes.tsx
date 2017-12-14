@@ -71,6 +71,7 @@ import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
 import BusinessApply from './modules/bsapply/BusinessApply'
 import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
 import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
+import MailPage from './modules/LetterPage'
 
 const routes = (
   <Route>
@@ -169,6 +170,8 @@ const routes = (
       <Route path="business/apply/choice" component={BusinessApplyChoice}/>
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
     </Route>
+
+    <Route path="/test" component={MailPage}/>
   </Route>
 )
 
