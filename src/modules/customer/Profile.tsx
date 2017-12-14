@@ -270,7 +270,7 @@ export default class Profile extends React.Component<any, any> {
       const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
       return (
         <div className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper'}>
-          <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
+          <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null} placeholder="当前所在居住地"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
         </div>
       )
@@ -279,7 +279,7 @@ export default class Profile extends React.Component<any, any> {
     const renderRealName = () => {
       return (
         <div className={realName ? 'select-wrapper-has-no-cut' : 'select-wrapper'}>
-          <input id="realName" placeholder="请填写" type="text" {...this.bind('realName', this.getInputValue)}/>
+          <input id="realName" placeholder="用于颁发毕业证书" type="text" {...this.bind('realName', this.getInputValue)}/>
         </div>
       )
     }
@@ -303,7 +303,7 @@ export default class Profile extends React.Component<any, any> {
 
       return (
         <div className={industry ? 'select-wrapper-has' : 'select-wrapper'}>
-          <DropDownList level={1} data={[industryList]} userData={myIndustry.id ? [myIndustry] : null}
+          <DropDownList level={1} data={[industryList]} userData={myIndustry.id ? [myIndustry] : null} placeholder="请选择"
                         onChoice={(one) => this.onChoiceIndustry(one)}/>
         </div>
       )
@@ -320,7 +320,7 @@ export default class Profile extends React.Component<any, any> {
 
       return (
         <div className={workingLife ? 'select-wrapper-has' : 'select-wrapper'}>
-          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id ? [myWorkingLife] : null}
+          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id ? [myWorkingLife] : null} placeholder="请选择"
                         onChoice={(one) => this.onChoiceWorkingLife(one)}/>
         </div>
       )
@@ -379,7 +379,7 @@ export default class Profile extends React.Component<any, any> {
         <div className="profile-container">
           <div className="profile-item">
             <div className="item-label">
-              参加工作年份
+              首次参加工作年份
             </div>
             <div className="item-content">
               {renderWorkingYear()}
@@ -393,7 +393,7 @@ export default class Profile extends React.Component<any, any> {
               {renderIndustry()}
             </div>
           </div>
-          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
+          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
             <div className="item-label">
               职业
             </div>
@@ -401,38 +401,40 @@ export default class Profile extends React.Component<any, any> {
               {renderFunction()}
             </div>
           </div>
-          <div className="profile-item" style={{ borderBottom: 'none' }}>
+
+          <div className="profile-item" style={{marginBottom: '1px', borderBottom: 'none' }}>
             <div className="item-label">
-              省份/城市
+              居住地点
             </div>
             <div className="item-content" id="region-select">
               {renderRegion()}
             </div>
           </div>
 
-          <div className="profile-item">
+          <div className="profile-item" style={{marginBottom: '10px', borderBottom: 'none'}}>
             <div className="item-label">
-              收件人
+              真实姓名
             </div>
             <div className="item-content">
-              {renderReceiver()}
+              {renderRealName()}
             </div>
           </div>
 
           <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none', height: '80px' }}>
-            <div className="address-tips">地址</div>
+            <div className="address-tips">收件地址</div>
             <textarea className="address" placeholder="商学院学员入学后，礼包会寄送到该地址（限大陆，海外用户请填写国内住址信息）" value={address}
                       onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
                         this.checkIsFull()
                       })}
             />
           </div>
-          <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none' }}>
+
+          <div className="profile-item" style={{marginTop: '1px', borderBottom: 'none'}}>
             <div className="item-label">
-              真实姓名
+              收件人
             </div>
             <div className="item-content">
-              {renderRealName()}
+              {renderReceiver()}
             </div>
           </div>
 
