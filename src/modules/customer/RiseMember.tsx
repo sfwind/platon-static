@@ -46,9 +46,9 @@ export default class RiseMember extends React.Component<any,any> {
   goUp(){
     mark({module:"打点",function:"个人中心",action:"点击升级按钮"});
     pget('/personal/mark/rise/up').then(()=>{
-      window.location.href=`https://${window.location.hostname}/pay/rise`
+      window.location.href=`/pay/rise`
     }).catch(()=>{
-      window.location.href=`https://${window.location.hostname}/pay/rise`
+      window.location.href=`/pay/rise`
     })
   }
 

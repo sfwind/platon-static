@@ -50,7 +50,7 @@ export default class PrizeCard extends React.Component {
   }
 
   handleClickGoRise() {
-    window.location.href = `https://${window.location.hostname}/pay/rise`
+    window.location.href = `/pay/rise`
   }
 
   render() {

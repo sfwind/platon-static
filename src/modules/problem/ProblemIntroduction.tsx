@@ -463,7 +463,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               list.push(
                 <div className="button-footer">
                   <div className={`left pay`}
-                       onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
+                       onClick={() => window.location.href = `/pay/rise`}>
                     去试听
                   </div>
                 </div>
@@ -595,7 +595,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 return (
                   <div className={`relation-problem-item ${index === relationProblems.length - 1 ? 'last' : ''}`}
                        onClick={() => {
-                         window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}`
+                         window.location.href = `/rise/static/plan/view?id=${problem.id}`
                        }}>
                     <div className="problem-img">
                       <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
