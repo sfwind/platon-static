@@ -226,7 +226,7 @@ export default class Profile extends React.Component<any, any> {
             } else {
               // 绑定过
               // 类似于点商学院
-              window.location.href = `https://${window.location.hostname}/rise/static/rise`
+              window.location.href = `/rise/static/rise`;
             }
           } else {
             dispatch(alertMsg('提交成功'))

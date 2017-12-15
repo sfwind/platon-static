@@ -3,16 +3,12 @@ import { config } from 'modules/helpers/JsConfig'
 import { Route } from 'react-router'
 
 import Base from 'modules/base/Base'
-import Welcome from 'modules/problem/Welcome'
 import { PlanMain } from 'modules/plan/PlanMain'
 import { KnowledgeViewer } from 'modules/practice/knowledge/KnowledgeViewer'
 import { Result as WarmUpResult } from 'modules/practice/warmup/Result'
 import { Main as Application } from 'modules/practice/application/Main'
 import { Main as Challenge } from 'modules/practice/challenge/Main'
 import { Main as Subject } from 'modules/practice/subject/Main'
-import { Start } from 'modules/promotion/evalution/Start'
-import { Main as Eva } from 'modules/promotion/evalution/Main'
-import { Result as EvaResult } from 'modules/promotion/evalution/Result'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
 import { MessageCenter } from 'modules/message/MessageCenter'
@@ -20,7 +16,6 @@ import { ReplyKnowledgeDiscussMessage } from 'modules/message/ReplyKnowledgeDisc
 import { AnalysisNew } from 'modules/practice/warmup/AnalysisNew'
 import { Comment as ApplicationComment } from 'modules/practice/application/Comment'
 import { Comment as SubjectComment } from 'modules/practice/subject/Comment'
-import { RiseMemberExplain } from 'modules/plan/RiseMemberExplain'
 import { KnowledgeReview } from 'modules/practice/knowledge/KnowledgeReview'
 import { ReplyCommentMessage } from 'modules/message/ReplyCommentMessage'
 import { Customer } from 'modules/customer/Customer'
@@ -79,7 +74,6 @@ const routes = (
              config(['chooseWXPay'])
            }}>
 
-      <Route path="welcome" component={Welcome}/>
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={PlanList}/>
 
@@ -107,16 +101,11 @@ const routes = (
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
 
-      {/*<Route path="member/explain" component={RiseMemberExplain}/>*/}
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
-
-      {/*<Route path="eva/start" component={Start}/>*/}
-      {/*<Route path="eva" component={Eva}/>*/}
-      {/*<Route path="eva/result" component={EvaResult}/>*/}
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>

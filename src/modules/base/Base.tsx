@@ -105,7 +105,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   handleClickGoRisePay() {
-    window.location.href = `https://${window.location.hostname}/pay/rise`
+    window.location.href = `/pay/rise`
   }
 
   render() {
