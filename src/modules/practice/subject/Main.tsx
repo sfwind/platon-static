@@ -101,7 +101,7 @@ export class Main extends React.Component <any, any> {
   componentWillMount() {
 
     const { dispatch, location } = this.props;
-    mark({module:"打点",function:"小课论坛",action:"打开小课论坛",memo:location.query.id});
+    mark({module:"打点",function:"课程论坛",action:"打开课程论坛",memo:location.query.id});
     dispatch(startLoad());
     loadSubjects(location.query.id,1).then(res => {
       dispatch(endLoad())
