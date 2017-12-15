@@ -27,3 +27,7 @@ export function updateSelected(id, selected) {
 export function updateCourseScheduleAll(data) {
   return ppost(`/rise/schedule/update/all`, { monthCourseSchedules: data })
 }
+
+export function loadCampCountDown() {
+  return pget(`/rise/schedule/camp/count/down`)
+}

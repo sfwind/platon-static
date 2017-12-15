@@ -4,6 +4,7 @@ import AssetImg from '../../components/AssetImg'
 import { pget } from '../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { loadCampCountDown } from './async'
 
 @connect(state => state)
 export default class CampCountDown extends React.Component {
@@ -17,7 +18,7 @@ export default class CampCountDown extends React.Component {
     const { dispatch } = this.props
     dispatch(startLoad())
     try {
-      let res = await pget(`/rise/schedule/camp/count/down`)
+      let res = await loadCampCountDown()
       dispatch(endLoad())
       const msg = res.msg
       if(res.code === 200) {
