@@ -13,30 +13,11 @@ export default class CampCountDown extends React.Component {
     this.state = {}
   }
 
-  // async componentWillMount() {
-  //   const { dispatch } = this.props
-  //   dispatch(startLoad())
-  //   try {
-  //     let res = await pget(`/rise/schedule/camp/count/down`)
-  //     dispatch(endLoad())
-  //     const msg = res.msg
-  //     if(res.code === 200) {
-  //       this.setState({
-  //         tens: msg.substr(0, 1),
-  //         ones: msg.substr(1)
-  //       })
-  //     } else {
-  //       dispatch(alertMsg(msg))
-  //     }
-  //   } catch(err) {
-  //     dispatch(alertMsg(err))
-  //   }
-  // }
-
-  componentWillMount() {
+  async componentWillMount() {
     const { dispatch } = this.props
     dispatch(startLoad())
-    pget(`/rise/schedule/camp/count/down`).then(res => {
+    try {
+      let res = await pget(`/rise/schedule/camp/count/down`)
       dispatch(endLoad())
       const msg = res.msg
       if(res.code === 200) {
@@ -47,9 +28,9 @@ export default class CampCountDown extends React.Component {
       } else {
         dispatch(alertMsg(msg))
       }
-    }).catch(err => {
+    } catch(err) {
       dispatch(alertMsg(err))
-    })
+    }
   }
 
   render() {
