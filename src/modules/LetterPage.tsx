@@ -45,7 +45,7 @@ export default class LetterPage extends React.Component {
       link.click()
 
       setTimeout(() => {
-        // this.getProfile()
+        this.getProfile()
       }, 4000)
     })
   }
