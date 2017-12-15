@@ -1,7 +1,6 @@
 import * as React from 'react'
 import './CountDown.less'
 import AssetImg from '../../components/AssetImg'
-import { pget } from '../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { loadCampCountDown } from './async'
