@@ -19,7 +19,7 @@ export default class ProblemGallery extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '个人中心', action: '打开我的小课页面' })
+    mark({ module: '打点', function: '个人中心', action: '打开我的课程页面' })
     changeTitle('我的课程')
     const { dispatch } = this.props
     dispatch(startLoad())

@@ -82,12 +82,12 @@ export function loadHasGetOperationCoupon() {
   return pget('/rise/operation/free/coupon')
 }
 
-// 收藏当前小课
+// 收藏当前课程
 export function collectProblem(problemId) {
   return pget(`/rise/problem/collect/${problemId}`)
 }
 
-// 取消收藏当前小课
+// 取消收藏当前课程
 export function disCollectProblem(problemId) {
   return pget(`/rise/problem/discollect/${problemId}`)
 }

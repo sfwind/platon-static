@@ -206,7 +206,7 @@ export default class PlanList extends React.Component<any, any> {
     mark({
       module: '打点',
       function: '学习',
-      action: '学习页面点击推荐小课',
+      action: '学习页面点击推荐课程',
       memo: window.ENV.osName
     })
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problem.id } })
