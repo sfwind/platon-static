@@ -33,7 +33,7 @@ export default class InterlocutionQuanAnswer extends Component {
     loadQuanAnswer(date).then(res => {
       dispatch(endLoad());
       let url = `https://${window.location.hostname}/rise/static/guest/inter/quan/answer`
-      if (location.query.date){
+      if(location.query.date) {
         url = url + `?date=${location.query.date}`
       }
       if(res.code === 200) {
@@ -121,13 +121,14 @@ export default class InterlocutionQuanAnswer extends Component {
             <div className="button" style={{ backgroundColor: '#363d43' }}>{nextDate.topic}</div>
           </div>
         )
-      } else {
-        return (
-          <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
-            <div className="button" style={{ backgroundColor: '#363d43' }}>去提问</div>
-          </div>
-        )
       }
+      // else {
+      //   return (
+      //     <div className="inter-question footer" onClick={() => this.handleClickGoSubmit()}>
+      //       <div className="button" style={{ backgroundColor: '#363d43' }}>去提问</div>
+      //     </div>
+      //   )
+      // }
     }
 
     return (
@@ -166,16 +167,16 @@ export default class InterlocutionQuanAnswer extends Component {
         {/*<div className="audio-words">*/}
         {/*{renderAudioWords()}*/}
         {/*</div>*/}
-        <div className="next-question">
-          <div className="title-name">
-            <div className="title-text">下期预告</div>
-          </div>
-          <div className="text">
-            下期主题是{nextDate.topic}，{nextAnswer ? '点击下方按钮查看内容。' : '点击下方的按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！'}
-            <br/><br/>
-            一期一会，不见不散。
-          </div>
-        </div>
+        {/*<div className="next-question">*/}
+        {/*<div className="title-name">*/}
+        {/*<div className="title-text">下期预告</div>*/}
+        {/*</div>*/}
+        {/*<div className="text">*/}
+        {/*下期主题是{nextDate.topic}，{nextAnswer ? '点击下方按钮查看内容。' : '点击下方的按钮，提出你相关的疑问吧。圈圈会解答投票最高的问题，下周二公布答案！'}*/}
+        {/*<br/><br/>*/}
+        {/*一期一会，不见不散。*/}
+        {/*</div>*/}
+        {/*</div>*/}
         <div className="next-question other-dates">
           <div className="title-name">
             <div className="title-text other-date">问答集锦</div>
@@ -183,17 +184,17 @@ export default class InterlocutionQuanAnswer extends Component {
           <div className="text">
             <ul>
               {otherDates ? otherDates.map((item, key) => {
-                  return <li className="other-date" key={key}
-                             onClick={() => this.handleClickGoRecently(item.startDate)}>
-                    <span>{`第${item.batch}期：${item.title}`}</span></li>
-                }) : null}
+                return <li className="other-date" key={key}
+                           onClick={() => this.handleClickGoRecently(item.startDate)}>
+                  <span>{`第${item.batch}期：${item.title}`}</span></li>
+              }) : null}
             </ul>
           </div>
         </div>
         <div className="gutter"/>
-        <RenderInBody>
+        {nextAnswer ? <RenderInBody>
           {renderButtons()}
-        </RenderInBody>
+        </RenderInBody> : null}
         {showQrDialog ?
           <RenderInBody>
             <div className="qr_dialog">
