@@ -10,9 +10,6 @@ import { Result as WarmUpResult } from 'modules/practice/warmup/Result'
 import { Main as Application } from 'modules/practice/application/Main'
 import { Main as Challenge } from 'modules/practice/challenge/Main'
 import { Main as Subject } from 'modules/practice/subject/Main'
-import { Start } from 'modules/promotion/evalution/Start'
-import { Main as Eva } from 'modules/promotion/evalution/Main'
-import { Result as EvaResult } from 'modules/promotion/evalution/Result'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
 import { MessageCenter } from 'modules/message/MessageCenter'
@@ -20,7 +17,6 @@ import { ReplyKnowledgeDiscussMessage } from 'modules/message/ReplyKnowledgeDisc
 import { AnalysisNew } from 'modules/practice/warmup/AnalysisNew'
 import { Comment as ApplicationComment } from 'modules/practice/application/Comment'
 import { Comment as SubjectComment } from 'modules/practice/subject/Comment'
-import { RiseMemberExplain } from 'modules/plan/RiseMemberExplain'
 import { KnowledgeReview } from 'modules/practice/knowledge/KnowledgeReview'
 import { ReplyCommentMessage } from 'modules/message/ReplyCommentMessage'
 import { Customer } from 'modules/customer/Customer'
@@ -71,6 +67,9 @@ import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
 import BusinessApply from './modules/bsapply/BusinessApply'
 import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
 import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
+import MimeCard from './modules/card/MimeCard'
+import CardIntroduction from './modules/card/CardIntroduction'
+import ReceiveCard from './modules/card/ReceiveCard'
 
 const routes = (
   <Route>
@@ -113,6 +112,10 @@ const routes = (
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
+
+      <Route path="card/mime" component={MimeCard}/>
+      <Route path="card/introduction" component={CardIntroduction}/>
+      <Route path="card/receive" component={ReceiveCard}/>
 
       {/*<Route path="eva/start" component={Start}/>*/}
       {/*<Route path="eva" component={Eva}/>*/}
