@@ -70,6 +70,7 @@ import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
 import MimeCard from './modules/card/MimeCard'
 import CardIntroduction from './modules/card/CardIntroduction'
 import ReceiveCard from './modules/card/ReceiveCard'
+import Annual from './modules/annual/Annual'
 
 const routes = (
   <Route>
@@ -116,6 +117,8 @@ const routes = (
       <Route path="card/mime" component={MimeCard}/>
       <Route path="card/introduction" component={CardIntroduction}/>
       <Route path="card/receive" component={ReceiveCard}/>
+
+      <Route path="annual" component={Annual}/>
 
       {/*<Route path="eva/start" component={Start}/>*/}
       {/*<Route path="eva" component={Eva}/>*/}
