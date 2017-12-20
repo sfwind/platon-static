@@ -42,6 +42,12 @@ const workingLifeList = [
   { id: '9', value: '15年以上' }
 ]
 
+const marryList = [
+  { id: '0', value: '已婚' },
+  { id: '1', value: '未婚有对象' },
+  { id: '2', value: '单身' }
+]
+
 @connect(state => state)
 export default class Profile extends React.Component<any, any> {
   static contextTypes = {
@@ -60,7 +66,8 @@ export default class Profile extends React.Component<any, any> {
       workingTime: null,
       realName: null,
       address: null,
-      receiver: null
+      receiver: null,
+      married:null
     }
     this.btnWidth = 690 / 750 * window.innerWidth
   }
@@ -171,6 +178,10 @@ export default class Profile extends React.Component<any, any> {
     })
   }
 
+  onChoiceMarry(marry) {
+    this.setState({ married: marry.value })
+  }
+
   checkFull() {
     const { dispatch, location } = this.props
     const functionValue = _.get(this.state, 'function')
@@ -194,7 +205,7 @@ export default class Profile extends React.Component<any, any> {
 
   submitProfile() {
     const { dispatch, location } = this.props
-    const { city, province, industry, workingYear, bindMobile, realName, address, receiver } = this.state
+    const { city, province, industry, workingYear, bindMobile, realName, address, receiver,married } = this.state
     const functionValue = _.get(this.state, 'function')
     const { runningPlanId, goRise } = location.query
     if(this.checkFull()) {
@@ -203,10 +214,10 @@ export default class Profile extends React.Component<any, any> {
         province: province,
         industry: industry,
         workingYear: workingYear,
-        function: functionValue
+        function: functionValue,
       }
 
-      _.merge(param, { realName: realName, address: address, receiver: receiver })
+      _.merge(param, { realName: realName, address: address, receiver: receiver,married})
       // if(goRise) {
       //   _.merge(param, { realName: realName, address: address });
       // }
@@ -226,7 +237,7 @@ export default class Profile extends React.Component<any, any> {
             } else {
               // 绑定过
               // 类似于点商学院
-              window.location.href = `/rise/static/rise`;
+              window.location.href = `/rise/static/rise`
             }
           } else {
             dispatch(alertMsg('提交成功'))
@@ -256,7 +267,7 @@ export default class Profile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { city, province, cityId, provinceId, industry, workingLife, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver } = this.state
+    const { city, province, cityId, provinceId, industry, workingLife, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
     const renderFunction = () => {
       return (
@@ -270,7 +281,8 @@ export default class Profile extends React.Component<any, any> {
       const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
       return (
         <div className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper'}>
-          <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null} placeholder="当前所在居住地"
+          <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
+                        placeholder="以便参加当地校友会"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
         </div>
       )
@@ -320,8 +332,26 @@ export default class Profile extends React.Component<any, any> {
 
       return (
         <div className={workingLife ? 'select-wrapper-has' : 'select-wrapper'}>
-          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id ? [myWorkingLife] : null} placeholder="请选择"
+          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id ? [myWorkingLife] : null}
+                        placeholder="请选择"
                         onChoice={(one) => this.onChoiceWorkingLife(one)}/>
+        </div>
+      )
+    }
+
+    const renderMarried = () => {
+      let myMarried = { value: married }
+      for(let item in marryList) {
+        if(_.isEqual(marryList[item].value, married)) {
+          myMarried.id = marryList[item].id
+          break
+        }
+      }
+
+      return (
+        <div className={married ? 'select-wrapper-has' : 'select-wrapper'}>
+          <DropDownList level={1} data={[marryList]} userData={myMarried.id ? [myMarried] : null} placeholder="以便参加脱单群等活动"
+                        onChoice={(one) => this.onChoiceMarry(one)}/>
         </div>
       )
     }
@@ -402,7 +432,7 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="profile-item" style={{marginBottom: '1px', borderBottom: 'none' }}>
+          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
             <div className="item-label">
               居住地点
             </div>
@@ -411,7 +441,7 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="profile-item" style={{marginBottom: '10px', borderBottom: 'none'}}>
+          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
             <div className="item-label">
               真实姓名
             </div>
@@ -419,6 +449,16 @@ export default class Profile extends React.Component<any, any> {
               {renderRealName()}
             </div>
           </div>
+
+          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
+            <div className="item-label">
+              感情状态（选填）
+            </div>
+            <div className="item-content">
+              {renderMarried()}
+            </div>
+          </div>
+
 
           <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none', height: '80px' }}>
             <div className="address-tips">收件地址</div>
@@ -429,7 +469,7 @@ export default class Profile extends React.Component<any, any> {
             />
           </div>
 
-          <div className="profile-item" style={{marginTop: '1px', borderBottom: 'none'}}>
+          <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none' }}>
             <div className="item-label">
               收件人
             </div>
