@@ -67,6 +67,7 @@ import BusinessApply from './modules/bsapply/BusinessApply'
 import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
 import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
 import CampCountDown from './modules/schedule/CampCountDown'
+import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
 
 const routes = (
   <Route>
@@ -160,6 +161,8 @@ const routes = (
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
 
       <Route path="camp/count/down" component={CampCountDown}/>
+      {/*团队学习倒计时页面*/}
+      <Route path="grouplearning/count/down" component={GroupPromotionCountDown}/>
     </Route>
   </Route>
 )
