@@ -162,7 +162,7 @@ const routes = (
 
       <Route path="camp/count/down" component={CampCountDown}/>
       {/*团队学习倒计时页面*/}
-      <Route path="grouplearning/count/down" component={GroupPromotionCountDown}/>
+      <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
     </Route>
   </Route>
 )
