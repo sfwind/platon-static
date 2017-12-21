@@ -55,12 +55,12 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
   }
 
   render() {
-    const {} = this.state
+    const { module, func, action, memo, ...other } = props
 
     const { onClick = () => {} } = this.props
 
     return (
-      <div {...this.props}
+      <div {...other}
            onClick={() => {
              this.handleClickMarkButton(onClick)
            }}>
