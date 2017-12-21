@@ -75,9 +75,87 @@
         font-size: 13px;
         width: 50%;
         text-align: right;
+
         > .select-wrapper {
           color: @color_help;
-
+          margin-right: 10px;
+          &-has {
+            &:after {
+              content: ' ';
+              display: inline-block;
+              background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+              width: 6px;
+              height: 11.5px;
+              float: right;
+              margin-top: 21.75px;
+              margin-left: 4px;
+            }
+            > .form-item {
+              display: inline-block;
+              color: @color_title;
+              > .pc-box {
+                > span {
+                }
+              }
+            }
+            > input {
+              font-size: 13px !important;
+              color: @color_title;
+              text-align: right;
+              border: none;
+            }
+            &-no-cut {
+              margin-right: 10px;
+              > .form-item {
+                display: inline-block;
+                color: #399BD3;
+                > .pc-box {
+                  > span {
+                  }
+                }
+              }
+              > input {
+                font-size: 13px !important;
+                color: @color_title;
+                text-align: right;
+                border: none;
+              }
+            }
+          }
+          > .form-item {
+            display: inline-block;
+          }
+          > input {
+            font-size: 13px;
+            color: @color_strong;
+            text-align: right;
+            border: none;
+            &::-webkit-input-placeholder { /* WebKit browsers */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 19+ */
+              color: @color_help;
+            }
+            &::-ms-input-placeholder { /* Internet Explorer 10+ */
+              color: @color_help;
+            }
+          }
+        }
+        > .select-wrapper-choice {
+          color: @color_help;
+            &:after {
+              content: ' ';
+              display: inline-block;
+              background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+              width: 6px;
+              height: 11.5px;
+              float: right;
+              margin-top: 21.75px;
+              margin-left: 4px;
+            }
           &-has {
             &:after {
               content: ' ';
