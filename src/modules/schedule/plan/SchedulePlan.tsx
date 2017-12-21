@@ -170,7 +170,11 @@ export default class SchedulePlan extends React.Component<any, any> {
                 <div className={`problem-item-backcolor ${styleType}`}/>
                 <div className={`problem-item-backimg`}/>
                 <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
-                {item.id ? null : <div className="wait-open">待开课</div>}
+                {!item.id && <div className="wait-open">待开课</div>}
+                {
+                  item.deadline && item.deadline > 0 &&
+                  <div className="problem-item-deadline">{`距关闭：${item.deadline}天`}</div>
+                }
               </div>
               <div className="card-desc">
                 <div className="problem-name">{item.problem.problem}</div>
@@ -192,7 +196,8 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="plan-close-date">{date}</div>
               <div className="plan-close-year">{year}</div>
             </div>
-            <div className="plan-name">{item.typeDesc? "【"+item.typeDesc+"】 "+item.problem.problem: ""+item.problem.problem}</div>
+            <div
+              className="plan-name">{item.typeDesc ? '【' + item.typeDesc + '】 ' + item.problem.problem : '' + item.problem.problem}</div>
             <div className="plan-click">
               <AssetImg type="arrow_right" height={10} width={7}/>
             </div>
@@ -201,31 +206,19 @@ export default class SchedulePlan extends React.Component<any, any> {
       })
     }
 
-    const renderCourseCategory = (title) => {
-      return (
-        <div className="course-category">
-          <div className="category-line"/>
-          <div className="category-title">{title}</div>
-          <div className="category-line"/>
-        </div>
-      )
-    }
-
     const renderDialog = () => {
       const { dialogShow = false, dialogButtons = [], dialogContent } = this.state
 
       return (
         <Alert
           show={dialogShow}
-          buttons={dialogButtons}
-        >
+          buttons={dialogButtons}>
           {dialogContent}
         </Alert>
       )
     }
     return (
       <div className="schedule-plan-container" style={{ minHeight: window.innerHeight }}>
-
         <div className="monthly-topic">
           {topic ? month + '月 ' + topic : null}
         </div>
@@ -243,7 +236,8 @@ export default class SchedulePlan extends React.Component<any, any> {
               {majorPercent + '%'}
             </div>
           </div>
-          {minorSelected ?
+          {
+            minorSelected &&
             <div className="minor-progress">
               <div className="progress-name">辅修课</div>
               <div className="progress-bar">
@@ -252,7 +246,7 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="progress-percent">
                 {minorPercent + '%'}
               </div>
-            </div> : null
+            </div>
           }
         </div>
         <div className="column-span"/>
@@ -284,14 +278,17 @@ export default class SchedulePlan extends React.Component<any, any> {
           </div>
         </div>
         <div className="column-span"/>
-        {!_.isEmpty(completeProblem) ? <div className="card">
-          <div className="card-title">
-            <div className="card-topic">已完成</div>
+        {
+          !_.isEmpty(completeProblem) &&
+          <div className="card">
+            <div className="card-title">
+              <div className="card-topic">已完成</div>
+            </div>
+            <div className="complete-course-container">
+              {renderCompleteCourse()}
+            </div>
           </div>
-          <div className="complete-course-container">
-            {renderCompleteCourse()}
-          </div>
-        </div> : null}
+        }
         {renderDialog()}
         <ToolBar/>
       </div>

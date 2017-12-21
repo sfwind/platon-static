@@ -71,6 +71,7 @@ import MimeCard from './modules/card/MimeCard'
 import CardIntroduction from './modules/card/CardIntroduction'
 import ReceiveCard from './modules/card/ReceiveCard'
 import Annual from './modules/annual/Annual'
+import CampCountDown from './modules/schedule/CampCountDown'
 
 const routes = (
   <Route>
@@ -107,7 +108,6 @@ const routes = (
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
 
-      {/*<Route path="member/explain" component={RiseMemberExplain}/>*/}
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={SubjectComment}/>
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
@@ -174,6 +174,8 @@ const routes = (
       <Route path="business/count/down" component={CountDown}/>
       <Route path="business/apply/choice" component={BusinessApplyChoice}/>
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
+
+      <Route path="camp/count/down" component={CampCountDown}/>
     </Route>
   </Route>
 )

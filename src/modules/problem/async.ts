@@ -30,7 +30,7 @@ export function unlockCampPlan(planId) {
 }
 
 /**
- * 检查是否能够选择当前小课
+ * 检查是否能够选择当前课程
  */
 export function checkCreatePlan(problemId, type) {
   return ppost(`/rise/plan/choose/problem/check/${problemId}/${type}`)
@@ -56,12 +56,12 @@ export function loadCatalog(catalogId) {
   return pget(`/rise/problem/list/${catalogId}`)
 }
 
-// 获取小课扩展相关数据
+// 获取课程扩展相关数据
 export function loadProblemExtension(problemId) {
   return pget(`/rise/problem/extension/${problemId}`)
 }
 
-// 获取小课卡包页面所有数据
+// 获取课程卡包页面所有数据
 export function loadCardData(planId) {
   return pget(`/rise/problem/cards/${planId}`)
 }

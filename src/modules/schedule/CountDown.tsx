@@ -64,35 +64,6 @@ export default class CountDown extends Component {
     })
   }
 
-  handleClickAudition() {
-    // 开试听课
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    chooseAuditionCourse().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        const { planId, goSuccess, errMsg, startTime, endTime } = res.msg
-        if(errMsg) {
-          mark({ module: '打点', function: '试听课', action: '无法开启试听课', memo: '倒计时页面' })
-          dispatch(alertMsg(errMsg))
-        } else {
-          if(goSuccess) {
-            mark({ module: '打点', function: '试听课', action: '开通试听课', memo: '倒计时页面' })
-            window.location.href = `https://${window.location.hostname}/pay/static/audition/success`
-          } else {
-            mark({ module: '打点', function: '试听课', action: '进入试听课', memo: '倒计时页面' })
-            this.context.router.push('/rise/static/plan/main');
-          }
-        }
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-  }
-
   render() {
     const { ones, tens, hasAudition } = this.state;
     return (
@@ -108,9 +79,6 @@ export default class CountDown extends Component {
             <div className="ones-place place">
               {ones}
             </div>
-            {
-              hasAudition ? <div className="auditions" onClick={() => this.handleClickAudition()}>试听课</div> : null
-            }
           </div>
         </div>
         <div className="footer">
