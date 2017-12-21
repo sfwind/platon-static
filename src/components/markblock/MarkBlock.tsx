@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { mark } from '../../utils/request'
 
-interface MarkButtonProps {
+interface MarkBlockProps {
   module: string,
   func: string,
   action: string,
   memo?: string
 }
 
-export class MarkButton extends React.Component<MarkButtonProps, any> {
+export class MarkBlock extends React.Component<MarkBlockProps, any> {
 
   constructor() {
     super()
@@ -37,7 +37,7 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
     })
   }
 
-  handleClickMarkButton(onClickFunc) {
+  handleClickMarkBlock(onClickFunc) {
     const { module, func, action, memo } = this.state
     let param = {
       module: module,
@@ -62,7 +62,7 @@ export class MarkButton extends React.Component<MarkButtonProps, any> {
     return (
       <div {...other}
            onClick={() => {
-             this.handleClickMarkButton(onClick)
+             this.handleClickMarkBlock(onClick)
            }}>
         {this.props.children}
       </div>)
