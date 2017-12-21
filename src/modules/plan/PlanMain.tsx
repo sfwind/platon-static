@@ -16,8 +16,8 @@ import SwipeableViews from 'react-swipeable-views'
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
 import { mark } from '../../utils/request'
-import RenderInBody from '../../components/RenderInBody'
 import { ToolBar } from '../base/ToolBar'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 var FastClick = require('fastclick')
@@ -235,9 +235,9 @@ export class PlanMain extends React.Component <any, any> {
         this.setState({ chapterList: res.msg }, () => {
           Ps.initialize(this.refs.sideContent, {
             swipePropagation: false,
-            handlers: [ 'wheel', 'touch' ]
+            handlers: ['wheel', 'touch']
           })
-          unScrollToBorder('#sidebar-content');
+          unScrollToBorder('#sidebar-content')
         })
       }
     })
@@ -262,7 +262,7 @@ export class PlanMain extends React.Component <any, any> {
         if(clickBtns.length > 0) {
           for(let i = 0; i < clickBtns.length; i++) {
             if(i !== 0) {
-              clickBtns[ i ].style.display = 'none'
+              clickBtns[i].style.display = 'none'
             }
           }
         }
@@ -313,7 +313,7 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: false, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: false, planId, complete }
       }) : null
     } else if(type === 12) {
       dispatch(set('otherApplicationPracticeSubmitId', undefined))
@@ -321,12 +321,12 @@ export class PlanMain extends React.Component <any, any> {
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, integrated: true, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: true, planId, complete }
       }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[ 0 ], practicePlanId, currentIndex, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
       }) : null
     } else if(type === 31) {
       // 关闭tutorial
@@ -452,17 +452,14 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   essenceShare(problemId, series) {
-    mark({ module: '打点', function: '首页', action: '打开延伸学习', memo: '首页' })
     this.context.router.push({ pathname: '/rise/static/problem/extension', query: { problemId: problemId, series } })
   }
 
   problemReview(problemId) {
-    mark({ module: '打点', function: '首页', action: '打开课程介绍', memo: problemId })
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problemId, show: true } })
   }
 
-  goCardsCollection(problemId) {
-    mark({ module: '打点', function: '首页', action: '打开课程卡包', memo: problemId })
+  goCardsCollection() {
     this.context.router.push({
       pathname: '/rise/static/problem/cards',
       query: { planId: this.props.location.query.planId }
@@ -534,9 +531,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips() {
-    mark({ module: '打点', function: '首页', action: '点击升级商学院按钮', memo: '首页' }).then(() => {
-      window.location.href = `/pay/rise`
-    })
+    window.location.href = `/pay/rise`
   }
 
   onSetSidebarOpen(open) {
@@ -566,7 +561,7 @@ export class PlanMain extends React.Component <any, any> {
     let section = this.refs.sideContent.querySelector(`#section${series}`)
     let sectionArr = this.refs.sideContent.querySelectorAll('.section')
     for(let i = 0; i < sectionArr.length; i++) {
-      sectionArr[ i ].setAttribute('class', 'section')
+      sectionArr[i].setAttribute('class', 'section')
     }
     if(section) {
       section.setAttribute('class', 'section open')
@@ -665,10 +660,10 @@ export class PlanMain extends React.Component <any, any> {
                 <div className="locked"><AssetImg type="lock" height={24} width={20}/></div> : null}
               <div className="body">
                 <div className="title">
-                  {typeMap[ item.type ].type}
+                  {typeMap[item.type].type}
                   <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
                 </div>
-                <div className="desc">{typeMap[ item.type ].desc}</div>
+                <div className="desc">{typeMap[item.type].desc}</div>
                 {
                   item.status === 1 ?
                     <div className="completed-span">已完成</div> :
@@ -699,18 +694,20 @@ export class PlanMain extends React.Component <any, any> {
                }}>
             <div className="chapter-area">
               <div className="cell">
-                <div className="chapter description" onClick={() => this.problemReview(problem.id)}>
+                <MarkBlock module={'打点'} func={'首页'} action={'打开课程介绍'} memo={problemId}
+                           className="chapter description" onClick={() => this.problemReview(problem.id)}>
                   <div/>
                   <span>课程介绍</span>
-                </div>
+                </MarkBlock>
               </div>
             </div>
             <div className="chapter-area">
               <div className="cell">
-                <div className="chapter extension" onClick={() => this.essenceShare(problem.id, currentIndex)}>
+                <MarkBlock module={'打点'} func={'首页'} action={'打开延伸学习'} memo={'首页'}
+                           className="chapter extension" onClick={() => this.essenceShare(problem.id, currentIndex)}>
                   <div/>
                   <span>延伸学习</span>
-                </div>
+                </MarkBlock>
               </div>
             </div>
 
@@ -840,7 +837,7 @@ export class PlanMain extends React.Component <any, any> {
         }
       }
 
-      let currentSection = sections[ currentIndex - 1 ]
+      let currentSection = sections[currentIndex - 1]
       return (
         <div className="plan-study-btn-footer" id="plan-study-btn-footer">
           <div className="psbf-wrapper">
@@ -1028,11 +1025,11 @@ export class PlanMain extends React.Component <any, any> {
     }
 
     const containerStyle = () => {
-      let dom = document.querySelector('.global-notify');
+      let dom = document.querySelector('.global-notify')
       if(dom) {
-        return { height: window.innerHeight - dom.clientHeight };
+        return { height: window.innerHeight - dom.clientHeight }
       } else {
-        return { height: window.innerHeight };
+        return { height: window.innerHeight }
       }
     }
 
@@ -1049,13 +1046,15 @@ export class PlanMain extends React.Component <any, any> {
             <div className="outline" onClick={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
               <span>提纲</span>
             </div>
-            <div className="card-collection" onClick={() => this.goCardsCollection(problem.id)}>
+            <MarkBlock module={'打点'} func={'首页'} action={'打开课程卡包'} memo={problemId}
+                       className="card-collection" onClick={() => this.goCardsCollection(problem.id)}>
               <span>卡包</span>
-            </div>
+            </MarkBlock>
             {riseMember !== 1 ?
-              <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                   onClick={() => this.goRiseMemberTips()}>
-              </div> :
+              <MarkBlock module={'打点'} func={'首页'} action={'点击升级商学院按钮'} memo={'首页'}
+                         className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                         onClick={() => this.goRiseMemberTips()}>
+              </MarkBlock> :
               null}
             <div className="section-title">{problem.problem}</div>
             <div className="section">总得分：{point} 分</div>

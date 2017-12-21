@@ -6,7 +6,7 @@ import { queryEventList, mark } from './async'
 import { ToolBar } from '../base/ToolBar'
 import { changeTitle, goOtherWeb, unScrollToBorder } from '../../utils/helpers'
 import Banner from '../../components/Banner'
-import RenderInBody from '../../components/RenderInBody'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export class EventWall extends React.Component<any, any> {
@@ -41,26 +41,26 @@ export class EventWall extends React.Component<any, any> {
       if(res.code === 200) {
         let liveList = [], workList = [], offlineList = [], areaList = [], bannerList = []
         for(let i = 0; i < res.msg.length; i++) {
-          switch(res.msg[ i ].type) {
+          switch(res.msg[i].type) {
             case 1:
-              liveList.push(res.msg[ i ])
+              liveList.push(res.msg[i])
               break
             case 2:
-              workList.push(res.msg[ i ])
+              workList.push(res.msg[i])
               break
             case 3:
-              offlineList.push(res.msg[ i ])
+              offlineList.push(res.msg[i])
               break
             case 4:
-              areaList.push(res.msg[ i ])
+              areaList.push(res.msg[i])
               break
             default:
-              liveList.push(res.msg[ i ])
+              liveList.push(res.msg[i])
               break
           }
-          if(res.msg[ i ].banner) {
+          if(res.msg[i].banner) {
             // 放到banner 注意，如果要做刷新，这里会有坑
-            bannerList.push(res.msg[ i ])
+            bannerList.push(res.msg[i])
           }
         }
         this.setState({
@@ -76,16 +76,14 @@ export class EventWall extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    unScrollToBorder('.event-tab-body');
+    unScrollToBorder('.event-tab-body')
   }
 
   goEvent(item) {
-    mark({ module: '打点', function: '活动墙', action: '打开活动墙', memo: item.id })
     goOtherWeb(item.destUrl)
   }
 
   goBannerEvent(item) {
-    mark({ module: '打点', function: '活动墙', action: '打开Banner', memo: item.id })
     goOtherWeb(item.destUrl)
   }
 
@@ -117,23 +115,26 @@ export class EventWall extends React.Component<any, any> {
         <ul className="event-list">
           {tempList ? tempList.map((item, idx) => {
             return (
-              <li onClick={() => this.goEvent(item)} key={idx} className="event-item">
-                <div className="head-pic">
-                  <img src={item.pic}/>
-                </div>
-                <div className="event-info">
-                  <div className="title">
-                    {item.title}
+              <MarkBlock module={'打点'} func={'活动墙'} action={'打开活动墙'} memo={item.id}
+                         onClick={() => this.goEvent(item)} key={idx}>
+                <li className="event-item">
+                  <div className="head-pic">
+                    <img src={item.pic}/>
                   </div>
-                  <div className="password">{item.subHead}</div>
-                  <div className="describe">
-                    {item.publisher}
+                  <div className="event-info">
+                    <div className="title">
+                      {item.title}
+                    </div>
+                    <div className="password">{item.subHead}</div>
+                    <div className="describe">
+                      {item.publisher}
+                    </div>
+                    <div className="time">
+                      {item.time}
+                    </div>
                   </div>
-                  <div className="time">
-                    {item.time}
-                  </div>
-                </div>
-              </li>
+                </li>
+              </MarkBlock>
             )
           }) : null}
         </ul>
@@ -149,9 +150,10 @@ export class EventWall extends React.Component<any, any> {
         <Banner height={`17.5rem`}>
           {bannerList.map((item, key) => {
             return (
-              <div className="banner-item swiper-slide" onClick={() => this.goBannerEvent(item)} key={key}>
+              <MarkBlock module={'打点'} func={'活动墙'} action={'打开Banner'} memo={item.id}
+                         className="banner-item swiper-slide" onClick={() => this.goBannerEvent(item)} key={key}>
                 <img src={item.pic} style={{ width: '100%', height: '17.5rem' }}/>
-              </div>
+              </MarkBlock>
             )
           })}
         </Banner>
