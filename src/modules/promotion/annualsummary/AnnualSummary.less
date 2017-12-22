@@ -1,0 +1,179 @@
+.annual-summary-container {
+  min-height: 100vh;
+  
+  .person {
+    display: inline-block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #FFB200;
+    border-radius: 50%;
+    left: 0;
+    bottom: 76px;
+    &.step-building1 {
+      animation: toBuildingOne 2s linear;
+      animation-fill-mode: forwards;
+    }
+    &.step-building2 {
+      animation: toBuildingTwo 4s linear;
+      animation-fill-mode: forwards;
+    }
+    &.step-building3 {
+      animation: toBuildingThree 4s linear;
+      animation-fill-mode: forwards;
+    }
+    &.step-building4 {
+      animation: toBuildingFour 4s linear;
+      animation-fill-mode: forwards;
+    }
+    &.step-building5 {
+      animation: toBuildingFive 4s linear;
+      animation-fill-mode: forwards;
+    }
+  }
+  .summary-map {
+    display: block;
+    position: absolute;
+    z-index: -1;
+    width: 100vw;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+@keyframes toBuildingOne {
+  0% {
+    left: 0;
+    bottom: 76px;
+  }
+  100% {
+    left: 25px;
+    bottom: 76px;
+  }
+}
+
+@keyframes toBuildingTwo {
+  0% {
+    left: 25px;
+    bottom: 76px;
+  }
+  25% {
+    left: 42px;
+    bottom: 76px;
+  }
+  75% {
+    left: 80px;
+    bottom: 157px;
+  }
+  100% {
+    left: 125px;
+    bottom: 157px;
+  }
+}
+
+@keyframes toBuildingThree {
+  0% {
+    left: 125px;
+    bottom: 157px;
+  }
+  50% {
+    left: 180px;
+    bottom: 157px;
+  }
+  100% {
+    left: 144px;
+    bottom: 60px;
+  }
+}
+
+@keyframes toBuildingFour {
+  0% {
+    left: 144px;
+    bottom: 60px;
+  }
+  50% {
+    left: 134px;
+    bottom: 30px;
+  }
+  100% {
+    left: 258px;
+    bottom: 30px;
+  }
+}
+
+@keyframes toBuildingFive {
+  0% {
+    left: 258px;
+    bottom: 30px;
+  }
+  50% {
+    left: 290px;
+    bottom: 117px;
+  }
+  100% {
+    left: 330px;
+    bottom: 117px;
+  }
+}
+
+@keyframes toEnd {
+  from {
+    left: 330px;
+    bottom: 117px;
+  }
+  to {
+    left: 355px;
+    bottom: 117px;
+  }
+}
+
+@keyframes person-route {
+  0% {
+    left: 0;
+    bottom: 76px;
+  }
+  1% {
+    left: 25px;
+    bottom: 76px;
+  }
+  2% {
+    left: 42px;
+    bottom: 76px;
+  }
+  3% {
+    left: 80px;
+    bottom: 157px;
+  }
+  4% {
+    left: 125px;
+    bottom: 157px;
+  }
+  5% {
+    left: 180px;
+    bottom: 157px;
+  }
+  6% {
+    left: 144px;
+    bottom: 60px;
+  }
+  7% {
+    left: 134px;
+    bottom: 30px;
+  }
+  8% {
+    left: 258px;
+    bottom: 30px;
+  }
+  9% {
+    left: 290px;
+    bottom: 117px;
+  }
+  10% {
+    left: 330px;
+    bottom: 117px;
+  }
+  11% {
+    left: 355px;
+    bottom: 117px;
+  }
+}

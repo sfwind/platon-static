@@ -67,6 +67,7 @@ import BusinessApply from './modules/bsapply/BusinessApply'
 import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
 import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
 import CampCountDown from './modules/schedule/CampCountDown'
+import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
 
 const routes = (
   <Route>
@@ -160,6 +161,7 @@ const routes = (
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
 
       <Route path="camp/count/down" component={CampCountDown}/>
+      <Route path="/test" component={AnnualSummary}/>
     </Route>
   </Route>
 )
