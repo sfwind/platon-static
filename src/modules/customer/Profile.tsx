@@ -67,7 +67,7 @@ export default class Profile extends React.Component<any, any> {
       realName: null,
       address: null,
       receiver: null,
-      married:null
+      married: null
     }
     this.btnWidth = 690 / 750 * window.innerWidth
   }
@@ -205,7 +205,7 @@ export default class Profile extends React.Component<any, any> {
 
   submitProfile() {
     const { dispatch, location } = this.props
-    const { city, province, industry, workingYear, bindMobile, realName, address, receiver,married } = this.state
+    const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
     const { runningPlanId, goRise } = location.query
     if(this.checkFull()) {
@@ -214,10 +214,10 @@ export default class Profile extends React.Component<any, any> {
         province: province,
         industry: industry,
         workingYear: workingYear,
-        function: functionValue,
+        function: functionValue
       }
 
-      _.merge(param, { realName: realName, address: address, receiver: receiver,married})
+      _.merge(param, { realName: realName, address: address, receiver: receiver, married })
       // if(goRise) {
       //   _.merge(param, { realName: realName, address: address });
       // }
@@ -228,17 +228,17 @@ export default class Profile extends React.Component<any, any> {
           //从rise付款页跳转过来的，填完个人信息后引导去学习页面
           if(goRise) {
             // 是否mobile已经绑定
-            if(!bindMobile) {
+            // if(!bindMobile) {
               // 没有绑定过
               this.context.router.push({
                 pathname: '/rise/static/customer/mobile/check',
                 query: { goRise: true, runningPlanId: runningPlanId }
               })
-            } else {
-              // 绑定过
-              // 类似于点商学院
-              window.location.href = `/rise/static/rise`
-            }
+            // } else {
+            //   // 绑定过
+            //   // 类似于点商学院
+            //   window.location.href = `/rise/static/rise`
+            // }
           } else {
             dispatch(alertMsg('提交成功'))
             this.setState({ isFull: true })
@@ -314,7 +314,7 @@ export default class Profile extends React.Component<any, any> {
       }
 
       return (
-        <div className={industry ? 'select-wrapper-has' : 'select-wrapper'}>
+        <div className={industry ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[industryList]} userData={myIndustry.id ? [myIndustry] : null} placeholder="请选择"
                         onChoice={(one) => this.onChoiceIndustry(one)}/>
         </div>
@@ -331,7 +331,7 @@ export default class Profile extends React.Component<any, any> {
       }
 
       return (
-        <div className={workingLife ? 'select-wrapper-has' : 'select-wrapper'}>
+        <div className={workingLife ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id ? [myWorkingLife] : null}
                         placeholder="请选择"
                         onChoice={(one) => this.onChoiceWorkingLife(one)}/>
@@ -349,8 +349,9 @@ export default class Profile extends React.Component<any, any> {
       }
 
       return (
-        <div className={married ? 'select-wrapper-has' : 'select-wrapper'}>
-          <DropDownList level={1} data={[marryList]} userData={myMarried.id ? [myMarried] : null} placeholder="以便参加脱单群等活动"
+        <div className={married ? 'select-wrapper-has' : 'select-wrapper-choice'}>
+          <DropDownList level={1} data={[marryList]} userData={myMarried.id ? [myMarried] : null}
+                        placeholder="以便参加脱单群等活动"
                         onChoice={(one) => this.onChoiceMarry(one)}/>
         </div>
       )
@@ -366,7 +367,7 @@ export default class Profile extends React.Component<any, any> {
       }
 
       return (
-        <div className={workingYear ? 'select-wrapper-has' : 'select-wrapper'}>
+        <div className={workingYear ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[workingYearList]} userData={myWorkingLife.id ? [myWorkingLife] : null}
                         defaultData={[{ id: '2000', value: '2000' }]}
                         onChoice={(one) => this.onChoiceWorkingYear(one)}/>
@@ -482,7 +483,7 @@ export default class Profile extends React.Component<any, any> {
         <div className="profile-bottom">
           <div className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
                onClick={this.submitProfile.bind(this)}>
-            完成
+            {goRise ? `下一步` : `完成`}
           </div>
         </div>
         {/*<div className="padding-footer"></div>*/}
