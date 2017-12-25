@@ -18,6 +18,7 @@ export default class GroupPromotionCountDown extends React.Component {
     dispatch(startLoad())
     try {
       let res = await loadCampCountDown()
+      console.log(res)
       dispatch(endLoad())
       const msg = res.msg
       if(res.code === 200) {
