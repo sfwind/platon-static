@@ -153,6 +153,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                           month-problem-desc
                           ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
                        `}
+                       onTouchStart={(e) => e.preventDefault()}
                        onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
                 </li>
               )
