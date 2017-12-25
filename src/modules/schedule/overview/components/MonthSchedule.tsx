@@ -10,7 +10,6 @@ interface MonthScheduleProps {
   id: any,
   schedules: any,
   draggable: boolean,
-  showDescBox: boolean,
   enableAutoScroll: any,
   disableAutoScroll: any,
 }

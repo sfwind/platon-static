@@ -89,10 +89,12 @@ export default class OverView extends React.Component {
   }
 
   enableAutoScroll() {
+    document.body.addEventListener('touchstart', (ev) => ev.preventDefault(), false)
     document.body.addEventListener('touchmove', this.scrollFunc, false)
   }
 
   disableAutoScroll() {
+    document.body.addEventListener('touchstart', (ev) => ev.preventDefault(), false)
     document.body.removeEventListener('touchmove', this.scrollFunc, false)
   }
 
