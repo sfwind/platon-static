@@ -64,8 +64,10 @@ export default class AnnualSummary extends React.Component {
     const { personStep = this.PERSON_STEPS.init } = this.state
     return (
       <div className="annual-summary-container" onClick={() => this.handleNextStep()}>
-        <div id="person" className={`person step-${personStep}`} data-nextstep={this.PERSON_STEPS.init}></div>
-        <AssetImg className="summary-map" url='https://static.iqycamp.com/images/annual_summary_map.jpg'/>
+        <div className="move-block">
+          <div id="person" className={`person step-${personStep}`} data-nextstep={this.PERSON_STEPS.init}></div>
+          <AssetImg className="summary-map" url='https://static.iqycamp.com/images/annual_summary_map.jpg'/>
+        </div>
       </div>
     )
   }

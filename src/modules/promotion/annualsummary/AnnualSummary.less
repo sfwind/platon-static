@@ -1,44 +1,52 @@
 .annual-summary-container {
   min-height: 100vh;
   
-  .person {
-    display: inline-block;
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #FFB200;
-    border-radius: 50%;
-    left: 0;
-    bottom: 76px;
-    &.step-building1 {
-      animation: toBuildingOne 2s linear;
-      animation-fill-mode: forwards;
-    }
-    &.step-building2 {
-      animation: toBuildingTwo 4s linear;
-      animation-fill-mode: forwards;
-    }
-    &.step-building3 {
-      animation: toBuildingThree 4s linear;
-      animation-fill-mode: forwards;
-    }
-    &.step-building4 {
-      animation: toBuildingFour 4s linear;
-      animation-fill-mode: forwards;
-    }
-    &.step-building5 {
-      animation: toBuildingFive 4s linear;
-      animation-fill-mode: forwards;
-    }
-  }
-  .summary-map {
+  .move-block {
     display: block;
     position: absolute;
-    z-index: -1;
     width: 100vw;
     bottom: 0;
     left: 0;
+    transition: bottom 5s linear;
+    bottom: 100px;
+    
+    .person {
+      display: inline-block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #FFB200;
+      border-radius: 50%;
+      left: 0;
+      bottom: 76px;
+      &.step-building1 {
+        animation: toBuildingOne 2s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building2 {
+        animation: toBuildingTwo 4s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building3 {
+        animation: toBuildingThree 4s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building4 {
+        animation: toBuildingFour 4s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building5 {
+        animation: toBuildingFive 4s linear;
+        animation-fill-mode: forwards;
+      }
+    }
+    .summary-map {
+      display: block;
+      z-index: -1;
+      width: 100vw;
+    }
   }
+  
 }
 
 @keyframes toBuildingOne {
