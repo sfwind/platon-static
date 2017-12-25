@@ -12,6 +12,7 @@ interface MonthScheduleProps {
   draggable: boolean,
   enableAutoScroll: any,
   disableAutoScroll: any,
+  toggleSubmitButton: any
 }
 
 @connect(state => state)
@@ -34,7 +35,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   componentDidMount() {
-    const { enableAutoScroll, disableAutoScroll } = this.props
+    const { enableAutoScroll, disableAutoScroll, toggleSubmitButton } = this.props
 
     let node = document.getElementById(this.props.id)
     this.sortbale = Sortable.create(node, {
@@ -46,9 +47,19 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
       dragClass: 'drag',
       onStart: function(evt) {
         enableAutoScroll()
+        toggleSubmitButton(false)
         evt.oldIndex  // element index within parent
       },
+      onMove: (/**Event*/evt, /**Event*/originalEvent) => {
+        toggleSubmitButton(false)
+        evt.dragged // dragged HTMLElement
+        evt.draggedRect // TextRectangle {left, top, right и bottom}
+        evt.related // HTMLElement on which have guided
+        evt.relatedRect // TextRectangle
+        originalEvent.clientY // mouse position
+      },
       onEnd: function(evt) {
+        toggleSubmitButton(true)
         disableAutoScroll()
         var itemEl = evt.item  // dragged HTMLElement
         evt.to    // target list
@@ -76,6 +87,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   handleClickViewProblemDesc(draggable, schedule, e) {
+    e.preventDefault()
     if(!draggable) {
       e.stopPropagation()
       if(schedule.problem.publish) {
@@ -152,7 +164,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                           month-problem-desc
                           ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
                        `}
-                       onTouchStart={(e) => e.preventDefault()}
+                       onTouchStart={ev => ev.preventDefault()}
+                       onTouchMove={ev => ev.preventDefault()}
                        onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
                 </li>
               )
