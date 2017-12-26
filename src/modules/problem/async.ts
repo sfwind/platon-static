@@ -40,10 +40,6 @@ export function loadGoodsInfo(goodsType, goodsId) {
   return ppost('/signup/load/goods', { goodsType: goodsType, goodsId: goodsId })
 }
 
-export function welcome() {
-  return ppost(`/rise/open/welcome`)
-}
-
 export function mark(param) {
   return ppost('/rise/b/mark', param)
 }
