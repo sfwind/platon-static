@@ -1,0 +1,72 @@
+@import "../../../../style/variable";
+
+.annual-teaching-building {
+  display: block;
+  position: fixed;
+  left: 50%;
+  top: 10%;
+  transform: translateX(-50%);
+  width: ~"calc(100vw - 5rem)";
+  height: 37rem;
+  z-index: 10;
+  background-image: url("@{imgPathRoot}/display-box-3.png?slimimage");
+  background-size: cover;
+  box-sizing: border-box;
+  padding: 2.2rem 2rem 4rem;
+  
+  .text {
+    opacity: 0;
+    font-size: 1.3rem;
+    color: #666;
+  }
+  .highlight {
+    font-size: 2.1rem;
+    color: #f8aa08;
+  }
+  .text1 {
+    animation: fadein 1s linear;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+  }
+  .text2 {
+    animation: fadein 1s linear;
+    animation-delay: 4s;
+    animation-fill-mode: forwards;
+  }
+  .text3 {
+    margin-top: 2.5rem;
+    animation: fadein 1s linear;
+    animation-delay: 6s;
+    animation-fill-mode: forwards;
+  }
+  .text4 {
+    animation: fadein 1s linear;
+    animation-delay: 8s;
+    animation-fill-mode: forwards;
+  }
+  
+  .word-cloud {
+    opacity: 0;
+    animation: fadein 1s linear;
+    animation-delay: 10s;
+    animation-fill-mode: forwards;
+    position: absolute;
+    bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15 * 652 / 300 - 1rem;
+    height: 15rem;
+    background-image: url("@{imgPathRoot}/word_cloud.png?slimimage");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
