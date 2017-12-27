@@ -676,7 +676,7 @@ export class PlanMain extends React.Component <any, any> {
                }}>
             <div className="chapter-area">
               <div className="cell">
-                <MarkBlock module={'打点'} func={'首页'} action={'打开课程介绍'} memo={problem.d}
+                <MarkBlock module={'打点'} func={'首页'} action={'打开课程介绍'} memo={problem.id || ''}
                            className="chapter description" onClick={() => this.problemReview(problem.id)}>
                   <div/>
                   <span>课程介绍</span>
@@ -1028,8 +1028,8 @@ export class PlanMain extends React.Component <any, any> {
             <div className="outline" onClick={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
               <span>提纲</span>
             </div>
-            <MarkBlock module={'打点'} func={'首页'} action={'打开课程卡包'} memo={problem.id}
-                       className="card-collection" onClick={() => this.goCardsCollection(problem.id)}>
+            <MarkBlock module={'打点'} func={'首页'} action={'打开课程卡包'} memo={problem.id || ''}
+                       className="card-collection" onClick={() => this.goCardsCollection()}>
               <span>卡包</span>
             </MarkBlock>
             {riseMember !== 1 ?

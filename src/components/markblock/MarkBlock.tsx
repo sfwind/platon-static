@@ -20,15 +20,8 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     this.initParams()
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(nextProps) != JSON.stringify(this.props)) {
-      this.props = nextProps
-      this.initParams()
-    }
-  }
-
   initParams() {
-    const { module, func, action, memo } = this.props
+    const { module, func, action, memo = '' } = this.props
     this.setState({
       module: module,
       func: func,
@@ -38,7 +31,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
   }
 
   async handleClickMarkBlock(onClickFunc) {
-    const { module, func, action, memo } = this.state
+    const { module, func, action, memo = '' } = this.state
     let param = {
       module: module,
       function: func,
@@ -62,7 +55,8 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
              this.handleClickMarkBlock(onClick)
            }}>
         {this.props.children}
-      </div>)
+      </div>
+    )
   }
 
 }
