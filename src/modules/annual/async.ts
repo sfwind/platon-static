@@ -15,3 +15,7 @@ export function receiveAnnualCards(cardId) {
 export function checkSubscribe(callback, key) {
   return pget(`/rise/customer/check/subscribe/${key}`, { callback: callback })
 }
+
+export function loadAnnualCounts() {
+  return pget(`/rise/operation/prize/annual/load/count`)
+}
