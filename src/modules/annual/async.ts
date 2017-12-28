@@ -19,3 +19,7 @@ export function checkSubscribe(callback, key) {
 export function loadAnnualCounts() {
   return pget(`/rise/operation/prize/annual/load/count`)
 }
+
+export function receivePreviewCard(cardId) {
+  return pget(`/rise/operation/prize/card/preview/${cardId}`)
+}

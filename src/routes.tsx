@@ -73,6 +73,7 @@ import ReceiveCard from './modules/card/ReceiveCard'
 import Annual from './modules/annual/Annual'
 import CampCountDown from './modules/schedule/CampCountDown'
 import AnnualAward from './modules/annual/AnnualAward'
+import SendCard from './modules/annual/SendCard'
 
 const routes = (
   <Route>
@@ -118,6 +119,8 @@ const routes = (
       <Route path="card/mime" component={MimeCard}/>
       <Route path="card/introduction" component={CardIntroduction}/>
       <Route path="card/receive" component={ReceiveCard}/>
+
+      <Route path="card/send" component={SendCard}/>
 
       <Route path="annual/award" component={AnnualAward}/>
 
