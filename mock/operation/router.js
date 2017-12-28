@@ -42,9 +42,21 @@ router.get('/rise/operation/annual/summary/user', (req, res) => {
     {
       'code': 200,
       'msg': {
-        'currentRiseId': 'bbb',
+        'currentRiseId': 'aaa',
         'masterRiseId': 'aaa',
         'masterHeadImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+      }
+    }
+  )
+})
+
+router.get('/rise/operation/annual/summary/schoolgate', (req, res) => {
+  res.status(200).json(
+    {
+      'code': 200,
+      'msg': {
+        'registerDate': '2000年01月01日',
+        'registerSequence': 2
       }
     }
   )

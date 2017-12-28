@@ -1,7 +1,8 @@
 import { pget } from '../../../utils/request'
 
-export function getPromotionUserInfo(riseId) {
-  return pget(`/rise/operation/annual/summary/user?riseId=${riseId}`)
+export function getPromotionUserInfo(riseId?) {
+  console.log(riseId)
+  return pget(`/rise/operation/annual/summary/user${riseId ? '?riseId=' + riseId : ''}`)
 }
 
 export function getPromotionLibrary(riseId) {
