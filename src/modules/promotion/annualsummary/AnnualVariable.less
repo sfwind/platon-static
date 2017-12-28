@@ -1,4 +1,5 @@
 .annimation-delay(@delay-seconds: 0s, @fade-seconds: 1s) {
+  opacity: 0;
   animation: fadein @fade-seconds linear;
   animation-delay: @delay-seconds;
   animation-fill-mode: forwards;
@@ -6,7 +7,6 @@
 
 .annual-summary-common-text() {
   .text {
-    opacity: 0;
     color: #666;
     font-size: 1.3rem;
     .highlight {

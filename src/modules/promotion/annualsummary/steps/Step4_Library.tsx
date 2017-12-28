@@ -10,7 +10,7 @@ export class Step4_Library extends React.Component {
   }
 
   async componentWillMount() {
-    let res = await getPromotionLibrary()
+    let res = await getPromotionLibrary(this.props.riseId)
     if(res.code === 200) {
       let msg = res.msg
       this.setState({
@@ -20,6 +20,12 @@ export class Step4_Library extends React.Component {
         assts: msg.assts,
         classmates: msg.classmates
       })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.riseId !== this.props.riseId) {
+      this.props = nextProps
     }
   }
 

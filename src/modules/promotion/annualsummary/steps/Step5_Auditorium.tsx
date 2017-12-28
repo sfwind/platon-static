@@ -10,13 +10,19 @@ export class Step5_Auditorium extends React.Component {
   }
 
   async componentWillMount() {
-    let res = await getPromotionAuditorium()
+    let res = await getPromotionAuditorium(this.props.riseId)
     if(res.code === 200) {
       let msg = res.msg
       this.setState({
         point: msg.point,
         defeatPercentage: msg.defeatPercentage
       })
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.riseId !== this.props.riseId) {
+      this.props = nextProps
     }
   }
 

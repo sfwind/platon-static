@@ -8,13 +8,15 @@ import { Step3_TeachingBuilding } from './steps/Step3_TeachingBuilding'
 import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo } from './async'
+import { configShare } from '../../helpers/JsConfig'
 
 export default class AnnualSummary extends React.Component {
 
   constructor() {
     super()
     this.state = {
-      personStep: this.PERSON_STEPS.init
+      personStep: this.PERSON_STEPS.init,
+      showPage: false
     }
   }
 
@@ -36,12 +38,13 @@ export default class AnnualSummary extends React.Component {
         riseId: msg.masterRiseId,
         headImageUrl: msg.masterHeadImageUrl,
         isSelf: msg.currentRiseId === msg.masterHeadImageUrl,
-        stepBox: this.loadCurrentBuilding()
+        stepBox: this.loadCurrentBuilding(),
+        showPage: true
       })
     }
   }
 
-  handleNextStep() {
+  handleNextStep(sleepTime = 4000) {
     this.setState({
       stepBox: <div></div>
     })
@@ -73,7 +76,7 @@ export default class AnnualSummary extends React.Component {
         this.setState({
           stepBox: this.loadCurrentBuilding()
         })
-      }, 4000)
+      }, sleepTime)
     })
   }
 
@@ -84,7 +87,7 @@ export default class AnnualSummary extends React.Component {
     switch(personStep) {
       case this.PERSON_STEPS.init:
         result.push(<Step_Start riseId={riseId}/>)
-        result.push(<NextStepButton buttonText="开始回顾" clickFunc={() => this.handleNextStep()}
+        result.push(<NextStepButton buttonText="开始回顾" clickFunc={() => this.handleNextStep(2000)}
                                     style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
         return result
       case this.PERSON_STEPS.building1:
@@ -105,7 +108,7 @@ export default class AnnualSummary extends React.Component {
         break
       case this.PERSON_STEPS.building5:
         result.push(<Step5_Auditorium riseId={riseId}/>)
-        result.push(<NextStepButton buttonText="分享" clickFunc={() => {}}/>)
+        result.push(<NextStepButton buttonText="分享" clickFunc={() => this.configShareOption()}/>)
         break
       default:
         return
@@ -114,8 +117,18 @@ export default class AnnualSummary extends React.Component {
     return result
   }
 
+  configShareOption() {
+    configShare(
+      `年度总结分析`,
+      `https://${window.location.hostname}/pay/static/annual/summary?riseId=${this.state.riseId}`,
+      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+      '我的年度总结')
+  }
+
   render() {
-    const { personStep = this.PERSON_STEPS.init, stepBox = <div></div>, headImageUrl = '' } = this.state
+    const { personStep = this.PERSON_STEPS.init, stepBox = <div></div>, headImageUrl = '', showPage } = this.state
+
+    if(!showPage) return <div></div>
 
     return (
       <div className="annual-summary-container">
