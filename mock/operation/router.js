@@ -42,6 +42,7 @@ router.get('/rise/operation/annual/summary/user', (req, res) => {
     {
       'code': 200,
       'msg': {
+        'isSelf': false,
         'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
       }
     }
@@ -60,18 +61,57 @@ router.get('/rise/operation/annual/summary/schoolgate', (req, res) => {
   )
 })
 
-router.get('/rise/operation/annual/summary/activitycenter', (req, res) => {
+router.get('/rise/operation/annual/summary/library', (req, res) => {
   res.status(200).json(
     {
       'code': 200,
       'msg': {
-        'totalHours': '100',
-        'mbaCount': 2
+        'courseCount': 25,
+        'knowledgeCount': 100,
+        'allRightCount': 10,
+        'assts': [
+          {
+            'nickName': '三十文',
+            'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+          },
+          {
+            'nickName': '薛定谔的猫',
+            'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+          },
+          {
+            'nickName': 'aDASdwfe',
+            'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+          }
+        ],
+        'classmates': [
+          {
+            'nickName': '三十文',
+            'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+          },
+          {
+            'nickName': '薛定谔的猫',
+            'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+          },
+          {
+            'nickName': 'aDASdwfe',
+            'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+          }
+        ]
       }
     }
   )
 })
 
-
+router.get('/rise/operation/annual/summary/auditorium', (req, res) => {
+  res.status(200).json(
+    {
+      'code': 200,
+      'msg': {
+        'point': '100',
+        'defeatPercentage': 20
+      }
+    }
+  )
+})
 
 module.exports = router

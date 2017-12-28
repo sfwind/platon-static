@@ -14,7 +14,7 @@ export class Step3_TeachingBuilding extends React.Component {
         <div className="text text1">在这里，你结识了</div>
         <div className="text text2">
           <span className="highlight">
-            <large>25</large>个行业的人脉
+            <large>25&nbsp;</large>个行业的人脉
           </span>
         </div>
         <div className="text text3">学习横跨思维、管理、沟通、商业和投资等领域；</div>

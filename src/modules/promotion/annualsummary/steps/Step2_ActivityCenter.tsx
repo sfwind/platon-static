@@ -9,25 +9,25 @@ export class Step2_ActivityCenter extends React.Component {
   }
 
   render() {
-    const { totalHours = 100, mbaCount = 2 } = this.state
+    const { totalHours = 10, mbaCount = 1 } = this.state
 
     return (
       <section className="annual-activity-center">
         <div className="text text1">在圈外商学院里，你和来自全球</div>
         <div className="text text2">
           <span className="highlight">
-            <large>25</large>
+            <large>25&nbsp;</large>
             座城市</span> 的人成了校友
         </div>
-        <div className="text text3">一起累积学习了&nbsp;&nbsp;
+        <div className="text text3">一起累积学习了
           <span className="highlight">
-            <large>{totalHours}</large>
+            <large>&nbsp;{totalHours}&nbsp;</large>
             小时
           </span>
         </div>
-        <div className="text text4">相当于读了&nbsp;&nbsp;
+        <div className="text text4">相当于读了
           <span className="highlight">
-            <large>{mbaCount}</large>
+            <large>&nbsp;{mbaCount}&nbsp;</large>
             个MBA</span>
         </div>
         <div className="map"></div>

@@ -2,8 +2,8 @@ import * as React from 'react'
 import './NextStepButton.less'
 
 interface NextStepButtonProps {
-  text: string,
-  func: any
+  clickFunc: string,
+  buttonText: any
 }
 
 export class NextStepButton extends React.Component<NextStepButtonProps, any> {
@@ -20,19 +20,20 @@ export class NextStepButton extends React.Component<NextStepButtonProps, any> {
   }
 
   initParams() {
-    const { text, func } = this.props
+    const { buttonText, clickFunc } = this.props
     this.setState({
-      text: text,
-      func: func
+      clickFunc: clickFunc,
+      buttonText: buttonText
     })
   }
 
   render() {
-    const { text, func } = this.state
+    const { clickFunc: tmpA, buttonText: tmpB, ...other } = this.props
+    const { clickFunc, buttonText } = this.state
 
     return (
-      <div className="annual-summary-nextstep-component" onClick={() => func()}>
-        {text}
+      <div className="annual-summary-nextstep-component" onClick={() => clickFunc()} {...other}>
+        {buttonText}
       </div>
     )
   }
