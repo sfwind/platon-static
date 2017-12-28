@@ -8,7 +8,6 @@ import AssetImg from '../../components/AssetImg'
 import { receivePreviewCard, sendTemplate } from './async'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import './SendCard.less'
-import { closeWindow } from '../helpers/JsConfig'
 
 @connect(state => state)
 export default class SendCard extends React.Component<any, any> {
@@ -18,8 +17,7 @@ export default class SendCard extends React.Component<any, any> {
 
     this.state = {
       showQrDialog: false,
-      qrCode: '',
-      showTip: false
+      qrCode: ''
     }
   }
 
@@ -36,21 +34,18 @@ export default class SendCard extends React.Component<any, any> {
     const { cardId } = this.props.location.query
     const { dispatch } = this.props
     //检查是否关注
-    checkSubscribe(window.location.href, 'prize_card_cardId_' + cardId).then(res => {
+    checkSubscribe(window.location.href, 'prize_card_' + cardId).then(res => {
       if(res.code === 200) {
         if(res.msg === 'ok') {
           //领取礼品卡
           receivePreviewCard(cardId).then(res1 => {
             if(res1.code === 200) {
-              //closeWindow()
-              dispatch(alertMsg('领取成功，请去公众号查看消息'))
+              dispatch(alertMsg('领取成功，请扫码查看信息'))
               sendTemplate().then(res2 => {
               })
             }
             else {
-              this.setState({
-                showTip: true
-              })
+              dispatch(alertMsg('您已在圈外学习过，无需重复体验,可以点击右上角，转发给需要的小伙伴！'))
             }
           })
         }
@@ -64,16 +59,8 @@ export default class SendCard extends React.Component<any, any> {
     })
   }
 
-  /*点击确定按钮
-   */
-  handleTipButton = () => {
-    this.setState({
-      showTip: false
-    })
-  }
-
   render() {
-    const { showQrDialog, qrCode, showTip } = this.state
+    const { showQrDialog, qrCode} = this.state
     const showQr = () => {
       return (
         <RenderInBody>
@@ -90,23 +77,6 @@ export default class SendCard extends React.Component<any, any> {
             </div>
           </div>
         </RenderInBody>
-      )
-    }
-
-    const renderShowTips = () => {
-
-      return (
-        <div className="tip-container">
-          <div className="show-tip">
-            <div className="content-container">
-              <div>您已在圈外学习过，无需重复体验</div>
-              <div>可以点击右上角，转发给需要的小伙伴！</div>
-              <div className="border-bottom"></div>
-              <div className="show-tip-button" onClick={() => this.handleTipButton()}>确定</div>
-            </div>
-          </div>
-
-        </div>
       )
     }
 
@@ -136,7 +106,6 @@ export default class SendCard extends React.Component<any, any> {
               <SubmitButton clickFunc={() => this.handleClick()} buttonText='领取'/>
             </div>
         }
-        {showTip && renderShowTips()}
       </div>
     )
   }
