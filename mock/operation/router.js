@@ -43,6 +43,7 @@ router.get('/rise/operation/annual/summary/user', (req, res) => {
       'code': 200,
       'msg': {
         'isSelf': false,
+        'riseId': 'aaaaa',
         'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
       }
     }
