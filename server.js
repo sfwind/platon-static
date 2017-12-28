@@ -9,7 +9,6 @@ var serverConfig = {
   publicPath: devConfig.output.publicPath,
   hot: true,
   historyApiFallback: true,
-  disableHostCheck: true,
 
   watchOptions: {
     aggregateTimeout: 300,
