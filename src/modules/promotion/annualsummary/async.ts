@@ -1,13 +1,13 @@
 import { pget } from '../../../utils/request'
 
-export function getPromotionUserInfo() {
-  return pget('/rise/operation/annual/summary/user')
+export function getPromotionUserInfo(riseId) {
+  return pget(`/rise/operation/annual/summary/user?riseId=${riseId}`)
 }
 
-export function getPromotionLibrary() {
-  return pget('/rise/operation/annual/summary/library')
+export function getPromotionLibrary(riseId) {
+  return pget(`/rise/operation/annual/summary/library?riseId=${riseId}`)
 }
 
-export function getPromotionAuditorium() {
-  return pget('/rise/operation/annual/summary/auditorium')
+export function getPromotionAuditorium(riseId) {
+  return pget(`/rise/operation/annual/summary/auditorium?riseId=${riseId}`)
 }

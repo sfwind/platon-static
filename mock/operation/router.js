@@ -42,8 +42,9 @@ router.get('/rise/operation/annual/summary/user', (req, res) => {
     {
       'code': 200,
       'msg': {
-        'riseId': 'aaaaa',
-        'headImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
+        'currentRiseId': 'bbb',
+        'masterRiseId': 'aaa',
+        'masterHeadImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
       }
     }
   )

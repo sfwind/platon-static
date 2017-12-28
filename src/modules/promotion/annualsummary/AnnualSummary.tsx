@@ -29,7 +29,18 @@ export default class AnnualSummary extends React.Component {
 
   async componentWillMount() {
     const { riseId } = this.props.location.query
-    let res = await getPromotionUserInfo()
+    if(riseId) {
+
+
+      this.setState({
+        masterRiseId: riseId,
+        headImageUrl:
+      })
+    } else {
+      let res = await getPromotionUserInfo()
+      window.ENV.headImage
+    }
+
     if(res.code === 200) {
       let msg = res.msg
       this.setState({
