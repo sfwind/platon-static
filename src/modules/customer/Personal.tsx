@@ -118,9 +118,9 @@ export default class Personal extends React.Component<any, any> {
           {/*<div className="personal-item no-gutter" onClick={()=>{this.context.router.push('/rise/static/card/mime')}}>*/}
             {/*<span>学习礼品卡</span>*/}
           {/*</div>*/}
-          <div className="personal-item no-gutter" onClick={()=>{this.context.router.push('/rise/static/guest/annual')}}>
+          {/*<div className="personal-item no-gutter" onClick={()=>{this.context.router.push('/rise/static/guest/annual')}}>
             <span>年终总结</span>
-          </div>
+          </div>*/}
           <div className="personal-item no-gutter" onClick={() => this.goMessage()}>
             <span>消息通知</span>
             {noticeMsgCount ?
