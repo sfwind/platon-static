@@ -1,4 +1,5 @@
 @import "../../../../style/variable";
+@import "../../annualsummary/AnnualVariable.less";
 
 .annual-library {
   display: block;
@@ -13,13 +14,29 @@
   background-size: cover;
   box-sizing: border-box;
   padding: 2.2rem 2rem 4rem;
-  .text {
-    opacity: 0;
-    font-size: 1.3rem;
-    color: #666;
+  
+  .annual-summary-common-text();
+  .text1 {
+    .annimation-delay(1s);
   }
-  .highlight {
-    color: #f8aa08;
+  .text2 {
+    .annimation-delay(2s);
+  }
+  .text3 {
+    margin-top: 2.0rem;
+    .annimation-delay(3s);
+  }
+  .asst {
+    opacity: 0;
+    .annimation-delay(4s);
+  }
+  .text4 {
+    margin-top: 2.0rem;
+    .annimation-delay(5s);
+  }
+  .classmates {
+    opacity: 0;
+    .annimation-delay(6s);
   }
   .profile-box {
     margin-top: 1rem;
@@ -47,49 +64,4 @@
       }
     }
   }
-  
-  .text1 {
-    animation: fadein 1s linear;
-    animation-delay: 2s;
-    animation-fill-mode: forwards;
-  }
-  .text2 {
-    animation: fadein 1s linear;
-    animation-delay: 4s;
-    animation-fill-mode: forwards;
-  }
-  .text3 {
-    margin-top: 2.0rem;
-    animation: fadein 1s linear;
-    animation-delay: 6s;
-    animation-fill-mode: forwards;
-  }
-  .asst {
-    opacity: 0;
-    animation: fadein 1s linear;
-    animation-delay: 8s;
-    animation-fill-mode: forwards;
-  }
-  .text4 {
-    margin-top: 2.0rem;
-    animation: fadein 1s linear;
-    animation-delay: 10s;
-    animation-fill-mode: forwards;
-  }
-  .classmates {
-    opacity: 0;
-    animation: fadein 1s linear;
-    animation-delay: 12s;
-    animation-fill-mode: forwards;
-  }
-  
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
 }

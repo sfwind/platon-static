@@ -1,4 +1,5 @@
 @import "../../../../style/variable";
+@import "../../annualsummary/AnnualVariable.less";
 
 .annual-auditorium {
   overflow: scroll;
@@ -14,29 +15,22 @@
   background-size: cover;
   box-sizing: border-box;
   padding: 2.2rem 2rem 4rem;
-  .text {
-    font-size: 1.3rem;
-    color: #666;
-  }
-  .highlight {
-    color: #f8aa08;
-  }
-  large {
-    font-size: 3rem;
-  }
-  .text1 {
   
+  .annual-summary-common-text();
+  .text1 {
+    .annimation-delay(1s);
   }
   .text2 {
-  
+    .annimation-delay(2s);
   }
   .text3 {
-  
+    .annimation-delay(3s);
   }
   .text4 {
-  
+    .annimation-delay(4s);
   }
   .text5 {
     margin-top: 2.5rem;
+    .annimation-delay(5s);
   }
 }

@@ -1,4 +1,5 @@
 @import "../../../../style/variable";
+@import "../../annualsummary/AnnualVariable.less";
 
 .annual-teaching-building {
   display: block;
@@ -14,42 +15,22 @@
   box-sizing: border-box;
   padding: 2.2rem 2rem 4rem;
   
-  .text {
-    opacity: 0;
-    font-size: 1.3rem;
-    color: #666;
-  }
-  .highlight {
-    font-size: 2.1rem;
-    color: #f8aa08;
-  }
+  .annual-summary-common-text();
   .text1 {
-    animation: fadein 1s linear;
-    animation-delay: 2s;
-    animation-fill-mode: forwards;
+    .annimation-delay(1s);
   }
   .text2 {
-    animation: fadein 1s linear;
-    animation-delay: 4s;
-    animation-fill-mode: forwards;
+    .annimation-delay(2s);
   }
   .text3 {
-    margin-top: 2.5rem;
-    animation: fadein 1s linear;
-    animation-delay: 6s;
-    animation-fill-mode: forwards;
+    .annimation-delay(3s);
   }
   .text4 {
-    animation: fadein 1s linear;
-    animation-delay: 8s;
-    animation-fill-mode: forwards;
+    .annimation-delay(4s);
   }
-  
   .word-cloud {
+    .annimation-delay(5s);
     opacity: 0;
-    animation: fadein 1s linear;
-    animation-delay: 10s;
-    animation-fill-mode: forwards;
     position: absolute;
     bottom: 4rem;
     left: 50%;
@@ -59,14 +40,5 @@
     background-image: url("@{imgPathRoot}/word_cloud.png?slimimage");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-  }
-  
-  @keyframes fadein {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
   }
 }

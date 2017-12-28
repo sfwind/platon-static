@@ -1,9 +1,10 @@
 @import "../../../style/variable";
 
 .annual-summary-container {
-  min-height: 100vh;
-  background-image: url("@{imgPathRoot}/annual_background.png?imageslim");
-  background-size: 100vw 100vh;
+  width: 100vw;
+  height: 100vh;
+  background: url("@{imgPathRoot}/annual_background.png?imageslim") no-repeat center bottom / 100% auto;
+  background-size: 100vw;
   
   .move-block {
     display: block;
@@ -15,12 +16,24 @@
     .person {
       display: inline-block;
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: #FFB200;
-      border-radius: 50%;
-      left: 0;
-      bottom: 76px;
+      width: 4rem;
+      height: 5.6rem;
+      background-image: url("@{imgPathRoot}/annual_location.png?imageslim");
+      background-size: 100% 100%;
+      left: -4rem;
+      bottom: 9rem;
+      
+      .headimage {
+        position: relative;
+        display: inline-block;
+        width: 2.8rem;
+        height: 2.8rem;
+        left: 0.6rem;
+        top: 0.5rem;
+        border-radius: 50%;
+        background-size: 2.8rem 2.8rem !important;
+      }
+      
       &.step-building1 {
         animation: toBuildingOne 2s linear;
         animation-fill-mode: forwards;
@@ -60,76 +73,80 @@
 
 @keyframes toBuildingOne {
   0% {
-    left: 0;
-    bottom: 76px;
+    left: -4rem;
+    bottom: 9rem;
   }
   100% {
-    left: 25px;
-    bottom: 76px;
+    left: 2rem;
+    bottom: 9rem;
   }
 }
 
 @keyframes toBuildingTwo {
   0% {
-    left: 25px;
-    bottom: 76px;
+    left: 2rem;
+    bottom: 9rem;
   }
   25% {
-    left: 42px;
-    bottom: 76px;
+    left: 3.1rem;
+    bottom: 9rem;
   }
   75% {
-    left: 80px;
-    bottom: 157px;
+    left: 7.1rem;
+    bottom: 17.2rem;
   }
   100% {
-    left: 125px;
-    bottom: 157px;
+    left: 12.5rem;
+    bottom: 17.2rem;
   }
 }
 
 @keyframes toBuildingThree {
   0% {
-    left: 125px;
-    bottom: 157px;
+    left: 12.5rem;
+    bottom: 17.2rem;
   }
   50% {
-    left: 180px;
-    bottom: 157px;
+    left: 17rem;
+    bottom: 17.2rem;
   }
   100% {
-    left: 144px;
-    bottom: 60px;
+    left: 14rem;
+    bottom: 9rem;
   }
 }
 
 @keyframes toBuildingFour {
   0% {
-    left: 144px;
-    bottom: 60px;
+    left: 14rem;
+    bottom: 9rem;
   }
   50% {
-    left: 134px;
-    bottom: 30px;
+    left: 13rem;
+    bottom: 4rem;
+  }
+  75% {
+    left: 24.8rem;
+    bottom: 4.2rem;
   }
   100% {
-    left: 258px;
-    bottom: 30px;
+    left: 26.5rem;
+    bottom: 8.2rem;
   }
 }
 
 @keyframes toBuildingFive {
   0% {
-    left: 258px;
-    bottom: 30px;
+    left: 26.5rem;
+    bottom: 8.2rem;
   }
   50% {
-    left: 290px;
-    bottom: 117px;
+    left: 28.5rem;
+    bottom: 13rem;
   }
   100% {
-    left: 330px;
-    bottom: 117px;
+    left: 31.5rem;
+    bottom: 13rem;
   }
 }
 
@@ -139,57 +156,6 @@
     bottom: 117px;
   }
   to {
-    left: 355px;
-    bottom: 117px;
-  }
-}
-
-@keyframes person-route {
-  0% {
-    left: 0;
-    bottom: 76px;
-  }
-  1% {
-    left: 25px;
-    bottom: 76px;
-  }
-  2% {
-    left: 42px;
-    bottom: 76px;
-  }
-  3% {
-    left: 80px;
-    bottom: 157px;
-  }
-  4% {
-    left: 125px;
-    bottom: 157px;
-  }
-  5% {
-    left: 180px;
-    bottom: 157px;
-  }
-  6% {
-    left: 144px;
-    bottom: 60px;
-  }
-  7% {
-    left: 134px;
-    bottom: 30px;
-  }
-  8% {
-    left: 258px;
-    bottom: 30px;
-  }
-  9% {
-    left: 290px;
-    bottom: 117px;
-  }
-  10% {
-    left: 330px;
-    bottom: 117px;
-  }
-  11% {
     left: 355px;
     bottom: 117px;
   }

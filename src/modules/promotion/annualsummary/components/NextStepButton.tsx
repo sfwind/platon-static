@@ -9,13 +9,17 @@ interface NextStepButtonProps {
 export class NextStepButton extends React.Component<NextStepButtonProps, any> {
 
   componentWillMount() {
-    this.state = {}
+    this.initParams()
   }
 
   componentWillReceiveProps(nextProps) {
     if(JSON.stringify(nextProps) !== this.props) {
       this.props = nextProps
     }
+    this.initParams()
+  }
+
+  initParams() {
     const { text, func } = this.props
     this.setState({
       text: text,
@@ -24,7 +28,7 @@ export class NextStepButton extends React.Component<NextStepButtonProps, any> {
   }
 
   render() {
-    const { text = '下一步', func } = this.state
+    const { text, func } = this.state
 
     return (
       <div className="annual-summary-nextstep-component" onClick={() => func()}>

@@ -1,0 +1,28 @@
+.annimation-delay(@delay-seconds: 0s, @fade-seconds: 1s) {
+  animation: fadein @fade-seconds linear;
+  animation-delay: @delay-seconds;
+  animation-fill-mode: forwards;
+}
+
+.annual-summary-common-text() {
+  .text {
+    opacity: 0;
+    color: #666;
+    font-size: 1.3rem;
+    .highlight {
+      color: #f8aa08;
+    }
+    & large {
+      font-size: 3rem;
+    }
+  }
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

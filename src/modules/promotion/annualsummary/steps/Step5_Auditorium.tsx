@@ -5,6 +5,7 @@ export class Step5_Auditorium extends React.Component {
 
   constructor() {
     super()
+    this.state = {}
   }
 
   render() {
