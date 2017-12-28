@@ -109,7 +109,8 @@ router.get('/rise/operation/annual/summary/auditorium', (req, res) => {
       'code': 200,
       'msg': {
         'point': '100',
-        'defeatPercentage': 20
+        'defeatPercentage': 20,
+        'remainderCount': 2
       }
     }
   )
