@@ -8,7 +8,6 @@ import Editor from "../../../components/simditor/Editor"
 import { merge } from 'lodash'
 import { mark } from "../../../utils/request"
 import AssetImg from "../../../components/AssetImg";
-import RenderInBody from '../../../components/RenderInBody'
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -48,7 +47,7 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         const { content } = msg
         this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId })
-        if(content !== null) {
+        if(content) {
           this.setState({ edit: false })
         }
       }
@@ -154,22 +153,19 @@ export class Main extends React.Component <any, any> {
             <div ref="workContainer" className="work-container">
               <div className="submit-bar">{ content === null ? '提交方式' : '我的目标'}</div>
               {renderTip()}
-              {edit ?
+              {edit &&
                 <div className="editor">
                   <Editor ref="editor" moduleId={3} value={content}
                           placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"/>
-                </div>: null}
+                </div>}
             </div>
           </div>
         </div>
-        <RenderInBody>
-          { showDisable ?
-            <div className="button-footer disabled">提交中</div>
-            :
-            edit ?
-              <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div>: null
-          }
-        </RenderInBody>
+        { showDisable ?
+          <div className="button-footer disabled">提交中</div>
+          :
+          edit && <div className="button-footer" onClick={()=>this.onSubmit()}>提交</div>
+        }
       </div>
     )
   }

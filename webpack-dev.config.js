@@ -2,6 +2,7 @@ var path = require("path")
 var webpack = require("webpack")
 var ip = require("ip")
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 module.exports = {
   devtool: "eval", // 增加开发速度
@@ -21,7 +22,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     //去掉moment.js中国际化的代码
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin(),
+    new LodashModuleReplacementPlugin,
   ],
   resolve: {
     root: path.resolve("./src"),
