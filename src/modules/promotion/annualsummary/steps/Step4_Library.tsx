@@ -2,7 +2,7 @@ import * as React from 'react'
 import './Step4_Library.less'
 import { getPromotionLibrary } from '../async'
 
-export class Step4_Library extends React.Component {
+export class Step4_Library extends React.Component<{riseId: string}, any> {
 
   constructor() {
     super()

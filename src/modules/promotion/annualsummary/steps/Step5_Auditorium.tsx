@@ -1,12 +1,15 @@
 import * as React from 'react'
 import './Step5_Auditorium.less'
 import { getPromotionAuditorium } from '../async'
+import AssetImg from '../../../../components/AssetImg'
 
-export class Step5_Auditorium extends React.Component {
+export class Step5_Auditorium extends React.Component<{riseId: string}, any> {
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      showQrCode: false
+    }
   }
 
   async componentWillMount() {
@@ -26,8 +29,13 @@ export class Step5_Auditorium extends React.Component {
     }
   }
 
+  handleClickReceivePrizeCard() {
+    const { riseId } = this.props
+
+  }
+
   render() {
-    const { point = 0, defeatPercentage = 0 } = this.state
+    const { point = 0, defeatPercentage = 0, showQrCode } = this.state
 
     return (
       <section className="annual-auditorium">
@@ -41,8 +49,16 @@ export class Step5_Auditorium extends React.Component {
         <div>
           <div className="text text4">赢得了三张邀请函</div>
           <div className="text text5">现在你也有个机会成就他人，快点击下方“分享”按钮，邀请你最优秀的朋友来体验七天的商学院之旅！</div>
-          <div className=""></div>
+          <div className="">
+            <AssetImg url="https://static.iqycamp.com/images/fragment/annual-prize_card.png"/>
+          </div>
         </div>
+        {
+          showQrCode &&
+          <div>
+
+          </div>
+        }
       </section>
     )
   }

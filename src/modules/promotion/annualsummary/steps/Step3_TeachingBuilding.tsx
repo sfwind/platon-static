@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './Step3_TeachingBuilding.less'
 
-export class Step3_TeachingBuilding extends React.Component {
+export class Step3_TeachingBuilding extends React.Component<{riseId: string}, any> {
 
   constructor() {
     super()

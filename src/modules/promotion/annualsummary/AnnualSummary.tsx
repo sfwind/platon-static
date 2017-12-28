@@ -139,7 +139,8 @@ export default class AnnualSummary extends React.Component {
                  style={{ background: `url(${headImageUrl}) no-repeat` }}>
             </div>
           </div>
-          {stepBox}
+          {/*{stepBox}*/}
+          <Step5_Auditorium/>
         </div>
       </div>
     )

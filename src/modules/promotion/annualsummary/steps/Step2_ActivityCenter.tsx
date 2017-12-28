@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './Step2_ActivityCenter.less'
 
-export class Step2_ActivityCenter extends React.Component {
+export class Step2_ActivityCenter extends React.Component<{riseId: string}, any> {
 
   constructor() {
     super()

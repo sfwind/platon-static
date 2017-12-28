@@ -2,7 +2,7 @@ import * as React from 'react'
 import './Step1_SchoolGate.less'
 import { getPromotionSchoolGate } from '../async'
 
-export class Step1_SchoolGate extends React.Component {
+export class Step1_SchoolGate extends React.Component<{riseId: string}, any> {
 
   constructor() {
     super()
