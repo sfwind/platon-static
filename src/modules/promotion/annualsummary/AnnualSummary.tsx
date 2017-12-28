@@ -1,13 +1,13 @@
 import * as React from 'react'
 import './AnnualSummary.less'
 import { NextStepButton } from './components/NextStepButton'
+import { Step_Start } from './steps/Step_Start'
 import { Step1_SchoolGate } from './steps/Step1_SchoolGate'
 import { Step2_ActivityCenter } from './steps/Step2_ActivityCenter'
 import { Step3_TeachingBuilding } from './steps/Step3_TeachingBuilding'
 import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo } from './async'
-import { Step_Start } from './steps/Step_Start'
 
 export default class AnnualSummary extends React.Component {
 
@@ -28,6 +28,7 @@ export default class AnnualSummary extends React.Component {
   }
 
   async componentWillMount() {
+    const { riseId } = this.props.location.query
     let res = await getPromotionUserInfo()
     if(res.code === 200) {
       let msg = res.msg

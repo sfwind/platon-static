@@ -37,6 +37,17 @@ router.get('/rise/operation/free/coupon', (req, res) => {
     ), Math.random() * 1500)
 })
 
+router.get('/rise/operation/annual/summary/riseid', (req, res) => {
+  res.status(200).json(
+    {
+      'code': 200,
+      'msg': {
+        'riseId': 'aaaaa'
+      }
+    }
+  )
+})
+
 router.get('/rise/operation/annual/summary/user', (req, res) => {
   res.status(200).json(
     {
