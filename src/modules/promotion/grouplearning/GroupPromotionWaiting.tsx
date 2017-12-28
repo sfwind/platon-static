@@ -24,8 +24,8 @@ export class GroupPromotionWaiting extends React.Component<GroupPromotionWaiting
     return (
       <section className="group-promotion-waiting">
         <div className="waiting-image"/>
-        <span className={'waiting-tip-large'}>你已接受{leaderName}邀请<br/>加入自我认识试听！</span>
-        <span className={'waiting-tip-small'}>还差最后{remainderCount}人加入，解锁前7天课程：<br/>请等待解锁成功通知</span>
+        <span className={'waiting-tip-large'}>你已接受{leaderName}的邀请<br/>加入《认知自己》互助学习！</span>
+        <span className={'waiting-tip-small'}>还差最后1人加入，免费解锁前7天课程</span>
         <span className={'waiting-invite'}
               onClick={() => {
                 window.location.href = `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}&share=true`

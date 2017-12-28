@@ -52,8 +52,8 @@ export default class GroupPromotionCountDown extends React.Component {
       return (
         <div className="group-promotion-countdown">
           <div className="header" style={{ paddingTop: '2rem' }}>
-            <div className="msg" style={{ fontSize: '1.6rem', display: 'block' }}>你已加入试听</div>
-            <div className="msg" style={{ fontSize: '1.6rem', display: 'block' }}>和好友组队解锁前7天自我认知内容</div>
+            <div className="msg" style={{ fontSize: '1.6rem', display: 'block' }}>互助模式参与成功！</div>
+            <div className="msg" style={{ fontSize: '1.6rem', display: 'block' }}>你已解锁《认识自己》前7天课程内容。</div>
             <div className="msg" style={{ marginTop: '2rem' }}>离课程开始还有</div>
           </div>
           <div className="remainder">
