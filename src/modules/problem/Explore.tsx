@@ -11,6 +11,7 @@ import RenderInBody from '../../components/RenderInBody'
 
 import './Explore.less'
 import AssetImg from '../../components/AssetImg'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export class Explore extends React.Component<any, any> {
@@ -88,7 +89,6 @@ export class Explore extends React.Component<any, any> {
 
   handleClickBanner(banner) {
     let url = banner.linkUrl
-    mark({ module: '打点', function: '发现', action: '点击发现页面banner', memo: url })
     if(url.indexOf('https') >= 0) {
       window.location.href = url
     } else {
@@ -106,11 +106,12 @@ export class Explore extends React.Component<any, any> {
           {
             banners.map((banner, index) => {
               return (
-                <div className="banner-item swiper-slide" key={index}
-                     onClick={() => this.handleClickBanner(banner)}>
+                <MarkBlock module={'打点'} func={'发现'} action={'点击发现页面banner'} memo={url}
+                           className="banner-item swiper-slide" key={index}
+                           onClick={() => this.handleClickBanner(banner)}>
                   <img style={{ width: '100%', height: '17.5rem' }}
                        src={banner.imageUrl}/>
-                </div>
+                </MarkBlock>
               )
             })
           }

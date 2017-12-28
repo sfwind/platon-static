@@ -87,7 +87,6 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   handleClickViewProblemDesc(draggable, schedule, e) {
-    e.preventDefault()
     if(!draggable) {
       e.stopPropagation()
       if(schedule.problem.publish) {
@@ -95,6 +94,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
       } else {
         this.context.router.push(`/rise/static/course/schedule/nopublish`)
       }
+    } else {
+      e.preventDefault()
     }
   }
 
@@ -164,10 +165,10 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                           month-problem-desc
                           ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
                        `}
-                       onTouchStart={ev => ev.preventDefault()}
-                       onTouchMove={ev => ev.preventDefault()}
                        onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
                 </li>
+                       // onTouchStart={ev => ev.preventDefault()}
+                       // onTouchMove={ev => ev.preventDefault()}
               )
             })
           }

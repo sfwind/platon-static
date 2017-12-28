@@ -3,7 +3,6 @@ import { config } from 'modules/helpers/JsConfig'
 import { Route } from 'react-router'
 
 import Base from 'modules/base/Base'
-//import Welcome from 'modules/problem/Welcome'
 import { PlanMain } from 'modules/plan/PlanMain'
 import { KnowledgeViewer } from 'modules/practice/knowledge/KnowledgeViewer'
 import { Result as WarmUpResult } from 'modules/practice/warmup/Result'
@@ -72,6 +71,7 @@ import CardIntroduction from './modules/card/CardIntroduction'
 import ReceiveCard from './modules/card/ReceiveCard'
 import Annual from './modules/annual/Annual'
 import CampCountDown from './modules/schedule/CampCountDown'
+import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
 import AnnualAward from './modules/annual/AnnualAward'
 import SendCard from './modules/annual/SendCard'
 
@@ -82,7 +82,6 @@ const routes = (
              config(['chooseWXPay'])
            }}>
 
-      {/*<Route path="welcome" component={Welcome}/>*/}
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={PlanList}/>
 
@@ -182,6 +181,8 @@ const routes = (
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
 
       <Route path="camp/count/down" component={CampCountDown}/>
+      {/*团队学习倒计时页面*/}
+      <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
     </Route>
   </Route>
 )
