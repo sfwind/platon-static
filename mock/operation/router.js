@@ -49,18 +49,6 @@ router.get('/rise/operation/annual/summary/user', (req, res) => {
   )
 })
 
-router.get('/rise/operation/annual/summary/schoolgate', (req, res) => {
-  res.status(200).json(
-    {
-      'code': 200,
-      'msg': {
-        'registerDate': '2000年01月01日',
-        'registerSequence': 2
-      }
-    }
-  )
-})
-
 router.get('/rise/operation/annual/summary/library', (req, res) => {
   res.status(200).json(
     {
