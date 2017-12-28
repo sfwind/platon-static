@@ -40,7 +40,7 @@ export default class SendCard extends React.Component<any, any> {
           //领取礼品卡
           receivePreviewCard(cardId).then(res1 => {
             if(res1.code === 200) {
-              dispatch(alertMsg('领取成功，请扫码查看信息'))
+              dispatch(alertMsg('领取成功，请前往圈外同学公众号查看'))
               sendTemplate().then(res2 => {
               })
             }
