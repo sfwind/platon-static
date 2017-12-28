@@ -23,3 +23,7 @@ export function loadAnnualCounts() {
 export function receivePreviewCard(cardId) {
   return pget(`/rise/operation/prize/card/preview/${cardId}`)
 }
+
+export function sendTemplate() {
+  return pget(`/rise/operation/send/message`)
+}

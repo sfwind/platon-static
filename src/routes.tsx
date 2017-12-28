@@ -120,11 +120,11 @@ const routes = (
       <Route path="card/introduction" component={CardIntroduction}/>
       <Route path="card/receive" component={ReceiveCard}/>
 
-      <Route path="card/send" component={SendCard}/>
+      <Route path="guest/card/send" component={SendCard}/>
 
-      <Route path="annual/award" component={AnnualAward}/>
+      {/*<Route path="annual/award" component={AnnualAward}/>*/}
 
-      <Route path="guest/annual" component={Annual}/>
+      {/*<Route path="guest/annual" component={Annual}/>*/}
 
       {/*<Route path="eva/start" component={Start}/>*/}
       {/*<Route path="eva" component={Eva}/>*/}

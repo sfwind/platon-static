@@ -10,6 +10,7 @@ import {
 } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
+
 const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
@@ -268,9 +269,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
 
   handleClickGoStudy() {
     if(window.ENV.showExplore !== 'false') {
-      this.context.router.push('/rise/static/rise');
+      this.context.router.push('/rise/static/rise')
     } else {
-      this.context.router.push('/rise/static/course/schedule/plan');
+      this.context.router.push('/rise/static/course/schedule/plan')
     }
   }
 
@@ -376,12 +377,25 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       if(who) {
         let whoArr = who.split(';')
         if(whoArr.length === 1) {
-          return (
-            <div className="who-item">
-              <div style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text just-one">{who}</div>
-            </div>
-          )
-        } else {
+          let whoSplitArr = who.split('-')
+          if(whoSplitArr.length === 1) {
+            return (
+              <div className="who-item">
+                <div style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text just-one">{who}</div>
+              </div>
+            )
+          }
+          else {
+            return whoSplitArr.map((item, key) => {
+              return (
+                <div className="who-item">
+                  <div style={{ fontSize: `${this.whoFontSize}px` }} className="wi-text just-one">{item}</div>
+                </div>
+              )
+            })
+          }
+
+        } else if(whoArr) {
           return whoArr.map((item, key) => {
             return (
               <div className="who-item" key={key}>
@@ -513,7 +527,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         ]
       }
       return (
-        <Alert { ...evaluationProps }
+        <Alert {...evaluationProps}
                show={this.state.showEvaluation}>
           <div className="global-pre">
             点击下方去测评，完成测评，分享结果图片，邀请3人扫码并完成测试，即可免费领取。
@@ -528,10 +542,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div className="pi-c-f-content">
-              { audio ?
+              {audio ?
                 <div className="context-audio">
                   <Audio url={audio} words={audioWords}/>
-                </div> : null }
+                </div> : null}
               <pre className="pi-c-f-c-text" dangerouslySetInnerHTML={{ __html: why }}/>
             </div>
           </div>
@@ -552,11 +566,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             </div>
           </div>
           {/*<div className="pi-c-system white-content mg-25">*/}
-            {/*<Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={'12px'} height={17}/>*/}
-            {/*<div className="pi-c-s-content">*/}
-              {/*<pre className="pi-c-s-text" dangerouslySetInnerHTML={{ __html: how }}/>*/}
-              {/*<AssetImg width={'100%'} url={descPic} marginTop={'15px'}/>*/}
-            {/*</div>*/}
+          {/*<Header icon="rise_icon_introduction_book" title="知识体系" lineHeight={'12px'} height={17}/>*/}
+          {/*<div className="pi-c-s-content">*/}
+          {/*<pre className="pi-c-s-text" dangerouslySetInnerHTML={{ __html: how }}/>*/}
+          {/*<AssetImg width={'100%'} url={descPic} marginTop={'15px'}/>*/}
+          {/*</div>*/}
           {/*</div>*/}
           <div className="pi-c-learn white-content mg-25">
             <Header icon="rise_icon_book" title="学习大纲"/>
@@ -567,19 +581,19 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             </div>
           </div>
           {/*<div className="pi-c-ability white-content mg-25">*/}
-            {/*<Header icon="rise_icon_ability" title="能力项" marginLeft={'-1em'}/>*/}
-            {/*<div className="pi-c-a-content">*/}
-              {/*<div className="text"*/}
-                   {/*dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的课程都根据“个人势能模型”进行设计，本课程在模型中的能力项为：' }}/>*/}
-              {/*<div className="pi-c-a-c-module"*/}
-                   {/*onClick={() => window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>*/}
-                {/*<div className="pi-c-a-c-m-rise">【圈外】</div>*/}
-                {/*<div className="pi-c-a-c-m-text">*/}
-                  {/*个人势能模型*/}
-                {/*</div>*/}
-              {/*</div>*/}
-              {/*<AssetImg width={'100%'} url={categoryPic} marginTop="10"/>*/}
-            {/*</div>*/}
+          {/*<Header icon="rise_icon_ability" title="能力项" marginLeft={'-1em'}/>*/}
+          {/*<div className="pi-c-a-content">*/}
+          {/*<div className="text"*/}
+          {/*dangerouslySetInnerHTML={{ __html: '在【圈外同学】，我们的课程都根据“个人势能模型”进行设计，本课程在模型中的能力项为：' }}/>*/}
+          {/*<div className="pi-c-a-c-module"*/}
+          {/*onClick={() => window.location.href = 'https://mp.weixin.qq.com/s?__biz=MzA5ODI5NTI5OQ==&mid=2651673801&idx=1&sn=c0bc7ad463474f5d8f044ae94d8e6af7&chksm=8b6a3fa5bc1db6b335c423b51e8e987c0ba58546c9a4bcdba1c6ea113e710440e099981fac22&mpshare=1&scene=1&srcid=0522JbB9FCiJ2MLTYIJ9gHp8&key=97c2683b72ba12a9fe14a4718d1e2fc1db167b4659eda45c59be3b3c39723728975cf9c120462d5d896228edb74171fb9bfefc54a6ff447b7b3389e626e18744f9dca6103f6a3fbeb523c571631621eb&ascene=0&uin=MjYxMjUxOTM4MA%3D%3D&devicetype=iMac+MacBookPro11%2C1+OSX+OSX+10.10.5+build(14F27)&version=12010310&nettype=WIFI&fontScale=100&pass_ticket=sl95nanknHuEvflHY9fNI6KUKRA3koznfByp5C1nOV70kROWRuZNqQwkqvViYXiw'}>*/}
+          {/*<div className="pi-c-a-c-m-rise">【圈外】</div>*/}
+          {/*<div className="pi-c-a-c-m-text">*/}
+          {/*个人势能模型*/}
+          {/*</div>*/}
+          {/*</div>*/}
+          {/*<AssetImg width={'100%'} url={categoryPic} marginTop="10"/>*/}
+          {/*</div>*/}
           {/*</div>*/}
         </section>
       )
@@ -631,9 +645,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             {/*</div>*/}
           </div>
           {/*<div className="section">*/}
-            {/*{'#'.concat(data.catalog)}*/}
-            {/*{data.subCatalog ?*/}
-              {/*'-'.concat(data.subCatalog) : null}*/}
+          {/*{'#'.concat(data.catalog)}*/}
+          {/*{data.subCatalog ?*/}
+          {/*'-'.concat(data.subCatalog) : null}*/}
           {/*</div>*/}
           <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
@@ -642,11 +656,11 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         </div>
         {renderLeftContent()}
         {renderFooter()}
-        <Alert { ...this.state.alert }
+        <Alert {...this.state.alert}
                show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
-        <Alert { ...this.state.confirm } show={this.state.showConfirm}>
+        <Alert {...this.state.confirm} show={this.state.showConfirm}>
           <div className="global-pre">{this.state.confirmMsg}</div>
         </Alert>
         <Toast show={this.state.showToast} timeout={4000} height={220} width={200} top={220}>
@@ -677,6 +691,7 @@ interface HeaderProps {
   marginLeft?: number,
   lineHeight?: number,
 }
+
 class Header extends React.Component<HeaderProps, any> {
   constructor(props: HeaderProps) {
     super(props)
