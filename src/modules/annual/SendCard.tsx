@@ -42,7 +42,8 @@ export default class SendCard extends React.Component<any, any> {
           //领取礼品卡
           receivePreviewCard(cardId).then(res1 => {
             if(res1.code === 200) {
-              closeWindow()
+              //closeWindow()
+              dispatch(alertMsg('领取成功，请去公众号查看消息'))
               sendTemplate().then(res2 => {
               })
             }
@@ -101,7 +102,7 @@ export default class SendCard extends React.Component<any, any> {
               <div>您已在圈外学习过，无需重复体验</div>
               <div>可以点击右上角，转发给需要的小伙伴！</div>
               <div className="border-bottom"></div>
-              <div className="button" onClick={() => this.handleTipButton()}>确定</div>
+              <div className="show-tip-button" onClick={() => this.handleTipButton()}>确定</div>
             </div>
           </div>
 
@@ -120,10 +121,7 @@ export default class SendCard extends React.Component<any, any> {
               </div>
               <div className="content-container">
                 <div>
-                  • 本卡价值¥168，用于兑换商学院7天线上体验课--
-                </div>
-                <div>
-                  《认识自己|用冰山模型分析出真实的你》
+                  • 本卡价值¥168，用于兑换商学院7天线上体验课--《认识自己|用冰山模型分析出真实的你》
                 </div>
                 <div>
                   • 体验时间：2018.01.07 - 2018.01.14
