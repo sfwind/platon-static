@@ -1,5 +1,7 @@
 import * as React from 'react'
 import './AnnualSummary.less'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { NextStepButton } from './components/NextStepButton'
 import { Step_Start } from './steps/Step_Start'
 import { Step1_SchoolGate } from './steps/Step1_SchoolGate'
@@ -7,9 +9,10 @@ import { Step2_ActivityCenter } from './steps/Step2_ActivityCenter'
 import { Step3_TeachingBuilding } from './steps/Step3_TeachingBuilding'
 import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
-import { getPromotionUserInfo } from './async'
+import { getPromotionUserInfo, receivePrizeCard } from './async'
 import { configShare } from '../../helpers/JsConfig'
 
+@connect(state => state)
 export default class AnnualSummary extends React.Component {
 
   constructor() {
@@ -133,6 +136,19 @@ export default class AnnualSummary extends React.Component {
       `https://${window.location.hostname}/pay/static/annual/summary?riseId=${this.state.riseId}`,
       'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
       '我的年度总结')
+  }
+
+  async handleClickReceivePrizeCard() {
+    const { riseId } = this.state
+    const { dispatch } = this.props.location
+    let res = await receivePrizeCard(riseId)
+    if(res.code === 200) {
+
+    } else if(res.code === 201) {
+
+    } else {
+
+    }
   }
 
   render() {

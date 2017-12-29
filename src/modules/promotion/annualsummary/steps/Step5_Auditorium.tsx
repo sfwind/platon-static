@@ -11,9 +11,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
 
   constructor() {
     super()
-    this.state = {
-      showQrCode: false
-    }
+    this.state = {}
   }
 
   async componentWillMount() {
@@ -28,7 +26,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   }
 
   render() {
-    const { point = 0, defeatPercentage = 0, showQrCode } = this.state
+    const { point = 0, defeatPercentage = 0 } = this.state
     const { isSelf = false, nickName = '' } = this.props.getGlobalState()
 
     const renderPrizeCard = () => {
@@ -58,12 +56,6 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
               {renderPrizeCard()}
             </div>
           </div>
-          {
-            showQrCode &&
-            <div>
-
-            </div>
-          }
         </div>
       </section>
     )

@@ -110,8 +110,7 @@ router.get('/rise/operation/annual/summary/auditorium', (req, res) => {
       'code': 200,
       'msg': {
         'point': '100',
-        'defeatPercentage': 20,
-        'remainderCount': 2
+        'defeatPercentage': 20
       }
     }
   )
@@ -152,7 +151,7 @@ router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
 //   res.status(200).json(
 //     {
 //       'code': 201,
-//       'msg': ''
+//       'msg': 'https://static.iqycamp.com/images/serverQrCode.jpg?imageslim'
 //     }
 //   )
 // })
@@ -165,4 +164,5 @@ router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
 //     }
 //   )
 // })
+
 module.exports = router
