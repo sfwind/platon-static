@@ -35,6 +35,7 @@ export default class AnnualSummary extends React.Component {
   }
 
   async componentWillMount() {
+    console.log(this.props.location.query)
     const { riseId } = this.props.location.query
     let userInfo = await getPromotionUserInfo(riseId)
     if(userInfo.code === 200) {
@@ -135,7 +136,7 @@ export default class AnnualSummary extends React.Component {
   configShareOption() {
     configShare(
       `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
-      `https://${window.location.hostname}/pay/static/annual/summary?riseId=${this.state.riseId}`,
+      `https://${window.location.hostname}/rise/static/annual/summary?riseId=${this.state.riseId}`,
       'https://static.iqycamp.com/headImage-97yboxsa-blob',
       '一份最有价值的新年礼')
   }
