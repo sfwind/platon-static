@@ -1,6 +1,5 @@
 var path = require("path")
 var webpack = require("webpack")
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 module.exports = {
   devtool: false, // 增加开发速度
@@ -25,8 +24,7 @@ module.exports = {
       }
     }),
     //去掉moment.js中国际化的代码
-    // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    // new LodashModuleReplacementPlugin,
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
   resolve: {
     root: path.resolve("./src"),
