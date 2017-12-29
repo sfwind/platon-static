@@ -1,14 +1,14 @@
 var path = require("path")
 var webpack = require("webpack")
 var ip = require("ip")
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 module.exports = {
   devtool: "eval", // 增加开发速度
   entry: {
     "bundle": [ "webpack-dev-server/client?http://" + ip.address() + ":4000",
       "webpack/hot/only-dev-server", "babel-polyfill", "./src/index.tsx" ],
-    "note": [ "webpack-dev-server/client?http://" + ip.address() + ":4000",
-      "webpack/hot/only-dev-server", "babel-polyfill", "./src/bible.tsx" ],
   },
   output: {
     path: path.join(__dirname, "__build__"),
@@ -19,7 +19,11 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development")
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    //去掉moment.js中国际化的代码
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new BundleAnalyzerPlugin(),
+    new LodashModuleReplacementPlugin,
   ],
   resolve: {
     root: path.resolve("./src"),

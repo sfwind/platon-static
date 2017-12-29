@@ -2,18 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import './ScheduleChoice.less'
-import AssetImg from '../../components/AssetImg'
 import { mark } from '../../utils/request'
 import { initSchedule, loadQuestions } from './async'
 import $ from 'jquery'
-import { SubmitButton } from './components/SubmitButton'
-import RenderInBody from '../../components/RenderInBody'
 import { FooterButton } from '../../components/submitbutton/FooterButton'
-import { Modal } from '../../components/Modal'
 import { Toast, Dialog } from "react-weui"
+import _ from "lodash"
 
 const { Alert } = Dialog
-let _ = require('lodash')
 
 const sequenceMap = {
   0: 'A',

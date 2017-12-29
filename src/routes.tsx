@@ -63,9 +63,6 @@ import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import PrizeCard from './modules/promotion/prizecard/PrizeCard'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
-import BusinessApply from './modules/bsapply/BusinessApply'
-import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
-import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
 import MimeCard from './modules/card/MimeCard'
 import CardIntroduction from './modules/card/CardIntroduction'
 import ReceiveCard from './modules/card/ReceiveCard'
@@ -125,10 +122,6 @@ const routes = (
 
       {/*<Route path="guest/annual" component={Annual}/>*/}
 
-      {/*<Route path="eva/start" component={Start}/>*/}
-      {/*<Route path="eva" component={Eva}/>*/}
-      {/*<Route path="eva/result" component={EvaResult}/>*/}
-
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
@@ -175,11 +168,7 @@ const routes = (
 
       <Route path="prize" component={PrizeCard}/>
       <Route path="transfer" component={Transfer}/>
-      <Route path="business/apply/start" component={BusinessApply}/>
       <Route path="business/count/down" component={CountDown}/>
-      <Route path="business/apply/choice" component={BusinessApplyChoice}/>
-      <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
-
       <Route path="camp/count/down" component={CampCountDown}/>
       {/*团队学习倒计时页面*/}
       <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
