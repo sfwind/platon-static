@@ -7,7 +7,6 @@ import { loadUnChooseList, mark } from './async'
 import { changeTitle } from '../../utils/helpers'
 import Swiper from 'swiper'
 import { merge } from 'lodash'
-import RenderInBody from '../../components/RenderInBody'
 
 import './Explore.less'
 import AssetImg from '../../components/AssetImg'
@@ -106,7 +105,7 @@ export class Explore extends React.Component<any, any> {
           {
             banners.map((banner, index) => {
               return (
-                <MarkBlock module={'打点'} func={'发现'} action={'点击发现页面banner'} memo={url}
+                <MarkBlock module={'打点'} func={'发现'} action={'点击发现页面banner'}
                            className="banner-item swiper-slide" key={index}
                            onClick={() => this.handleClickBanner(banner)}>
                   <img style={{ width: '100%', height: '17.5rem' }}
