@@ -10,8 +10,9 @@ import { ToolBar } from '../base/ToolBar'
 import Swiper from 'swiper'
 import Banner from '../../components/Banner'
 import { Dialog } from 'react-weui'
-import * as _ from 'lodash';
+import * as _ from 'lodash'
 import { createCampPlan, openAudition, unlockCampPlan } from '../problem/async'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 
@@ -107,12 +108,12 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickAuditionPlan(plan) {
-    const { planId, errMsg } = plan;
+    const { planId, errMsg } = plan
     const { dispatch } = this.props
     // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
     if(errMsg) {
-      dispatch(alertMsg(errMsg));
-      return;
+      dispatch(alertMsg(errMsg))
+      return
     }
     if(planId) {
       this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
@@ -203,22 +204,10 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickRecommend(problem) {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '学习页面点击推荐课程',
-      memo: window.ENV.osName
-    })
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problem.id } })
   }
 
   handleClickMoreProblem() {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '学习页面点击发现更多',
-      memo: window.ENV.osName
-    })
     this.context.router.push({
       pathname: '/rise/static/problem/explore'
     })
@@ -226,7 +215,6 @@ export default class PlanList extends React.Component<any, any> {
 
   handleClickBanner(banner) {
     let url = banner.linkUrl
-    mark({ module: '打点', function: '学习', action: '点击学习首页banner', memo: url })
     if(url.indexOf('https') >= 0) {
       window.location.href = url
     } else {
@@ -240,7 +228,7 @@ export default class PlanList extends React.Component<any, any> {
     const { completedPlans, runningPlans = [] } = planList
     const renderAuditions = () => {
       // if(riseMember !== 1) return
-      if(_.isEmpty(auditions)) return;
+      if(_.isEmpty(auditions)) return
       return (
         <div className="problem-camp">
           <div className="camp-header">
@@ -274,7 +262,7 @@ export default class PlanList extends React.Component<any, any> {
                       {
                         item.planId ?
                           <div className={`running-problem-button`}>去上课</div> :
-                          <div className={`running-problem-button`}>{item.errMsg?'即将开课':'开课'}</div>
+                          <div className={`running-problem-button`}>{item.errMsg ? '即将开课' : '开课'}</div>
                       }
                     </div>
                   </div>
@@ -345,24 +333,25 @@ export default class PlanList extends React.Component<any, any> {
     }
 
     const renderBanners = () => {
-      const banners = [ {
+      const banners = [{
         'imageUrl': 'https://static.iqycamp.com/images/fragment/rise_member_banner_2.jpg?imageslim',
         'linkUrl': `https://${window.location.hostname}/pay/rise`
       }, {
         'imageUrl': this.state.campBanner,
         'linkUrl': `https://${window.location.hostname}/pay/camp`
-      } ]
+      }]
       if(banners.length === 0 || riseMember === 1) return
       return (
         <Banner>
           {
             banners.map((banner, index) => {
               return (
-                <div className="banner-item swiper-slide" key={index}
-                     onClick={() => this.handleClickBanner(banner)}>
+                <MarkBlock module={'打点'} func={'学习'} action={'点击学习首页banner'} memo={banner.linkUrl}
+                           className="banner-item swiper-slide" key={index}
+                           onClick={() => this.handleClickBanner(banner)}>
                   <img style={{ width: '100%' }}
                        src={banner.imageUrl}/>
-                </div>
+                </MarkBlock>
               )
             })
           }
@@ -442,10 +431,11 @@ export default class PlanList extends React.Component<any, any> {
             </div>
             <div className="swiper-container" id="problem-recommendation">
               <div className="swiper-wrapper">
-                {recommendations ? recommendations.map((problem, key) => {
+                {recommendations ? recommendations.map((problem, index) => {
                   return (
-                    <div onClick={() => this.handleClickRecommend(problem)}
-                         className="problem-item-show swiper-slide">
+                    <MarkBlock module={'打点'} func={'学习'} action={'学习页面点击推荐课程'} memo={window.ENV.osName}
+                               key={index} className="problem-item-show swiper-slide"
+                               onClick={() => this.handleClickRecommend(problem)}>
                       <div className="img">
                         {problem.newProblem ?
                           <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_03.png"
@@ -458,24 +448,21 @@ export default class PlanList extends React.Component<any, any> {
                         <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>
                         <div className={`problem-item-backimg catalog${problem.catalogId}`}/>
                         <div className="problem-item-subCatalog">{problem.abbreviation}</div>
-                        {/*<div className="complete-person">*/}
-                        {/*<div className="icon-person"/>*/}
-                        {/*<span className="completed-person-count">&nbsp;{problem.chosenPersonCount}</span>*/}
-                        {/*</div>*/}
                       </div>
                       <span>{problem.problem}</span>
-                    </div>
+                    </MarkBlock>
                   )
                 }) : null}
-                <div onClick={() => this.handleClickMoreProblem()}
-                     className="swiper-slide problem-item-show found-more">
+                <MarkBlock module={'打点'} func={'学习'} action={'学习页面点击发现更多'} memo={window.ENV.osName}
+                           onClick={() => this.handleClickMoreProblem()}
+                           className="swiper-slide problem-item-show found-more">
                   <div className="tips-word">
                     点击发现更多
                   </div>
                   <div className="icon-next">
                     <AssetImg type="rise_icon_arrow_right" size="25px"/>
                   </div>
-                </div>
+                </MarkBlock>
               </div>
               <div className="swiper-scrollbar" id="problem-recommendation-bar"/>
             </div>

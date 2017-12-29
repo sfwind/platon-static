@@ -20,16 +20,8 @@ export function closePlan(planId) {
   return ppost(`/rise/plan/close${planId ? '?planId=' + planId : ''}`)
 }
 
-export function updateOpenRise() {
-  return ppost(`/rise/open/rise`)
-}
-
 export function checkPractice(series, planId) {
   return ppost(`/rise/plan/check/${series}${planId ? '?planId=' + planId : ''}`)
-}
-
-export function updateOpenNavigator() {
-  return ppost(`/rise/open/navigator`)
 }
 
 export function gradeProblem(problemScores, problemId) {
