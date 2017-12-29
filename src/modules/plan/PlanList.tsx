@@ -346,7 +346,7 @@ export default class PlanList extends React.Component<any, any> {
           {
             banners.map((banner, index) => {
               return (
-                <MarkBlock module={'打点'} func={'学习'} action={'点击学习首页banner'} memo={url}
+                <MarkBlock module={'打点'} func={'学习'} action={'点击学习首页banner'}
                            className="banner-item swiper-slide" key={index}
                            onClick={() => this.handleClickBanner(banner)}>
                   <img style={{ width: '100%' }}

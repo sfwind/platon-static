@@ -25,8 +25,8 @@ module.exports = {
       }
     }),
     //去掉moment.js中国际化的代码
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new LodashModuleReplacementPlugin,
+    // new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    // new LodashModuleReplacementPlugin,
   ],
   resolve: {
     root: path.resolve("./src"),

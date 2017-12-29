@@ -22,8 +22,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     //去掉moment.js中国际化的代码
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new BundleAnalyzerPlugin(),
-    new LodashModuleReplacementPlugin,
+    // new BundleAnalyzerPlugin(),
+    // new LodashModuleReplacementPlugin,
   ],
   resolve: {
     root: path.resolve("./src"),
