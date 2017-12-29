@@ -44,6 +44,7 @@ router.get('/rise/operation/annual/summary/user', (req, res) => {
       'msg': {
         'currentRiseId': 'aaa',
         'masterRiseId': 'aaa',
+        'masterNickName': '三十文',
         'masterHeadImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
       }
     }
@@ -116,4 +117,52 @@ router.get('/rise/operation/annual/summary/auditorium', (req, res) => {
   )
 })
 
+router.get('/rise/operation/annual/summary/card', (req, res) => {
+  res.status(200).json(
+    {
+      'code': 200,
+      'msg': [
+        {
+          'prizeCardNo': 'hdas6D%S',
+          'received': true
+        },
+        {
+          'prizeCardNo': 'hdas6D%S',
+          'received': false
+        },
+        {
+          'prizeCardNo': 'hdas6D%S',
+          'received': false
+        }
+      ]
+    }
+  )
+})
+
+router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
+  res.status(200).json(
+    {
+      'code': 200,
+      'msg': ''
+    }
+  )
+})
+
+// router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
+//   res.status(200).json(
+//     {
+//       'code': 201,
+//       'msg': ''
+//     }
+//   )
+// })
+//
+// router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
+//   res.status(400).json(
+//     {
+//       'code': 400,
+//       'msg': '领取失败'
+//     }
+//   )
+// })
 module.exports = router

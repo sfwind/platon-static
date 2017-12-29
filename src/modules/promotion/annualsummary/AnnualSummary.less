@@ -55,6 +55,10 @@
         animation: toBuildingFive 4s linear;
         animation-fill-mode: forwards;
       }
+      &.step-jumpBuilding5 {
+        animation: jumpBuildingFive 6s linear;
+        animation-fill-mode: forwards;
+      }
     }
     .mask {
       position: fixed;
@@ -128,6 +132,27 @@
     transform: translate(26.5rem, -8.2rem);
   }
   60% {
+    transform: translate(28.5rem, -13rem);
+  }
+  100% {
+    transform: translate(31.5rem, -13rem);
+  }
+}
+
+@keyframes jumpBuildingFive {
+  0% {
+    transform: translate(14rem, -9rem);
+  }
+  17% {
+    transform: translate(13rem, -4rem);
+  }
+  57% {
+    transform: translate(24.8rem, -4.2rem);
+  }
+  71% {
+    transform: translate(26.5rem, -8.2rem);
+  }
+  88% {
     transform: translate(28.5rem, -13rem);
   }
   100% {

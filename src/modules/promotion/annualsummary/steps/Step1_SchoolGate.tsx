@@ -26,6 +26,7 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
 
   render() {
     const { registerDate = '2000年01月01日', registerSequence = 1 } = this.state
+    const { isSelf = true, nickName = '' } = this.props.getGlobalState()
 
     return (
       <section className="annual-school-gate">
@@ -33,7 +34,7 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
           <div className="text text1">
             时间回到<span className="highlight" style={{ fontSize: '2.1rem' }}>&nbsp;{registerDate}&nbsp;</span>
           </div>
-          <div className="text text2">你第一天来到圈外商学院，成为</div>
+          <div className="text text2">{isSelf ? '你' : nickName}第一天来到圈外商学院，成为</div>
           <div className="text text3">
             <span className="highlight" style={{ fontSize: '2.1rem' }}>第&nbsp;{registerSequence}&nbsp;个学员</span>
           </div>

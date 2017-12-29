@@ -27,12 +27,9 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
     }
   }
 
-  handleClickReceivePrizeCard() {
-
-  }
-
   render() {
     const { point = 0, defeatPercentage = 0, showQrCode } = this.state
+    const { isSelf = false, nickName = '' } = this.props.getGlobalState()
 
     const renderPrizeCard = () => {
       let prizeCardArr = []
@@ -47,7 +44,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
     return (
       <section className="annual-auditorium">
         <div className="scroll-container">
-          <div className="text text1">截止目前，你在圈外商学院</div>
+          <div className="text text1">截止目前，{isSelf ? '你' : nickName}在圈外商学院</div>
           <div className="text text2">累积收获
             <span className="highlight"><large>&nbsp;{point}&nbsp;</large>积分</span>
           </div>

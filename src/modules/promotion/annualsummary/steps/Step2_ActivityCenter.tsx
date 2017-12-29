@@ -14,11 +14,12 @@ export class Step2_ActivityCenter extends React.Component<Step2_ActivityCenterPr
 
   render() {
     const { totalHours = 10, mbaCount = 1 } = this.state
+    const { isSelf = true, nickName = '' } = this.props.getGlobalState()
 
     return (
       <section className="annual-activity-center">
         <div className="scroll-container">
-          <div className="text text1">在圈外商学院里，你和来自全球</div>
+          <div className="text text1">在圈外商学院里，{isSelf ? '你' : nickName}和来自全球</div>
           <div className="text text2">
           <span className="highlight">
             <large>25&nbsp;</large>

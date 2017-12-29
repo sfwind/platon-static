@@ -13,10 +13,12 @@ export class Step3_TeachingBuilding extends React.Component<Step3_TeachingBuildi
   }
 
   render() {
+    const { isSelf = false, nickName = '' } = this.props.getGlobalState()
+
     return (
       <section className="annual-teaching-building">
         <div className="scroll-container">
-          <div className="text text1">在这里，你结识了</div>
+          <div className="text text1">在这里，{isSelf ? '你' : nickName}结识了</div>
           <div className="text text2">
           <span className="highlight">
             <large>25&nbsp;</large>个行业的人脉

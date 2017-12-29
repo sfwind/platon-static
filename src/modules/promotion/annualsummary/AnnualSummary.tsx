@@ -26,7 +26,8 @@ export default class AnnualSummary extends React.Component {
     building2: 'building2',
     building3: 'building3',
     building4: 'building4',
-    building5: 'building5'
+    building5: 'building5',
+    jumpBuilding5: 'jumpBuilding5'
   }
 
   async componentWillMount() {
@@ -36,6 +37,7 @@ export default class AnnualSummary extends React.Component {
       let msg = userInfo.msg
       this.setState({
         riseId: msg.masterRiseId,
+        nickName: msg.masterNickName,
         headImageUrl: msg.masterHeadImageUrl,
         isSelf: msg.currentRiseId === msg.masterRiseId,
         stepBox: this.loadCurrentBuilding(),
@@ -65,7 +67,7 @@ export default class AnnualSummary extends React.Component {
         if(this.state.isSelf) {
           nextStep = this.PERSON_STEPS.building4
         } else {
-          nextStep = this.PERSON_STEPS.building5
+          nextStep = this.PERSON_STEPS.jumpBuilding5
         }
         break
       case this.PERSON_STEPS.building4:
@@ -85,7 +87,7 @@ export default class AnnualSummary extends React.Component {
   }
 
   loadCurrentBuilding() {
-    const { personStep, riseId } = this.state
+    const { personStep, isSelf } = this.state
 
     let result = []
     switch(personStep) {
@@ -104,7 +106,7 @@ export default class AnnualSummary extends React.Component {
         break
       case this.PERSON_STEPS.building3:
         result.push(<Step3_TeachingBuilding getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 4000 : 6000)}/>)
         break
       case this.PERSON_STEPS.building4:
         result.push(<Step4_Library getGlobalState={() => this.state}/>)
@@ -113,6 +115,10 @@ export default class AnnualSummary extends React.Component {
       case this.PERSON_STEPS.building5:
         result.push(<Step5_Auditorium getGlobalState={() => this.state}/>)
         result.push(<NextStepButton buttonText="分享" clickFunc={() => this.configShareOption()}/>)
+        break
+      case this.PERSON_STEPS.jumpBuilding5:
+        result.push(<Step5_Auditorium getGlobalState={() => this.state}/>)
+        result.push(<NextStepButton buttonText="领取" clickFunc={() => {}}/>)
         break
       default:
         return
