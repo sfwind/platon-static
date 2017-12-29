@@ -106,7 +106,7 @@ export class Explore extends React.Component<any, any> {
             banners.map((banner, index) => {
               return (
                 <MarkBlock module={'打点'} func={'发现'} action={'点击发现页面banner'}
-                           className="banner-item swiper-slide" key={index}
+                           className="banner-item swiper-slide" key={index} memo={banner.linkUrl}
                            onClick={() => this.handleClickBanner(banner)}>
                   <img style={{ width: '100%', height: '17.5rem' }}
                        src={banner.imageUrl}/>
