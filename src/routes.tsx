@@ -63,7 +63,14 @@ import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import PrizeCard from './modules/promotion/prizecard/PrizeCard'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
+import MimeCard from './modules/card/MimeCard'
+import CardIntroduction from './modules/card/CardIntroduction'
+import ReceiveCard from './modules/card/ReceiveCard'
+import Annual from './modules/annual/Annual'
 import CampCountDown from './modules/schedule/CampCountDown'
+import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
+import AnnualAward from './modules/annual/AnnualAward'
+import SendCard from './modules/annual/SendCard'
 
 const routes = (
   <Route>
@@ -104,6 +111,16 @@ const routes = (
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
+
+      <Route path="card/mime" component={MimeCard}/>
+      <Route path="card/introduction" component={CardIntroduction}/>
+      <Route path="card/receive" component={ReceiveCard}/>
+
+      <Route path="guest/card/send" component={SendCard}/>
+
+      {/*<Route path="annual/award" component={AnnualAward}/>*/}
+
+      {/*<Route path="guest/annual" component={Annual}/>*/}
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
@@ -153,6 +170,8 @@ const routes = (
       <Route path="transfer" component={Transfer}/>
       <Route path="business/count/down" component={CountDown}/>
       <Route path="camp/count/down" component={CampCountDown}/>
+      {/*团队学习倒计时页面*/}
+      <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
     </Route>
   </Route>
 )
