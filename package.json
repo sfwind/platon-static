@@ -22,13 +22,6 @@
   "author": "bx",
   "license": "UNLICENSED",
   "dependencies": {
-    "@types/lodash": "0.0.29",
-    "@types/react": "^0.14.28",
-    "@types/react-dom": "^0.14.14",
-    "@types/react-redux": "^4.4.29",
-    "@types/react-router": "^2.0.30",
-    "@types/redux": "^3.5.27",
-    "@types/redux-thunk": "^2.1.28",
     "animate.css": "^3.5.2",
     "axios": "^0.15.2",
     "echarts": "^3.7.1",
@@ -78,6 +71,13 @@
     "weui": "^0.4.3"
   },
   "devDependencies": {
+    "@types/lodash": "0.0.29",
+    "@types/react": "^0.14.28",
+    "@types/react-dom": "^0.14.14",
+    "@types/react-redux": "^4.4.29",
+    "@types/react-router": "^2.0.30",
+    "@types/redux": "^3.5.27",
+    "@types/redux-thunk": "^2.1.28",
     "@types/react-weui": "^1.0.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.9.1",
