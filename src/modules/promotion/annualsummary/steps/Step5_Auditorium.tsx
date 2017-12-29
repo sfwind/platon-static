@@ -58,7 +58,11 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
                       if(!prizeCard.received) {
                         receivePrizeCardFunc(prizeCard.prizeCardNo).then(res => {
                           if(res.code === 200) {
-                            // TODO
+                            loadPrizeCard(riseId).then(newResult => {
+                              if(newResult.code === 200) {
+                                this.setState({ prizeCardArr: newResult.msg })
+                              }
+                            })
                           }
                         })
                       }
