@@ -161,7 +161,7 @@ const routes = (
       <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
 
       <Route path="camp/count/down" component={CampCountDown}/>
-      <Route path="/test" component={AnnualSummary}/>
+      <Route path="annual/summary" component={AnnualSummary}/>
     </Route>
   </Route>
 )

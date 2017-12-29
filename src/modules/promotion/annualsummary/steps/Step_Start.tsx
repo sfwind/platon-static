@@ -1,13 +1,18 @@
 import * as React from 'react'
 import './Step_Start.less'
 
-export class Step_Start extends React.Component {
+interface Step_StartProps {
+  getGlobalState: any
+}
+
+export class Step_Start extends React.Component<Step_StartProps, any> {
 
   constructor() {
     super()
   }
 
   render() {
+    console.log(this.props.getGlobalState())
     return (
       <div className="annual-init-start">
         <div className="start-year">2017</div>
