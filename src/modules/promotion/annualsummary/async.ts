@@ -17,9 +17,9 @@ export function getPromotionAuditorium(riseId) {
 }
 
 export function loadPrizeCard(riseId) {
-  return ppost(`/rise/operation/annual/summary/card?riseId=${riseId}`)
+  return ppost(`/rise/operation/prize/annual/summary/card?riseId=${riseId}`)
 }
 
-export function receivePrizeCard(riseId) {
-  return ppost(`/rise/operation/annual/summary/card/receive?riseId=${riseId}`)
+export function receivePrizeCard(prizeCardNo) {
+  return ppost(`/rise/operation/prize/annual/summary/card/receive?prizeCardNo=${prizeCardNo}`)
 }

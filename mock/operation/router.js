@@ -116,7 +116,7 @@ router.get('/rise/operation/annual/summary/auditorium', (req, res) => {
   )
 })
 
-router.post('/rise/operation/annual/summary/card', (req, res) => {
+router.post('/rise/operation/prize/annual/summary/card', (req, res) => {
   res.status(200).json(
     {
       'code': 200,
@@ -138,7 +138,7 @@ router.post('/rise/operation/annual/summary/card', (req, res) => {
   )
 })
 
-// router.post('/rise/operation/annual/summary/card/receive', (req, res) => {
+// router.post('/rise/operation/prize/annual/summary/card/receive', (req, res) => {
 //   res.status(200).json(
 //     {
 //       'code': 200,
@@ -147,7 +147,7 @@ router.post('/rise/operation/annual/summary/card', (req, res) => {
 //   )
 // })
 
-router.post('/rise/operation/annual/summary/card/receive', (req, res) => {
+router.post('/rise/operation/prize/annual/summary/card/receive', (req, res) => {
   res.status(200).json(
     {
       'code': 201,
@@ -156,7 +156,7 @@ router.post('/rise/operation/annual/summary/card/receive', (req, res) => {
   )
 })
 //
-// router.post('/rise/operation/annual/summary/card/receive', (req, res) => {
+// router.post('/rise/operation/prize/annual/summary/card/receive', (req, res) => {
 //   res.status(400).json(
 //     {
 //       'code': 400,

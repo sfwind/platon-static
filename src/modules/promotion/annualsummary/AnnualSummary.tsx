@@ -121,31 +121,32 @@ export default class AnnualSummary extends React.Component {
         result.push(<NextStepButton buttonText="分享" clickFunc={() => this.configShareOption()}/>)
         break
       case this.PERSON_STEPS.jumpBuilding5:
-        result.push(<Step5_Auditorium getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="领取" clickFunc={() => this.handleClickReceivePrizeCard()}/>)
+        result.push(<Step5_Auditorium getGlobalState={() => this.state}
+                                      receivePrizeCardFunc={(prizeCardNo) => this.handleClickReceivePrizeCard(prizeCardNo)}/>)
+        result.push(<NextStepButton buttonText="领取" clickFunc={() => {}}/>)
         break
       default:
         return
     }
-    result.push(<div className="mask"></div>)
+    result.push(<div className="mask" id='mask'></div>)
     return result
   }
 
   configShareOption() {
     configShare(
-      `年度总结分析`,
+      `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
       `https://${window.location.hostname}/pay/static/annual/summary?riseId=${this.state.riseId}`,
-      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-      '我的年度总结')
+      'https://static.iqycamp.com/headImage-97yboxsa-blob',
+      '一份最有价值的新年礼')
   }
 
-  async handleClickReceivePrizeCard() {
-    const { riseId } = this.state
+  async handleClickReceivePrizeCard(prizeCardNo) {
     const { dispatch } = this.props
-    let res = await receivePrizeCard(riseId)
+    let res = await receivePrizeCard(prizeCardNo)
     if(res.code === 200) {
-
+      dispatch(alertMsg('领取成功'))
     } else if(res.code === 201) {
+      document.getElementById('mask').style.zIndex = 20
       this.setState({
         showQrCode: true,
         qrCodeUrl: res.msg
@@ -153,6 +154,7 @@ export default class AnnualSummary extends React.Component {
     } else {
       dispatch(alertMsg(res.msg))
     }
+    return res
   }
 
   render() {
@@ -177,12 +179,19 @@ export default class AnnualSummary extends React.Component {
             </div>
           </div>
           {stepBox}
-          {/*<Step5_Auditorium/>*/}
+          {/*<Step5_Auditorium getGlobalState={() => this.state}/>*/}
+          {/*<div className="mask" id='mask'></div>*/}
+          {
+            showQrCode &&
+            <div className="qrcode-box"
+                 onClick={() => {
+                   document.getElementById('mask').style.zIndex = 5
+                   this.setState({ showQrCode: false })
+                 }}>
+              <AssetImg className="qrcode" url={qrCodeUrl}/>
+            </div>
+          }
         </div>
-        {
-          showQrCode &&
-          <AssetImg url={qrCodeUrl}/>
-        }
       </div>
     )
   }
