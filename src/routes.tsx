@@ -68,6 +68,7 @@ import CardIntroduction from './modules/card/CardIntroduction'
 import ReceiveCard from './modules/card/ReceiveCard'
 import Annual from './modules/annual/Annual'
 import CampCountDown from './modules/schedule/CampCountDown'
+import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
 import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
 import AnnualAward from './modules/annual/AnnualAward'
 import SendCard from './modules/annual/SendCard'
@@ -172,6 +173,7 @@ const routes = (
       <Route path="camp/count/down" component={CampCountDown}/>
       {/*团队学习倒计时页面*/}
       <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
+      <Route path="guest/annual/summary" component={AnnualSummary}/>
     </Route>
   </Route>
 )

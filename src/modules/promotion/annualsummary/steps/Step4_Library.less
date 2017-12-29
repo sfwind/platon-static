@@ -1,0 +1,72 @@
+@import "../../../../style/variable";
+@import "../../annualsummary/AnnualVariable.less";
+
+.annual-library {
+  display: block;
+  position: fixed;
+  left: 50%;
+  bottom: 22%;
+  transform: translateX(-50%);
+  width: ~"calc(100vw - 5rem)";
+  height: 40rem;
+  z-index: 10;
+  background-image: url("@{imgPathRoot}/display-box-4.png?slimimage");
+  background-size: cover;
+  box-sizing: border-box;
+  padding: 2.2rem 2rem 4rem;
+  
+  .scroll-inner-container();
+  
+  .annimation-delay(0.5s);
+  
+  .annual-summary-common-text();
+  
+  .text1 {
+    .annimation-delay(1s);
+  }
+  .text2 {
+    .annimation-delay(2s);
+  }
+  .text3 {
+    margin-top: 2.0rem;
+    .annimation-delay(3s);
+  }
+  .asst {
+    opacity: 0;
+    .annimation-delay(4s);
+  }
+  .text4 {
+    margin-top: 2rem;
+    .annimation-delay(5s);
+  }
+  .classmates {
+    opacity: 0;
+    .annimation-delay(6s);
+  }
+  .profile-box {
+    margin-top: 1rem;
+    .annual-profile {
+      display: inline-block;
+      width: auto;
+      height: auto;
+      margin: 1rem;
+      &:first-of-type {
+        margin-left: 0;
+      }
+      .headimage {
+        display: block;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        margin: 0 auto;
+      }
+      .nickname {
+        display: block;
+        font-size: 1.3rem;
+        line-height: 1.3rem;
+        color: #333;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}

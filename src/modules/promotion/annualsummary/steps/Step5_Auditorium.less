@@ -1,0 +1,130 @@
+@import "../../../../style/variable";
+@import "../../annualsummary/AnnualVariable.less";
+
+.annual-auditorium {
+  display: block;
+  position: fixed;
+  left: 50%;
+  bottom: 30%;
+  transform: translateX(-50%);
+  width: ~"calc(100vw - 5rem)";
+  height: 40.5rem;
+  z-index: 10;
+  background-image: url("@{imgPathRoot}/display-box-5_2.png?slimimage");
+  background-size: cover;
+  box-sizing: border-box;
+  padding: 2.2rem 2rem 4rem;
+  
+  .scroll-inner-container();
+  
+  .self {
+    .annimation-delay(0.5s);
+    .annual-summary-common-text();
+    .text1 {
+      .annimation-delay(1s);
+      margin-top: 2rem;
+    }
+    .text2 {
+      .annimation-delay(2s);
+    }
+    .text3 {
+      .annimation-delay(3s);
+    }
+    .text4 {
+      .annimation-delay(4s);
+    }
+    .text5 {
+      margin-top: 2.5rem;
+      .annimation-delay(5s);
+    }
+    .prize-card-box {
+      width: 100%;
+      .annimation-delay(6s);
+      .prize-card {
+        width: 100%;
+        margin-top: 2rem;
+      }
+    }
+  }
+  
+  .guest {
+    .text {
+      font-size: 1.5rem;
+      color: #333;
+    }
+    .text1 {
+      margin-top: 2rem;
+    }
+    .business-school-desc {
+      margin-top: 2.5rem;
+      .content {
+        position: relative;
+        margin: 2rem 0 1rem;
+        font-size: 1.3rem;
+        line-height: 175%;
+        color: #666;
+        max-height: 7rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-align: justify;
+        
+        &:after {
+          display: block;
+          content: ' ';
+          background-image: url("https://static.iqycamp.com/images/bg_rectangle.png?imageslim");
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          bottom: 0;
+        }
+        
+        &.all {
+          max-height: none;
+          display: block;
+          -webkit-line-clamp: none;
+          overflow: visible;
+          &:after {
+            background-image: none;
+          }
+        }
+      }
+      .click-tips {
+        position: relative;
+        display: inline-block;
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        height: 1.4rem;
+        color: #f8aa08;
+        text-align: center;
+        left: 50%;
+        transform: translateX(-60%);
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+        
+        &::after {
+          content: " ";
+          display: inline-block;
+          background: url("@{imgPathRoot}/annual-arrow.png?imageslim") no-repeat center center / 100% 100%;
+          background-size: 50% 50%;
+          background-position-y: 50%;
+          width: 2.2rem;
+          height: 1.4rem;
+          position: absolute;
+          top: 0;
+        }
+      }
+    }
+    .prize-card-box {
+      width: 100%;
+      .annimation-delay();
+      .prize-card {
+        width: 100%;
+        margin-top: 2rem;
+        border-radius: 10px;
+      }
+    }
+  }
+  
+}

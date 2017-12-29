@@ -1,0 +1,181 @@
+@import "../../../style/variable";
+
+.annual-summary-container {
+  width: 100vw;
+  height: 100vh;
+  background: url("@{imgPathRoot}/annual_background_1.jpg?imageslim") no-repeat center bottom / 100% auto;
+  background-size: 100vw;
+  
+  .move-block {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    .person {
+      display: inline-block;
+      position: absolute;
+      width: 4rem;
+      height: 5.6rem;
+      background-image: url("@{imgPathRoot}/annual_location.png?imageslim");
+      background-size: 100% 100%;
+      left: 0;
+      bottom: 0;
+      transform: translate(-4rem, -9rem);
+      z-index: 15;
+      
+      .headimage {
+        position: relative;
+        display: inline-block;
+        width: 2.8rem;
+        height: 2.8rem;
+        left: 0.6rem;
+        top: 0.5rem;
+        border-radius: 50%;
+        background-size: 2.8rem 2.8rem !important;
+      }
+      
+      &.step-building1 {
+        animation: toBuildingOne 2s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building2 {
+        animation: toBuildingTwo 4s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building3 {
+        animation: toBuildingThree 4s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building4 {
+        animation: toBuildingFour 4s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-building5 {
+        animation: toBuildingFive 4s linear;
+        animation-fill-mode: forwards;
+      }
+      &.step-jumpBuilding5 {
+        animation: jumpBuildingFive 6s linear;
+        animation-fill-mode: forwards;
+      }
+    }
+    .mask {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.6);
+    }
+    .summary-map {
+      display: block;
+      z-index: -1;
+      width: 100vw;
+    }
+  }
+  
+  .qrcode-box {
+    position: absolute;
+    z-index: 30;
+    width: 28.5rem;
+    height: 28.5 * 644 / 574rem;
+    top: 10.5rem;
+    left: 50%;
+    background: url("@{imgPathRoot}/qrcode_container.png?imageslim") no-repeat center center / 100% 100%;
+    transform: translateX(-50%);
+    .qrcode {
+      width: 15rem;
+      height: 15rem;
+      position: relative;
+      left: 50%;
+      top: 45%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@keyframes toBuildingOne {
+  0% {
+    transform: translate(-4rem, -9rem);
+  }
+  100% {
+    transform: translate(2rem, -9rem);
+  }
+}
+
+@keyframes toBuildingTwo {
+  0% {
+    transform: translate(2rem, -9rem);
+  }
+  10% {
+    transform: translate(3.1rem, -9rem);
+  }
+  70% {
+    transform: translate(7.1rem, -17.2rem);
+  }
+  100% {
+    transform: translate(12.5rem, -17.2rem);
+  }
+}
+
+@keyframes toBuildingThree {
+  0% {
+    transform: translate(12.5rem, -17.2rem);
+  }
+  30% {
+    transform: translate(17rem, -17.2rem);
+  }
+  100% {
+    transform: translate(14rem, -9rem);
+  }
+}
+
+@keyframes toBuildingFour {
+  0% {
+    transform: translate(14rem, -9rem);
+  }
+  25% {
+    transform: translate(13rem, -4rem);
+  }
+  75% {
+    transform: translate(24.8rem, -4.2rem);
+  }
+  100% {
+    transform: translate(26.5rem, -8.2rem);
+  }
+}
+
+@keyframes toBuildingFive {
+  0% {
+    transform: translate(26.5rem, -8.2rem);
+  }
+  60% {
+    transform: translate(28.5rem, -13rem);
+  }
+  100% {
+    transform: translate(31.5rem, -13rem);
+  }
+}
+
+@keyframes jumpBuildingFive {
+  0% {
+    transform: translate(14rem, -9rem);
+  }
+  17% {
+    transform: translate(13rem, -4rem);
+  }
+  57% {
+    transform: translate(24.8rem, -4.2rem);
+  }
+  71% {
+    transform: translate(26.5rem, -8.2rem);
+  }
+  88% {
+    transform: translate(28.5rem, -13rem);
+  }
+  100% {
+    transform: translate(31.5rem, -13rem);
+  }
+}
