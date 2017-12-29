@@ -43,7 +43,7 @@ router.get('/rise/operation/annual/summary/user', (req, res) => {
       'code': 200,
       'msg': {
         'currentRiseId': 'aaa',
-        'masterRiseId': 'aaa',
+        'masterRiseId': 'bbb',
         'masterNickName': '三十文',
         'masterHeadImageUrl': 'https://static.iqycamp.com/headImage-97yboxsa-blob'
       }
@@ -116,7 +116,7 @@ router.get('/rise/operation/annual/summary/auditorium', (req, res) => {
   )
 })
 
-router.get('/rise/operation/annual/summary/card', (req, res) => {
+router.post('/rise/operation/annual/summary/card', (req, res) => {
   res.status(200).json(
     {
       'code': 200,
@@ -138,25 +138,25 @@ router.get('/rise/operation/annual/summary/card', (req, res) => {
   )
 })
 
-router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
-  res.status(200).json(
-    {
-      'code': 200,
-      'msg': ''
-    }
-  )
-})
-
-// router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
+// router.post('/rise/operation/annual/summary/card/receive', (req, res) => {
 //   res.status(200).json(
 //     {
-//       'code': 201,
-//       'msg': 'https://static.iqycamp.com/images/serverQrCode.jpg?imageslim'
+//       'code': 200,
+//       'msg': ''
 //     }
 //   )
 // })
+
+router.post('/rise/operation/annual/summary/card/receive', (req, res) => {
+  res.status(200).json(
+    {
+      'code': 201,
+      'msg': 'https://static.iqycamp.com/images/serverQrCode.jpg?imageslim'
+    }
+  )
+})
 //
-// router.get('/rise/operation/annual/summary/card/receive', (req, res) => {
+// router.post('/rise/operation/annual/summary/card/receive', (req, res) => {
 //   res.status(400).json(
 //     {
 //       'code': 400,

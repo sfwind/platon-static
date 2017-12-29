@@ -11,6 +11,7 @@ import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo, receivePrizeCard } from './async'
 import { configShare } from '../../helpers/JsConfig'
+import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
 export default class AnnualSummary extends React.Component {
@@ -121,7 +122,7 @@ export default class AnnualSummary extends React.Component {
         break
       case this.PERSON_STEPS.jumpBuilding5:
         result.push(<Step5_Auditorium getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="领取" clickFunc={() => {}}/>)
+        result.push(<NextStepButton buttonText="领取" clickFunc={() => this.handleClickReceivePrizeCard()}/>)
         break
       default:
         return
@@ -140,19 +141,29 @@ export default class AnnualSummary extends React.Component {
 
   async handleClickReceivePrizeCard() {
     const { riseId } = this.state
-    const { dispatch } = this.props.location
+    const { dispatch } = this.props
     let res = await receivePrizeCard(riseId)
     if(res.code === 200) {
 
     } else if(res.code === 201) {
-
+      this.setState({
+        showQrCode: true,
+        qrCodeUrl: res.msg
+      })
     } else {
-
+      dispatch(alertMsg(res.msg))
     }
   }
 
   render() {
-    const { personStep = this.PERSON_STEPS.init, stepBox = <div></div>, headImageUrl = '', showPage } = this.state
+    const {
+      personStep = this.PERSON_STEPS.init,
+      stepBox = <div></div>,
+      headImageUrl = '',
+      showQrCode = false,
+      qrCodeUrl = 'https://static.iqycamp.com/images/serverQrCode.jpg?imageslim',
+      showPage
+    } = this.state
 
     if(!showPage) return <div></div>
 
@@ -168,6 +179,10 @@ export default class AnnualSummary extends React.Component {
           {stepBox}
           {/*<Step5_Auditorium/>*/}
         </div>
+        {
+          showQrCode &&
+          <AssetImg url={qrCodeUrl}/>
+        }
       </div>
     )
   }
