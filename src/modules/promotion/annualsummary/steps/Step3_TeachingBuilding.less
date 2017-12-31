@@ -5,15 +5,19 @@
   display: block;
   position: fixed;
   left: 50%;
-  bottom: 23%;
+  //bottom: 23%;
   transform: translateX(-50%);
-  width: ~"calc(100vw - 5rem)";
-  height: 37rem;
+  width: 100vw;
+  background-color: #fff;
+  //height: ~"calc(100vh - 23%)";
   z-index: 10;
-  background-image: url("@{imgPathRoot}/display-box-3.png?slimimage");
-  background-size: cover;
+  height: auto;
+  //width: ~"calc(100vw - 5rem)";
+  //height: 37rem;
+  //background-image: url("@{imgPathRoot}/display-box-3.png?slimimage");
+  //background-size: cover;
   box-sizing: border-box;
-  padding: 2.2rem 2rem 4rem;
+  padding: 2rem;
   
   .scroll-inner-container();
   
@@ -36,8 +40,8 @@
   .word-cloud {
     .annimation-delay(5s);
     opacity: 0;
-    position: absolute;
-    bottom: 4rem;
+    position: relative;
+    //bottom: 4rem;
     left: 50%;
     transform: translateX(-50%);
     width: 15 * 652 / 300 - 1rem;
@@ -45,5 +49,12 @@
     background-image: url("@{imgPathRoot}/word_cloud_2.png?slimimage");
     background-repeat: no-repeat;
     background-size: 100% 100%;
+  }
+  .triangle {
+    width: 3.3rem;
+    height: 2rem;
+    position: absolute;
+    bottom: -1.5rem;
+    right: 25%;
   }
 }

@@ -5,15 +5,19 @@
   display: block;
   position: fixed;
   left: 50%;
-  bottom: 35%;
+  //bottom: 35%;
   transform: translateX(-50%);
-  width: ~"calc(100vw - 5rem)";
-  height: 37rem;
+  width: 100vw;
+  background-color: #fff;
+  //height: ~"calc(100vh - 35%)";
+  height: auto;
   z-index: 10;
-  background-image: url("@{imgPathRoot}/display-box-2.png?slimimage");
-  background-size: cover;
+  //width: ~"calc(100vw - 5rem)";
+  //height: 37rem;
+  //background-image: url("@{imgPathRoot}/display-box-2.png?slimimage");
+  //background-size: cover;
   box-sizing: border-box;
-  padding: 2rem 2rem 4rem;
+  padding: 2rem;
   
   .scroll-inner-container();
   
@@ -33,31 +37,44 @@
   .text4 {
     .annimation-delay(4s)
   }
-  .map {
-    .annimation-delay(5s);
-    opacity: 0;
-    position: absolute;
-    bottom: 4rem;
-    left: 50%;
-    transform: translateX(-50%);
+  .map-box {
     width: 14 * 652 / 280rem;
     height: 14rem;
-    background-image: url("@{imgPathRoot}/annual_map.png?slimimage");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-  }
-  .map-locations {
-    .annimation-delay(6s);
-    opacity: 0;
-    position: absolute;
-    bottom: 4rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 14 * 652 / 280rem;
-    height: 14rem;
-    background-image: url("@{imgPathRoot}/annual_map_locations_2.png?slimimage");
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    position: relative;
+    margin: 2rem auto;
+    .map {
+      .annimation-delay(5s);
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14 * 652 / 280rem;
+      height: 14rem;
+      background-image: url("@{imgPathRoot}/annual_map.png?slimimage");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    .map-locations {
+      .annimation-delay(6s);
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14 * 652 / 280rem;
+      height: 14rem;
+      background-image: url("@{imgPathRoot}/annual_map_locations_2.png?slimimage");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
   }
   
+  .triangle {
+    width: 3.3rem;
+    height: 2rem;
+    position: absolute;
+    bottom: -1.5rem;
+    left: 15%;
+  }
 }

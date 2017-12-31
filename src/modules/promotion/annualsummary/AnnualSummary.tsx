@@ -20,6 +20,7 @@ export default class AnnualSummary extends React.Component {
     super()
     this.state = {
       personStep: this.PERSON_STEPS.init,
+      showShareTip: false,
       showPage: false
     }
   }
@@ -134,6 +135,9 @@ export default class AnnualSummary extends React.Component {
   }
 
   configShareOption() {
+    this.setState({
+      showShareTip: true
+    })
     configShare(
       `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
       `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${this.state.riseId}`,
@@ -165,6 +169,7 @@ export default class AnnualSummary extends React.Component {
       headImageUrl = '',
       showQrCode = false,
       qrCodeUrl = 'https://static.iqycamp.com/images/serverQrCode.jpg?imageslim',
+      showShareTip,
       showPage
     } = this.state
 
@@ -179,7 +184,15 @@ export default class AnnualSummary extends React.Component {
                  style={{ background: `url(${headImageUrl}) no-repeat` }}>
             </div>
           </div>
-          {stepBox}
+          {
+            showShareTip ?
+              <div className="mask" id='mask'></div> :
+              stepBox
+          }
+          {/*<Step1_SchoolGate getGlobalState={() => this.state}/>*/}
+          {/*<Step2_ActivityCenter getGlobalState={() => this.state}/>*/}
+          {/*<Step3_TeachingBuilding getGlobalState={() => this.state}/>*/}
+          {/*<Step4_Library getGlobalState={() => this.state}/>*/}
           {/*<Step5_Auditorium getGlobalState={() => this.state}/>*/}
           {/*<div className="mask" id='mask'></div>*/}
           {
@@ -191,6 +204,10 @@ export default class AnnualSummary extends React.Component {
                  }}>
               <AssetImg className="qrcode" url={qrCodeUrl}/>
             </div>
+          }
+          {
+            showShareTip &&
+            <AssetImg className="annual-share" url="https://static.iqycamp.com/images/annual_share.png"/>
           }
         </div>
       </div>

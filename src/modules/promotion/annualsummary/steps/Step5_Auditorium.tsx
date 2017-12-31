@@ -75,6 +75,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
     const renderSelfView = () => {
       return (
         <div className="scroll-container self">
+          <AssetImg className="annual-trophy" url="https://static.iqycamp.com/images/annual_trophy.png"/>
           <div className="text text1">截止目前，你在圈外商学院</div>
           <div className="text text2">累积收获
             <span className="highlight"><large>&nbsp;{point}&nbsp;</large>积分</span>
@@ -101,9 +102,9 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
           <div className="text text3">立即点击领取下方的邀请函吧！</div>
           <div className="business-school-desc">
             <div className={`content ${showAll && 'all'}`}>
-              都说这个时代需要终身学习才能跟上迅猛发展的变革大潮，可是在职场外有限的时间里到底学点什么才是“性价比”最高的？圈外商学院给了我们最好的答案，它为职场人打造出一套完整的知识体系，从根本上帮助职场人掌握提高个人能力的方法，让人受益良多。
-              都说这个时代需要终身学习才能跟上迅猛发展的变革大潮，可是在职场外有限的时间里到底学点什么才是“性价比”最高的？圈外商学院给了我们最好的答案，它为职场人打造出一套完整的知识体系，从根本上帮助职场人掌握提高个人能力的方法，让人受益良多。
-              都说这个时代需要终身学习才能跟上迅猛发展的变革大潮，可是在职场外有限的时间里到底学点什么才是“性价比”最高的？圈外商学院给了我们最好的答案，它为职场人打造出一套完整的知识体系，从根本上帮助职场人掌握提高个人能力的方法，让人受益良多。
+              圈外商学院是一所创新型在线商学院，为职场人士提供最实用的课程、最适合的发展机会，让每一个有潜力的人，在这个时代拥有自己的职场话语权！<br/>
+              学员中97%在职业和工作上实现了进步，其中48%的学员为资深员工与管理层，平均得到27%的涨薪幅度。<br/>
+              作为首个戈壁挑战赛的受邀在线商学院，为学员对接到中欧、长江等MBA人脉，也为有志于创业的学员提供顶级创投资源。
             </div>
             <div className="click-tips"
                  onClick={() => {
@@ -132,6 +133,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
             renderSelfView() :
             renderGuestView()
         }
+        <AssetImg className="triangle" url="https://static.iqycamp.com/images/triangle_left.png"/>
       </section>
     )
   }

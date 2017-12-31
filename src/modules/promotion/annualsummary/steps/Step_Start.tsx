@@ -16,7 +16,6 @@ export class Step_Start extends React.Component<Step_StartProps, any> {
 
     return (
       <div className="annual-init-start">
-        <div className="start-year">2017</div>
         <div className="start-tip">{isSelf ? '你' : nickName}在圈外商学院的这一年</div>
       </div>
     )

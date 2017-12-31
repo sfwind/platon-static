@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './Step1_SchoolGate.less'
 import { getPromotionSchoolGate } from '../async'
+import AssetImg from '../../../../components/AssetImg'
 
 interface Step1_SchoolGateProps {
   getGlobalState: any
@@ -44,6 +45,7 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
           <div className="text text5">成为同学一起学习</div>
           <div className="partner"></div>
         </div>
+        <AssetImg className="triangle" url="https://static.iqycamp.com/images/triangle_left.png"/>
       </section>
     )
   }

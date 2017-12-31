@@ -5,13 +5,17 @@
   display: block;
   position: fixed;
   left: 50%;
-  bottom: 23%;
+  //bottom: 23%;
   transform: translateX(-50%);
-  width: ~"calc(100vw - 5rem)";
-  height: 37rem;
+  width: 100vw;
+  background-color: #fff;
+  //height: ~"calc(100vh - 23%)";
+  height: auto;
   z-index: 10;
-  background-image: url("@{imgPathRoot}/display-box-1.png?slimimage");
-  background-size: cover;
+  //width: ~"calc(100vw - 5rem)";
+  //height: 37rem;
+  //background-image: url("@{imgPathRoot}/display-box-1.png?slimimage");
+  //background-size: cover;
   box-sizing: border-box;
   padding: 2.2rem 2rem 4rem;
   
@@ -39,14 +43,20 @@
   .partner {
     .annimation-delay(6s);
     opacity: 0;
-    position: absolute;
+    position: relative;
     left: 50%;
-    bottom: 4rem;
     transform: translateX(-50%);
     width: 15 * 538 / 360rem;
     height: 15rem;
     background-image: url("@{imgPathRoot}/class_partner.png?slimimage");
     background-repeat: no-repeat;
     background-size: 100% 100%;
+  }
+  .triangle {
+    width: 3.3rem;
+    height: 2rem;
+    position: absolute;
+    bottom: -1.5rem;
+    left: 18%;
   }
 }

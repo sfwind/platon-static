@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './Step2_ActivityCenter.less'
+import AssetImg from '../../../../components/AssetImg'
 
 interface Step2_ActivityCenterProps {
   getGlobalState: any
@@ -36,9 +37,12 @@ export class Step2_ActivityCenter extends React.Component<Step2_ActivityCenterPr
             <large>&nbsp;{mbaCount}&nbsp;</large>
             个MBA</span>
           </div>
-          <div className="map"></div>
-          <div className="map-locations"></div>
+          <div className="map-box">
+            <div className="map"></div>
+            <div className="map-locations"></div>
+          </div>
         </div>
+        <AssetImg className="triangle" url="https://static.iqycamp.com/images/triangle_right.png"/>
       </section>
     )
   }
