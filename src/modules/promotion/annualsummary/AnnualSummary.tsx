@@ -52,7 +52,7 @@ export default class AnnualSummary extends React.Component {
     }
   }
 
-  handleNextStep(sleepTime = 4000) {
+  handleNextStep(sleepTime = 2000) {
     this.setState({
       stepBox: <div></div>
     })
@@ -99,7 +99,7 @@ export default class AnnualSummary extends React.Component {
     switch(personStep) {
       case this.PERSON_STEPS.init:
         result.push(<Step_Start getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="开始回顾" clickFunc={() => this.handleNextStep(2000)}
+        result.push(<NextStepButton buttonText="开始回顾" clickFunc={() => this.handleNextStep(1000)}
                                     style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
         return result
       case this.PERSON_STEPS.building1:
@@ -112,7 +112,7 @@ export default class AnnualSummary extends React.Component {
         break
       case this.PERSON_STEPS.building3:
         result.push(<Step3_TeachingBuilding getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 4000 : 6000)}/>)
+        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 2000 : 4000)}/>)
         break
       case this.PERSON_STEPS.building4:
         result.push(<Step4_Library getGlobalState={() => this.state}/>)
@@ -125,7 +125,6 @@ export default class AnnualSummary extends React.Component {
       case this.PERSON_STEPS.jumpBuilding5:
         result.push(<Step5_Auditorium getGlobalState={() => this.state}
                                       receivePrizeCardFunc={(prizeCardNo) => this.handleClickReceivePrizeCard(prizeCardNo)}/>)
-        result.push(<NextStepButton buttonText="领取" clickFunc={() => {}}/>)
         break
       default:
         return

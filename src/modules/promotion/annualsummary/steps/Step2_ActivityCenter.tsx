@@ -23,7 +23,7 @@ export class Step2_ActivityCenter extends React.Component<Step2_ActivityCenterPr
           <div className="text text1">在圈外商学院里，{isSelf ? '你' : nickName}和来自全球</div>
           <div className="text text2">
           <span className="highlight">
-            <large>25&nbsp;</large>
+            <large>257&nbsp;</large>
             座城市</span> 的人成了校友
           </div>
           <div className="text text3">一起累积学习了
