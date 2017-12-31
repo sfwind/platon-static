@@ -137,7 +137,7 @@ export default class AnnualSummary extends React.Component {
     configShare(
       `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
       `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${this.state.riseId}`,
-      'https://static.iqycamp.com/headImage-97yboxsa-blob',
+      'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
       '一份最有价值的新年礼')
   }
 
