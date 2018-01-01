@@ -5,43 +5,47 @@
   display: block;
   position: fixed;
   left: 50%;
-  bottom: 22%;
+  //bottom: 22%;
   transform: translateX(-50%);
-  width: ~"calc(100vw - 5rem)";
-  height: 40rem;
+  width: 100vw;
+  //height: ~"calc(100vh - 22%)";
+  height: auto;
+  background-color: #fff;
   z-index: 10;
-  background-image: url("@{imgPathRoot}/display-box-4.png?slimimage");
-  background-size: cover;
+  //width: ~"calc(100vw - 5rem)";
+  //height: 40rem;
+  //background-image: url("@{imgPathRoot}/display-box-4.png?imageslim");
+  //background-size: cover;
   box-sizing: border-box;
-  padding: 2.2rem 2rem 4rem;
-  
+  padding: 2rem;
+
   .scroll-inner-container();
-  
-  .annimation-delay(0.5s);
-  
+
+  .animation-delay(0.5s);
+
   .annual-summary-common-text();
-  
+
   .text1 {
-    .annimation-delay(1s);
+    .animation-delay(1s);
   }
-  .text2 {
-    .annimation-delay(2s);
-  }
+  //.text2 {
+  //  .animation-delay(2s);
+  //}
   .text3 {
     margin-top: 2.0rem;
-    .annimation-delay(3s);
+    .animation-delay(2s);
   }
   .asst {
     opacity: 0;
-    .annimation-delay(4s);
+    .animation-delay(2s);
   }
   .text4 {
     margin-top: 2rem;
-    .annimation-delay(5s);
+    .animation-delay(3s);
   }
   .classmates {
     opacity: 0;
-    .annimation-delay(6s);
+    .animation-delay(3s);
   }
   .profile-box {
     margin-top: 1rem;
@@ -68,5 +72,12 @@
         margin-top: 0.5rem;
       }
     }
+  }
+  .triangle {
+    width: 3.3rem;
+    height: 2rem;
+    position: absolute;
+    bottom: -1.5rem;
+    right: 1rem;
   }
 }

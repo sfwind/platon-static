@@ -3,14 +3,14 @@ import './AnnualSummary.less'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { NextStepButton } from './components/NextStepButton'
+import { TwoStepButton } from './components/TwoStepButton'
 import { Step_Start } from './steps/Step_Start'
 import { Step1_SchoolGate } from './steps/Step1_SchoolGate'
-import { Step2_ActivityCenter } from './steps/Step2_ActivityCenter'
-import { Step3_TeachingBuilding } from './steps/Step3_TeachingBuilding'
+import { Step2_TeachingBuilding } from './steps/Step2_TeachingBuilding'
+import { Step3_ActivityCenter } from './steps/Step3_ActivityCenter'
 import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo, receivePrizeCard } from './async'
-import { configShare } from '../../helpers/JsConfig'
 import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
@@ -20,6 +20,7 @@ export default class AnnualSummary extends React.Component {
     super()
     this.state = {
       personStep: this.PERSON_STEPS.init,
+      showShareTip: false,
       showPage: false
     }
   }
@@ -35,7 +36,6 @@ export default class AnnualSummary extends React.Component {
   }
 
   async componentWillMount() {
-    console.log(this.props.location.query)
     const { riseId } = this.props.location.query
     let userInfo = await getPromotionUserInfo(riseId)
     if(userInfo.code === 200) {
@@ -45,13 +45,24 @@ export default class AnnualSummary extends React.Component {
         nickName: msg.masterNickName,
         headImageUrl: msg.masterHeadImageUrl,
         isSelf: msg.currentRiseId === msg.masterRiseId,
-        stepBox: this.loadCurrentBuilding(),
         showPage: true
-      })
+      }, ()=>this.setState({
+        stepBox: this.loadCurrentBuilding(),
+      }))
     }
   }
 
-  handleNextStep(sleepTime = 4000) {
+  goLastStep(){
+    this.setState({ personStep: this.PERSON_STEPS.jumpBuilding5 }, () => {
+      setTimeout(() => {
+        this.setState({
+          stepBox: this.loadCurrentBuilding()
+        })
+      }, 2000)
+    })
+  }
+
+  handleNextStep(sleepTime = 2000) {
     this.setState({
       stepBox: <div></div>
     })
@@ -98,24 +109,54 @@ export default class AnnualSummary extends React.Component {
     switch(personStep) {
       case this.PERSON_STEPS.init:
         result.push(<Step_Start getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="开始回顾" clickFunc={() => this.handleNextStep(2000)}
-                                    style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="点击开启" clickFunc={() => this.handleNextStep(1000)}
+                                      style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
+        }else{
+          result.push(<NextStepButton buttonText="点击开始" clickFunc={() => this.handleNextStep(1000)}
+                                      style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
+        }
         return result
       case this.PERSON_STEPS.building1:
         result.push(<Step1_SchoolGate getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building2:
-        result.push(<Step2_ActivityCenter getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        result.push(<Step2_TeachingBuilding getGlobalState={() => this.state}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building3:
-        result.push(<Step3_TeachingBuilding getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 4000 : 6000)}/>)
+        result.push(<Step3_ActivityCenter getGlobalState={() => this.state}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 2000 : 4000)}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep(isSelf ? 2000 : 4000)}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building4:
         result.push(<Step4_Library getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building5:
         result.push(<Step5_Auditorium getGlobalState={() => this.state}/>)
@@ -124,7 +165,6 @@ export default class AnnualSummary extends React.Component {
       case this.PERSON_STEPS.jumpBuilding5:
         result.push(<Step5_Auditorium getGlobalState={() => this.state}
                                       receivePrizeCardFunc={(prizeCardNo) => this.handleClickReceivePrizeCard(prizeCardNo)}/>)
-        result.push(<NextStepButton buttonText="领取" clickFunc={() => {}}/>)
         break
       default:
         return
@@ -134,11 +174,9 @@ export default class AnnualSummary extends React.Component {
   }
 
   configShareOption() {
-    configShare(
-      `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
-      `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${this.state.riseId}`,
-      'https://static.iqycamp.com/headImage-97yboxsa-blob',
-      '一份最有价值的新年礼')
+    this.setState({
+      showShareTip: true
+    })
   }
 
   async handleClickReceivePrizeCard(prizeCardNo) {
@@ -165,6 +203,7 @@ export default class AnnualSummary extends React.Component {
       headImageUrl = '',
       showQrCode = false,
       qrCodeUrl = 'https://static.iqycamp.com/images/serverQrCode.jpg?imageslim',
+      showShareTip,
       showPage
     } = this.state
 
@@ -179,7 +218,15 @@ export default class AnnualSummary extends React.Component {
                  style={{ background: `url(${headImageUrl}) no-repeat` }}>
             </div>
           </div>
-          {stepBox}
+          {
+            showShareTip ?
+              <div className="mask" id='mask'></div> :
+              stepBox
+          }
+          {/*<Step1_SchoolGate getGlobalState={() => this.state}/>*/}
+          {/*<Step2_ActivityCenter getGlobalState={() => this.state}/>*/}
+          {/*<Step3_TeachingBuilding getGlobalState={() => this.state}/>*/}
+          {/*<Step4_Library getGlobalState={() => this.state}/>*/}
           {/*<Step5_Auditorium getGlobalState={() => this.state}/>*/}
           {/*<div className="mask" id='mask'></div>*/}
           {
@@ -187,10 +234,13 @@ export default class AnnualSummary extends React.Component {
             <div className="qrcode-box"
                  onClick={() => {
                    document.getElementById('mask').style.zIndex = 5
-                   this.setState({ showQrCode: false })
                  }}>
               <AssetImg className="qrcode" url={qrCodeUrl}/>
             </div>
+          }
+          {
+            showShareTip &&
+            <AssetImg className="annual-share" url="https://static.iqycamp.com/images/annual_share.png"/>
           }
         </div>
       </div>

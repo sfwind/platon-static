@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './Step4_Library.less'
 import { getPromotionLibrary } from '../async'
+import AssetImg from '../../../../components/AssetImg'
 
 interface Step4_LibraryProps {
   getGlobalState: any
@@ -26,7 +27,7 @@ export class Step4_Library extends React.Component<Step4_LibraryProps, any> {
       })
     }
   }
-  
+
   render() {
     const { courseCount = 0, knowledgeCount = 0, allRightCount = 0, assts = [], classmates = [] } = this.state
 
@@ -35,13 +36,13 @@ export class Step4_Library extends React.Component<Step4_LibraryProps, any> {
         <div className="scroll-container">
           <div className="text text1">
             在圈外，你学习了
-            <span className="highlight"><large>{courseCount}</large>门课程</span>
+            <span className="highlight"><large>&nbsp;{courseCount}&nbsp;</large>门课程</span>
           </div>
-          <div className="text text2">
+          <div className="text text1">
             掌握了
-            <span className="highlight"><large>{knowledgeCount}</large>个知识点</span>
+            <span className="highlight"><large>&nbsp;{knowledgeCount}&nbsp;</large>个知识点</span>
             ，顺利拿下
-            <span className="highlight"><large>{allRightCount}</large>个全对</span>
+            <span className="highlight"><large>&nbsp;{allRightCount}&nbsp;</large>个全对</span>
           </div>
           <div className="text text3">还记得给你点评和指导的圈外教练吗？</div>
           <div className="profile-box asst">
@@ -67,6 +68,7 @@ export class Step4_Library extends React.Component<Step4_LibraryProps, any> {
           </div>
           <div></div>
         </div>
+        <AssetImg className="triangle" url="https://static.iqycamp.com/images/triangle_left.png"/>
       </section>
     )
   }

@@ -21,7 +21,6 @@ export default class GroupPromotionCountDown extends React.Component {
     dispatch(startLoad())
     try {
       let res = await loadCampCountDown()
-      console.log(res)
       dispatch(endLoad())
       const msg = res.msg
       if(res.code === 200) {
@@ -81,7 +80,6 @@ export default class GroupPromotionCountDown extends React.Component {
         </div>
       )
     } else {
-      console.log(leaderName)
       return (
         <GroupPromotionWaiting leaderName={leaderName} remainderCount={remainderCount} groupCode={groupCode}/>
       )

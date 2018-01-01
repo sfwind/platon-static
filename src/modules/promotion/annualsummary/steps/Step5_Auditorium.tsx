@@ -2,6 +2,7 @@ import * as React from 'react'
 import './Step5_Auditorium.less'
 import { getPromotionAuditorium, loadPrizeCard } from '../async'
 import AssetImg from '../../../../components/AssetImg'
+import { configShare } from '../../../helpers/JsConfig'
 
 interface Step5_AuditoriumProps {
   getGlobalState: any,
@@ -19,6 +20,12 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
 
   async componentWillMount() {
     const { riseId } = this.props.getGlobalState()
+    configShare(
+      `回顾在圈外商学院的2017，我郑重向你发出这个邀请`,
+      `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${riseId}`,
+      'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
+      '一份最有价值的新年礼')
+
     let res = await getPromotionAuditorium(riseId)
     if(res.code === 200) {
       let msg = res.msg
@@ -59,7 +66,6 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
                         receivePrizeCardFunc(prizeCard.prizeCardNo).then(res => {
                           if(res.code === 200) {
                             loadPrizeCard(this.props.getGlobalState().riseId).then(newResult => {
-                              console.log(newResult)
                               if(newResult.code === 200) {
                                 this.setState({ prizeCardArr: newResult.msg })
                               }
@@ -75,16 +81,17 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
     const renderSelfView = () => {
       return (
         <div className="scroll-container self">
+          <AssetImg className="annual-trophy" url="https://static.iqycamp.com/images/annual_trophy.png"/>
           <div className="text text1">截止目前，你在圈外商学院</div>
-          <div className="text text2">累积收获
+          <div className="text text1">累积收获
             <span className="highlight"><large>&nbsp;{point}&nbsp;</large>积分</span>
           </div>
-          <div className="text text3">打败了
-            <span className="highlight"><large>&nbsp;{defeatPercentage}%&nbsp;</large>的圈外学员</span>
+          <div className="text text1">打败了
+            <span className="highlight"><large>&nbsp;{defeatPercentage}%&nbsp;</large></span>同期入学的同学
           </div>
           <div>
-            <div className="text text4">赢得了三张邀请函</div>
-            <div className="text text5">现在你也有个机会成就他人，快点击下方“分享”按钮，邀请你最优秀的朋友来体验七天的商学院之旅！</div>
+            <div className="text text2">赢得了3张圈外商学院邀请函</div>
+            <div className="text text2" style={{fontWeight: 'bold', marginTop: '2.5rem'}}>现在你也有个机会成就他人，快点击下方“分享”按钮，邀请你最优秀的朋友来体验七天的商学院之旅！</div>
             <div className="prize-card-box">
               {renderSelfPrizeCard()}
             </div>
@@ -96,14 +103,15 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
     const renderGuestView = () => {
       return (
         <div className="scroll-container guest">
-          <div className="text text1">现在，{nickName}邀请同样优秀的你，</div>
-          <div className="text text2">来体验七天的商学院之旅！</div>
-          <div className="text text3">立即点击领取下方的邀请函吧！</div>
-          <div className="business-school-desc">
+          <AssetImg className="annual-trophy" url="https://static.iqycamp.com/images/annual_trophy.png"/>
+          <div className="text text1 bold">现在，{nickName}邀请同样优秀的你，</div>
+          <div className="text text1 bold">来体验七天的商学院之旅！</div>
+          <div className="text text1 bold">立即点击领取下方的邀请函吧！</div>
+          <div className="business-school-desc text2">
             <div className={`content ${showAll && 'all'}`}>
-              都说这个时代需要终身学习才能跟上迅猛发展的变革大潮，可是在职场外有限的时间里到底学点什么才是“性价比”最高的？圈外商学院给了我们最好的答案，它为职场人打造出一套完整的知识体系，从根本上帮助职场人掌握提高个人能力的方法，让人受益良多。
-              都说这个时代需要终身学习才能跟上迅猛发展的变革大潮，可是在职场外有限的时间里到底学点什么才是“性价比”最高的？圈外商学院给了我们最好的答案，它为职场人打造出一套完整的知识体系，从根本上帮助职场人掌握提高个人能力的方法，让人受益良多。
-              都说这个时代需要终身学习才能跟上迅猛发展的变革大潮，可是在职场外有限的时间里到底学点什么才是“性价比”最高的？圈外商学院给了我们最好的答案，它为职场人打造出一套完整的知识体系，从根本上帮助职场人掌握提高个人能力的方法，让人受益良多。
+              圈外商学院是一所创新型在线商学院，为职场人士提供最实用的课程、最适合的发展机会，让每一个有潜力的人，在这个时代拥有自己的职场话语权！<br/>
+              学员中97%在职业和工作上实现了进步，其中48%的学员为资深员工与管理层，平均得到27%的涨薪幅度。<br/>
+              作为首个戈壁挑战赛的受邀在线商学院，为学员对接到中欧、长江等MBA人脉，也为有志于创业的学员提供顶级创投资源。
             </div>
             <div className="click-tips"
                  onClick={() => {
@@ -132,6 +140,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
             renderSelfView() :
             renderGuestView()
         }
+        <AssetImg className="triangle" url="https://static.iqycamp.com/images/triangle_left.png"/>
       </section>
     )
   }
