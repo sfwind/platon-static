@@ -109,8 +109,8 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
           <div className="text text1 bold">立即点击领取下方的邀请函吧！</div>
           <div className="business-school-desc text2">
             <div className={`content ${showAll && 'all'}`}>
-              圈外商学院是一所创新型在线商学院，为职场人士提供最实用的课程、最适合的发展机会，让每一个有潜力的人，在这个时代拥有自己的职场话语权！<br/>
-              学员中97%在职业和工作上实现了进步，其中48%的学员为资深员工与管理层，平均得到27%的涨薪幅度。<br/>
+              圈外商学院是一所创新型在线商学院，为职场人士提供最实用的课程、最适合的发展机会，让每一个有潜力的人，在这个时代拥有自己的职场话语权！<br/><br/>
+              学员中97%在职业和工作上实现了进步，其中48%的学员为资深员工与管理层，平均得到27%的涨薪幅度。<br/><br/>
               作为首个戈壁挑战赛的受邀在线商学院，为学员对接到中欧、长江等MBA人脉，也为有志于创业的学员提供顶级创投资源。
             </div>
             <div className="click-tips"
