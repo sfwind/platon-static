@@ -13,13 +13,13 @@
   background-color: #fff;
   //width: ~"calc(100vw - 5rem)";
   //height: 40.5rem;
-  //background-image: url("@{imgPathRoot}/display-box-5_2.png?slimimage");
+  //background-image: url("@{imgPathRoot}/display-box-5_2.png?imageslim");
   //background-size: cover;
   box-sizing: border-box;
   padding: 2rem;
-  
+
   .scroll-inner-container();
-  
+
   .self {
     .annimation-delay(0.5s);
     .annual-summary-common-text();
@@ -55,11 +55,17 @@
       }
     }
   }
-  
+
   .guest {
     .text {
       font-size: 1.5rem;
       color: #333;
+    }
+    .annual-trophy {
+      width: 8.6rem;
+      height: 9rem;
+      position: absolute;
+      right: 1rem;
     }
     .business-school-desc {
       margin-top: 2.5rem;
@@ -75,7 +81,7 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-align: justify;
-        
+
         &:after {
           display: block;
           content: ' ';
@@ -85,7 +91,7 @@
           position: absolute;
           bottom: 0;
         }
-        
+
         &.all {
           max-height: none;
           display: block;
@@ -106,9 +112,8 @@
         text-align: center;
         left: 50%;
         transform: translateX(-60%);
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
         -webkit-tap-highlight-color: transparent;
-        
+
         &::after {
           content: " ";
           display: inline-block;
@@ -132,7 +137,7 @@
       }
     }
   }
-  
+
   .triangle {
     width: 3.3rem;
     height: 2rem;

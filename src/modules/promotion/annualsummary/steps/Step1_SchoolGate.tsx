@@ -45,7 +45,7 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
             和<span className="highlight" style={{ fontSize: '2.1rem' }}>&nbsp;曾进，崔勇，蔡垒磊&nbsp;</span>
           </div>
           <div className="text text5">成为同学一起学习</div>
-          <div className="partner" style={{backgroundImage: classmateUrl}}></div>
+          <div className="partner" style={{backgroundImage: `url(${classmateUrl})`}}></div>
         </div>
         <AssetImg className="triangle" url='https://static.iqycamp.com/images/triangle_left.png'/>
       </section>

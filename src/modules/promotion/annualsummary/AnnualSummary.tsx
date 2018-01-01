@@ -10,7 +10,6 @@ import { Step3_TeachingBuilding } from './steps/Step3_TeachingBuilding'
 import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo, receivePrizeCard } from './async'
-import { configShare } from '../../helpers/JsConfig'
 import AssetImg from '../../../components/AssetImg'
 
 @connect(state => state)
@@ -136,11 +135,6 @@ export default class AnnualSummary extends React.Component {
     this.setState({
       showShareTip: true
     })
-    configShare(
-      `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
-      `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${this.state.riseId}`,
-      'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
-      '一份最有价值的新年礼')
   }
 
   async handleClickReceivePrizeCard(prizeCardNo) {

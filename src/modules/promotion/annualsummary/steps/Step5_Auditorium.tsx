@@ -2,6 +2,7 @@ import * as React from 'react'
 import './Step5_Auditorium.less'
 import { getPromotionAuditorium, loadPrizeCard } from '../async'
 import AssetImg from '../../../../components/AssetImg'
+import { configShare } from '../../../helpers/JsConfig'
 
 interface Step5_AuditoriumProps {
   getGlobalState: any,
@@ -19,6 +20,12 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
 
   async componentWillMount() {
     const { riseId } = this.props.getGlobalState()
+    configShare(
+      `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
+      `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${riseId}`,
+      'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
+      '一份最有价值的新年礼')
+
     let res = await getPromotionAuditorium(riseId)
     if(res.code === 200) {
       let msg = res.msg
@@ -96,6 +103,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
     const renderGuestView = () => {
       return (
         <div className="scroll-container guest">
+          <AssetImg className="annual-trophy" url="https://static.iqycamp.com/images/annual_trophy.png"/>
           <div className="text text1">现在，{nickName}邀请同样优秀的你，</div>
           <div className="text text2">来体验七天的商学院之旅！</div>
           <div className="text text3">立即点击领取下方的邀请函吧！</div>

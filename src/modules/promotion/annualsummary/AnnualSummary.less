@@ -5,7 +5,8 @@
   height: 100vh;
   background: url("@{imgPathRoot}/annual_background_2.jpg?imageslim") no-repeat center bottom / 100% auto;
   background-size: 100vw;
-  
+  overflow: hidden;
+
   .move-block {
     display: block;
     position: absolute;
@@ -24,7 +25,7 @@
       bottom: 0;
       transform: translate(-4rem, -9rem);
       z-index: 15;
-      
+
       .headimage {
         position: relative;
         display: inline-block;
@@ -35,7 +36,7 @@
         border-radius: 50%;
         background-size: 2.8rem 2.8rem !important;
       }
-      
+
       &.step-building1 {
         animation: toBuildingOne 1s linear;
         animation-fill-mode: forwards;
@@ -75,7 +76,7 @@
       width: 100vw;
     }
   }
-  
+
   .qrcode-box {
     position: absolute;
     z-index: 30;
@@ -94,7 +95,7 @@
       transform: translateX(-50%);
     }
   }
-  
+
   .annual-share {
     width: 28rem;
     height: 8.6rem;
