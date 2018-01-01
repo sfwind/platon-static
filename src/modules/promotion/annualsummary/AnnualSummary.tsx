@@ -45,9 +45,10 @@ export default class AnnualSummary extends React.Component {
         nickName: msg.masterNickName,
         headImageUrl: msg.masterHeadImageUrl,
         isSelf: msg.currentRiseId === msg.masterRiseId,
-        stepBox: this.loadCurrentBuilding(),
         showPage: true
-      })
+      }, ()=>this.setState({
+        stepBox: this.loadCurrentBuilding(),
+      }))
     }
   }
 
