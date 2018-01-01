@@ -21,7 +21,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   async componentWillMount() {
     const { riseId } = this.props.getGlobalState()
     configShare(
-      `回顾了在圈外商学院的2017后，我想发你这张邀请函`,
+      `回顾在圈外商学院的2017，我郑重向你发出这个邀请`,
       `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${riseId}`,
       'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
       '一份最有价值的新年礼')
@@ -83,15 +83,15 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
         <div className="scroll-container self">
           <AssetImg className="annual-trophy" url="https://static.iqycamp.com/images/annual_trophy.png"/>
           <div className="text text1">截止目前，你在圈外商学院</div>
-          <div className="text text2">累积收获
+          <div className="text text1">累积收获
             <span className="highlight"><large>&nbsp;{point}&nbsp;</large>积分</span>
           </div>
-          <div className="text text3">打败了
+          <div className="text text1">打败了
             <span className="highlight"><large>&nbsp;{defeatPercentage}%&nbsp;</large>的圈外学员</span>
           </div>
           <div>
-            <div className="text text4">赢得了3张圈外商学院邀请函</div>
-            <div className="text text5">现在你也有个机会成就他人，快点击下方“分享”按钮，邀请你最优秀的朋友来体验七天的商学院之旅！</div>
+            <div className="text text2">赢得了3张圈外商学院邀请函</div>
+            <div className="text text2" style={{fontWeight: 'bold', marginTop: '2.5rem'}}>现在你也有个机会成就他人，快点击下方“分享”按钮，邀请你最优秀的朋友来体验七天的商学院之旅！</div>
             <div className="prize-card-box">
               {renderSelfPrizeCard()}
             </div>
@@ -104,10 +104,10 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
       return (
         <div className="scroll-container guest">
           <AssetImg className="annual-trophy" url="https://static.iqycamp.com/images/annual_trophy.png"/>
-          <div className="text text1">现在，{nickName}邀请同样优秀的你，</div>
-          <div className="text text2">来体验七天的商学院之旅！</div>
-          <div className="text text3">立即点击领取下方的邀请函吧！</div>
-          <div className="business-school-desc">
+          <div className="text text1 bold">现在，{nickName}邀请同样优秀的你，</div>
+          <div className="text text1 bold">来体验七天的商学院之旅！</div>
+          <div className="text text1 bold">立即点击领取下方的邀请函吧！</div>
+          <div className="business-school-desc text2">
             <div className={`content ${showAll && 'all'}`}>
               圈外商学院是一所创新型在线商学院，为职场人士提供最实用的课程、最适合的发展机会，让每一个有潜力的人，在这个时代拥有自己的职场话语权！<br/>
               学员中97%在职业和工作上实现了进步，其中48%的学员为资深员工与管理层，平均得到27%的涨薪幅度。<br/>

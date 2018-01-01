@@ -38,7 +38,7 @@ export class Step4_Library extends React.Component<Step4_LibraryProps, any> {
             在圈外，你学习了
             <span className="highlight"><large>&nbsp;{courseCount}&nbsp;</large>门课程</span>
           </div>
-          <div className="text text2">
+          <div className="text text1">
             掌握了
             <span className="highlight"><large>&nbsp;{knowledgeCount}&nbsp;</large>个知识点</span>
             ，顺利拿下

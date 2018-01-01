@@ -3,10 +3,11 @@ import './AnnualSummary.less'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { NextStepButton } from './components/NextStepButton'
+import { TwoStepButton } from './components/TwoStepButton'
 import { Step_Start } from './steps/Step_Start'
 import { Step1_SchoolGate } from './steps/Step1_SchoolGate'
-import { Step2_ActivityCenter } from './steps/Step2_ActivityCenter'
-import { Step3_TeachingBuilding } from './steps/Step3_TeachingBuilding'
+import { Step2_TeachingBuilding } from './steps/Step2_TeachingBuilding'
+import { Step3_ActivityCenter } from './steps/Step3_ActivityCenter'
 import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo, receivePrizeCard } from './async'
@@ -105,11 +106,11 @@ export default class AnnualSummary extends React.Component {
         result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
         break
       case this.PERSON_STEPS.building2:
-        result.push(<Step2_ActivityCenter getGlobalState={() => this.state}/>)
+        result.push(<Step2_TeachingBuilding getGlobalState={() => this.state}/>)
         result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
         break
       case this.PERSON_STEPS.building3:
-        result.push(<Step3_TeachingBuilding getGlobalState={() => this.state}/>)
+        result.push(<Step3_ActivityCenter getGlobalState={() => this.state}/>)
         result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 2000 : 4000)}/>)
         break
       case this.PERSON_STEPS.building4:
