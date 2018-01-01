@@ -87,7 +87,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
             <span className="highlight"><large>&nbsp;{point}&nbsp;</large>积分</span>
           </div>
           <div className="text text1">打败了
-            <span className="highlight"><large>&nbsp;{defeatPercentage}%&nbsp;</large>的圈外学员</span>
+            <span className="highlight"><large>&nbsp;{defeatPercentage}%&nbsp;</large></span>同期入学的同学
           </div>
           <div>
             <div className="text text2">赢得了3张圈外商学院邀请函</div>

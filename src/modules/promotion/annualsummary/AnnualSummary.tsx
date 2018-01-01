@@ -51,6 +51,16 @@ export default class AnnualSummary extends React.Component {
     }
   }
 
+  goLastStep(){
+    this.setState({ personStep: this.PERSON_STEPS.jumpBuilding5 }, () => {
+      setTimeout(() => {
+        this.setState({
+          stepBox: this.loadCurrentBuilding()
+        })
+      }, 2000)
+    })
+  }
+
   handleNextStep(sleepTime = 2000) {
     this.setState({
       stepBox: <div></div>
@@ -98,24 +108,54 @@ export default class AnnualSummary extends React.Component {
     switch(personStep) {
       case this.PERSON_STEPS.init:
         result.push(<Step_Start getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="开始回顾" clickFunc={() => this.handleNextStep(1000)}
-                                    style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="点击开启" clickFunc={() => this.handleNextStep(1000)}
+                                      style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
+        }else{
+          result.push(<NextStepButton buttonText="点击开始" clickFunc={() => this.handleNextStep(1000)}
+                                      style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
+        }
         return result
       case this.PERSON_STEPS.building1:
         result.push(<Step1_SchoolGate getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building2:
         result.push(<Step2_TeachingBuilding getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building3:
         result.push(<Step3_ActivityCenter getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 2000 : 4000)}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 2000 : 4000)}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep(isSelf ? 2000 : 4000)}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building4:
         result.push(<Step4_Library getGlobalState={() => this.state}/>)
-        result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        if(isSelf){
+          result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
+        }else{
+          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
+            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
+          ]} />)
+        }
         break
       case this.PERSON_STEPS.building5:
         result.push(<Step5_Auditorium getGlobalState={() => this.state}/>)
@@ -193,7 +233,6 @@ export default class AnnualSummary extends React.Component {
             <div className="qrcode-box"
                  onClick={() => {
                    document.getElementById('mask').style.zIndex = 5
-                   this.setState({ showQrCode: false })
                  }}>
               <AssetImg className="qrcode" url={qrCodeUrl}/>
             </div>
