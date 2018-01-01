@@ -31,7 +31,8 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
       let msg = res.msg
       this.setState({
         point: msg.point,
-        defeatPercentage: msg.defeatPercentage
+        defeatPercentage: msg.defeatPercentage,
+        cardCount: msg.cardCount
       })
     }
     let prizeCardRes = await loadPrizeCard(riseId)
@@ -43,7 +44,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   }
 
   render() {
-    const { point = 0, defeatPercentage = 0, showAll, prizeCardArr = [] } = this.state
+    const { point = 0, defeatPercentage = 0, showAll, prizeCardArr = [], cardCount =3 } = this.state
     const { isSelf = false, nickName = '' } = this.props.getGlobalState()
     const { receivePrizeCardFunc } = this.props
 
@@ -90,7 +91,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
             <span className="highlight"><large>&nbsp;{defeatPercentage}%&nbsp;</large></span>同期入学的同学
           </div>
           <div>
-            <div className="text text2">赢得了3张圈外商学院邀请函</div>
+            <div className="text text2">赢得了{cardCount}张圈外商学院邀请函</div>
             <div className="text text2" style={{fontWeight: 'bold', marginTop: '2.5rem'}}>优秀如你，现在也有机会成就他人！快点击下方的”分享“按钮，邀请你最优秀的朋友，来体验7天的商学院之旅，共同学习1月主修课《认识自己》的第一周课程。</div>
             <div className="prize-card-box">
               {renderSelfPrizeCard()}
