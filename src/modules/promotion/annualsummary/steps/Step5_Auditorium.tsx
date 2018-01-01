@@ -91,7 +91,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
           </div>
           <div>
             <div className="text text2">赢得了3张圈外商学院邀请函</div>
-            <div className="text text2" style={{fontWeight: 'bold', marginTop: '2.5rem'}}>现在你也有个机会成就他人，快点击下方“分享”按钮，邀请你最优秀的朋友来体验七天的商学院之旅！</div>
+            <div className="text text2" style={{fontWeight: 'bold', marginTop: '2.5rem'}}>优秀如你，现在也有机会成就他人！快点击下方的”分享“按钮，邀请你最优秀的朋友，来体验7天的商学院之旅，共同学习1月主修课《认识自己》的第一周课程。</div>
             <div className="prize-card-box">
               {renderSelfPrizeCard()}
             </div>
@@ -109,9 +109,12 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
           <div className="text text1 bold">立即点击领取下方的邀请函吧！</div>
           <div className="business-school-desc text2">
             <div className={`content ${showAll && 'all'}`}>
-              圈外商学院是一所创新型在线商学院，为职场人士提供最实用的课程、最适合的发展机会，让每一个有潜力的人，在这个时代拥有自己的职场话语权！<br/><br/>
-              学员中97%在职业和工作上实现了进步，其中48%的学员为资深员工与管理层，平均得到27%的涨薪幅度。<br/><br/>
-              作为首个戈壁挑战赛的受邀在线商学院，为学员对接到中欧、长江等MBA人脉，也为有志于创业的学员提供顶级创投资源。
+              圈外商学院是一所创新型在线商学院，为职场人士提供成体系、接地气的课程：<br/><br/>
+              1）学习3个月后，97%的学员在职业上有明显进步，20%升职涨薪或转行成功；<br/><br/>
+              2）48%为资深员工和管理层，入学需申请+电话面试，保证学员质量；<br/><br/>
+              3）提供作业批改、学习游戏、助教等服务，让学习有趣、易坚持；<br/><br/>
+              4）为学员免费对接工作机会、人脉资源和创业融资；<br/><br/>
+              5）是首个受邀参加顶级商学院戈壁挑战赛的在线商学院，与长江、中欧等顶尖商学院同场竞技。<br/><br/>
             </div>
             <div className="click-tips"
                  onClick={() => {

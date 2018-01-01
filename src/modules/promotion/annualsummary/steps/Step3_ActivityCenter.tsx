@@ -38,7 +38,7 @@ export class Step3_ActivityCenter extends React.Component<Step3_ActivityCenterPr
           <div className="text text3">相当于
             <span className="highlight">
             <large>&nbsp;{bookCount}&nbsp;</large>
-            本</span>&nbsp;圈圈写的《停止无效努力》
+            本</span>&nbsp;豆瓣8.6分畅销书《请停止无效努力：如何用正确的方法快速进阶》
           </div>
 
         </div>

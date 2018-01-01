@@ -22,11 +22,11 @@ export class Step2_TeachingBuilding extends React.Component<Step2_TeachingBuildi
           <div className="text text1">在这里，{isSelf ? '你' : nickName}结识了</div>
           <div className="text text1">
           <span className="highlight">
-            <large>18&nbsp;</large>个行业的人脉
+            <large>18&nbsp;</large>个行业的同学
           </span>
           </div>
           <div className="word-cloud"></div>
-          <div className="text text3">学习横跨思维、管理、沟通、商业和投资等领域；</div>
+          <div className="text text3">学习内容横跨思维、管理、沟通、商业和投资等领域；</div>
           <div className="text text3">见识了更广阔的天地，对世界的认知更清晰。</div>
         </div>
         <AssetImg className="triangle" url="https://static.iqycamp.com/images/triangle_left.png"/>
