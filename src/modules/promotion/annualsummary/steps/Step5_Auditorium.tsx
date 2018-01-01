@@ -26,6 +26,13 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
       'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
       '一份最有价值的新年礼')
 
+    let prizeCardRes = await loadPrizeCard(riseId)
+    if(prizeCardRes.code === 200) {
+      this.setState({
+        prizeCardArr: prizeCardRes.msg
+      })
+    }
+
     let res = await getPromotionAuditorium(riseId)
     if(res.code === 200) {
       let msg = res.msg
@@ -33,12 +40,6 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
         point: msg.point,
         defeatPercentage: msg.defeatPercentage,
         cardCount: msg.cardCount
-      })
-    }
-    let prizeCardRes = await loadPrizeCard(riseId)
-    if(prizeCardRes.code === 200) {
-      this.setState({
-        prizeCardArr: prizeCardRes.msg
       })
     }
   }
