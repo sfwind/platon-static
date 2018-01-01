@@ -14,7 +14,7 @@ export class Step2_ActivityCenter extends React.Component<Step2_ActivityCenterPr
   }
 
   render() {
-    const { totalHours = 10, mbaCount = 1 } = this.state
+    const { totalWords = 18561218, bookCount = 123 } = this.state
     const { isSelf = true, nickName = '' } = this.props.getGlobalState()
 
     return (
@@ -26,16 +26,16 @@ export class Step2_ActivityCenter extends React.Component<Step2_ActivityCenterPr
             <large>257&nbsp;</large>
             座城市</span> 的人成了校友
           </div>
-          <div className="text text3">一起累积学习了
+          <div className="text text3">一共完成了
             <span className="highlight">
-            <large>&nbsp;{totalHours}&nbsp;</large>
-            小时
+            <large>&nbsp;{totalWords}&nbsp;</large>
+            字的场景学习
           </span>
           </div>
-          <div className="text text4">相当于读了
+          <div className="text text4">相当于
             <span className="highlight">
-            <large>&nbsp;{mbaCount}&nbsp;</large>
-            个MBA</span>
+            <large>&nbsp;{bookCount}&nbsp;</large>
+            圈圈写的《停止无效努力》</span>
           </div>
           <div className="map-box">
             <div className="map"></div>

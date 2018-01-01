@@ -18,7 +18,6 @@ export class GroupPromotionWaiting extends React.Component<GroupPromotionWaiting
   }
 
   render() {
-    console.log(this.props)
     const { leaderName = '', remainderCount = 1, groupCode = '' } = this.props
 
     return (

@@ -36,7 +36,6 @@ export default class AnnualSummary extends React.Component {
   }
 
   async componentWillMount() {
-    console.log(this.props.location.query)
     const { riseId } = this.props.location.query
     let userInfo = await getPromotionUserInfo(riseId)
     if(userInfo.code === 200) {

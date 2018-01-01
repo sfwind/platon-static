@@ -21,7 +21,6 @@ export default class PrizeCard extends React.Component {
     dispatch(startLoad())
     loadPrize().then(res => {
       dispatch(endLoad())
-      console.log(res)
       if(res.code === 200) {
         this.setState({
           showPage: true,
@@ -40,7 +39,6 @@ export default class PrizeCard extends React.Component {
     dispatch(startLoad())
     exchangePrize(prizeCardId).then(res => {
       dispatch(endLoad())
-      console.log(res)
       if(res.code === 200) {
         this.setState({ exchanged: true })
       } else {
