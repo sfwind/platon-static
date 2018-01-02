@@ -13,7 +13,7 @@ export class Step_Start extends React.Component<Step_StartProps, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '年终回顾', action: '年终回顾开始页'})
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾开始页', memo: '0'})
   }
 
   render() {

@@ -15,7 +15,7 @@ export class Step3_ActivityCenter extends React.Component<Step3_ActivityCenterPr
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '年终回顾', action: '年终回顾第三页'})
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾第三页', memo : '3'})
   }
 
   render() {
