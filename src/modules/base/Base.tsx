@@ -112,8 +112,11 @@ export default class Main extends React.Component<any, any> {
 
     const renderGlobalNotify = () => {
       if(showGlobalNotify) {
-        return <div onClick={() => this.context.router.push('/rise/static/guest/annual/summary')}
-                    className="global-notify annual-summary"/>
+        return (
+          <div
+            onClick={() => window.location.href = `https://${window.location.hostname}/rise/static/guest/annual/summary`}
+            className="global-notify annual-summary"/>
+        )
       }
       // if(expiredInSevenDays) {
       //   return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expire"/>
