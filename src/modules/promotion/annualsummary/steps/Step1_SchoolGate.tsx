@@ -16,8 +16,8 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
   }
 
   async componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '1', memo: this.props.location.query.riseId })
     let riseId = this.props.getGlobalState().riseId
-    mark({ module: '打点', function: '年终回顾', action: '1', memo: riseId })
     let res = await getPromotionSchoolGate(riseId)
     if(res.code === 200) {
       let msg = res.msg
