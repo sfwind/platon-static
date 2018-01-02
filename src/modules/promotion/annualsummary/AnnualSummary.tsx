@@ -32,7 +32,8 @@ export default class AnnualSummary extends React.Component {
     building3: 'building3',
     building4: 'building4',
     building5: 'building5',
-    jumpBuilding5: 'jumpBuilding5'
+    jumpBuilding5: 'jumpBuilding5',
+    directBuilding5: 'directBuilding5'
   }
 
   async componentWillMount() {
@@ -46,19 +47,17 @@ export default class AnnualSummary extends React.Component {
         headImageUrl: msg.masterHeadImageUrl,
         isSelf: msg.currentRiseId === msg.masterRiseId,
         showPage: true
-      }, ()=>this.setState({
-        stepBox: this.loadCurrentBuilding(),
+      }, () => this.setState({
+        stepBox: this.loadCurrentBuilding()
       }))
     }
   }
 
-  goLastStep(){
-    this.setState({ personStep: this.PERSON_STEPS.jumpBuilding5 }, () => {
-      setTimeout(() => {
-        this.setState({
-          stepBox: this.loadCurrentBuilding()
-        })
-      }, 2000)
+  goLastStep() {
+    this.setState({ personStep: this.PERSON_STEPS.directBuilding5 }, () => {
+      this.setState({
+        stepBox: this.loadCurrentBuilding()
+      })
     })
   }
 
@@ -109,53 +108,57 @@ export default class AnnualSummary extends React.Component {
     switch(personStep) {
       case this.PERSON_STEPS.init:
         result.push(<Step_Start getGlobalState={() => this.state}/>)
-        if(isSelf){
+        if(isSelf) {
           result.push(<NextStepButton buttonText="点击开启" clickFunc={() => this.handleNextStep(1000)}
-                                      style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
-        }else{
+                                      style={{
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem', opacity: 1
+                                      }}/>)
+        } else {
           result.push(<NextStepButton buttonText="点击开始" clickFunc={() => this.handleNextStep(1000)}
-                                      style={{ backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem' }}/>)
+                                      style={{
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem', opacity: 1
+                                      }}/>)
         }
         return result
       case this.PERSON_STEPS.building1:
         result.push(<Step1_SchoolGate getGlobalState={() => this.state}/>)
 
-        if(isSelf){
+        if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
-        }else{
-          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
-            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
-          ]} />)
+        } else {
+          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+            { buttonText: '下一步', clickFunc: () => this.handleNextStep() }
+          ]}/>)
         }
         break
       case this.PERSON_STEPS.building2:
         result.push(<Step2_TeachingBuilding getGlobalState={() => this.state}/>)
-        if(isSelf){
+        if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
-        }else{
-          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
-            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
-          ]} />)
+        } else {
+          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+            { buttonText: '下一步', clickFunc: () => this.handleNextStep() }
+          ]}/>)
         }
         break
       case this.PERSON_STEPS.building3:
         result.push(<Step3_ActivityCenter getGlobalState={() => this.state}/>)
-        if(isSelf){
+        if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 2000 : 4000)}/>)
-        }else{
-          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
-            {buttonText:"下一步", clickFunc:() => this.handleNextStep(isSelf ? 2000 : 4000)}
-          ]} />)
+        } else {
+          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+            { buttonText: '下一步', clickFunc: () => this.handleNextStep(isSelf ? 2000 : 4000) }
+          ]}/>)
         }
         break
       case this.PERSON_STEPS.building4:
         result.push(<Step4_Library getGlobalState={() => this.state}/>)
-        if(isSelf){
+        if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
-        }else{
-          result.push(<TwoStepButton buttons={[{buttonText:"领取邀请函", clickFunc:() => this.goLastStep()},
-            {buttonText:"下一步", clickFunc:() => this.handleNextStep()}
-          ]} />)
+        } else {
+          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+            { buttonText: '下一步', clickFunc: () => this.handleNextStep() }
+          ]}/>)
         }
         break
       case this.PERSON_STEPS.building5:
@@ -163,6 +166,10 @@ export default class AnnualSummary extends React.Component {
         result.push(<NextStepButton buttonText="分享" clickFunc={() => this.configShareOption()}/>)
         break
       case this.PERSON_STEPS.jumpBuilding5:
+        result.push(<Step5_Auditorium getGlobalState={() => this.state}
+                                      receivePrizeCardFunc={(prizeCardNo) => this.handleClickReceivePrizeCard(prizeCardNo)}/>)
+        break
+      case this.PERSON_STEPS.directBuilding5:
         result.push(<Step5_Auditorium getGlobalState={() => this.state}
                                       receivePrizeCardFunc={(prizeCardNo) => this.handleClickReceivePrizeCard(prizeCardNo)}/>)
         break
