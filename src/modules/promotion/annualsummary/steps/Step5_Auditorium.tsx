@@ -3,6 +3,7 @@ import './Step5_Auditorium.less'
 import { getPromotionAuditorium, loadPrizeCard } from '../async'
 import AssetImg from '../../../../components/AssetImg'
 import { configShare } from '../../../helpers/JsConfig'
+import { mark } from '../../../../utils/request'
 
 interface Step5_AuditoriumProps {
   getGlobalState: any,
@@ -19,6 +20,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   }
 
   async componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾第五页', memo: '5' })
     const { riseId } = this.props.getGlobalState()
     configShare(
       `回顾在圈外商学院的2017，我郑重向你发出这个邀请`,
@@ -45,7 +47,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   }
 
   render() {
-    const { point = 0, defeatPercentage = 0, showAll, prizeCardArr = [], cardCount =3 } = this.state
+    const { point = 0, defeatPercentage = 0, showAll, prizeCardArr = [], cardCount = 3 } = this.state
     const { isSelf = false, nickName = '' } = this.props.getGlobalState()
     const { receivePrizeCardFunc } = this.props
 
@@ -93,7 +95,9 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
           </div>
           <div>
             <div className="text text2">赢得了{cardCount}张圈外商学院邀请函</div>
-            <div className="text text2" style={{fontWeight: 'bold', marginTop: '2.5rem'}}>优秀如你，现在也有机会成就他人！快点击下方的”分享“按钮，邀请你最优秀的朋友，来体验7天的商学院之旅，共同学习1月主修课《认识自己》的第一周课程。</div>
+            <div className="text text2" style={{ fontWeight: 'bold', marginTop: '2.5rem' }}>
+              优秀如你，现在也有机会成就他人！快点击下方的”分享“按钮，邀请你最优秀的朋友，来体验7天的商学院之旅，共同学习1月主修课《认识自己》的第一周课程。
+            </div>
             <div className="prize-card-box">
               {renderSelfPrizeCard()}
             </div>
@@ -111,6 +115,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
           <div className="text text1 bold">立即点击领取下方的邀请函吧！</div>
           <div className="business-school-desc text2">
             <div className={`content ${showAll && 'all'}`}>
+              关于圈外商学院:<br/>
               圈外商学院是一所创新型在线商学院，为职场人士提供成体系、接地气的课程：<br/><br/>
               1）学习3个月后，97%的学员在职业上有明显进步，20%升职涨薪或转行成功；<br/><br/>
               2）48%为资深员工和管理层，入学需申请+电话面试，保证学员质量；<br/><br/>

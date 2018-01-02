@@ -1,5 +1,7 @@
+@import "../AnnualVariable";
+
 .annual-summary-twostep-component {
-  .first-button{
+  .first-button {
     width: 14rem;
     height: 4.4rem;
     color: #fff;
@@ -8,13 +10,15 @@
     border-radius: 5px;
     text-align: center;
     background-color: #f8aa08;
-
+    
     position: absolute;
     bottom: 3.5rem;
     left: 7%;
     z-index: 11;
+    opacity: 0;
+    .animation-delay(2.5s);
   }
-  .second-button{
+  .second-button {
     width: 14rem;
     height: 4.4rem;
     color: #f8aa08;
@@ -23,10 +27,12 @@
     border-radius: 5px;
     text-align: center;
     background-color: #fff;
-
+    
     position: absolute;
     bottom: 3.5rem;
     right: 7%;
     z-index: 10;
+    opacity: 0;
+    .animation-delay(2.5s);
   }
 }

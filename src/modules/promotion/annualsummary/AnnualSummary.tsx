@@ -12,6 +12,7 @@ import { Step4_Library } from './steps/Step4_Library'
 import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo, receivePrizeCard } from './async'
 import AssetImg from '../../../components/AssetImg'
+import { mark } from '../../../utils/request'
 
 @connect(state => state)
 export default class AnnualSummary extends React.Component {
@@ -37,6 +38,7 @@ export default class AnnualSummary extends React.Component {
   }
 
   async componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾流程页', memo: this.props.location.query.riseId })
     const { riseId } = this.props.location.query
     let userInfo = await getPromotionUserInfo(riseId)
     if(userInfo.code === 200) {
@@ -111,12 +113,12 @@ export default class AnnualSummary extends React.Component {
         if(isSelf) {
           result.push(<NextStepButton buttonText="点击开启" clickFunc={() => this.handleNextStep(1000)} noAnimation={true}
                                       style={{
-                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '20rem',
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '20rem'
                                       }}/>)
         } else {
           result.push(<NextStepButton buttonText="点击开始" clickFunc={() => this.handleNextStep(1000)} noAnimation={true}
                                       style={{
-                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '20rem',
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '20rem'
                                       }}/>)
         }
         return result
@@ -181,15 +183,18 @@ export default class AnnualSummary extends React.Component {
   }
 
   configShareOption() {
+    mark({ module: '打点', function: '年终回顾', action: '点击分享' })
     this.setState({
       showShareTip: true
     })
   }
 
   async handleClickReceivePrizeCard(prizeCardNo) {
+    mark({ module: '打点', function: '年终回顾', action: '点击立即领取', memo: prizeCard.prizeCardNo })
     const { dispatch } = this.props
     let res = await receivePrizeCard(prizeCardNo)
     if(res.code === 200) {
+      mark({ module: '打点', function: '年终回顾', action: '年终回顾礼品卡领取成功', memo: prizeCard.prizeCardNo})
       dispatch(alertMsg('领取成功'))
     } else if(res.code === 201) {
       document.getElementById('mask').style.zIndex = 20

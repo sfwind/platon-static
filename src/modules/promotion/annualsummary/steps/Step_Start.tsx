@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './Step_Start.less'
+import { mark } from '../../../../utils/request'
 
 interface Step_StartProps {
   getGlobalState: any
@@ -9,6 +10,10 @@ export class Step_Start extends React.Component<Step_StartProps, any> {
 
   constructor() {
     super()
+  }
+
+  componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾开始页', memo: '0'})
   }
 
   render() {
