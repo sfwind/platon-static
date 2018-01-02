@@ -16,8 +16,9 @@ export class Step4_Library extends React.Component<Step4_LibraryProps, any> {
   }
 
   async componentWillMount() {
-    mark({ module: '打点', function: '年终回顾', action: '年终回顾第四页', memo: '4' })
-    let res = await getPromotionLibrary(this.props.getGlobalState().riseId)
+    let riseId = this.props.getGlobalState().riseId
+    mark({ module: '打点', function: '年终回顾', action: '4', memo: riseId })
+    let res = await getPromotionLibrary(riseId)
     if(res.code === 200) {
       let msg = res.msg
       this.setState({
