@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './Step3_ActivityCenter.less'
 import AssetImg from '../../../../components/AssetImg'
+import { mark } from '../../../../utils/request'
 
 interface Step3_ActivityCenterProps {
   getGlobalState: any
@@ -11,6 +12,10 @@ export class Step3_ActivityCenter extends React.Component<Step3_ActivityCenterPr
   constructor() {
     super()
     this.state = {}
+  }
+
+  componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾第三页'})
   }
 
   render() {

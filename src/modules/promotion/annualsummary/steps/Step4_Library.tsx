@@ -2,6 +2,7 @@ import * as React from 'react'
 import './Step4_Library.less'
 import { getPromotionLibrary } from '../async'
 import AssetImg from '../../../../components/AssetImg'
+import { mark } from '../../../../utils/request'
 
 interface Step4_LibraryProps {
   getGlobalState: any
@@ -15,6 +16,7 @@ export class Step4_Library extends React.Component<Step4_LibraryProps, any> {
   }
 
   async componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾第四页'})
     let res = await getPromotionLibrary(this.props.getGlobalState().riseId)
     if(res.code === 200) {
       let msg = res.msg

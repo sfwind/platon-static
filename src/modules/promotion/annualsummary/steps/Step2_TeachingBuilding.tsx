@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './Step2_TeachingBuilding.less'
 import AssetImg from '../../../../components/AssetImg'
+import { mark } from '../../../../utils/request'
 
 interface Step2_TeachingBuildingProps {
   getGlobalState: any
@@ -11,6 +12,10 @@ export class Step2_TeachingBuilding extends React.Component<Step2_TeachingBuildi
   constructor() {
     super()
     this.state = {}
+  }
+
+  componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾第二页'})
   }
 
   render() {

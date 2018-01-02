@@ -2,6 +2,7 @@ import * as React from 'react'
 import './Step1_SchoolGate.less'
 import { getPromotionSchoolGate } from '../async'
 import AssetImg from '../../../../components/AssetImg'
+import { mark } from '../../../../utils/request'
 
 interface Step1_SchoolGateProps {
   getGlobalState: any
@@ -15,6 +16,7 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
   }
 
   async componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾第一页'})
     let res = await getPromotionSchoolGate(this.props.getGlobalState().riseId)
     if(res.code === 200) {
       let msg = res.msg

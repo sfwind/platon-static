@@ -3,6 +3,7 @@ import './Step5_Auditorium.less'
 import { getPromotionAuditorium, loadPrizeCard } from '../async'
 import AssetImg from '../../../../components/AssetImg'
 import { configShare } from '../../../helpers/JsConfig'
+import { mark } from '../../../../utils/request'
 
 interface Step5_AuditoriumProps {
   getGlobalState: any,
@@ -19,6 +20,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   }
 
   async componentWillMount() {
+    mark({ module: '打点', function: '年终回顾', action: '年终回顾第五页'})
     const { riseId } = this.props.getGlobalState()
     configShare(
       `回顾在圈外商学院的2017，我郑重向你发出这个邀请`,
