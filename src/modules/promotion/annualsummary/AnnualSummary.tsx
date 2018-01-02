@@ -111,12 +111,14 @@ export default class AnnualSummary extends React.Component {
         if(isSelf) {
           result.push(<NextStepButton buttonText="点击开启" clickFunc={() => this.handleNextStep(1000)}
                                       style={{
-                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem', opacity: 1
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem',
+                                        animationDelay: '0s', animationDuration: '0s'
                                       }}/>)
         } else {
           result.push(<NextStepButton buttonText="点击开始" clickFunc={() => this.handleNextStep(1000)}
                                       style={{
-                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem', opacity: 1
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem',
+                                        animationDelay: '0s', animationDuration: '0s'
                                       }}/>)
         }
         return result
