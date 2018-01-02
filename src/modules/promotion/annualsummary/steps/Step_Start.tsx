@@ -13,7 +13,8 @@ export class Step_Start extends React.Component<Step_StartProps, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '年终回顾', action: '0', memo: this.props.location.query.riseId })
+    console.log(window.location)
+    mark({ module: '打点', function: '年终回顾', action: '0', memo: this.props.getGlobalState().originRiseId })
   }
 
   render() {

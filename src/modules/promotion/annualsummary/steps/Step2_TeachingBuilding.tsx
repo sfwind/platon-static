@@ -15,7 +15,7 @@ export class Step2_TeachingBuilding extends React.Component<Step2_TeachingBuildi
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '年终回顾', action: '2', memo: this.props.location.query.riseId  })
+    mark({ module: '打点', function: '年终回顾', action: '2', memo: this.props.getGlobalState().originRiseId })
   }
 
   render() {

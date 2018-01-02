@@ -16,7 +16,7 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
   }
 
   async componentWillMount() {
-    mark({ module: '打点', function: '年终回顾', action: '1', memo: this.props.location.query.riseId })
+    mark({ module: '打点', function: '年终回顾', action: '1', memo: this.props.getGlobalState().originRiseId })
     let riseId = this.props.getGlobalState().riseId
     let res = await getPromotionSchoolGate(riseId)
     if(res.code === 200) {
@@ -31,8 +31,10 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
   }
 
   render() {
-    const { registerDate = '2017年04月19日', registerSequence = 1,
-      classmateUrl = 'https://static.iqycamp.com/images/classmate1_2.png?imageslim', classmates = '曾进、崔勇、蔡垒磊' } = this.state
+    const {
+      registerDate = '2017年04月19日', registerSequence = 1,
+      classmateUrl = 'https://static.iqycamp.com/images/classmate1_2.png?imageslim', classmates = '曾进、崔勇、蔡垒磊'
+    } = this.state
     const { isSelf = true, nickName = '' } = this.props.getGlobalState()
 
     return (
@@ -49,7 +51,8 @@ export class Step1_SchoolGate extends React.Component<Step1_SchoolGateProps, any
             和<span className="highlight" style={{ fontSize: '2.1rem' }}>&nbsp;{classmates}&nbsp;</span>
           </div>
           <div className="text text4">成为同学，一起学习</div>
-          <div className="partner" style={{backgroundImage: `url(${classmateUrl})`, height: window.innerWidth /750*360}}></div>
+          <div className="partner"
+               style={{ backgroundImage: `url(${classmateUrl})`, height: window.innerWidth / 750 * 360 }}></div>
         </div>
         <AssetImg className="triangle" url='https://static.iqycamp.com/images/triangle_left.png'/>
       </section>

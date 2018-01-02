@@ -40,6 +40,7 @@ export default class AnnualSummary extends React.Component {
   async componentWillMount() {
     mark({ module: '打点', function: '年终回顾', action: '年终回顾流程页', memo: this.props.location.query.riseId })
     const { riseId } = this.props.location.query
+    this.setState({ originRiseId: riseId })
     let userInfo = await getPromotionUserInfo(riseId)
     if(userInfo.code === 200) {
       let msg = userInfo.msg
@@ -194,7 +195,7 @@ export default class AnnualSummary extends React.Component {
     const { dispatch } = this.props
     let res = await receivePrizeCard(prizeCardNo)
     if(res.code === 200) {
-      mark({ module: '打点', function: '年终回顾', action: '年终回顾礼品卡领取成功', memo: prizeCard.prizeCardNo})
+      mark({ module: '打点', function: '年终回顾', action: '年终回顾礼品卡领取成功', memo: prizeCard.prizeCardNo })
       dispatch(alertMsg('领取成功'))
     } else if(res.code === 201) {
       document.getElementById('mask').style.zIndex = 20
