@@ -3,7 +3,8 @@ import './NextStepButton.less'
 
 interface NextStepButtonProps {
   clickFunc: string,
-  buttonText: any
+  buttonText: any,
+  noAnimation?: boolean
 }
 
 export class NextStepButton extends React.Component<NextStepButtonProps, any> {
@@ -20,19 +21,21 @@ export class NextStepButton extends React.Component<NextStepButtonProps, any> {
   }
 
   initParams() {
-    const { buttonText, clickFunc } = this.props
+    const { buttonText, clickFunc, noAnimation } = this.props
     this.setState({
       clickFunc: clickFunc,
-      buttonText: buttonText
+      buttonText: buttonText,
+      noAnimation: noAnimation
     })
   }
 
   render() {
-    const { clickFunc: tmpA, buttonText: tmpB, ...other } = this.props
-    const { clickFunc, buttonText } = this.state
+    const { clickFunc: tmpA, buttonText: tmpB, noAnimation: tmpC, ...other } = this.props
+    const { clickFunc, buttonText, noAnimation = false } = this.state
 
     return (
-      <div className="annual-summary-nextstep-component" onClick={() => clickFunc()} {...other}>
+      <div className={`annual-summary-nextstep-component ${noAnimation ? '' : 'animation'}`}
+           onClick={() => clickFunc()} {...other}>
         {buttonText}
       </div>
     )

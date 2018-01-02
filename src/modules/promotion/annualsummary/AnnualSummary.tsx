@@ -109,16 +109,14 @@ export default class AnnualSummary extends React.Component {
       case this.PERSON_STEPS.init:
         result.push(<Step_Start getGlobalState={() => this.state}/>)
         if(isSelf) {
-          result.push(<NextStepButton buttonText="点击开启" clickFunc={() => this.handleNextStep(1000)}
+          result.push(<NextStepButton buttonText="点击开启" clickFunc={() => this.handleNextStep(1000)} noAnimation={true}
                                       style={{
-                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem',
-                                        animationDelay: '0s', animationDuration: '0s'
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '20rem',
                                       }}/>)
         } else {
-          result.push(<NextStepButton buttonText="点击开始" clickFunc={() => this.handleNextStep(1000)}
+          result.push(<NextStepButton buttonText="点击开始" clickFunc={() => this.handleNextStep(1000)} noAnimation={true}
                                       style={{
-                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '14rem',
-                                        animationDelay: '0s', animationDuration: '0s'
+                                        backgroundColor: '#f8aa08', color: '#fff', bottom: '20rem',
                                       }}/>)
         }
         return result

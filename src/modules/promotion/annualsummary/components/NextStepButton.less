@@ -9,13 +9,15 @@
   border-radius: 5px;
   text-align: center;
   background-color: #fff;
-
+  
   position: absolute;
   bottom: 3.5rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 11;
   
-  opacity: 0;
-  .animation-delay(2.5s);
+  &.animation {
+    opacity: 0;
+    .animation-delay(2.5s);
+  }
 }
