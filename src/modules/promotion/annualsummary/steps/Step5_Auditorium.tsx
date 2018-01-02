@@ -20,8 +20,8 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   }
 
   async componentWillMount() {
-    mark({ module: '打点', function: '年终回顾', action: '年终回顾第五页', memo: '5' })
     const { riseId } = this.props.getGlobalState()
+    mark({ module: '打点', function: '年终回顾', action: '5', memo: riseId })
     configShare(
       `回顾在圈外商学院的2017，我郑重向你发出这个邀请`,
       `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${riseId}`,
