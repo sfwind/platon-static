@@ -97,18 +97,17 @@ export default class ProblemExtension extends React.Component<any, any> {
             <div className="extension-read-content" dangerouslySetInnerHTML={{ __html: extension }}/>
           </div>
           {renderActivities()}
-          <div className="extension-share">
-            <ExtensionHead
-              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 20 }}
-              content={`课程分享`}/>
-            <div className="extension-share-content">深度好文&nbsp;遇见大咖&nbsp;分享心得</div>
-            <div className="extension-share-view"
-                 onClick={() => this.context.router.push({
-                   pathname: "/rise/static/practice/subject",
-                   query: { id: problemId, series }
-                 })}>进入
-            </div>
-          </div>
+          {/*<div className="extension-share">*/}
+            {/*<ExtensionHead*/}
+              {/*icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 20 }}*/}
+              {/*content={`课程分享`}/>*/}
+            {/*<div className="extension-share-content">深度好文&nbsp;遇见大咖&nbsp;分享心得</div>*/}
+            {/*<div className="extension-share-view" onClick={() => this.context.router.push({*/}
+                   {/*pathname: "/rise/static/practice/subject",*/}
+                   {/*query: { id: problemId, series }*/}
+                 {/*})}>进入*/}
+            {/*</div>*/}
+          {/*</div>*/}
         </div>
       </div>
     )
