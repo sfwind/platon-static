@@ -191,11 +191,11 @@ export default class AnnualSummary extends React.Component {
   }
 
   async handleClickReceivePrizeCard(prizeCardNo) {
-    mark({ module: '打点', function: '年终回顾', action: '点击立即领取', memo: prizeCard.prizeCardNo })
+    mark({ module: '打点', function: '年终回顾', action: '点击立即领取', memo: prizeCardNo })
     const { dispatch } = this.props
     let res = await receivePrizeCard(prizeCardNo)
     if(res.code === 200) {
-      mark({ module: '打点', function: '年终回顾', action: '年终回顾礼品卡领取成功', memo: prizeCard.prizeCardNo })
+      mark({ module: '打点', function: '年终回顾', action: '年终回顾礼品卡领取成功', memo: prizeCardNo })
       dispatch(alertMsg('领取成功'))
     } else if(res.code === 201) {
       document.getElementById('mask').style.zIndex = 20
