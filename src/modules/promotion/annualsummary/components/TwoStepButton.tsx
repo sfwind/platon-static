@@ -22,15 +22,15 @@ export class TwoStepButton extends React.Component<TwoStepButtonProps, any> {
     const { buttons } = this.props
 
     this.setState({
-      firstButtonText:buttons[0].buttonText,
-      firstButtonClickFunc:buttons[0].clickFunc,
-      secondButtonText:buttons[1].buttonText,
-      secondButtonClickFunc:buttons[1].clickFunc,
+      firstButtonText: buttons[0].buttonText,
+      firstButtonClickFunc: buttons[0].clickFunc,
+      secondButtonText: buttons[1].buttonText,
+      secondButtonClickFunc: buttons[1].clickFunc
     })
   }
 
   render() {
-    const { ...other } = this.props
+    const { buttons, ...other } = this.props
     const { firstButtonText, firstButtonClickFunc, secondButtonText, secondButtonClickFunc } = this.state
 
     return (
