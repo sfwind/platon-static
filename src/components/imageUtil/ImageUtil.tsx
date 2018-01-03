@@ -53,12 +53,27 @@ function rotateImage(file, orientation) {
       let image = new Image()
       image.src = dataUrl
       image.onload = () => {
+        // 获取图片的初始宽高
+        let imageWidth = image.width
+        let imageHeight = image.height
         let canvas = document.createElement('canvas')
-        canvas.width = image.width
-        canvas.height = image.height
+        let ctx = canvas.getContext('2d')
+        // 按比例压缩
+        let ratio
+        if((ratio = imageWidth * imageHeight / 2000000) > 1) {
+          // 解决因为某些图片过大，压成图片像素过小的情况
+          if(ratio > 2) {
+            ratio = 2
+          }
+        } else {
+          ratio = 1
+        }
+        // 生成图片的宽高
+        canvas.width = imageWidth / ratio
+        canvas.height = imageHeight / ratio
+        // 最后调整图片的旋转值
         let halfWidth = canvas.width / 2
         let halfHeight = canvas.height / 2
-        let ctx = canvas.getContext('2d')
         ctx.translate(halfWidth, halfHeight)
         switch(orientation) {
           case 1:
@@ -79,7 +94,7 @@ function rotateImage(file, orientation) {
             break
         }
         ctx.translate(-halfWidth, -halfHeight)
-        ctx.drawImage(image, 0, 0)
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
 
         let rotateDataUrl = canvas.toDataURL('image/jpeg')
         let rotateUrlBlob = dataUrlToBlob(rotateDataUrl)
@@ -89,7 +104,7 @@ function rotateImage(file, orientation) {
   })
 }
 
-function adjustRotateImage(file, callback) {
+function adjustImage(file, callback) {
   getExifJsFile(file).then(orientation => {
     rotateImage(file, orientation).then(rotateBlob => {
       callback(rotateBlob)
@@ -97,5 +112,5 @@ function adjustRotateImage(file, callback) {
   })
 }
 
-export { adjustRotateImage }
+export { adjustImage }
 

@@ -3,7 +3,7 @@ import './HeadImage.less'
 import { ppost } from '../../../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { adjustRotateImage } from '../../../../components/rotate/imageRotate'
+import { adjustImage } from '../../../../components/imageUtil/ImageUtil'
 
 @connect(state => state)
 export class HeadImage extends React.Component {
@@ -42,7 +42,7 @@ export class HeadImage extends React.Component {
       if(node && node.files && node.files[0]) {
         let formData = new FormData()
         let file = node.files[0]
-        adjustRotateImage(file, rotateBlob => {
+        adjustImage(file, rotateBlob => {
           formData.append('file', rotateBlob)
           node = undefined
           this.refs.changeImg.value = null
