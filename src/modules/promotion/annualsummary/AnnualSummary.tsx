@@ -13,6 +13,7 @@ import { Step5_Auditorium } from './steps/Step5_Auditorium'
 import { getPromotionUserInfo, receivePrizeCard } from './async'
 import AssetImg from '../../../components/AssetImg'
 import { mark } from '../../../utils/request'
+import { configShare } from '../../helpers/JsConfig'
 
 @connect(state => state)
 export default class AnnualSummary extends React.Component {
@@ -50,9 +51,14 @@ export default class AnnualSummary extends React.Component {
         headImageUrl: msg.masterHeadImageUrl,
         isSelf: msg.currentRiseId === msg.masterRiseId,
         showPage: true
-      }, () => this.setState({
-        stepBox: this.loadCurrentBuilding()
-      }))
+      }, () => {
+        configShare(
+          `回顾在圈外商学院的2017，我郑重向你发出这个邀请`,
+          `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${this.state.riseId}`,
+          'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
+          '一份最有价值的新年礼')
+        this.setState({ stepBox: this.loadCurrentBuilding() })
+      })
     }
   }
 

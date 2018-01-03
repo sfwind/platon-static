@@ -22,12 +22,6 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
   async componentWillMount() {
     mark({ module: '打点', function: '年终回顾', action: '5', memo: this.props.getGlobalState().originRiseId })
     const { riseId } = this.props.getGlobalState()
-    configShare(
-      `回顾在圈外商学院的2017，我郑重向你发出这个邀请`,
-      `https://${window.location.hostname}/rise/static/guest/annual/summary?riseId=${riseId}`,
-      'https://static.iqycamp.com/images/share_link_icon.jpg?imageslim',
-      '一份最有价值的新年礼')
-
     let prizeCardRes = await loadPrizeCard(riseId)
     if(prizeCardRes.code === 200) {
       this.setState({
@@ -55,7 +49,7 @@ export class Step5_Auditorium extends React.Component<Step5_AuditoriumProps, any
       return (
         prizeCardArr.map((prizeCard, index) =>
           <AssetImg key={index} className="prize-card"
-                    url="https://static.iqycamp.com/images/annual_prize_card.png"/>
+                    url={`https://static.iqycamp.com/images/${prizeCard.received ? 'prize_card_received' : 'annual_prize_card'}.png`}/>
         )
       )
     }
