@@ -1,13 +1,14 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { SubmitButton } from '../schedule/components/SubmitButton'
-import { configShare } from '../helpers/JsConfig'
-import { checkSubscribe } from '../interlocution/async'
-import RenderInBody from '../../components/RenderInBody'
-import AssetImg from '../../components/AssetImg'
-import { receivePreviewCard, sendTemplate } from './async'
-import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
+import { SubmitButton } from '../../../schedule/components/SubmitButton'
+import { configShare } from '../../../helpers/JsConfig'
+import { checkSubscribe } from '../../../interlocution/async'
+import RenderInBody from '../../../../components/RenderInBody'
+import AssetImg from '../../../../components/AssetImg'
+import { receivePreviewCard, sendTemplate, loadCard } from '../async'
+import { set, startLoad, endLoad, alertMsg } from '../../../../redux/actions'
 import './SendCard.less'
+import { MarkBlock } from '../../../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class SendCard extends React.Component<any, any> {
@@ -17,17 +18,26 @@ export default class SendCard extends React.Component<any, any> {
 
     this.state = {
       showQrDialog: false,
-      qrCode: ''
+      qrCode: '',
+      show: false,
+      mine: false,
+      showShareTip: false,
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { cardId } = this.props.location.query
+
     //分享给好友
     configShare(`送你￥168礼品卡，开启7天圈外商学院线上体验之旅！`,
       `https://${window.location.hostname}/rise/static/guest/card/send?cardId=${cardId}`,
       'https://static.iqycamp.com/images/card/prize_card.png?imageslim',
       '点击领取，有效期截止2018.01.07')
+
+    let res = await loadCard(cardId)
+    if(res.code === 200) {
+      this.setState({ mine: res.msg, show: true })
+    }
   }
 
   handleClick() {
@@ -41,11 +51,9 @@ export default class SendCard extends React.Component<any, any> {
           receivePreviewCard(cardId).then(res1 => {
             if(res1.code === 200) {
               dispatch(alertMsg('领取成功，请前往圈外同学公众号查看'))
-              sendTemplate().then(res2 => {
-              })
-            }
-            else {
-              dispatch(alertMsg('您已在圈外学习过，无需重复体验,可以点击右上角，转发给需要的小伙伴！'))
+              sendTemplate()
+            } else {
+              dispatch(alertMsg(res1.msg))
             }
           })
         }
@@ -60,7 +68,7 @@ export default class SendCard extends React.Component<any, any> {
   }
 
   render() {
-    const { showQrDialog, qrCode} = this.state
+    const { showQrDialog, qrCode, show, mine, showShareTip } = this.state
     const showQr = () => {
       return (
         <RenderInBody>
@@ -85,26 +93,43 @@ export default class SendCard extends React.Component<any, any> {
         {
           showQrDialog ? showQr() :
             <div className="total-container">
-              <img src="https://static.iqycamp.com/images/card/prize_card.png?imageslim" className="card_img"/>
+              <img src="https://static.iqycamp.com/images/card/prize_card.png?imageslim" className="card-img"/>
               <div className="card-rise-title">
                 商学院体验卡
               </div>
               <div className="content-container">
-                <div>
-                  • 本卡价值¥168，用于兑换商学院7天线上体验课--《认识自己|用冰山模型分析出真实的你》
+                <div className="content">
+                  • 卡片价值¥168，用于兑换商学院7天线上体验课--《认识自己|用冰山模型分析出真实的你》
                 </div>
-                <div>
+                <div className="content">
                   • 体验时间：2018.01.07 - 2018.01.14
                 </div>
-                <div>
+                <div className="content">
                   • 每位用户只能领取一次
                 </div>
-                <div>
+                <div className="content">
                   • 有效期至2018.01.07
                 </div>
               </div>
-              <SubmitButton clickFunc={() => this.handleClick()} buttonText='领取'/>
+              {show &&
+              mine ?
+                <MarkBlock module={'打点'} func={'礼品卡'} action={'赠送好友'}>
+                  <SubmitButton clickFunc={() => this.setState({showShareTip:true})} buttonText='赠送好友'/>
+                </MarkBlock> :
+                <MarkBlock module={'打点'} func={'礼品卡'} action={'领取礼品卡'}>
+                  <SubmitButton clickFunc={() => this.handleClick()} buttonText='领取'/>
+                </MarkBlock>
+              }
+
             </div>
+        }
+        {
+          showShareTip &&
+          <AssetImg className="annual-share" url="https://static.iqycamp.com/images/annual_share.png"/>
+        }
+        {
+          showShareTip &&
+          <div className="mask" onClick={() => this.setState({showShareTip:false})}/>
         }
       </div>
     )
