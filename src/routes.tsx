@@ -60,15 +60,12 @@ import SchedulePlan from './modules/schedule/plan/SchedulePlan'
 import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
-import PrizeCard from './modules/promotion/prizecard/PrizeCard'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
-import MimeCard from './modules/card/MimeCard'
-import CardIntroduction from './modules/card/CardIntroduction'
-import ReceiveCard from './modules/card/ReceiveCard'
+import MineCard from './modules/customer/card/MineCard'
 import CampCountDown from './modules/schedule/CampCountDown'
 import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
 import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
-import SendCard from './modules/annual/SendCard'
+import SendCard from './modules/customer/card/experience/SendCard'
 
 const routes = (
   <Route>
@@ -79,6 +76,8 @@ const routes = (
 
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={PlanList}/>
+      <Route path="learn" component={PlanList}/>
+      <Route path="plan/main" component={PlanList}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>
@@ -86,8 +85,6 @@ const routes = (
       <Route path="problem/extension" component={ProblemExtension}/>
       <Route path="problem/cards" component={CardsCollection}/>
 
-      <Route path="learn" component={PlanList}/>
-      <Route path="plan/main" component={PlanList}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
       <Route path="plan/study" component={PlanMain}/>
       <Route path="plan/report" component={ImprovementReport}/>
@@ -109,16 +106,7 @@ const routes = (
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
-
-      <Route path="card/mime" component={MimeCard}/>
-      <Route path="card/introduction" component={CardIntroduction}/>
-      <Route path="card/receive" component={ReceiveCard}/>
-
       <Route path="guest/card/send" component={SendCard}/>
-
-      {/*<Route path="annual/award" component={AnnualAward}/>*/}
-
-      {/*<Route path="guest/annual" component={Annual}/>*/}
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
@@ -136,6 +124,7 @@ const routes = (
         <Route path="forum/mine" component={ForumQuestion}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
+        <Route path="prize/card/list" component={MineCard}/>
       </Route>
 
       <Route path="message" component={Customer}>
@@ -164,7 +153,6 @@ const routes = (
       <Route path="course/schedule/plan" component={SchedulePlan}/>
       <Route path="course/schedule/nopublish" component={ProblemNoPublish}/>
 
-      <Route path="prize" component={PrizeCard}/>
       <Route path="transfer" component={Transfer}/>
       <Route path="business/count/down" component={CountDown}/>
       <Route path="camp/count/down" component={CampCountDown}/>
