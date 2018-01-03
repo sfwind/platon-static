@@ -58,7 +58,7 @@ export default class MineCard extends React.Component<any, any> {
                   <div className="card-container">
                     <MarkBlock className="body-container"
                                onClick={() => this.gotoIntroduction(item.url, item.prizeCardNo)}
-                               function="礼品卡" action="点击礼品卡" module="打点"
+                               func="礼品卡" action="点击礼品卡" module="打点"
                     >
                       <AssetImg url={`${item.background}`} width={'100%'}/>
                       <div className="congratulations">{item.description}</div>
