@@ -1,10 +1,9 @@
 import * as React from "react"
 import {connect} from "react-redux"
-import * as _ from "lodash"
 import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import {changeTitle} from "utils/helpers"
 import "./PointTip.less"
-import {mark} from "../problem/async"
+import { mark } from 'utils/request'
 
 
 @connect(state => state)

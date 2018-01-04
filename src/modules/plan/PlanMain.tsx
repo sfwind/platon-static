@@ -15,7 +15,7 @@ import { NumberToChinese, changeTitle, unScrollToBorder } from '../../utils/help
 import SwipeableViews from 'react-swipeable-views'
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
-import { mark } from '../../utils/request'
+import { mark } from 'utils/request'
 import { ToolBar } from '../base/ToolBar'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 

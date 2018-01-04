@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import './ImprovementReport.less'
 import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { queryReport } from './async'
+import { mark } from 'utils/request'
 import { Modal } from '../../components/Modal'
 import { isNumber, merge } from 'lodash';
-import { startLoad, endLoad, alertMsg } from "redux/actions";
 import { NumberToChinese } from '../../utils/helpers'
 import RenderInBody from '../../components/RenderInBody'
 const numeral = require('numeral');
@@ -23,6 +23,7 @@ export class ImprovementReport extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({module:'打点', function:'学习报告', action:'打开学习报告页'})
     const { planId, problemId } = this.props.location.query;
     const { dispatch } = this.props;
     dispatch(startLoad());

@@ -27,7 +27,7 @@ export class GroupPromotionWaiting extends React.Component<GroupPromotionWaiting
         <span className={'waiting-tip-small'}>还差最后1人加入，免费解锁前7天课程</span>
         <span className={'waiting-invite'}
               onClick={() => {
-                window.location.href = `https://${window.location.hostname}/pay/static/camp/group?groupCode=${groupCode}&share=true`
+                window.location.href = `/pay/static/camp/group?groupCode=${groupCode}&share=true`
               }}>邀请更多好友加入</span>
       </section>
     )

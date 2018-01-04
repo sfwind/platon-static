@@ -36,8 +36,8 @@ export function learnKnowledge(knowledgeId) {
   return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
 }
 
-export function mark(param) {
-  return ppost('/rise/b/mark', param)
+export function createPlan(problemId) {
+  return ppost(`/rise/plan/choose/problem/${problemId}`)
 }
 
 export function queryEventList() {
@@ -74,17 +74,22 @@ export function loadHasGetOperationCoupon() {
   return pget('/rise/operation/free/coupon')
 }
 
-// 收藏当前课程
-export function collectProblem(problemId) {
-  return pget(`/rise/problem/collect/${problemId}`)
-}
-
-// 取消收藏当前课程
-export function disCollectProblem(problemId) {
-  return pget(`/rise/problem/discollect/${problemId}`)
-}
-
 
 export function hasPrivilege(){
   return pget(`/signup/check/business/school/privilege`);
+}
+
+export function createCampPlan(problemId) {
+  return ppost(`/rise/plan/choose/problem/camp/${problemId}`)
+}
+
+export function unlockCampPlan(planId) {
+  return ppost(`/rise/plan/choose/problem/camp/unlock/${planId}`)
+}
+
+/**
+ * 试听课开课
+ */
+export function openAudition() {
+  return ppost('/rise/plan/open/audition/course')
 }

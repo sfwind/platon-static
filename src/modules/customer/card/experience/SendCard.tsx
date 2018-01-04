@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { SubmitButton } from '../../../schedule/components/SubmitButton'
+import { SubmitButton } from '../../../../components/submitbutton/SubmitButton'
 import { configShare } from '../../../helpers/JsConfig'
 import { checkSubscribe } from '../../../interlocution/async'
 import RenderInBody from '../../../../components/RenderInBody'
@@ -97,20 +97,20 @@ export default class SendCard extends React.Component<any, any> {
               <div className="card-rise-title">
                 商学院体验卡
               </div>
-              <div className="content-container">
-                <div className="content">
-                  • 卡片价值¥168，用于兑换商学院7天线上体验课--《认识自己|用冰山模型分析出真实的你》
-                </div>
-                <div className="content">
-                  • 体验时间：2018.01.07 - 2018.01.14
-                </div>
-                <div className="content">
-                  • 每位用户只能领取一次
-                </div>
-                <div className="content">
-                  • 有效期至2018.01.07
-                </div>
-              </div>
+              <ul className="content-container">
+                <li className="content">
+                  卡片价值¥168，用于兑换商学院7天线上体验课--《认识自己|用冰山模型分析出真实的你》
+                </li>
+                <li className="content">
+                  体验时间：2018.01.07 - 2018.01.14
+                </li>
+                <li className="content">
+                  每位用户只能领取一次
+                </li>
+                <li className="content">
+                  有效期至2018.01.07
+                </li>
+              </ul>
               {show &&
               mine ?
                 <MarkBlock module={'打点'} func={'礼品卡'} action={'赠送好友'}>

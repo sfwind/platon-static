@@ -37,12 +37,16 @@ export default class MineCard extends React.Component<any, any> {
     }
   }
 
-  gotoIntroduction(url, id) {
+  gotoIntroduction(url, id, expired) {
     const { dispatch } = this.props
+    if(expired){
+      dispatch(alertMsg('您的礼品卡已过期'))
+      return
+    }
     if(url != null) {
       this.context.router.push(`${url}?cardId=${id}`)
     } else {
-      dispatch(alertMsg('卡片已被领取'))
+      dispatch(alertMsg('您的礼品卡已被领取'))
     }
 
   }
@@ -57,12 +61,12 @@ export default class MineCard extends React.Component<any, any> {
                 <div key={idx} className="card-item">
                   <div className="card-container">
                     <MarkBlock className="body-container"
-                               onClick={() => this.gotoIntroduction(item.url, item.prizeCardNo)}
+                               onClick={() => this.gotoIntroduction(item.url, item.prizeCardNo, item.expired)}
                                func="礼品卡" action="点击礼品卡" module="打点"
                     >
                       <AssetImg url={`${item.background}`} width={'100%'}/>
                       <div className="congratulations">{item.description}</div>
-                      <div className="send-to-friend">有效期：2018年1月7号前</div>
+                      {!item.expired && <div className="send-to-friend">有效期：{item.expiredDate}前</div> }
                     </MarkBlock>
                     <div className="card-bottom"></div>
                   </div>

@@ -2,10 +2,9 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { changeTitle } from 'utils/helpers'
-import { mark } from '../problem/async'
+import { mark } from 'utils/request'
 import { getOldMsg, openNotifyStatus, closeNotifyStatus, getNotifyStatus } from '../message/async'
 import './Personal.less'
-import { ron } from '../../utils/helpers'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import AssetImg from '../../components/AssetImg'
 
@@ -112,15 +111,12 @@ export default class Personal extends React.Component<any, any> {
           <div className="personal-item no-gutter"
                onClick={() => {this.context.router.push('/rise/static/customer/profile')}}>
             <span>个人信息</span></div>
-          <div className="personal-item" onClick={() => {this.context.router.push('/rise/static/customer/account')}}>
+          <div className="personal-item no-gutter" onClick={() => {this.context.router.push('/rise/static/customer/account')}}>
             <span>我的账户</span>
           </div>
-          {/*<div className="personal-item no-gutter" onClick={()=>{this.context.router.push('/rise/static/card/mime')}}>*/}
-            {/*<span>学习礼品卡</span>*/}
-          {/*</div>*/}
-          {/*<div className="personal-item no-gutter" onClick={()=>{this.context.router.push('/rise/static/guest/annual')}}>
-            <span>年终总结</span>
-          </div>*/}
+          <div className="personal-item" onClick={()=>{this.context.router.push('/rise/static/customer/prize/card/list')}}>
+            <span>学习礼品卡</span>
+          </div>
           <div className="personal-item no-gutter" onClick={() => this.goMessage()}>
             <span>消息通知</span>
             {noticeMsgCount ?
@@ -136,12 +132,10 @@ export default class Personal extends React.Component<any, any> {
             建议开启：周一至周五，若当天未登录学习，晚上09：30会发给你学习提醒消息
           </div>
           {
-            ron(
-              window.ENV.showForum !== 'false',
+              window.ENV.showForum !== 'false' &&
               <div className="personal-item no-gutter"
                    onClick={() => {this.context.router.push('/forum/static/question')}}><span>论坛</span>
               </div>
-            )
           }
           <div className="personal-item" onClick={() => {this.context.router.push('/rise/static/customer/problem')}}>
             <span>我的课程</span>

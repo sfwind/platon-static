@@ -1,9 +1,8 @@
 import * as React from 'react'
 import './PlanList.less'
 import { connect } from 'react-redux'
-import { loadHasGetOperationCoupon, loadPlanList } from './async'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { loadProblem, checkCreatePlan, mark } from './async'
+import { loadPlanList, createCampPlan, openAudition, unlockCampPlan } from './async'
 import AssetImg from '../../components/AssetImg'
 import { changeTitle } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
@@ -11,8 +10,8 @@ import Swiper from 'swiper'
 import Banner from '../../components/Banner'
 import { Dialog } from 'react-weui'
 import * as _ from 'lodash'
-import { createCampPlan, openAudition, unlockCampPlan } from '../problem/async'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
+import { mark } from 'utils/request'
 
 const { Alert } = Dialog
 
