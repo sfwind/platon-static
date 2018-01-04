@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { SubmitButton } from '../../../schedule/components/SubmitButton'
+import { SubmitButton } from '../../../../components/submitbutton/SubmitButton'
 import { configShare } from '../../../helpers/JsConfig'
 import { checkSubscribe } from '../../../interlocution/async'
 import RenderInBody from '../../../../components/RenderInBody'
