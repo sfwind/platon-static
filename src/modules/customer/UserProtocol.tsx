@@ -1,7 +1,7 @@
 import * as React from "react"
 import "./FeedBack.less"
 import { changeTitle } from "utils/helpers"
-import { mark } from "../problem/async"
+import { mark } from 'utils/request'
 
 export default class UserProtocol extends React.Component<any, any> {
   constructor(props) {

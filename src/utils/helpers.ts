@@ -172,7 +172,7 @@ class ButtonStatus {
 
   constructor() {
     this.paymentGroup = []
-    this.notPaymentGroup = [1, 2, 3, 4, 7, 8]
+    this.notPaymentGroup = [1, 2, 3, 4, 5]
   }
 
   /**

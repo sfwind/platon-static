@@ -8,7 +8,7 @@ import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
 import {CommentType,ArticleViewModule} from "../../message/async";
-import { mark } from '../../plan/async';
+import { mark } from 'utils/request'
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {

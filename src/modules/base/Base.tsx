@@ -114,7 +114,7 @@ export default class Main extends React.Component<any, any> {
       if(showGlobalNotify) {
         return (
           <div
-            onClick={() => window.location.href = `https://${window.location.hostname}/rise/static/guest/annual/summary`}
+            onClick={() => window.location.href = `/rise/static/guest/annual/summary`}
             className="global-notify annual-summary"/>
         )
       }

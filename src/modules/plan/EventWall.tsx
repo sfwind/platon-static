@@ -5,6 +5,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { queryEventList, mark } from './async'
 import { ToolBar } from '../base/ToolBar'
 import { changeTitle, goOtherWeb, unScrollToBorder } from '../../utils/helpers'
+import { mark } from 'utils/request'
 import Banner from '../../components/Banner'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 
