@@ -125,7 +125,7 @@ export default class SendCard extends React.Component<any, any> {
         }
         {
           showShareTip &&
-          <AssetImg className="annual-share" url="https://static.iqycamp.com/images/annual_share.png"/>
+          <AssetImg className="annual-share" url="https://static.iqycamp.com/images/annual_share2.png"/>
         }
         {
           showShareTip &&
