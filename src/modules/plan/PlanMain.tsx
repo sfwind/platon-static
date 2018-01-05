@@ -272,7 +272,6 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   onPracticeSelected(item) {
-    console.log(item)
     const { dispatch } = this.props
     const { planData, currentIndex } = this.state
     const { problemId, lockedStatus, status, openRise } = planData
@@ -282,7 +281,6 @@ export class PlanMain extends React.Component <any, any> {
         this.setState({ showExpiredDateWarning: true })
         return
       }
-      //todo:判断是否是7天试学
       if(item.status === 2) {
         this.setState({ showPayModal: true })
         return
