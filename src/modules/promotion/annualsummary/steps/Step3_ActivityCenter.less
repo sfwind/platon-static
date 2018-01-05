@@ -1,0 +1,72 @@
+@import "../../../../style/variable";
+@import "../../annualsummary/AnnualVariable.less";
+
+.annual-activity-center {
+  display: block;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  background-color: #fff;
+  height: auto;
+  z-index: 10;
+  box-sizing: border-box;
+  padding: 2rem;
+
+  .scroll-inner-container();
+
+  .annual-summary-common-text();
+
+  .text1 {
+    .animation-delay(0.5s)
+  }
+  //.text2 {
+  //  .animation-delay(2s)
+  //}
+  .text3 {
+    .animation-delay(2.5s)
+  }
+  //.text4 {
+  //  .animation-delay(4s)
+  //}
+  .map-box {
+    width: 14 * 652 / 280rem;
+    height: 14rem;
+    position: relative;
+    margin: 2rem auto;
+    .map {
+      .animation-delay(1.5s);
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14 * 652 / 280rem;
+      height: 14rem;
+      background-image: url("@{imgPathRoot}/annual_map.png?imageslim");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    .map-locations {
+      .animation-delay(2s);
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14 * 652 / 280rem;
+      height: 14rem;
+      background-image: url("@{imgPathRoot}/annual_map_locations_3.png?imageslim");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+
+  .triangle {
+    width: 3.3rem;
+    height: 2rem;
+    position: absolute;
+    bottom: -1.5rem;
+    left: 15%;
+  }
+}

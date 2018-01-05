@@ -1,0 +1,23 @@
+@import "../AnnualVariable";
+
+.annual-summary-nextstep-component {
+  width: 14rem;
+  height: 4.4rem;
+  color: #f8aa08;
+  font-size: 2rem;
+  line-height: 4.4rem;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #fff;
+  
+  position: absolute;
+  bottom: 3.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 11;
+  
+  &.animation {
+    opacity: 0;
+    .animation-delay(2.5s);
+  }
+}

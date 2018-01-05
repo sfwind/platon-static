@@ -15,18 +15,18 @@ import { pget } from 'utils/request'
 import Activity from '../../components/Activity'
 import UA from 'ua-device'
 import './Base.less'
-import $ from 'jquery';
+import $ from 'jquery'
 
 $.fn.extend({
   animateCss: function(animationName, callback) {
-    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+    var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
     this.addClass('animated ' + animationName).one(animationEnd, function() {
-      $(this).removeClass('animated ' + animationName);
+      $(this).removeClass('animated ' + animationName)
       if(callback) callback()
-    });
-    return this;
+    })
+    return this
   }
-});
+})
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
@@ -65,11 +65,10 @@ export default class Main extends React.Component<any, any> {
           this.setState({ activityMsg: true, url, message })
         }
       })
-      pget(`/rise/customer/notify/expire`).then(res => {
+      pget(`/rise/customer/global/notify`).then(res => {
         if(res.code === 200) {
           this.setState({
-            expired: res.msg.expired,
-            expiredInSevenDays: res.msg.expiredInSevenDays
+            showGlobalNotify: res.msg.showGlobalNotify
           })
         }
       })
@@ -96,7 +95,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    config([ 'chooseWXPay' ])
+    config(['chooseWXPay'])
   }
 
   closeAnswer() {
@@ -105,24 +104,31 @@ export default class Main extends React.Component<any, any> {
   }
 
   handleClickGoRisePay() {
-    window.location.href = `https://${window.location.hostname}/pay/rise`
+    window.location.href = `/pay/rise`
   }
 
   render() {
-    const { expired, expiredInSevenDays } = this.state
+    const { showGlobalNotify } = this.state
 
-    const renderExpireNotify = () => {
-      if(expiredInSevenDays) {
-        return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expire"/>
+    const renderGlobalNotify = () => {
+      if(showGlobalNotify) {
+        return (
+          <div
+            onClick={() => window.location.href = `/rise/static/guest/annual/summary`}
+            className="global-notify annual-summary"/>
+        )
       }
-      if(expired) {
-        return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expired"/>
-      }
+      // if(expiredInSevenDays) {
+      //   return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expire"/>
+      // }
+      // if(expired) {
+      //   return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expired"/>
+      // }
     }
 
     return (
       <div className={`${isPending(this.props, LOAD_KEY) ? 'over-hidden' : ''}`}>
-        {renderExpireNotify()}
+        {renderGlobalNotify()}
         {this.props.children}
         <Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
           <div style={{ fontSize: 13, paddingTop: 10 }}>加载中...</div>
@@ -132,21 +138,19 @@ export default class Main extends React.Component<any, any> {
           <div className="global-pre" dangerouslySetInnerHTML={{ __html: this.props.base.alertMsg }}/>
         </Alert>
         {
-          this.state.windowsClient ?
-            <div
-              style={{
-                position: 'absolute', left: 5, top: 5, height: 30, width: 30, zIndex: 999, cursor: 'pointer',
-                transparency: '10%'
-              }}
-              onClick={() => window.history.back()}>
-              <AssetImg type="back_button" width={30} height={30} style={{ opacity: 0.3 }}/>
-            </div>
-            : null
+          this.state.windowsClient &&
+          <div
+            style={{
+              position: 'absolute', left: 5, top: 5, height: 30, width: 30, zIndex: 999, cursor: 'pointer',
+              transparency: '10%'
+            }}
+            onClick={() => window.history.back()}>
+            <AssetImg type="back_button" width={30} height={30} style={{ opacity: 0.3 }}/>
+          </div>
         }
         {
-          this.state.activityMsg && this.state.message ?
-            <Activity url={this.state.url} message={this.state.message}/>
-            : null
+          this.state.activityMsg && this.state.message &&
+          <Activity url={this.state.url} message={this.state.message}/>
         }
       </div>
     )

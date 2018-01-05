@@ -112,7 +112,7 @@ export default class MobileBind extends React.Component<any, any> {
           this.setState({ show: true });
           setTimeout(() => {
             if(location.query.goRise) {
-              window.location.href = `https://${window.location.hostname}/rise/static/rise`;
+              window.location.href = `/rise/static/rise`;
             } else {
               this.context.router.push('/rise/static/customer/account');
             }
@@ -132,7 +132,7 @@ export default class MobileBind extends React.Component<any, any> {
           this.setState({ show: true });
           setTimeout(() => {
             if(location.query.goRise) {
-              window.location.href = `https://${window.location.hostname}/rise/static/rise`;
+              window.location.href = `/rise/static/rise`;
             } else {
               this.context.router.push('/rise/static/customer/account');
             }

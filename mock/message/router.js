@@ -111,7 +111,7 @@ router.get("/rise/message/load", (req, res) => {
           },
           {
               "id": 20,
-              "message": "评论了我的小课分享",
+              "message": "评论了我的课程分享",
               "fromUser": null,
               "toUser": null,
               "isRead": true,

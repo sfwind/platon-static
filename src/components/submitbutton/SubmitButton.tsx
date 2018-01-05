@@ -18,7 +18,7 @@ export class SubmitButton extends React.Component<SubmitButtonProps, SubmitButto
     const { clickFunc = () => {}, buttonText } = this.props
 
     return (
-      <div className="submitbutton-component button-footer">
+      <div className="submitbutton-component">
         <div className="submit-btn" onClick={() => clickFunc()}>{buttonText}</div>
       </div>
     )

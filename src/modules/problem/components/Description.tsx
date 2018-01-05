@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./Description.less";
-import {mark} from "../async"
+import { mark } from 'utils/request'
 import {startLoad, endLoad, alertMsg} from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import { preview } from "../../helpers/JsConfig"

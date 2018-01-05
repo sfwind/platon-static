@@ -8,7 +8,7 @@ import PullElement from 'pull-element'
 import AssetImg from "../../../components/AssetImg";
 import {findIndex,remove,isArray,findLast,isNull,isString,truncate,merge,set,get} from "lodash";
 import {CommentType,ArticleViewModule} from "../../message/async";
-import { mark } from '../../plan/async';
+import { mark } from 'utils/request'
 
 @connect(state => state)
 export class Main extends React.Component <any, any> {
@@ -101,7 +101,7 @@ export class Main extends React.Component <any, any> {
   componentWillMount() {
 
     const { dispatch, location } = this.props;
-    mark({module:"打点",function:"小课论坛",action:"打开小课论坛",memo:location.query.id});
+    mark({module:"打点",function:"课程论坛",action:"打开课程论坛",memo:location.query.id});
     dispatch(startLoad());
     loadSubjects(location.query.id,1).then(res => {
       dispatch(endLoad())
