@@ -15,7 +15,6 @@ const { Alert } = Dialog
 
 const MAJOR_PROBLEM = 1
 const MINOR_PROBLEM = 2
-const TRIAL_PROBLEM = 3
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -35,7 +34,7 @@ export default class SchedulePlan extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     mark({
       module: '打点',
       function: '学习',
@@ -45,25 +44,17 @@ export default class SchedulePlan extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
 
-    loadSchedulePlan().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ data: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    let res = await loadSchedulePlan()
+    dispatch(endLoad())
+    if(res.code === 200) {
+      this.setState({ data: res.msg })
+    } else {
+      dispatch(alertMsg(res.msg))
+    }
   }
 
   clickCourse(type, item) {
     const { dispatch } = this.props
-
-    if(type === TRIAL_PROBLEM) {
-      this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
-    }
 
     // 没有开课
     if(!item.id) {
@@ -103,50 +94,6 @@ export default class SchedulePlan extends React.Component<any, any> {
 
   learn(item) {
     this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
-  }
-
-  handleClickAuditionPlan(plan) {
-    let planId = plan.id
-    let errMsg = plan.errMsg
-    const { dispatch } = this.props
-    // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
-    if(errMsg) {
-      dispatch(alertMsg(errMsg))
-      return
-    }
-    if(planId) {
-      this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
-    } else {
-      this.setState({
-        dialogButtons: [
-          {
-            label: '取消',
-            onClick: () => {
-              this.setState({ dialogShow: false, dialogButtons: [], dialogContent: '' })
-            }
-          },
-          {
-            label: '确认',
-            onClick: () => {
-              dispatch(startLoad())
-              this.setState({ dialogShow: false })
-              openAudition().then(res => {
-                dispatch(endLoad())
-                if(res.code === 200) {
-                  this.context.router.push(`/rise/static/plan/study?planId=${res.msg}`)
-                } else {
-                  dispatch(alertMsg(res.msg))
-                }
-              }).catch(e => {
-                dispatch(alertMsg(e))
-              })
-            }
-          }
-        ],
-        dialogShow: true,
-        dialogContent: '试听课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
-      })
-    }
   }
 
   render() {
