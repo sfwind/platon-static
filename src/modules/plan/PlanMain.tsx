@@ -56,6 +56,7 @@ export class PlanMain extends React.Component <any, any> {
       defeatPercent: 0,
       expired: false,
       _t: Math.random(),
+      showPayModal: false,
       questionList: [
         {
           id: 1,
@@ -278,6 +279,10 @@ export class PlanMain extends React.Component <any, any> {
     if(!unlocked) {
       if(status === 4) {
         this.setState({ showExpiredDateWarning: true })
+        return
+      }
+      if(item.status === 2) {
+        this.setState({ showPayModal: true })
         return
       }
       if(lockedStatus === -1) {
@@ -588,9 +593,13 @@ export class PlanMain extends React.Component <any, any> {
     }
   }
 
+  goPayPage = () => {
+    window.location.href = `https://${window.location.hostname}/pay/jan`
+  }
+
   render() {
     const {
-      currentIndex, planData, showScoreModal, selectProblem, riseMember, riseMemberTips, chapterList, _t
+      currentIndex, planData, showScoreModal, selectProblem, riseMember, riseMemberTips, chapterList, showPayModal, _t
     } = this.state
     const { completePracticePlanId } = this.props
     const {
@@ -1006,6 +1015,25 @@ export class PlanMain extends React.Component <any, any> {
       )
     }
 
+    const renderPayModal = () => {
+      return (
+        <Alert show={showPayModal} buttons={[
+          {
+            label: '确定',
+            onClick: () => this.goPayPage()
+          },
+          {
+            label: '关闭',
+            onClick: () => this.setState({ showPayModal: false })
+          }
+        ]}>
+          <div className="global-pre" style={{ paddingTop: 0 }}
+               dangerouslySetInnerHTML={{ __html: '本节不在体验课范围内。\n' +
+               '报名1月训练营，继续学习本节课程吧！' }}/>
+        </Alert>
+      )
+    }
+
     const containerStyle = () => {
       let dom = document.querySelector('.global-notify')
       if(dom) {
@@ -1044,6 +1072,7 @@ export class PlanMain extends React.Component <any, any> {
           {renderProblemLearn()}
         </Sidebar>
         {renderOtherComponents()}
+        {renderPayModal()}
       </div>
     )
   }
