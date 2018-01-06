@@ -68,7 +68,9 @@ export default class Main extends React.Component<any, any> {
       pget(`/rise/customer/global/notify`).then(res => {
         if(res.code === 200) {
           this.setState({
-            showGlobalNotify: res.msg.showGlobalNotify
+            showGlobalNotify: res.msg.showGlobalNotify,
+            expiredInSevenDays: res.msg.expiredInSevenDays,
+            expired: res.msg.expired
           })
         }
       })
@@ -108,22 +110,16 @@ export default class Main extends React.Component<any, any> {
   }
 
   render() {
-    const { showGlobalNotify } = this.state
+    const { showGlobalNotify, expiredInSevenDays, expired } = this.state
 
     const renderGlobalNotify = () => {
       if(showGlobalNotify) {
-        return (
-          <div
-            onClick={() => window.location.href = `/rise/static/guest/annual/summary`}
-            className="global-notify annual-summary"/>
-        )
+        if(expiredInSevenDays) {
+          return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expire"/>
+        } else if(expired) {
+          return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expired"/>
+        }
       }
-      // if(expiredInSevenDays) {
-      //   return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expire"/>
-      // }
-      // if(expired) {
-      //   return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expired"/>
-      // }
     }
 
     return (
