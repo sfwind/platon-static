@@ -4,20 +4,16 @@ import './ProblemIntroduction.less'
 import Audio from '../../../components/Audio'
 import AssetImg from '../../../components/AssetImg'
 import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
-import {
-  openProblemIntroduction, createPlan, checkCreatePlan
-} from '../../problem/async'
+import { openProblemIntroduction } from '../../problem/async'
+import { createPlan } from '../../plan/async'
 import { Toast, Dialog } from 'react-weui'
-import { isNumber, get } from 'lodash'
+import { isNumber } from 'lodash'
 
 const { Alert } = Dialog
-const numeral = require('numeral')
 import { mark } from '../../../utils/request'
-import { GoodsType, buttonStatus } from '../../../utils/helpers'
+import { buttonStatus } from '../../../utils/helpers'
 import { collectProblem, disCollectProblem } from '../../plan/async'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-//限免课程id
-const FREE_PROBLEM_ID = 9
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any, any> {
