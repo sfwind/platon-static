@@ -28,16 +28,26 @@ export default class SendCard extends React.Component<any, any> {
   async componentWillMount() {
     const { cardId } = this.props.location.query
 
+    let res = await loadCard(cardId)
+    if(res.code === 200) {
+      this.setState({ mine: res.msg, show: true })
+    }
     //分享给好友
     configShare(`送你￥168礼品卡，开启7天圈外商学院线上体验之旅！`,
       `https://${window.location.hostname}/rise/static/guest/card/send?cardId=${cardId}`,
       'https://static.iqycamp.com/images/card/prize_card.png?imageslim',
       '点击领取，有效期截止2018.01.07')
+  }
 
-    let res = await loadCard(cardId)
-    if(res.code === 200) {
-      this.setState({ mine: res.msg, show: true })
-    }
+  handleClickShareBtn() {
+    const { cardId } = this.props.location.query
+    this.setState({ showShareTip: true }, () => {
+      //分享给好友
+      configShare(`送你￥168礼品卡，开启7天圈外商学院线上体验之旅！`,
+        `https://${window.location.hostname}/rise/static/guest/card/send?cardId=${cardId}`,
+        'https://static.iqycamp.com/images/card/prize_card.png?imageslim',
+        '点击领取，有效期截止2018.01.07')
+    })
   }
 
   handleClick() {
@@ -114,7 +124,7 @@ export default class SendCard extends React.Component<any, any> {
               {show &&
               mine ?
                 <MarkBlock module={'打点'} func={'礼品卡'} action={'赠送好友'}>
-                  <SubmitButton clickFunc={() => this.setState({showShareTip:true})} buttonText='赠送好友'/>
+                  <SubmitButton clickFunc={() => this.handleClickShareBtn()} buttonText='赠送好友'/>
                 </MarkBlock> :
                 <MarkBlock module={'打点'} func={'礼品卡'} action={'领取礼品卡'}>
                   <SubmitButton clickFunc={() => this.handleClick()} buttonText='领取'/>
@@ -129,7 +139,7 @@ export default class SendCard extends React.Component<any, any> {
         }
         {
           showShareTip &&
-          <div className="mask" onClick={() => this.setState({showShareTip:false})}/>
+          <div className="mask" onClick={() => this.setState({ showShareTip: false })}/>
         }
       </div>
     )
