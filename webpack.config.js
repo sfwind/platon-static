@@ -5,12 +5,12 @@ module.exports = {
   devtool: false, // 增加开发速度
   entry: {
     "rise_bundle": ["babel-polyfill","./src/index.tsx"],
-    "note_bundle": ["babel-polyfill","./src/bible.tsx"],
   },
   output: {
     path: path.join(__dirname, "__build__"),
     filename: "[name].js",
     publicPath: "/",
+    chunkFilename: "[id].chunk.js"
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -22,7 +22,9 @@ module.exports = {
       compressor: {
         warnings: false
       }
-    })
+    }),
+    //去掉moment.js中国际化的代码
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
   resolve: {
     root: path.resolve("./src"),

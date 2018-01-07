@@ -10,7 +10,6 @@
     height: 6.6rem;
     background-color: @color_weak_background;
   }
-
   .modify-schedule {
     height: 5.0rem;
     font-size: 1.8rem;
@@ -61,7 +60,8 @@
       .course-card {
         display: inline-block;
         position: relative;
-        width: 14.5rem;
+        //width: 14.5rem;
+        width: 42%;
         height: 16.5rem;
         margin-left: 2.5rem;
         .card-desc {
@@ -76,6 +76,7 @@
             top: 0;
             font-size: 14px;
             color: @color_context;
+            word-break: break-all;
           }
           > .problem-month {
             display: block;
@@ -129,7 +130,6 @@
             top: 50%;
             transform: translateY(-50%);
           }
-
           > .wait-open {
             position: absolute;
             bottom: 0;
@@ -141,6 +141,14 @@
             text-align: center;
             line-height: 2.5rem;
             font-size: 1.2rem;
+          }
+          > .problem-item-deadline {
+            position: absolute;
+            right: 0.5rem;
+            bottom: 0.5rem;
+            font-size: 1.0rem;
+            line-height: 1.0rem;
+            color: #fff;
           }
         }
       }
@@ -270,5 +278,4 @@
       }
     }
   }
-
 }

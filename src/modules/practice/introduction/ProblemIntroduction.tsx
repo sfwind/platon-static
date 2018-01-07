@@ -63,7 +63,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { dispatch, location } = this.props
     const { id, free } = location.query
     mark({
@@ -73,35 +73,28 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       memo: id
     })
     /** 获取课程数据，以及价格／按钮状态 */
-    openProblemIntroduction(id, free).then(res => {
-      const { msg, code } = res
-      if(code === 200) {
-        if(!buttonStatus.isValid(msg.buttonStatus)) {
-          dispatch(alertMsg('按钮状态异常'))
-        }
-        return res.msg
-      } else {
-        return Promise.reject(msg)
+    let res = openProblemIntroduction(id, free)
+    const { msg, code } = res
+    if(code === 200) {
+      if(!buttonStatus.isValid(msg.buttonStatus)) {
+        dispatch(alertMsg('按钮状态异常'))
       }
-    }).then(problemMsg => {
-      this.setState({
-        data: problemMsg.problem,
-        buttonStatus: problemMsg.buttonStatus,
-        currentPlanId: problemMsg.planId,
-        bindMobile: problemMsg.bindMobile,
-        isFull: problemMsg.isFull,
-        togetherClassMonth: problemMsg.togetherClassMonth,
-        problemCollected: problemMsg.problemCollected
-      })
-    }, reason => {
-      dispatch(endLoad())
-      if(reason !== 'refresh') {
-        dispatch(alertMsg(reason))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+    } else {
+      dispatch(alertMsg(res.msg))
+      return
+    }
+
+    let problemMsg = res.msg
+    this.setState({
+      data: problemMsg.problem,
+      buttonStatus: problemMsg.buttonStatus,
+      currentPlanId: problemMsg.planId,
+      bindMobile: problemMsg.bindMobile,
+      isFull: problemMsg.isFull,
+      togetherClassMonth: problemMsg.togetherClassMonth,
+      problemCollected: problemMsg.problemCollected
     })
+
     this.picHeight = (window.innerWidth / (750 / 350)) > 175 ? 175 : (window.innerWidth / (750 / 350))
     this.headerContentTop = (window.innerWidth / (750 / 104)) > 52 ? 52 : (window.innerWidth / (750 / 104))
     this.headerContentLeft = (window.innerWidth / (750 / 50)) > 25 ? 25 : (window.innerWidth / (750 / 25))
@@ -158,7 +151,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           label: '确认',
           onClick: () => {
             this.setState({ showAlert: false })
-            this.handleClickChooseProblem()
+            this.handleSubmitProblemChoose()
           }
         }
       ]
@@ -167,48 +160,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     this.setState({ showAlert: true, alert: chooseConfirm, tipMsg: '课程开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？' })
   }
 
-  /**
-   * 点击选择课程按钮
-   */
-  handleClickChooseProblem() {
-    const { dispatch } = this.props
-    const { buttonStatus } = this.state
-    dispatch(startLoad())
-    checkCreatePlan(this.props.location.query.id, buttonStatus).then(res => {
-      dispatch(endLoad())
-      if(res.code === 202) {
-        const chooseAlert = {
-          buttons: [
-            {
-              label: '取消',
-              onClick: () => {
-                this.setState({ showAlert: false })
-              }
-            },
-            {
-              label: '确认',
-              onClick: () => {
-                this.setState({ showAlert: false })
-              }
-            }
-          ]
-        }
-        this.setState({ showAlert: true, alert: chooseAlert, tipMsg: res.msg })
-      } else if(res.code === 201) {
-        this.handleSubmitProblemChoose()
-      } else if(res.code === 200) {
-        this.handleSubmitProblemChoose()
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
-  }
-
   handleClickGoStudy() {
-    this.context.router.push(`/rise/static/plan/study?planId=${this.state.currentPlanId}`)
+    if(window.ENV.showExplore !== 'false') {
+      this.context.router.push('/rise/static/rise')
+    } else {
+      this.context.router.push('/rise/static/course/schedule/plan')
+    }
   }
 
   onClickHandleProblemCollection(selected, problemId) {
@@ -311,15 +268,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             }
             case 2: {
               // list.push(
-              //   <div className="button-footer" onClick={() => this.handleClickProblemChooseConfirm()}>
-              //     {
-              //       togetherClassMonth && togetherClassMonth !== '0' ?
-              //         <div className="together-class-notice" style={{ width: 320, left: window.innerWidth / 2 - 160
-              // }}> 本课程为 {togetherClassMonth} 月训练营课程，记得在当月选择哦 </div> : null } 选择该课程 </div> )
+              //   <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
+              //     去上课
+              //   </div>
+              // )
               return (
                 <FooterButton btnArray={[{
-                  click: () => this.handleClickProblemChooseConfirm(),
-                  text: '选择该课程'
+                  click: () => this.handleClickGoStudy(),
+                  text: '去上课'
                 }]}/>
               )
             }
@@ -347,6 +303,19 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 <FooterButton btnArray={[{
                   click: () => this.handleClickGoStudy(),
                   text: '课程已完成，去复习'
+                }]}/>
+              )
+            }
+            case 5: {
+              // list.push(
+              //   <div className="button-footer" onClick={() => this.handleClickProblemChooseConfirm()}>
+              //     选择该课程
+              //   </div>
+              // )
+              return (
+                <FooterButton btnArray={[{
+                  click: () => this.handleClickProblemChooseConfirm(),
+                  text: '选择该课程'
                 }]}/>
               )
             }
@@ -428,7 +397,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         {renderContent()}
         {renderFooter()}
         <Alert {...this.state.alert}
-               show={this.state.showAlert}>
+          show={this.state.showAlert}>
           <div className="global-pre">{this.state.tipMsg}</div>
         </Alert>
         <Alert {...this.state.confirm} show={this.state.showConfirm}>

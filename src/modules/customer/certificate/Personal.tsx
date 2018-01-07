@@ -59,7 +59,6 @@ export default class Profile extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    // mark({module: "打点", function: "个人中心", action: "打开我的信息页面"})
     const { dispatch, location } = this.props
     const { certificateNo } = location.query
     dispatch(startLoad())

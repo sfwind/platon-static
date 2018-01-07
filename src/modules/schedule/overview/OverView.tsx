@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { loadPersonalSchedule, updateCourseScheduleAll } from '../async'
 import { calcScheduleData } from './util'
 import { MonthSchedule } from './components/MonthSchedule'
-import { SubmitButton } from '../components/SubmitButton'
+import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
@@ -89,11 +89,15 @@ export default class OverView extends React.Component {
   }
 
   enableAutoScroll() {
-    document.body.addEventListener('touchmove', this.scrollFunc, false)
+    document.body.addEventListener('touchmove', this.scrollFunc, true)
   }
 
   disableAutoScroll() {
-    document.body.removeEventListener('touchmove', this.scrollFunc, false)
+    document.body.removeEventListener('touchmove', this.scrollFunc, true)
+  }
+
+  toggleSubmitButton(toggle) {
+    this.setState({ showSubmitButton: toggle })
   }
 
   switchDraggableStatus(draggable) {
@@ -135,7 +139,7 @@ export default class OverView extends React.Component {
   }
 
   render() {
-    const { scheduleList = [], draggable = false, showToast = false, showFirstEntryAlert = false } = this.state
+    const { scheduleList = [], draggable = false, showToast = false, showFirstEntryAlert = false, showSubmitButton = true } = this.state
 
     const firstEntryAlertProps = {
       buttons: [
@@ -164,13 +168,18 @@ export default class OverView extends React.Component {
                                schedules={schedules}
                                draggable={draggable}
                                enableAutoScroll={() => this.enableAutoScroll()}
-                               disableAutoScroll={() => this.disableAutoScroll()}/>
+                               disableAutoScroll={() => this.disableAutoScroll()}
+                               toggleSubmitButton={(toggle) => this.toggleSubmitButton(toggle)}
+                />
               )
             })
           }
         </div>
 
-        <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/>
+        {
+          showSubmitButton &&
+          <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/>
+        }
 
         <Toast show={showToast} timeout={2000} height={220} width={200} top={160}>
           <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>

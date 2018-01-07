@@ -2,8 +2,8 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './PlanMain.less'
 import {
-  loadPlan, completePlan, updateOpenRise, markPlan, hasPrivilege,
-  gradeProblem, isRiseMember, learnKnowledge, mark, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess, loadRecommendations, disCollectProblem, collectProblem
+  loadPlan, markPlan, hasPrivilege,
+  gradeProblem, learnKnowledge, queryChapterList, closePlan, loadChapterCard, loadChapterCardAccess
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import AssetImg from '../../components/AssetImg'
@@ -15,9 +15,9 @@ import { NumberToChinese, changeTitle, unScrollToBorder } from '../../utils/help
 import SwipeableViews from 'react-swipeable-views'
 import Ps from 'perfect-scrollbar'
 import 'smooth-scrollbar/dist/smooth-scrollbar.css'
-import { mark } from '../../utils/request'
-import RenderInBody from '../../components/RenderInBody'
+import { mark } from 'utils/request'
 import { ToolBar } from '../base/ToolBar'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 var FastClick = require('fastclick')
@@ -56,6 +56,7 @@ export class PlanMain extends React.Component <any, any> {
       defeatPercent: 0,
       expired: false,
       _t: Math.random(),
+      showPayModal: false,
       questionList: [
         {
           id: 1,
@@ -280,6 +281,10 @@ export class PlanMain extends React.Component <any, any> {
         this.setState({ showExpiredDateWarning: true })
         return
       }
+      if(item.status === 2) {
+        this.setState({ showPayModal: true })
+        return
+      }
       if(lockedStatus === -1) {
         dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
       }
@@ -329,12 +334,7 @@ export class PlanMain extends React.Component <any, any> {
         query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
       }) : null
     } else if(type === 31) {
-      // 关闭tutorial
-      if(!openRise) {
-        updateOpenRise()
-      }
       if(!complete) {
-
         learnKnowledge(practicePlanId).then(res => {
           const { code, msg } = res
           if(code === 200) {
@@ -452,17 +452,14 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   essenceShare(problemId, series) {
-    mark({ module: '打点', function: '首页', action: '打开延伸学习', memo: '首页' })
     this.context.router.push({ pathname: '/rise/static/problem/extension', query: { problemId: problemId, series } })
   }
 
   problemReview(problemId) {
-    mark({ module: '打点', function: '首页', action: '打开课程介绍', memo: problemId })
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: problemId, show: true } })
   }
 
-  goCardsCollection(problemId) {
-    mark({ module: '打点', function: '首页', action: '打开课程卡包', memo: problemId })
+  goCardsCollection() {
     this.context.router.push({
       pathname: '/rise/static/problem/cards',
       query: { planId: this.props.location.query.planId }
@@ -489,19 +486,6 @@ export class PlanMain extends React.Component <any, any> {
     const { planId } = location.query
     const { currentIndex } = this.state
     markPlan(currentIndex, planId)
-  }
-
-  tutorialEnd() {
-    const { dispatch } = this.props
-    const { planData } = this.state
-    updateOpenRise().then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ planData: merge({}, planData, { openRise: true }) })
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    })
   }
 
   openMessageBox() {
@@ -534,9 +518,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goRiseMemberTips() {
-    mark({ module: '打点', function: '首页', action: '点击升级商学院按钮', memo: '首页' }).then(() => {
-      window.location.href = `https://${window.location.hostname}/pay/rise`
-    })
+    window.location.href = `/pay/rise`
   }
 
   onSetSidebarOpen(open) {
@@ -611,9 +593,13 @@ export class PlanMain extends React.Component <any, any> {
     }
   }
 
+  goPayPage = () => {
+    window.location.href = `https://${window.location.hostname}/pay/jan`
+  }
+
   render() {
     const {
-      currentIndex, planData, showScoreModal, selectProblem, riseMember, riseMemberTips, chapterList, _t
+      currentIndex, planData, showScoreModal, selectProblem, riseMember, riseMemberTips, chapterList, showPayModal, _t
     } = this.state
     const { completePracticePlanId } = this.props
     const {
@@ -699,18 +685,20 @@ export class PlanMain extends React.Component <any, any> {
                }}>
             <div className="chapter-area">
               <div className="cell">
-                <div className="chapter description" onClick={() => this.problemReview(problem.id)}>
+                <MarkBlock module={'打点'} func={'首页'} action={'打开课程介绍'} memo={problem.id || ''}
+                           className="chapter description" onClick={() => this.problemReview(problem.id)}>
                   <div/>
                   <span>课程介绍</span>
-                </div>
+                </MarkBlock>
               </div>
             </div>
             <div className="chapter-area">
               <div className="cell">
-                <div className="chapter extension" onClick={() => this.essenceShare(problem.id, currentIndex)}>
+                <MarkBlock module={'打点'} func={'首页'} action={'打开延伸学习'} memo={'首页'}
+                           className="chapter extension" onClick={() => this.essenceShare(problem.id, currentIndex)}>
                   <div/>
                   <span>延伸学习</span>
-                </div>
+                </MarkBlock>
               </div>
             </div>
 
@@ -1027,6 +1015,25 @@ export class PlanMain extends React.Component <any, any> {
       )
     }
 
+    const renderPayModal = () => {
+      return (
+        <Alert show={showPayModal} buttons={[
+          {
+            label: '确定',
+            onClick: () => this.goPayPage()
+          },
+          {
+            label: '关闭',
+            onClick: () => this.setState({ showPayModal: false })
+          }
+        ]}>
+          <div className="global-pre" style={{ paddingTop: 0 }}
+               dangerouslySetInnerHTML={{ __html: '本节不在体验课范围内。\n' +
+               '报名1月训练营，继续学习本节课程吧！' }}/>
+        </Alert>
+      )
+    }
+
     const containerStyle = () => {
       let dom = document.querySelector('.global-notify')
       if(dom) {
@@ -1049,13 +1056,15 @@ export class PlanMain extends React.Component <any, any> {
             <div className="outline" onClick={() => this.onSetSidebarOpen(!this.state.sidebarOpen)}>
               <span>提纲</span>
             </div>
-            <div className="card-collection" onClick={() => this.goCardsCollection(problem.id)}>
+            <MarkBlock module={'打点'} func={'首页'} action={'打开课程卡包'} memo={problem.id || ''}
+                       className="card-collection" onClick={() => this.goCardsCollection()}>
               <span>卡包</span>
-            </div>
+            </MarkBlock>
             {riseMember !== 1 ?
-              <div className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
-                   onClick={() => this.goRiseMemberTips()}>
-              </div> :
+              <MarkBlock module={'打点'} func={'首页'} action={'点击升级商学院按钮'} memo={'首页'}
+                         className={`trial-tip ${riseMemberTips ? 'open' : ''}`}
+                         onClick={() => this.goRiseMemberTips()}>
+              </MarkBlock> :
               null}
             <div className="section-title">{problem.problem}</div>
             <div className="section">总得分：{point} 分</div>
@@ -1063,6 +1072,7 @@ export class PlanMain extends React.Component <any, any> {
           {renderProblemLearn()}
         </Sidebar>
         {renderOtherComponents()}
+        {renderPayModal()}
       </div>
     )
   }

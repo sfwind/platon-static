@@ -16,7 +16,6 @@ const { Alert } = Dialog
 
 const MAJOR_PROBLEM = 1
 const MINOR_PROBLEM = 2
-const TRIAL_PROBLEM = 3
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -36,7 +35,7 @@ export default class SchedulePlan extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     mark({
       module: '打点',
       function: '学习',
@@ -46,25 +45,17 @@ export default class SchedulePlan extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
 
-    loadSchedulePlan().then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ data: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    let res = await loadSchedulePlan()
+    dispatch(endLoad())
+    if(res.code === 200) {
+      this.setState({ data: res.msg })
+    } else {
+      dispatch(alertMsg(res.msg))
+    }
   }
 
   clickCourse(type, item) {
     const { dispatch } = this.props
-
-    if(type === TRIAL_PROBLEM) {
-      this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
-    }
 
     // 没有开课
     if(!item.id) {
@@ -106,50 +97,6 @@ export default class SchedulePlan extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
   }
 
-  handleClickAuditionPlan(plan) {
-    let planId = plan.id
-    let errMsg = plan.errMsg
-    const { dispatch } = this.props
-    // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
-    if(errMsg) {
-      dispatch(alertMsg(errMsg))
-      return
-    }
-    if(planId) {
-      this.context.router.push(`/rise/static/plan/study?planId=${planId}`)
-    } else {
-      this.setState({
-        dialogButtons: [
-          {
-            label: '取消',
-            onClick: () => {
-              this.setState({ dialogShow: false, dialogButtons: [], dialogContent: '' })
-            }
-          },
-          {
-            label: '确认',
-            onClick: () => {
-              dispatch(startLoad())
-              this.setState({ dialogShow: false })
-              openAudition().then(res => {
-                dispatch(endLoad())
-                if(res.code === 200) {
-                  this.context.router.push(`/rise/static/plan/study?planId=${res.msg}`)
-                } else {
-                  dispatch(alertMsg(res.msg))
-                }
-              }).catch(e => {
-                dispatch(alertMsg(e))
-              })
-            }
-          }
-        ],
-        dialogShow: true,
-        dialogContent: '试听课开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
-      })
-    }
-  }
-
   render() {
     const { data } = this.state
     const { month, topic, today, minorSelected, runningProblem = [], minorPercent = 0, majorPercent = 0, completeProblem = [] } = data
@@ -171,7 +118,11 @@ export default class SchedulePlan extends React.Component<any, any> {
                 <div className={`problem-item-backcolor ${styleType}`}/>
                 <div className={`problem-item-backimg`}/>
                 <div className="problem-item-subCatalog">{item.problem.abbreviation}</div>
-                {item.id ? null : <div className="wait-open">待开课</div>}
+                {!item.id && <div className="wait-open">待开课</div>}
+                {
+                  item.deadline && item.deadline > 0 &&
+                  <div className="problem-item-deadline">{`距关闭：${item.deadline}天`}</div>
+                }
               </div>
               <div className="card-desc">
                 <div className="problem-name">{item.problem.problem}</div>
@@ -193,7 +144,8 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="plan-close-date">{date}</div>
               <div className="plan-close-year">{year}</div>
             </div>
-            <div className="plan-name">{item.typeDesc? "【"+item.typeDesc+"】 "+item.problem.problem: ""+item.problem.problem}</div>
+            <div
+              className="plan-name">{item.typeDesc ? '【' + item.typeDesc + '】 ' + item.problem.abbreviation + '：' + item.problem.problem : '' + item.problem.abbreviation + '：' + item.problem.problem}</div>
             <div className="plan-click">
               <AssetImg type="arrow_right" height={10} width={7}/>
             </div>
@@ -202,31 +154,19 @@ export default class SchedulePlan extends React.Component<any, any> {
       })
     }
 
-    const renderCourseCategory = (title) => {
-      return (
-        <div className="course-category">
-          <div className="category-line"/>
-          <div className="category-title">{title}</div>
-          <div className="category-line"/>
-        </div>
-      )
-    }
-
     const renderDialog = () => {
       const { dialogShow = false, dialogButtons = [], dialogContent } = this.state
 
       return (
         <Alert
           show={dialogShow}
-          buttons={dialogButtons}
-        >
+          buttons={dialogButtons}>
           {dialogContent}
         </Alert>
       )
     }
     return (
       <div className="schedule-plan-container" style={{ minHeight: window.innerHeight }}>
-
         <div className="monthly-topic">
           {topic ? month + '月 ' + topic : null}
         </div>
@@ -244,7 +184,8 @@ export default class SchedulePlan extends React.Component<any, any> {
               {majorPercent + '%'}
             </div>
           </div>
-          {minorSelected ?
+          {
+            minorSelected &&
             <div className="minor-progress">
               <div className="progress-name">辅修课</div>
               <div className="progress-bar">
@@ -253,7 +194,7 @@ export default class SchedulePlan extends React.Component<any, any> {
               <div className="progress-percent">
                 {minorPercent + '%'}
               </div>
-            </div> : null
+            </div>
           }
         </div>
         <ColumnSpan/>
@@ -285,14 +226,17 @@ export default class SchedulePlan extends React.Component<any, any> {
           </div>
         </div>
         <ColumnSpan/>
-        {!_.isEmpty(completeProblem) ? <div className="card">
-          <div className="card-title">
-            <div className="card-topic">已完成</div>
+        {
+          !_.isEmpty(completeProblem) &&
+          <div className="card">
+            <div className="card-title">
+              <div className="card-topic">已完成</div>
+            </div>
+            <div className="complete-course-container">
+              {renderCompleteCourse()}
+            </div>
           </div>
-          <div className="complete-course-container">
-            {renderCompleteCourse()}
-          </div>
-        </div> : null}
+        }
         {renderDialog()}
         <ToolBar/>
       </div>

@@ -3,17 +3,12 @@ import { config } from 'modules/helpers/JsConfig'
 import { Route } from 'react-router'
 
 import Base from 'modules/base/Base'
-import Welcome from 'modules/problem/Welcome'
-import { PlanMain } from 'modules/plan/PlanMain'
 import StudyLine from 'modules/plan/StudyLine'
 import { KnowledgeViewer } from 'modules/practice/knowledge/KnowledgeViewer'
 import { Result as WarmUpResult } from 'modules/practice/warmup/Result'
 import { Main as Application } from 'modules/practice/application/Main'
 import { Challenge as Challenge } from 'modules/practice/challenge/Challenge'
 import { Main as Subject } from 'modules/practice/subject/Main'
-import { Start } from 'modules/promotion/evalution/Start'
-import { Main as Eva } from 'modules/promotion/evalution/Main'
-import { Result as EvaResult } from 'modules/promotion/evalution/Result'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
 import { MessageCenter } from 'modules/message/MessageCenter'
@@ -62,17 +57,16 @@ import PersonalModify from './modules/customer/account/PersonalModify'
 import OverView from './modules/schedule/overview/OverView'
 import Transfer from './modules/schedule/overview/components/Transfer'
 import SchedulePlan from './modules/schedule/plan/SchedulePlan'
-
 import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
-import PrizeCard from './modules/promotion/prizecard/PrizeCard'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
-import BusinessApply from './modules/bsapply/BusinessApply'
-import BusinessApplySubmitSuccess from './modules/bsapply/BusinessApplySubmitSuccess'
-import BusinessApplyChoice from './modules/bsapply/BusinessApplyChoice'
-import { SectionProgressHeader } from './modules/practice/components/SectionProgressHeader'
 import StudyReport from './modules/plan/StudyReport'
+import MineCard from './modules/customer/card/MineCard'
+import CampCountDown from './modules/schedule/CampCountDown'
+import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
+import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
+import SendCard from './modules/customer/card/experience/SendCard'
 
 const routes = (
   <Route>
@@ -81,9 +75,10 @@ const routes = (
              config(['chooseWXPay'])
            }}>
 
-      <Route path="welcome" component={Welcome}/>
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={PlanList}/>
+      <Route path="learn" component={PlanList}/>
+      <Route path="plan/main" component={PlanList}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>
@@ -91,8 +86,6 @@ const routes = (
       <Route path="problem/extension" component={ProblemExtension}/>
       <Route path="problem/cards" component={CardsCollection}/>
 
-      <Route path="learn" component={PlanList}/>
-      <Route path="plan/main" component={PlanList}/>
       <Route path="plan/view" component={ProblemIntroduction}/>
       <Route path="plan/study" component={StudyLine}/>
       {/*<Route path="plan/study" component={PlanMain}/>*/}
@@ -115,6 +108,7 @@ const routes = (
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
+      <Route path="guest/card/send" component={SendCard}/>
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
@@ -132,6 +126,7 @@ const routes = (
         <Route path="forum/mine" component={ForumQuestion}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
+        <Route path="prize/card/list" component={MineCard}/>
       </Route>
 
       <Route path="message" component={Customer}>
@@ -160,12 +155,12 @@ const routes = (
       <Route path="course/schedule/plan" component={SchedulePlan}/>
       <Route path="course/schedule/nopublish" component={ProblemNoPublish}/>
 
-      <Route path="prize" component={PrizeCard}/>
       <Route path="transfer" component={Transfer}/>
-      <Route path="business/apply/start" component={BusinessApply}/>
       <Route path="business/count/down" component={CountDown}/>
-      <Route path="business/apply/choice" component={BusinessApplyChoice}/>
-      <Route path="business/apply/submit/success" component={BusinessApplySubmitSuccess}/>
+      <Route path="camp/count/down" component={CampCountDown}/>
+      {/*团队学习倒计时页面*/}
+      <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
+      <Route path="guest/annual/summary" component={AnnualSummary}/>
     </Route>
 
     <Route path="/test" component={StudyReport}/>
