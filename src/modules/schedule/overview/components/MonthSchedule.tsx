@@ -40,7 +40,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
     let node = document.getElementById(this.props.id)
     this.sortbale = Sortable.create(node, {
       group: 'sorting',
-      sort: false,
+      sort: true,
       animation: 150,
       handle: '.draggable-item',
       ghostClass: 'ghost',
