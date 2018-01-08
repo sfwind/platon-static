@@ -72,6 +72,7 @@ const routes = (
     <Route path="/rise/static" component={Base}
            onChange={() => {
              config(['chooseWXPay'])
+             window.scrollTo(0, 0)
            }}>
 
       <Route path="rise" component={PlanList}/>
