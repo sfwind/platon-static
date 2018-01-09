@@ -15,7 +15,7 @@ export class NickName extends React.Component {
   componentWillMount() {
     const { hiddenTab = () => {} } = this.props
     hiddenTab()
-    this.setState({ nickName: this.props.location.query.nickName })
+    this.setState({ nickname: window.ENV.userName })
   }
 
   componentWillUnmount() {
@@ -23,8 +23,8 @@ export class NickName extends React.Component {
     showTab()
   }
 
-  handleUpdateNickName() {
-    ppost(`/rise/customer/profile/nickName/update?nickName=${this.refs.text.value}`).then(res => {
+  handleUpdateNickname() {
+    ppost(`/rise/customer/profile/nickname/update`, { "nickname": this.refs.text.value }).then(res => {
       if(res.code === 200) {
         window.ENV.userName = this.refs.text.value
         this.context.router.goBack()
@@ -33,16 +33,16 @@ export class NickName extends React.Component {
   }
 
   render() {
-    const { nickName = '' } = this.state
+    const { nickname = '' } = this.state
 
     return (
       <div className="nickname-modify-component">
         <div className="nickname-edit">
-          <input className="text" type="text" ref="text" defaultValue={nickName} autoFocus={true}/>
+          <input className="text" type="text" ref="text" defaultValue={nickname} autoFocus={true}/>
         </div>
 
         <div className="nickname-submit">
-          <span onClick={() => this.handleUpdateNickName()}>提交</span>
+          <span onClick={() => this.handleUpdateNickname()}>提交</span>
         </div>
       </div>
     )

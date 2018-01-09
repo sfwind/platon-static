@@ -18,9 +18,6 @@ export default class PersonalModify extends React.Component {
   handleClickGoNickNameModifyPage(nickName) {
     this.context.router.push({
       pathname: `/rise/static/customer/modify/nickname`,
-      query: {
-        nickName: nickName
-      }
     })
   }
 
