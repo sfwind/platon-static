@@ -233,7 +233,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,videoUrl
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,videoUrl,videoPoster
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -373,7 +373,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div>
-              {videoUrl && <video src={videoUrl} controls="controls" width="100%" >您的设备不支持video标签</video>}
+              {videoUrl && <video src={videoUrl} controls="controls" width="100%" poster={videoPoster}>您的设备不支持video标签</video>}
             </div>
             <div className="pi-c-f-content">
               {audio ?

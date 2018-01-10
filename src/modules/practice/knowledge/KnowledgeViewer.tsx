@@ -200,7 +200,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
       analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
-      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl
+      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl,videoPoster
     } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
@@ -224,7 +224,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       <div className={`knowledge-page`}>
         <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
           <div className="page-header">{knowledge.knowledge}</div>
-          {videoUrl&& <video src={videoUrl} controls="controls" width="100%"></video>}
+          {videoUrl&& <video src={videoUrl} controls="controls" width="100%" poster={videoPoster}></video>}
           <div className="intro-container">
             {audio ?
               <div className="context-audio">
