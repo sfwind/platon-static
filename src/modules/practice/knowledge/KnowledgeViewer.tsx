@@ -18,6 +18,7 @@ import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import { scroll } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 import RenderInBody from '../../../components/RenderInBody'
+import QYVideo from '../../../components/QYVideo'
 
 const sequenceMap = {
   0: 'A',
@@ -200,7 +201,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
       analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
-      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl,videoPoster
+      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords
     } = knowledge
     const { location } = this.props
     const { practicePlanId } = location.query
@@ -224,7 +225,9 @@ export class KnowledgeViewer extends React.Component<any, any> {
       <div className={`knowledge-page`}>
         <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
           <div className="page-header">{knowledge.knowledge}</div>
-          {videoUrl&& <video src={videoUrl} controls="controls" width="100%" poster={videoPoster}></video>}
+          {
+            videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
+          }
           <div className="intro-container">
             {audio ?
               <div className="context-audio">
