@@ -594,7 +594,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goPayPage = () => {
-    window.location.href = `https://${window.location.hostname}/pay/jan`
+    window.location.href = `https://${window.location.hostname}/pay/rise`
   }
 
   render() {
@@ -1028,8 +1028,10 @@ export class PlanMain extends React.Component <any, any> {
           }
         ]}>
           <div className="global-pre" style={{ paddingTop: 0 }}
-               dangerouslySetInnerHTML={{ __html: '本节不在体验课范围内。\n' +
-               '报名1月训练营，继续学习本节课程吧！' }}/>
+               dangerouslySetInnerHTML={{
+                 __html: '本节课不在体验课范围内。\n' +
+                 '现在报名，继续学习《认识自己》及其他36门圈外商学院课程吧！'
+               }}/>
         </Alert>
       )
     }
