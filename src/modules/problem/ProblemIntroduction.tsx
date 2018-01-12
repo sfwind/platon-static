@@ -13,6 +13,7 @@ const numeral = require('numeral')
 import { mark } from '../../utils/request'
 import { buttonStatus } from '../../utils/helpers'
 import { collectProblem, disCollectProblem, createPlan } from '../plan/async'
+import QYVideo from '../../components/QYVideo'
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any, any> {
@@ -233,7 +234,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,videoUrl,videoPoster
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,videoUrl,videoPoster,videoWords
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -373,7 +374,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div>
-              {videoUrl && <video src={videoUrl} controls="controls" width="100%" poster={videoPoster}>您的设备不支持video标签</video>}
+              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster}   videoWords={videoWords}/>}
             </div>
             <div className="pi-c-f-content">
               {audio ?
