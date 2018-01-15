@@ -1,7 +1,10 @@
 import * as React from 'react'
 import './NickName.less'
-import { ppost } from '../../../../utils/request'
+import { mark, ppost } from '../../../../utils/request'
 
+/**
+ * 修改昵称页面
+ */
 export class NickName extends React.Component {
 
   constructor() {
@@ -13,6 +16,11 @@ export class NickName extends React.Component {
   }
 
   componentWillMount() {
+    mark({
+      module: '打点',
+      function: '个人中心',
+      action: '修改昵称页面'
+    })
     const { hiddenTab = () => {} } = this.props
     hiddenTab()
     this.setState({ nickname: window.ENV.userName })
@@ -24,7 +32,12 @@ export class NickName extends React.Component {
   }
 
   handleUpdateNickname() {
-    ppost(`/rise/customer/profile/nickname/update`, { "nickname": this.refs.text.value }).then(res => {
+    mark({
+      module: '打点',
+      function: '修改昵称页面',
+      action: '点击修改昵称按钮'
+    })
+    ppost(`/rise/customer/profile/nickname/update`, { 'nickname': this.refs.text.value }).then(res => {
       if(res.code === 200) {
         window.ENV.userName = this.refs.text.value
         this.context.router.goBack()

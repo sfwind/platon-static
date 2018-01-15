@@ -48,6 +48,9 @@ const marryList = [
   { id: '2', value: '单身' }
 ]
 
+/**
+ * 个人信息修改页
+ */
 @connect(state => state)
 export default class Profile extends React.Component<any, any> {
   static contextTypes = {
@@ -150,6 +153,11 @@ export default class Profile extends React.Component<any, any> {
   }
 
   onChoiceRegion(provinceRegion, cityRegion) {
+    mark({
+      module: '打点',
+      function: '个人信息页',
+      action: '选择居住地点'
+    })
     this.setState({
       province: provinceRegion.value,
       provinceId: provinceRegion.id,
@@ -161,6 +169,11 @@ export default class Profile extends React.Component<any, any> {
   }
 
   onChoiceIndustry(industry) {
+    mark({
+      module: '打点',
+      function: '个人信息页',
+      action: '选择行业'
+    })
     this.setState({ industry: industry.value }, () => {
       this.checkIsFull()
     })
@@ -173,12 +186,22 @@ export default class Profile extends React.Component<any, any> {
   }
 
   onChoiceWorkingYear(workingYear) {
+    mark({
+      module: '打点',
+      function: '个人信息页',
+      action: '选择工作年份'
+    })
     this.setState({ workingYear: workingYear.value }, () => {
       this.checkIsFull()
     })
   }
 
   onChoiceMarry(marry) {
+    mark({
+      module: '打点',
+      function: '个人信息页',
+      action: '选择感情状态'
+    })
     this.setState({ married: marry.value })
   }
 
@@ -204,6 +227,11 @@ export default class Profile extends React.Component<any, any> {
   }
 
   submitProfile() {
+    mark({
+      module: '打点',
+      function: '个人信息页',
+      action: '提交个人信息修改'
+    })
     const { dispatch, location } = this.props
     const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
@@ -229,11 +257,11 @@ export default class Profile extends React.Component<any, any> {
           if(goRise) {
             // 是否mobile已经绑定
             // if(!bindMobile) {
-              // 没有绑定过
-              this.context.router.push({
-                pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true, runningPlanId: runningPlanId }
-              })
+            // 没有绑定过
+            this.context.router.push({
+              pathname: '/rise/static/customer/mobile/check',
+              query: { goRise: true, runningPlanId: runningPlanId }
+            })
             // } else {
             //   // 绑定过
             //   // 类似于点商学院
@@ -491,5 +519,3 @@ export default class Profile extends React.Component<any, any> {
     )
   }
 }
-
-

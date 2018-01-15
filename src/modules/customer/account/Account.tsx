@@ -5,6 +5,9 @@ import { pget, ppost, mark } from 'utils/request'
 import { changeTitle, unScrollToBorder } from 'utils/helpers'
 import './Account.less'
 
+/**
+ * 我的账户页面
+ */
 @connect(state => state)
 export default class Rise extends React.Component<any, any> {
   static contextTypes = {
@@ -39,6 +42,11 @@ export default class Rise extends React.Component<any, any> {
   }
 
   handleClickGoMemberDesc() {
+    mark({
+      module: '打点',
+      function: '我的账户',
+      action: '点击圈外会员'
+    })
     const memberType = this.state.data.memberType
     switch(memberType) {
       case '小课训练营':
@@ -48,6 +56,15 @@ export default class Rise extends React.Component<any, any> {
         this.context.router.push('/rise/static/customer/member')
         break
     }
+  }
+
+  goMobileCheck() {
+    mark({
+      module: '打点',
+      function: '我的账户',
+      action: '修改手机号'
+    })
+    this.context.router.push('/rise/static/customer/mobile/check')
   }
 
   render() {
@@ -116,7 +133,7 @@ export default class Rise extends React.Component<any, any> {
         </div>
         <div className="item item-margin"
              style={{ margin: '25px 0' }}
-             onClick={() => this.context.router.push('/rise/static/customer/mobile/check')}>
+             onClick={() => this.goMobileCheck()}>
           <div className="label">
             {mobile ? '修改手机号' : '手机号'}
           </div>

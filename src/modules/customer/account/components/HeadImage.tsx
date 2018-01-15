@@ -1,10 +1,13 @@
 import * as React from 'react'
 import './HeadImage.less'
-import { ppost } from '../../../../utils/request'
+import { mark, ppost } from '../../../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { adjustImage } from '../../../../components/imageUtil/ImageUtil'
 
+/**
+ * 修改头像页面
+ */
 @connect(state => state)
 export class HeadImage extends React.Component {
 
@@ -24,6 +27,11 @@ export class HeadImage extends React.Component {
   }
 
   componentWillMount() {
+    mark({
+      module:'打点',
+      function:'个人中心',
+      action:'加载修改头像页面'
+    })
     const { hiddenTab = () => {} } = this.props
     hiddenTab()
     this.dispatch = this.props.dispatch
@@ -72,12 +80,22 @@ export class HeadImage extends React.Component {
   }
 
   handleClickSelectHeadImg() {
+    mark({
+      module:'打点',
+      function:'修改头像页面',
+      action:'点击选择头像'
+    })
     let node = this.refs.changeImg
     node.click()
     this.autoUploadHeadImg()
   }
 
   handleClickUpdateHeadImg() {
+    mark({
+      module:'打点',
+      function:'修改头像页面',
+      action:'点击修改按钮'
+    })
     const { modify } = this.state
     if(modify) {
       this.handleClickSelectHeadImg()

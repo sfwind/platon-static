@@ -7,7 +7,9 @@ import {changeTitle} from "utils/helpers"
 import "./PointTip.less"
 import { Button, ButtonArea, Dialog, Form, FormCell, CellHeader, CellBody, Checkbox } from "react-weui"
 
-
+/**
+ * 我的会员页面
+ */
 @connect(state => state)
 export default class RiseMember extends React.Component<any,any> {
   static contextTypes = {
