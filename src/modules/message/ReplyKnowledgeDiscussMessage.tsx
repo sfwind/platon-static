@@ -6,7 +6,11 @@ import {startLoad, endLoad, alertMsg} from "../../redux/actions";
 import Discuss from "../practice/components/Discuss";
 import DiscussShow from "../practice/components/DiscussShow";
 import _ from "lodash"
+import { mark } from '../../utils/request'
 
+/**
+ * 知识点评论页
+ */
 @connect(state => state)
 export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
   constructor() {
@@ -28,6 +32,11 @@ export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
 
 
   componentWillMount(props) {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'加载知识点评论页'
+    })
     const {dispatch, location} = props || this.props
     const {knowledgeId} = location.query
     const {commentId} = location.query
