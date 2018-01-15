@@ -5,6 +5,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import './MoreProblem.less'
 import { loadCatalog } from './async'
 import ProblemItem from './components/ProblemItem'
+import { mark } from '../../utils/request'
 
 @connect(state => state)
 export class MoreProblem extends React.Component<any, any> {
@@ -23,6 +24,12 @@ export class MoreProblem extends React.Component<any, any> {
 
   componentWillMount() {
     const { dispatch } = this.props
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'加载发现更多页面',
+      memo: this.props.location.query.catalogId
+    })
     dispatch(startLoad())
     loadCatalog(this.props.location.query.catalogId).then(res => {
       dispatch(endLoad())
@@ -39,6 +46,12 @@ export class MoreProblem extends React.Component<any, any> {
   }
 
   openProblem(problem) {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'点击课程介绍',
+      memo:problem.id
+    })
     let param = {
       id: problem.id
     }

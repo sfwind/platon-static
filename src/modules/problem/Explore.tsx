@@ -69,6 +69,12 @@ export class Explore extends React.Component<any, any> {
   }
 
   clickProblem(problem) {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'点击课程介绍',
+      memo:problem.id
+    })
     let param = {
       id: problem.id
     }
@@ -79,6 +85,12 @@ export class Explore extends React.Component<any, any> {
   }
 
   openMore(catalog) {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'点击发现更多',
+      memo:catalog.catalogId
+    })
     let param = { catalogId: catalog.catalogId }
     if(this.props.location.query.show) {
       merge(param, { show: true })

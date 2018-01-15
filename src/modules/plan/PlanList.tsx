@@ -150,6 +150,7 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickCampPlan(planId, problemId) {
+    mark({ module: '打点', function: '学习', action: '点击训练营课程', memo: window.ENV.osName })
     const { dispatch } = this.props
     if(planId === null) {
       // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
@@ -197,6 +198,12 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickProblemChoose() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击选课',
+      memo: window.ENV.osName
+    })
     this.context.router.push({
       pathname: '/rise/static/problem/explore'
     })

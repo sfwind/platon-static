@@ -1,9 +1,10 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { startLoad, endLoad, alertMsg } from "../../redux/actions";
-import AssetImg from "../../components/AssetImg";
-import { loadProblemExtension } from "./async";
-import "./ProblemExtension.less";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg } from '../../redux/actions'
+import AssetImg from '../../components/AssetImg'
+import { loadProblemExtension } from './async'
+import './ProblemExtension.less'
+import { mark } from '../../utils/request'
 
 @connect(state => state)
 export default class ProblemExtension extends React.Component<any, any> {
@@ -22,13 +23,19 @@ export default class ProblemExtension extends React.Component<any, any> {
   componentWillMount() {
     const { dispatch } = this.props
     const { problemId } = this.props.location.query
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '加载延伸学习页面',
+      memo: problemId
+    })
     dispatch(startLoad())
     loadProblemExtension(problemId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg, extension: res.msg.extension })
       } else {
-        dispatch(alertMsg("当前课程暂无延伸学习相关内容"))
+        dispatch(alertMsg('当前课程暂无延伸学习相关内容'))
       }
     }).catch(e => {
       dispatch(endLoad())
@@ -46,7 +53,7 @@ export default class ProblemExtension extends React.Component<any, any> {
         return (
           <div className="extension-activity">
             <ExtensionHead
-              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_bag.png", width: 21, height: 20 }}
+              icon={{ uri: 'https://static.iqycamp.com/images/problem/extension_icon_bag.png', width: 21, height: 20 }}
               content={`学习活动`}/>
             {renderOnlineActivities()}
             {renderOfflineActivities()}
@@ -92,21 +99,21 @@ export default class ProblemExtension extends React.Component<any, any> {
           <div className="extension-head"/>
           <div className="extension-read">
             <ExtensionHead
-              icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_book.png", width: 21, height: 20 }}
+              icon={{ uri: 'https://static.iqycamp.com/images/problem/extension_icon_book.png', width: 21, height: 20 }}
               content={`延伸阅读`}/>
             <div className="extension-read-content" dangerouslySetInnerHTML={{ __html: extension }}/>
           </div>
           {renderActivities()}
           {/*<div className="extension-share">*/}
-            {/*<ExtensionHead*/}
-              {/*icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 20 }}*/}
-              {/*content={`课程分享`}/>*/}
-            {/*<div className="extension-share-content">深度好文&nbsp;遇见大咖&nbsp;分享心得</div>*/}
-            {/*<div className="extension-share-view" onClick={() => this.context.router.push({*/}
-                   {/*pathname: "/rise/static/practice/subject",*/}
-                   {/*query: { id: problemId, series }*/}
-                 {/*})}>进入*/}
-            {/*</div>*/}
+          {/*<ExtensionHead*/}
+          {/*icon={{ uri: "https://static.iqycamp.com/images/problem/extension_icon_star.png", width: 27, height: 20 }}*/}
+          {/*content={`课程分享`}/>*/}
+          {/*<div className="extension-share-content">深度好文&nbsp;遇见大咖&nbsp;分享心得</div>*/}
+          {/*<div className="extension-share-view" onClick={() => this.context.router.push({*/}
+          {/*pathname: "/rise/static/practice/subject",*/}
+          {/*query: { id: problemId, series }*/}
+          {/*})}>进入*/}
+          {/*</div>*/}
           {/*</div>*/}
         </div>
       </div>
@@ -116,7 +123,7 @@ export default class ProblemExtension extends React.Component<any, any> {
 }
 
 // 分类上 icon 和文字
-class ExtensionHead extends React.Component<{ icon: { uri: string; width: number; height: number }; content: string }, any> {
+class ExtensionHead extends React.Component<{icon: {uri: string; width: number; height: number}; content: string}, any> {
   render() {
     const { icon, content } = this.props
     const { uri, width, height } = icon
@@ -128,8 +135,9 @@ class ExtensionHead extends React.Component<{ icon: { uri: string; width: number
     )
   }
 }
+
 // 活动分类
-class ActivityTypeTitle extends React.Component<{ content: string }, any> {
+class ActivityTypeTitle extends React.Component<{content: string}, any> {
   render() {
     const { content } = this.props
     return (
@@ -137,8 +145,9 @@ class ActivityTypeTitle extends React.Component<{ content: string }, any> {
     )
   }
 }
+
 // 线上活动列表
-class OnlineContentBox extends React.Component<{ description: string, password: string, uri: string }, any> {
+class OnlineContentBox extends React.Component<{description: string, password: string, uri: string}, any> {
   render() {
     const { description, password, uri } = this.props
     return (
@@ -152,8 +161,9 @@ class OnlineContentBox extends React.Component<{ description: string, password: 
     )
   }
 }
+
 // 线下活动列表
-class OfflineContentBox extends React.Component<{ description: string, location: string, workshop: string, uri: string }, any> {
+class OfflineContentBox extends React.Component<{description: string, location: string, workshop: string, uri: string}, any> {
   render() {
     const { description, location, workshop, uri } = this.props
     return (
