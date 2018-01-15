@@ -10,6 +10,9 @@ import RenderInBody from '../../components/RenderInBody'
 import { mark } from 'utils/request'
 import { configShare } from '../helpers/JsConfig'
 
+/**
+ * 回答页面
+ */
 @connect(state => state)
 export default class InterlocutionQuanAnswer extends Component {
   constructor() {

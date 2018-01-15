@@ -111,6 +111,11 @@ export default class InterlocutionQuestion extends Component {
   }
 
   handleClickGoSubmit() {
+    mark({
+      module:'打点',
+      function:'提问墙',
+      action:'点击新增问题按钮'
+    })
     const { dispatch, location } = this.props;
     const { date } = location.query;
     dispatch(startLoad());

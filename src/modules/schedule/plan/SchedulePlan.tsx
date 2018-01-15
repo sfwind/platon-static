@@ -96,6 +96,15 @@ export default class SchedulePlan extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
   }
 
+  gotoOverview(){
+     mark({
+       module:'打点',
+       function:'学习页面',
+       action:'点击学习计划按钮'
+     })
+    this.context.router.push('/rise/static/course/schedule/overview')
+  }
+
   render() {
     const { data } = this.state
     const { month, topic, today, minorSelected, runningProblem = [], minorPercent = 0, majorPercent = 0, completeProblem = [] } = data
@@ -218,7 +227,7 @@ export default class SchedulePlan extends React.Component<any, any> {
         </div>
         <div className="column-span"/>
         <div className="modify-schedule"
-             onClick={() => this.context.router.push('/rise/static/course/schedule/overview')}>
+             onClick={() =>this.gotoOverview()}>
           学习计划
           <div className="modify-click">
             <AssetImg type="arrow_right" height={10} width={7}/>

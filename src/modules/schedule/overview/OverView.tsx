@@ -9,9 +9,13 @@ import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
+import { mark } from '../../../utils/request'
 
 const { Alert } = Dialog
 
+/**
+ * 学习计划页
+ */
 @connect(state => state)
 export default class OverView extends React.Component {
 
@@ -29,6 +33,11 @@ export default class OverView extends React.Component {
   }
 
   componentWillMount() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '加载学习计划页'
+    })
     const { dispatch } = this.props
     const { firstEntry } = this.props
     console.log(this.props)
@@ -101,6 +110,11 @@ export default class OverView extends React.Component {
   }
 
   switchDraggableStatus(draggable) {
+    mark({
+      module: '打点',
+      function: '学习计划页',
+      action: '点击切换按钮'
+    })
     if(draggable) {
       this.context.router.push({
         pathname: '/rise/static/transfer',
@@ -116,6 +130,11 @@ export default class OverView extends React.Component {
   }
 
   handleSubmitButton(draggable) {
+    mark({
+      module: '打点',
+      function: '学习计划页',
+      action: '点击确定按钮'
+    })
     if(draggable) {
       let node = document.getElementById('overview-scroll')
       let result = calcScheduleData(node)
