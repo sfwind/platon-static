@@ -176,6 +176,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   onClickHandleProblemCollection(selected, problemId) {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击收藏课程按钮',
+      memo: `{problemId:${problemId}`
+    })
     const { dispatch } = this.props
     if(selected) {
       // 已经关注
@@ -234,7 +240,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,videoUrl,videoPoster,videoWords
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords, videoUrl, videoPoster, videoWords
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -374,7 +380,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div>
-              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster}   videoWords={videoWords}/>}
+              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>}
             </div>
             <div className="pi-c-f-content">
               {audio ?
