@@ -1,11 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import "./Result.less";
-// import { loadKnowledgeIntro } from "./async";
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import AssetImg from "../../../components/AssetImg";
 import RenderInBody from '../../../components/RenderInBody'
+import { mark } from '../../../utils/request'
 
+/**
+ * 选择题答完之后的结果页
+ */
 @connect(state => state)
 export class Result extends React.Component <any, any> {
   constructor() {
@@ -20,10 +23,20 @@ export class Result extends React.Component <any, any> {
   }
 
   onSubmit() {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'点击选择题结果页答案解析按钮'
+    })
     window.history.back();
   }
 
   nextTask() {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'点击选择题结果页返回按钮'
+    })
     const { dispatch } = this.props
     const { series, planId } = this.props.location.query
     window.history.go(-2);

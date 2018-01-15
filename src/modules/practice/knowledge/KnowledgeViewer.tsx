@@ -30,6 +30,9 @@ const sequenceMap = {
   6: 'G'
 }
 
+/**
+ * 知识点页面
+ */
 @connect(state => state)
 export class KnowledgeViewer extends React.Component<any, any> {
   constructor() {
@@ -137,6 +140,11 @@ export class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onSubmit() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击提交知识点评论'
+    })
     const { dispatch } = this.props
     const { referenceId, repliedId, content } = this.state
     if(content.length == 0) {

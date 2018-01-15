@@ -18,12 +18,14 @@ import { mark } from '../../../utils/request'
 import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
 import RenderInBody from '../../../components/RenderInBody'
-import MiniRefreshTools from 'minirefresh';
 
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
 
+/**
+ * 应用题页
+ */
 @connect(state => state)
 export class Main extends React.Component <any, any> {
   constructor() {
@@ -46,7 +48,7 @@ export class Main extends React.Component <any, any> {
       loading: false,
       showCompletedBox: false,
       completdApplicationCnt: 1000,
-      autoPushDraftFlag: null,
+      autoPushDraftFlag: null
     }
     this.pullElement = null
   }
@@ -75,10 +77,10 @@ export class Main extends React.Component <any, any> {
               editorValue: msg.isSynchronized ? msg.content : msg.draft,
               isSynchronized: msg.isSynchronized
             })
-            this.clearStorage();
+            this.clearStorage()
           } else {
             // 非同步的，展示localStorage,除非localStorage里没有内容
-            let draft = storageDraft.content ? storageDraft.content : msg.draft;
+            let draft = storageDraft.content ? storageDraft.content : msg.draft
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: draft,
@@ -152,7 +154,7 @@ export class Main extends React.Component <any, any> {
   }
 
   componentDidUpdate() {
-    const { showOthers, otherList } = this.state;
+    const { showOthers, otherList } = this.state
     if(!this.pullElement && showOthers && !isEmpty(otherList)) {
       // 有内容并且米有pullElement
       const { dispatch } = this.props
@@ -263,7 +265,7 @@ export class Main extends React.Component <any, any> {
                 this.clearStorage()
               }
             })
-            this.setState({ autoPushDraftFlag: false });
+            this.setState({ autoPushDraftFlag: false })
           }
         }
       }
@@ -314,6 +316,11 @@ export class Main extends React.Component <any, any> {
   }
 
   others() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击应用题页同学的作业'
+    })
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage } = this.props
     dispatch(startLoad())
     let page = 1
@@ -339,6 +346,11 @@ export class Main extends React.Component <any, any> {
   }
 
   onSubmit() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击应用题提交按钮'
+    })
     const { dispatch, location } = this.props
     const { data, planId, completdApplicationCnt } = this.state
     const answer = this.refs.editor.getValue()
@@ -355,7 +367,7 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         if(code.msg !== 0) {
           this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0)
           })
         }
         if(complete == 'false') {
@@ -392,11 +404,11 @@ export class Main extends React.Component <any, any> {
   }
 
   handleChangeValue(value) {
-    const { autoPushDraftFlag } = this.state;
+    const { autoPushDraftFlag } = this.state
     if(_.isBoolean(autoPushDraftFlag)) {
       // 非null(取到数据了) 并且没有打开保存draft的flag
       if(!autoPushDraftFlag) {
-        this.setState({ autoPushDraftFlag: true });
+        this.setState({ autoPushDraftFlag: true })
       }
     }
   }
@@ -483,7 +495,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div className="application">
-        <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
+        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
@@ -498,7 +510,7 @@ export class Main extends React.Component <any, any> {
                 pic ?
                   <div className="app-image">
                     <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                              onClick={() => {preview(pic, [ pic ])}}/>
+                              onClick={() => {preview(pic, [pic])}}/>
                   </div> :
                   null
               }

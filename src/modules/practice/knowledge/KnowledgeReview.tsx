@@ -5,6 +5,9 @@ import {set, startLoad, endLoad, alertMsg} from "redux/actions"
 import { mark } from "../../../utils/request"
 import {loadProblem} from "./async"
 
+/**
+ * 知识点回顾页面
+ */
 @connect(state=>state)
 export class KnowledgeReview extends React.Component<any,any>{
   constructor(props){

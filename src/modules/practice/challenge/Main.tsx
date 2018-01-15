@@ -9,6 +9,9 @@ import { merge } from 'lodash'
 import { mark } from "../../../utils/request"
 import AssetImg from "../../../components/AssetImg";
 
+/**
+ * 小目标页
+ */
 @connect(state => state)
 export class Main extends React.Component <any, any> {
   constructor() {
@@ -70,6 +73,11 @@ export class Main extends React.Component <any, any> {
   }
 
   onSubmit() {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'点击小目标提交按钮'
+    })
     const { dispatch, location } = this.props;
     const { data, planId } = this.state;
     const { complete, practicePlanId } = location.query;

@@ -15,6 +15,9 @@ import { submitEvaluation } from '../../message/async'
 import Toast from '../../../components/Toast'
 import RenderInBody from '../../../components/RenderInBody'
 
+/**
+ * 应用题评论页
+ */
 @connect(state => state)
 export class Comment extends React.Component<any, any> {
   constructor() {
@@ -119,6 +122,11 @@ export class Comment extends React.Component<any, any> {
   }
 
   onSubmit() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击应用题评论页回复按钮'
+    })
     const { dispatch, location } = this.props
     const { content, isReply } = this.state
     if(content) {
@@ -218,10 +226,20 @@ export class Comment extends React.Component<any, any> {
   }
 
   show(showAll) {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击应用题评论页展开按钮'
+    })
     this.setState({ showAll: !showAll })
   }
 
   voted(id, voteStatus, voteCount) {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '点击应用题评论页点赞按钮'
+    })
     if(!voteStatus) {
       this.setState({ article: merge(this.state.article, { voteCount: voteCount + 1, voteStatus: true }) })
       vote(id)
@@ -230,6 +248,11 @@ export class Comment extends React.Component<any, any> {
   }
 
   handleEvaluateComment(ref, commentId) {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '对教练进行评分'
+    })
     const { commentEvaluations } = this.state
     let nodeState = this.refs[ref].getInnerState()
     submitEvaluation(commentId, nodeState.chosenLevel, null).then(res => {
