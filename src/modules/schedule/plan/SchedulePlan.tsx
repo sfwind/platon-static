@@ -54,6 +54,12 @@ export default class SchedulePlan extends React.Component<any, any> {
   }
 
   clickCourse(type, item) {
+    mark({
+      module:'打点',
+      function:'学习计划页面',
+      action:'点击课程按钮'
+    })
+
     const { dispatch } = this.props
 
     // 没有开课

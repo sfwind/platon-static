@@ -11,7 +11,7 @@ import { mark } from 'utils/request'
 import { configShare } from '../helpers/JsConfig'
 
 /**
- * 回答页面
+ * 已废弃
  */
 @connect(state => state)
 export default class InterlocutionQuanAnswer extends Component {

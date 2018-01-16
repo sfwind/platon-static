@@ -72,7 +72,7 @@ const txtStyle = {
 }
 
 /**
- * 圈圈问答提交页面
+ * 已废弃
  */
 @connect(state => state)
 export default class InterlocutionQuestionSubmit extends Component {

@@ -11,6 +11,9 @@ import RenderInBody from '../../components/RenderInBody'
 import AssetImg from '../../components/AssetImg'
 import { mark } from 'utils/request'
 
+/**
+ * 已废弃
+ */
 @connect(state => state)
 export default class InterlocutionQuestion extends Component {
   constructor() {
