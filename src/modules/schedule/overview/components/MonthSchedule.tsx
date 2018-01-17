@@ -5,6 +5,8 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { updateSelected } from '../../async'
+import { isAndroid } from '../../../../utils/helpers'
+import DropDownList from '../../../customer/components/DropDownList'
 
 interface MonthScheduleProps {
   id: any,
@@ -14,6 +16,24 @@ interface MonthScheduleProps {
   disableAutoScroll: any,
   toggleSubmitButton: any
 }
+
+const monthList = [
+  { id: '1', value: '1月' },
+  { id: '2', value: '2月' },
+  { id: '3', value: '3月' },
+  { id: '4', value: '4月' },
+  { id: '5', value: '5月' },
+  { id: '6', value: '6月' },
+  { id: '7', value: '7月' },
+  { id: '8', value: '8月' },
+  { id: '9', value: '9月' },
+  { id: '10', value: '10月' },
+  { id: '11', value: '11月' },
+  { id: '12', value: '12月' }
+]
+
+// 动画移动 StyleSheet
+var problemMovingStyle
 
 @connect(state => state)
 export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
@@ -35,39 +55,39 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   componentDidMount() {
-    const { enableAutoScroll, disableAutoScroll, toggleSubmitButton } = this.props
+    // const { enableAutoScroll, disableAutoScroll, toggleSubmitButton } = this.props
 
-    let node = document.getElementById(this.props.id)
-    this.sortbale = Sortable.create(node, {
-      group: 'sorting',
-      sort: true,
-      animation: 150,
-      handle: '.draggable-item',
-      ghostClass: 'ghost',
-      dragClass: 'drag',
-      onStart: function(evt) {
-        enableAutoScroll()
-        toggleSubmitButton(false)
-        evt.oldIndex  // element index within parent
-      },
-      onMove: (/**Event*/evt, /**Event*/originalEvent) => {
-        toggleSubmitButton(false)
-        evt.dragged // dragged HTMLElement
-        evt.draggedRect // TextRectangle {left, top, right и bottom}
-        evt.related // HTMLElement on which have guided
-        evt.relatedRect // TextRectangle
-        originalEvent.clientY // mouse position
-      },
-      onEnd: function(evt) {
-        toggleSubmitButton(true)
-        disableAutoScroll()
-        var itemEl = evt.item  // dragged HTMLElement
-        evt.to    // target list
-        evt.from  // previous list
-        evt.oldIndex  // element's old index within old parent
-        evt.newIndex  // element's new index within new parent
-      }
-    })
+    // let node = document.getElementById(this.props.id)
+    // this.sortbale = Sortable.create(node, {
+    //   group: 'sorting',
+    //   sort: true,
+    //   animation: 150,
+    //   handle: '.draggable-item',
+    //   ghostClass: 'ghost',
+    //   dragClass: 'drag',
+    //   onStart: function(evt) {
+    //     enableAutoScroll()
+    //     toggleSubmitButton(false)
+    //     evt.oldIndex  // element index within parent
+    //   },
+    //   onMove: (/**Event*/evt, /**Event*/originalEvent) => {
+    //     toggleSubmitButton(false)
+    //     evt.dragged // dragged HTMLElement
+    //     evt.draggedRect // TextRectangle {left, top, right и bottom}
+    //     evt.related // HTMLElement on which have guided
+    //     evt.relatedRect // TextRectangle
+    //     originalEvent.clientY // mouse position
+    //   },
+    //   onEnd: function(evt) {
+    //     toggleSubmitButton(true)
+    //     disableAutoScroll()
+    //     var itemEl = evt.item  // dragged HTMLElement
+    //     evt.to    // target list
+    //     evt.from  // previous list
+    //     evt.oldIndex  // element's old index within old parent
+    //     evt.newIndex  // element's new index within new parent
+    //   }
+    // })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -96,6 +116,15 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
       }
     } else {
       e.preventDefault()
+      this.setState({
+        currentHandleSchedule: schedule,
+        originScrollY: window.scrollY
+      })
+
+      let dropDown = this.refs.dropDown
+      if(dropDown) {
+        dropDown.choice()
+      }
     }
   }
 
@@ -136,6 +165,42 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
     }
   }
 
+  handleChooseMonth(month) {
+    const chooseMonth = month.id
+    const schedule = this.state.currentHandleSchedule
+    let node = document.getElementById(`problemid-${schedule.problem.id}-id-${schedule.id}`)
+    let originTop = node.offsetTop
+    let parentNode = document.getElementById(chooseMonth)
+    parentNode.appendChild(node)
+    let finalTop = node.offsetTop
+    let rule = `
+        @keyframes problemMove {
+          from {
+            position: absolute;
+            z-index: 10;
+            top: ${originTop}px;
+          }
+          to {
+            position: absolute;
+            z-index: 10;
+            top: ${finalTop}px;
+          }
+        }
+      `
+    problemMovingStyle = document.createElement('style')
+    problemMovingStyle.innerHTML = rule
+    document.head.appendChild(problemMovingStyle)
+    let delayTime = Math.abs(finalTop - originTop) / 500
+    node.style.animation = `problemMove ${delayTime}s linear`
+    node.style.animationFillMode = 'forwards'
+
+    setTimeout(() => {
+      node.style.animation = ''
+      node.style.animationFillMode = ''
+      document.head.removeChild(problemMovingStyle)
+    }, delayTime * 1000)
+  }
+
   render() {
     const { id, draggable } = this.state
     let { schedules = [] } = this.state
@@ -146,7 +211,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
       <section id={`year-${firstSchedule.year}-month-${firstSchedule.month}`} className="month-schedule-component">
         <div className="schedule-topic">{`${firstSchedule.month}月 ${firstSchedule.topic}`}</div>
         <div className="split-line"/>
-        <ul id={id} className="schedule-box">
+        <ul id={firstSchedule.month} className="schedule-box">
           {
             schedules.map((schedule, index) => {
               return (
@@ -167,12 +232,11 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                        `}
                        onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
                 </li>
-                       // onTouchStart={ev => ev.preventDefault()}
-                       // onTouchMove={ev => ev.preventDefault()}
               )
             })
           }
         </ul>
+        <DropDownList ref='dropDown' level={1} data={[monthList]} placeholder={` `} onChoice={(month) => this.handleChooseMonth(month)}/>
       </section>
     )
   }
