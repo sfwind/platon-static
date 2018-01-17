@@ -59,45 +59,45 @@ export class Comment extends React.Component<any, any> {
   }
 
   componentDidUpdate() {
-    const { commentList = [], end } = this.state
-    const { dispatch, location } = this.props
-    if(commentList && commentList.length !== 0 && !this.pullElement) {
-      this.pullElement = new PullElement({
-        target: '.pull-target',
-        scroller: '.subject-comment',
-        trigger: '.subject-comment',
-        damping: 4,
-        detectScroll: true,
-        detectScrollOnStart: true,
-        onPullUpEnd: (data) => {
-          loadCommentList(location.query.submitId, this.state.page + 1).then(res => {
-            if(res.code === 200) {
-              if(res.msg && res.msg.list.length !== 0) {
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.commentList, item) !== -1
-                })
-                this.setState({
-                  commentList: this.state.commentList.concat(res.msg.list),
-                  page: this.state.page + 1,
-                  end: res.msg.end
-                })
-              } else {
-                dispatch(alertMsg('没有更多了'))
-              }
-            } else {
-              dispatch(alertMsg(res.msg))
-            }
-          }).catch(ex => {
-            dispatch(alertMsg(ex))
-          })
-        }
-      })
-      this.pullElement.init()
-    }
-
-    if(this.pullElement && this.state.end) {
-      this.pullElement.disable()
-    }
+    // const { commentList = [], end } = this.state
+    // const { dispatch, location } = this.props
+    // if(commentList && commentList.length !== 0 && !this.pullElement) {
+    //   this.pullElement = new PullElement({
+    //     target: '.pull-target',
+    //     scroller: '.subject-comment',
+    //     trigger: '.subject-comment',
+    //     damping: 4,
+    //     detectScroll: true,
+    //     detectScrollOnStart: true,
+    //     onPullUpEnd: (data) => {
+    //       loadCommentList(location.query.submitId, this.state.page + 1).then(res => {
+    //         if(res.code === 200) {
+    //           if(res.msg && res.msg.list.length !== 0) {
+    //             remove(res.msg.list, (item) => {
+    //               return findIndex(this.state.commentList, item) !== -1
+    //             })
+    //             this.setState({
+    //               commentList: this.state.commentList.concat(res.msg.list),
+    //               page: this.state.page + 1,
+    //               end: res.msg.end
+    //             })
+    //           } else {
+    //             dispatch(alertMsg('没有更多了'))
+    //           }
+    //         } else {
+    //           dispatch(alertMsg(res.msg))
+    //         }
+    //       }).catch(ex => {
+    //         dispatch(alertMsg(ex))
+    //       })
+    //     }
+    //   })
+    //   this.pullElement.init()
+    // }
+    //
+    // if(this.pullElement && this.state.end) {
+    //   this.pullElement.disable()
+    // }
   }
 
   componentWillUnmount() {
