@@ -159,7 +159,7 @@ export default class OverView extends React.Component {
           <span className="modify-drag-tips">
             {
               isAndroid() ?
-                '尚未开课的辅修课，点击右侧文字，可移动到其他月份' :
+                '尚未开课的辅修课，点击右侧按钮，可移动到其他月份' :
                 '尚未开课的辅修课，按住右侧按钮，可拖动到其他月份'
             }
           </span>
