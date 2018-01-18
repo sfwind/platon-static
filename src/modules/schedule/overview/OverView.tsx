@@ -9,6 +9,7 @@ import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
+import { isAndroid } from '../../../utils/helpers'
 
 const { Alert } = Dialog
 
@@ -148,7 +149,7 @@ export default class OverView extends React.Component {
     }
 
     return (
-      <div className="overview-container" id="overview-container" ref="overview-container">
+      <div className={`overview-container ${isAndroid() ? 'android-adapter' : ''}`} id="overview-container" ref="overview-container">
         <div className="overview-header">
           <span className="overview-title">学习计划</span>
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
@@ -163,7 +164,7 @@ export default class OverView extends React.Component {
             scheduleList.map((schedules, index) => {
               return (
                 <MonthSchedule key={index}
-                               id={index}
+                               id={schedules.length && schedules[0].month}
                                schedules={schedules}
                                draggable={draggable}
                                enableAutoScroll={() => this.enableAutoScroll()}
@@ -184,7 +185,6 @@ export default class OverView extends React.Component {
           <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
           <div className="text">调整完成</div>
         </Toast>
-
         <Alert {...firstEntryAlertProps} show={showFirstEntryAlert} title='学习计划说明'>
           <p>已根据你的回答，为你制定了学习计划。</p>
           <p>勾选的课程为推荐课。你可选择或取消其中的辅修课，或调整辅修课所在月份。</p>

@@ -5,7 +5,7 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { updateSelected } from '../../async'
-import { isAndroid } from '../../../../utils/helpers'
+import { isAndroid, isIos } from '../../../../utils/helpers'
 import DropDownList from '../../../customer/components/DropDownList'
 
 interface MonthScheduleProps {
@@ -55,39 +55,43 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   componentDidMount() {
-    // const { enableAutoScroll, disableAutoScroll, toggleSubmitButton } = this.props
+    isIos() && this.renderSortableJS()
+  }
 
-    // let node = document.getElementById(this.props.id)
-    // this.sortbale = Sortable.create(node, {
-    //   group: 'sorting',
-    //   sort: true,
-    //   animation: 150,
-    //   handle: '.draggable-item',
-    //   ghostClass: 'ghost',
-    //   dragClass: 'drag',
-    //   onStart: function(evt) {
-    //     enableAutoScroll()
-    //     toggleSubmitButton(false)
-    //     evt.oldIndex  // element index within parent
-    //   },
-    //   onMove: (/**Event*/evt, /**Event*/originalEvent) => {
-    //     toggleSubmitButton(false)
-    //     evt.dragged // dragged HTMLElement
-    //     evt.draggedRect // TextRectangle {left, top, right и bottom}
-    //     evt.related // HTMLElement on which have guided
-    //     evt.relatedRect // TextRectangle
-    //     originalEvent.clientY // mouse position
-    //   },
-    //   onEnd: function(evt) {
-    //     toggleSubmitButton(true)
-    //     disableAutoScroll()
-    //     var itemEl = evt.item  // dragged HTMLElement
-    //     evt.to    // target list
-    //     evt.from  // previous list
-    //     evt.oldIndex  // element's old index within old parent
-    //     evt.newIndex  // element's new index within new parent
-    //   }
-    // })
+  renderSortableJS() {
+    const { enableAutoScroll, disableAutoScroll, toggleSubmitButton } = this.props
+
+    let node = document.getElementById(this.props.id)
+    this.sortbale = Sortable.create(node, {
+      group: 'sorting',
+      sort: true,
+      animation: 150,
+      handle: '.draggable-item',
+      ghostClass: 'ghost',
+      dragClass: 'drag',
+      onStart: function(evt) {
+        enableAutoScroll()
+        toggleSubmitButton(false)
+        evt.oldIndex  // element index within parent
+      },
+      onMove: (/**Event*/evt, /**Event*/originalEvent) => {
+        toggleSubmitButton(false)
+        evt.dragged // dragged HTMLElement
+        evt.draggedRect // TextRectangle {left, top, right и bottom}
+        evt.related // HTMLElement on which have guided
+        evt.relatedRect // TextRectangle
+        originalEvent.clientY // mouse position
+      },
+      onEnd: function(evt) {
+        toggleSubmitButton(true)
+        disableAutoScroll()
+        var itemEl = evt.item  // dragged HTMLElement
+        evt.to    // target list
+        evt.from  // previous list
+        evt.oldIndex  // element's old index within old parent
+        evt.newIndex  // element's new index within new parent
+      }
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -115,6 +119,10 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
         this.context.router.push(`/rise/static/course/schedule/nopublish`)
       }
     } else {
+      if(!schedule.adjustable) {
+        return
+      }
+      e.stopPropagation()
       e.preventDefault()
       this.setState({
         currentHandleSchedule: schedule,
@@ -226,11 +234,26 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                   <span className="problem-name">
                     {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
                   </span>
-                  <div className={`
-                          month-problem-desc
-                          ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                  <div className={`month-problem-desc
+                        ${draggable && isIos() ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                        ${draggable && isAndroid() ? 'draggable' : ''}
                        `}
-                       onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
+                       style={
+                         isAndroid() &&
+                         draggable ?
+                           {
+                             background: 'none',
+                             color: `${schedule.adjustable ? '#1f87ff' : '#999999'}`,
+                             width: '6rem',
+                             textAlign: 'right'
+                           } : {}
+                       }
+                       onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}>
+                    {
+                      isAndroid() &&
+                      draggable && schedule.type === 2 ? '移动到' : ''
+                    }
+                  </div>
                 </li>
               )
             })
