@@ -157,7 +157,13 @@ export default class OverView extends React.Component {
         </div>
         {
           draggable &&
-          <span className="modify-drag-tips">尚未开课的辅修课，按住右侧按钮，可拖动到其他月份</span>
+          <span className="modify-drag-tips">
+            {
+              isAndroid() ?
+                '尚未开课的辅修课，点击右侧文字，可移动到其他月份' :
+                '尚未开课的辅修课，按住右侧按钮，可拖动到其他月份'
+            }
+          </span>
         }
         <div id="overview-scroll" className="overview-scroll">
           {
