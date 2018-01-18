@@ -32,7 +32,6 @@ export default class OverView extends React.Component {
   componentWillMount() {
     const { dispatch } = this.props
     const { firstEntry } = this.props
-    console.log(this.props)
 
     if(firstEntry) {
       dispatch(set('firstEntry', false))

@@ -5,7 +5,7 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { updateSelected } from '../../async'
-import { isAndroid, isIos } from '../../../../utils/helpers'
+import { isAndroid } from '../../../../utils/helpers'
 import DropDownList from '../../../customer/components/DropDownList'
 
 interface MonthScheduleProps {
@@ -55,7 +55,9 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   componentDidMount() {
-    isIos() && this.renderSortableJS()
+    if(!isAndroid()) {
+      this.renderSortableJS()
+    }
   }
 
   renderSortableJS() {
@@ -235,7 +237,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                     {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
                   </span>
                   <div className={`month-problem-desc
-                        ${draggable && isIos() ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                        ${draggable && !isAndroid() ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
                         ${draggable && isAndroid() ? 'draggable' : ''}
                        `}
                        style={
