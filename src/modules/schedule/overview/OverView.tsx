@@ -9,7 +9,6 @@ import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
-import { isAndroid } from '../../../utils/helpers'
 
 const { Alert } = Dialog
 
@@ -22,7 +21,8 @@ export default class OverView extends React.Component {
 
   state = {
     scheduleList: [],
-    draggable: false
+    draggable: false,
+    compatible: false
   }
 
   static contextTypes = {
@@ -33,11 +33,13 @@ export default class OverView extends React.Component {
     const { dispatch } = this.props
     const { firstEntry } = this.props
 
+    if(this.props.location.query && this.props.location.query.compatible) {
+      this.setState({ compatible: true })
+    }
     if(firstEntry) {
       dispatch(set('firstEntry', false))
       this.setState({ showFirstEntryAlert: true })
     }
-
     dispatch(startLoad())
     new Promise(resolve => {
       loadPersonalSchedule().then(res => {
@@ -139,7 +141,7 @@ export default class OverView extends React.Component {
   }
 
   render() {
-    const { scheduleList = [], draggable = false, showToast = false, showFirstEntryAlert = false, showSubmitButton = true } = this.state
+    const { scheduleList = [], draggable = false, showToast = false, showFirstEntryAlert = false, showSubmitButton = true, compatible } = this.state
 
     const firstEntryAlertProps = {
       buttons: [
@@ -148,23 +150,24 @@ export default class OverView extends React.Component {
     }
 
     return (
-      <div className={`overview-container ${isAndroid() ? 'android-adapter' : ''}`} id="overview-container" ref="overview-container">
+      <div className={`overview-container ${compatible ? 'android-adapter' : ''}`} id="overview-container" ref="overview-container">
         <div className="overview-header">
           <span className="overview-title">学习计划</span>
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
                 onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
         </div>
-        {
-          draggable &&
-          <span className="modify-drag-tips">
+
+        <div id="overview-scroll" className="overview-scroll">
+          {
+            draggable &&
+            <span className="modify-drag-tips">
             {
-              isAndroid() ?
+              compatible ?
                 '尚未开课的辅修课，点击右侧按钮，可移动到其他月份' :
                 '尚未开课的辅修课，按住右侧按钮，可拖动到其他月份'
             }
           </span>
-        }
-        <div id="overview-scroll" className="overview-scroll">
+          }
           {
             scheduleList.map((schedules, index) => {
               return (
@@ -175,6 +178,7 @@ export default class OverView extends React.Component {
                                enableAutoScroll={() => this.enableAutoScroll()}
                                disableAutoScroll={() => this.disableAutoScroll()}
                                toggleSubmitButton={(toggle) => this.toggleSubmitButton(toggle)}
+                               compatible={compatible}
                 />
               )
             })
