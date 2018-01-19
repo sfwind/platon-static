@@ -6,6 +6,7 @@ import './MoreProblem.less'
 import { loadCatalog } from './async'
 import ProblemItem from './components/ProblemItem'
 import { mark } from '../../utils/request'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export class MoreProblem extends React.Component<any, any> {
@@ -46,12 +47,6 @@ export class MoreProblem extends React.Component<any, any> {
   }
 
   openProblem(problem) {
-    mark({
-      module:'打点',
-      function:'学习',
-      action:'点击课程介绍',
-      memo:problem.id
-    })
     let param = {
       id: problem.id
     }
@@ -73,9 +68,9 @@ export class MoreProblem extends React.Component<any, any> {
         <div className="more-problem-container">
           {problemList ? problemList.map((item, key) => {
             return (
-              <div className="more-problem-box">
+              <MarkBlock module={'打点'} func={'发现更多页面'} action={'点击课程介绍'} memo={item.id} className="more-problem-box">
                 <ProblemItem problem={item} clickHandler={(problem) => this.openProblem(problem)}/>
-              </div>
+              </MarkBlock>
             )
           }) : null}
         </div>
