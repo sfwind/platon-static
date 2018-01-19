@@ -9,6 +9,7 @@ import { pget, ppost, mark } from 'utils/request'
 import { loadUserProfileInfo } from './async'
 import { changeTitle } from 'utils/helpers'
 import { ButtonArea, Button } from 'react-weui'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const industryList = [
   { id: '1', value: '互联网/电商' },
@@ -153,11 +154,6 @@ export default class Profile extends React.Component<any, any> {
   }
 
   onChoiceRegion(provinceRegion, cityRegion) {
-    mark({
-      module: '打点',
-      function: '个人信息页',
-      action: '选择居住地点'
-    })
     this.setState({
       province: provinceRegion.value,
       provinceId: provinceRegion.id,
@@ -169,11 +165,6 @@ export default class Profile extends React.Component<any, any> {
   }
 
   onChoiceIndustry(industry) {
-    mark({
-      module: '打点',
-      function: '个人信息页',
-      action: '选择行业'
-    })
     this.setState({ industry: industry.value }, () => {
       this.checkIsFull()
     })
@@ -186,22 +177,12 @@ export default class Profile extends React.Component<any, any> {
   }
 
   onChoiceWorkingYear(workingYear) {
-    mark({
-      module: '打点',
-      function: '个人信息页',
-      action: '选择工作年份'
-    })
     this.setState({ workingYear: workingYear.value }, () => {
       this.checkIsFull()
     })
   }
 
   onChoiceMarry(marry) {
-    mark({
-      module: '打点',
-      function: '个人信息页',
-      action: '选择感情状态'
-    })
     this.setState({ married: marry.value })
   }
 
@@ -227,11 +208,6 @@ export default class Profile extends React.Component<any, any> {
   }
 
   submitProfile() {
-    mark({
-      module: '打点',
-      function: '个人信息页',
-      action: '提交个人信息修改'
-    })
     const { dispatch, location } = this.props
     const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
@@ -308,11 +284,12 @@ export default class Profile extends React.Component<any, any> {
     const renderRegion = () => {
       const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
       return (
-        <div className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper'}>
+        <MarkBlock module={'打点'} func={'个人信息页'} action={'选择居住地点'}
+                   className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper'}>
           <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
                         placeholder="以便参加当地校友会"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
-        </div>
+        </MarkBlock>
       )
     }
 
@@ -342,10 +319,11 @@ export default class Profile extends React.Component<any, any> {
       }
 
       return (
-        <div className={industry ? 'select-wrapper-has' : 'select-wrapper-choice'}>
+        <MarkBlock module={'打点'} func={'个人信息页'} action={'选择行业'}
+                   className={industry ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[industryList]} userData={myIndustry.id ? [myIndustry] : null} placeholder="请选择"
                         onChoice={(one) => this.onChoiceIndustry(one)}/>
-        </div>
+        </MarkBlock>
       )
     }
 
@@ -377,11 +355,12 @@ export default class Profile extends React.Component<any, any> {
       }
 
       return (
-        <div className={married ? 'select-wrapper-has' : 'select-wrapper-choice'}>
+        <MarkBlock module={'打点'} func={'个人信息页'} action={'选择感情状态'}
+                   className={married ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[marryList]} userData={myMarried.id ? [myMarried] : null}
                         placeholder="以便参加脱单群等活动"
                         onChoice={(one) => this.onChoiceMarry(one)}/>
-        </div>
+        </MarkBlock>
       )
     }
 
@@ -395,11 +374,12 @@ export default class Profile extends React.Component<any, any> {
       }
 
       return (
-        <div className={workingYear ? 'select-wrapper-has' : 'select-wrapper-choice'}>
+        <MarkBlock module={'打点'} func={'个人信息页'} action={'选择工作年份'}
+                   className={workingYear ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[workingYearList]} userData={myWorkingLife.id ? [myWorkingLife] : null}
                         defaultData={[{ id: '2000', value: '2000' }]}
                         onChoice={(one) => this.onChoiceWorkingYear(one)}/>
-        </div>
+        </MarkBlock>
       )
     }
 
@@ -509,10 +489,11 @@ export default class Profile extends React.Component<any, any> {
 
         </div>
         <div className="profile-bottom">
-          <div className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
-               onClick={this.submitProfile.bind(this)}>
+          <MarkBlock module={'打点'} func={'个人信息页'} action={'提交个人信息修改'}
+                     className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
+                     onClick={this.submitProfile.bind(this)}>
             {goRise ? `下一步` : `完成`}
-          </div>
+          </MarkBlock>
         </div>
         {/*<div className="padding-footer"></div>*/}
       </div>

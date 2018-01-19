@@ -7,6 +7,7 @@ import DropDownList from '../components/DropDownList'
 import { loadUserProfileInfo, submitProfileInfo, getRegions } from './async'
 import { ButtonArea, Button } from 'react-weui'
 import { mark } from '../../../utils/request'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 const industryList = [
   { id: '1', value: '互联网/电商' },
@@ -133,11 +134,6 @@ export default class Profile extends React.Component<any, any> {
   }
 
   submitProfile() {
-    mark({
-      module: '打点',
-      function: '生成证书页面',
-      action: '点击生成证书'
-    })
     const { dispatch, location } = this.props
     const { city, province, industry, workingLife, realName } = this.state
     const { certificateNo } = location.query
@@ -286,10 +282,10 @@ export default class Profile extends React.Component<any, any> {
           </div>
         </div>
         <div className="profile-bottom">
-          <div className={`submit-btn`} style={{ width: `${this.btnWidth}px` }}
+          <MarkBlock module={'打点'} func={'生成证书页面'} action={'点击生成证书'} className={`submit-btn`} style={{ width: `${this.btnWidth}px` }}
                onClick={this.submitProfile.bind(this)}>
             生成证书
-          </div>
+          </MarkBlock>
         </div>
         <div className="padding-footer"></div>
       </div>

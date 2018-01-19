@@ -6,6 +6,7 @@ import {pget, ppost, mark} from "utils/request"
 import {changeTitle} from "utils/helpers"
 import "./PointTip.less"
 import { Button, ButtonArea, Dialog, Form, FormCell, CellHeader, CellBody, Checkbox } from "react-weui"
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 /**
  * 我的会员页面
@@ -46,7 +47,6 @@ export default class RiseMember extends React.Component<any,any> {
   }
 
   goUp(){
-    mark({module:"打点",function:"个人中心",action:"点击升级按钮"});
     pget('/personal/mark/rise/up').then(()=>{
       window.location.href=`/pay/rise`
     }).catch(()=>{
@@ -140,9 +140,9 @@ export default class RiseMember extends React.Component<any,any> {
             <b style={{fontSize:"14px"}}>还未升级成正式版哦！</b><br/>
             <div className="rocket-container">
               <img className="rocket" src="https://www.iqycamp.com/images/riseButtonRocket.png"  width="90%" height="auto"/>
-              <div className="button" onClick={()=>{this.goUp()}}>
+              <MarkBlock module={'打点'} func={'个人中心'} action={'点击升级按钮'} className="button" onClick={()=>{this.goUp()}}>
                 升级正式版
-              </div>
+              </MarkBlock>
             </div>
           </div>
         )

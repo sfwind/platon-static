@@ -7,6 +7,7 @@ import Discuss from '../practice/components/Discuss'
 import DiscussShow from '../practice/components/DiscussShow'
 import _ from 'lodash'
 import { mark } from '../../utils/request'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 /**
  * 选择题评论页
@@ -74,11 +75,6 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
   }
 
   goOrigin() {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '点击查看原题按钮'
-    })
     this.context.router.push({
       pathname: '/rise/static/practice/warmup/new/analysis', query: this.props.location.query
     })
@@ -144,7 +140,8 @@ export class ReplyDiscussMessage extends React.Component <any, any> {
       <div>
         <div className="container" onClick={() => this.cancel()}>
           <div className="question">{question}</div>
-          <div className="origin-question-tip" onClick={this.goOrigin.bind(this)}>点击查看原题</div>
+          <MarkBlock module={'打点'} func={'选择题评论页'} action={'点击查看原题按钮'} className="origin-question-tip"
+                     onClick={this.goOrigin.bind(this)}>点击查看原题</MarkBlock>
           <div className="discuss-title-bar"><span
             className="discuss-title">{this.state.data.del === 1 ? '该评论已删除' : '当前评论'}</span></div>
           {renderDiscuss(data)}
