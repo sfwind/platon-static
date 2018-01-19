@@ -150,7 +150,6 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickCampPlan(planId, problemId) {
-    mark({ module: '打点', function: '学习', action: '点击训练营课程', memo: window.ENV.osName })
     const { dispatch } = this.props
     if(planId === null) {
       // 如果 planId 为 null，代表当前课程未开，点击弹窗提醒
@@ -198,12 +197,6 @@ export default class PlanList extends React.Component<any, any> {
   }
 
   handleClickProblemChoose() {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '点击选课',
-      memo: window.ENV.osName
-    })
     this.context.router.push({
       pathname: '/rise/static/problem/explore'
     })
@@ -243,10 +236,10 @@ export default class PlanList extends React.Component<any, any> {
           {
             auditions.map((item, index) => {
               return (
-                <div className="problem-block" key={index}
-                     onClick={() => {
-                       this.handleClickAuditionPlan(item)
-                     }}>
+                <MarkBlock module={'打点'} func={'学习'} action={'点击试听课'} className="problem-block" key={index}
+                           onClick={() => {
+                             this.handleClickAuditionPlan(item)
+                           }}>
                   <div className="problem-item" style={{ padding: index === 0 ? '18px 15px 20px' : '20px 15px' }}>
                     <div className="problem-item-pic">
                       <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
@@ -272,7 +265,7 @@ export default class PlanList extends React.Component<any, any> {
                       }
                     </div>
                   </div>
-                </div>
+                </MarkBlock>
               )
             })
           }
@@ -290,10 +283,11 @@ export default class PlanList extends React.Component<any, any> {
           {
             currentCampPlans.map((item, index) => {
               return (
-                <div className="problem-block" key={index}
-                     onClick={() => {
-                       this.handleClickCampPlan(item.planId, item.problemId)
-                     }}>
+                <MarkBlock module={'打点'} func={'学习'} action={'点击训练营课程'} memo={window.ENV.osName}
+                           className="problem-block" key={index}
+                           onClick={() => {
+                             this.handleClickCampPlan(item.planId, item.problemId)
+                           }}>
                   <div className="problem-item" style={{ padding: index === 0 ? '18px 15px 20px' : '20px 15px' }}>
                     <div className="problem-item-pic">
                       <div className={`problem-item-backcolor catalog${item.problem.catalogId}`}/>
@@ -318,7 +312,7 @@ export default class PlanList extends React.Component<any, any> {
                       }
                     </div>
                   </div>
-                </div>
+                </MarkBlock>
               )
             })
           }
@@ -398,8 +392,10 @@ export default class PlanList extends React.Component<any, any> {
               <div className="plp-empty-text">
                 <span>还没有学习中的课程哦</span>
               </div>
-              <div className="plp-empty-button"><span onClick={this.handleClickProblemChoose.bind(this)}>去选课</span>
-              </div>
+              <MarkBlock module={'打点'} func={'学习'} action={'点击选课'} memo={window.ENV.osName}
+                         className="plp-empty-button"><span
+                onClick={this.handleClickProblemChoose.bind(this)}>去选课</span>
+              </MarkBlock>
             </div> :
             runningPlans.map((item, key) => {
               return (
