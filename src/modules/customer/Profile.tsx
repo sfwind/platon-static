@@ -229,11 +229,11 @@ export default class Profile extends React.Component<any, any> {
           if(goRise) {
             // 是否mobile已经绑定
             // if(!bindMobile) {
-              // 没有绑定过
-              this.context.router.push({
-                pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true, runningPlanId: runningPlanId }
-              })
+            // 没有绑定过
+            this.context.router.push({
+              pathname: '/rise/static/customer/mobile/check',
+              query: { goRise: true, runningPlanId: runningPlanId }
+            })
             // } else {
             //   // 绑定过
             //   // 类似于点商学院
