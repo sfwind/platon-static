@@ -1,6 +1,6 @@
 .month-schedule-component {
   display: block;
-  position: relative;
+  //position: relative;
   margin-top: 2rem;
   .schedule-topic {
     display: block;
@@ -18,6 +18,7 @@
     padding: 0 2rem 0 5rem;
     background-color: #FFFFFF;
     z-index: 1;
+    width: 100%;
     &:first-of-type .problem-name {
       border-top: none;
     }
@@ -56,7 +57,7 @@
     }
     .problem-name {
       display: block;
-      padding: 13px 40px 13px 0;
+      padding: 13px 60px 13px 0;
       font-size: 14px;
       line-height: 14px;
       border-top: 1px solid #F5F5F5;
@@ -67,6 +68,8 @@
       position: absolute;
       width: 4rem;
       height: 4rem;
+      line-height: 4rem;
+      font-size: 1.3rem;
       background-image: url("https://static.iqycamp.com/images/problem-intro-tips.png?imageslim");
       background-size: 2.2rem 2.2rem;
       background-position: center;
@@ -101,10 +104,7 @@
   .drag {
     box-shadow: 0 0 8px #041931 !important;
   }
-
   span {
     user-select: none;
   }
 }
-
-

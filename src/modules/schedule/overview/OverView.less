@@ -1,10 +1,16 @@
 @import "../../../style/variable.less";
+
 .overview-container {
   padding-bottom: 64px;
   display: block;
   position: relative;
   box-sizing: border-box;
   background-color: @color_weak_background;
+  &.android-adapter {
+    height: 100vh;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
   .overview-header {
     display: block;
     box-sizing: border-box;

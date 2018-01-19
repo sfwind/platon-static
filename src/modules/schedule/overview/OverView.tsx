@@ -9,14 +9,10 @@ import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
-import { mark } from '../../../utils/request'
-import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { isAndroid } from '../../../utils/helpers'
 
 const { Alert } = Dialog
 
-/**
- * 学习计划页
- */
 @connect(state => state)
 export default class OverView extends React.Component {
 
@@ -34,14 +30,8 @@ export default class OverView extends React.Component {
   }
 
   componentWillMount() {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '加载学习计划页'
-    })
     const { dispatch } = this.props
     const { firstEntry } = this.props
-    console.log(this.props)
 
     if(firstEntry) {
       dispatch(set('firstEntry', false))
@@ -158,23 +148,28 @@ export default class OverView extends React.Component {
     }
 
     return (
-      <div className="overview-container" id="overview-container" ref="overview-container">
-        <MarkBlock module={'打点'} func={'学习计划页'} action={'点击切换按钮'} className="overview-header">
+      <div className={`overview-container ${isAndroid() ? 'android-adapter' : ''}`} id="overview-container" ref="overview-container">
+        <div className="overview-header">
           <span className="overview-title">学习计划</span>
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
                 onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
-        </MarkBlock>
+        </div>
         {
-          draggable ?
-            <span className="modify-drag-tips">尚未开课的辅修课，按住右侧按钮，可拖动到其他月份</span>
-            : null
+          draggable &&
+          <span className="modify-drag-tips">
+            {
+              isAndroid() ?
+                '尚未开课的辅修课，点击右侧按钮，可移动到其他月份' :
+                '尚未开课的辅修课，按住右侧按钮，可拖动到其他月份'
+            }
+          </span>
         }
         <div id="overview-scroll" className="overview-scroll">
           {
             scheduleList.map((schedules, index) => {
               return (
                 <MonthSchedule key={index}
-                               id={index}
+                               id={schedules.length && schedules[0].month}
                                schedules={schedules}
                                draggable={draggable}
                                enableAutoScroll={() => this.enableAutoScroll()}
@@ -188,15 +183,13 @@ export default class OverView extends React.Component {
 
         {
           showSubmitButton &&
-          <MarkBlock module={'打点'} func={'学习计划页'} action={'点击确定按钮'}> <SubmitButton
-            clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/></MarkBlock>
+          <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/>
         }
 
         <Toast show={showToast} timeout={2000} height={220} width={200} top={160}>
           <AssetImg type="success" width={60} style={{ marginTop: 60 }}/>
           <div className="text">调整完成</div>
         </Toast>
-
         <Alert {...firstEntryAlertProps} show={showFirstEntryAlert} title='学习计划说明'>
           <p>已根据你的回答，为你制定了学习计划。</p>
           <p>勾选的课程为推荐课。你可选择或取消其中的辅修课，或调整辅修课所在月份。</p>
