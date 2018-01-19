@@ -126,11 +126,12 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
         this.context.router.push(`/rise/static/course/schedule/nopublish`)
       }
     } else {
-      if(!schedule.adjustable) {
+      if(!schedule.adjustable || !this.state.compatible) {
         return
       }
       e.stopPropagation()
       e.preventDefault()
+
       this.setState({
         currentHandleSchedule: schedule,
         originScrollY: window.scrollY

@@ -72,11 +72,8 @@ const routes = (
     <Route path="/rise/static" component={Base}
            onChange={(before, after) => {
              config(['chooseWXPay'])
-             console.log('after state')
-             console.log(after.location.state)
 
              if(after.location.state && after.location.state.pageScrollY) {
-               console.log(after.location.state.pageScrollY)
                setTimeout(() => {
                  window.scrollTo(0, after.location.state.pageScrollY)
                }, 1000)
