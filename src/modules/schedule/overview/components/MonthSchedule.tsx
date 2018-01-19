@@ -1,11 +1,11 @@
 import * as React from 'react'
 import './MonthSchedule.less'
 import Sortable from 'sortablejs'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { updateSelected } from '../../async'
-import { isAndroid } from '../../../../utils/helpers'
+import { isDownGrade } from '../../../../utils/helpers'
 import DropDownList from '../../../customer/components/DropDownList'
 
 interface MonthScheduleProps {
@@ -14,7 +14,8 @@ interface MonthScheduleProps {
   draggable: boolean,
   enableAutoScroll: any,
   disableAutoScroll: any,
-  toggleSubmitButton: any
+  toggleSubmitButton: any,
+  compatible: boolean
 }
 
 const monthList = [
@@ -40,7 +41,9 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      compatible: false
+    }
   }
 
   static contextTypes = {
@@ -50,12 +53,12 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   sortbale
 
   componentWillMount() {
-    const { id, schedules, draggable } = this.props
-    this.setState({ id: id, schedules: schedules, draggable: draggable })
+    const { id, schedules, draggable, compatible = false } = this.props
+    this.setState({ id: id, schedules: schedules, draggable: draggable, compatible: compatible })
   }
 
   componentDidMount() {
-    if(!isAndroid()) {
+    if(!this.state.compatible) {
       this.renderSortableJS()
     }
   }
@@ -113,6 +116,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   handleClickViewProblemDesc(draggable, schedule, e) {
+    this.context.router.setState({ pageScrollY: window.pageYOffset })
+
     if(!draggable) {
       e.stopPropagation()
       if(schedule.problem.publish) {
@@ -212,7 +217,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   render() {
-    const { id, draggable } = this.state
+    const { id, draggable, compatible } = this.state
     let { schedules = [] } = this.state
     schedules = _.orderBy(schedules, ['type'], ['asc'])
 
@@ -234,14 +239,14 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                     `}
                     onClick={() => this.handleClickChangePosition(schedule, draggable)}>
                   <span className="problem-name">
-                    {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
+                    {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.abbreviation}`}
                   </span>
                   <div className={`month-problem-desc
-                        ${draggable && !isAndroid() ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
-                        ${draggable && isAndroid() ? 'draggable' : ''}
+                        ${draggable && !compatible ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                        ${draggable && compatible ? 'draggable' : ''}
                        `}
                        style={
-                         isAndroid() &&
+                         compatible &&
                          draggable ?
                            {
                              background: 'none',
@@ -252,7 +257,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                        }
                        onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}>
                     {
-                      isAndroid() &&
+                      compatible &&
                       draggable && schedule.type === 2 ? '移动到' : ''
                     }
                   </div>

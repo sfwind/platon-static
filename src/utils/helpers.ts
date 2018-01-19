@@ -248,6 +248,10 @@ export function randomStr(len) {
   return pwd
 }
 
+export function isDownGrade() {
+  return false
+}
+
 export function isAndroid() {
   return window.navigator.userAgent.indexOf('Android') > 0
 }
