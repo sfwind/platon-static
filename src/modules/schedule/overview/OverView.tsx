@@ -156,17 +156,18 @@ export default class OverView extends React.Component {
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
                 onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
         </div>
-        {
-          draggable &&
-          <span className="modify-drag-tips">
+
+        <div id="overview-scroll" className="overview-scroll">
+          {
+            draggable &&
+            <span className="modify-drag-tips">
             {
               compatible ?
                 '尚未开课的辅修课，点击右侧按钮，可移动到其他月份' :
                 '尚未开课的辅修课，按住右侧按钮，可拖动到其他月份'
             }
           </span>
-        }
-        <div id="overview-scroll" className="overview-scroll">
+          }
           {
             scheduleList.map((schedules, index) => {
               return (
