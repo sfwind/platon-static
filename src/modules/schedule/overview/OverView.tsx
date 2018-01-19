@@ -9,6 +9,7 @@ import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
+import { isAndroid } from '../../../utils/helpers'
 
 const { Alert } = Dialog
 
@@ -30,6 +31,11 @@ export default class OverView extends React.Component {
   }
 
   componentWillMount() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '加载学习计划页'
+    })
     const { dispatch } = this.props
     const { firstEntry } = this.props
 
@@ -187,7 +193,8 @@ export default class OverView extends React.Component {
 
         {
           showSubmitButton &&
-          <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/>
+          <MarkBlock module={'打点'} func={'学习计划页'} action={'点击确定按钮'}><SubmitButton
+            clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/></MarkBlock>
         }
 
         <Toast show={showToast} timeout={2000} height={220} width={200} top={160}>

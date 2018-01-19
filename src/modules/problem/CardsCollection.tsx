@@ -1,10 +1,11 @@
 import * as React from 'react'
 import './CardsCollection.less'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg } from "redux/actions";
-import AssetImg from "../../components/AssetImg";
-import { loadCardData, loadEssenceCard, loadProblemCards } from "./async";
-import { mark } from "../../utils/request";
+import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import AssetImg from '../../components/AssetImg'
+import { loadCardData, loadEssenceCard, loadProblemCards } from './async'
+import { mark } from '../../utils/request'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 // 课程卡包
 interface CardsCollectionStates {
@@ -35,6 +36,12 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
   }
 
   componentWillMount() {
+    mark({
+      module: '打点',
+      function: '学习',
+      action: '加载学习卡片',
+      memo: window.ENV.osName
+    })
     const { planId } = this.props.location.query
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -93,9 +100,11 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
           {
             cards.map((card, index) => {
               return (
-                <Card img={card.thumbnail} lockImg={card.thumbnailLock} chapterNo={card.chapterNo} key={index}
+                <MarkBlock module={'打点'} func={'课程卡包页'} action={'点击章节知识卡'}>
+                 <Card img={card.thumbnail} lockImg={card.thumbnailLock} chapterNo={card.chapterNo} key={index}
                       chapter={card.chapter} completed={card.completed}
                       onClick={() => this.handleClickLoadCard(card.problemId, card.chapterId, card.completed)}/>
+                </MarkBlock>
               )
             })
 
@@ -108,19 +117,19 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       let imgHeight = window.innerHeight
       let imgWidth = 750 * window.innerHeight / 1334
       let imgLeft = (window.innerWidth - imgWidth) / 2
-      let startTime;
-      let endTime;
+      let startTime
+      let endTime
       return (
         <div className={`card-essence`}
              onTouchStart={() => {
-               startTime = new Date();
+               startTime = new Date()
              }}
              onTouchEnd={() => {
-               endTime = new Date();
+               endTime = new Date()
                if(endTime.getTime() - startTime.getTime() < 500) {
                  this.setState({ showCard: false })
                } else {
-                 mark({ module: "打点", function: "卡包中心", action: "长按保存" });
+                 mark({ module: '打点', function: '卡包中心', action: '长按保存' })
                }
              }}
         >
@@ -165,6 +174,7 @@ interface CardProps {
   chapter: string;
   completed: boolean;
 }
+
 class Card extends React.Component<CardProps, any> {
   render() {
     const { img, lockImg, chapterNo, chapter = '', completed } = this.props

@@ -4,7 +4,11 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { pget, ppost, mark } from 'utils/request'
 import { changeTitle, unScrollToBorder } from 'utils/helpers'
 import './Account.less'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
+/**
+ * 我的账户页面
+ */
 @connect(state => state)
 export default class Rise extends React.Component<any, any> {
   static contextTypes = {
@@ -48,6 +52,10 @@ export default class Rise extends React.Component<any, any> {
         this.context.router.push('/rise/static/customer/member')
         break
     }
+  }
+
+  goMobileCheck() {
+    this.context.router.push('/rise/static/customer/mobile/check')
   }
 
   render() {
@@ -108,22 +116,23 @@ export default class Rise extends React.Component<any, any> {
               <div className="content-no-cut">{memberId}</div>
             </div> : null
         }
-        <div className="item" onClick={() => this.handleClickGoMemberDesc()}>
+        <MarkBlock module={'打点'} func={'我的账户'} action={'点击圈外会员'} className="item"
+                   onClick={() => this.handleClickGoMemberDesc()}>
           <div className="label">圈外会员</div>
           <div className="content">
             {memberType ? memberType : '点击加入'}&nbsp;&nbsp;
           </div>
-        </div>
-        <div className="item item-margin"
+        </MarkBlock>
+        <MarkBlock module={'打点'} func={'我的账户'} action={'修改手机号'} className="item item-margin"
              style={{ margin: '25px 0' }}
-             onClick={() => this.context.router.push('/rise/static/customer/mobile/check')}>
+             onClick={() => this.goMobileCheck()}>
           <div className="label">
             {mobile ? '修改手机号' : '手机号'}
           </div>
           <div className='content'>
             {mobile ? <span>{mobile}</span> : <span style={{ color: '#ccc' }}>去绑定手机号&nbsp;&nbsp;</span>}
           </div>
-        </div>
+        </MarkBlock>
         {renderCoupons()}
       </div>
     )

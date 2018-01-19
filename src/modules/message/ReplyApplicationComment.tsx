@@ -13,6 +13,9 @@ import { loadApplicationCommentOfMessage, submitEvaluation } from './async'
 import { StarRating } from '../../components/starvote/StarRating'
 import Toast from '../../components/Toast'
 
+/**
+ * 应用题评论页
+ */
 @connect(state => state)
 export default class ReplyApplicationComment extends React.Component<any, any> {
   constructor() {
@@ -68,6 +71,11 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
   }
 
   onSubmit() {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'点击评论提交按钮'
+    })
     const { dispatch, location } = this.props
     const { content, isReply } = this.state
     if(content) {

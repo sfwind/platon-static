@@ -70,6 +70,11 @@ export default class ScheduleChoice extends Component {
   }
 
   prevChoice() {
+    mark({
+      module:'打点',
+      function:'课程计划选择题界面',
+      action:'点击上一题'
+    })
     const { practice, currentIndex, practiceCount } = this.state
     let scheduleChoices = practice[ currentIndex ].scheduleChoices
     $(this.refs.questionGroup).animateCss('fadeOutRight', () => {
@@ -82,6 +87,11 @@ export default class ScheduleChoice extends Component {
   }
 
   nextChoice() {
+    mark({
+      module:'打点',
+      function:'课程计划选择题界面',
+      action:'点击下一题'
+    })
     const { dispatch } = this.props
     const { practice, currentIndex, practiceCount } = this.state
     let canSubmit = true
@@ -111,6 +121,11 @@ export default class ScheduleChoice extends Component {
   }
 
   handleClickChoice(choice) {
+    mark({
+      module:'打点',
+      function:'课程计划选择题界面',
+      action:'选择答案'
+    })
     const { practice, currentIndex, practiceCount } = this.state
     const { multiple, scheduleChoices } = practice[ currentIndex ];
     _.forEach(scheduleChoices, (item) => {
@@ -131,6 +146,11 @@ export default class ScheduleChoice extends Component {
   }
 
   handleClickSubmit() {
+    mark({
+      module:'打点',
+      function:'课程计划选择题界面',
+      action:'点击提交按钮'
+    })
     const { dispatch } = this.props
     const { practice, currentIndex, practiceCount } = this.state
 

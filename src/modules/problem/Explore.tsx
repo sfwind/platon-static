@@ -131,8 +131,9 @@ export class Explore extends React.Component<any, any> {
                 <div className="swiper-wrapper">
                   {hotList ? hotList.map((problem, index) => {
                     return (
-                      <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide"
-                           key={index}>
+                      <MarkBlock module={'打点'} func={'学习'} action={'点击热门课程介绍'} memo={problem.id}
+                                 onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide"
+                                 key={index}>
                         <div className="img">
                           {problem.newProblem ?
                             <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_04.png"
@@ -151,7 +152,7 @@ export class Explore extends React.Component<any, any> {
                           <div className="problem-item-subCatalog">{problem.abbreviation}</div>
                         </div>
                         <span>{problem.problem}</span>
-                      </div>
+                      </MarkBlock>
                     )
                   }) : null}
                 </div>
@@ -161,15 +162,15 @@ export class Explore extends React.Component<any, any> {
             {catalogList ? catalogList.map((catalog, key) => {
               return (
                 <div className="problem-catalog">
-                  <div className="header">
+                  <MarkBlock module={'打点'} func={'学习'} action={'点击发现更多'} memo={catalog.catalogId} className="header">
                     <span className="catalog-name">{catalog.name}</span>
                     <span className="catalog-more" onClick={() => this.openMore(catalog)}>更多</span>
-                  </div>
+                  </MarkBlock>
                   <div className="problem-box swiper-container" id={`catalog${key}`}>
                     <div className="swiper-wrapper">
                       {catalog.problemList ? catalog.problemList.map((problem, key) => {
                         return (
-                          <div onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
+                          <MarkBlock module={'打点'} func={'学习'} action={'点击课程介绍'} memo={problem.id} onClick={() => this.clickProblem(problem)} className="problem-item-show swiper-slide">
                             <div className="img">
                               {problem.newProblem ?
                                 <AssetImg url="https://static.iqycamp.com/images/fragment/problem_new_icon_04.png"
@@ -191,7 +192,7 @@ export class Explore extends React.Component<any, any> {
                               <div className="problem-item-subCatalog">{problem.abbreviation}</div>
                             </div>
                             <span>{problem.problem}</span>
-                          </div>
+                          </MarkBlock>
                         )
                       }) : null}
                     </div>

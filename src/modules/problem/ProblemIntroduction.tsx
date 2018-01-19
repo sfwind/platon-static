@@ -14,6 +14,7 @@ import { mark } from '../../utils/request'
 import { buttonStatus } from '../../utils/helpers'
 import { collectProblem, disCollectProblem, createPlan } from '../plan/async'
 import QYVideo from '../../components/QYVideo'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any, any> {
@@ -234,7 +235,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     const { show } = this.props.location.query
     const {
       difficultyScore, catalog, subCatalog, pic, why, how, what, who,
-      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords,videoUrl,videoPoster,videoWords
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords, videoUrl, videoPoster, videoWords
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -374,7 +375,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div>
-              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster}   videoWords={videoWords}/>}
+              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>}
             </div>
             <div className="pi-c-f-content">
               {audio ?
@@ -419,10 +420,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
           </div>
-          <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
+          <MarkBlock module={'打点'} func={'课程介绍页'} action={'点击收藏课程按钮'} className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
             <span>{problemCollected ? '已收藏' : '收藏课程'}</span>
-          </div>
+          </MarkBlock>
         </div>
         {renderLeftContent()}
         {renderFooter()}

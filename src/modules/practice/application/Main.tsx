@@ -18,12 +18,15 @@ import { mark } from '../../../utils/request'
 import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
 import RenderInBody from '../../../components/RenderInBody'
-import MiniRefreshTools from 'minirefresh';
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
 
+/**
+ * 应用题页
+ */
 @connect(state => state)
 export class Main extends React.Component <any, any> {
   constructor() {
@@ -46,7 +49,7 @@ export class Main extends React.Component <any, any> {
       loading: false,
       showCompletedBox: false,
       completdApplicationCnt: 1000,
-      autoPushDraftFlag: null,
+      autoPushDraftFlag: null
     }
     this.pullElement = null
   }
@@ -75,10 +78,10 @@ export class Main extends React.Component <any, any> {
               editorValue: msg.isSynchronized ? msg.content : msg.draft,
               isSynchronized: msg.isSynchronized
             })
-            this.clearStorage();
+            this.clearStorage()
           } else {
             // 非同步的，展示localStorage,除非localStorage里没有内容
-            let draft = storageDraft.content ? storageDraft.content : msg.draft;
+            let draft = storageDraft.content ? storageDraft.content : msg.draft
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: draft,
@@ -152,7 +155,7 @@ export class Main extends React.Component <any, any> {
   }
 
   componentDidUpdate() {
-    const { showOthers, otherList } = this.state;
+    const { showOthers, otherList } = this.state
     if(!this.pullElement && showOthers && !isEmpty(otherList)) {
       // 有内容并且米有pullElement
       const { dispatch } = this.props
@@ -263,7 +266,7 @@ export class Main extends React.Component <any, any> {
                 this.clearStorage()
               }
             })
-            this.setState({ autoPushDraftFlag: false });
+            this.setState({ autoPushDraftFlag: false })
           }
         }
       }
@@ -355,7 +358,7 @@ export class Main extends React.Component <any, any> {
       if(code === 200) {
         if(code.msg !== 0) {
           this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
-            window.scrollTo(0, 0);
+            window.scrollTo(0, 0)
           })
         }
         if(complete == 'false') {
@@ -392,11 +395,11 @@ export class Main extends React.Component <any, any> {
   }
 
   handleChangeValue(value) {
-    const { autoPushDraftFlag } = this.state;
+    const { autoPushDraftFlag } = this.state
     if(_.isBoolean(autoPushDraftFlag)) {
       // 非null(取到数据了) 并且没有打开保存draft的flag
       if(!autoPushDraftFlag) {
-        this.setState({ autoPushDraftFlag: true });
+        this.setState({ autoPushDraftFlag: true })
       }
     }
   }
@@ -483,7 +486,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div className="application">
-        <Tutorial bgList={[ 'https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim' ]}
+        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <div className={`container ${edit ? 'has-footer' : ''}`}>
@@ -498,7 +501,7 @@ export class Main extends React.Component <any, any> {
                 pic ?
                   <div className="app-image">
                     <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                              onClick={() => {preview(pic, [ pic ])}}/>
+                              onClick={() => {preview(pic, [pic])}}/>
                   </div> :
                   null
               }
@@ -549,16 +552,17 @@ export class Main extends React.Component <any, any> {
                 </div> :
                 null
             }
-            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>
-              同学的作业</div> : null}
+            {!showOthers ? <MarkBlock module={'打点'} func={'应用题页'} action={'点击同学的作业'} className="show-others-tip"
+                                      onClick={this.others.bind(this)}>
+              同学的作业</MarkBlock> : null}
           </div>
         </div>
-
         <RenderInBody>
           {showDisable ?
             <div className="button-footer disabled">提交中</div> :
             edit ?
-              <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
+              <MarkBlock module={'打点'} func={'应用题页'} action={'点击提交按钮'} className="button-footer"
+                         onClick={this.onSubmit.bind(this)}>提交</MarkBlock> :
               <div/>}
         </RenderInBody>
         <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>

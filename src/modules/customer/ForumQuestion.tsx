@@ -7,6 +7,9 @@ import SimpleQuestion from "../forum/commons/SimpleQuestion/SimpleQuestion"
 import { splitText, removeHtmlTags } from "../../utils/helpers"
 import { mark } from "../../utils/request"
 
+/**
+ * 已废弃
+ */
 @connect(state => state)
 export default class ForumQuestion extends React.Component<any,any> {
   constructor() {
