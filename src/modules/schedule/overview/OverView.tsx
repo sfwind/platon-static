@@ -10,6 +10,7 @@ import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
 import { mark } from '../../../utils/request'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 
@@ -110,11 +111,6 @@ export default class OverView extends React.Component {
   }
 
   switchDraggableStatus(draggable) {
-    mark({
-      module: '打点',
-      function: '学习计划页',
-      action: '点击切换按钮'
-    })
     if(draggable) {
       this.context.router.push({
         pathname: '/rise/static/transfer',
@@ -130,11 +126,6 @@ export default class OverView extends React.Component {
   }
 
   handleSubmitButton(draggable) {
-    mark({
-      module: '打点',
-      function: '学习计划页',
-      action: '点击确定按钮'
-    })
     if(draggable) {
       let node = document.getElementById('overview-scroll')
       let result = calcScheduleData(node)
@@ -168,11 +159,11 @@ export default class OverView extends React.Component {
 
     return (
       <div className="overview-container" id="overview-container" ref="overview-container">
-        <div className="overview-header">
+        <MarkBlock module={'打点'} func={'学习计划页'} action={'点击切换按钮'} className="overview-header">
           <span className="overview-title">学习计划</span>
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
                 onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
-        </div>
+        </MarkBlock>
         {
           draggable ?
             <span className="modify-drag-tips">尚未开课的辅修课，按住右侧按钮，可拖动到其他月份</span>
@@ -197,7 +188,8 @@ export default class OverView extends React.Component {
 
         {
           showSubmitButton &&
-          <SubmitButton clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/>
+          <MarkBlock module={'打点'} func={'学习计划页'} action={'点击确定按钮'}> <SubmitButton
+            clickFunc={() => this.handleSubmitButton(draggable)} buttonText={draggable ? '完成顺序调整' : '确定'}/></MarkBlock>
         }
 
         <Toast show={showToast} timeout={2000} height={220} width={200} top={160}>

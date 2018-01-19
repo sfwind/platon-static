@@ -10,6 +10,7 @@ import AssetImg from '../../../components/AssetImg'
 import * as _ from 'lodash'
 import { openAudition } from '../../problem/async'
 import { ToolBar } from '../../base/ToolBar'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 
@@ -54,12 +55,6 @@ export default class SchedulePlan extends React.Component<any, any> {
   }
 
   clickCourse(type, item) {
-    mark({
-      module:'打点',
-      function:'学习计划页面',
-      action:'点击课程按钮'
-    })
-
     const { dispatch } = this.props
 
     // 没有开课
@@ -102,12 +97,7 @@ export default class SchedulePlan extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
   }
 
-  gotoOverview(){
-     mark({
-       module:'打点',
-       function:'学习页面',
-       action:'点击学习计划按钮'
-     })
+  gotoOverview() {
     this.context.router.push('/rise/static/course/schedule/overview')
   }
 
@@ -126,8 +116,8 @@ export default class SchedulePlan extends React.Component<any, any> {
             styleType = 'trial'
           }
           return (
-            <div key={index} className={`course-card`}
-                 onClick={() => this.clickCourse(item.type, item)}>
+            <MarkBlock module={'打点'} func={'学习计划页面'} action={'点击课程按钮'} key={index} className={`course-card`}
+                       onClick={() => this.clickCourse(item.type, item)}>
               <div className="img">
                 <div className={`problem-item-backcolor ${styleType}`}/>
                 <div className={`problem-item-backimg`}/>
@@ -142,7 +132,7 @@ export default class SchedulePlan extends React.Component<any, any> {
                 <div className="problem-name">{item.problem.problem}</div>
                 <div className="problem-month">{item.typeDesc}</div>
               </div>
-            </div>
+            </MarkBlock>
           )
         }
       )
@@ -232,13 +222,13 @@ export default class SchedulePlan extends React.Component<any, any> {
 
         </div>
         <div className="column-span"/>
-        <div className="modify-schedule"
-             onClick={() =>this.gotoOverview()}>
+        <MarkBlock module={'打点'} func={'学习页面'} action={'点击学习计划按钮'} className="modify-schedule"
+                   onClick={() => this.gotoOverview()}>
           学习计划
           <div className="modify-click">
             <AssetImg type="arrow_right" height={10} width={7}/>
           </div>
-        </div>
+        </MarkBlock>
         <div className="column-span"/>
         {
           !_.isEmpty(completeProblem) &&
