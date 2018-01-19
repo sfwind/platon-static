@@ -18,6 +18,7 @@ import { mark } from '../../../utils/request'
 import { scroll, unScrollToBorder } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
 import RenderInBody from '../../../components/RenderInBody'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 let timer
 
@@ -316,11 +317,6 @@ export class Main extends React.Component <any, any> {
   }
 
   others() {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '点击应用题页同学的作业'
-    })
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage } = this.props
     dispatch(startLoad())
     let page = 1
@@ -346,11 +342,6 @@ export class Main extends React.Component <any, any> {
   }
 
   onSubmit() {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '点击应用题提交按钮'
-    })
     const { dispatch, location } = this.props
     const { data, planId, completdApplicationCnt } = this.state
     const answer = this.refs.editor.getValue()
@@ -561,16 +552,17 @@ export class Main extends React.Component <any, any> {
                 </div> :
                 null
             }
-            {!showOthers ? <div className="show-others-tip" onClick={this.others.bind(this)}>
-              同学的作业</div> : null}
+            {!showOthers ? <MarkBlock module={'打点'} func={'应用题页'} action={'点击同学的作业'} className="show-others-tip"
+                                      onClick={this.others.bind(this)}>
+              同学的作业</MarkBlock> : null}
           </div>
         </div>
-
         <RenderInBody>
           {showDisable ?
             <div className="button-footer disabled">提交中</div> :
             edit ?
-              <div className="button-footer" onClick={this.onSubmit.bind(this)}>提交</div> :
+              <MarkBlock module={'打点'} func={'应用题页'} action={'点击提交按钮'} className="button-footer"
+                         onClick={this.onSubmit.bind(this)}>提交</MarkBlock> :
               <div/>}
         </RenderInBody>
         <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>

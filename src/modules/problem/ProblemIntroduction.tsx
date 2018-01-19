@@ -14,6 +14,7 @@ import { mark } from '../../utils/request'
 import { buttonStatus } from '../../utils/helpers'
 import { collectProblem, disCollectProblem, createPlan } from '../plan/async'
 import QYVideo from '../../components/QYVideo'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any, any> {
@@ -176,12 +177,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   onClickHandleProblemCollection(selected, problemId) {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '点击收藏课程按钮',
-      memo: `{problemId:${problemId}`
-    })
     const { dispatch } = this.props
     if(selected) {
       // 已经关注
@@ -425,10 +420,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
           </div>
-          <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
+          <MarkBlock module={'打点'} func={'课程介绍页'} action={'点击收藏课程按钮'} className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
             <span>{problemCollected ? '已收藏' : '收藏课程'}</span>
-          </div>
+          </MarkBlock>
         </div>
         {renderLeftContent()}
         {renderFooter()}

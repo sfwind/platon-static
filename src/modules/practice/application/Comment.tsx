@@ -14,6 +14,7 @@ import { StarRating } from '../../../components/starvote/StarRating'
 import { submitEvaluation } from '../../message/async'
 import Toast from '../../../components/Toast'
 import RenderInBody from '../../../components/RenderInBody'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 /**
  * 应用题评论页
@@ -226,20 +227,10 @@ export class Comment extends React.Component<any, any> {
   }
 
   show(showAll) {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '点击应用题评论页展开按钮'
-    })
     this.setState({ showAll: !showAll })
   }
 
   voted(id, voteStatus, voteCount) {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '点击应用题评论页点赞按钮'
-    })
     if(!voteStatus) {
       this.setState({ article: merge(this.state.article, { voteCount: voteCount + 1, voteStatus: true }) })
       vote(id)
@@ -248,11 +239,6 @@ export class Comment extends React.Component<any, any> {
   }
 
   handleEvaluateComment(ref, commentId) {
-    mark({
-      module: '打点',
-      function: '学习',
-      action: '对教练进行评分'
-    })
     const { commentEvaluations } = this.state
     let nodeState = this.refs[ref].getInnerState()
     submitEvaluation(commentId, nodeState.chosenLevel, null).then(res => {
@@ -314,10 +300,11 @@ export class Comment extends React.Component<any, any> {
       if(isString(content)) {
         if(filterContent.length > wordsCount && !showAll) {
           return (
-            <div onClick={() => this.show(showAll)} className="application-content">
+            <MarkBlock module={'打点'} func={'应用题评论页'} action={'点击展开按钮'} onClick={() => this.show(showAll)}
+                       className="application-content">
               {truncate(filterContent, { length: wordsCount, omission: '' })}
               <span style={{ letterSpacing: '-3px' }}>...</span>
-            </div>
+            </MarkBlock>
           )
         } else {
           return (
@@ -335,12 +322,14 @@ export class Comment extends React.Component<any, any> {
           {
             commentEvaluations.map((evaluation, index) => {
               return (
-                <StarRating
-                  key={evaluation.id}
-                  ref={`evaluation${evaluation.id}`}
-                  desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你有帮助吗？来匿名打个分，帮助教练做得更好吧！`}
-                  confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
-                />
+                <MarkBlock module={'打点'} func={'应用题评论页'} action={'对教练进行评分'}>
+                  <StarRating
+                    key={evaluation.id}
+                    ref={`evaluation${evaluation.id}`}
+                    desc={`${index + 1}/${commentEvaluations.length} ${evaluation.nickName}教练的评论，对你有帮助吗？来匿名打个分，帮助教练做得更好吧！`}
+                    confirmFunc={() => this.handleEvaluateComment(`evaluation${evaluation.id}`, evaluation.commentId)}
+                  />
+                </MarkBlock>
               )
             })
           }
@@ -365,9 +354,10 @@ export class Comment extends React.Component<any, any> {
             {filterContent && filterContent.length > wordsCount ?
               <div onClick={() => this.show(showAll)} className="show-all">{showAll ? '收起' : '展开'}</div> : null}
             {content ?
-              <div onClick={() => {this.voted(submitId, voteStatus, voteCount)}} className="vote">
+              <MarkBlock module={'打点'} func={'应用题评论页'} action={'点击点赞按钮'}
+                         onClick={() => {this.voted(submitId, voteStatus, voteCount)}} className="vote">
                 <span className={`${voteStatus ? 'voted' : 'disVote'}`}>{voteCount}</span>
-              </div> : null}
+              </MarkBlock> : null}
             <div className="comment-header">
               当前评论
             </div>
