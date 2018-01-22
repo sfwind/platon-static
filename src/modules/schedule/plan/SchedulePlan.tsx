@@ -10,7 +10,8 @@ import AssetImg from '../../../components/AssetImg'
 import * as _ from 'lodash'
 import { openAudition } from '../../problem/async'
 import { ToolBar } from '../../base/ToolBar'
-import {ColumnSpan} from '../../../components/ColumnSpan'
+import { ColumnSpan } from '../../../components/ColumnSpan'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 
@@ -21,7 +22,8 @@ const MINOR_PROBLEM = 2
  * rise_icon_hr 左侧较宽 TODO
  */
 @connect(state => state)
-export default class SchedulePlan extends React.Component<any, any> {
+export default class SchedulePlan extends React.Component
+  <any, any> {
   constructor() {
     super()
     this.state = {
@@ -97,6 +99,10 @@ export default class SchedulePlan extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
   }
 
+  gotoOverview() {
+    this.context.router.push('/rise/static/course/schedule/overview')
+  }
+
   render() {
     const { data } = this.state
     const { month, topic, today, minorSelected, runningProblem = [], minorPercent = 0, majorPercent = 0, completeProblem = [] } = data
@@ -112,8 +118,8 @@ export default class SchedulePlan extends React.Component<any, any> {
             styleType = 'trial'
           }
           return (
-            <div key={index} className={`course-card`}
-                 onClick={() => this.clickCourse(item.type, item)}>
+            <MarkBlock module={'打点'} func={'学习计划页面'} action={'点击课程按钮'} key={index} className={`course-card`}
+                       onClick={() => this.clickCourse(item.type, item)}>
               <div className="img">
                 <div className={`problem-item-backcolor ${styleType}`}/>
                 <div className={`problem-item-backimg`}/>
@@ -128,7 +134,7 @@ export default class SchedulePlan extends React.Component<any, any> {
                 <div className="problem-name">{item.problem.problem}</div>
                 <div className="problem-month">{item.typeDesc}</div>
               </div>
-            </div>
+            </MarkBlock>
           )
         }
       )
@@ -217,14 +223,15 @@ export default class SchedulePlan extends React.Component<any, any> {
             </div>}
 
         </div>
+
         <ColumnSpan/>
-        <div className="modify-schedule"
-             onClick={() => this.context.router.push('/rise/static/course/schedule/overview')}>
+        <MarkBlock module={'打点'} func={'学习页面'} action={'点击学习计划按钮'} className="modify-schedule"
+                   onClick={() => this.gotoOverview()}>
           学习计划
           <div className="modify-click">
             <AssetImg type="arrow_right" height={10} width={7}/>
           </div>
-        </div>
+        </MarkBlock>
         <ColumnSpan/>
         {
           !_.isEmpty(completeProblem) &&

@@ -1,10 +1,12 @@
 import * as React from 'react'
 import './MonthSchedule.less'
 import Sortable from 'sortablejs'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { updateSelected } from '../../async'
+import { isDownGrade } from '../../../../utils/helpers'
+import DropDownList from '../../../customer/components/DropDownList'
 
 interface MonthScheduleProps {
   id: any,
@@ -12,15 +14,36 @@ interface MonthScheduleProps {
   draggable: boolean,
   enableAutoScroll: any,
   disableAutoScroll: any,
-  toggleSubmitButton: any
+  toggleSubmitButton: any,
+  compatible: boolean
 }
+
+const monthList = [
+  { id: '1', value: '1月' },
+  { id: '2', value: '2月' },
+  { id: '3', value: '3月' },
+  { id: '4', value: '4月' },
+  { id: '5', value: '5月' },
+  { id: '6', value: '6月' },
+  { id: '7', value: '7月' },
+  { id: '8', value: '8月' },
+  { id: '9', value: '9月' },
+  { id: '10', value: '10月' },
+  { id: '11', value: '11月' },
+  { id: '12', value: '12月' }
+]
+
+// 动画移动 StyleSheet
+var problemMovingStyle
 
 @connect(state => state)
 export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
 
   constructor() {
     super()
-    this.state = {}
+    this.state = {
+      compatible: false
+    }
   }
 
   static contextTypes = {
@@ -30,17 +53,23 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   sortbale
 
   componentWillMount() {
-    const { id, schedules, draggable } = this.props
-    this.setState({ id: id, schedules: schedules, draggable: draggable })
+    const { id, schedules, draggable, compatible = false } = this.props
+    this.setState({ id: id, schedules: schedules, draggable: draggable, compatible: compatible })
   }
 
   componentDidMount() {
+    if(!this.state.compatible) {
+      this.renderSortableJS()
+    }
+  }
+
+  renderSortableJS() {
     const { enableAutoScroll, disableAutoScroll, toggleSubmitButton } = this.props
 
     let node = document.getElementById(this.props.id)
     this.sortbale = Sortable.create(node, {
       group: 'sorting',
-      sort: false,
+      sort: true,
       animation: 150,
       handle: '.draggable-item',
       ghostClass: 'ghost',
@@ -87,6 +116,8 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
   }
 
   handleClickViewProblemDesc(draggable, schedule, e) {
+    this.context.router.setState({ pageScrollY: window.pageYOffset })
+
     if(!draggable) {
       e.stopPropagation()
       if(schedule.problem.publish) {
@@ -95,7 +126,21 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
         this.context.router.push(`/rise/static/course/schedule/nopublish`)
       }
     } else {
+      if(!schedule.adjustable || !this.state.compatible) {
+        return
+      }
+      e.stopPropagation()
       e.preventDefault()
+
+      this.setState({
+        currentHandleSchedule: schedule,
+        originScrollY: window.scrollY
+      })
+
+      let dropDown = this.refs.dropDown
+      if(dropDown) {
+        dropDown.choice()
+      }
     }
   }
 
@@ -136,8 +181,44 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
     }
   }
 
+  handleChooseMonth(month) {
+    const chooseMonth = month.id
+    const schedule = this.state.currentHandleSchedule
+    let node = document.getElementById(`problemid-${schedule.problem.id}-id-${schedule.id}`)
+    let originTop = node.offsetTop
+    let parentNode = document.getElementById(chooseMonth)
+    parentNode.appendChild(node)
+    let finalTop = node.offsetTop
+    let rule = `
+        @keyframes problemMove {
+          from {
+            position: absolute;
+            z-index: 10;
+            top: ${originTop}px;
+          }
+          to {
+            position: absolute;
+            z-index: 10;
+            top: ${finalTop}px;
+          }
+        }
+      `
+    problemMovingStyle = document.createElement('style')
+    problemMovingStyle.innerHTML = rule
+    document.head.appendChild(problemMovingStyle)
+    let delayTime = Math.abs(finalTop - originTop) / 500
+    node.style.animation = `problemMove ${delayTime}s linear`
+    node.style.animationFillMode = 'forwards'
+
+    setTimeout(() => {
+      node.style.animation = ''
+      node.style.animationFillMode = ''
+      document.head.removeChild(problemMovingStyle)
+    }, delayTime * 1000)
+  }
+
   render() {
-    const { id, draggable } = this.state
+    const { id, draggable, compatible } = this.state
     let { schedules = [] } = this.state
     schedules = _.orderBy(schedules, ['type'], ['asc'])
 
@@ -146,7 +227,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
       <section id={`year-${firstSchedule.year}-month-${firstSchedule.month}`} className="month-schedule-component">
         <div className="schedule-topic">{`${firstSchedule.month}月 ${firstSchedule.topic}`}</div>
         <div className="split-line"/>
-        <ul id={id} className="schedule-box">
+        <ul id={firstSchedule.month} className="schedule-box">
           {
             schedules.map((schedule, index) => {
               return (
@@ -159,20 +240,34 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
                     `}
                     onClick={() => this.handleClickChangePosition(schedule, draggable)}>
                   <span className="problem-name">
-                    {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.problem}`}
+                    {`${schedule.type === 1 ? '主修 | ' : '辅修 | '} ${schedule.problem.abbreviation}`}
                   </span>
-                  <div className={`
-                          month-problem-desc
-                          ${draggable ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                  <div className={`month-problem-desc
+                        ${draggable && !compatible ? schedule.adjustable ? 'draggable draggable-item' : 'lock' : ''}
+                        ${draggable && compatible ? 'draggable' : ''}
                        `}
-                       onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}/>
+                       style={
+                         compatible &&
+                         draggable ?
+                           {
+                             background: 'none',
+                             color: `${schedule.adjustable ? '#1f87ff' : '#999999'}`,
+                             width: '6rem',
+                             textAlign: 'right'
+                           } : {}
+                       }
+                       onClick={(e) => this.handleClickViewProblemDesc(draggable, schedule, e)}>
+                    {
+                      compatible &&
+                      draggable && schedule.type === 2 ? '移动到' : ''
+                    }
+                  </div>
                 </li>
-                       // onTouchStart={ev => ev.preventDefault()}
-                       // onTouchMove={ev => ev.preventDefault()}
               )
             })
           }
         </ul>
+        <DropDownList ref='dropDown' level={1} data={[monthList]} placeholder={` `} onChoice={(month) => this.handleChooseMonth(month)}/>
       </section>
     )
   }

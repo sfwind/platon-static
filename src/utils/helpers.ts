@@ -247,3 +247,16 @@ export function randomStr(len) {
   }
   return pwd
 }
+
+export function isDownGrade() {
+  return false
+}
+
+export function isAndroid() {
+  return window.navigator.userAgent.indexOf('Android') > 0
+}
+
+export function isIos() {
+  return window.navigator.userAgent.indexOf('iPhone') > 0 || window.navigator.userAgent.indexOf('iPad') > 0
+}
+

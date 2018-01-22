@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
-import { submitInterlocutionQuestion, loadInterlocutionDateInfo } from './async';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg, set } from '../../redux/actions'
+import { submitInterlocutionQuestion, loadInterlocutionDateInfo } from './async'
 import { mark } from 'utils/request'
-import * as _ from 'lodash';
+import * as _ from 'lodash'
 
 const headerStyle = {
   fontSize: '1.7em',
@@ -20,13 +20,13 @@ const questionStyle = {
 
 const lengthDiv = {
   marginRight: '10px',
-  marginTop: '-25px',
+  marginTop: '-25px'
 }
 
 const lengthTip = {
   color: '#999',
   fontSize: '11px',
-  textAlign: 'right',
+  textAlign: 'right'
 }
 
 const footerStyle = {
@@ -68,18 +68,21 @@ const txtStyle = {
   fontSize: '16px',
   padding: '10px 12px',
   boxShadow: '0 0 0 transparent',
-  webkitAppearance: 'none',
+  webkitAppearance: 'none'
 }
 
+/**
+ * 已废弃
+ */
 @connect(state => state)
 export default class InterlocutionQuestionSubmit extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
       length: 0,
       title: '',
       lengthLimit: 50,
-      id: null,
+      id: null
     }
   }
 
@@ -88,51 +91,56 @@ export default class InterlocutionQuestionSubmit extends Component {
   }
 
   componentWillMount() {
-    const { dispatch } = this.props;
-    let interloctionDate = _.get(this.props, 'location.query.date');
-    dispatch(startLoad());
+    const { dispatch } = this.props
+    let interloctionDate = _.get(this.props, 'location.query.date')
+    dispatch(startLoad())
     loadInterlocutionDateInfo(interloctionDate).then(res => {
-      dispatch(endLoad());
+      dispatch(endLoad())
       if(res.code === 200) {
-        this.setState({ dateInfo: res.msg });
+        this.setState({ dateInfo: res.msg })
       } else {
-        dispatch(alertMsg(res.msg));
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
-      dispatch(endLoad());
-      dispatch(alertMsg(ex));
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
     })
-    mark({ module: "打点", function: "圈圈问答", action: "打开提交页面" })
+    mark({ module: '打点', function: '圈圈问答', action: '打开提交页面' })
   }
 
   writeTitle(title) {
-    this.setState({ title, length: title.length });
+    this.setState({ title, length: title.length })
   }
 
   handleClickSubmit() {
-    const { dispatch, location } = this.props;
-    const { title, id } = this.state;
-    const { date } = location.query;
+    mark({
+      module: '打点',
+      function: '圈圈问答提交页',
+      action: '点击提交按钮'
+    })
+    const { dispatch, location } = this.props
+    const { title, id } = this.state
+    const { date } = location.query
     if(title) {
-      dispatch(startLoad());
+      dispatch(startLoad())
       submitInterlocutionQuestion({
         topic: title, id: id, interlocutionDate: date
       }).then(res => {
-        dispatch(endLoad());
+        dispatch(endLoad())
         if(res.code === 200) {
           // 提交成功
           this.context.router.push({
             pathname: '/rise/static/guest/inter/questions',
-            query: { date: date },
+            query: { date: date }
           })
         } else {
           // 提交失败
-          dispatch(alertMsg(res.msg));
+          dispatch(alertMsg(res.msg))
         }
 
       }).catch(ex => {
-        dispatch(endLoad());
-        dispatch(alertMsg(ex));
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
       })
     } else {
       dispatch(alertMsg('请输入提问内容'))
@@ -140,7 +148,7 @@ export default class InterlocutionQuestionSubmit extends Component {
   }
 
   render() {
-    const { title, length, lengthLimit, dateInfo = {} } = this.state;
+    const { title, length, lengthLimit, dateInfo = {} } = this.state
     return (
       <div>
         <div style={headerStyle}>

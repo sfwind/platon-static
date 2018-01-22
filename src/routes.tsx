@@ -71,8 +71,16 @@ import SendCard from './modules/customer/card/experience/SendCard'
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base}
-           onChange={() => {
+           onChange={(before, after) => {
              config(['chooseWXPay'])
+
+             if(after.location.state && after.location.state.pageScrollY) {
+               setTimeout(() => {
+                 window.scrollTo(0, after.location.state.pageScrollY)
+               }, 1000)
+             } else {
+               window.scrollTo(0, 0)
+             }
            }}>
 
       <Route path="rise" component={PlanList}/>

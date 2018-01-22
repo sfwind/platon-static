@@ -8,7 +8,11 @@ import Editor from "../../../components/simditor/Editor"
 import { merge } from 'lodash'
 import { mark } from "../../../utils/request"
 import AssetImg from "../../../components/AssetImg";
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
+/**
+ * 小目标页
+ */
 @connect(state => state)
 export class Main extends React.Component <any, any> {
   constructor() {
@@ -164,7 +168,7 @@ export class Main extends React.Component <any, any> {
         { showDisable ?
           <div className="button-footer disabled">提交中</div>
           :
-          edit && <div className="button-footer" onClick={()=>this.onSubmit()}>提交</div>
+          edit && <MarkBlock module={'打点'} func={'小目标提交页'} action={'点击提交按钮'} className="button-footer" onClick={()=>this.onSubmit()}>提交</MarkBlock>
         }
       </div>
     )

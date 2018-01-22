@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './ScheduleNotice.less'
 import AssetImg from '../../components/AssetImg'
 import { mark } from '../../utils/request'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class ScheduleNotice extends Component {
@@ -20,7 +21,6 @@ export default class ScheduleNotice extends Component {
   }
 
   handleClickStart() {
-    mark({ module: "打点", function: "课程计划", action: "点击开始制定计划按钮" })
     this.context.router.push("/rise/static/course/schedule/choice");
   }
 
@@ -35,7 +35,7 @@ export default class ScheduleNotice extends Component {
         <div className="img-wrapper">
           <AssetImg className="img" url="https://www.iqycamp.com/images/icon_maps.png?imageslim"/>
         </div>
-        <div className="start-btn btn" onClick={() => this.handleClickStart()}>开始</div>
+        <MarkBlock module={'打点'} func={'课程计划'} action={'点击开始制定计划按钮'} className="start-btn btn" onClick={() => this.handleClickStart()}>开始</MarkBlock>
       </div>
     )
   }

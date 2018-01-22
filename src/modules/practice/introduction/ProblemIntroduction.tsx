@@ -10,10 +10,13 @@ import { Toast, Dialog } from 'react-weui'
 import { isNumber } from 'lodash'
 
 const { Alert } = Dialog
-import { mark } from '../../../utils/request'
-import { buttonStatus } from '../../../utils/helpers'
-import { collectProblem, disCollectProblem } from '../../plan/async'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
+const numeral = require('numeral')
+import { mark } from '../../utils/request'
+import { buttonStatus } from '../../utils/helpers'
+import { collectProblem, disCollectProblem, createPlan } from '../plan/async'
+import QYVideo from '../../components/QYVideo'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any, any> {
@@ -190,7 +193,8 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     } = this.state
     const { show } = this.props.location.query
     const {
-      catalog, subCatalog, pic, why, how, what, who, audio, chapterList, problem, authorPic, audioWords
+      difficultyScore, catalog, subCatalog, pic, why, how, what, who,
+      descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords, videoUrl, videoPoster, videoWords
     } = data
 
     const renderRoadMap = (chapter, idx) => {
@@ -342,6 +346,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         <section className="pi-content">
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
+            <div>
+              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>}
+            </div>
             <div className="pi-c-f-content">
               {audio &&
               <div className="context-audio">
@@ -385,10 +392,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
           </div>
-          <div className={`problem-collect ${problemCollected ? 'collected' : ''}`}
+          <MarkBlock module={'打点'} func={'课程介绍页'} action={'点击收藏课程按钮'} className={`problem-collect ${problemCollected ? 'collected' : ''}`}
                onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
             <span>{problemCollected ? '已收藏' : '收藏课程'}</span>
-          </div>
+          </MarkBlock>
         </div>
         {renderContent()}
         {renderFooter()}

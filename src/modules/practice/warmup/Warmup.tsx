@@ -5,6 +5,7 @@ import { remove, set, merge, get, findIndex, isBoolean, isString } from 'lodash'
 import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import { Main } from './Main'
 import { Analysis } from './Analysis'
+import { mark } from '../../../utils/request'
 
 @connect(state => state)
 export default class Warumup extends React.Component<any, any> {
@@ -17,6 +18,12 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   componentWillMount() {
+    mark({
+      module:'打点',
+      function:'学习',
+      action:'加载选择题页面',
+      memo:window.ENV.osName
+    })
     const { dispatch, location } = this.props
     const { practicePlanId, integrated } = location.query
     this.setState({ integrated })

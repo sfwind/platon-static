@@ -1,10 +1,14 @@
 import * as React from 'react'
 import './HeadImage.less'
-import { ppost } from '../../../../utils/request'
+import { mark, ppost } from '../../../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { adjustImage } from '../../../../components/imageUtil/ImageUtil'
+import { MarkBlock } from '../../../../components/markblock/MarkBlock'
 
+/**
+ * 修改头像页面
+ */
 @connect(state => state)
 export class HeadImage extends React.Component {
 
@@ -24,6 +28,11 @@ export class HeadImage extends React.Component {
   }
 
   componentWillMount() {
+    mark({
+      module:'打点',
+      function:'个人中心',
+      action:'加载修改头像页面'
+    })
     const { hiddenTab = () => {} } = this.props
     hiddenTab()
     this.dispatch = this.props.dispatch
@@ -95,17 +104,16 @@ export class HeadImage extends React.Component {
     const { headImgUrl, modify } = this.state
     return (
       <div className="headimg-modify-component">
-        <div className="headimg-edit">
+        <MarkBlock module={'打点'} func={'修改头像页面'} action={'点击选择头像'} className="headimg-edit">
           <img ref="headImg" className="headimg-img" src={headImgUrl} onClick={() => this.handleClickSelectHeadImg()}/>
           <input ref="changeImg" type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
                  style={{ display: 'none' }}/>
-        </div>
-
-        <div className="headimg-submit">
+        </MarkBlock>
+        <MarkBlock module={'打点'} func={'修改头像页面'} action={'点击修改按钮'} className="headimg-submit">
           <span onClick={() => this.handleClickUpdateHeadImg()}>
             {modify ? '修改' : '提交'}
           </span>
-        </div>
+        </MarkBlock>
         <div className="mask" style={{ background: `url(${headImgUrl})` }}/>
       </div>
     )

@@ -4,7 +4,11 @@ import './KnowledgeReview.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { mark } from '../../../utils/request'
 import { loadProblem } from './async'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
+/**
+ * 知识点回顾页面
+ */
 @connect(state => state)
 export class KnowledgeReview extends React.Component<any, any> {
   constructor(props) {
@@ -92,7 +96,8 @@ export class KnowledgeReview extends React.Component<any, any> {
             {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}
           </div>
         </div>
-        <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div>
+        <MarkBlock module={'打点'} func={'知识点回顾页面'} action={'点击标记完成按钮'} className="button-footer"
+                   onClick={this.complete.bind(this)}>标记完成</MarkBlock>
       </div>
     )
   }
