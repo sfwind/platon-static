@@ -17,16 +17,13 @@ import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-<<<<<<< HEAD
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
 import { Block } from '../../../components/Block'
 import { CardPrinter } from '../../plan/components/CardPrinter'
-=======
 import RenderInBody from '../../../components/RenderInBody'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
->>>>>>> cdc0ca34bb3a65f561afa46d7e2aa2644f0865a5
 
 const { Alert } = Dialog
 let timer
@@ -373,11 +370,7 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-<<<<<<< HEAD
           this.setState({ completdApplicationCnt: res.msg, showCardPrinter: true }, () => {
-=======
-          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
->>>>>>> cdc0ca34bb3a65f561afa46d7e2aa2644f0865a5
             window.scrollTo(0, 0)
           })
         }
@@ -414,11 +407,7 @@ export class Main extends React.Component <any, any> {
     })
   }
 
-<<<<<<< HEAD
-  handleChangeValue() {
-=======
   handleChangeValue(value) {
->>>>>>> cdc0ca34bb3a65f561afa46d7e2aa2644f0865a5
     const { autoPushDraftFlag } = this.state
     if(_.isBoolean(autoPushDraftFlag)) {
       // 非null(取到数据了) 并且没有打开保存draft的flag
@@ -544,7 +533,6 @@ export class Main extends React.Component <any, any> {
     }
 
     return (
-<<<<<<< HEAD
       <div className="application-edit-container">
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
@@ -554,35 +542,6 @@ export class Main extends React.Component <any, any> {
           <div className="application-context">
             <div className="application-title">
               <AssetImg type="app" size={15}/><span>今日应用</span>
-=======
-      <div className="application">
-        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
-                  show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
-                  onShowEnd={() => this.tutorialEnd()}/>
-        <div className={`container ${edit ? 'has-footer' : ''}`}>
-          <div className="page-header">{topic}</div>
-          <div className="intro-container">
-            <div className="application-context">
-              <div className="application-title">
-                <AssetImg type="app" size={15}/><span>今日应用</span>
-              </div>
-              <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
-              {
-                pic ?
-                  <div className="app-image">
-                    <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                              onClick={() => {preview(pic, [pic])}}/>
-                  </div> :
-                  null
-              }
-              {
-                integrated == 'false' ?
-                  <div className="knowledge-link"
-                       onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
-                    点击查看相关知识点
-                  </div> : null
-              }
->>>>>>> cdc0ca34bb3a65f561afa46d7e2aa2644f0865a5
             </div>
             <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
             {
@@ -642,7 +601,6 @@ export class Main extends React.Component <any, any> {
                 同学的作业
               </div>
             }
-<<<<<<< HEAD
           </div>
         </div>
         {
@@ -652,24 +610,6 @@ export class Main extends React.Component <any, any> {
         }
         {renderCardPrinter()}
         {renderCompleteBox()}
-=======
-            {!showOthers ? <MarkBlock module={'打点'} func={'应用题页'} action={'点击同学的作业'} className="show-others-tip"
-                                      onClick={this.others.bind(this)}>
-              同学的作业</MarkBlock> : null}
-          </div>
-        </div>
-        <RenderInBody>
-          {showDisable ?
-            <div className="button-footer disabled">提交中</div> :
-            edit ?
-              <MarkBlock module={'打点'} func={'应用题页'} action={'点击提交按钮'} className="button-footer"
-                         onClick={this.onSubmit.bind(this)}>提交</MarkBlock> :
-              <div/>}
-        </RenderInBody>
-        <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
-          {renderCompleteBox()}
-        </div>
->>>>>>> cdc0ca34bb3a65f561afa46d7e2aa2644f0865a5
       </div>
     )
   }

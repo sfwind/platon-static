@@ -5,18 +5,17 @@ import Audio from '../../../components/Audio'
 import AssetImg from '../../../components/AssetImg'
 import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import { openProblemIntroduction } from '../../problem/async'
-import { createPlan } from '../../plan/async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber } from 'lodash'
 
 const { Alert } = Dialog
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 const numeral = require('numeral')
-import { mark } from '../../utils/request'
-import { buttonStatus } from '../../utils/helpers'
-import { collectProblem, disCollectProblem, createPlan } from '../plan/async'
-import QYVideo from '../../components/QYVideo'
-import { MarkBlock } from '../../components/markblock/MarkBlock'
+import { mark } from 'utils/request'
+import { buttonStatus } from 'utils/helpers'
+import { collectProblem, disCollectProblem, createPlan } from '../../plan/async'
+import QYVideo from '../../../components/QYVideo'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any, any> {
