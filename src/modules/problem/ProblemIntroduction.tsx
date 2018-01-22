@@ -4,7 +4,7 @@ import './ProblemIntroduction.less'
 import Audio from '../../components/Audio'
 import AssetImg from '../../components/AssetImg'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { openProblemIntroduction } from './async'
+import { collectProblem, disCollectProblem, openProblemIntroduction } from './async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber, get } from 'lodash'
 
@@ -12,7 +12,7 @@ const { Alert } = Dialog
 const numeral = require('numeral')
 import { mark } from '../../utils/request'
 import { buttonStatus } from '../../utils/helpers'
-import { collectProblem, disCollectProblem, createPlan } from '../plan/async'
+import { createPlan } from '../plan/async'
 import QYVideo from '../../components/QYVideo'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 

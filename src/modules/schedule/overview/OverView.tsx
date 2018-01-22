@@ -9,7 +9,8 @@ import Toast from '../../../components/Toast'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
 import './OverView.less'
-import { isAndroid } from '../../../utils/helpers'
+import { mark } from '../../../utils/request'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 
@@ -157,11 +158,11 @@ export default class OverView extends React.Component {
 
     return (
       <div className={`overview-container ${compatible ? 'android-adapter' : ''}`} id="overview-container" ref="overview-container">
-        <div className="overview-header">
+        <MarkBlock  module={'打点'} func={'学习计划页'} action={'点击切换按钮'} className="overview-header">
           <span className="overview-title">学习计划</span>
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
                 onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
-        </div>
+        </MarkBlock>
 
         <div id="overview-scroll" className="overview-scroll">
           {
