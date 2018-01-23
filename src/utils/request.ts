@@ -1,7 +1,10 @@
 import qs from "qs";
 import { merge, isUndefined, isNull, values } from "lodash";
 import { get, post } from "axios";
+import * as axios from 'axios'
 import * as $ from "jquery";
+
+axios.defaults.headers.platform = "we_mobile"
 
 const debug = getQueryString('debug')
 
