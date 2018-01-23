@@ -5,7 +5,7 @@ import { OtherInit } from './OtherInit'
 import { OtherComplete } from './OtherComplete'
 import { QuestionGroup } from '../components/QuestionGroup'
 import { OtherShare } from './OtherShare'
-import { loadSurveySubmitUpname } from '../async';
+import { loadSurveySubmitUpname, loadSurveySubmit } from '../async';
 import { mark } from '../../../utils/request'
 
 @connect(state => state)
@@ -52,13 +52,25 @@ export default class OtherEvaluate extends React.Component {
     }
   }
 
+  async handleClickStart() {
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    let res = await loadSurveySubmit('evaluation-self');
+    dispatch(endLoad());
+    if(res.code === 200) {
+      this.setState({ currentStep: this.other_evaluate_steps.content })
+    } else {
+      dispatch(alertMsg("您已经填写过问卷"));
+    }
+  }
+
   renderComponentByStep() {
     const { currentStep, upName } = this.state
     const { location } = this.props;
     const { referId } = location.query;
     switch(currentStep) {
       case this.other_evaluate_steps.init :
-        return <OtherInit handleStart={() => this.setState({ currentStep: this.other_evaluate_steps.content })}
+        return <OtherInit handleStart={() => this.handleClickStart()}
                           upName={upName}
         />
         break

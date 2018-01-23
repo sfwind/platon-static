@@ -169,8 +169,8 @@ const routes = (
       {/*团队学习倒计时页面*/}
       <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
       <Route path="guest/annual/summary" component={AnnualSummary}/>
-      <Route path="/rise/static/value/evaluation/self" component={SelfEvaluate}/>
-      <Route path="/rise/static/value/evaluation/other" component={OtherEvaluate}/>
+      <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
+      <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
   </Route>
 )

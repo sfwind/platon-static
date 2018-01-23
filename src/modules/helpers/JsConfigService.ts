@@ -26,7 +26,8 @@ class ConfigBean {
 }
 
 let whiteList = [
-
+  '/rise/static/guest/value/evaluation/self',
+  '/rise/static/guest/value/evaluation/other'
 ];
 
 /**
