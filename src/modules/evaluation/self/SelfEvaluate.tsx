@@ -30,9 +30,9 @@ export default class SelfEvaluate extends React.Component {
     let res = await loadSurveySubmit('evaluation-self');
     dispatch(endLoad());
     if(res.code === 200) {
-      this.state({ selfSubmitId: res.msg.id });
+      this.setState({ selfSubmitId: res.msg });
     } else {
-      dispatch(alertMsg(res.msg))
+      // dispatch(alertMsg(res.msg))
     }
   }
 
