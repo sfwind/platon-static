@@ -260,7 +260,8 @@
     .special-radio {
       .special-radio-box {
         &.chosen {
-          background: #66ccff;
+          background: #041931;
+          color:#FFF;
         }
         border: 1px solid #d9d9d9;
         border-radius: 5px;
@@ -271,15 +272,21 @@
     }
 
     .multi-radio {
-      text-align: center;
       .multi-radio-box {
         &.chosen {
-          background: #66ccff;
+          background: #041931;
+          color:#FFF;
+        }
+        float: left;
+        &:nth-of-type(2n-1) {
+          float: right;
         }
         display: inline-block;
         border: 1px solid #d9d9d9;
         border-radius: 5px;
         width: 45%;
+        padding: 5px 0;
+        margin: 5px 0;
         text-align: center;
       }
     }

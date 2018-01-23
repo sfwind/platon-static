@@ -64,7 +64,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     let questions = _.get(allGroup, `[${currentIndex}].questions`, []);
     let key = _.findIndex(questions, { id: question.id });
     let result = _.set(_.cloneDeep(group), `questions[${key}]`, _.set(_.cloneDeep(question), keyName, value));
-
+    console.log(result, 'resut')
     let newGroups = _.cloneDeep(allGroup);
     newGroups[ currentIndex ] = result;
     this.setState({ allGroup: newGroups }, () => {
@@ -162,33 +162,58 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
    * @param userChoices 用户选项
    */
   checkQuestionComplete(question, userChoices) {
-    const { type, chosenId, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode } = question;
+    const { type, chosenId, chosenIds, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode, memo } = question;
 
     if(!!preChoiceId) {
       if(_.indexOf(userChoices, preChoiceId) === -1) {
         // 不满足前置条件，则不检查
-        return true;
+        return { flag: true };
       }
     }
     if(!request) {
       // 不是必填
-      return true;
+      return { flag: true };
     }
 
     switch(type) {
       case QuestionType.PICKER:
       case QuestionType.RADIO:
       case QuestionType.SPECIAL_RADIO:
-        return !!chosenId;
+        return {
+          flag: !!chosenId,
+          msg: '请完成必选题'
+        }
       case QuestionType.BLANK:
       case QuestionType.MULTI_BLANK:
       case QuestionType.PHONE:
       case QuestionType.UPLOAD_PIC:
-        return !!userValue;
+        return {
+          flag: !!userValue,
+          msg: '请填写信息'
+        }
       case QuestionType.AREA:
-        return !!oneId && !!twoId;
+        return {
+          flag: !!oneId && !!twoId,
+          msg: '请选择地址'
+        }
+      case QuestionType.MULTI_RADIO: {
+        let maxChoose = 10;
+        try {
+          maxChoose = _.get(JSON.parse(memo), 'maxChoose');
+        } catch(e) {
+          // ignore
+          console.log(e);
+        }
+        return {
+          flag: !_.isEmpty(chosenIds) && chosenIds.length === maxChoose,
+          msg: `本多选题必须选择${maxChoose}个选项`
+        };
+      }
       default:
-        return false;
+        return {
+          flag: false,
+          msg: '请完成必做题'
+        };
     }
   }
 
@@ -202,7 +227,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
       let questions = tempGroup.questions;
       for(let i = 0; i < questions.length; i++) {
 
-        const { type, chosenId, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode } = questions[ i ];
+        const { type, chosenId, chosenIds, preChoiceId, userValue, oneId, twoId, request, phoneCheckCode, memo } = questions[ i ];
 
         let checkResult = false;
 
@@ -232,6 +257,17 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
           case QuestionType.AREA:
             checkResult = !!oneId && !!twoId;
             break;
+          case QuestionType.MULTI_RADIO: {
+            let maxChoose = 10;
+            try {
+              maxChoose = _.get(JSON.parse(memo), 'maxChoose');
+            } catch(e) {
+              // ignore
+              console.log(e);
+            }
+            checkResult = !_.isEmpty(chosenIds) && chosenIds.length === maxChoose;
+            break;
+          }
           default:
             continue;
         }
@@ -259,8 +295,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
 
     for(let i = 0; i < questions.length; i++) {
       let checkResult = this.checkQuestionComplete(questions[ i ], userChoices);
-      if(!checkResult) {
-        return '完成必填项后再点下一步哦'
+      if(!checkResult.flag) {
+        return checkResult.msg;
       }
     }
     // 特殊检查电话
@@ -341,6 +377,10 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
           if(!!tempQuestion.chosenId) {
             subArray.push(tempQuestion.chosenId);
           }
+        } else if(tempQuestion.type === QuestionType.MULTI_RADIO) {
+          if(!_.isEmpty(tempQuestion.chosenIds)) {
+            subArray = subArray.concat(tempQuestion.chosenIds);
+          }
         }
         return subArray;
       }, []);
@@ -369,13 +409,13 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
    */
   nextStep() {
     const { allGroup, currentIndex, firstTips } = this.state
-    const { dispatch } = this.props;
+    const { dispatch, category } = this.props;
     let group = allGroup[ currentIndex ];
     let nextIndex = this.findNextVisibleIndex(allGroup, currentIndex);
     this.setState({ group: group }, () => {
       $('.question-group').animateCss('fadeOutLeft', () => {
         this.setState({ currentIndex: nextIndex }, () => {
-          mark({ module: "打点", function: "商学院审核", action: "翻页", memo: allGroup[ nextIndex ].series + "" });
+          mark({ module: "问卷", function: category, action: "翻页", memo: _.get(allGroup, `[ ${nextIndex} ].series`) });
           $('.question-group').animateCss('fadeInRight');
           let type = _.get(allGroup[ nextIndex ], 'questions[0].type');
           let tips = _.get(firstTips, type);
@@ -452,7 +492,14 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     })
   }
 
-  handleClickSubmitBtn() {
+  async handleClickSubmitBtn() {
+    const { dispatch, region } = this.props;
+    const { allGroup, currentIndex } = this.state
+    let msg = await this.checkChoice(allGroup, currentIndex)
+    if(msg) {
+      dispatch(alertMsg(msg))
+      return
+    }
     this.setState({ showConfirmModal: true });
   }
 
@@ -475,20 +522,27 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
         switch(question.type) {
           case QuestionType.PICKER:
           case QuestionType.RADIO:
-          case QuestionType.SPECIAL_RADIO:
+          case QuestionType.SPECIAL_RADIO: {
             _.merge(subTempParam, { questionCode: question.questionCode, choiceId: question.chosenId });
             break;
+          }
           case QuestionType.BLANK:
           case QuestionType.MULTI_BLANK:
           case QuestionType.PHONE:
-          case QuestionType.UPLOAD_PIC:
+          case QuestionType.UPLOAD_PIC: {
             _.merge(subTempParam, { questionCode: question.questionCode, userValue: question.userValue });
             break;
-          case QuestionType.AREA:
+          }
+          case QuestionType.AREA: {
             const provinceName = _.find(_.get(region, "provinceList"), { id: question.oneId }).value;
             const cityName = _.find(_.get(region, "cityList"), { id: question.twoId }).value;
             _.merge(subTempParam, { questionCode: question.questionCode, userValue: provinceName + '-' + cityName });
             break;
+          }
+          case QuestionType.MULTI_RADIO: {
+            _.merge(subTempParam, { questionCode: question.questionCode, choiceIds: question.chosenIds });
+            break;
+          }
           default:
           // ignore
         }
@@ -719,18 +773,37 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     }
 
     const renderMultiRadio = (questionInfo = {}) => {
-      const { choices } = questionInfo;
+      const { choices = [], memo } = questionInfo;
+      const { dispatch } = this.props;
       return mixQuestionDom(questionInfo,
         <div className="multi-radio">
           {choices && choices.map((item, key) => {
             let classNames = classnames('multi-radio-box', {
               'chosen': _.indexOf(userChoices, item.id) !== -1
             });
+            let maxChoose = 10;
+            if(!!memo) {
+              maxChoose = _.get(JSON.parse(memo), 'maxChoose', 10);
+            }
+
             return (
               <div className={classNames}
                    onClick={() => {
-                     console.log(questionInfo, item.id);
-                     //this.commonHandleValueChange(questionInfo, Number.parseInt(item.id), 'chosenIds')
+                     let choices = _.cloneDeep(questionInfo.chosenIds);
+                     if(!choices) {
+                       choices = [];
+                     }
+                     if(_.indexOf(choices, item.id) !== -1) {
+                       _.remove(choices, (k) => k == item.id);
+                     } else {
+                       if(choices.length < maxChoose) {
+                         choices.push(item.id);
+                       } else {
+                         dispatch(alertMsg(`最多选择${maxChoose}个选项`));
+                         return;
+                       }
+                     }
+                     this.commonHandleValueChange(questionInfo, choices, 'chosenIds')
                    }}>
                 {item.subject}
               </div>
