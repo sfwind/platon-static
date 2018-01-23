@@ -66,6 +66,7 @@ import CampCountDown from './modules/schedule/CampCountDown'
 import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
 import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
 import SendCard from './modules/customer/card/experience/SendCard'
+import { ValueEvaluation } from './modules/evaluation/ValueEvaluation'
 
 const routes = (
   <Route>
@@ -167,6 +168,7 @@ const routes = (
       {/*团队学习倒计时页面*/}
       <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
       <Route path="guest/annual/summary" component={AnnualSummary}/>
+      <Route path="/rise/static/value/evaluation/choice" component={ValueEvaluation}/>
     </Route>
   </Route>
 )
