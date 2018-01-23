@@ -10,6 +10,7 @@ import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import $ from 'jquery';
 import classnames from 'classnames';
 import { Dialog } from 'react-weui'
+import numeral from 'numeral';
 
 const { Alert } = Dialog;
 
@@ -563,7 +564,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
   submitAPI(param) {
     const { dispatch, category, onSubmit, referId } = this.props;
     _.merge(param, { referId: referId });
-    mark({ module: "打点", function: "问卷", action: "提交问卷" });
+    mark({ module: "打点", function: "问卷", action: "提交问卷", memo: category });
     // 开始提交
     submitSurvey(category, param).then(res => {
       dispatch(endLoad());
@@ -625,11 +626,12 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
 
     const mixQuestionDom = (questionInfo, QuestionDom) => {
       const { subject, request, tips } = questionInfo;
+      const { upName } = this.props;
 
       return (
         <div className="question" key={questionInfo.id}>
           <div className="question-label">
-            <span dangerouslySetInnerHTML={{ __html: subject }}/>
+            <span dangerouslySetInnerHTML={{ __html: _.replace(subject, '{username}', upName) }}/>
             {request ? <span style={{ color: 'red' }}>*</span> : null}
           </div>
           {tips ? <div className="question-tips" dangerouslySetInnerHTML={{ __html: tips }}/> : null}
@@ -847,14 +849,12 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     return (
       <div className="question-group-container">
         <div className="apply-page-header">{header}</div>
-        {/*<div className="apply_rate">*/}
-        {/*<img src="https://static.iqycamp.com/images/progress_bar2.png?imageslim" width={'100%'}/>*/}
-        {/*</div>*/}
         <div className="apply-progress">
           <div className="apply-progress-bar"
-               style={{ width: (window.innerWidth - 90 - 38) * (questionDoneCount / questionCount) }}/>
+               style={{ width: `${(questionDoneCount / questionCount) * 100}%` }}/>
         </div>
-        <div className="apply-progress-page-index">{questionDoneCount} / {questionCount}</div>
+        <div
+          className="apply-progress-page-index">{!!questionCount ? (numeral(questionDoneCount / questionCount).format('0%')) : 0}</div>
         <div className='question-group'>
           {questions && questions.map((item, key) => {
             const { type, preChoiceId } = item;
@@ -890,7 +890,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
             }
           })}
         </div>
-        <div style={{ height: '65px', width: '100%' }}/>
+        <div style={{ height: '80px', width: '100%' }}/>
         {renderButtons()}
 
         <Alert show={showConfirmModal} buttons={[
@@ -902,8 +902,10 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
             onClick: () => this.handleClickSubmit()
           }
         ]} title="提交">
-          <div className="global-pre" style={{ paddingTop: 0 }}
-               dangerouslySetInnerHTML={{ __html: '只可以提交一次。' }}/>
+          <div className="global-pre"
+               title='确认提交吗？'
+               style={{ paddingTop: 0 }}
+               dangerouslySetInnerHTML={{ __html: '提交后，本次测评答案无法修改' }}/>
         </Alert>
       </div>
     )

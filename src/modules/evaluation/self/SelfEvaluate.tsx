@@ -7,6 +7,7 @@ import { QuestionGroup } from '../components/QuestionGroup'
 import { loadSurveySubmit } from '../async';
 import * as _ from 'lodash';
 import { configShare } from '../../helpers/JsConfig'
+import { mark } from '../../../utils/request'
 
 @connect(state => state)
 export default class SelfEvaluate extends React.Component {
@@ -25,14 +26,17 @@ export default class SelfEvaluate extends React.Component {
   }
 
   async componentWillMount() {
+    mark({
+      module: '打点',
+      function: '价值观测评',
+      action: '进入测评页'
+    })
     const { dispatch } = this.props;
     dispatch(startLoad());
     let res = await loadSurveySubmit('evaluation-self');
     dispatch(endLoad());
     if(res.code === 200) {
       this.setState({ selfSubmitId: res.msg, currentStep: this.self_evaluate_steps.complete });
-    } else {
-      // dispatch(alertMsg(res.msg))
     }
   }
 
@@ -40,6 +44,11 @@ export default class SelfEvaluate extends React.Component {
     const { dispatch } = this.props;
     const { selfSubmitId } = this.state;
     if(!selfSubmitId) {
+      mark({
+        module: '打点',
+        function: '价值观测评',
+        action: '点击开始'
+      });
       this.setState({ currentStep: this.self_evaluate_steps.content })
     } else {
       dispatch(alertMsg('您已经提交过测评问卷'));
@@ -50,6 +59,11 @@ export default class SelfEvaluate extends React.Component {
   handleComplete() {
     const { dispatch } = this.props;
     const { selfSubmitId } = this.state;
+    mark({
+      module: '打点',
+      function: '价值观测评',
+      action: '点击分享'
+    });
     configShare(
       `圈外商学院--测评问卷`,
       `https://${window.location.hostname}/rise/static/value/evaluation/other?referId=${selfSubmitId}`,

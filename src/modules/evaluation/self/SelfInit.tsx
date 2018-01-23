@@ -16,7 +16,7 @@ export class SelfInit extends React.Component<SelfInitProps, any> {
 
     return (
       <div className="self-init-component">
-        <div onClick={() => handleStart()}>开始</div>
+        <div className="self-init-button" onClick={() => handleStart()}>开始</div>
       </div>
     )
   }

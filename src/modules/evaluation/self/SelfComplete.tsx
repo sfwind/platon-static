@@ -16,7 +16,7 @@ export class SelfComplete extends React.Component<SelfCompleteProps, any> {
 
     return (
       <div className="self-complete-complete">
-        <div onClick={() => handleComplete()}>分享</div>
+        <div className='self-complete-button' onClick={() => handleComplete()}>分享</div>
       </div>
     )
   }

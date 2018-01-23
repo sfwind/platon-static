@@ -31,3 +31,8 @@ export function submitSurvey(category, param) {
 export function loadSurveySubmit(category) {
   return pget(`/rise/survey/load/submit/${category}`);
 }
+
+export function loadSurveySubmitUpname(id) {
+  return pget(`/rise/survey/load/submit/upname/${id}`);
+}
+
