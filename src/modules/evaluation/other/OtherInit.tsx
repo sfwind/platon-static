@@ -16,7 +16,7 @@ export class OtherInit extends React.Component<OtherInitProps, any> {
 
     return (
       <div className="other-init-component">
-        <div onClick={() => handleStart()}></div>
+        <div onClick={() => handleStart()}>开始</div>
       </div>
     )
   }

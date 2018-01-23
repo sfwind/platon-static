@@ -560,15 +560,14 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
   }
 
   submitAPI(param) {
-    const { dispatch, category } = this.props;
+    const { dispatch, category, onSubmit } = this.props;
 
     mark({ module: "打点", function: "问卷", action: "提交问卷" });
     // 开始提交
     submitSurvey(category, param).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        alert("提交成功")
-        // this.context.router.push('/pay/applysubmit');
+        onSubmit();
       } else {
         dispatch(alertMsg(res.msg));
       }
