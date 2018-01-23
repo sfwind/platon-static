@@ -30,7 +30,7 @@ export default class SelfEvaluate extends React.Component {
     let res = await loadSurveySubmit('evaluation-self');
     dispatch(endLoad());
     if(res.code === 200) {
-      this.setState({ selfSubmitId: res.msg });
+      this.setState({ selfSubmitId: res.msg, currentStep: this.self_evaluate_steps.complete });
     } else {
       // dispatch(alertMsg(res.msg))
     }
@@ -42,7 +42,7 @@ export default class SelfEvaluate extends React.Component {
     if(!selfSubmitId) {
       this.setState({ currentStep: this.self_evaluate_steps.content })
     } else {
-      dispatch('您已经提交过测评问卷');
+      dispatch(alertMsg('您已经提交过测评问卷'));
       this.setState({ currentStep: this.self_evaluate_steps.complete })
     }
   }
