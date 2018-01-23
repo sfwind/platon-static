@@ -67,6 +67,8 @@ import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
 import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
 import SendCard from './modules/customer/card/experience/SendCard'
 import { ValueEvaluation } from './modules/evaluation/ValueEvaluation'
+import SelfEvaluate from './modules/evaluation/self/SelfEvaluate'
+import OtherEvaluate from './modules/evaluation/other/OtherEvaluate'
 
 const routes = (
   <Route>
@@ -170,6 +172,8 @@ const routes = (
       <Route path="guest/annual/summary" component={AnnualSummary}/>
       <Route path="/rise/static/value/evaluation/choice" component={ValueEvaluation}/>
     </Route>
+    <Route path="/self" component={SelfEvaluate}/>
+    <Route path="/other" component={OtherEvaluate}/>
   </Route>
 )
 
