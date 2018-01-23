@@ -19,6 +19,7 @@ interface QuestionGroupProps {
   region?: any,
   questionAsync: any,
   firstTips?: any,
+  referId?: any,
 }
 
 enum QuestionType {
@@ -560,14 +561,14 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
   }
 
   submitAPI(param) {
-    const { dispatch, category, onSubmit } = this.props;
-
+    const { dispatch, category, onSubmit, referId } = this.props;
+    _.merge(param, { referId: referId });
     mark({ module: "打点", function: "问卷", action: "提交问卷" });
     // 开始提交
     submitSurvey(category, param).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
-        onSubmit();
+        onSubmit(res.msg);
       } else {
         dispatch(alertMsg(res.msg));
       }

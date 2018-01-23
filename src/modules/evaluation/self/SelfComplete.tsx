@@ -5,7 +5,7 @@ interface SelfCompleteProps {
   handleComplete: any
 }
 
-export class SelfComplete extends React.Component {
+export class SelfComplete extends React.Component<SelfCompleteProps, any> {
 
   constructor() {
     super()
@@ -16,7 +16,7 @@ export class SelfComplete extends React.Component {
 
     return (
       <div className="self-complete-complete">
-
+        <div onClick={() => handleComplete()}>分享</div>
       </div>
     )
   }

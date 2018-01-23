@@ -27,3 +27,7 @@ export function loadSurvey(category) {
 export function submitSurvey(category, param) {
   return ppost(`/rise/survey/submit/${category}`, param);
 }
+
+export function loadSurveySubmit(category) {
+  return pget(`/rise/survey/load/submit/${category}`);
+}

@@ -20,6 +20,8 @@ export default class OtherEvaluate extends React.Component {
 
   renderComponentByStep() {
     const { currentStep } = this.state
+    const { location } = this.props;
+    const { referId } = location.query;
     switch(currentStep) {
       case this.other_evaluate_steps.init :
         return <OtherInit handleStart={() => this.setState({ currentStep: this.other_evaluate_steps.content })}/>
@@ -27,6 +29,7 @@ export default class OtherEvaluate extends React.Component {
       case this.other_evaluate_steps.content:
         return <QuestionGroup category='evaluation-other' header='职业发展核心能力和心理品质量表'
                               onSubmit={() => this.setState({ currentStep: this.other_evaluate_steps.complete })}
+                              referId={referId}
                               firstTips={{ 10: '请仔细阅读以下题目，根据您对 TA 的了解，从中选出一个最能准确描述其实际情况的选项。' }}/>
         break
       case this.other_evaluate_steps.complete:
