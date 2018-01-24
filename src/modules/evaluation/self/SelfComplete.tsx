@@ -30,7 +30,7 @@ export class SelfComplete extends React.Component<SelfCompleteProps, any> {
         {showTips &&
         <div className="share-tip" onClick={() => this.setState({ showTips: false })}>
           <div className="tip-pic">
-            <img src="https://static.iqycamp.com/images/share_pic1.png?imageslim" width="247"/>
+            <img src="https://static.iqycamp.com/images/fragment/share_pic_0122.png?imageslim" width="247"/>
           </div>
         </div>}
       </div>
