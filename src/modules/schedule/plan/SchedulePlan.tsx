@@ -224,7 +224,7 @@ export default class SchedulePlan extends React.Component
             </div>
           </div>
         }
-        <div className="column-span"/>
+        <ColumnSpan height={1} backgroundColor={'#eee'}/>
         <div className="card">
           <div className="card-title">
             <div className="card-topic">进行中的课程</div>
@@ -248,7 +248,7 @@ export default class SchedulePlan extends React.Component
                    onClick={() => this.gotoOverview()}>
           {'查看我的学习计划 >'}
         </MarkBlock>
-        <div className="column-span"/>
+        <ColumnSpan height={1} backgroundColor={'#eee'}/>
         {
           !_.isEmpty(completeProblem) &&
           <div className="card">
