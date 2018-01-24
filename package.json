@@ -33,6 +33,7 @@
     "gulp": "^3.9.1",
     "iosselect": "0.0.5",
     "jquery": "^2.1.4",
+    "jquery-circle-progress": "^1.2.2",
     "jqueryui": "^1.11.1",
     "lodash": "^4.14.1",
     "minirefresh": "^1.0.6",
