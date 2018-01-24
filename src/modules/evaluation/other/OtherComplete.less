@@ -3,16 +3,27 @@
 .other-complete-component {
   width: 100vw;
   height: 100vh;
-  background: url("@{imgPathRoot}/other_complete.png") no-repeat top center / 100vw;
+  //background: url("@{imgPathRoot}/other_complete.png") no-repeat top center / 100vw;
+  background-color: #fff;
 
   .complete-tips {
-    position: absolute;
-    top: 35%;
-    transform: translateY(-50%);
-    left: 0;
+    //position: absolute;
+    //top: 35%;
+    //transform: translateY(-50%);
+    //left: 0;
+    padding-top: 8rem;
     font-size: 1.5rem;
-    padding: 0 3rem;
+    width: 100%;
     color: #333;
     text-align: center;
+  }
+  .tips-qrcode-box {
+    margin-top: 2rem;
+    text-align: center;
+    .tips-qrCode {
+      width: 60%;
+      height: auto;
+      display: inline-block;
+    }
   }
 }

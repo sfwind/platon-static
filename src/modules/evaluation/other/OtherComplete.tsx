@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './OtherComplete.less'
+import AssetImg from '../../../components/AssetImg'
 
 interface OtherCompleteProps {
   handleComplete: any
@@ -19,6 +20,9 @@ export class OtherComplete extends React.Component<OtherCompleteProps, any> {
         <div className="complete-tips">
           感谢你对{upName}的支持！<br/>
           如果你有兴趣参加该测评，请扫码预约名额
+        </div>
+        <div className='tips-qrcode-box'>
+          <AssetImg className='tips-qrCode' url='https://static.iqycamp.com/images/fragment/self_evaluation.jpeg?imageslim'/>
         </div>
       </div>
     )
