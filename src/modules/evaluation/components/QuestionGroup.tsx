@@ -45,6 +45,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
   }
 
   async componentWillMount() {
+
     const { dispatch, category, firstTips } = this.props;
     let regionRes = await pget('/rise/customer/region');
     dispatch(set("region", regionRes.msg));
