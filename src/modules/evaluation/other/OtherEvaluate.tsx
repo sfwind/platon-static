@@ -17,6 +17,10 @@ export default class OtherEvaluate extends React.Component {
     }
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
   other_evaluate_steps = {
     init: 'init',
     content: 'questionare',
@@ -34,19 +38,25 @@ export default class OtherEvaluate extends React.Component {
     })
     dispatch(startLoad());
     let res = await loadSurveySubmitUpname(refer);
+    let referRes = await loadSurveySubmitByRefer(refer);
     dispatch(endLoad());
     if(res.code === 200) {
       this.setState({ upName: res.msg });
     }
+    if(referRes.code === 200) {
+      if(!!referRes.msg.self) {
+        // 是自己的
+        this.context.router.push('/rise/static/guest/value/evaluation/self');
+      } else {
+        this.setState({ submitted: !!referRes.msg.resultId, self: referRes.msg.self })
+      }
+    }
   }
 
   async handleClickStart() {
-    const { dispatch, location } = this.props;
-    const { refer } = location.query;
-    dispatch(startLoad());
-    let res = await loadSurveySubmitByRefer(refer);
-    dispatch(endLoad());
-    if(res.code === 200) {
+    const { dispatch } = this.props;
+    const { submitted } = this.state;
+    if(!!submitted) {
       dispatch(alertMsg("您已经填写过问卷"));
     } else {
       this.setState({ currentStep: this.other_evaluate_steps.content })
