@@ -12,6 +12,10 @@ export function loadProblem(id) {
   return pget(`/rise/problem/get/${id}`)
 }
 
+export function loadMyProblem(id) {
+  return pget(`/rise/problem/get/my/${id}`)
+}
+
 export function openProblemIntroduction(id, free) {
   let param = free ? { autoOpen: 'true' } : { autoOpen: 'false' }
   return pget(`/rise/problem/open/${id}`, param)

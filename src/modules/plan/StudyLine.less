@@ -2,7 +2,7 @@
 
 .study-line-container {
   .preview-practice {
-    padding: 2.5rem 3.0rem;
+    padding: 2.5rem 1.5rem;
     .preview-title {
       font-size: 1.8rem;
       line-height: 100%;
@@ -12,63 +12,89 @@
   }
 
   .practice-detail {
+    height: 5.6rem;
+    line-height: 5.6rem;
     margin-top: 2.0rem;
-    &:last-child {
-      > .status-line{
-        height: 0;
-      }
-    }
     > .practice-column {
-      height: 2.0rem;
-      > .status-round {
+      line-height: 5.6rem;
+
+      > .status {
         display: inline-block;
         position: relative;
-        border-radius: 2.0rem;
-        width: 2.0rem;
-        height: 2.0rem;
-        &.major {
-          background: #FFB200;
-        }
-        &.minor {
-          background: #399BD3;
-        }
-        &.locked{
-          background: @color_weak !important;
-        }
+        border-radius: 1.8rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        background: @color_weak;
+        top: -1.3rem;
       }
 
+      > .title-angle{
+        display: inline-block;
+        border: 5px transparent solid;
+        border-right-color: #F8F8F8;
+        position: relative;
+        bottom: 1.8rem;
+        width:0;
+        height:0;
+        &.running{
+          border-right-color: #FF983F;
+        }
+      }
       > .title {
+        background: #F8F8F8;
+        border-radius: 4px;
+
+        &.complete{
+          &:after{
+            content:'';
+            display: inline-block;
+            position: absolute;
+            width: .7rem;
+            height: 1rem;
+            background: url('../../../assets/img/arrow_right.png') center center/.7rem 1rem no-repeat;
+            vertical-align: middle;
+            right: 1.8rem;
+            margin-top: 2.3rem;
+          }
+          color: #333;
+        }
+        &.running{
+          background-image: linear-gradient(-90deg, #FFC701 0%, #FF983F 98%);
+          box-shadow: 0 3px 6px 0 rgba(240,161,10,0.39);
+          color: #fff;
+        }
+        &.locked{
+          color: #999;
+        }
+        width:~"calc(100% - 7.0rem)";
         display: inline-block;
         font-size: 1.4rem;
-        line-height: 2.0rem;
-        color: @color_context;
         position: absolute;
-        margin-left: 2.0rem;
+        padding-left: 2.0rem;
+        box-sizing: border-box;
       }
     }
+
     > .status-line {
-      height: 2.0rem;
+      height: 7.6rem;
       position: absolute;
       width: 0.2rem;
-      margin-left: 0.9rem;
-      &.major {
-        background: #FFB200;
-      }
-      &.minor {
-        background: #399BD3;
-      }
-      &.locked{
-        background: @color_weak !important;
+      margin-left: 0.8rem;
+      background: @color_weak;
+    }
+    &:last-child {
+      > .status-line{
+        height: 5.6rem;
       }
     }
   }
 
   .chapter-practice {
-    padding: 2.5rem 3.0rem;
+    padding: 2.5rem 1.5rem;
     .chapter {
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       line-height: 100%;
-      color: @color_context;
+      color: #000;
       margin-bottom: 3.0rem;
       &:last-child {
         margin-bottom: 0;
@@ -77,17 +103,20 @@
   }
 
   .review-practice {
-    padding: 2.5rem 3.0rem;
+    padding: 2.5rem 1.5rem;
     .review-title {
       font-size: 1.8rem;
       line-height: 100%;
       color: @color_context;
       margin-bottom: 1.0rem;
-      span {
-        margin-left: 0.5rem;
-        font-size: 1.2rem;
-      }
     }
   }
 
+  .problem-span{
+    background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 99%);
+    height: .6rem;
+  }
+  .part-span{
+
+  }
 }

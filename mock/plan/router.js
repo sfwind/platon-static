@@ -24,7 +24,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
             "series": 0,
             "sequence": 1,
             "knowledgeId": null,
-            "status": 0,
+            "status": 1,
             "summary": null
           },
           {
@@ -36,7 +36,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
             "series": 0,
             "sequence": 5,
             "knowledgeId": null,
-            "status": 0,
+            "status": 1,
             "summary": null
           }
         ],
@@ -53,7 +53,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "认识压力",
                 "practices": [],
-                "status": 0,
+                "status": 1,
                 "type": 31,
                 "practicePlanId": 740079
               },
@@ -66,7 +66,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "认识压力",
                 "practices": [],
-                "status": 0,
+                "status": 1,
                 "type": 31,
                 "practicePlanId": 740080
               },
@@ -79,7 +79,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "认识压力",
                 "practices": [],
-                "status": 0,
+                "status": 1,
                 "type": 31,
                 "practicePlanId": 740081
               }

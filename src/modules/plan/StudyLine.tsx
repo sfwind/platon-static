@@ -6,7 +6,6 @@ import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import { changeTitle } from '../../utils/helpers'
 import { mark } from '../../utils/request'
 import { Dialog, Progress } from 'react-weui'
-import AssetImg from '../../components/AssetImg'
 import { ColumnSpan } from '../../components/ColumnSpan'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import { ProblemTitle } from '../problem/components/ProblemTitle'
@@ -29,7 +28,7 @@ export default class StudyLine extends React.Component<any, any> {
     this.state = {
       data: {}
     }
-    changeTitle('圈外同学')
+    changeTitle('课程学习')
     this.moment = require('moment')
   }
 
@@ -155,7 +154,14 @@ export default class StudyLine extends React.Component<any, any> {
     }
 
     const renderPractice = (title, item) => {
-      let locked = item.status < 0 ? 'locked' : ''
+      let status = ''
+      if(item.status<0){
+        status = 'locked'
+      }else if(item.status == 0){
+        status = 'running'
+      }else if(item.status === 1){
+        status = 'complete'
+      }
       let source = 'go_icon'
       if(item.status < 0) {
         source = 'lock_icon'
@@ -164,14 +170,16 @@ export default class StudyLine extends React.Component<any, any> {
       }
       return (
         <MarkBlock func={'课程提纲'} action={'点击练习'} memo={item.type}
-                   className={`practice-detail`} onClick={() => this.onPracticeSelected(item)} f>
-          <div className="practice-column">
-            <div className={`status-round ${styleType} ${locked}`}>
-              <AssetImg type={source} size="20"/>
+                   className={`practice-detail`} onClick={() => this.onPracticeSelected(item)}>
+          <div className={`status-line ${status}`}></div>
+          <div className={`practice-column ${status}`}>
+            <div className={`status ${status}`}>
+              {/*<AssetImg type={source} size={20}/>*/}
             </div>
-            <div className="title">{title}</div>
+            <div className={`title-angle ${status}`}/>
+            <div className={`title ${status}`}>{title}</div>
           </div>
-          <div className={`status-line ${styleType} ${locked}`}></div>
+
         </MarkBlock>
       )
     }
@@ -202,7 +210,7 @@ export default class StudyLine extends React.Component<any, any> {
     const renderReview = () => {
       return (
         <div className="review-practice">
-          <div className="review-title">课后总结<span>(选做)</span></div>
+          <div className="review-title">课后总结(选做)</div>
           {
             review.map((item, index) => {
               let title = ''
@@ -221,10 +229,11 @@ export default class StudyLine extends React.Component<any, any> {
     return (
       <div className="study-line-container">
         <ProblemTitle problemId={problemId}/>
+        <div className="problem-span"/>
         {renderPreview()}
-        <ColumnSpan/>
+        <ColumnSpan height={1} backgroundColor={'#eee'}/>
         {renderChapter()}
-        <ColumnSpan/>
+        <ColumnSpan height={1} backgroundColor={'#eee'}/>
         {renderReview()}
       </div>
     )

@@ -251,14 +251,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               return null
             }
             case 1: {
-              // list.push(
-              //   <div className="button-footer">
-              //     <div className={`left pay`}
-              //          onClick={() => window.location.href = `https://${window.location.hostname}/pay/rise`}>
-              //       加入商学院，立即学习
-              //     </div>
-              //   </div>
-              // )
               return (
                 <FooterButton btnArray={[{
                   click: () => window.location.href = `https://${window.location.hostname}/pay/rise`,
@@ -267,11 +259,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
             }
             case 2: {
-              // list.push(
-              //   <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
-              //     去上课
-              //   </div>
-              // )
               return (
                 <FooterButton btnArray={[{
                   click: () => this.handleClickGoStudy(),
@@ -280,11 +267,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
             }
             case 3: {
-              // list.push(
-              //   <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
-              //     课程已开始，去上课
-              //   </div>
-              // )
               return (
                 <FooterButton btnArray={[
                   {
@@ -294,11 +276,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
             }
             case 4: {
-              // list.push(
-              //   <div className="button-footer" onClick={() => this.handleClickGoStudy()}>
-              //     课程已完成，去复习
-              //   </div>
-              // )
               return (
                 <FooterButton btnArray={[{
                   click: () => this.handleClickGoStudy(),
@@ -307,11 +284,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               )
             }
             case 5: {
-              // list.push(
-              //   <div className="button-footer" onClick={() => this.handleClickProblemChooseConfirm()}>
-              //     选择该课程
-              //   </div>
-              // )
               return (
                 <FooterButton btnArray={[{
                   click: () => this.handleClickProblemChooseConfirm(),

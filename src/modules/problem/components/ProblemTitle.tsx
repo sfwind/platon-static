@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './ProblemTitle.less'
-import { loadProblem } from '../async'
+import { loadMyProblem } from '../async'
 
 interface ProblemTitleProps {
   callBack?: any,
@@ -41,7 +41,7 @@ class ProblemTitle extends React.Component<ProblemTitleProps, any> {
   loadData(problemId) {
     const { callBack = () => {} } = this.props
     if(problemId) {
-      loadProblem(problemId).then(res => {
+      loadMyProblem(problemId).then(res => {
         if(res.code === 200) {
           this.setState({ data: res.msg })
           callBack(res.msg.problemType)
@@ -57,16 +57,12 @@ class ProblemTitle extends React.Component<ProblemTitleProps, any> {
   render() {
     const { style = {} } = this.props
     const { data } = this.state
-    const { problemType, problem } = data
-    let styleType = ''
-    if(problemType === ProblemTitleType.MAJOR_PROBLEM) {
-      styleType = 'major'
-    } else if(problemType === ProblemTitleType.MINOR_PROBLEM) {
-      styleType = 'minor'
-    }
+    const { problem, deadline, typeDesc, month } = data
     return (
-      <div {...this.props} className={`study-problem-head ${styleType}`} style={style}>
-        <div className="problem-name">{problem}</div>
+      <div {...this.props} className={`study-problem-head`} style={style}>
+        { problem && <div className="problem-name">{problem.problem}</div> }
+        { problem && <div className="problem-info">{month}{'月 | '}{typeDesc}{' | '}{deadline === 0 ? '已关闭':deadline+'天后关闭'}
+        </div> }
       </div>
     )
   }
