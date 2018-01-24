@@ -15,7 +15,8 @@ export default class SelfEvaluate extends React.Component {
   constructor() {
     super()
     this.state = {
-      currentStep: this.self_evaluate_steps.init
+      currentStep: this.self_evaluate_steps.init,
+      showSubscribeQr: false
     }
   }
 
@@ -36,20 +37,41 @@ export default class SelfEvaluate extends React.Component {
     let res = await loadSurveySubmit('evaluation-self');
     dispatch(endLoad());
     if(res.code === 200) {
-      this.setState({ selfSubmitId: res.msg, currentStep: this.self_evaluate_steps.complete });
+      if(!!res.msg.resultId) {
+        // 提交过
+        this.setState({
+          subscribe: res.msg.subscribe, subscribeQrCode: res.msg.subscribeQrCode, selfSubmitId: res.msg.resultId,
+          currentStep: this.self_evaluate_steps.complete
+        });
+      } else {
+        this.setState({
+          subscribe: res.msg.subscribe, subscribeQrCode: res.msg.subscribeQrCode, selfSubmitId: res.msg.resultId
+        });
+      }
     }
   }
 
   handleClickStart() {
     const { dispatch } = this.props;
-    const { selfSubmitId } = this.state;
+    const { selfSubmitId, subscribe } = this.state;
     if(!selfSubmitId) {
-      mark({
-        module: '打点',
-        function: '价值观测评',
-        action: '点击开始'
-      });
-      this.setState({ currentStep: this.self_evaluate_steps.content })
+      if(!!subscribe) {
+        mark({
+          module: '打点',
+          function: '价值观测评',
+          action: '点击开始',
+          memo: '已关注'
+        });
+        this.setState({ currentStep: this.self_evaluate_steps.content })
+      } else {
+        mark({
+          module: '打点',
+          function: '价值观测评',
+          action: '点击开始',
+          memo: '未关注'
+        });
+        this.setState({ showSubscribeQr: true })
+      }
     } else {
       dispatch(alertMsg('您已经提交过测评问卷'));
       this.setState({ currentStep: this.self_evaluate_steps.complete })
@@ -65,10 +87,10 @@ export default class SelfEvaluate extends React.Component {
       action: '点击分享'
     });
     configShare(
-      `圈外商学院--测评问卷`,
-      `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?referId=${selfSubmitId}`,
-      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
-      '问卷问卷问卷问卷'
+      `我已完成KCDS自评，邀请你完成他评部分`,
+      `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${selfSubmitId}`,
+      'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
+      'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
     )
   }
 
@@ -77,10 +99,12 @@ export default class SelfEvaluate extends React.Component {
   }
 
   renderComponentByStep() {
-    const { currentStep } = this.state
+    const { currentStep, showSubscribeQr, subscribeQrCode } = this.state
     switch(currentStep) {
       case this.self_evaluate_steps.init :
-        return <SelfInit handleStart={() => this.handleClickStart()}/>
+        return <SelfInit handleStart={() => this.handleClickStart()} qrCode={subscribeQrCode}
+                         showQrCode={showSubscribeQr}
+                         closeCode={() => this.setState({ showSubscribeQr: false })}/>
         break
       case this.self_evaluate_steps.content:
         return <QuestionGroup category='evaluation-self' header='职业发展核心能力和心理品质量表'

@@ -8,6 +8,7 @@
     height: .4rem;
     background: rgb(243, 243, 243);
     width: ~"calc(100% - 50px)";
+    vertical-align: middle;
     .apply-progress-bar {
       background: rgb(247, 180, 61);
       background: -webkit-gradient(linear, left center, right center, from(rgb(248, 225, 161)), to(rgb(247, 180, 61)));
@@ -17,12 +18,13 @@
     }
   }
   .apply-progress-page-index {
+    vertical-align: middle;
     display: inline-block;
-    margin-left: .8rem;
+    margin-left: 1rem;
     width: 3rem;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     color: #666;
-    line-height: 1.3rem;
+    line-height: 0;
   }
   .intro-index {
     margin: .5rem 0 0;
@@ -37,10 +39,10 @@
   }
   .apply-page-header {
     width: 100%;
-    height: 3rem;
-    padding-top: 1rem;
+    height: 2.8rem;
+    padding-top: 1.9rem;
     margin-bottom: 2rem;
-    line-height: 3rem;
+    line-height: 2.8rem;
     text-align: center;
     font-size: 2rem;
   }
@@ -60,6 +62,7 @@
     overflow: hidden;
     .question-label {
       color: #333;
+      font-weight: bolder;
     }
     .question-tips {
       background: @color_weak_background;
@@ -266,9 +269,10 @@
         }
         border: 1px solid #d9d9d9;
         border-radius: 5px;
-        padding: .5rem 1.5rem;
-        margin: .5rem 1.5rem;
+        padding: 2rem 1.5rem;
+        margin: 1.6rem 1.5rem;
         text-align: center;
+        line-height: 0;
       }
     }
 
@@ -286,8 +290,9 @@
         border: 1px solid #d9d9d9;
         border-radius: 5px;
         width: 45%;
-        padding: .5rem 0;
-        margin: .5rem 0;
+        padding: 2rem 0;
+        margin: .8rem 0;
+        line-height: 0;
         text-align: center;
       }
     }

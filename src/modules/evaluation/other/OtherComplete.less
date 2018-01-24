@@ -3,16 +3,26 @@
 .other-complete-component {
   width: 100vw;
   height: 100vh;
-  background: url("@{imgPathRoot}/other_complete.png") no-repeat top center / 100vw;
-
-  .complete-tips {
+  background: url("@{imgPathFragment}/other_complete_0122.png?imageslim") no-repeat top center / 100vw;
+  .content {
     position: absolute;
-    top: 35%;
-    transform: translateY(-50%);
+    bottom: 20rem;
     left: 0;
-    font-size: 1.5rem;
-    padding: 0 3rem;
-    color: #333;
-    text-align: center;
+    width: 100%;
+    .complete-tips {
+      font-size: 1.3rem;
+      width: 100%;
+      color: #333;
+      text-align: center;
+    }
+    .tips-qrcode-box {
+      margin-top: 2rem;
+      text-align: center;
+      .tips-qrCode {
+        width: 12rem;
+        height: auto;
+        display: inline-block;
+      }
+    }
   }
 }
