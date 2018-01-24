@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './SelfInit.less'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 interface SelfInitProps {
   handleStart: any
@@ -16,7 +17,9 @@ export class SelfInit extends React.Component<SelfInitProps, any> {
 
     return (
       <div className="self-init-component">
-        <div className="self-init-button" onClick={() => handleStart()}>开始</div>
+        <FooterButton btnArray={[{
+          click: () => handleStart(), text: '开始'
+        }]}/>
       </div>
     )
   }

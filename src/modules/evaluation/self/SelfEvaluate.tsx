@@ -66,8 +66,8 @@ export default class SelfEvaluate extends React.Component {
     });
     configShare(
       `圈外商学院--测评问卷`,
-      `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?referId=${selfSubmitId}`,
-      'https://static.iqycamp.com/images/rise_share.jpg?imageslim',
+      `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${selfSubmitId}`,
+      'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
       '问卷问卷问卷问卷'
     )
   }

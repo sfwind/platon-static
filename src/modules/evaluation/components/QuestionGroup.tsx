@@ -566,6 +566,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     _.merge(param, { referId: referId });
     mark({ module: "打点", function: "问卷", action: "提交问卷", memo: category });
     // 开始提交
+    dispatch(startLoad());
     submitSurvey(category, param).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
@@ -632,7 +633,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
         <div className="question" key={questionInfo.id}>
           <div className="question-label">
             <span dangerouslySetInnerHTML={{ __html: _.replace(subject, '{username}', upName) }}/>
-            {request ? <span style={{ color: 'red' }}>*</span> : null}
+            {/*{request ? <span style={{ color: 'red' }}>*</span> : null}*/}
           </div>
           {tips ? <div className="question-tips" dangerouslySetInnerHTML={{ __html: tips }}/> : null}
           {QuestionDom}
@@ -901,9 +902,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
             label: '确定',
             onClick: () => this.handleClickSubmit()
           }
-        ]} title="提交">
+        ]} title='确认提交吗？'>
           <div className="global-pre"
-               title='确认提交吗？'
                style={{ paddingTop: 0 }}
                dangerouslySetInnerHTML={{ __html: '提交后，本次测评答案无法修改' }}/>
         </Alert>
