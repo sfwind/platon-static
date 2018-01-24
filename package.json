@@ -24,6 +24,7 @@
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.15.2",
+    "classnames": "^2.2.5",
     "dom-to-image": "^2.6.0",
     "echarts": "^3.7.1",
     "exif-js": "^2.3.0",

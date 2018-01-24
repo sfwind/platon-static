@@ -66,12 +66,14 @@ import CampCountDown from './modules/schedule/CampCountDown'
 import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
 import GroupPromotionCountDown from './modules/promotion/grouplearning/GroupPromotionCountDown'
 import SendCard from './modules/customer/card/experience/SendCard'
+import SelfEvaluate from './modules/evaluation/self/SelfEvaluate'
+import OtherEvaluate from './modules/evaluation/other/OtherEvaluate'
 
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base}
            onChange={(before, after) => {
-             config(['chooseWXPay'])
+             config([ 'chooseWXPay' ])
 
              if(after.location.state && after.location.state.pageScrollY) {
                setTimeout(() => {
@@ -167,6 +169,8 @@ const routes = (
       {/*团队学习倒计时页面*/}
       <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
       <Route path="guest/annual/summary" component={AnnualSummary}/>
+      <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
+      <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
   </Route>
 )
