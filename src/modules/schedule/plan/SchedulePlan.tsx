@@ -23,7 +23,8 @@ const MINOR_PROBLEM = 2
  * rise_icon_hr 左侧较宽 TODO
  */
 @connect(state => state)
-export default class SchedulePlan extends React.Component<any, any> {
+export default class SchedulePlan extends React.Component
+  <any, any> {
   constructor() {
     super()
     this.state = {
@@ -171,15 +172,20 @@ export default class SchedulePlan extends React.Component<any, any> {
       return completeProblem.map((item, index) => {
         return (
           <div className="complete-plan" key={index} onClick={() => this.learn(item)}>
-            <div className="plan-title-above">
-              <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation}`}</div>
-              <div className="plan-close">
-                {item.closeTime}
+            <div className="status-line"/>
+            <div className="status" />
+            <div className="plan-detail">
+              <div className="plan-title-above">
+                <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation}`}</div>
+                <div className="plan-close">
+                  {item.closeTime}
+                </div>
+              </div>
+              <div className="plan-title-below">
+                {item.problem.problem}
               </div>
             </div>
-            <div className="plan-title-below">
-              {item.problem.problem}
-            </div>
+
           </div>
         )
       })
