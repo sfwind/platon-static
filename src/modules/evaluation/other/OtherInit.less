@@ -1,0 +1,32 @@
+@import "../../../style/variable";
+
+.other-init-component {
+  width: 100vw;
+  height: 100vh;
+  background: url("@{imgPathRoot}/other_init.png") no-repeat top center / 100vw;
+  position: relative;
+  .other-survey-tips {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    font-size: 1.5rem;
+    padding: 0 3rem;
+    color: #333;
+  }
+  .self-init-button {
+    border-radius: 5px;
+    background-color: @color_deep_background;
+    color: #FFF;
+    font-size: 2rem;
+    text-align: center;
+    width: 20rem;
+    line-height: 5rem;
+    height: 5rem;
+    display: inline-block;
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
