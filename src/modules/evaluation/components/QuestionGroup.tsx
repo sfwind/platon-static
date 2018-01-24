@@ -36,6 +36,8 @@ enum QuestionType {
   SPECIAL_RADIO = 10
 }
 
+let QUESTION_GROUP_SAVING = 'question_group_saving';
+
 @connect(state => state)
 export class QuestionGroup extends Component<QuestionGroupProps, any> {
   constructor() {
@@ -45,14 +47,20 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
   }
 
   async componentWillMount() {
-
     const { dispatch, category, firstTips } = this.props;
+    let saving = JSON.parse(window.localStorage.getItem(QUESTION_GROUP_SAVING));
+    if(!_.isEmpty(saving) && saving.category == category) {
+      this.setState({
+        allGroup: saving.allGroup, currentIndex: saving.currentIndex, firstTips: saving.firstTips
+      });
+    } else {
+      let questionRes = await loadSurvey(category);
+      this.setState({
+        allGroup: questionRes.msg.surveyQuestions, currentIndex: 0, firstTips: firstTips
+      });
+    }
     let regionRes = await pget('/rise/customer/region');
     dispatch(set("region", regionRes.msg));
-    let questionRes = await loadSurvey(category);
-    this.setState({
-      allGroup: questionRes.msg.surveyQuestions, currentIndex: 0, firstTips: firstTips
-    });
   }
 
   /**
@@ -62,7 +70,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
    * @param keyName 键名
    */
   commonHandleValueChange(question, value, keyName, cb) {
-    const { currentIndex, allGroup } = this.state;
+    const { currentIndex, allGroup, firstTips } = this.state;
+    const { category } = this.props;
     let group = _.get(allGroup, `[${currentIndex}]`);
     let questions = _.get(allGroup, `[${currentIndex}].questions`, []);
     let key = _.findIndex(questions, { id: question.id });
@@ -73,6 +82,9 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     this.setState({ allGroup: newGroups }, () => {
       !!cb && cb();
     });
+    window.localStorage.setItem(QUESTION_GROUP_SAVING, JSON.stringify({
+      category: category, currentIndex: currentIndex, firstTips: firstTips, allGroup: newGroups
+    }))
     // this.props.onGroupChanged(result);
   }
 
@@ -571,6 +583,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     submitSurvey(category, param).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
+        window.localStorage.setItem(QUESTION_GROUP_SAVING, JSON.stringify({}));
         onSubmit(res.msg);
       } else {
         dispatch(alertMsg(res.msg));
