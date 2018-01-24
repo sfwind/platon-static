@@ -65,10 +65,10 @@ export default class SelfEvaluate extends React.Component {
       action: '点击分享'
     });
     configShare(
-      `圈外商学院--测评问卷`,
+      `我已完成KCDS自评，邀请你完成他评部分`,
       `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${selfSubmitId}`,
       'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
-      '问卷问卷问卷问卷'
+      'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
     )
   }
 
