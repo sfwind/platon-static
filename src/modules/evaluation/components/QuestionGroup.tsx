@@ -526,7 +526,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     const { allGroup, currentIndex } = this.state
 
     let msg = await this.checkChoice(allGroup, currentIndex)
-    if(msg) {
+    if(!!msg && msg != '验证码错误，请重新输入') {
+      // 提交的时候不验证验证码,注意，手机号不能放最后一道题
       dispatch(alertMsg(msg))
       return
     }
