@@ -42,6 +42,13 @@ export default class SelfEvaluate extends React.Component {
         this.setState({
           subscribe: res.msg.subscribe, subscribeQrCode: res.msg.subscribeQrCode, selfSubmitId: res.msg.resultId,
           currentStep: this.self_evaluate_steps.complete
+        }, () => {
+          configShare(
+            `我已完成KCDS自评，邀请你完成他评部分`,
+            `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${res.msg.resultId}`,
+            'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
+            'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
+          )
         });
       } else {
         this.setState({
@@ -74,7 +81,14 @@ export default class SelfEvaluate extends React.Component {
       }
     } else {
       dispatch(alertMsg('您已经提交过测评问卷'));
-      this.setState({ currentStep: this.self_evaluate_steps.complete })
+      this.setState({ currentStep: this.self_evaluate_steps.complete }, () => {
+        configShare(
+          `我已完成KCDS自评，邀请你完成他评部分`,
+          `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${selfSubmitId}`,
+          'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
+          'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
+        )
+      })
     }
   }
 
@@ -95,7 +109,14 @@ export default class SelfEvaluate extends React.Component {
   }
 
   handleSubmit(submitId) {
-    this.setState({ currentStep: this.self_evaluate_steps.complete, selfSubmitId: submitId });
+    this.setState({ currentStep: this.self_evaluate_steps.complete, selfSubmitId: submitId }, () => {
+      configShare(
+        `我已完成KCDS自评，邀请你完成他评部分`,
+        `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${submitId}`,
+        'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
+        'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
+      )
+    });
   }
 
   renderComponentByStep() {
