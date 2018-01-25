@@ -38,7 +38,7 @@ export default class CampCountDown extends React.Component {
     return (
       <div className="count-down">
         <div className="header">
-          <div className="msg">距离训练营开学还有</div>
+          <div className="msg">距离专项课开学还有</div>
         </div>
         <div className="remainder">
           <div className="day">
