@@ -317,7 +317,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     // 特殊检查电话
     let phoneQuestions = _.reduce(questionGroup, (questionList, nextGroup, key) => {
       // 忽略当前页之后的电话
-      if(key > currentIndex) {
+      if(key !== currentIndex) {
+        // 不是当前页，不检查
         return questionList;
       }
       let subQuestion = _.find(nextGroup.questions, { type: QuestionType.PHONE });
