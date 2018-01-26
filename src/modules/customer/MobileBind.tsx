@@ -182,7 +182,7 @@ export default class MobileBind extends React.Component<any, any> {
   }
 
   render() {
-    const { sending, seconds, bindMobile, isFull, showArea, defaultIsFull, oversea } = this.state;
+    const { sending, seconds, bindMobile, isFull, showArea,code, defaultIsFull, oversea } = this.state;
     let { phone, weixinId } = this.state;
 
     if(phone == null){
@@ -211,7 +211,14 @@ export default class MobileBind extends React.Component<any, any> {
         {oversea ?
           <div>
             <div className="mobile-switch" onClick={() => {
-              this.setState({ oversea: false })
+              if(phone && code){
+                this.setState({
+                  oversea:false,
+                  disable:false
+                })
+              }else {
+                this.setState({ oversea: false ,disable:true})
+              }
             }}>
               <div className="label">
                 点击切换到国内用户模式
@@ -223,7 +230,14 @@ export default class MobileBind extends React.Component<any, any> {
             :
           <div>
             <div className="mobile-switch" onClick={() => {
-              this.setState({ oversea: true })
+              if(weixinId){
+                this.setState({
+                  oversea:true,
+                  disable:false
+                })
+              }else {
+                this.setState({ oversea: true,disable:true })
+              }
             }}>
               <div className="label">
                 点击切换到国外用户模式
