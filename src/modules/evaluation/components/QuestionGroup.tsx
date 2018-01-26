@@ -36,6 +36,8 @@ enum QuestionType {
   SPECIAL_RADIO = 10
 }
 
+let QUESTION_GROUP_SAVING = 'question_group_saving';
+
 @connect(state => state)
 export class QuestionGroup extends Component<QuestionGroupProps, any> {
   constructor() {
@@ -46,12 +48,19 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
 
   async componentWillMount() {
     const { dispatch, category, firstTips } = this.props;
+    let saving = JSON.parse(window.localStorage.getItem(QUESTION_GROUP_SAVING));
+    if(!_.isEmpty(saving) && saving.category == category) {
+      this.setState({
+        allGroup: saving.allGroup, currentIndex: saving.currentIndex, firstTips: saving.firstTips
+      });
+    } else {
+      let questionRes = await loadSurvey(category);
+      this.setState({
+        allGroup: questionRes.msg.surveyQuestions, currentIndex: 0, firstTips: firstTips
+      });
+    }
     let regionRes = await pget('/rise/customer/region');
     dispatch(set("region", regionRes.msg));
-    let questionRes = await loadSurvey(category);
-    this.setState({
-      allGroup: questionRes.msg.surveyQuestions, currentIndex: 0, firstTips: firstTips
-    });
   }
 
   /**
@@ -61,7 +70,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
    * @param keyName 键名
    */
   commonHandleValueChange(question, value, keyName, cb) {
-    const { currentIndex, allGroup } = this.state;
+    const { currentIndex, allGroup, firstTips } = this.state;
+    const { category } = this.props;
     let group = _.get(allGroup, `[${currentIndex}]`);
     let questions = _.get(allGroup, `[${currentIndex}].questions`, []);
     let key = _.findIndex(questions, { id: question.id });
@@ -72,6 +82,9 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     this.setState({ allGroup: newGroups }, () => {
       !!cb && cb();
     });
+    window.localStorage.setItem(QUESTION_GROUP_SAVING, JSON.stringify({
+      category: category, currentIndex: currentIndex, firstTips: firstTips, allGroup: newGroups
+    }))
     // this.props.onGroupChanged(result);
   }
 
@@ -304,7 +317,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     // 特殊检查电话
     let phoneQuestions = _.reduce(questionGroup, (questionList, nextGroup, key) => {
       // 忽略当前页之后的电话
-      if(key > currentIndex) {
+      if(key !== currentIndex) {
+        // 不是当前页，不检查
         return questionList;
       }
       let subQuestion = _.find(nextGroup.questions, { type: QuestionType.PHONE });
@@ -513,7 +527,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     const { allGroup, currentIndex } = this.state
 
     let msg = await this.checkChoice(allGroup, currentIndex)
-    if(msg) {
+    if(!!msg && msg != '验证码错误，请重新输入') {
+      // 提交的时候不验证验证码,注意，手机号不能放最后一道题
       dispatch(alertMsg(msg))
       return
     }
@@ -566,9 +581,11 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     _.merge(param, { referId: referId });
     mark({ module: "打点", function: "问卷", action: "提交问卷", memo: category });
     // 开始提交
+    dispatch(startLoad());
     submitSurvey(category, param).then(res => {
       dispatch(endLoad());
       if(res.code === 200) {
+        window.localStorage.setItem(QUESTION_GROUP_SAVING, JSON.stringify({}));
         onSubmit(res.msg);
       } else {
         dispatch(alertMsg(res.msg));
@@ -632,7 +649,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
         <div className="question" key={questionInfo.id}>
           <div className="question-label">
             <span dangerouslySetInnerHTML={{ __html: _.replace(subject, '{username}', upName) }}/>
-            {request ? <span style={{ color: 'red' }}>*</span> : null}
+            {/*{request ? <span style={{ color: 'red' }}>*</span> : null}*/}
           </div>
           {tips ? <div className="question-tips" dangerouslySetInnerHTML={{ __html: tips }}/> : null}
           {QuestionDom}
@@ -901,9 +918,8 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
             label: '确定',
             onClick: () => this.handleClickSubmit()
           }
-        ]} title="提交">
+        ]} title='确认提交吗？'>
           <div className="global-pre"
-               title='确认提交吗？'
                style={{ paddingTop: 0 }}
                dangerouslySetInnerHTML={{ __html: '提交后，本次测评答案无法修改' }}/>
         </Alert>

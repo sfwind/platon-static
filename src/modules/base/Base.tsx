@@ -40,7 +40,7 @@ export default class Main extends React.Component<any, any> {
       alert: {
         buttons: [
           {
-            label: '关闭',
+            label: '我知道了',
             onClick: this.closeAnswer.bind(this)
           }
         ]

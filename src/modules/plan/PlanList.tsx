@@ -102,7 +102,7 @@ export default class PlanList extends React.Component<any, any> {
         query: { planId: plan.planId }
       })
     } else {
-      dispatch(alertMsg(`训练营将于${startDate}统一开营\n在当天开始学习哦！`))
+      dispatch(alertMsg(`专项课将于${startDate}统一开营\n在当天开始学习哦！`))
     }
   }
 
@@ -278,7 +278,7 @@ export default class PlanList extends React.Component<any, any> {
       return (
         <div className="problem-camp">
           <div className="camp-header">
-            <span className="header-title">本月训练营</span>
+            <span className="header-title">本月专项课</span>
           </div>
           {
             currentCampPlans.map((item, index) => {

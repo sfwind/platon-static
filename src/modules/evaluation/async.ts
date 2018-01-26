@@ -32,6 +32,10 @@ export function loadSurveySubmit(category) {
   return pget(`/rise/survey/load/submit/${category}`);
 }
 
+export function loadSurveySubmitByRefer(refer) {
+  return pget(`/rise/survey/load/submit/refer/${refer}`);
+}
+
 export function loadSurveySubmitUpname(id) {
   return pget(`/rise/survey/load/submit/upname/${id}`);
 }

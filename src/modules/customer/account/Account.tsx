@@ -45,7 +45,7 @@ export default class Rise extends React.Component<any, any> {
   handleClickGoMemberDesc() {
     const memberType = this.state.data.memberType
     switch(memberType) {
-      case '小课训练营':
+      case '专项课':
         window.location.href = 'https://shimo.im/doc/zPvwOCCxqygcof0B?r=L8QE82/'
         break
       default:
