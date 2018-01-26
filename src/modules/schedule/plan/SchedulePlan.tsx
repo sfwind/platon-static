@@ -157,10 +157,7 @@ export default class SchedulePlan extends React.Component
                 <div className="problem-item-abbreviation">{item.problem.abbreviation}</div>
                 <div className="problem-item-title">{item.problem.problem}</div>
                 {!item.id && <div className={`wait-open ${styleType}`}>待开课</div>}
-                {
-                  item.deadline && item.deadline > 0 &&
-                  <div className="problem-item-deadline">{`${item.typeDesc} | ${item.deadline}天后关闭`}</div>
-                }
+                { renderCourseType(item) }
               </div>
             </MarkBlock>
           )
@@ -168,24 +165,37 @@ export default class SchedulePlan extends React.Component
       )
     }
 
+    const renderCourseType = (item) => {
+      if(item.deadline && item.deadline > 0){
+        return (
+          <div className="problem-item-deadline">{`${item.typeDesc} | ${item.deadline}天后关闭`}</div>
+        )
+      }else{
+        return (
+          <div className="problem-item-deadline">{`${item.typeDesc}`}</div>
+        )
+      }
+    }
+
     const renderCompleteCourse = () => {
       return completeProblem.map((item, index) => {
+        var date = this.moment(item.closeTime).format('YYYY-MM-DD')
         return (
           <div className="complete-plan" key={index} onClick={() => this.learn(item)}>
-            <div className="status-line"/>
-            <div className="status" />
+            <div className="status-line" />
+            <div className="plan-status" />
             <div className="plan-detail">
               <div className="plan-title-above">
                 <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation}`}</div>
                 <div className="plan-close">
-                  {item.closeTime}
+                  {date}
                 </div>
               </div>
               <div className="plan-title-below">
                 {item.problem.problem}
               </div>
+              <div className="plan-stamp" />
             </div>
-
           </div>
         )
       })
