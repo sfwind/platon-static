@@ -69,25 +69,22 @@ export default class SchedulePlan extends React.Component
 
     $('.course-major').circleProgress({
       value: majorPercent,
-      size: 80,
+      size: 85,
       startAngle: - Math.PI / 2,
-      reverse: true,
       fill: {
-        gradient: ["#FFC701", "#FF983F"]
+        gradient: ["#FF983F", "#FFC701" ]
       }
     })
 
-    if(res.msg.minorSelected){
+    if(res.msg.minorSelected) {
       $('.course-minor').circleProgress({
         value: minorPercent,
-        size: 80,
-        startAngle: - Math.PI / 2,
-        reverse: true,
+        size: 85,
+        startAngle: -Math.PI / 2,
         fill: {
-          gradient: ["#35B0EA", "#0063F8"]
+          gradient: [ "#0063F8", "#35B0EA"  ]
         }
       })
-
     }
   }
 
@@ -158,10 +155,7 @@ export default class SchedulePlan extends React.Component
                 <div className="problem-item-abbreviation">{item.problem.abbreviation}</div>
                 <div className="problem-item-title">{item.problem.problem}</div>
                 {!item.id && <div className={`wait-open ${styleType}`}>待开课</div>}
-                {
-                  item.deadline && item.deadline > 0 &&
-                  <div className="problem-item-deadline">{`${item.typeDesc} | ${item.deadline}天后关闭`}</div>
-                }
+                { renderCourseType(item) }
               </div>
             </MarkBlock>
           )
@@ -169,18 +163,36 @@ export default class SchedulePlan extends React.Component
       )
     }
 
+    const renderCourseType = (item) => {
+      if(item.deadline && item.deadline > 0){
+        return (
+          <div className="problem-item-deadline">{`${item.typeDesc} | ${item.deadline}天后关闭`}</div>
+        )
+      }else{
+        return (
+          <div className="problem-item-deadline">{`${item.typeDesc}`}</div>
+        )
+      }
+    }
+
     const renderCompleteCourse = () => {
       return completeProblem.map((item, index) => {
+        var date = this.moment(item.closeTime).format('YYYY-MM-DD')
         return (
           <div className="complete-plan" key={index} onClick={() => this.learn(item)}>
-            <div className="plan-title-above">
-              <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation}`}</div>
-              <div className="plan-close">
-                {item.closeTime}
+            <div className="status-line" />
+            <div className="plan-status" />
+            <div className="plan-detail">
+              <div className="plan-title-above">
+                <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation}`}</div>
+                <div className="plan-close">
+                  {date}
+                </div>
               </div>
-            </div>
-            <div className="plan-title-below">
-              {item.problem.problem}
+              <div className="plan-title-below">
+                {item.problem.problem}
+              </div>
+              <div className="plan-stamp" />
             </div>
           </div>
         )
@@ -211,7 +223,7 @@ export default class SchedulePlan extends React.Component
           <div className="course-progress course-major">
             <div className="progress-name">主修课</div>
             <div className="progress-percent">
-              {majorComplete + ' / ' + majorTotal}
+              {majorComplete + '/' + majorTotal}
             </div>
           </div>
         }
@@ -220,7 +232,7 @@ export default class SchedulePlan extends React.Component
           <div className="course-progress course-minor">
             <div className="progress-name">辅修课</div>
             <div className="progress-percent">
-              {minorComplete + ' / ' + minorTotal}
+              {minorComplete + '/' + minorTotal}
             </div>
           </div>
         }
