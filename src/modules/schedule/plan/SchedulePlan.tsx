@@ -68,25 +68,22 @@ export default class SchedulePlan extends React.Component
 
     $('.course-major').circleProgress({
       value: majorPercent,
-      size: 80,
+      size: 85,
       startAngle: - Math.PI / 2,
-      reverse: true,
       fill: {
-        gradient: ["#FFC701", "#FF983F"]
+        gradient: ["#FF983F", "#FFC701" ]
       }
     })
 
-    if(res.msg.minorSelected){
+    if(res.msg.minorSelected) {
       $('.course-minor').circleProgress({
         value: minorPercent,
-        size: 80,
-        startAngle: - Math.PI / 2,
-        reverse: true,
+        size: 85,
+        startAngle: -Math.PI / 2,
         fill: {
-          gradient: ["#35B0EA", "#0063F8"]
+          gradient: [ "#0063F8", "#35B0EA"  ]
         }
       })
-
     }
   }
 
@@ -225,7 +222,7 @@ export default class SchedulePlan extends React.Component
           <div className="course-progress course-major">
             <div className="progress-name">主修课</div>
             <div className="progress-percent">
-              {majorComplete + ' / ' + majorTotal}
+              {majorComplete + '/' + majorTotal}
             </div>
           </div>
         }
@@ -234,7 +231,7 @@ export default class SchedulePlan extends React.Component
           <div className="course-progress course-minor">
             <div className="progress-name">辅修课</div>
             <div className="progress-percent">
-              {minorComplete + ' / ' + minorTotal}
+              {minorComplete + '/' + minorTotal}
             </div>
           </div>
         }

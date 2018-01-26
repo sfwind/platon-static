@@ -10,7 +10,7 @@ router.get("/rise/schedule/load/plan", (req, res) => {
         "topic":"向上管理",
         "today":"2017年11月05日",
         "majorTotal": 12,
-        "majorComplete": 5,
+        "majorComplete": 9,
         "minorTotal": 28,
         "minorComplete": 23,
         "minorSelected":true,
