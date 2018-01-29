@@ -247,12 +247,10 @@ export class Main extends React.Component <any, any> {
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          {
-            integrated == 'false' &&
-            <div className="knowledge-link" style={{ backgroundColor: '#fff', marginTop: 20 }}
-                 onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>
-              不确定?瞄一眼知识点
-            </div>
+          { integrated == 'false' && <div className="knowledge-link"
+               onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
+            不确定?瞄一眼知识点
+          </div>
           }
         </div>
       )

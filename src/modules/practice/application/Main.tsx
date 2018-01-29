@@ -102,7 +102,6 @@ export class Main extends React.Component <any, any> {
             isSynchronized: msg.isSynchronized
           })
         }
-        console.log('content:', msg.content)
         // 更新其余数据
         this.setState({
           data: msg,
@@ -511,7 +510,7 @@ export class Main extends React.Component <any, any> {
             <Alert {...AlertProps} show={showCompletedBox}>
               <div className="global-pre">
                 恭喜你完成必修课，已解锁下一节内容！<br/>
-                再接再厉，完成本节的选做应用题吧！
+                再接再厉，完成本节的进阶应用题吧！
               </div>
             </Alert>
           </Block>
@@ -528,6 +527,35 @@ export class Main extends React.Component <any, any> {
                            showCompletedBox: true
                          })}/>
           )
+        }
+      }
+    }
+
+    const renderButton = () => {
+      if(showDisable){
+        return (
+          <FooterButton btnArray={[{ click: () => {}, text: '提交中' }]}/>
+        )
+      }else{
+        if(edit){
+          return (
+            <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
+          )
+        }else{
+          if(isBaseApplication){
+            return (
+              <FooterButton btnArray={[{ click: () =>
+                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION),
+                text: '进阶应用题' }]}/>
+            )
+          }else{
+            return (
+              <FooterButton btnArray={[{ click: () =>
+              this.context.router.push({pathname:'/rise/static/plan/study',
+              query:{planId:this.props.location.query.planId}})
+              , text: '返回列表' }]}/>
+            )
+          }
         }
       }
     }
@@ -603,11 +631,7 @@ export class Main extends React.Component <any, any> {
             }
           </div>
         </div>
-        {
-          showDisable ?
-            <FooterButton btnArray={[{ click: () => {}, text: '提交中' }]}/> :
-            edit && <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
-        }
+        {renderButton()}
         {renderCardPrinter()}
         {renderCompleteBox()}
       </div>
