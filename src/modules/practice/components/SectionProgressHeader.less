@@ -1,139 +1,39 @@
 .section-progress-component {
   box-sizing: border-box;
-  
+
   .progress-title {
     font-size: 1.8rem;
     line-height: 100%;
     color: #2c2c2c;
     text-align: center;
   }
-  
-  .progress-part {
+
+  .progress-text {
+    font-size: 1.3rem;
+    width: 25%;
+    height: 3.0rem;
+    line-height: 3.0rem;
+    text-align: center;
+    box-sizing: border-box;
     position: relative;
     margin-top: 2.5rem;
-    width: 25%;
     display: inline-block;
-    text-align: center;
-    .progress-text {
-      font-size: 1.1rem;
+    &.lock{
+      background: url('../../../../assets/img/lock_icon.png') 10% center/1.0rem 1.3rem no-repeat;
       color: #999;
+      text-indent: 0.4rem;
+      background-color: #F8F8F8;
+      border: #EEE solid 1px;
     }
-    .progress-icon {
-      width: 1.8rem;
-      height: 1.8rem;
-      margin: 0.5rem auto 0;
-      .progress-content {
-        width: 1.8rem;
-        height: 1.8rem;
-        border-radius: 50%;
-        box-sizing: border-box;
-        position: relative;
-        z-index: 10;
-      }
-      &.lock {
-        .progress-content {
-          background-color: grey;
-          &::before {
-            position: absolute;
-            content: ' ';
-            width: 1.8rem;
-            height: 1.8rem;
-            background-image: url("https://static.iqycamp.com/images/progress-lock.png?imageslim");
-            background-size: 1.8rem 1.8rem;
-            left: 0;
-          }
-        }
-        &::before {
-          content: ' ';
-          position: absolute;
-          width: 50%;
-          height: 0.3rem;
-          left: 0;
-          top: 3rem;
-          background-color: #999;
-        }
-        &::after {
-          content: ' ';
-          position: absolute;
-          width: 50%;
-          height: 0.3rem;
-          top: 3rem;
-          background-color: #999;
-        }
-      }
-      &.unlock {
-        .progress-content {
-          background-color: white;
-          border: 0.3rem solid orange;
-        }
-        &::before {
-          content: ' ';
-          position: absolute;
-          width: 50%;
-          height: 0.3rem;
-          background-color: orange;
-          left: 0;
-          top: 3rem;
-        }
-        &::after {
-          content: ' ';
-          position: absolute;
-          width: 50%;
-          height: 0.3rem;
-          background-color: orange;
-          top: 3rem;
-        }
-      }
-      &.complete {
-        .progress-content {
-          background-color: orange;
-          &::before {
-            position: absolute;
-            content: ' ';
-            width: 1.8rem;
-            height: 1.8rem;
-            background-image: url("https://static.iqycamp.com/images/progress-complete.png?imageslim");
-            background-size: 1.8rem 1.8rem;
-            left: 0;
-          }
-        }
-        &::before {
-          content: ' ';
-          position: absolute;
-          width: 50%;
-          height: 0.3rem;
-          background-color: orange;
-          left: 0;
-          top: 3rem;
-        }
-        &::after {
-          content: ' ';
-          position: absolute;
-          width: 50%;
-          height: 0.3rem;
-          background-color: orange;
-          top: 3rem;
-        }
-      }
+    &.complete{
+      border: #FFC701 solid 1px;
+      color: #FFC701;
     }
-    .beforenone {
-      &::before {
-        display: none;
-      }
-    }
-    .afternone {
-      &::after {
-        display: none;
-      }
-    }
-    
-    &:last-of-type {
-      .progress-icon {
-        &::after {
-          display: none;
-        }
-      }
+    &.unlock{
+      border: #FFC701 solid 1px;
+      background-color: #FFC701;
+      color: #fff;
     }
   }
-  
+
 }

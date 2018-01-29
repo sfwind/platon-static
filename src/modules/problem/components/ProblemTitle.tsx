@@ -59,10 +59,11 @@ class ProblemTitle extends React.Component<ProblemTitleProps, any> {
     const { data } = this.state
     const { problem, deadline, typeDesc, month } = data
     return (
-      <div {...this.props} className={`study-problem-head`} style={style}>
+      <div {...this.props} className={`problem-head-component`} style={style}>
         { problem && <div className="problem-name">{problem.problem}</div> }
         { problem && <div className="problem-info">{month}{'月 | '}{typeDesc}{' | '}{deadline === 0 ? '已关闭':deadline+'天后关闭'}
         </div> }
+        <div className="problem-span"/>
       </div>
     )
   }

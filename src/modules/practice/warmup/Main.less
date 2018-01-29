@@ -2,8 +2,81 @@
 
 .warm-up-container {
   box-sizing: border-box;
-  padding: 2.5rem 3rem 6rem;
-  
+  padding: 2.5rem 1.5rem 6rem;
+  .result-mask{
+    z-index: 100;
+    position: fixed;
+    top:0;
+    left:0;
+    background-color: rgba(0,0,0,0.6);
+    width: 100%;
+    height: 100%;
+    .result-dialog{
+      background-color: #fff;
+      position: relative;
+      margin: 9.9rem auto;
+      width: 80%;
+      height: 35.2rem;
+      .result{
+        position: relative;
+        top:4.0rem;
+        width: 13.8rem;
+        height: 13.8rem;
+        left: ~"calc((100% - 13.8rem) / 2)";
+        .result-title{
+          position: absolute;
+          font-size: 1.3rem;
+          text-align: center;
+          top:3.9rem;
+          color: #999;
+          width: 100%;
+        }
+        .result-number{
+          position: absolute;
+          font-size: 3.6rem;
+          text-align: center;
+          top:5.6rem;
+          color: #000;
+          font-weight: bold;
+          width: 100%;
+        }
+      }
+      .award-title{
+        position: absolute;
+        width: 100%;
+        top:20.3rem;
+        text-align: center;
+        font-size: 1.3rem;
+        color: #999;
+      }
+      .award-detail{
+        position: absolute;
+        width: 100%;
+        top:23.1rem;
+        text-align: center;
+        font-size: 1.5rem;
+        color: #000;
+        font-weight: bold;
+        span{
+          color: #FFC701;
+          font-size: 1.6rem;
+        }
+      }
+      .go-analysis{
+        position: absolute;
+        text-align: center;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        width: ~"calc(100% - 3rem)";
+        background-color: #FFC701;
+        height: 4.4rem;
+        line-height: 4.4rem;
+        font-size: 1.5rem;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+  }
   .header {
     width: 100%;
     height: 45px;
@@ -13,7 +86,7 @@
     text-align: center;
     color: @color_context
   }
-  
+
   .title-bar {
     width: 100%;
     color: @color_title;
@@ -23,7 +96,7 @@
     margin-bottom: 10px;
     font-size: @font_index;
   }
-  
+
   .discuss-container {
     margin-bottom: 50px;
     > .discuss {
@@ -47,7 +120,7 @@
           margin-right: 10px;
         }
       }
-      
+
       > .discuss-end {
         padding: 20px 0;
         text-align: center;
@@ -73,7 +146,7 @@
       margin-bottom: 20px;
     }
   }
-  
+
   .intro-container {
     > .intro-index {
       position: relative;
@@ -82,7 +155,7 @@
       display: block;
       height: 12px;
       line-height: 12px;
-      
+
       > .index {
         display: inline-block;
         height: 12px;
@@ -90,7 +163,7 @@
         font-size: 12px;
         color: #999;
       }
-      
+
       > .tip {
         display: inline-block;
         height: 12px;
@@ -99,7 +172,7 @@
         color: #999;
         margin-left: 10px;
       }
-      
+
       > .type {
         margin-left: 14px;
         color: @color_strong;
@@ -110,7 +183,7 @@
         }
       }
     }
-    
+
     > .question {
       width: 100%;
       margin-bottom: 37.5px;
@@ -119,7 +192,7 @@
       font-size: 15px;
       color: #333333;
     }
-    
+
     .write-discuss {
       position: absolute;
       height: 55px;
@@ -127,7 +200,7 @@
       left: 15px;
       bottom: 68px;
     }
-    
+
     > .choice-list {
       box-sizing: border-box;
       margin: 0 30px;
@@ -183,7 +256,7 @@
         }
       }
     }
-    
+
     > .answer-display {
       box-sizing: border-box;
       padding: 30px 0;
@@ -196,7 +269,7 @@
         color: #55CBCB;
       }
     }
-    
+
     > .answer {
       margin-top: 25px;
       border-top: 1px solid #d0d0d0;
@@ -206,7 +279,7 @@
         margin: 10px 0 10px -0.5rem;
       }
     }
-    
+
     .knowledge-link {
       box-sizing: border-box;
       color: #55CBCB;
@@ -216,13 +289,13 @@
       padding: 0 15px 30px;
     }
   }
-  
+
   .analysis {
     margin: 0 -3rem;
     box-sizing: border-box;
     padding: 0 3rem;
     background-color: @color_weak_background;
-    
+
     .analysis-icon {
       box-sizing: border-box;
       height: 60px;

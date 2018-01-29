@@ -3,9 +3,9 @@ import './StudyLine.less'
 import { connect } from 'react-redux'
 import { loadStudyline } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
-import { changeTitle } from '../../utils/helpers'
+import { changeTitle, scrollToHeight } from '../../utils/helpers'
 import { mark } from '../../utils/request'
-import { Dialog, Progress } from 'react-weui'
+import { Dialog } from 'react-weui'
 import { ColumnSpan } from '../../components/ColumnSpan'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import { ProblemTitle } from '../problem/components/ProblemTitle'
@@ -18,6 +18,8 @@ const TRIAL_PROBLEM = 3
 
 const hanzi = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
 
+
+
 /**
  * rise_icon_hr 左侧较宽 TODO
  */
@@ -28,6 +30,7 @@ export default class StudyLine extends React.Component<any, any> {
     this.state = {
       data: {}
     }
+    this.learningContainer = ''
     changeTitle('课程学习')
     this.moment = require('moment')
   }
@@ -36,7 +39,7 @@ export default class StudyLine extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     mark({
       module: '打点',
       function: '学习页面',
@@ -51,17 +54,13 @@ export default class StudyLine extends React.Component<any, any> {
     const { dispatch, location } = this.props
     dispatch(startLoad())
 
-    loadStudyline(location.query.planId).then(res => {
-      dispatch(endLoad())
-      if(res.code === 200) {
-        this.setState({ data: res.msg })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+    let res = await loadStudyline(location.query.planId)
+    dispatch(endLoad())
+    if(res.code === 200) {
+      this.setState({ data: res.msg })
+    } else {
+      dispatch(alertMsg(res.msg))
+    }
   }
 
   onPracticeSelected(item) {
@@ -123,6 +122,12 @@ export default class StudyLine extends React.Component<any, any> {
     }
   }
 
+  componentDidUpdate(){
+    if(this.learningContainer){
+      scrollToHeight(this.learningContainer, 0)
+    }
+  }
+
   render() {
     const { data } = this.state
     const { problemType, problemId, preview = [], review = [], chapters = [] } = data
@@ -158,26 +163,26 @@ export default class StudyLine extends React.Component<any, any> {
       if(item.status<0){
         status = 'locked'
       }else if(item.status == 0){
-        status = 'running'
+        if(styleType === 'major'){
+          status = 'major_running'
+        }else{
+          status = 'minor_running'
+        }
+        this.learningContainer = ".practice-"+item.practicePlanId
       }else if(item.status === 1){
         status = 'complete'
       }
-      let source = 'go_icon'
-      if(item.status < 0) {
-        source = 'lock_icon'
-      } else if(item.status === 1) {
-        source = 'complete_icon'
-      }
       return (
         <MarkBlock func={'课程提纲'} action={'点击练习'} memo={item.type}
-                   className={`practice-detail`} onClick={() => this.onPracticeSelected(item)}>
+                   className={`practice-detail practice-${item.practicePlanId}`} onClick={() => this.onPracticeSelected(item)}>
           <div className={`status-line ${status}`}></div>
+          <div className={`status ${status}`}></div>
+          {item.status === 0 && <div className={`start-learning ${status}`}>学习</div>}
           <div className={`practice-column ${status}`}>
-            <div className={`status ${status}`}>
-              {/*<AssetImg type={source} size={20}/>*/}
-            </div>
             <div className={`title-angle ${status}`}/>
-            <div className={`title ${status}`}>{title}</div>
+            <div className={`title ${status}`}>{title}
+              {item.status === 0 && <div className={`start-practice ${status}`}></div>}
+            </div>
           </div>
 
         </MarkBlock>
@@ -229,7 +234,6 @@ export default class StudyLine extends React.Component<any, any> {
     return (
       <div className="study-line-container">
         <ProblemTitle problemId={problemId}/>
-        <div className="problem-span"/>
         {renderPreview()}
         <ColumnSpan height={1} backgroundColor={'#eee'}/>
         {renderChapter()}

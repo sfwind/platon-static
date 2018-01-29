@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import './KnowledgeReview.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { mark } from '../../../utils/request'
-import { loadProblem } from './async'
-import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { loadProblem, learnKnowledge} from './async'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 /**
  * 知识点回顾页面
@@ -56,6 +57,20 @@ export class KnowledgeReview extends React.Component<any, any> {
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: data.id, show: true } })
   }
 
+  handleClickGoWarmup(practicePlanId) {
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    mark({ module: '打点', function: '知识点', action: '完成知识点回顾' })
+    learnKnowledge(practicePlanId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP)
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(er => alertMsg(er))
+  }
+
   complete() {
     window.history.back()
   }
@@ -63,6 +78,7 @@ export class KnowledgeReview extends React.Component<any, any> {
   render() {
     const { data } = this.state
     const { chapterList = [] } = data
+    const { practicePlanId } = this.props.location.query
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -87,17 +103,21 @@ export class KnowledgeReview extends React.Component<any, any> {
     }
 
     return (
-      <div className="problem-detail">
-        <div className="container has-footer">
-          <div className="detail-header">
-            课程知识点
-          </div>
-          <div className="detail-container">
-            {chapterList ? chapterList.map((item, index) => renderRoadMap(item, index)) : null}
-          </div>
+      <div className="knowledge-review-container">
+        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId}/>
+        <div className="detail-header">
+          课程知识点
         </div>
-        <MarkBlock module={'打点'} func={'知识点回顾页面'} action={'点击标记完成按钮'} className="button-footer"
-                   onClick={this.complete.bind(this)}>标记完成</MarkBlock>
+        <div className="detail-container">
+          {chapterList && chapterList.map((item, index) => renderRoadMap(item, index))}
+        </div>
+        {
+          practicePlanId &&
+          <FooterButton btnArray={[{
+              click: () => this.handleClickGoWarmup(practicePlanId),
+              text: '下一步'
+            }]}/>
+        }
       </div>
     )
   }

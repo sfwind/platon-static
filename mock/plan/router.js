@@ -10,6 +10,58 @@ router.post("/rise/plan/choose/problem/*", (req, res) => {
     }), Math.random() * 1500)
 });
 
+router.get("/rise/plan/load/series/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "planSeriesTitle": "4.1 内容回顾 & 案例应用",
+        "planSeriesStatuses": [
+          {
+            "practicePlanId": 977585,
+            "planId": 30189,
+            "practiceId": "57",
+            "series": 5,
+            "sequence": 1,
+            "type": 32,
+            "unlock": true,
+            "complete": true
+          },
+          {
+            "practicePlanId": 977590,
+            "planId": 30189,
+            "practiceId": "762,763,764,765,766",
+            "series": 5,
+            "sequence": 2,
+            "type": 2,
+            "unlock": true,
+            "complete": true
+          },
+          {
+            "practicePlanId": 977599,
+            "planId": 30189,
+            "practiceId": "261",
+            "series": 5,
+            "sequence": 3,
+            "type": 12,
+            "unlock": true,
+            "complete": false
+          },
+          {
+            "practicePlanId": 977600,
+            "planId": 30189,
+            "practiceId": "435",
+            "series": 5,
+            "sequence": 4,
+            "type": 12,
+            "unlock": false,
+            "complete": false
+          }
+        ]
+      },
+      "code": 200
+    }), Math.random() * 1500)
+});
+
 router.get("/rise/plan/load/studyline/*", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
@@ -101,7 +153,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "识别压力",
                 "practices": [],
-                "status": 0,
+                "status": 1,
                 "type": 31,
                 "practicePlanId": 740079
               }
@@ -123,7 +175,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "应对压力",
                 "practices": [],
-                "status": -1,
+                "status": 1,
                 "type": 31,
                 "practicePlanId": 740079
               },
@@ -136,7 +188,7 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
                 "integrated": false,
                 "chapterName": "应对压力",
                 "practices": [],
-                "status": -1,
+                "status": 0,
                 "type": 31,
                 "practicePlanId": 740080
               },

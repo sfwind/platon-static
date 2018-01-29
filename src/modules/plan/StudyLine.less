@@ -2,7 +2,7 @@
 
 .study-line-container {
   .preview-practice {
-    padding: 2.5rem 1.5rem;
+    padding: 12.5rem 1.5rem 2.5rem;
     .preview-title {
       font-size: 1.8rem;
       line-height: 100%;
@@ -15,35 +15,66 @@
     height: 5.6rem;
     line-height: 5.6rem;
     margin-top: 2.0rem;
+    position: relative;
+    > .status {
+      display: inline-block;
+      position: absolute;
+      border-radius: 1.8rem;
+      width: 1.8rem;
+      height: 1.8rem;
+      &.complete{
+        background: url('../../../assets/img/plan_complete.png') center center/1.8rem 1.8rem no-repeat;
+      }
+      &.locked{
+        background: url('../../../assets/img/plan_locked.png') center center/1.8rem 1.8rem no-repeat;
+      }
+      &.major_running{
+        background: url('../../../assets/img/major_learning.png') center center/1.8rem 1.8rem no-repeat;
+      }
+      &.minor_running{
+        background: url('../../../assets/img/minor_learning.png') center center/1.8rem 1.8rem no-repeat;
+      }
+    }
+
+    > .start-learning{
+      position: absolute;
+      width: 2.0rem;
+      height: 1.0rem;
+      line-height: 1.0rem;
+      &.major_running{
+        color: #FDD338;
+      }
+      &.minor_running{
+        color: #3890FD;
+      }
+      padding: .5rem 0;
+      font-size: 1.0rem;
+      top: 1.8rem;
+      background-color: #fff;
+    }
+
     > .practice-column {
       line-height: 5.6rem;
-
-      > .status {
-        display: inline-block;
-        position: relative;
-        border-radius: 1.8rem;
-        width: 1.8rem;
-        height: 1.8rem;
-        background: @color_weak;
-        top: -1.3rem;
-      }
-
+      margin-left: 1.8rem;
       > .title-angle{
         display: inline-block;
         border: 5px transparent solid;
         border-right-color: #F8F8F8;
         position: relative;
-        bottom: 1.8rem;
+        bottom: 2.1rem;
         width:0;
         height:0;
-        &.running{
+        &.major_running{
           border-right-color: #FF983F;
+        }
+        &.minor_running{
+          border-right-color: #0063F8;
         }
       }
       > .title {
         background: #F8F8F8;
         border-radius: 4px;
-
+        width: ~"calc(100% - 3rem)";
         &.complete{
           &:after{
             content:'';
@@ -52,26 +83,51 @@
             width: .7rem;
             height: 1rem;
             background: url('../../../assets/img/arrow_right.png') center center/.7rem 1rem no-repeat;
-            vertical-align: middle;
             right: 1.8rem;
-            margin-top: 2.3rem;
+            top: 2.3rem;
           }
           color: #333;
         }
-        &.running{
-          background-image: linear-gradient(-90deg, #FFC701 0%, #FF983F 98%);
-          box-shadow: 0 3px 6px 0 rgba(240,161,10,0.39);
+        &.major_running{
+          background-image: linear-gradient(-90deg, #FFC701 0%, #FF983F 100%);
+          color: #fff;
+        }
+        &.minor_running{
+          background-image: linear-gradient(-90deg, #35B0EA 0%, #0063F8 100%);
           color: #fff;
         }
         &.locked{
           color: #999;
         }
-        width:~"calc(100% - 7.0rem)";
         display: inline-block;
         font-size: 1.4rem;
         position: absolute;
         padding-left: 2.0rem;
         box-sizing: border-box;
+        &.major_running{
+          &:after{
+            content:'';
+            display: inline-block;
+            position: absolute;
+            width: 2.6rem;
+            height: 2.6rem;
+            top: 1.5rem;
+            right:1.5rem;
+            background: url('../../../assets/img/major_running.png') center center/2.6rem 2.6rem no-repeat;
+          }
+        }
+        &.minor_running{
+          &:after{
+            content:'';
+            display: inline-block;
+            position: absolute;
+            width: 2.6rem;
+            height: 2.6rem;
+            top: 1.5rem;
+            right:1.5rem;
+            background: url('../../../assets/img/minor_running.png') center center/2.6rem 2.6rem no-repeat;
+          }
+        }
       }
     }
 
@@ -112,11 +168,4 @@
     }
   }
 
-  .problem-span{
-    background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 99%);
-    height: .6rem;
-  }
-  .part-span{
-
-  }
 }

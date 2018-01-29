@@ -554,7 +554,7 @@ export class Main extends React.Component <any, any> {
             {
               integrated == 'false' &&
               <div className="knowledge-link"
-                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDEGE)}>
+                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
                 点击查看相关知识点
               </div>
             }

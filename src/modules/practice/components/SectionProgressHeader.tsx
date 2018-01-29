@@ -10,7 +10,7 @@ interface SectionProgressHeaderProps {
 }
 
 const SectionProgressStep = {
-  KNOWLEDEGE: 0,
+  KNOWLEDGE: 0,
   WARMUP: 1,
   BASE_APPLICATION: 2,
   UPGRADE_APPLICATION: 3
@@ -29,8 +29,8 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
   PROGRESS_TEXT = [
     '知识点',
     '选择题',
-    '基础应用题',
-    '进阶应用题'
+    '应用题1',
+    '应用题2'
   ]
 
   static contextTypes = {
@@ -149,13 +149,9 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
           progress.map((part, index) => {
             const { unlock, complete } = part
             return (
-              <div key={index} className="progress-part"
-                   onClick={() => this.selfSeriesSwitch(index)}>
-                <span className="progress-text">{this.PROGRESS_TEXT[index]}</span>
-                <div
-                  className={`${unlock ? complete ? 'complete' : 'unlock' : 'lock'} progress-icon ${index === 0 ? 'beforenone' : '' } ${index === progress.length - 1 ? 'afternone' : ''}`}>
-                  <div className='progress-content'></div>
-                </div>
+              <div className={`${unlock ? complete ? 'complete' : 'unlock' : 'lock'} progress-text`}
+                   onClick={() => this.selfSeriesSwitch(index)} key={index}>
+                {this.PROGRESS_TEXT[index]}
               </div>
             )
           })
