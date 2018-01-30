@@ -46,10 +46,10 @@ export default class StudyLine extends React.Component<any, any> {
       action: '打开新学习页面'
     })
 
-    window.addEventListener('popstate', (e) => {
-      window.location.href = '/rise/static/rise'
-    })
-    history.pushState('', '', '#main')
+    // window.addEventListener('popstate', (e) => {
+    //   window.location.href = '/rise/static/rise'
+    // })
+    // history.pushState('', '', '#main')
 
     const { dispatch, location } = this.props
     dispatch(startLoad())
@@ -111,8 +111,8 @@ export default class StudyLine extends React.Component<any, any> {
       })
     } else if(type === 101) {
       this.context && this.context.router.push({
-        pathname: '/rise/static/practice/knowledge/review',
-        query: { problemId, planId, complete }
+        pathname: '/rise/static/plan/report',
+        query: { problemId, planId }
       })
     } else if(type === 102) {
       this.context && this.context.router.push({
@@ -124,7 +124,7 @@ export default class StudyLine extends React.Component<any, any> {
 
   componentDidUpdate(){
     if(this.learningContainer){
-      scrollToHeight(this.learningContainer, 0)
+      scrollToHeight(this.learningContainer, -125)
     }
   }
 

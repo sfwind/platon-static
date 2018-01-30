@@ -22,8 +22,6 @@ import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
 import { Block } from '../../../components/Block'
 import { CardPrinter } from '../../plan/components/CardPrinter'
-import RenderInBody from '../../../components/RenderInBody'
-import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 let timer
@@ -37,10 +35,19 @@ const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
 export class Main extends React.Component <any, any> {
   constructor() {
     super()
-    this.state = {
+    this.state = this.getInitialState()
+
+    this.pullElement = null
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  getInitialState() {
+    return {
       data: {},
       knowledge: {},
-      submitId: 0,
       page: 1,
       otherList: [],
       otherHighlightList: [],
@@ -54,14 +61,15 @@ export class Main extends React.Component <any, any> {
       isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
-      completdApplicationCnt: 1000,
-      autoPushDraftFlag: null
+      completedApplicationCnt: 1000,
+      autoPushDraftFlag: null,
+      end: null,
+      planId: null,
+      openStatus: null,
+      showCardPrinter: false,
+      showDisable: false,
+      firstSubmit: false,
     }
-    this.pullElement = null
-  }
-
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
   }
 
   componentWillMount() {
@@ -105,9 +113,7 @@ export class Main extends React.Component <any, any> {
         // 更新其余数据
         this.setState({
           data: msg,
-          submitId: msg.submitId,
           planId: msg.planId,
-          applicationScore: res.msg.applicationScore,
           autoPushDraftFlag: !msg.isSynchronized,
           showCompletedBox: false,
           firstSubmit: !msg.content
@@ -155,7 +161,7 @@ export class Main extends React.Component <any, any> {
     })
     loadApplicationCompletedCount(planId).then(res => {
       if(res.code === 200) {
-        this.setState({ completdApplicationCnt: res.msg })
+        this.setState({ completedApplicationCnt: res.msg })
       }
     })
   }
@@ -230,8 +236,7 @@ export class Main extends React.Component <any, any> {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.location.query.id !== this.props.location.query.id) {
-      // 应用题之间切换，强制刷新当前页面
-      window.location.reload()
+      this.setState(this.getInitialState(), () => this.componentWillMount())
     }
   }
 
@@ -355,7 +360,7 @@ export class Main extends React.Component <any, any> {
 
   onSubmit() {
     const { dispatch, location } = this.props
-    const { data, planId, completdApplicationCnt } = this.state
+    const { data, planId, completedApplicationCnt } = this.state
     const answer = this.refs.editor.getValue()
     const { complete, practicePlanId } = location.query
     if(answer == null || answer.length === 0) {
@@ -369,7 +374,7 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-          this.setState({ completdApplicationCnt: res.msg, showCardPrinter: true }, () => {
+          this.setState({ completedApplicationCnt: res.msg, showCardPrinter: true }, () => {
             window.scrollTo(0, 0)
           })
         }
@@ -383,7 +388,6 @@ export class Main extends React.Component <any, any> {
           if(code === 200) {
             this.setState({
               data: msg,
-              submitId: msg.submitId,
               planId: msg.planId,
               edit: false,
               editorValue: msg.content
@@ -418,8 +422,8 @@ export class Main extends React.Component <any, any> {
 
   render() {
     const {
-      data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
-      showCompletedBox = false, showCardPrinter, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
+      data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
+      showCompletedBox = false, showCardPrinter, completedApplicationCnt, integrated, loading, isRiseMember
     } = this.state
     const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
@@ -450,13 +454,13 @@ export class Main extends React.Component <any, any> {
         return (
           <div>
             <Work {...data}
-                  onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
-                  onEdit={() => this.onEdit()}
-                  headImage={window.ENV.headImage}
-                  userName={window.ENV.userName}
-                  type={CommentType.Application}
-                  articleModule={ArticleViewModule.Application}
-                  goComment={() => this.goComment(submitId)}/>
+              onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
+              onEdit={() => this.onEdit()}
+              headImage={window.ENV.headImage}
+              userName={window.ENV.userName}
+              type={CommentType.Application}
+              articleModule={ArticleViewModule.Application}
+              goComment={() => this.goComment(submitId)}/>
           </div>
         )
       }
@@ -485,7 +489,7 @@ export class Main extends React.Component <any, any> {
 
     // 渲染应用练习完成弹框
     const renderCompleteBox = () => {
-      if(showCompletedBox && isBaseApplication && this.state.firstSubmit) {
+      if(showCompletedBox && isBaseApplication && firstSubmit) {
         const AlertProps = {
           buttons: [
             {
@@ -499,7 +503,7 @@ export class Main extends React.Component <any, any> {
               label: '确定',
               onClick: () => {
                 this.setState({ firstSubmit: false })
-                this.refs.sectionProgress.goSeriesPage(3)
+                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION)
               }
             }
           ]
@@ -519,7 +523,7 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderCardPrinter = () => {
-      if(problemId && this.props.location.query.practicePlanId && this.state.firstSubmit) {
+      if(problemId && this.props.location.query.practicePlanId && firstSubmit) {
         if(showCardPrinter && isBaseApplication) {
           return (
             <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}
@@ -532,23 +536,26 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderButton = () => {
-      if(showDisable){
+      if(showDisable) {
         return (
           <FooterButton btnArray={[{ click: () => {}, text: '提交中' }]}/>
         )
-      }else{
-        if(edit){
+      } else {
+        if(edit) {
           return (
             <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
           )
-        }else{
-          if(isBaseApplication){
+        } else {
+          if(isBaseApplication) {
             return (
               <FooterButton btnArray={[{ click: () =>
                 this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION),
-                text: '进阶应用题' }]}/>
+                text: '进阶应用题' }, { click: () =>
+                this.context.router.push({pathname:'/rise/static/plan/study',
+                query:{planId:this.props.location.query.planId}}),
+                text: '返回列表' }]}/>
             )
-          }else{
+          } else {
             return (
               <FooterButton btnArray={[{ click: () =>
               this.context.router.push({pathname:'/rise/static/plan/study',
@@ -563,9 +570,11 @@ export class Main extends React.Component <any, any> {
     return (
       <div className="application-edit-container">
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
-                  show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
+                  show={openStatus && isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={this.props.location.query.practicePlanId}/>
+        <SectionProgressHeader ref={'sectionProgress'}
+                               practicePlanId={this.props.location.query.practicePlanId}
+                               currentIndex={`${isBaseApplication ? 2 : 3}`}/>
         <div className="intro-container">
           <div className="application-context">
             <div className="application-title">

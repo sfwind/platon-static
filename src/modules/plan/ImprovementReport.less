@@ -1,47 +1,96 @@
 @import "../../style/variable";
 
 .improvement-report {
-  box-sizing: border-box;
-  padding: 0 3rem 6rem;
-  background-color: #edf4f7;
-  
-  > .body-container {
-    margin-top: 2rem;
+  height: auto !important;
+  > .header {
+    height: auto;
     position: relative;
-    box-sizing: border-box;
-    padding-bottom: 10rem;
-    
+    background-color: #C6E6F8;
+    > .bg {
+      height: 100%;
+      width: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 1;
+    }
+    > .msg {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      color: #666666;
+
+      .title {
+        font-size: 2.6rem;
+        line-height: 34px;
+        padding: 20px 20px 10px;
+      }
+
+      .problem-title {
+        font-size: 1.4rem;
+        line-height: 1.8rem;
+        padding-left: 20px;
+        padding-bottom: 10px;
+      }
+
+      .sub-text {
+        font-size: @font_help;
+        line-height: 11px;
+        padding: 10px 20px 10px;
+        > .socre {
+          color: #55cbcb;
+          font-size: 1.8rem;
+        }
+        > .percent {
+          color: #55cbcb;
+          font-size: 1.8rem;
+        }
+      }
+
+      .time {
+        padding-left: 20px;
+        padding-bottom: 20px;
+        color: #767575;
+      }
+    }
+  }
+
+  > .body-container {
+    background-color: #edf4f7;
+    overflow: hidden;
+
     > .body {
-      box-sizing: border-box;
-      padding: 2.5rem 1.5rem;
+      padding: 15px 20px;
+      margin: 25px;
       border-radius: 5px;
       background-color: #FFFFFF;
-      
+
       > .header {
         text-align: center;
         color: #333;
         margin-bottom: 10px;
-        
+
         > .title {
           color: #333;
-          font-size: 20px;
-          line-height: 2rem;
+          font-size: 2.0rem;
+          line-height: 100%;
           display: inline-block;
         }
-        
+
         > .question {
           font-weight: 700;
           border: 1px solid #777573;
           display: inline-block;
           margin-left: 10px;
-          width: 14px;
+          width: 1.4rem;
           text-align: center;
           line-height: 1.4rem;
-          height: 14px;
+          height: 1.4rem;
           border-radius: 10px;
         }
       }
-      
+
       > .complete-item {
         color: @color_title;
         padding: 5px 0;
@@ -59,6 +108,7 @@
         }
         .score {
           display: inline-block;
+          //float: right;
           text-align: right;
           margin-left: 5px;
           &.top {
@@ -67,12 +117,7 @@
         }
         .number {
           &.point {
-            &.major {
-              color: #FFB200;
-            }
-            &.minor {
-              color: #399bd3;
-            }
+            color: @color_strong;
           }
           font-size: @font_help;
         }
@@ -92,25 +137,17 @@
           > .holder {
             height: 100%;
             position: absolute;
+            background: rgb(88, 177, 223);
+            background: -webkit-gradient(linear, left center, right center, from(#55cbcb), to(rgb(88, 177, 223)));
             width: 0;
             border-radius: 5px;
             overflow: hidden;
-            
-            &.major {
-              background: #FFB200;
-              background: -webkit-gradient(linear, left center, right center, from(#ffd40c), to(#FFB200));
+            &.article {
+              background: rgb(88, 177, 223);
+              background: -webkit-gradient(linear, left center, right center, from(rgb(235, 214, 99)), to(rgb(175, 235, 95)));
             }
-            &.minor {
-              background: #399bd3;
-              background: -webkit-gradient(linear, left center, right center, from(#78caf9), to(#399bd3));
-            }
-            
-            //&.article {
-            //  background: rgb(88, 177, 223);
-            //  background: -webkit-gradient(linear, left center, right center, from(rgb(235, 214, 99)), to(rgb(175, 235, 95)));
-            //}
-            
-            .slider {
+
+            > .slider {
               position: absolute;
               background: #e6e6e6;
               right: 2.5px;
@@ -122,7 +159,7 @@
           }
         }
       }
-      
+
       > .vote-info {
         font-size: @font_help;
         margin-top: 10px;
@@ -132,16 +169,16 @@
           color: @color_help;
         }
       }
-      
+
       .recommend-box {
         margin: 8px auto;
-        
+
         .recommend-descrip {
-          font-size: 1.5em;
+          font-size: 2.4rem;
           font-weight: bold;
           color: #666;
         }
-        
+
         .recommend-problem {
           margin: 8px -10px 8px;
           padding: 0 10px;
@@ -149,7 +186,7 @@
           position: relative;
           box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
           -webkit-box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
-          
+
           .problem-img {
             position: relative;
             margin-top: 15px;
@@ -217,7 +254,7 @@
               margin-left: -35px;
             }
           }
-          
+
           .problem-problem {
             width: ~"calc(100% - 130px)";
             position: absolute;
@@ -225,10 +262,10 @@
             top: 13px;
             margin-left: 10px;
             color: #666;
-            font-size: 1.5em;
-            line-height: 20px;
+            font-size: 2.0rem;
+            line-height: 100%;
           }
-          
+
           .problem-view {
             display: inline-block;
             font-size: 13px;
@@ -243,106 +280,25 @@
             bottom: 15px;
             right: 10px;
           }
+
         }
+
       }
+
     }
-    
+
     > .tips {
-      box-sizing: border-box;
-      padding: 2rem 1.5rem;
-      background-color: #eaeaea;
+      padding: 20px 35px;
+      background-color: #FFF;
       color: #666;
-      font-size: 1.2em;
-      line-height: 20px;
-      margin-top: 2rem;
-    }
-    
-    .bottom-icon {
-      display: inline-block;
-      position: absolute;
-      right: 0;
-      margin-top: 1.5rem;
-      width: 6rem;
-      height: 6rem;
-      
+      font-size: 1.2rem;
     }
   }
-  
+
   .clear-position {
     position: relative;
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1.6rem;
+    height: 1.6rem;
   }
-  
-  .report-header {
-    background-color: #edf4f7;
-    .report-title {
-      font-size: 1.8rem;
-      color: #2c2c2c;
-      box-sizing: border-box;
-      padding: 2.5rem 0;
-    }
-    .report-global-data {
-      position: relative;
-      box-sizing: border-box;
-      height: 12.5rem;
-      padding: 2.5rem 1.5rem;
-      background-color: #fff;
-      .nickname {
-        font-size: 1.5rem;
-        line-height: 1.5rem;
-        &.major {
-          color: #FFB200;
-        }
-        &.minor {
-          color: #399bd3;
-        }
-      }
-      .global-medal {
-        position: absolute;
-        width: 6.3rem;
-        height: 9.3rem;
-        background-size: 6.3rem 9.3rem;
-        right: 1.5rem;
-        top: -0.5rem;
-        &.major {
-          background-image: url("https://static.iqycamp.com/images/report_medal_major.png?imageslim");
-        }
-        &.minor {
-          background-image: url("https://static.iqycamp.com/images/report_medal_minor.png?imageslim");
-        }
-      }
-      .data-block {
-        width: 21rem;
-        margin-top: 1.5rem;
-        .data {
-          display: inline-block;
-          width: 7rem;
-          position: relative;
-          box-sizing: border-box;
-          border-right: 1px solid #f5f5f5;
-          &:last-of-type {
-            border-right: none;
-          }
-          .type-str {
-            font-size: 1.2rem;
-            line-height: 1.2rem;
-            color: #333;
-            text-align: center;
-            white-space: nowrap;
-          }
-          .type-point {
-            margin-top: 1.5rem;
-            font-size: 2.2rem;
-            line-height: 2.2rem;
-            color: #ec644b;
-            text-align: center;
-            white-space: nowrap;
-          }
-        }
-      }
-    }
-  }
-  
 }

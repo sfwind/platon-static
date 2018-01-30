@@ -99,7 +99,7 @@ export class Analysis extends React.Component <any, any> {
         this.setState({
           showDiscuss: false, list, content: '', placeholder: '解答同学的提问（限1000字）', repliedId: 0, isReply: false
         })
-        scroll('.discuss', '.container')
+        scroll('.discuss', '.warm-up-container')
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -285,7 +285,8 @@ export class Analysis extends React.Component <any, any> {
 
     return (
         <div className="warm-up-container">
-          <SectionProgressHeader ref={'sectionProgress'} practicePlanId={this.props.location.query.practicePlanId}/>
+          <SectionProgressHeader ref={'sectionProgress'}
+                                 practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
           {questionRender(practice[currentIndex] || {})}
           {showDiscuss && <div className="padding-comment-dialog"/>}
           <div>

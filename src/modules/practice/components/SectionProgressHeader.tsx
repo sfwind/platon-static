@@ -6,7 +6,8 @@ import _ from 'lodash'
 import { randomStr } from '../../../utils/helpers'
 
 interface SectionProgressHeaderProps {
-  practicePlanId: string
+  practicePlanId: string,
+  currentIndex: number
 }
 
 const SectionProgressStep = {
@@ -48,6 +49,12 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
         })
       }
     })
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.currentIndex !== this.props.currentIndex) {
+      this.componentWillMount()
+    }
   }
 
   goSeriesPage(index) {
@@ -141,6 +148,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
 
   render() {
     const { title, progress } = this.state
+    const { currentIndex } = this.props
 
     return (
       <div className="section-progress-component" key={randomStr(12)}>
@@ -149,7 +157,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
           progress.map((part, index) => {
             const { unlock, complete } = part
             return (
-              <div className={`${unlock ? complete ? 'complete' : 'unlock' : 'lock'} progress-text`}
+              <div className={`${unlock ? 'unlock' : 'lock'} progress-text ${index == currentIndex ? 'current' : ''}`}
                    onClick={() => this.selfSeriesSwitch(index)} key={index}>
                 {this.PROGRESS_TEXT[index]}
               </div>

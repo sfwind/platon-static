@@ -67,7 +67,6 @@ export function scroll(target, container) {
 export function scrollToHeight(target, height) {
   if(document.querySelector(target)) {
     let y = document.querySelector(target).offsetTop
-    console.log(y)
     window.scrollTo(0, y+height)
   }
 }

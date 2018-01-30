@@ -7,9 +7,8 @@ import { mark } from '../../../utils/request'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import Tutorial from '../../../components/Tutorial'
 import AssetImg from '../../../components/AssetImg'
-import { unScrollToBorder } from '../../../utils/helpers'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { SectionProgressHeader } from '../components/SectionProgressHeader'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 require("jquery-circle-progress")
 var $ = require('jquery')
 
@@ -29,7 +28,11 @@ const WARMUP_AUTO_SAVING = 'rise_warmup_autosaving'
 export class Main extends React.Component <any, any> {
   constructor() {
     super()
-    this.state = {
+    this.state = this.getInitialState()
+  }
+
+  getInitialState(){
+    return {
       list: [],
       currentIndex: 0,
       practiceCount: 0,
@@ -37,6 +40,8 @@ export class Main extends React.Component <any, any> {
       knowledge: {},
       integrated: false,
       submit: false,
+      openStatus:{},
+      data:{}
     }
   }
 
@@ -62,9 +67,6 @@ export class Main extends React.Component <any, any> {
           currentIndex = selectedChoices.length - 1
         }
         this.setState({ list, practiceCount: msg.practice.length, currentIndex, selected })
-        if(msg.practice[ 0 ].knowledge) {
-          this.setState({ knowledgeId: msg.practice[ 0 ].knowledge.id })
-        }
       }
     } else dispatch(alertMsg(msg))
 
@@ -73,10 +75,6 @@ export class Main extends React.Component <any, any> {
         this.setState({ openStatus: res.msg })
       }
     })
-  }
-
-  componentDidMount() {
-    unScrollToBorder('.container')
   }
 
   onChoiceSelected(choiceId) {
@@ -149,7 +147,7 @@ export class Main extends React.Component <any, any> {
 
   onSubmit() {
     const { dispatch } = this.props
-    const { selected, practice, currentIndex, practiceCount, list } = this.state
+    const { selected, currentIndex, practiceCount, list } = this.state
     const { practicePlanId } = this.props.location.query
     if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
@@ -174,7 +172,7 @@ export class Main extends React.Component <any, any> {
             // this.clearStorage()
             // redux 存储弹卡片弹出区分变量
             dispatch(set('CompleteChapterPracticePlanId', practicePlanId))
-            this.setState({total, rightNumber, point, submit: true} , ()=>{
+            this.setState({data: msg, submit: true} , ()=>{
               $('.result').circleProgress({
                 value: rightNumber/total,
                 size: 138,
@@ -196,7 +194,7 @@ export class Main extends React.Component <any, any> {
   }
 
   goAnalysis() {
-    window.location.reload()
+    this.setState(this.getInitialState(), ()=>this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION))
   }
 
   tutorialEnd() {
@@ -218,9 +216,10 @@ export class Main extends React.Component <any, any> {
 
   render() {
     const {
-      list, currentIndex, selected, practiceCount, openStatus = {}, integrated, knowledgeId,
-      submit, total, rightNumber, point
+      list, currentIndex, selected, practiceCount, openStatus = {}, integrated,
+      submit, data
     } = this.state
+    const {total, rightNumber, point} = data
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -270,7 +269,8 @@ export class Main extends React.Component <any, any> {
 
     return (
         <div className="warm-up-container">
-          <SectionProgressHeader practicePlanId={this.props.location.query.practicePlanId}/>
+          <SectionProgressHeader ref={'sectionProgress'}
+                                 practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
           {questionRender(practice[ currentIndex ] || {})}
           <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']}
                     show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}

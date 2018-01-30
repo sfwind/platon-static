@@ -232,7 +232,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     return (
       <Block>
         <div className={`knowledge-view-container`}>
-          <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId}/>
+          <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0}/>
           {
             videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
           }

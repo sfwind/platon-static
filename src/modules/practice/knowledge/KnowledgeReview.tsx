@@ -53,7 +53,6 @@ export class KnowledgeReview extends React.Component<any, any> {
 
   goProblemIntro() {
     const { data } = this.state
-    // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${data.id}&show=true`
     this.context.router.push({ pathname: '/rise/static/plan/view', query: { id: data.id, show: true } })
   }
 
@@ -104,7 +103,7 @@ export class KnowledgeReview extends React.Component<any, any> {
 
     return (
       <div className="knowledge-review-container">
-        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId}/>
+        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0}/>
         <div className="detail-header">
           课程知识点
         </div>

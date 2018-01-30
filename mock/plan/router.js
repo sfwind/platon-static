@@ -44,7 +44,7 @@ router.get("/rise/plan/load/series/*", (req, res) => {
             "sequence": 3,
             "type": 12,
             "unlock": true,
-            "complete": false
+            "complete": true
           },
           {
             "practicePlanId": 977600,
@@ -53,7 +53,7 @@ router.get("/rise/plan/load/series/*", (req, res) => {
             "series": 5,
             "sequence": 4,
             "type": 12,
-            "unlock": false,
+            "unlock": true,
             "complete": false
           }
         ]

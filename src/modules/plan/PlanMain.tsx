@@ -20,7 +20,6 @@ import { ToolBar } from '../base/ToolBar'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
-var FastClick = require('fastclick')
 
 const typeMap = {
   1: { type: '选择题', desc: '具体场景，牛刀小试' },
@@ -242,7 +241,6 @@ export class PlanMain extends React.Component <any, any> {
         })
       }
     })
-    FastClick.attach(document.querySelector('.click-btn'))
     hasPrivilege().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg.riseMember })

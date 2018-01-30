@@ -5,7 +5,6 @@ import "./DiscussShow.less";
 import AssetImg from "../../../components/AssetImg";
 import { Dialog } from "react-weui"
 const {Alert} = Dialog
-var FastClick = require('fastclick');
 
 @connect(state => state)
 export default class DiscussShow extends React.Component <any, any> {
@@ -38,10 +37,6 @@ export default class DiscussShow extends React.Component <any, any> {
     this.setState({filterComment:this.filterText(comment, showLength),
       filterReplied:this.filterText(repliedComment, showLength - comment.length),
       filtered:!this.showAll(comment, repliedComment, showLength)})
-  }
-
-  componentDidMount(){
-    FastClick.attach(document.querySelector('.function-button'))
   }
 
   filterText(comment, limit){
