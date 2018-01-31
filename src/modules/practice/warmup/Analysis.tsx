@@ -180,6 +180,7 @@ export class Analysis extends React.Component <any, any> {
       list, currentIndex, selected, practiceCount, showDiscuss, isReply, integrated, placeholder, knowledgeId
     } = this.state
     const { practice = [] } = list
+    const { planId } = this.props.location.query
 
     const questionRender = (practice) => {
       const { id, question, pic, choiceList = [], score = 0, discussList = [] } = practice
@@ -285,7 +286,7 @@ export class Analysis extends React.Component <any, any> {
 
     return (
         <div className="warm-up-container">
-          <SectionProgressHeader ref={'sectionProgress'}
+          <SectionProgressHeader ref={'sectionProgress'} planId={planId}
                                  practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
           {questionRender(practice[currentIndex] || {})}
           {showDiscuss && <div className="padding-comment-dialog"/>}

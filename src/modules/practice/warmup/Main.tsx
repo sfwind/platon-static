@@ -2,10 +2,9 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import './Main.less'
-import { answer, getOpenStatus, openConsolidation } from './async'
+import { answer, getOpenStatus, consolidationStatus } from './async'
 import { mark } from '../../../utils/request'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
-import Tutorial from '../../../components/Tutorial'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
@@ -31,7 +30,11 @@ export class Main extends React.Component <any, any> {
     this.state = this.getInitialState()
   }
 
-  getInitialState(){
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  getInitialState() {
     return {
       list: [],
       currentIndex: 0,
@@ -40,8 +43,8 @@ export class Main extends React.Component <any, any> {
       knowledge: {},
       integrated: false,
       submit: false,
-      openStatus:{},
-      data:{}
+      openStatus: {},
+      data: {}
     }
   }
 
@@ -163,18 +166,18 @@ export class Main extends React.Component <any, any> {
       })
       this.setChoice(p => {
         dispatch(startLoad())
-        let res = answer({ practice: p }, practicePlanId).then(res=>{
+        let res = answer({ practice: p }, practicePlanId).then(res => {
           dispatch(endLoad())
           const { code, msg } = res
           if(code === 200) {
             const { total, rightNumber, point } = msg
             dispatch(set('completePracticePlanId', practicePlanId))
-            // this.clearStorage()
+            this.clearStorage()
             // redux 存储弹卡片弹出区分变量
             dispatch(set('CompleteChapterPracticePlanId', practicePlanId))
-            this.setState({data: msg, submit: true} , ()=>{
+            this.setState({ data: msg, submit: true }, () => {
               $('.result').circleProgress({
-                value: rightNumber/total,
+                value: rightNumber / total,
                 size: 138,
                 startAngle: -Math.PI / 2,
                 fill: {
@@ -186,7 +189,7 @@ export class Main extends React.Component <any, any> {
           } else {
             dispatch(alertMsg(msg))
           }
-        }).catch(e=>{
+        }).catch(e => {
           dispatch(alertMsg(e))
         })
       })
@@ -194,24 +197,28 @@ export class Main extends React.Component <any, any> {
   }
 
   goAnalysis() {
-    this.setState(this.getInitialState(), ()=>this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION))
-  }
-
-  tutorialEnd() {
-    const { dispatch } = this.props
-    const { openStatus } = this.state
-    openConsolidation().then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    })
+    this.setState(this.getInitialState(), () => this.props.analysis())
   }
 
   clearStorage() {
     window.localStorage.removeItem(WARMUP_AUTO_SAVING)
+  }
+
+  componentWillUnmount() {
+    const { dispatch } = this.props
+    const { openStatus } = this.state
+    const { openConsolidation } = openStatus
+
+    if(openConsolidation) {
+      consolidationStatus().then(res => {
+        const { code, msg } = res
+        if(code === 200) {
+          this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
+        } else {
+          dispatch(alertMsg(msg))
+        }
+      })
+    }
   }
 
   render() {
@@ -219,7 +226,9 @@ export class Main extends React.Component <any, any> {
       list, currentIndex, selected, practiceCount, openStatus = {}, integrated,
       submit, data
     } = this.state
-    const {total, rightNumber, point} = data
+    const { planId } = this.props.location.query
+    const { total, rightNumber, point } = data
+    const { openConsolidation } = openStatus
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -247,7 +256,7 @@ export class Main extends React.Component <any, any> {
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
           { integrated == 'false' && <div className="knowledge-link"
-               onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
+                                          onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
             不确定?瞄一眼知识点
           </div>
           }
@@ -268,14 +277,16 @@ export class Main extends React.Component <any, any> {
     }
 
     return (
-        <div className="warm-up-container">
-          <SectionProgressHeader ref={'sectionProgress'}
-                                 practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
-          {questionRender(practice[ currentIndex ] || {})}
-          <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']}
-                    show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}
-                    onShowEnd={() => this.tutorialEnd()}/>
-          <FooterButton btnArray={[
+      <div className="warm-up-container">
+        <SectionProgressHeader ref={'sectionProgress'} planId={planId}
+                               practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
+        { !openConsolidation && <div className="progress-section-tip">
+          <div className="tip-angle" />
+          点这里可以回看学过的知识点
+        </div> }
+        {questionRender(practice[ currentIndex ] || {})}
+
+        <FooterButton btnArray={[
           { click: () => this.prev(), text: '上一题' },
           {
             click: () => {
@@ -285,20 +296,20 @@ export class Main extends React.Component <any, any> {
             text: currentIndex !== practiceCount - 1 ? '下一题' : '提交'
           }
         ]}/>
-          {  submit &&
-          <div className="result-mask">
-            <div className="result-dialog">
-              <div className="result">
-                <div className="result-title">答对题数</div>
-                <div className="result-number">{rightNumber + '/' + total}</div>
-              </div>
-              <div className="award-title">获得奖励</div>
-              <div className="award-detail">任务得分{' '}<span>{'+' + point}</span></div>
-              <div className="go-analysis" onClick={()=>this.goAnalysis()}>查看解析</div>
+        {  submit &&
+        <div className="result-mask">
+          <div className="result-dialog">
+            <div className="result">
+              <div className="result-title">答对题数</div>
+              <div className="result-number">{rightNumber + '/' + total}</div>
             </div>
+            <div className="award-title">获得奖励</div>
+            <div className="award-detail">任务得分{' '}<span>{'+' + point}</span></div>
+            <div className="go-analysis" onClick={()=>this.goAnalysis()}>查看解析</div>
           </div>
-          }
         </div>
+        }
+      </div>
     )
   }
 }

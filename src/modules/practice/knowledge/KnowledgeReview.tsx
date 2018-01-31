@@ -77,7 +77,7 @@ export class KnowledgeReview extends React.Component<any, any> {
   render() {
     const { data } = this.state
     const { chapterList = [] } = data
-    const { practicePlanId } = this.props.location.query
+    const { practicePlanId, planId } = this.props.location.query
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -103,7 +103,7 @@ export class KnowledgeReview extends React.Component<any, any> {
 
     return (
       <div className="knowledge-review-container">
-        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0}/>
+        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>
         <div className="detail-header">
           课程知识点
         </div>
@@ -114,7 +114,7 @@ export class KnowledgeReview extends React.Component<any, any> {
           practicePlanId &&
           <FooterButton btnArray={[{
               click: () => this.handleClickGoWarmup(practicePlanId),
-              text: '下一步'
+              text: '选择题'
             }]}/>
         }
       </div>

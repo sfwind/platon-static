@@ -9,6 +9,7 @@ import { Dialog } from 'react-weui'
 import { ColumnSpan } from '../../components/ColumnSpan'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import { ProblemTitle } from '../problem/components/ProblemTitle'
+import { FooterButton } from '../../components/submitbutton/FooterButton'
 
 const { Alert } = Dialog
 
@@ -86,19 +87,19 @@ export default class StudyLine extends React.Component<any, any> {
     }
 
     if(type === 20) {
-      const { practicePlanId } = item
+      const { id } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/plan/view',
-        query: { id: problemId }
+        query: { id: problemId, show: true, practicePlanId:id }
       })
     } else if(type === 21) {
-      const { practicePlanId } = item
+      const { id } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: problemId, practicePlanId, planId, complete }
+        query: { id: problemId, practicePlanId:id, planId, complete }
       })
     } else if(type === 31) {
-      const { practicePlanId } = item
+      const { practicePlanId, integrated } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/practice/knowledge',
         query: { practicePlanId, planId, complete }
@@ -119,6 +120,18 @@ export default class StudyLine extends React.Component<any, any> {
         pathname: '/rise/static/problem/extension',
         query: { problemId, planId }
       })
+    } else if(type === 1 || type === 2) {
+      const { practicePlanId, integrated } = item
+      this.context ? this.context.router.push({
+          pathname: '/rise/static/practice/warmup',
+          query: { practicePlanId, integrated, planId, complete }
+        }) : null
+    } else if(type === 11 || type === 12) {
+      const { practicePlanId, practiceId, integrated } = item
+      this.context ? this.context.router.push({
+          pathname: '/rise/static/practice/application',
+          query: { id:practiceId, practicePlanId, integrated, planId, complete }
+        }) : null
     }
   }
 
@@ -239,6 +252,9 @@ export default class StudyLine extends React.Component<any, any> {
         {renderChapter()}
         <ColumnSpan height={1} backgroundColor={'#eee'}/>
         {renderReview()}
+        <FooterButton btnArray={[{ click: () =>
+              this.context.router.push({pathname:'/rise/static/course/schedule/plan'})
+              , text: '返回学习页面' }]}/>
       </div>
     )
 

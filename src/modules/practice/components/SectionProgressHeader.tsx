@@ -1,9 +1,9 @@
 import * as React from 'react'
 import './SectionProgressHeader.less'
 import { pget } from '../../../utils/request'
-import { ColumnSpan } from '../../../components/ColumnSpan'
 import _ from 'lodash'
 import { randomStr } from '../../../utils/helpers'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 interface SectionProgressHeaderProps {
   practicePlanId: string,
@@ -148,11 +148,18 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
 
   render() {
     const { title, progress } = this.state
-    const { currentIndex } = this.props
+    const { currentIndex, planId } = this.props
 
     return (
       <div className="section-progress-component" key={randomStr(12)}>
-        <div className="progress-title">{title}</div>
+        <div>
+          <div className="progress-title">{title}</div>
+          <MarkBlock module={'打点'} func={'首页'} action={'返回学习首页'}
+                     className={`goto-learn-page`}
+                     onClick={() => this.context.router.push({pathname:'/rise/static/plan/study', query:{planId}})}>
+            返回
+          </MarkBlock>
+        </div>
         {
           progress.map((part, index) => {
             const { unlock, complete } = part
@@ -164,7 +171,6 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
             )
           })
         }
-        <ColumnSpan height={5} style={{ margin: '2.5rem -3rem' }}/>
       </div>
     )
   }

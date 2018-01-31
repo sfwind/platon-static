@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import './ProblemIntroduction.less'
 import Audio from '../../../components/Audio'
 import AssetImg from '../../../components/AssetImg'
-import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import { collectProblem, disCollectProblem, openProblemIntroduction } from '../../problem/async'
 import { Toast, Dialog } from 'react-weui'
@@ -11,7 +10,6 @@ import { isNumber } from 'lodash'
 
 const { Alert } = Dialog
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-const numeral = require('numeral')
 import { mark } from 'utils/request'
 import { buttonStatus } from 'utils/helpers'
 import { createPlan } from '../../plan/async'
@@ -64,7 +62,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
 
   async componentWillMount() {
     const { dispatch, location } = this.props
-    const { id, free } = location.query
+    const { id, free, practicePlanId } = location.query
     mark({
       module: '打点',
       function: '打开页面',
@@ -72,18 +70,18 @@ export default class ProblemIntroduction extends React.Component<any, any> {
       memo: id
     })
     /** 获取课程数据，以及价格／按钮状态 */
-    let res = openProblemIntroduction(id, free)
+    let res = await openProblemIntroduction(id, free, practicePlanId)
     const { msg, code } = res
     if(code === 200) {
       if(!buttonStatus.isValid(msg.buttonStatus)) {
         dispatch(alertMsg('按钮状态异常'))
       }
     } else {
-      dispatch(alertMsg(res.msg))
+      dispatch(alertMsg(msg))
       return
     }
 
-    let problemMsg = res.msg
+    let problemMsg = msg
     this.setState({
       data: problemMsg.problem,
       buttonStatus: problemMsg.buttonStatus,
@@ -175,14 +173,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
         if(res.code === 200) {
           this.setState({ problemCollected: false })
         }
-      }).catch(e => dispatch(alertMsg(e.msg)))
+      }).catch(e => dispatch(alertMsg(e)))
     } else {
       // 还未关注
       collectProblem(problemId).then(res => {
         if(res.code === 200) {
           this.setState({ problemCollected: true })
         }
-      }).catch(e => dispatch(alertMsg(e.msg)))
+      }).catch(e => dispatch(alertMsg(e)))
 
     }
   }

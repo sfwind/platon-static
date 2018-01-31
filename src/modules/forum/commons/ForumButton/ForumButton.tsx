@@ -21,7 +21,7 @@ export default class ForumButton extends React.Component<ForumButtonProps, any> 
     } = this.props
 
     return (
-        <div className="forum-button-div" onClick={()=>console.log('click')}>
+        <div className="forum-button-div">
           {forbid ?
               <div className={`forum-button forbid`}>
                 {content}

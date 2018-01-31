@@ -425,6 +425,7 @@ export class Main extends React.Component <any, any> {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
       showCompletedBox = false, showCardPrinter, completedApplicationCnt, integrated, loading, isRiseMember
     } = this.state
+    const { planId } = this.props.location.query
     const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
       if(list) {
@@ -550,17 +551,14 @@ export class Main extends React.Component <any, any> {
             return (
               <FooterButton btnArray={[{ click: () =>
                 this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION),
-                text: '进阶应用题' }, { click: () =>
-                this.context.router.push({pathname:'/rise/static/plan/study',
-                query:{planId:this.props.location.query.planId}}),
-                text: '返回列表' }]}/>
+                text: '进阶应用题' }]}/>
             )
           } else {
             return (
               <FooterButton btnArray={[{ click: () =>
               this.context.router.push({pathname:'/rise/static/plan/study',
               query:{planId:this.props.location.query.planId}})
-              , text: '返回列表' }]}/>
+              , text: '返回' }]}/>
             )
           }
         }
@@ -573,6 +571,7 @@ export class Main extends React.Component <any, any> {
                   show={openStatus && isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
         <SectionProgressHeader ref={'sectionProgress'}
+                               planId={planId}
                                practicePlanId={this.props.location.query.practicePlanId}
                                currentIndex={`${isBaseApplication ? 2 : 3}`}/>
         <div className="intro-container">

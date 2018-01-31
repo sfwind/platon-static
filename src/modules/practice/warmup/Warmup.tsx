@@ -21,8 +21,7 @@ export default class Warumup extends React.Component<any, any> {
     mark({
       module:'打点',
       function:'学习',
-      action:'加载选择题页面',
-      memo:window.ENV.osName
+      action:'加载选择题页面'
     })
     const { dispatch, location } = this.props
     const { practicePlanId, integrated } = location.query
@@ -65,7 +64,8 @@ export default class Warumup extends React.Component<any, any> {
       if(isString(page) && page === 'analysis') {
         pageView = <Analysis res={res} location={location} router={this.context.router} dispatch={dispatch}/>
       } else if(isString(page) && page === 'warmup') {
-        pageView = <Main res={res} location={location} router={this.context.router} dispatch={dispatch}/>
+        pageView = <Main res={res} location={location} router={this.context.router} dispatch={dispatch}
+                      analysis={()=>this.componentWillMount()}/>
       }
       return pageView
     }
