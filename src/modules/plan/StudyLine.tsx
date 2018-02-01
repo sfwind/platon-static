@@ -198,12 +198,9 @@ export default class StudyLine extends React.Component<any, any> {
             {(type > 0 || status == 'locked') && <div className={`status ${status}`}></div>}
             {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
           </div>
-          <div className={`practice-column ${status}`}>
-            <div className={`title ${status}`}>{title}
-              {item.status === 0 && <div className={`start-practice ${status}`}></div>}
-            </div>
+          <div className={`title ${status}`}>{title}
+            {item.status === 0 && <div className={`start-practice ${status}`}></div>}
           </div>
-
         </MarkBlock>
       )
     }
