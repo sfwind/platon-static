@@ -1,9 +1,25 @@
 @import "../../style/variable";
 
 .study-line-container {
-  padding-bottom: 5.0rem;
+  display: block;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  .study-line-content {
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    top: 12.5rem;
+    bottom: 5rem;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .preview-practice {
-    padding: 12.5rem 1.5rem 2.5rem;
+    padding: 2.5rem 1.5rem;
+    box-sizing: border-box;
     .preview-title {
       font-size: 1.8rem;
       line-height: 100%;

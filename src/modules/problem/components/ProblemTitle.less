@@ -1,14 +1,11 @@
 @import "../../../style/variable";
 
 .problem-head-component {
-  position: fixed;
-  height: 10.2rem;
-  top: 0;
-  z-index: 1;
+  position: absolute;
   background-color: #fff;
+  top: 0;
   width: 100%;
-  left: 0;
-  padding-bottom: 2.3rem;
+  box-sizing: border-box;
   .problem-name {
     margin: 0 1.5rem;
     padding-top: 2.7rem;
@@ -18,27 +15,21 @@
     font-weight: bold;
   }
   .problem-info {
-    background:url('../../../../assets/img/course_title_icon.png') no-repeat left center/1.5rem 1.5rem;
+    background: url('../../../../assets/img/course_title_icon.png') no-repeat left center/1.5rem 1.5rem;
     text-indent: 2.1rem;
     margin: 1.6rem 1.5rem 1.6rem;
     line-height: 1.5rem;
     font-size: 1.2rem;
     color: #999;
   }
-  .problem-span{
+  .problem-span {
     background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 99%);
     height: .6rem;
   }
-  .problem-icon{
-    background-image: url('https://static.iqycamp.com/images/problem_pic2.png');
-    background-position: right center;
-    background-size: auto 100%;
-    background-repeat: no-repeat;
+  .problem-icon {
+    position: absolute;
+    background: url('https://static.iqycamp.com/images/problem_pic2.png') no-repeat right center / auto 100%;
     height: 10.2rem;
     width: 100%;
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: -1;
   }
 }

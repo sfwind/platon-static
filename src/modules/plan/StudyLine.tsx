@@ -250,11 +250,13 @@ export default class StudyLine extends React.Component<any, any> {
     return (
       <div className="study-line-container">
         <ProblemTitle problemId={problemId}/>
-        {renderPreview()}
-        <ColumnSpan height={1} backgroundColor={'#eee'}/>
-        {renderChapter()}
-        <ColumnSpan height={1} backgroundColor={'#eee'}/>
-        {renderReview()}
+        <div className="study-line-content">
+          {renderPreview()}
+          <ColumnSpan height={1} backgroundColor={'#eee'}/>
+          {renderChapter()}
+          <ColumnSpan height={1} backgroundColor={'#eee'}/>
+          {renderReview()}
+        </div>
         <FooterButton btnArray={[{
           click: () =>
             this.context.router.push({ pathname: '/rise/static/course/schedule/plan' })
