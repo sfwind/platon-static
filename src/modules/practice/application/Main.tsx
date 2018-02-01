@@ -491,7 +491,8 @@ export class Main extends React.Component <any, any> {
       if(problemId && this.props.location.query.practicePlanId && firstSubmit) {
         if(showCardPrinter && isBaseApplication) {
           return (
-            <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}/>
+            <CardPrinter problemId={problemId} afterClose={()=>this.setState({showCardPrinter:false})}
+                         completePracticePlanId={this.props.location.query.practicePlanId}/>
           )
         }
       }
