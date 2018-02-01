@@ -28,7 +28,7 @@ export default class StudyLine extends React.Component<any, any> {
     super()
     this.state = {
       data: {},
-      anchor:false,
+      anchor: false
     }
     this.learningContainer = ''
     changeTitle('课程学习')
@@ -40,6 +40,22 @@ export default class StudyLine extends React.Component<any, any> {
   }
 
   async componentWillMount() {
+
+    // document.body.addEventListener('touchmove', ev => {
+    //   console.log(ev.path)
+    //   let node = document.getElementById('study-line-content')
+    //   if(node) {
+    //     if(ev.path.indexOf(node) > 0) {
+    //       alert(1)
+    //       ev.preventDefault()
+    //     } else {
+    //       alert(2)
+    //     }
+    //   } else {
+    //     alert(3)
+    //   }
+    // }, true)
+
     mark({
       module: '打点',
       function: '学习页面',
@@ -132,7 +148,7 @@ export default class StudyLine extends React.Component<any, any> {
   componentDidUpdate() {
     if(this.learningContainer && !this.state.anchor) {
       scrollToHeight(this.learningContainer, -125)
-      this.setState({anchor:true})
+      this.setState({ anchor: true })
     }
   }
 
@@ -159,14 +175,14 @@ export default class StudyLine extends React.Component<any, any> {
               } else if(item.type === 20) {
                 title = '课程介绍'
               }
-              return renderPractice(title, item)
+              return renderPractice(title, item, preview.length === index + 1)
             })
           }
         </div>
       )
     }
 
-    const renderPractice = (title, item) => {
+    const renderPractice = (title, item, isLast) => {
       let status = ''
       let type = 1
       //延伸学习，学习报告 type=-1
@@ -196,7 +212,7 @@ export default class StudyLine extends React.Component<any, any> {
                    className={`practice-detail practice-${item.practicePlanId}`}
                    onClick={() => this.onPracticeSelected(item)}>
           <div className="line-tip">
-            {(type > 0 || status == 'locked') && <div className={`status-line`}></div>}
+            {(type > 0 || status == 'locked') && <div className={`status-line ${isLast && 'last'}`}></div>}
             {(type > 0 || status == 'locked') && <div className={`status ${status}`}></div>}
             {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
           </div>
@@ -219,7 +235,7 @@ export default class StudyLine extends React.Component<any, any> {
                   {
                     sections.map((item, index) => {
                       let title = chapter + '.' + item.section + ' ' + item.name
-                      return renderPractice(title, item)
+                      return renderPractice(title, item, sections.length === index + 1)
                     })
                   }
                 </div>
@@ -242,7 +258,7 @@ export default class StudyLine extends React.Component<any, any> {
               } else if(item.type === 102) {
                 title = '延伸学习'
               }
-              return renderPractice(title, item)
+              return renderPractice(title, item, review.length === index + 1)
             })
           }
         </div>
@@ -252,7 +268,7 @@ export default class StudyLine extends React.Component<any, any> {
     return (
       <div className="study-line-container">
         <ProblemTitle problemId={problemId}/>
-        <div className="study-line-content">
+        <div id={'study-line-content'} className="study-line-content">
           {renderPreview()}
           <ColumnSpan height={1} backgroundColor={'#eee'}/>
           {renderChapter()}
