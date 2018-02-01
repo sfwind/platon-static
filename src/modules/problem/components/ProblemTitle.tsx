@@ -62,7 +62,7 @@ class ProblemTitle extends React.Component<ProblemTitleProps, any> {
     return (
       <div {...this.props} className={`problem-head-component`} style={style}>
         {/*<div className="problem-icon"/>*/}
-        { problem && <div className="problem-name">{problem.problem}</div> }
+        { problem && <div className="problem-name">{problem.abbreviation+'：'+problem.problem}</div> }
         { problem && <div className="problem-info">{month}{'月 | '}{typeDesc}{' | '}{deadline === 0 ? '已关闭':deadline+'天后关闭'}
         </div> }
         <div className="problem-span"/>

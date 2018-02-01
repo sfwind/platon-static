@@ -197,7 +197,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP)
+        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, true)
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -348,7 +348,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             practicePlanId && !showDiscuss &&
             <FooterButton btnArray={[{
               click: () => this.handleClickGoWarmup(practicePlanId),
-              text: complete? '下一步':'标记完成'
+              text: complete == 'true' ? '下一步':'标记完成'
             }]}/>
           }
           {

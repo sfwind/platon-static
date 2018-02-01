@@ -17,9 +17,7 @@ const MAJOR_PROBLEM = 1
 const MINOR_PROBLEM = 2
 const TRIAL_PROBLEM = 3
 
-const hanzi = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
-
-
+const hanzi = [ '零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十' ]
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -46,11 +44,6 @@ export default class StudyLine extends React.Component<any, any> {
       function: '学习页面',
       action: '打开新学习页面'
     })
-
-    // window.addEventListener('popstate', (e) => {
-    //   window.location.href = '/rise/static/rise'
-    // })
-    // history.pushState('', '', '#main')
 
     const { dispatch, location } = this.props
     dispatch(startLoad())
@@ -90,13 +83,13 @@ export default class StudyLine extends React.Component<any, any> {
       const { id } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/plan/view',
-        query: { id: problemId, complete, practicePlanId:id }
+        query: { id: problemId, complete, practicePlanId: id }
       })
     } else if(type === 21) {
       const { id } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: problemId, practicePlanId:id, planId, complete }
+        query: { id: problemId, practicePlanId: id, planId, complete }
       })
     } else if(type === 31) {
       const { practicePlanId, integrated } = item
@@ -130,13 +123,13 @@ export default class StudyLine extends React.Component<any, any> {
       const { practicePlanId, practiceId, integrated } = item
       this.context ? this.context.router.push({
           pathname: '/rise/static/practice/application',
-          query: { id:practiceId, practicePlanId, integrated, planId, complete }
+          query: { id: practiceId, practicePlanId, integrated, planId, complete }
         }) : null
     }
   }
 
-  componentDidUpdate(){
-    if(this.learningContainer){
+  componentDidUpdate() {
+    if(this.learningContainer) {
       scrollToHeight(this.learningContainer, -125)
     }
   }
@@ -173,30 +166,36 @@ export default class StudyLine extends React.Component<any, any> {
 
     const renderPractice = (title, item) => {
       let status = ''
-      let type = ''
-      if(item.status<0){
-        status = 'locked'
-      }else if(item.status == 0){
-        if(styleType === 'major'){
-          status = 'major_running'
-        }else{
-          status = 'minor_running'
-        }
-        if(!this.learningContainer){
-          this.learningContainer = ".practice-"+item.practicePlanId
-        }
-      }else if(item.status === 1){
-        status = 'complete'
+      let type = 1
+      //延伸学习，学习报告 type=-1
+      if(item.type === 101 || item.type === 102) {
+        type = -1
       }
-      if(item.type === 102){
-        type = 'extension'
+      if(item.status < 0) {
+        status = 'locked'
+      } else if(item.status == 0) {
+        if(type > 0) {
+          if(styleType === 'major') {
+            status = 'major_running'
+          } else {
+            status = 'minor_running'
+          }
+        } else {
+          status = 'complete'
+        }
+        if(!this.learningContainer) {
+          this.learningContainer = ".practice-" + item.practicePlanId
+        }
+      } else if(item.status === 1) {
+        status = 'complete'
       }
       return (
         <MarkBlock func={'课程提纲'} action={'点击练习'} memo={item.type}
-                   className={`practice-detail practice-${item.practicePlanId}`} onClick={() => this.onPracticeSelected(item)}>
-          <div className={`status-line ${type}`}></div>
-          <div className={`status ${status}`}></div>
-          {item.status === 0 && <div className={`start-learning ${status}`}>学习</div>}
+                   className={`practice-detail practice-${item.practicePlanId}`}
+                   onClick={() => this.onPracticeSelected(item)}>
+          { (type > 0 || status == 'locked') && <div className={`status-line`}></div> }
+          { (type > 0 || status == 'locked') && <div className={`status ${status}`}></div> }
+          {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
           <div className={`practice-column ${status}`}>
             <div className={`title ${status}`}>{title}
               {item.status === 0 && <div className={`start-practice ${status}`}></div>}
@@ -215,7 +214,7 @@ export default class StudyLine extends React.Component<any, any> {
               const { sections, chapter } = item
               return (
                 <div key={index} className={`chapter`}>
-                  {'第' + hanzi[chapter] + '章 '}{item.name}
+                  {'第' + hanzi[ chapter ] + '章 '}{item.name}
                   {
                     sections.map((item, index) => {
                       let title = chapter + '.' + item.section + ' ' + item.name

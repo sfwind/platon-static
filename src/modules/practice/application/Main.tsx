@@ -511,7 +511,7 @@ export class Main extends React.Component <any, any> {
           if(isBaseApplication) {
             return (
               <FooterButton btnArray={[{ click: () =>
-                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION),
+                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, true),
                 text: '下一步' }]}/>
             )
           } else {

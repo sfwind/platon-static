@@ -57,11 +57,13 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
     }
   }
 
-  goSeriesPage(index) {
+  goSeriesPage(index, force=false) {
     const { progress } = this.state
     const { planId, practicePlanId, practiceId, complete, unlock, type } = progress[index]
 
-    if(!unlock) return
+    if(!force){
+      if(!unlock) return
+    }
 
     let queryParam = {
       complete: complete,
@@ -120,25 +122,27 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
 
     return (
       <div className="section-progress-component" key={randomStr(12)}>
-        <div>
+        <div className="progress-head">
           <div className="progress-title">{title}</div>
           <MarkBlock module={'打点'} func={'首页'} action={'返回学习首页'}
                      className={`goto-learn-page`}
                      onClick={() => this.context.router.push({pathname:'/rise/static/plan/study', query:{planId}})}>
-            返回
+            返回大纲
           </MarkBlock>
         </div>
+        <div className="progress-text-container">
         {
           progress.map((part, index) => {
             const { unlock, complete } = part
             return (
-              <div className={`${unlock ? 'unlock' : 'lock'} progress-text ${index == currentIndex ? 'current' : ''}`}
+                <div className={`progress-text ${unlock ? 'unlock' : 'lock'} ${index == currentIndex ? 'current' : ''}`}
                    onClick={() => this.selfSeriesSwitch(index)} key={index}>
-                {this.PROGRESS_TEXT[index]}
-              </div>
+                  {this.PROGRESS_TEXT[index]}
+                </div>
             )
           })
         }
+        </div>
       </div>
     )
   }
