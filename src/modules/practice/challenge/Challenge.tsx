@@ -135,7 +135,7 @@ export class Challenge extends React.Component <any, any> {
                   <p>登录www.iquanwai.com/community</p>
                 </div>
                 <Editor ref="editor" moduleId={3} value={content}
-                        placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"/>
+                        placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。"/>
                 {
                   showDisable ?
                     <FooterButton btnArray={[{text: '提交中'}]}/> :

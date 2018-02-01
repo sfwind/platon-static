@@ -559,15 +559,6 @@ export class Main extends React.Component <any, any> {
             }
           </div>
           <div ref="workContainer" className="work-container">
-            <div ref="submitBar" className="submit-bar">
-              {
-                content === null ?
-                  <div className="award_application">
-                    刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~
-                  </div> :
-                  '我的作业'
-              }
-            </div>
             {renderTip()}
             {
               edit &&
