@@ -57,24 +57,10 @@
     > .practice-column {
       line-height: 5.6rem;
       margin-left: 1.8rem;
-      > .title-angle{
-        display: inline-block;
-        border: 5px transparent solid;
-        border-right-color: #F8F8F8;
-        position: relative;
-        bottom: 2.1rem;
-        width:0;
-        height:0;
-        &.major_running{
-          border-right-color: #FF983F;
-        }
-        &.minor_running{
-          border-right-color: #0063F8;
-        }
-      }
       > .title {
         background: #F8F8F8;
         border-radius: 4px;
+        margin-left: 1.0rem;
         width: ~"calc(100% - 3rem)";
         &.complete{
           &:after{
@@ -138,12 +124,16 @@
       width: 0.2rem;
       margin-left: 0.8rem;
       background: @color_weak;
+      &.extension{
+          height: 0 !important;
+      }
     }
     &:last-child {
       > .status-line{
         height: 5.6rem;
       }
     }
+
   }
 
   .chapter-practice {

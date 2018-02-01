@@ -150,11 +150,22 @@ export class Main extends React.Component <any, any> {
 
   onSubmit() {
     const { dispatch } = this.props
-    const { selected, currentIndex, practiceCount, list } = this.state
+    const { selected, currentIndex, practiceCount, list, openStatus } = this.state
+    const { openConsolidation } = openStatus
     const { practicePlanId } = this.props.location.query
     if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
+    }
+    if(openConsolidation) {
+      consolidationStatus().then(res => {
+        const { code, msg } = res
+        if(code === 200) {
+          this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
+        } else {
+          dispatch(alertMsg(msg))
+        }
+      })
     }
     if(currentIndex === practiceCount - 1) {
       let questionId = _.get(list, `practice[${currentIndex}].id`)
@@ -202,23 +213,6 @@ export class Main extends React.Component <any, any> {
 
   clearStorage() {
     window.localStorage.removeItem(WARMUP_AUTO_SAVING)
-  }
-
-  componentWillUnmount() {
-    const { dispatch } = this.props
-    const { openStatus } = this.state
-    const { openConsolidation } = openStatus
-
-    if(openConsolidation) {
-      consolidationStatus().then(res => {
-        const { code, msg } = res
-        if(code === 200) {
-          this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
-        } else {
-          dispatch(alertMsg(msg))
-        }
-      })
-    }
   }
 
   render() {

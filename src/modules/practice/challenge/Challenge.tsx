@@ -8,10 +8,10 @@ import Editor from '../../../components/simditor/Editor'
 import { merge } from 'lodash'
 import { mark } from '../../../utils/request'
 import AssetImg from '../../../components/AssetImg'
-import { SubmitButton } from '../../../components/submitbutton/SubmitButton'
 import { ColumnSpan } from '../../../components/ColumnSpan'
 import { Block } from '../../../components/Block'
 import { ProblemTitle } from '../../problem/components/ProblemTitle'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
 export class Challenge extends React.Component <any, any> {
@@ -25,15 +25,10 @@ export class Challenge extends React.Component <any, any> {
       otherList: [],
       opacity: 0
     }
-    this.pullElement = null
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
-  }
-
-  componentWillUnmount() {
-    this.pullElement ? this.pullElement.destroy() : null
   }
 
   componentWillMount() {
@@ -67,6 +62,7 @@ export class Challenge extends React.Component <any, any> {
   }
 
   onSubmit() {
+    mark({ module: '打点', function: '小目标', action: '提交小目标' })
     const { dispatch, location } = this.props
     const { data, planId } = this.state
     const { complete, practicePlanId } = location.query
@@ -107,6 +103,7 @@ export class Challenge extends React.Component <any, any> {
   render() {
     const { data, edit = false, showDisable } = this.state
     const { content } = data
+    const { planId } = this.props.location.query
 
     return (
       <Block>
@@ -141,14 +138,17 @@ export class Challenge extends React.Component <any, any> {
                         placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"/>
                 {
                   showDisable ?
-                    <SubmitButton clickFunc={() => {}} buttonText={'提交中'}/> :
-                    <SubmitButton clickFunc={() => this.onSubmit()} buttonText={'提交'}/>
+                    <FooterButton btnArray={[{text: '提交中'}]}/> :
+                    <FooterButton btnArray={[{click:() => this.onSubmit(), text:'提交'}]}/>
                 }
               </Block> :
               <Block>
                 <div className="working-header">我的目标</div>
                 <Work onEdit={() => this.onEdit()} operation={false}
                       headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}/>
+                <FooterButton btnArray={[{
+                  click: () => this.context.router.push({pathname:'/rise/static/plan/study', query:{planId}}),
+                  text: '返回'}]}/>
               </Block>
           }
         </div>

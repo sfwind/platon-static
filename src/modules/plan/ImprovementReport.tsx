@@ -128,6 +128,7 @@ export class ImprovementReport extends React.Component<any, any> {
     return (
       <RenderInBody>
         <div className="button-footer" onClick={()=>this.goBack()}>
+          返回
         </div>
       </RenderInBody>
     )

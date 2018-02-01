@@ -32,24 +32,31 @@
     position: relative;
     margin-top: 2.5rem;
     display: inline-block;
+    border-left: solid 1px;
+    border-top: solid 1px;
+    border-bottom: solid 1px;
+    &:last-child {
+      border-right: solid 1px;
+    }
     &.lock{
       background: url('../../../../assets/img/lock_icon.png') 10% center/1.0rem 1.3rem no-repeat;
       color: #999;
       text-indent: 0.4rem;
       background-color: #F8F8F8;
-      border: #EEE solid 1px;
+      border-color: #EEE;
     }
     &.unlock{
-      border: #FFA300 solid 1px;
+      border-color: #FFA300;
       color: #FF9600;
       font-weight: bold;
     }
     &.current{
-      border: #FFA300 solid 1px;
+      border-color: #FFA300;
       background-color: #FFA300;
       color: #fff;
       font-weight: bold;
     }
+
   }
 
 }

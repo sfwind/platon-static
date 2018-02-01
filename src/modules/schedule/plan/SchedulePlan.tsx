@@ -154,6 +154,7 @@ export default class SchedulePlan extends React.Component
                 <div className={`problem-item-backcolor ${styleType}`}/>
                 <div className="problem-item-abbreviation">{item.problem.abbreviation}</div>
                 <div className="problem-item-title">{item.problem.problem}</div>
+                {/*<div className="problem-pic"></div>*/}
                 {!item.id && <div className={`wait-open ${styleType}`}>待开课</div>}
                 { renderCourseType(item) }
               </div>

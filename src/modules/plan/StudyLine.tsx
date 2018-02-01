@@ -72,7 +72,7 @@ export default class StudyLine extends React.Component<any, any> {
     const { problemId } = data
 
     if(status === -1) {
-      dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
+      dispatch(alertMsg('完成前一节的必做题（知识点+测试题+1道应用题），才能解锁本小节<br><br>学习和内化，都需要循序渐进哦'))
       return
     }
     if(status === -3) {
@@ -90,7 +90,7 @@ export default class StudyLine extends React.Component<any, any> {
       const { id } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/plan/view',
-        query: { id: problemId, show: true, practicePlanId:id }
+        query: { id: problemId, complete, practicePlanId:id }
       })
     } else if(type === 21) {
       const { id } = item
@@ -173,6 +173,7 @@ export default class StudyLine extends React.Component<any, any> {
 
     const renderPractice = (title, item) => {
       let status = ''
+      let type = ''
       if(item.status<0){
         status = 'locked'
       }else if(item.status == 0){
@@ -181,18 +182,22 @@ export default class StudyLine extends React.Component<any, any> {
         }else{
           status = 'minor_running'
         }
-        this.learningContainer = ".practice-"+item.practicePlanId
+        if(!this.learningContainer){
+          this.learningContainer = ".practice-"+item.practicePlanId
+        }
       }else if(item.status === 1){
         status = 'complete'
+      }
+      if(item.type === 102){
+        type = 'extension'
       }
       return (
         <MarkBlock func={'课程提纲'} action={'点击练习'} memo={item.type}
                    className={`practice-detail practice-${item.practicePlanId}`} onClick={() => this.onPracticeSelected(item)}>
-          <div className={`status-line ${status}`}></div>
+          <div className={`status-line ${type}`}></div>
           <div className={`status ${status}`}></div>
           {item.status === 0 && <div className={`start-learning ${status}`}>学习</div>}
           <div className={`practice-column ${status}`}>
-            <div className={`title-angle ${status}`}/>
             <div className={`title ${status}`}>{title}
               {item.status === 0 && <div className={`start-practice ${status}`}></div>}
             </div>

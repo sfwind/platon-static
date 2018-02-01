@@ -211,7 +211,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords
     } = knowledge
     const { location } = this.props
-    const { practicePlanId, planId } = location.query
+    const { practicePlanId, planId, complete } = location.query
 
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
@@ -232,7 +232,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
     return (
       <Block>
         <div className={`knowledge-view-container`}>
-          <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>
+          {practicePlanId && <SectionProgressHeader ref={'sectionProgress'}
+                                                    practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>}
           {
             videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
           }
@@ -347,7 +348,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             practicePlanId && !showDiscuss &&
             <FooterButton btnArray={[{
               click: () => this.handleClickGoWarmup(practicePlanId),
-              text: '选择题'
+              text: complete? '下一步':'标记完成'
             }]}/>
           }
           {

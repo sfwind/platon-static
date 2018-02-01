@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './KnowledgeReview.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { mark } from '../../../utils/request'
-import { loadProblem, learnKnowledge} from './async'
+import { knowledgeReview, learnKnowledge} from './async'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
@@ -34,7 +34,7 @@ export class KnowledgeReview extends React.Component<any, any> {
     if(complete == 'false') {
       dispatch(set('completePracticePlanId', practicePlanId))
     }
-    loadProblem(location.query.problemId).then(res => {
+    knowledgeReview(practicePlanId).then(res => {
       const { code, msg } = res
       if(code === 200) {
         dispatch(endLoad())
@@ -77,7 +77,7 @@ export class KnowledgeReview extends React.Component<any, any> {
   render() {
     const { data } = this.state
     const { chapterList = [] } = data
-    const { practicePlanId, planId } = this.props.location.query
+    const { practicePlanId, planId, complete } = this.props.location.query
 
     const renderRoadMap = (chapter, idx) => {
       const { sections } = chapter
@@ -114,7 +114,7 @@ export class KnowledgeReview extends React.Component<any, any> {
           practicePlanId &&
           <FooterButton btnArray={[{
               click: () => this.handleClickGoWarmup(practicePlanId),
-              text: '选择题'
+              text: complete? '下一步':'标记完成'
             }]}/>
         }
       </div>

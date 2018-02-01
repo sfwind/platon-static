@@ -646,7 +646,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="body">
                 <div className="title">
                   {typeMap[item.type].type}
-                  <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
+                  {/*<span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>*/}
                 </div>
                 <div className="desc">{typeMap[item.type].desc}</div>
                 {

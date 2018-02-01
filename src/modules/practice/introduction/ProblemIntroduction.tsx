@@ -289,6 +289,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
                 }]}/>
               )
             }
+            case 6: {
+              return (
+                <FooterButton btnArray={[{
+                  click: () => window.history.back(),
+                  text: '返回'
+                }]}/>
+              )
+            }
             default:
               return null
           }

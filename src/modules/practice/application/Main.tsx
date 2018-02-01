@@ -20,7 +20,6 @@ import { preview } from '../../helpers/JsConfig'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
-import { Block } from '../../../components/Block'
 import { CardPrinter } from '../../plan/components/CardPrinter'
 
 const { Alert } = Dialog
@@ -488,49 +487,11 @@ export class Main extends React.Component <any, any> {
       }
     }
 
-    // 渲染应用练习完成弹框
-    const renderCompleteBox = () => {
-      if(showCompletedBox && isBaseApplication && firstSubmit) {
-        const AlertProps = {
-          buttons: [
-            {
-              label: '取消',
-              onClick: () => {
-                this.setState({ firstSubmit: false })
-                this.setState({ showCompletedBox: false })
-              }
-            },
-            {
-              label: '确定',
-              onClick: () => {
-                this.setState({ firstSubmit: false })
-                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION)
-              }
-            }
-          ]
-        }
-
-        return (
-          <Block>
-            <Alert {...AlertProps} show={showCompletedBox}>
-              <div className="global-pre">
-                恭喜你完成必修课，已解锁下一节内容！<br/>
-                再接再厉，完成本节的进阶应用题吧！
-              </div>
-            </Alert>
-          </Block>
-        )
-      }
-    }
-
     const renderCardPrinter = () => {
       if(problemId && this.props.location.query.practicePlanId && firstSubmit) {
         if(showCardPrinter && isBaseApplication) {
           return (
-            <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}
-                         afterClose={() => this.setState({
-                           showCompletedBox: true
-                         })}/>
+            <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}/>
           )
         }
       }
@@ -551,7 +512,7 @@ export class Main extends React.Component <any, any> {
             return (
               <FooterButton btnArray={[{ click: () =>
                 this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION),
-                text: '进阶应用题' }]}/>
+                text: '下一步' }]}/>
             )
           } else {
             return (
@@ -567,6 +528,7 @@ export class Main extends React.Component <any, any> {
 
     return (
       <div className="application-edit-container">
+        {renderCardPrinter()}
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
                   show={openStatus && isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
@@ -640,8 +602,6 @@ export class Main extends React.Component <any, any> {
           </div>
         </div>
         {renderButton()}
-        {renderCardPrinter()}
-        {renderCompleteBox()}
       </div>
     )
   }
