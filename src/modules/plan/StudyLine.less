@@ -17,43 +17,58 @@
     line-height: 5.6rem;
     margin-top: 2.0rem;
     position: relative;
-    > .status {
-      display: inline-block;
-      position: absolute;
-      border-radius: 1.8rem;
-      width: 1.8rem;
-      height: 1.8rem;
-      &.complete{
-        background: url('../../../assets/img/plan_complete.png') center center/1.8rem 1.8rem no-repeat;
+    .line-tip {
+      width: 2.4rem;
+      height: 100%;
+      position: relative;
+      > .status-line {
+        height: 7.6rem;
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 0.2rem;
+        background: @color_weak;
       }
-      &.locked{
-        background: url('../../../assets/img/plan_locked.png') center center/1.8rem 1.8rem no-repeat;
+      > .status {
+        display: inline-block;
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        border-radius: 1.8rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        &.complete {
+          background: url('../../../assets/img/plan_complete.png') center center/1.8rem 1.8rem no-repeat;
+        }
+        &.locked {
+          background: url('../../../assets/img/plan_locked.png') center center/1.8rem 1.8rem no-repeat;
+        }
+        &.major_running {
+          background: url('../../../assets/img/major_learning.png') center center/1.8rem 1.8rem no-repeat;
+        }
+        &.minor_running {
+          background: url('../../../assets/img/minor_learning.png') center center/1.8rem 1.8rem no-repeat;
+        }
       }
-      &.major_running{
-        background: url('../../../assets/img/major_learning.png') center center/1.8rem 1.8rem no-repeat;
-      }
-      &.minor_running{
-        background: url('../../../assets/img/minor_learning.png') center center/1.8rem 1.8rem no-repeat;
+      > .start-learning {
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 2.0rem;
+        height: 1.0rem;
+        line-height: 1.0rem;
+        &.major_running {
+          color: #FDD338;
+        }
+        &.minor_running {
+          color: #3890FD;
+        }
+        padding: .5rem 0;
+        font-size: 1.0rem;
+        top: 1.8rem;
+        background-color: #fff;
       }
     }
-
-    > .start-learning{
-      position: absolute;
-      width: 2.0rem;
-      height: 1.0rem;
-      line-height: 1.0rem;
-      &.major_running{
-        color: #FDD338;
-      }
-      &.minor_running{
-        color: #3890FD;
-      }
-      padding: .5rem 0;
-      font-size: 1.0rem;
-      top: 1.8rem;
-      background-color: #fff;
-    }
-
     > .practice-column {
       line-height: 5.6rem;
       margin-left: 1.8rem;
@@ -62,9 +77,9 @@
         border-radius: 4px;
         margin-left: 1.0rem;
         width: ~"calc(100% - 3rem)";
-        &.complete{
-          &:after{
-            content:'';
+        &.complete {
+          &:after {
+            content: '';
             display: inline-block;
             position: absolute;
             width: .7rem;
@@ -75,15 +90,15 @@
           }
           color: #333;
         }
-        &.major_running{
+        &.major_running {
           background-image: linear-gradient(-90deg, #FFC701 0%, #FF983F 100%);
           color: #fff;
         }
-        &.minor_running{
+        &.minor_running {
           background-image: linear-gradient(-90deg, #35B0EA 0%, #0063F8 100%);
           color: #fff;
         }
-        &.locked{
+        &.locked {
           color: #999;
         }
         display: inline-block;
@@ -91,46 +106,37 @@
         position: absolute;
         padding-left: 2.0rem;
         box-sizing: border-box;
-        &.major_running{
-          &:after{
-            content:'';
+        &.major_running {
+          &:after {
+            content: '';
             display: inline-block;
             position: absolute;
             width: 2.6rem;
             height: 2.6rem;
             top: 1.5rem;
-            right:1.5rem;
+            right: 1.5rem;
             background: url('../../../assets/img/major_running.png') center center/2.6rem 2.6rem no-repeat;
           }
         }
-        &.minor_running{
-          &:after{
-            content:'';
+        &.minor_running {
+          &:after {
+            content: '';
             display: inline-block;
             position: absolute;
             width: 2.6rem;
             height: 2.6rem;
             top: 1.5rem;
-            right:1.5rem;
+            right: 1.5rem;
             background: url('../../../assets/img/minor_running.png') center center/2.6rem 2.6rem no-repeat;
           }
         }
       }
     }
-
-    > .status-line {
-      height: 7.6rem;
-      position: absolute;
-      width: 0.2rem;
-      margin-left: 0.8rem;
-      background: @color_weak;
-    }
     &:last-child {
-      > .status-line{
+      > .status-line {
         height: 5.6rem;
       }
     }
-
   }
 
   .chapter-practice {

@@ -17,7 +17,7 @@ const MAJOR_PROBLEM = 1
 const MINOR_PROBLEM = 2
 const TRIAL_PROBLEM = 3
 
-const hanzi = [ '零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十' ]
+const hanzi = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
 
 /**
  * rise_icon_hr 左侧较宽 TODO
@@ -116,15 +116,15 @@ export default class StudyLine extends React.Component<any, any> {
     } else if(type === 1 || type === 2) {
       const { practicePlanId, integrated } = item
       this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/warmup',
-          query: { practicePlanId, integrated, planId, complete }
-        }) : null
+        pathname: '/rise/static/practice/warmup',
+        query: { practicePlanId, integrated, planId, complete }
+      }) : null
     } else if(type === 11 || type === 12) {
       const { practicePlanId, practiceId, integrated } = item
       this.context ? this.context.router.push({
-          pathname: '/rise/static/practice/application',
-          query: { id: practiceId, practicePlanId, integrated, planId, complete }
-        }) : null
+        pathname: '/rise/static/practice/application',
+        query: { id: practiceId, practicePlanId, integrated, planId, complete }
+      }) : null
     }
   }
 
@@ -184,7 +184,7 @@ export default class StudyLine extends React.Component<any, any> {
           status = 'complete'
         }
         if(!this.learningContainer) {
-          this.learningContainer = ".practice-" + item.practicePlanId
+          this.learningContainer = '.practice-' + item.practicePlanId
         }
       } else if(item.status === 1) {
         status = 'complete'
@@ -193,9 +193,11 @@ export default class StudyLine extends React.Component<any, any> {
         <MarkBlock func={'课程提纲'} action={'点击练习'} memo={item.type}
                    className={`practice-detail practice-${item.practicePlanId}`}
                    onClick={() => this.onPracticeSelected(item)}>
-          { (type > 0 || status == 'locked') && <div className={`status-line`}></div> }
-          { (type > 0 || status == 'locked') && <div className={`status ${status}`}></div> }
-          {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
+          <div className="line-tip">
+            {(type > 0 || status == 'locked') && <div className={`status-line`}></div>}
+            {(type > 0 || status == 'locked') && <div className={`status ${status}`}></div>}
+            {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
+          </div>
           <div className={`practice-column ${status}`}>
             <div className={`title ${status}`}>{title}
               {item.status === 0 && <div className={`start-practice ${status}`}></div>}
@@ -214,7 +216,7 @@ export default class StudyLine extends React.Component<any, any> {
               const { sections, chapter } = item
               return (
                 <div key={index} className={`chapter`}>
-                  {'第' + hanzi[ chapter ] + '章 '}{item.name}
+                  {'第' + hanzi[chapter] + '章 '}{item.name}
                   {
                     sections.map((item, index) => {
                       let title = chapter + '.' + item.section + ' ' + item.name
@@ -256,9 +258,11 @@ export default class StudyLine extends React.Component<any, any> {
         {renderChapter()}
         <ColumnSpan height={1} backgroundColor={'#eee'}/>
         {renderReview()}
-        <FooterButton btnArray={[{ click: () =>
-              this.context.router.push({pathname:'/rise/static/course/schedule/plan'})
-              , text: '返回学习页面' }]}/>
+        <FooterButton btnArray={[{
+          click: () =>
+            this.context.router.push({ pathname: '/rise/static/course/schedule/plan' })
+          , text: '返回学习页面'
+        }]}/>
       </div>
     )
 
