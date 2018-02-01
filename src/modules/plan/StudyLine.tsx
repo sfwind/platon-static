@@ -82,7 +82,7 @@ export default class StudyLine extends React.Component<any, any> {
     const { problemId } = data
 
     if(status === -1) {
-      dispatch(alertMsg('完成前一节的必做题，才能解锁本小节<br><br>学习和内化，都需要循序渐进哦'))
+      dispatch(alertMsg('完成之前的任务，这一组才能解锁<br> 学习和内化，都需要循序渐进哦'))
       return
     }
     if(status === -3) {
@@ -212,7 +212,7 @@ export default class StudyLine extends React.Component<any, any> {
                    className={`practice-detail practice-${item.practicePlanId}`}
                    onClick={() => this.onPracticeSelected(item)}>
           <div className="line-tip">
-            {(type > 0 || status == 'locked') && <div className={`status-line ${isLast && 'last'}`}></div>}
+            {(type > 0 || status == 'locked') && <div className={`status-line ${isLast && 'last'} ${type < 0 && 'review'}`}></div>}
             {(type > 0 || status == 'locked') && <div className={`status ${status}`}></div>}
             {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
           </div>
