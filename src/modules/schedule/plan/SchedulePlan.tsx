@@ -191,7 +191,7 @@ export default class SchedulePlan extends React.Component
                 </div>
               </div>
               <div className="plan-title-below">
-                {item.problem.problem}
+                {item.problem.abbreviation+'：'+item.problem.problem}
               </div>
               <div className="plan-stamp" />
             </div>

@@ -27,7 +27,8 @@ export default class StudyLine extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      data: {}
+      data: {},
+      anchor:false,
     }
     this.learningContainer = ''
     changeTitle('课程学习')
@@ -65,7 +66,7 @@ export default class StudyLine extends React.Component<any, any> {
     const { problemId } = data
 
     if(status === -1) {
-      dispatch(alertMsg('完成前一节的必做题（知识点+测试题+1道应用题），才能解锁本小节<br><br>学习和内化，都需要循序渐进哦'))
+      dispatch(alertMsg('完成前一节的必做题，才能解锁本小节<br><br>学习和内化，都需要循序渐进哦'))
       return
     }
     if(status === -3) {
@@ -129,8 +130,9 @@ export default class StudyLine extends React.Component<any, any> {
   }
 
   componentDidUpdate() {
-    if(this.learningContainer) {
+    if(this.learningContainer && !this.state.anchor) {
       scrollToHeight(this.learningContainer, -125)
+      this.setState({anchor:true})
     }
   }
 
@@ -148,7 +150,7 @@ export default class StudyLine extends React.Component<any, any> {
     const renderPreview = () => {
       return (
         <div className="preview-practice">
-          <div className="preview-title">课程准备</div>
+          <div className="preview-title">课前准备</div>
           {
             preview.map((item, index) => {
               let title = ''
