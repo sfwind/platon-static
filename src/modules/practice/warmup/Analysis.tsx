@@ -214,10 +214,10 @@ export class Analysis extends React.Component <any, any> {
             <div className="analysis-context"
                  dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
             {integrated == 'false' &&
-              <div className="knowledge-link"
-                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
-                点击查看相关知识点
-              </div>
+            <div className="knowledge-link"
+                 onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
+              点击查看相关知识点
+            </div>
             }
           </div>
           <div className="discuss-container">
@@ -285,19 +285,20 @@ export class Analysis extends React.Component <any, any> {
     }
 
     return (
-        <div className="warm-up-container">
-          <SectionProgressHeader ref={'sectionProgress'} planId={planId}
-                                 practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
-          {questionRender(practice[currentIndex] || {})}
-          {showDiscuss && <div className="padding-comment-dialog"/>}
-          <div>
-            {
-              !showDiscuss &&
-              <FooterButton btnArray={[
+      <div className="warm-up-container">
+        <SectionProgressHeader ref={'sectionProgress'} planId={planId}
+                               practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
+        {questionRender(practice[currentIndex] || {})}
+        {showDiscuss && <div className="padding-comment-dialog"/>}
+        <div>
+          {
+            !showDiscuss &&
+            <FooterButton btnArray={[
               {
                 click: () => {
                   this.prev()
                 },
+                className: `${currentIndex === 0 && 'disable'}`,
                 text: '上一题'
               },
               {
@@ -309,18 +310,18 @@ export class Analysis extends React.Component <any, any> {
                 text: '下一题'
               }
             ]}/>
-            }
-            {
-              showDiscuss ?
-                <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                         submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                         cancel={() => this.cancel()}/> :
-                <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-                  <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-                </div>
-            }
-          </div>
+          }
+          {
+            showDiscuss ?
+              <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                       submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                       cancel={() => this.cancel()}/> :
+              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
+                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
+              </div>
+          }
         </div>
+      </div>
 
     )
   }
