@@ -40,22 +40,6 @@ export default class StudyLine extends React.Component<any, any> {
   }
 
   async componentWillMount() {
-
-    // document.body.addEventListener('touchmove', ev => {
-    //   console.log(ev.path)
-    //   let node = document.getElementById('study-line-content')
-    //   if(node) {
-    //     if(ev.path.indexOf(node) > 0) {
-    //       alert(1)
-    //       ev.preventDefault()
-    //     } else {
-    //       alert(2)
-    //     }
-    //   } else {
-    //     alert(3)
-    //   }
-    // }, true)
-
     mark({
       module: '打点',
       function: '学习页面',
@@ -216,7 +200,8 @@ export default class StudyLine extends React.Component<any, any> {
                    className={`practice-detail practice-${item.practicePlanId}`}
                    onClick={() => this.onPracticeSelected(item)}>
           <div className="line-tip">
-            {(type > 0 || status == 'locked') && <div className={`status-line ${isLast && 'last'} ${type < 0 && 'review'}`}></div>}
+            {(type > 0 || status == 'locked') &&
+            <div className={`status-line ${isLast && 'last'} ${type < 0 && 'review'}`}></div>}
             {(type > 0 || status == 'locked') && <div className={`status ${status}`}></div>}
             {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
           </div>
