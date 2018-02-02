@@ -8,7 +8,6 @@ import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
-require("jquery-circle-progress")
 var $ = require('jquery')
 
 const sequenceMap = {

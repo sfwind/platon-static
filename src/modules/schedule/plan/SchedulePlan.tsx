@@ -12,8 +12,8 @@ import { openAudition } from '../../problem/async'
 import { ToolBar } from '../../base/ToolBar'
 import { ColumnSpan } from '../../../components/ColumnSpan'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
-require("jquery-circle-progress")
 var $ = require('jquery')
+
 
 const { Alert } = Dialog
 
