@@ -157,7 +157,7 @@ export class Main extends React.Component <any, any> {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
     }
-    if(openConsolidation) {
+    if(!openConsolidation) {
       consolidationStatus().then(res => {
         const { code, msg } = res
         if(code === 200) {
@@ -222,7 +222,7 @@ export class Main extends React.Component <any, any> {
     } = this.state
     const { planId } = this.props.location.query
     const { total, rightNumber, point } = data
-    const { openConsolidation } = openStatus
+    const { openConsolidation = true } = openStatus
     const { practice = [] } = list
 
     const questionRender = (practice) => {
