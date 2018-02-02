@@ -293,7 +293,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
               return (
                 <FooterButton btnArray={[{
                   click: () => window.history.back(),
-                  text: '返回'
+                  text: '返回大纲'
                 }]}/>
               )
             }

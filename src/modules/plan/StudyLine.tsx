@@ -266,8 +266,8 @@ export default class StudyLine extends React.Component<any, any> {
         </div>
         <FooterButton btnArray={[{
           click: () =>
-            this.context.router.push({ pathname: '/rise/static/course/schedule/plan' })
-          , text: '返回学习页面'
+            window.location.href ='/rise/static/learn'
+          , text: '返回学习页面', className : styleType
         }]}/>
       </div>
     )

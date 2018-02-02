@@ -4,7 +4,8 @@ import './FooterButton.less'
 interface SubmitButtonProps {
   btnArray: {
     click: any,
-    text: string
+    text: string,
+    className?: string
   }
 }
 
@@ -21,10 +22,10 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
   render() {
     const { btnArray = [] } = this.props
     if(btnArray.length === 1) {
-      const { click, text } = btnArray[0]
+      const { click, text, className } = btnArray[0]
       return (
-        <div className="ft-button-wrapper button-footer">
-          <div className="submit-btn" onClick={() => click()}>{text}</div>
+        <div className="ft-button-wrapper button-footer" >
+          <div className={`submit-btn ${className && className}`} onClick={() => click()}>{text}</div>
         </div>
       )
     } else {
@@ -32,9 +33,9 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
         <div className="ft-button-wrapper button-footer two-buttons">
           {
             btnArray.map((btn, idx) => {
-              const { click, text } = btn
+              const { click, text, className } = btn
               return (
-                <div className="button" key={idx} onClick={() => click()}>
+                <div className={`button ${className && className}`} style={style} key={idx} onClick={() => click()}>
                   {text}
                 </div>
               )
