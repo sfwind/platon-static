@@ -513,7 +513,7 @@ export class Main extends React.Component <any, any> {
             return (
               <FooterButton btnArray={[{ click: () =>
                 this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, true),
-                text: '下一步' }]}/>
+                text: '下一题' }]}/>
             )
           } else {
             return (

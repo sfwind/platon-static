@@ -114,7 +114,7 @@ export class KnowledgeReview extends React.Component<any, any> {
           practicePlanId &&
           <FooterButton btnArray={[{
               click: () => this.handleClickGoWarmup(practicePlanId),
-              text: complete == 'true' ? '下一步':'标记完成'
+              text: complete == 'true' ? '下一题':'标记完成'
             }]}/>
         }
       </div>

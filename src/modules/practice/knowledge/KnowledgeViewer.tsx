@@ -348,7 +348,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
             practicePlanId && !showDiscuss &&
             <FooterButton btnArray={[{
               click: () => this.handleClickGoWarmup(practicePlanId),
-              text: complete == 'true' ? '下一步':'标记完成'
+              text: complete == 'true' ? '下一题':'标记完成'
             }]}/>
           }
           {

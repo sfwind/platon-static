@@ -189,22 +189,26 @@ export default class StudyLine extends React.Component<any, any> {
       if(item.type === 101 || item.type === 102) {
         type = -1
       }
+      //锁定的练习不高亮
       if(item.status < 0) {
         status = 'locked'
-      } else if(item.status == 0) {
+      } else if(item.status === 0) {
         if(type > 0) {
+          //只有第一个进行中练习高亮
           if(styleType === 'major') {
             status = 'major_running'
           } else {
             status = 'minor_running'
           }
         } else {
+          //延伸练习和学习报告不高亮
           status = 'complete'
         }
         if(!this.learningContainer) {
           this.learningContainer = '.practice-' + item.practicePlanId
         }
       } else if(item.status === 1) {
+        //已完成的练习
         status = 'complete'
       }
       return (

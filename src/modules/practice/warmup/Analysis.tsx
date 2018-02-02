@@ -306,7 +306,7 @@ export class Analysis extends React.Component <any, any> {
                     this.next() :
                     this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION)
                 },
-                text: currentIndex + 1 < practiceCount ? '下一题' : '下一步'
+                text: '下一题'
               }
             ]}/>
             }
