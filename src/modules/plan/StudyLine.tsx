@@ -118,7 +118,7 @@ export default class StudyLine extends React.Component<any, any> {
       const { practicePlanId, integrated } = item
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/warmup',
-        query: { practicePlanId, integrated, planId, complete }
+        query: { practicePlanId, planId, complete }
       }) : null
     } else if(type === 11 || type === 12) {
       const { practicePlanId, practiceId, integrated } = item
