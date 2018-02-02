@@ -3,13 +3,14 @@
 .study-line-container {
   display: block;
   height: 100vh;
-  position: relative;
+  position: absolute;
+  width: 100%;
 
   .study-line-content {
     box-sizing: border-box;
     position: absolute;
     width: 100%;
-    top: 12.5rem;
+    top: 11.5rem;
     bottom: 5rem;
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
@@ -52,7 +53,7 @@
         background: @color_weak;
         &.last {
           height: 5.6rem;
-          &.review{
+          &.review {
             height: 0 !important;
           }
         }
