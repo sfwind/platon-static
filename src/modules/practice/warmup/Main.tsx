@@ -8,6 +8,7 @@ import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+
 var $ = require('jquery')
 
 const sequenceMap = {
@@ -93,13 +94,13 @@ export class Main extends React.Component <any, any> {
     if(storageDraft && storageDraft.id == practicePlanId) {
       let { selectedChoices } = storageDraft
       if(selectedChoices.length >= currentIndex + 1) {
-        selectedChoices[ currentIndex ] = _list
+        selectedChoices[currentIndex] = _list
       } else {
         selectedChoices.push(_list)
       }
     } else {
       // 初始化
-      storageDraft = { id: practicePlanId, selectedChoices: [ _list ] }
+      storageDraft = { id: practicePlanId, selectedChoices: [_list] }
     }
     window.localStorage.setItem(WARMUP_AUTO_SAVING, JSON.stringify(storageDraft))
     this.setState({ selected: _list })
@@ -119,7 +120,7 @@ export class Main extends React.Component <any, any> {
     const { currentIndex, list } = this.state
     if(currentIndex > 0) {
       this.setChoice()
-      const selected = list.practice[ `${currentIndex - 1}` ].choice
+      const selected = list.practice[`${currentIndex - 1}`].choice
       this.setState({ currentIndex: currentIndex - 1, selected })
       dispatch(set('warmup_currentIndex', currentIndex - 1))
       window.scrollTo(0, 0)
@@ -136,7 +137,7 @@ export class Main extends React.Component <any, any> {
 
     if(currentIndex < practiceCount - 1) {
       this.setChoice()
-      let selected = list.practice[ `${currentIndex + 1}` ].choice
+      let selected = list.practice[`${currentIndex + 1}`].choice
       if(!selected) {
         selected = []
       }
@@ -191,7 +192,7 @@ export class Main extends React.Component <any, any> {
                 size: 138,
                 startAngle: -Math.PI / 2,
                 fill: {
-                  gradient: [ "#FF983F", "#FFC701" ]
+                  gradient: ['#FF983F', '#FFC701']
                 }
               })
             })
@@ -248,8 +249,8 @@ export class Main extends React.Component <any, any> {
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          { integrated == 'false' && <div className="knowledge-link"
-                                          onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
+          {integrated == 'false' && <div className="knowledge-link"
+                                         onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
             不确定?瞄一眼知识点
           </div>
           }
@@ -262,9 +263,9 @@ export class Main extends React.Component <any, any> {
       return (
         <div key={id} className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}
              onClick={e => this.onChoiceSelected(id)}>
-          <span className={`index ${selected.indexOf(id) > -1 ? ' selected' : ''}`}>{sequenceMap[ idx ]}</span>
+          <span className={`index ${selected.indexOf(id) > -1 ? ' selected' : ''}`}>{sequenceMap[idx]}</span>
           <span
-            className={`text`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
+            className={`text`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
         </div>
       )
     }
@@ -273,14 +274,14 @@ export class Main extends React.Component <any, any> {
       <div className="warm-up-container">
         <SectionProgressHeader ref={'sectionProgress'} planId={planId}
                                practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
-        { !openConsolidation && <div className="progress-section-tip">
-          <div className="tip-angle" />
+        {!openConsolidation && <div className="progress-section-tip">
+          <div className="tip-angle"/>
           点这里可以回看学过的知识点
-        </div> }
-        {questionRender(practice[ currentIndex ] || {})}
+        </div>}
+        {questionRender(practice[currentIndex] || {})}
 
         <FooterButton btnArray={[
-          { click: () => this.prev(), text: '上一题' },
+          { click: () => this.prev(), text: '上一题', className: `${currentIndex == 0 && 'disable'}` },
           {
             click: () => {
               currentIndex !== practiceCount - 1 ?
@@ -289,7 +290,7 @@ export class Main extends React.Component <any, any> {
             text: currentIndex !== practiceCount - 1 ? '下一题' : '提交'
           }
         ]}/>
-        {  submit &&
+        {submit &&
         <div className="result-mask">
           <div className="result-dialog">
             <div className="result">
@@ -298,7 +299,7 @@ export class Main extends React.Component <any, any> {
             </div>
             <div className="award-title">获得奖励</div>
             <div className="award-detail">任务得分{' '}<span>{'+' + point}</span></div>
-            <div className="go-analysis" onClick={()=>this.goAnalysis()}>查看解析</div>
+            <div className="go-analysis" onClick={() => this.goAnalysis()}>查看解析</div>
           </div>
         </div>
         }
