@@ -167,6 +167,8 @@ export default class StudyLine extends React.Component<any, any> {
     }
 
     const renderPractice = (title, item, isLast) => {
+      console.log(item)
+
       let status = ''
       let type = 1
       //延伸学习，学习报告 type=-1
@@ -205,7 +207,14 @@ export default class StudyLine extends React.Component<any, any> {
             {(type > 0 || status == 'locked') && <div className={`status ${status}`}></div>}
             {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
           </div>
-          <div className={`title ${status}`}>{title}
+          <div className={`title ${status} ${status === 'complete' && item.practicePlanId && 'bugstyle'}`}>
+            <div className="title-name">{title}</div>
+            {
+              status === 'complete' && item.practicePlanId &&
+              <div className="complete-tips">
+                已完成 {item.completePractices} / {item.totalPractices} 题
+              </div>
+            }
             {item.status === 0 && <div className={`start-practice ${status}`}></div>}
           </div>
         </MarkBlock>
@@ -266,8 +275,8 @@ export default class StudyLine extends React.Component<any, any> {
         </div>
         <FooterButton btnArray={[{
           click: () =>
-            window.location.href ='/rise/static/learn'
-          , text: '返回学习页面', className : styleType
+            window.location.href = '/rise/static/learn'
+          , text: '返回学习页面', className: styleType
         }]}/>
       </div>
     )
