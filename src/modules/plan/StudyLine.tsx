@@ -3,7 +3,7 @@ import './StudyLine.less'
 import { connect } from 'react-redux'
 import { loadStudyline } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
-import { changeTitle, scrollToHeight } from '../../utils/helpers'
+import { changeTitle, scroll } from '../../utils/helpers'
 import { mark } from '../../utils/request'
 import { Dialog } from 'react-weui'
 import { ColumnSpan } from '../../components/ColumnSpan'
@@ -131,7 +131,7 @@ export default class StudyLine extends React.Component<any, any> {
 
   componentDidUpdate() {
     if(this.learningContainer && !this.state.anchor) {
-      scrollToHeight(this.learningContainer, -125)
+      scroll(this.learningContainer, '.study-line-content')
       this.setState({ anchor: true })
     }
   }
@@ -190,7 +190,7 @@ export default class StudyLine extends React.Component<any, any> {
           //延伸练习和学习报告不高亮
           status = 'complete'
         }
-        if(!this.learningContainer) {
+        if(!this.learningContainer && item.practicePlanId) {
           this.learningContainer = '.practice-' + item.practicePlanId
         }
       } else if(item.status === 1) {
@@ -207,12 +207,12 @@ export default class StudyLine extends React.Component<any, any> {
             {(type > 0 || status == 'locked') && <div className={`status ${status}`}></div>}
             {item.status === 0 && type > 0 && <div className={`start-learning ${status}`}>学习</div>}
           </div>
-          <div className={`title ${status} ${status === 'complete' && item.practicePlanId && 'bugstyle'}`}>
+          <div className={`title ${status} ${status === 'complete' && item.practicePlanId && 'complete-style'}`}>
             <div className="title-name">{title}</div>
             {
               status === 'complete' && item.practicePlanId &&
               <div className="complete-tips">
-                已完成 {item.completePractices} / {item.totalPractices} 题
+                已完成 {item.completePractices}/{item.totalPractices}
               </div>
             }
             {item.status === 0 && <div className={`start-practice ${status}`}></div>}
