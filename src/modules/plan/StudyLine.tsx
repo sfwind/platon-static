@@ -1,15 +1,17 @@
 import * as React from 'react'
 import './StudyLine.less'
 import { connect } from 'react-redux'
-import { loadStudyline } from './async'
+import { loadStudyline, gradeProblem } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import { changeTitle, scroll } from '../../utils/helpers'
+import { merge } from 'lodash'
 import { mark } from '../../utils/request'
 import { Dialog } from 'react-weui'
 import { ColumnSpan } from '../../components/ColumnSpan'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import { ProblemTitle } from '../problem/components/ProblemTitle'
 import { FooterButton } from '../../components/submitbutton/FooterButton'
+import DropChoice from '../../components/DropChoice'
 
 const { Alert } = Dialog
 
@@ -28,7 +30,54 @@ export default class StudyLine extends React.Component<any, any> {
     super()
     this.state = {
       data: {},
-      anchor: false
+      anchor: false,
+      showScoreModal: false,
+      questionList: [
+        {
+          id: 1,
+          subject: '你已完成了本课程的训练<br/>对本课程的学习难度打个分吧',
+          choiceList: [
+            {
+              id: 5,
+              subject: '非常难'
+            }, {
+              id: 4,
+              subject: '比较难'
+            }, {
+              id: 3,
+              subject: '适中'
+            }, {
+              id: 2,
+              subject: '较简单'
+            }, {
+              id: 1,
+              subject: '很简单'
+            }
+          ]
+        },
+        {
+          id: 2,
+          subject: '本课程的训练对工作/生活有用吗？',
+          choiceList: [
+            {
+              id: 5,
+              subject: '非常实用，大部分能马上应用'
+            }, {
+              id: 4,
+              subject: '较为实用，不少能实际应用'
+            }, {
+              id: 3,
+              subject: '实用性一般，要找找应用场景'
+            }, {
+              id: 2,
+              subject: '不太实用，偶尔能用上'
+            }, {
+              id: 1,
+              subject: '大部分不能应用'
+            }
+          ]
+        }
+      ],
     }
     this.learningContainer = ''
     changeTitle('课程学习')
@@ -51,10 +100,12 @@ export default class StudyLine extends React.Component<any, any> {
 
     let res = await loadStudyline(location.query.planId)
     dispatch(endLoad())
-    if(res.code === 200) {
-      this.setState({ data: res.msg })
+    const {msg, code} = res
+    console.log(msg.grade)
+    if(code === 200) {
+      this.setState({ data: msg, showScoreModal: !msg.grade })
     } else {
-      dispatch(alertMsg(res.msg))
+      dispatch(alertMsg(msg))
     }
   }
 
@@ -129,6 +180,30 @@ export default class StudyLine extends React.Component<any, any> {
     }
   }
 
+  submitScore(questionList) {
+    const { data } = this.state
+    const { dispatch } = this.props
+    const { problemId } = data
+    let problemScores = questionList.map(item => {
+      let selectedChoice
+      item.choiceList.forEach(choice => {
+        if(choice.selected) {
+          selectedChoice = choice.id
+        }
+      })
+      return { question: item.id, choice: selectedChoice }
+    })
+    dispatch(startLoad())
+    gradeProblem(problemScores, problemId).then(res => {
+      dispatch(endLoad())
+      this.setState({ showScoreModal: false, data: merge({}, data, { hasProblemScore: true }) })
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+
+  }
+
   componentDidUpdate() {
     if(this.learningContainer && !this.state.anchor) {
       scroll(this.learningContainer, '.study-line-content')
@@ -137,8 +212,8 @@ export default class StudyLine extends React.Component<any, any> {
   }
 
   render() {
-    const { data } = this.state
-    const { problemType, problemId, preview = [], review = [], chapters = [] } = data
+    const { data, showScoreModal } = this.state
+    const { problemType, problemId, preview = [], review = [], chapters = [], grade } = data
 
     let styleType = ''
     if(problemType === MAJOR_PROBLEM) {
@@ -167,8 +242,6 @@ export default class StudyLine extends React.Component<any, any> {
     }
 
     const renderPractice = (title, item, isLast) => {
-      console.log(item)
-
       let status = ''
       let type = 1
       //延伸学习，学习报告 type=-1
@@ -265,6 +338,10 @@ export default class StudyLine extends React.Component<any, any> {
 
     return (
       <div className="study-line-container">
+        { showScoreModal &&
+        <DropChoice onSubmit={(questionList) => this.submitScore(questionList)}
+                    onClose={() => this.setState({ showScoreModal: false })}
+                    questionList={this.state.questionList}/> }
         <ProblemTitle problemId={problemId}/>
         <div id={'study-line-content'} className="study-line-content">
           {renderPreview()}
