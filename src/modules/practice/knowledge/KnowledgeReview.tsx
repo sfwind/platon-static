@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './KnowledgeReview.less'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { mark } from '../../../utils/request'
-import { knowledgeReview, learnKnowledge} from './async'
+import { knowledgeReview, learnKnowledge } from './async'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
@@ -84,7 +84,7 @@ export class KnowledgeReview extends React.Component<any, any> {
       return (
         <div key={idx}>
           <div className='chapter'>{'第' + chapter.chapter + '章 '}{chapter.name}</div>
-          {sections ? sections.map((section, idx) => renderSection(section, idx, chapter.chapter)) : null}
+          {sections && sections.map((section, idx) => renderSection(section, idx, chapter.chapter)) }
         </div>
       )
     }
@@ -103,7 +103,8 @@ export class KnowledgeReview extends React.Component<any, any> {
 
     return (
       <div className="knowledge-review-container">
-        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>
+        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0}
+                               planId={planId}/>
         <div className="detail-header">
           课程知识点
         </div>

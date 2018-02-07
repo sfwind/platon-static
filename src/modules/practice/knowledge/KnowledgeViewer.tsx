@@ -60,9 +60,9 @@ export class KnowledgeViewer extends React.Component<any, any> {
     if(practicePlanId) {
       loadKnowledges(practicePlanId).then(res => {
         if(res.code === 200) {
-          this.setState({ knowledge: res.msg[0], referenceId: res.msg[0].id })
+          this.setState({ knowledge: res.msg[ 0 ], referenceId: res.msg[ 0 ].id })
           dispatch(endLoad())
-          loadDiscuss(res.msg[0].id, 1).then(res => {
+          loadDiscuss(res.msg[ 0 ].id, 1).then(res => {
             if(res.code === 200) {
               this.setState({ discuss: res.msg })
             }
@@ -218,7 +218,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
       return (
         <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
-            {sequenceMap[idx]}
+            {sequenceMap[ idx ]}
           </span>
           <span className={`subject`}>{subject}</span>
         </div>
@@ -226,7 +226,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
 
     return (
@@ -251,12 +251,12 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
-                {analysisAudio ?
-                  <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> : null}
+                {analysisAudio &&
+                <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: analysis }}/>
                 </div>
-                {analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null}
+                {analysisPic && <div className="context-img"><img src={analysisPic}/></div> }
               </div>
             }
             {
