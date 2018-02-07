@@ -9,7 +9,6 @@ import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import _ from 'lodash'
 import { scroll } from '../../../utils/helpers'
-import RenderInBody from '../../../components/RenderInBody'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 

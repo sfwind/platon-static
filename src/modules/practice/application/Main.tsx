@@ -373,13 +373,13 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-          this.setState({ completedApplicationCnt: res.msg, showCardPrinter: true }, () => {
+          this.setState({ completedApplicationCnt: res.msg }, () => {
             window.scrollTo(0, 0)
           })
         }
-        if(complete == 'false') {
-          dispatch(set('completePracticePlanId', practicePlanId))
-        }
+        // if(complete == 'false') {
+        //   dispatch(set('completePracticePlanId', practicePlanId))
+        // }
         dispatch(startLoad())
         loadApplicationPractice(location.query.id, planId).then(res => {
           dispatch(endLoad())
@@ -422,9 +422,10 @@ export class Main extends React.Component <any, any> {
   render() {
     const {
       data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
-      showCompletedBox = false, showCardPrinter, completedApplicationCnt, integrated, loading, isRiseMember
+      showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember
     } = this.state
     const { planId } = this.props.location.query
+    const { completePracticePlanId, dispatch } = this.props
     const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
       if(list) {
@@ -488,13 +489,11 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderCardPrinter = () => {
-      if(problemId && this.props.location.query.practicePlanId && firstSubmit) {
-        if(showCardPrinter && isBaseApplication) {
-          return (
-            <CardPrinter problemId={problemId} afterClose={()=>this.setState({showCardPrinter:false})}
-                         completePracticePlanId={this.props.location.query.practicePlanId}/>
-          )
-        }
+      if(problemId && completePracticePlanId) {
+        return (
+          <CardPrinter problemId={problemId} afterClose={()=>dispatch(set(completePracticePlanId, undefined))}
+                       completePracticePlanId={this.props.location.query.practicePlanId}/>
+        )
       }
     }
 
