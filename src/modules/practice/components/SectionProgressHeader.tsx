@@ -29,7 +29,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
 
   PROGRESS_TEXT = [
     '知识点',
-    '测试题',
+    '选择题',
     '应用题',
     '附加题'
   ]

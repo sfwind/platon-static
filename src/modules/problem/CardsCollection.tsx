@@ -5,7 +5,6 @@ import { startLoad, endLoad, alertMsg } from 'redux/actions'
 import AssetImg from '../../components/AssetImg'
 import { loadCardData, loadEssenceCard, loadProblemCards } from './async'
 import { mark } from '../../utils/request'
-import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 // 课程卡包
 interface CardsCollectionStates {
@@ -70,6 +69,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       dispatch(alertMsg('快完成这一章学习<br/>解锁神秘知识卡吧'))
       return
     }
+    mark({module:"打包", func: "课程卡包页", action:"点击章节知识卡"})
     const { essenceCardMap } = this.state
     let tempCard = essenceCardMap.get(chapterId)
     if(tempCard) {
@@ -100,11 +100,9 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
           {
             cards.map((card, index) => {
               return (
-                <MarkBlock module={'打点'} func={'课程卡包页'} action={'点击章节知识卡'}>
-                 <Card img={card.thumbnail} lockImg={card.thumbnailLock} chapterNo={card.chapterNo} key={index}
-                      chapter={card.chapter} completed={card.completed}
-                      onClick={() => this.handleClickLoadCard(card.problemId, card.chapterId, card.completed)}/>
-                </MarkBlock>
+                <Card img={card.thumbnail} lockImg={card.thumbnailLock} chapterNo={card.chapterNo} key={index}
+                    chapter={card.chapter} completed={card.completed}
+                    onClick={() => this.handleClickLoadCard(card.problemId, card.chapterId, card.completed)}/>
               )
             })
 
