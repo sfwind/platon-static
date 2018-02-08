@@ -32,7 +32,6 @@ export default class ForumQuestion extends React.Component<any,any> {
       } else {
         dispatch(alertMsg(res.msg));
       }
-      console.log('question', res.msg);
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
@@ -45,7 +44,6 @@ export default class ForumQuestion extends React.Component<any,any> {
       } else {
         dispatch(alertMsg(res.msg));
       }
-      console.log('answers', res.msg);
     }).catch(ex => {
       dispatch(endLoad());
       dispatch(alertMsg(ex));
@@ -53,7 +51,6 @@ export default class ForumQuestion extends React.Component<any,any> {
   }
 
   handleClickQuestion(question) {
-    console.log(question);
     this.context.router.push({
       pathname: "/forum/static/answer",
       query: { questionId: question.id }

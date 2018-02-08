@@ -56,7 +56,6 @@ export default class PlanList extends React.Component<any, any> {
     dispatch(startLoad())
 
     loadPlanList().then(res => {
-      console.log(res)
       dispatch(endLoad())
       if(res.code === 200) {
         const { runningPlans = [], riseMember, recommendations = [], currentCampPlans = [], auditions = [] } = res.msg

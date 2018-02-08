@@ -164,7 +164,7 @@ export class PlanMain extends React.Component <any, any> {
       let completePracticePlanId = this.props.CompleteChapterPracticePlanId
       // 如果当前 redux 存储最近完成的课程是本章的最后一节，则调用接口，获取当前章节卡片
       if(completePracticePlanId) {
-        dispatch(set('CompleteChapterPracticePlanId', undefined))
+        dispatch(set('completeChapterPracticePlanId', undefined))
         loadChapterCardAccess(blockMsg.problemId, completePracticePlanId).then(res => {
           if(res.code === 200) {
             if(res.msg) {

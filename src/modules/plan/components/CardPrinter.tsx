@@ -26,18 +26,16 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
   }
 
   componentWillMount() {
-    const { problemId, completePracticePlanId } = this.props
-    this.loadData(problemId, completePracticePlanId)
+    const { problemId, completeChapterPracticePlanId } = this.props
+    this.loadData(problemId, completeChapterPracticePlanId)
   }
 
   componentDidMount(){
     const { dispatch } = this.props
-    dispatch(set('completePracticePlanId', undefined))
+    dispatch(set('completeChapterPracticePlanId', undefined))
   }
 
   loadData(problemId, completePracticePlanId) {
-    console.log(problemId)
-    console.log(completePracticePlanId)
     if(problemId && completePracticePlanId) {
       loadChapterCardAccess(problemId, completePracticePlanId).then(res => {
         if(res.code === 200) {

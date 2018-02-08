@@ -74,8 +74,6 @@ export class KnowledgeViewer extends React.Component<any, any> {
       })
 
       if(complete == 'false') {
-        // 章节完成，供弹出卡片使用
-        dispatch(set('CompleteChapterPracticePlanId', practicePlanId))
         // 完成练习动效
         dispatch(set('completePracticePlanId', practicePlanId))
       }

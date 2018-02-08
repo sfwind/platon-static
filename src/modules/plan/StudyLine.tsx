@@ -95,14 +95,19 @@ export default class StudyLine extends React.Component<any, any> {
       action: '打开新学习页面'
     })
 
-    const { dispatch, location } = this.props
+    const { dispatch, location, completePracticePlanId } = this.props
     dispatch(startLoad())
 
     let res = await loadStudyline(location.query.planId)
     dispatch(endLoad())
     const { msg, code } = res
     if(code === 200) {
-      this.setState({ data: msg, showScoreModal: msg.needGrade })
+      let showScoreModal = false
+      if(completePracticePlanId) {
+        dispatch(set('completePracticePlanId', undefined))
+        showScoreModal = msg.needGrade
+      }
+      this.setState({ data: msg, showScoreModal })
     } else {
       dispatch(alertMsg(msg))
     }

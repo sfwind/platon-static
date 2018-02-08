@@ -185,7 +185,7 @@ export class Main extends React.Component <any, any> {
             dispatch(set('completePracticePlanId', practicePlanId))
             this.clearStorage()
             // redux 存储弹卡片弹出区分变量
-            dispatch(set('CompleteChapterPracticePlanId', practicePlanId))
+            dispatch(set('completeChapterPracticePlanId', practicePlanId))
             this.setState({ data: msg, submit: true }, () => {
               $('.result').circleProgress({
                 value: rightNumber / total,

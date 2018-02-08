@@ -76,7 +76,6 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     let questions = _.get(allGroup, `[${currentIndex}].questions`, []);
     let key = _.findIndex(questions, { id: question.id });
     let result = _.set(_.cloneDeep(group), `questions[${key}]`, _.set(_.cloneDeep(question), keyName, value));
-    console.log(result, 'resut')
     let newGroups = _.cloneDeep(allGroup);
     newGroups[ currentIndex ] = result;
     this.setState({ allGroup: newGroups }, () => {
