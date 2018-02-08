@@ -4,6 +4,7 @@ import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
 import { loadProblemExtension } from '../../problem/async'
 import './ProblemExtension.less'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
 export default class ProblemExtension extends React.Component<any, any> {
