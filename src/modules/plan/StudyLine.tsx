@@ -352,7 +352,7 @@ export default class StudyLine extends React.Component<any, any> {
         <FooterButton btnArray={[{
           click: () =>
             window.location.href = '/rise/static/learn'
-          , text: '返回学习页面', className: styleType
+          , text: '返回大纲页面', className: styleType
         }]}/>
       </div>
     )
