@@ -55,9 +55,12 @@ function SectionToChinese(section) {
   return chnStr
 }
 
-export function scroll(target, container) {
+export function scroll(target, container, delta) {
   if(document.querySelector(target)) {
-    let y = document.querySelector(target).offsetTop
+    let y = document.querySelector(target).offsetTop;
+    if(!!delta) {
+      y = y + delta;
+    }
     if(document.querySelector(container)) {
       document.querySelector(container).scrollTop = y
     }
