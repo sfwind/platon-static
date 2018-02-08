@@ -205,7 +205,7 @@ export default class StudyLine extends React.Component<any, any> {
 
   componentDidUpdate() {
     if(this.learningContainer && !this.state.anchor) {
-      scroll(this.learningContainer, '.study-line-content')
+      scroll(this.learningContainer, '.study-line-content', -160)
       this.setState({ anchor: true })
     }
   }
