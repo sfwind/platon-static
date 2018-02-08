@@ -489,7 +489,7 @@ export class Main extends React.Component <any, any> {
     }
 
     const renderCardPrinter = () => {
-      if(problemId && completePracticePlanId) {
+      if(problemId) {
         return (
           <CardPrinter problemId={problemId}
                        completePracticePlanId={this.props.location.query.practicePlanId}/>

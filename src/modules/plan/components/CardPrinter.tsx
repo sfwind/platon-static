@@ -15,7 +15,7 @@ let endTime
 interface CardPrinterProps {
   problemId: number,
   completePracticePlanId: number,
-  afterClose: any
+  afterClose?: any
 }
 
 @connect(state => state)
@@ -36,6 +36,8 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
   }
 
   loadData(problemId, completePracticePlanId) {
+    console.log(problemId)
+    console.log(completePracticePlanId)
     if(problemId && completePracticePlanId) {
       loadChapterCardAccess(problemId, completePracticePlanId).then(res => {
         if(res.code === 200) {
