@@ -148,7 +148,7 @@ export class Challenge extends React.Component <any, any> {
                       headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}/>
                 <FooterButton btnArray={[{
                   click: () => this.context.router.push({pathname:'/rise/static/plan/study', query:{planId}}),
-                  text: '返回大纲'}]}/>
+                  text: '返回'}]}/>
               </Block>
           }
         </div>

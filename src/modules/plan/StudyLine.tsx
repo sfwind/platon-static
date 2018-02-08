@@ -205,7 +205,7 @@ export default class StudyLine extends React.Component<any, any> {
 
   componentDidUpdate() {
     if(this.learningContainer && !this.state.anchor) {
-      scroll(this.learningContainer, '.study-line-content')
+      scroll(this.learningContainer, '.study-line-content', -160)
       this.setState({ anchor: true })
     }
   }
@@ -352,7 +352,7 @@ export default class StudyLine extends React.Component<any, any> {
         <FooterButton btnArray={[{
           click: () =>
             window.location.href = '/rise/static/learn'
-          , text: '返回学习页面', className: styleType
+          , text: '返回课程列表', className: styleType
         }]}/>
       </div>
     )
