@@ -5,6 +5,8 @@ import AssetImg from '../../../components/AssetImg'
 import { mark } from '../../../utils/request'
 import { loadChapterCard, loadChapterCardAccess } from '../async'
 import { Block } from '../../../components/Block'
+import { connect } from 'react-redux'
+import { set } from '../../../redux/actions'
 
 let printerWaitingTimer = null
 let startTime
@@ -16,6 +18,7 @@ interface CardPrinterProps {
   afterClose: any
 }
 
+@connect(state => state)
 export class CardPrinter extends React.Component <CardPrinterProps, any> {
   constructor() {
     super()
@@ -25,6 +28,11 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
   componentWillMount() {
     const { problemId, completePracticePlanId } = this.props
     this.loadData(problemId, completePracticePlanId)
+  }
+
+  componentDidMount(){
+    const { dispatch } = this.props
+    dispatch(set('completePracticePlanId', undefined))
   }
 
   loadData(problemId, completePracticePlanId) {
@@ -95,7 +103,9 @@ export class CardPrinter extends React.Component <CardPrinterProps, any> {
               <div className="printer-machine" style={{ width: window.innerWidth }}>
                 <div className="printer-close"
                      onClick={() => {
-                       this.props.afterClose()
+                       if(this.props.afterClose){
+                          this.props.afterClose()
+                       }
                        this.setState({ displayCard: false })
                      }}>
                   <div style={{ display: 'inline-block', float: 'right' }}>

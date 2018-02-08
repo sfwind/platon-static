@@ -491,7 +491,7 @@ export class Main extends React.Component <any, any> {
     const renderCardPrinter = () => {
       if(problemId && completePracticePlanId) {
         return (
-          <CardPrinter problemId={problemId} afterClose={()=>dispatch(set(completePracticePlanId, undefined))}
+          <CardPrinter problemId={problemId}
                        completePracticePlanId={this.props.location.query.practicePlanId}/>
         )
       }
