@@ -127,9 +127,8 @@ export class ImprovementReport extends React.Component<any, any> {
   renderBtns() {
     return (
       <RenderInBody>
-        <div className="button-footer">
-          <div className="left" onClick={()=>this.handleClickClose()}>关闭</div>
-          <div className="right" onClick={this.goBack.bind(this)}>返回</div>
+        <div className="button-footer" onClick={()=>this.goBack()}>
+          返回
         </div>
       </RenderInBody>
     )

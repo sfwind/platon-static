@@ -147,7 +147,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Substitute替代",
                   "sequence": 1,
                   "isRight": false,
-                  "selected": true
+                  "selected": null
                 },
                 {
                   "id": 526,
@@ -155,7 +155,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Combine合并",
                   "sequence": 2,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 527,
@@ -163,7 +163,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Adapt适应",
                   "sequence": 3,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 529,
@@ -171,7 +171,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Put to other uses改作他用",
                   "sequence": 4,
                   "isRight": true,
-                  "selected": true
+                  "selected": null
                 }
               ],
               "discussList": [
@@ -301,7 +301,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Substitute替代",
                   "sequence": 1,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 533,
@@ -309,7 +309,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Combine合并",
                   "sequence": 2,
                   "isRight": true,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 534,
@@ -317,7 +317,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Adapt适应",
                   "sequence": 3,
                   "isRight": true,
-                  "selected": true
+                  "selected": null
                 },
                 {
                   "id": 535,
@@ -325,7 +325,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Modify改变",
                   "sequence": 4,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 }
               ],
               "discussList": [],
@@ -371,7 +371,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Substitute替代",
                   "sequence": 1,
                   "isRight": false,
-                  "selected": true
+                  "selected": null
                 },
                 {
                   "id": 540,
@@ -379,7 +379,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Combine合并",
                   "sequence": 2,
                   "isRight": true,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 544,
@@ -387,7 +387,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Eliminate消除",
                   "sequence": 3,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 545,
@@ -395,7 +395,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Reverse反向",
                   "sequence": 4,
                   "isRight": true,
-                  "selected": false
+                  "selected": null
                 }
               ],
               "discussList": [],
@@ -441,7 +441,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Substitute替代",
                   "sequence": 1,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 547,
@@ -449,7 +449,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Adapt适应",
                   "sequence": 2,
                   "isRight": false,
-                  "selected": true
+                  "selected": null
                 },
                 {
                   "id": 548,
@@ -457,7 +457,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Reverse逆向",
                   "sequence": 3,
                   "isRight": true,
-                  "selected": false
+                  "selected": null
                 }
               ],
               "discussList": [],
@@ -503,7 +503,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Reverse逆向",
                   "sequence": 1,
                   "isRight": false,
-                  "selected": true
+                  "selected": null
                 },
                 {
                   "id": 550,
@@ -511,7 +511,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Combine合并",
                   "sequence": 2,
                   "isRight": true,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 551,
@@ -519,7 +519,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Eliminate消除",
                   "sequence": 3,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 }
               ],
               "discussList": [],
@@ -565,7 +565,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Substitute替代",
                   "sequence": 1,
                   "isRight": false,
-                  "selected": true
+                  "selected": null
                 },
                 {
                   "id": 560,
@@ -573,7 +573,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Combine合并",
                   "sequence": 2,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 561,
@@ -581,7 +581,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Adapt适应",
                   "sequence": 3,
                   "isRight": false,
-                  "selected": false
+                  "selected": null
                 },
                 {
                   "id": 562,
@@ -589,7 +589,7 @@ router.get("/rise/practice/warmup/analysis/*", (req, res) => {
                   "subject": "Modify修改",
                   "sequence": 4,
                   "isRight": true,
-                  "selected": false
+                  "selected": null
                 }
               ],
               "discussList": [],
@@ -680,7 +680,8 @@ router.get("/rise/practice/application/start/*", (req, res) => {
           "request": null,
           "feedback": null,
           "draft": null,
-          "draftId": null
+          "draftId": null,
+          "isBaseApplication":true,
         }, "code": 200
       }
     ), Math.random() * 1500)

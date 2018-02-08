@@ -2,7 +2,7 @@ import * as React from 'react'
 import { mark } from '../../utils/request'
 
 interface MarkBlockProps {
-  module: string,
+  module?: string,
   func: string,
   action: string,
   memo?: string
@@ -21,7 +21,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
   }
 
   initParams() {
-    const { module, func, action, memo = '' } = this.props
+    const { module = '打点', func, action, memo = '' } = this.props
     this.setState({
       module: module,
       func: func,
@@ -30,27 +30,28 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     })
   }
 
-  async handleClickMarkBlock(onClickFunc) {
-    const { module, func, action, memo = '' } = this.state
+  handleClickMarkBlock(onClickFunc) {
+    const { module, func, action, memo } = this.state
     let param = {
       module: module,
       function: func,
       action: action,
       memo: memo
     }
-    let res = await mark(param)
-    if(res.code === 200) {
-      onClickFunc()
-    } else {
-      console.error(res.msg)
-    }
+    mark(param).then(res => {
+      if(res.code === 200) {
+        onClickFunc()
+      } else {
+        console.error(res.msg)
+      }
+    }).catch(er => console.error(er))
   }
 
   render() {
-    const { module, func, action, memo, onClick = () => {}, ...other } = this.props
+    const { onClick = () => {} } = this.props
 
     return (
-      <div {...other}
+      <div {...this.props}
            onClick={() => {
              this.handleClickMarkBlock(onClick)
            }}>

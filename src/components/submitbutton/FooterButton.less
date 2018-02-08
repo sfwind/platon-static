@@ -1,35 +1,44 @@
 @import "../../style/variable";
 
 .ft-button-wrapper {
+  width: 100%;
   background: #FFFFFF;
   box-shadow: 0 0 8px 4px rgba(0, 0, 0, .04);
   .submit-btn {
-    height: 40px;
-    margin: 0 6%;
+    height: 3.9rem;
+    bottom: .5rem;
     position: absolute;
-    width: 88%;
-    top: 50%;
-    left: 0;
-    -webkit-transform: translateY(-50%);
-    transform: translateY(-50%);
-    background: rgb(251, 228, 82);
-    border-radius: 20px;
-    font-size: 20px;
-    color: #333;
-    line-height: 40px;
-    overflow: hidden;
+    width: ~"calc(100% - 3rem)";
+    left: 1.5rem;
+    background: #ffB200;
+    font-size: 1.9rem;
+    color: #fff;
+    line-height: 3.9rem;
+    border-radius: 2px;
+    font-weight: bold;
   }
   &.two-buttons {
     display: flex;
     flex-direction: row;
+    font-weight: bold;
+    align-items: center;
+    align-content: space-between;
+    justify-content: center;
     .button {
-      flex: 1;
-      color: #041931;
-      font-size: 1.5rem;
-      &:first-of-type {
-        background: #fdd338;
+      border-radius: 2px;
+      width: 17rem;
+      height: 3.9rem;
+      line-height: 3.9rem;
+      font-size: 1.9rem;
+      color: #fff;
+      &.disable {
+        background: #cccccc !important;
       }
-      background: #ffe51d;
+      &:first-of-type {
+        background: #FDD338;
+        margin-right: 0.5rem;
+      }
+      background: #ffB200;
     }
   }
 }

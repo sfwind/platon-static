@@ -7,9 +7,9 @@ import {
   loadDiscuss,
   discussKnowledge,
   loadKnowledge,
-  learnKnowledge,
   loadKnowledges,
-  deleteKnowledgeDiscuss
+  deleteKnowledgeDiscuss,
+  learnKnowledge
 } from './async'
 import DiscussShow from '../components/DiscussShow'
 import Discuss from '../components/Discuss'
@@ -17,8 +17,10 @@ import _ from 'lodash'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import { scroll } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
-import RenderInBody from '../../../components/RenderInBody'
 import QYVideo from '../../../components/QYVideo'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { Block } from '../../../components/Block'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 
 const sequenceMap = {
   0: 'A',
@@ -30,9 +32,6 @@ const sequenceMap = {
   6: 'G'
 }
 
-/**
- * 知识点页面
- */
 @connect(state => state)
 export class KnowledgeViewer extends React.Component<any, any> {
   constructor() {
@@ -61,9 +60,9 @@ export class KnowledgeViewer extends React.Component<any, any> {
     if(practicePlanId) {
       loadKnowledges(practicePlanId).then(res => {
         if(res.code === 200) {
-          this.setState({ knowledge: res.msg[0], referenceId: res.msg[0].id })
+          this.setState({ knowledge: res.msg[ 0 ], referenceId: res.msg[ 0 ].id })
           dispatch(endLoad())
-          loadDiscuss(res.msg[0].id, 1).then(res => {
+          loadDiscuss(res.msg[ 0 ].id, 1).then(res => {
             if(res.code === 200) {
               this.setState({ discuss: res.msg })
             }
@@ -191,18 +190,18 @@ export class KnowledgeViewer extends React.Component<any, any> {
     })
   }
 
-  complete() {
-    window.history.back()
-    // learnKnowledge(location.query.practicePlanId).then(res => {
-    //   const {code, msg} = res
-    //   if (code === 200) {
-    //     window.history.back();
-    //   }
-    //   else dispatch(alertMsg(msg))
-    // }).catch(ex => {
-    //   dispatch(endLoad())
-    //   dispatch(alertMsg(ex))
-    // })
+  handleClickGoWarmup(practicePlanId) {
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    mark({ module: '打点', function: '知识点', action: '完成知识点学习' })
+    learnKnowledge(practicePlanId).then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, true)
+      } else {
+        dispatch(alertMsg(res.msg))
+      }
+    }).catch(er => alertMsg(er))
   }
 
   render() {
@@ -212,14 +211,14 @@ export class KnowledgeViewer extends React.Component<any, any> {
       analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords
     } = knowledge
     const { location } = this.props
-    const { practicePlanId } = location.query
+    const { practicePlanId, planId, complete } = location.query
 
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
       return (
         <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
-            {sequenceMap[idx]}
+            {sequenceMap[ idx ]}
           </span>
           <span className={`subject`}>{subject}</span>
         </div>
@@ -227,61 +226,71 @@ export class KnowledgeViewer extends React.Component<any, any> {
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
+
     return (
-      <div className={`knowledge-page`}>
-        <div className={`container ${practicePlanId ? 'has-footer' : ''}`}>
-          <div className="page-header">{knowledge.knowledge}</div>
+      <Block>
+        <div className={`knowledge-view-container`}>
+          {practicePlanId ? <SectionProgressHeader ref={'sectionProgress'}
+                                                    practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>
+          : <div className="page-header">{knowledge.knowledge}</div>}
           {
             videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
           }
           <div className="intro-container">
-            {audio ?
+            {
+              audio &&
               <div className="context-audio">
                 <Audio url={audio} words={audioWords}/>
-              </div> : null}
-            {pic ? <div className="context-img"><img src={pic}/></div> : null}
-            {analysis ?
+              </div>
+            }
+            {pic && <div className="context-img"><img src={pic}/></div>}
+            {
+              analysis &&
               <div>
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
                 </div>
-                {analysisAudio ?
-                  <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> : null}
+                {analysisAudio &&
+                <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: analysis }}/>
                 </div>
-                {analysisPic ? <div className="context-img"><img src={analysisPic}/></div> : null}
+                {analysisPic && <div className="context-img"><img src={analysisPic}/></div> }
               </div>
-              : null}
-            {means ?
+            }
+            {
+              means &&
               <div>
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
                 </div>
-                {meansAudio ?
-                  <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div> : null}
+                {meansAudio && <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div>}
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: means }}/>
                 </div>
-                {meansPic ? <div className="context-img"><img src={meansPic}/></div> : null}
+                {meansPic && <div className="context-img"><img src={meansPic}/></div>}
               </div>
-              : null}
-            {keynote ?
+            }
+            {
+              keynote &&
               <div>
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
                 </div>
-                {keynoteAudio ?
-                  <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords}/></div> : null}
+                {
+                  keynoteAudio &&
+                  <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords}/></div>
+                }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: keynote }}/>
                 </div>
-                {keynotePic ? <div className="context-img"><img src={keynotePic}/></div> : null}
+                {keynotePic && <div className="context-img"><img src={keynotePic}/></div>}
               </div>
-              : null}
-            {example ?
+            }
+            {
+              example &&
               <div>
                 <div className="context-title-img">
                   <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
@@ -292,60 +301,69 @@ export class KnowledgeViewer extends React.Component<any, any> {
                 <div className="choice-list">
                   {example.choiceList.map((choice, idx) => choiceRender(choice, idx))}
                 </div>
-
-                {showTip ?
-                  <div className="analysis">
-                    <div className="title-bar">解析</div>
-                    <div className="context">
-                      正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
+                {
+                  showTip ?
+                    <div className="analysis">
+                      <div className="title-bar">解析</div>
+                      <div className="context">
+                        正确答案：{example.choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
+                      </div>
+                      <pre dangerouslySetInnerHTML={{ __html: example.analysis }}></pre>
+                    </div> :
+                    <div className="analysis">
+                      <div className="analysis-tip" onClick={() => this.setState({ showTip: true })}>点击查看解析</div>
                     </div>
-                    <pre dangerouslySetInnerHTML={{ __html: example.analysis }}></pre>
-                  </div>
-                  : <div className="analysis">
-                    <div className="analysis-tip" onClick={() => this.setState({ showTip: true })}>点击查看解析</div>
-                  </div>}
+                }
               </div>
-              : null}
+            }
             <div className="title-bar">问答</div>
             <div className="discuss">
-              {_.isEmpty(discuss) ? null : discuss.map(item => {
-                return (
-                  <DiscussShow discuss={item} showLength={50} reply={() => {
-                    this.reply(item)
-                  }} onDelete={() => this.onDelete(item.id)}/>
-                )
-              })}
-              {discuss ? (discuss.length > 0 ?
-                <div className="show-more">
-                  你已经浏览完所有的讨论啦
-                </div>
-                :
-                <div className="discuss-end">
-                  <div className="discuss-end-img">
-                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
-                              height={92}></AssetImg>
+              {
+                !_.isEmpty(discuss) &&
+                discuss.map(item => {
+                  return (
+                    <DiscussShow discuss={item} showLength={50} reply={() => {
+                      this.reply(item)
+                    }} onDelete={() => this.onDelete(item.id)}/>
+                  )
+                })
+              }
+              {
+                discuss &&
+                discuss.length > 0 ?
+                  <div className="show-more">
+                    你已经浏览完所有的讨论啦
+                  </div> :
+                  <div className="discuss-end">
+                    <div className="discuss-end-img">
+                      <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
+                                height={92}></AssetImg>
+                    </div>
+                    <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
                   </div>
-                  <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-                </div>)
-                : null}
+              }
             </div>
           </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
-        </div>
-        <RenderInBody>
-          <div>
-            {practicePlanId && !showDiscuss ?
-              <div className="button-footer" onClick={this.complete.bind(this)}>标记完成</div> : null}
-            {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                    cancel={() => this.cancel()}/> :
+          {showDiscuss && <div className="padding-comment-dialog"/>}
+          {
+            practicePlanId && !showDiscuss &&
+            <FooterButton btnArray={[{
+              click: () => this.handleClickGoWarmup(practicePlanId),
+              text: complete == 'true' ? '下一题':'学完了，下一题'
+            }]}/>
+          }
+          {
+            showDiscuss ?
+              <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                       submit={() => this.onSubmit()}
+                       onChange={(v) => this.onChange(v)}
+                       cancel={() => this.cancel()}/> :
               <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
                 <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-              </div>}
-          </div>
-        </RenderInBody>
-
-      </div>
+              </div>
+          }
+        </div>
+      </Block>
     )
   }
 }

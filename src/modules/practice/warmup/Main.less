@@ -1,12 +1,91 @@
 @import "../../../style/variable";
 
-.warm-up {
-  //height: 100%;
+.warm-up-container {
+  box-sizing: border-box;
+  padding: 2.5rem 1.5rem 6rem;
+  overflow-x: hidden;
+  .result-mask {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    .result-dialog {
+      border-radius: .4rem;
+      background-color: #fff;
+      position: relative;
+      margin: 9.9rem auto;
+      width: 80%;
+      height: 35.2rem;
+      .result {
+        position: relative;
+        top: 4.0rem;
+        width: 13.8rem;
+        height: 13.8rem;
+        left: ~"calc((100% - 13.8rem) / 2)";
+        .result-title {
+          position: absolute;
+          font-size: 1.3rem;
+          text-align: center;
+          line-height: 100%;
+          top: 4.4rem;
+          color: #999;
+          width: 100%;
+        }
+        .result-number {
+          position: absolute;
+          font-size: 3.6rem;
+          text-align: center;
+          top: 6.0rem;
+          color: #000;
+          font-weight: bold;
+          width: 100%;
+          line-height: 100%;
+        }
+      }
+      .award-title {
+        position: absolute;
+        width: 100%;
+        top: 20.3rem;
+        text-align: center;
+        font-size: 1.3rem;
+        color: #999;
+      }
+      .award-detail {
+        position: absolute;
+        width: 100%;
+        top: 23.1rem;
+        text-align: center;
+        font-size: 1.5rem;
+        color: #000;
+        font-weight: bold;
+        span {
+          color: #FFC701;
+          font-size: 1.6rem;
+        }
+      }
+      .go-analysis {
+        position: absolute;
+        text-align: center;
+        bottom: 1.5rem;
+        left: 1.5rem;
+        width: ~"calc(100% - 3rem)";
+        background-color: #FFC701;
+        height: 4.4rem;
+        line-height: 4.4rem;
+        font-size: 1.5rem;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+  }
   .header {
     width: 100%;
-    height: 45px;
+    height: 4.5rem;
     font-size: @font_title;
-    padding: 10px 0;
+    padding: 1.0rem 0;
     border-bottom: 2px solid @color_strong;
     text-align: center;
     color: @color_context
@@ -16,43 +95,43 @@
     width: 100%;
     color: @color_title;
     background-color: @color_weak_background;
-    padding: 0 15px;
-    margin-left: -15px;
-    margin-bottom: 10px;
+    padding: 0 1.5rem;
+    margin-left: -1.5rem;
+    margin-bottom: 1.0rem;
     font-size: @font_index;
   }
 
   .discuss-container {
-    margin-bottom: 50px;
+    margin-bottom: 5.0rem;
     > .discuss {
       .discuss-bar {
         box-sizing: border-box;
-        height: 60px;
-        line-height: 60px;
-        font-size: 17px;
+        height: 6.0rem;
+        line-height: 6.0rem;
+        font-size: 1.7rem;
         color: #333333;
-        margin: 0 -15px;
-        padding: 0 15px;
+        margin: 0 -1.5rem;
+        padding: 0 1.5rem;
         border-bottom: 1px solid @color_weak_background;
         &::before {
           content: ' ';
           display: inline-block;
           background-image: url("@{imgPathRoot}/warmup_answer.png?imageslim");
-          background-size: 22px 21px;
-          width: 22px;
-          height: 21px;
+          background-size: 2.2rem 2.1rem;
+          width: 2.2rem;
+          height: 2.1rem;
           vertical-align: sub;
-          margin-right: 10px;
+          margin-right: 1.0rem;
         }
       }
 
       > .discuss-end {
-        padding: 20px 0;
+        padding: 2.0rem 0;
         text-align: center;
         color: @color_weak;
         font-size: @font_index;
         > .discuss-end-span {
-          margin-top: 13px;
+          margin-top: 1.3rem;
         }
         > .discuss-end-img {
           text-align: center;
@@ -60,15 +139,15 @@
       }
     }
     .discuss-triangle {
-      width: 1px;
+      width: 0;
       height: 0;
       border-bottom: 10px solid @color_weak_background;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      margin-left: 40px;
+      margin-left: 4.0rem;
     }
     .discuss-padding {
-      margin-bottom: 20px;
+      margin-bottom: 2.0rem;
     }
   }
 
@@ -76,65 +155,64 @@
     > .intro-index {
       position: relative;
       box-sizing: border-box;
-      margin: 20px 0;
+      margin: 3.0rem 0;
       display: block;
-      height: 12px;
-      line-height: 12px;
+      height: 1.2rem;
 
       > .index {
         display: inline-block;
-        height: 12px;
-        line-height: 12px;
-        font-size: 12px;
+        height: 1.2rem;
+        line-height: 1.2rem;
+        font-size: 1.2rem;
         color: #999;
       }
 
       > .tip {
         display: inline-block;
-        height: 12px;
-        line-height: 12px;
-        font-size: 12px;
+        height: 1.2rem;
+        line-height: 1.2rem;
+        font-size: 1.2rem;
         color: #999;
-        margin-left: 10px;
+        margin-left: 1.0rem;
       }
 
       > .type {
-        margin-left: 14px;
-        color: @color_strong;
-        font-size: 15px;
+        margin-left: 1.4rem;
+        color: #ff9600;
+        font-size: 1.5rem;
         float: right;
         > .number {
-          font-size: 24px;
+          font-size: 2.4rem;
         }
       }
     }
 
     > .question {
       width: 100%;
-      margin-bottom: 37.5px;
+      margin-bottom: 3.7rem;
       white-space: normal;
       word-break: break-all;
-      font-size: 15px;
+      font-size: 1.5rem;
       color: #333333;
     }
 
     .write-discuss {
       position: absolute;
-      height: 55px;
-      width: 55px;
-      left: 15px;
-      bottom: 68px;
+      height: 5.5rem;
+      width: 5.5rem;
+      left: 1.5rem;
+      bottom: 6.8rem;
     }
 
     > .choice-list {
       box-sizing: border-box;
-      margin: 0 30px;
+      margin: 0 3.0rem;
       border-top: 1px @color_weak_background solid;
       border-bottom: 1px @color_weak_background solid;
       .choice {
         position: relative;
         box-sizing: border-box;
-        padding: 20px 0;
+        padding: 2.0rem 0;
         border-bottom: 1px @color_weak_background solid;
         &:last-child {
           border-bottom: none;
@@ -144,17 +222,17 @@
           display: inline-block;
           box-sizing: border-box;
           font-size: 0;
-          width: 18px;
-          height: 18px;
+          width: 1.8rem;
+          height: 1.8rem;
           border-radius: 3px;
           border: 1px solid #CCCCCC;
           &:before {
             box-sizing: border-box;
             content: ' ';
             display: block;
-            width: 10px;
-            height: 10px;
-            margin: 3px auto;
+            width: 1.0rem;
+            height: 1.0rem;
+            margin: .3rem auto;
           }
           &.selected {
             &:before {
@@ -166,11 +244,11 @@
         .text {
           position: relative;
           display: inline-block;
-          font-size: 15px;
-          line-height: 22.5px;
+          font-size: 1.5rem;
+          line-height: 2.2rem;
           vertical-align: top;
-          left: 20px;
-          width: ~"calc(100% - 38px)";
+          left: 2.0rem;
+          width: ~"calc(100% - 3.8rem)";
           color: #333;
           &.selected {
             color: #55CBCB;
@@ -184,9 +262,9 @@
 
     > .answer-display {
       box-sizing: border-box;
-      padding: 30px 0;
-      line-height: 22px;
-      font-size: 15px;
+      padding: 3.0rem 0;
+      line-height: 2.2rem;
+      font-size: 1.5rem;
       .chosen {
         color: #999999;
       }
@@ -196,54 +274,85 @@
     }
 
     > .answer {
-      margin-top: 25px;
+      margin-top: 2.5rem;
       border-top: 1px solid #d0d0d0;
       > .answer-title {
         font-size: @font_index;
         color: @color_title;
-        margin: 10px 0 10px -0.5rem;
-      }
-    }
-
-    > .analysis {
-      > .analysis-icon {
-        box-sizing: border-box;
-        background-color: @color_weak_background;
-        height: 60px;
-        line-height: 60px;
-        font-size: 17px;
-        color: #333333;
-        margin: 0 -15px;
-        padding: 0 15px;
-        border-bottom: 1px solid #FFFFFF;
-        &:before {
-          display: inline-block;
-          content: ' ';
-          background: url("@{imgPathRoot}/warmup_search.png?imageslim") no-repeat;
-          background-size: 23px 23px;
-          vertical-align: sub;
-          width: 23px;
-          height: 23px;
-          margin-right: 10px;
-        }
-      }
-      > .analysis-context {
-        box-sizing: border-box;
-        margin: 0 -15px;
-        padding: 20px 15px;
-        font-size: 15px;
-        color: #333333;
-        background-color: @color_weak_background;
+        margin: 1.0rem 0 1.0rem -0.5rem;
       }
     }
 
     .knowledge-link {
       box-sizing: border-box;
       color: #55CBCB;
-      font-size: 12px;
+      font-size: 1.2rem;
       background-color: @color_weak_background;
-      margin: 0 -15px;
-      padding: 0 15px 30px;
+      margin: 0 -1.5rem;
+      padding: 0 1.5rem 3.0rem;
+    }
+  }
+
+  .analysis {
+    margin: 0 -3rem;
+    box-sizing: border-box;
+    padding: 0 3rem;
+    background-color: @color_weak_background;
+
+    .analysis-icon {
+      box-sizing: border-box;
+      height: 6.0rem;
+      line-height: 6.0rem;
+      font-size: 1.7rem;
+      color: #333333;
+      border-bottom: 1px solid #FFFFFF;
+      &:before {
+        display: inline-block;
+        content: ' ';
+        background: url("@{imgPathRoot}/warmup_search.png?imageslim") no-repeat;
+        background-size: 2.3rem 2.3rem;
+        vertical-align: sub;
+        width: 2.3rem;
+        height: 2.3rem;
+        margin-right: 1.0rem;
+      }
+    }
+    .analysis-context {
+      box-sizing: border-box;
+      padding: 2.0rem 0;
+      font-size: 1.5rem;
+      color: #333333;
+    }
+    .knowledge-link {
+      box-sizing: border-box;
+      color: #55CBCB;
+      font-size: 1.2rem;
+      background-color: @color_weak_background;
+      margin: 0 -1.5rem;
+      padding: 0 1.5rem 3.0rem;
+    }
+  }
+
+  .progress-section-tip {
+    text-indent: -1.0rem;
+    width: 18.1rem;
+    height: 3.3rem;
+    background-color: #333;
+    color: #fff;
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 3.3rem;
+    margin-top: 1.0rem;
+    border-radius: .2rem;
+    > .tip-angle {
+      display: inline-block;
+      border: 5px transparent solid;
+      border-bottom-color: #333;
+      position: relative;
+      bottom: 1.9rem;
+      left: 3.5rem;
+      width: 0;
+      height: 0;
     }
   }
 }

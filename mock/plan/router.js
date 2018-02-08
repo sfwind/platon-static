@@ -10,16 +10,260 @@ router.post("/rise/plan/choose/problem/*", (req, res) => {
     }), Math.random() * 1500)
 });
 
-router.get("/rise/plan/play/*", (req, res) => {
+router.get("/rise/plan/load/series/*", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
-      "code": 200,
       "msg": {
-        "length": 14, //持续天数
-        "endDate": "12月18日", //结束日期
-        "totalSeries": 7, //题目总数
-        "pic": "http://www.iquanwai.com/images/cintro1.png" //问题头图
-      }
+        "planSeriesTitle": "4.1 内容回顾 & 案例应用",
+        "planSeriesStatuses": [
+          {
+            "practicePlanId": 977585,
+            "planId": 30189,
+            "practiceId": "57",
+            "series": 5,
+            "sequence": 1,
+            "type": 32,
+            "unlock": true,
+            "complete": true
+          },
+          {
+            "practicePlanId": 977590,
+            "planId": 30189,
+            "practiceId": "762,763,764,765,766",
+            "series": 5,
+            "sequence": 2,
+            "type": 2,
+            "unlock": true,
+            "complete": true
+          },
+          {
+            "practicePlanId": 977599,
+            "planId": 30189,
+            "practiceId": "261",
+            "series": 5,
+            "sequence": 3,
+            "type": 12,
+            "unlock": true,
+            "complete": true
+          },
+          {
+            "practicePlanId": 977600,
+            "planId": 30189,
+            "practiceId": "435",
+            "series": 5,
+            "sequence": 4,
+            "type": 12,
+            "unlock": true,
+            "complete": false
+          }
+        ]
+      },
+      "code": 200
+    }), Math.random() * 1500)
+});
+
+router.get("/rise/plan/load/studyline/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "preview": [
+          {
+            "id": 740114,
+            "planId": 29989,
+            "type": 20,
+            "practiceId": "1",
+            "unlocked": true,
+            "series": 0,
+            "sequence": 1,
+            "knowledgeId": null,
+            "status": 1,
+            "summary": null
+          },
+          {
+            "id": 740115,
+            "planId": 29989,
+            "type": 21,
+            "practiceId": "25",
+            "unlocked": true,
+            "series": 0,
+            "sequence": 5,
+            "knowledgeId": null,
+            "status": 1,
+            "summary": null
+          }
+        ],
+        "chapters": [
+          {
+            "chapter": 1,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 133,
+                "name": "你真的知道压力是什么吗",
+                "series": 1,
+                "chapter": 1,
+                "integrated": false,
+                "chapterName": "认识压力",
+                "practices": [],
+                "status": 1,
+                "type": 31,
+                "practicePlanId": 740079
+              },
+              {
+                "section": 2,
+                "knowledgeId": 135,
+                "name": "为什么我们会感觉到压力",
+                "series": 2,
+                "chapter": 1,
+                "integrated": false,
+                "chapterName": "认识压力",
+                "practices": [],
+                "status": 1,
+                "type": 31,
+                "practicePlanId": 740080
+              },
+              {
+                "section": 3,
+                "knowledgeId": 136,
+                "name": "为什么有的人总在说压力山大",
+                "series": 3,
+                "chapter": 1,
+                "integrated": false,
+                "chapterName": "认识压力",
+                "practices": [],
+                "status": 1,
+                "type": 31,
+                "practicePlanId": 740081
+              }
+            ],
+            "name": "认识压力",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": false
+          },
+          {
+            "chapter": 2,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 138,
+                "name": "揭开你的压力真面目",
+                "series": 4,
+                "chapter": 2,
+                "integrated": false,
+                "chapterName": "识别压力",
+                "practices": [],
+                "status": 1,
+                "type": 31,
+                "practicePlanId": 740079
+              }
+            ],
+            "name": "识别压力",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": false
+          },
+          {
+            "chapter": 3,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 140,
+                "name": "方法一：调整行为方式",
+                "series": 5,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": 1,
+                "type": 31,
+                "practicePlanId": 740079
+              },
+              {
+                "section": 2,
+                "knowledgeId": 142,
+                "name": "方法二：改变认知方式",
+                "series": 6,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": 0,
+                "type": 31,
+                "practicePlanId": 740080
+              },
+              {
+                "section": 3,
+                "knowledgeId": 144,
+                "name": "方法三：增加应对资源",
+                "series": 7,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740081
+              },
+              {
+                "section": 4,
+                "knowledgeId": 145,
+                "name": "方法四：提升应对能力",
+                "series": 8,
+                "chapter": 3,
+                "integrated": false,
+                "chapterName": "应对压力",
+                "practices": [],
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740082
+              }
+            ],
+            "name": "应对压力",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": false
+          },
+          {
+            "chapter": 4,
+            "sections": [
+              {
+                "section": 1,
+                "knowledgeId": 59,
+                "name": "内容回顾 & 综合练习",
+                "series": 9,
+                "chapter": 4,
+                "integrated": true,
+                "chapterName": "综合案例",
+                "practices": [],
+                "status": -1,
+                "type": 31,
+                "practicePlanId": 740079
+              }
+            ],
+            "name": "综合案例",
+            "myWarmScore": null,
+            "totalWarmScore": null,
+            "integrated": true
+          }
+        ],
+        "review": [
+          {
+            "type": 101,
+            "status": -1
+          },
+          {
+            "type": 102,
+            "status": -1
+          }
+        ],
+        "problemId": 25,
+        "problemName": "掌控压力：让我们不焦虑也不懒散",
+        "headPic": null,
+        "problemType": 1,
+        "needGrade": false,
+      },
+      "code": 200
     }), Math.random() * 1500)
 });
 
@@ -345,7 +589,7 @@ router.get('/rise/open/status', (req, res) => {
       "msg": {
         openRise: true,
         openApplication: true,
-        openConsolidation: true,
+        openConsolidation: false,
       }
     }), Math.random() * 1500)
 });
@@ -424,7 +668,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 27,
             "startDate": "2017-09-10",
             "closeTime": null,
-            "learnable":true,
+            "learnable": true,
             "problem": {
               "id": 6,
               "problem": "写出令HR过目难忘的简历",
@@ -470,7 +714,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 29,
             "startDate": "2017-09-12",
             "closeTime": null,
-            "learnable":true,
+            "learnable": true,
             "problem": {
               "id": 7,
               "problem": "在面试中脱颖而出",
@@ -517,7 +761,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 0,
             "startDate": "2017-08-09",
             "closeTime": "2017-09-09",
-            "learnable":true,
+            "learnable": true,
             "problem": {
               "id": 23,
               "problem": "如何高效学习",
@@ -563,7 +807,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 0,
             "startDate": "2017-08-08",
             "closeTime": "2017-09-08",
-            "learnable":true,
+            "learnable": true,
             "problem": {
               "id": 21,
               "problem": "双赢谈判：不撕逼也能得到你想要的",
@@ -609,7 +853,7 @@ router.get("/rise/plan/list", (req, res) => {
             "deadline": 0,
             "startDate": "2017-05-20",
             "closeTime": "2017-06-20",
-            "learnable":true,
+            "learnable": true,
             "problem": {
               "id": 14,
               "problem": "如何用故事说服别人",

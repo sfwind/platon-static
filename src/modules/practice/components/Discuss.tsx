@@ -1,7 +1,6 @@
 import * as React from 'react'
 import './Discuss.less'
 import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
-var FastClick = require('fastclick')
 
 export default class Discuss extends React.Component <any, any> {
   constructor(props) {
@@ -22,7 +21,6 @@ export default class Discuss extends React.Component <any, any> {
   }
 
   componentDidMount() {
-    FastClick.attach(document.querySelector('.comment-button'))
     this.refs.input.focus()
     //解决ios键盘弹出挡住输入框的问题
     setTimeout(function() {

@@ -64,6 +64,13 @@ export function scroll(target, container) {
   }
 }
 
+export function scrollToHeight(target, height) {
+  if(document.querySelector(target)) {
+    let y = document.querySelector(target).offsetTop
+    window.scrollTo(0, y+height)
+  }
+}
+
 // 数字转汉字
 export function NumberToChinese(num) {
   var unitPos = 0
@@ -172,7 +179,7 @@ class ButtonStatus {
 
   constructor() {
     this.paymentGroup = []
-    this.notPaymentGroup = [1, 2, 3, 4, 5]
+    this.notPaymentGroup = [1, 2, 3, 4, 5, 6]
   }
 
   /**

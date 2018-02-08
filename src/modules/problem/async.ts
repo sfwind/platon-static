@@ -8,12 +8,15 @@ export function loadUnChooseList() {
   return pget(`/rise/problem/list/unchoose`)
 }
 
-export function loadProblem(id) {
-  return pget(`/rise/problem/get/${id}`)
+export function loadMyProblem(id) {
+  return pget(`/rise/problem/get/my/${id}`)
 }
 
-export function openProblemIntroduction(id, free) {
+export function openProblemIntroduction(id, free, practicePlanId) {
   let param = free ? { autoOpen: 'true' } : { autoOpen: 'false' }
+  if(practicePlanId){
+    param.practicePlanId = practicePlanId
+  }
   return pget(`/rise/problem/open/${id}`, param)
 }
 

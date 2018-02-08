@@ -1,0 +1,200 @@
+@import "../../style/variable";
+
+.study-line-container {
+  display: block;
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+
+  .study-line-content {
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    top: 13rem;
+    bottom: 5rem;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .major {
+    background: #FDD338 !important;
+  }
+  .minor {
+    background: #3890FD !important;
+  }
+
+  .preview-practice {
+    padding: 2.5rem 1.5rem;
+    box-sizing: border-box;
+    .preview-title {
+      font-size: 1.8rem;
+      line-height: 100%;
+      color: @color_context;
+      margin-bottom: 1.0rem;
+    }
+  }
+
+  .practice-detail {
+    height: 5.6rem;
+    line-height: 5.6rem;
+    margin-top: 2.0rem;
+    position: relative;
+    .line-tip {
+      width: 2.4rem;
+      height: 100%;
+      position: relative;
+      display: inline-block;
+      > .status-line {
+        height: 7.6rem;
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 0.2rem;
+        background: @color_weak;
+        &.last {
+          height: 5.6rem;
+          &.review {
+            height: 0 !important;
+          }
+        }
+      }
+      > .status {
+        display: inline-block;
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        border-radius: 1.8rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        &.complete {
+          background: url('../../../assets/img/plan_complete.png') center center/1.8rem 1.8rem no-repeat;
+        }
+        &.locked {
+          background: url('../../../assets/img/plan_locked.png') center center/1.8rem 1.8rem no-repeat;
+        }
+        &.major_running {
+          background: url('../../../assets/img/major_learning.png') center center/1.8rem 1.8rem no-repeat;
+        }
+        &.minor_running {
+          background: url('../../../assets/img/minor_learning.png') center center/1.8rem 1.8rem no-repeat;
+        }
+      }
+      > .start-learning {
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
+        width: 2.4rem;
+        height: 1.0rem;
+        line-height: 1.0rem;
+        &.major_running {
+          color: #FDD338;
+        }
+        &.minor_running {
+          color: #3890FD;
+        }
+        padding: .5rem 0;
+        font-size: 1.0rem;
+        top: 1.8rem;
+        background-color: #fff;
+      }
+    }
+    > .title {
+      display: inline-block;
+      position: absolute;
+      font-size: 1.6rem;
+      padding-left: 2.0rem;
+      box-sizing: border-box;
+      background: #F8F8F8;
+      border-radius: 4px;
+      left: 4rem;
+      width: ~"calc(100% - 4rem)";
+      &.complete {
+        &:after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          width: .7rem;
+          height: 1rem;
+          background: url('../../../assets/img/arrow_right.png') center center/.7rem 1rem no-repeat;
+          right: 1.8rem;
+          top: 2.3rem;
+        }
+        color: #333;
+      }
+      &.major_running {
+        background-image: linear-gradient(-90deg, #FFC701 0%, #FF983F 100%);
+        color: #fff;
+        font-weight: bold;
+      }
+      &.minor_running {
+        background-image: linear-gradient(-90deg, #35B0EA 0%, #0063F8 100%);
+        color: #fff;
+        font-weight: bold;
+      }
+      &.locked {
+        color: #999;
+      }
+      &.major_running {
+        &:after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          width: 2.6rem;
+          height: 2.6rem;
+          top: 1.5rem;
+          right: 1.5rem;
+          background: url('../../../assets/img/major_running.png') center center/2.6rem 2.6rem no-repeat;
+        }
+      }
+      &.minor_running {
+        &:after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          width: 2.6rem;
+          height: 2.6rem;
+          top: 1.5rem;
+          right: 1.5rem;
+          background: url('../../../assets/img/minor_running.png') center center/2.6rem 2.6rem no-repeat;
+        }
+      }
+      &.complete-style {
+        .title-name {
+          font-size: 1.6rem;
+          position: relative;
+          top: -0.9rem;
+        }
+        .complete-tips {
+          position: absolute;
+          font-size: 1.2rem;
+          color: #ccc;
+          top: 0.9rem;
+        }
+      }
+    }
+  }
+
+  .chapter-practice {
+    padding: 2.5rem 1.5rem;
+    .chapter {
+      font-size: 1.9rem;
+      line-height: 100%;
+      color: #000;
+      margin-bottom: 3.0rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .review-practice {
+    padding: 2.5rem 1.5rem;
+    .review-title {
+      font-size: 1.8rem;
+      line-height: 100%;
+      color: @color_context;
+      margin-bottom: 1.0rem;
+    }
+  }
+
+}

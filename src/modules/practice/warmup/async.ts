@@ -24,7 +24,7 @@ export function getOpenStatus(){
   return pget('/rise/open/status');
 }
 
-export function openConsolidation(){
+export function consolidationStatus(){
   return ppost('/rise/open/consolidation')
 }
 

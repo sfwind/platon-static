@@ -16,6 +16,8 @@ import Activity from '../../components/Activity'
 import UA from 'ua-device'
 import './Base.less'
 import $ from 'jquery'
+require("../../components/progress/circle-progress.js")
+
 
 $.fn.extend({
   animateCss: function(animationName, callback) {

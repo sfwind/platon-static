@@ -8,8 +8,8 @@ export function learnKnowledge(practicePlanId) {
   return ppost(`/rise/practice/knowledge/learn/${practicePlanId}`)
 }
 
-export function loadProblem(id) {
-  return pget(`/rise/problem/get/${id}`)
+export function knowledgeReview(id) {
+  return pget(`/rise/plan/knowledge/review/${id}`)
 }
 
 export function loadKnowledge(id){

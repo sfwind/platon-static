@@ -2,7 +2,6 @@ import * as React from "react";
 import "./Audio.less";
 import Slider from "react-rangeslider";
 import AssetImg from "./AssetImg";
-import render = ReactDOM.render
 import { mark } from '../utils/request'
 
 let timer;

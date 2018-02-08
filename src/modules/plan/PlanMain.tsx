@@ -20,7 +20,6 @@ import { ToolBar } from '../base/ToolBar'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
-var FastClick = require('fastclick')
 
 const typeMap = {
   1: { type: '选择题', desc: '具体场景，牛刀小试' },
@@ -242,7 +241,6 @@ export class PlanMain extends React.Component <any, any> {
         })
       }
     })
-    FastClick.attach(document.querySelector('.click-btn'))
     hasPrivilege().then(res => {
       if(res.code === 200) {
         this.setState({ riseMember: res.msg.riseMember })
@@ -310,28 +308,24 @@ export class PlanMain extends React.Component <any, any> {
       }
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/warmup',
-        query: { practicePlanId, currentIndex, integrated, planId, complete }
+        query: { practicePlanId, integrated, planId, complete }
       }) : null
-    } else if(type === 11) {
+    } else if(type === 11 || type === 12) {
+      let integrated = true
+      if(type === 11) {
+        integrated = false
+      }
       dispatch(set('otherApplicationPracticeSubmitId', undefined))
       dispatch(set('applicationId', undefined))
       dispatch(set('articlePage', undefined))
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: false, planId, complete }
-      }) : null
-    } else if(type === 12) {
-      dispatch(set('otherApplicationPracticeSubmitId', undefined))
-      dispatch(set('applicationId', undefined))
-      dispatch(set('articlePage', undefined))
-      this.context ? this.context.router.push({
-        pathname: '/rise/static/practice/application',
-        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, integrated: true, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, integrated, planId, complete }
       }) : null
     } else if(type === 21) {
       this.context ? this.context.router.push({
         pathname: '/rise/static/practice/challenge',
-        query: { id: item.practiceIdList[0], practicePlanId, currentIndex, planId, complete }
+        query: { id: item.practiceIdList[0], practicePlanId, planId, complete }
       }) : null
     } else if(type === 31) {
       if(!complete) {
@@ -594,7 +588,7 @@ export class PlanMain extends React.Component <any, any> {
   }
 
   goPayPage = () => {
-    window.location.href = `https://${window.location.hostname}/pay/rise`
+    window.location.href = `/pay/rise`
   }
 
   render() {
@@ -652,7 +646,7 @@ export class PlanMain extends React.Component <any, any> {
               <div className="body">
                 <div className="title">
                   {typeMap[item.type].type}
-                  <span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>
+                  {/*<span style={{ fontSize: 13, color: '#999' }}>{item.optional ? '' : '（必修）'}</span>*/}
                 </div>
                 <div className="desc">{typeMap[item.type].desc}</div>
                 {
