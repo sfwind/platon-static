@@ -9,6 +9,7 @@ import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import _ from 'lodash'
 import { scroll } from '../../../utils/helpers'
+import { mark } from '../../../utils/request'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 
@@ -64,11 +65,13 @@ export class Analysis extends React.Component <any, any> {
 
   next() {
     const { dispatch } = this.props
-    const { currentIndex, practiceCount } = this.state
+    const { currentIndex, practiceCount, list } = this.state
     if(currentIndex < practiceCount - 1) {
       this.setState({ currentIndex: currentIndex + 1 })
       //保存当前解析的题目index
       dispatch(set('warmupCurrentIndex', currentIndex + 1))
+      let questionId = _.get(list, `practice[${currentIndex}].id`)
+      mark({ module: '打点', function: questionId, action: '查看解析', memo: currentIndex })
     }
     window.scrollTo(0, 0)
   }

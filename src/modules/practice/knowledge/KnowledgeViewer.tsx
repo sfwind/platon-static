@@ -232,8 +232,9 @@ export class KnowledgeViewer extends React.Component<any, any> {
     return (
       <Block>
         <div className={`knowledge-view-container`}>
-          {practicePlanId && <SectionProgressHeader ref={'sectionProgress'}
-                                                    practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>}
+          {practicePlanId ? <SectionProgressHeader ref={'sectionProgress'}
+                                                    practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>
+          : <div className="page-header">{knowledge.knowledge}</div>}
           {
             videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
           }

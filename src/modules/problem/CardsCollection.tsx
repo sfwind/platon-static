@@ -69,7 +69,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       dispatch(alertMsg('快完成这一章学习<br/>解锁神秘知识卡吧'))
       return
     }
-    mark({module:"打包", func: "课程卡包页", action:"点击章节知识卡"})
+    mark({module:"打包", function: "课程卡包页", action:"点击章节知识卡"})
     const { essenceCardMap } = this.state
     let tempCard = essenceCardMap.get(chapterId)
     if(tempCard) {
