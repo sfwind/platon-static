@@ -345,12 +345,12 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             <Header icon="rise_icon_head" title="讲师介绍" width={26} height={16} lineHeight={'12px'}/>
             <AssetImg width={'100%'} url={authorPic}/>
           </div>
-          <div className="pi-c-pay-info white-content mg-25">
-            <Header icon="rise_icon_pay_info" title="报名须知" width={24}/>
-            <div className="pi-c-pay-content">
-              {renderPayMessage()}
-            </div>
-          </div>
+          {/*<div className="pi-c-pay-info white-content mg-25">*/}
+            {/*<Header icon="rise_icon_pay_info" title="报名须知" width={24}/>*/}
+            {/*<div className="pi-c-pay-content">*/}
+              {/*{renderPayMessage()}*/}
+            {/*</div>*/}
+          {/*</div>*/}
           <div className="pi-c-learn white-content mg-25">
             <Header icon="rise_icon_book" title="学习大纲"/>
             <div className="pi-c-l-content">
@@ -370,10 +370,10 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
           </div>
-          <MarkBlock module={'打点'} func={'课程介绍页'} action={'点击收藏课程按钮'} className={`problem-collect ${problemCollected ? 'collected' : ''}`}
-               onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>
-            <span>{problemCollected ? '已收藏' : '收藏课程'}</span>
-          </MarkBlock>
+          {/*<MarkBlock module={'打点'} func={'课程介绍页'} action={'点击收藏课程按钮'} className={`problem-collect ${problemCollected ? 'collected' : ''}`}*/}
+               {/*onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>*/}
+            {/*<span>{problemCollected ? '已收藏' : '收藏课程'}</span>*/}
+          {/*</MarkBlock>*/}
         </div>
         {renderContent()}
         {renderFooter()}

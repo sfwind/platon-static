@@ -143,10 +143,10 @@ export default class Personal extends React.Component<any, any> {
                      onClick={() => this.goAccount()}>
             <span>我的账户</span>
           </MarkBlock>
-          <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习礼品卡'} className="personal-item"
-                     onClick={() => this.goCardList()}>
-            <span>学习礼品卡</span>
-          </MarkBlock>
+          {/*<MarkBlock module={'打点'} func={'个人中心'} action={'点击学习礼品卡'} className="personal-item"*/}
+                     {/*onClick={() => this.goCardList()}>*/}
+            {/*<span>学习礼品卡</span>*/}
+          {/*</MarkBlock>*/}
           <MarkBlock module={'打点'} func={'个人中心'} action={'点击消息通知'} className="personal-item no-gutter"
                      onClick={() => this.goMessage()}>
             <span>消息通知</span>

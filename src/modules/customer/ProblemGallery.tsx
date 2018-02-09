@@ -63,9 +63,10 @@ export default class ProblemGallery extends React.Component<any, any> {
       plans = plans.filter(plan => plan.learnable === true)
       return (
         <div className="galley-module-content">
-          {plans && plans.length > 0 ? plans.map((item, index) => {
+          { plans.map((item, index) => {
             return (
-              <MarkBlock module={'打点'} func={'我的课程页面'} action={'点击课程学习'} key={index} className="item" onClick={() => this.goPlanView(item)}>
+              <MarkBlock module={'打点'} func={'我的课程页面'} action={'点击课程学习'} key={index} className="item"
+                         onClick={() => this.goPlanView(item)}>
                 <div className="item-label">
                   {item.name}
                 </div>
@@ -74,11 +75,7 @@ export default class ProblemGallery extends React.Component<any, any> {
                 </div>
               </MarkBlock>
             )
-          }) : <div className="item">
-            <div className="item-label-none">
-              无
-            </div>
-          </div>}
+          }) }
         </div>
       )
     }
@@ -86,57 +83,47 @@ export default class ProblemGallery extends React.Component<any, any> {
     const renderCertificateList = (certificates) => {
       return (
         <div className="galley-module-content">
-          {certificates && certificates.length > 0 ? certificates.map((item, index) => {
-            return (
-              <MarkBlock module={'打点'} func={'我的课程页面'} action={'点击查看证书'} key={index} className="item" onClick={() => this.goCertificateView(item)}>
-                <div className="item-label">
-                  {item.type == 1 ? '【优秀班长】' + item.month + '月训练营' : ''}
-                  {item.type == 2 ? '【优秀组长】' + item.month + '月训练营' : ''}
-                  {item.type == 3 ? '【优秀学员】' + item.month + '月训练营' : ''}
-                  {item.type == 4 ? '【优秀团队】' + item.month + '月训练营' : ''}
-                  {item.type == 5 ? '【结课证书】' + item.month + '月训练营' : ''}
-                  {item.type == 6 ? '【优秀助教】' + item.month + '月训练营' : ''}
-                </div>
-                <div className="item-content">
+          {certificates.map((item, index) => {
+              return (
+                <MarkBlock module={'打点'} func={'我的课程页面'} action={'点击查看证书'} key={index} className="item"
+                           onClick={() => this.goCertificateView(item)}>
+                  <div className="item-label">
+                    {item.type == 1 ? '【优秀班长】' + item.month + '月训练营' : ''}
+                    {item.type == 2 ? '【优秀组长】' + item.month + '月训练营' : ''}
+                    {item.type == 3 ? '【优秀学员】' + item.month + '月训练营' : ''}
+                    {item.type == 4 ? '【优秀团队】' + item.month + '月训练营' : ''}
+                    {item.type == 5 ? '【结课证书】' + item.month + '月训练营' : ''}
+                    {item.type == 6 ? '【优秀助教】' + item.month + '月训练营' : ''}
+                  </div>
+                  <div className="item-content">
 
-                </div>
-              </MarkBlock>
-            )
-          }) : <div className="item">
-            <div className="item-label-none">
-              无
-            </div>
-          </div>}
+                  </div>
+                </MarkBlock>
+              )
+            }) }
         </div>
       )
     }
 
-    const renderProblemCollection = () => {
-      if(problemCollections.length === 0) {
-        return (
-          <div className="item">
-            <div className="item-label-none">无</div>
-          </div>
-        )
-      } else {
-        return (
-          problemCollections.map((problem, index) => (
-            <div key={index} className="item"
-                 onClick={() => this.context.router.push(`/rise/static/plan/view?id=${problem.id}&show=true`)}>
-              <div className="item-label">
-                {problem.problem}
-              </div>
-              <div className="item-content"/>
+    const renderProblemCollection = (problemCollections) => {
+      return (
+        problemCollections.map((problem, index) => (
+          <div key={index} className="item"
+               onClick={() => this.context.router.push(`/rise/static/plan/view?id=${problem.id}&show=true`)}>
+            <div className="item-label">
+              {problem.problem}
             </div>
-          ))
-        )
-      }
+            <div className="item-content"/>
+          </div>
+        ))
+      )
     }
 
     return (
       <div className="problem-gallery">
-        <MarkBlock module={'打点'} func={'我的课程页面'} action={'点击总积分按钮'} className="problem-galley-header" onClick={() => this.goPointTip()}
-             style={{ marginBottom: '10px', borderBottom: 'none' }}>
+        <MarkBlock module={'打点'} func={'我的课程页面'} action={'点击总积分按钮'} className="problem-galley-header"
+                   onClick={() => this.goPointTip()}
+                   style={{ marginBottom: '10px', borderBottom: 'none' }}>
           <div className="header-label" style={{ float: 'left' }}>
             总积分
           </div>
@@ -146,32 +133,38 @@ export default class ProblemGallery extends React.Component<any, any> {
         </MarkBlock>
 
         <div className="problem-galley-container">
-          <div className="galley-module">
-            <div className="galley-module-header">
-              <div className="label">
-                训练营证书
+          {riseCertificates.length > 0 &&
+            <div className="galley-module">
+              <div className="galley-module-header">
+                <div className="label">
+                  训练营证书
+                </div>
+              </div>
+              {renderCertificateList(riseCertificates)}
+            </div>
+          }
+          {problemCollections.length > 0 &&
+            <div className="galley-module">
+              <div className="galley-module-header">
+                <div className="label">
+                  已收藏
+                </div>
+              </div>
+              <div className="galley-module-content">
+                {renderProblemCollection(problemCollections)}
               </div>
             </div>
-            {renderCertificateList(riseCertificates)}
-          </div>
-          <div className="galley-module">
-            <div className="galley-module-header">
-              <div className="label">
-                已收藏
+          }
+          {runningPlans.length > 0 &&
+            <div className="galley-module">
+              <div className="galley-module-header">
+                <div className="label">
+                  进行中
+                </div>
               </div>
+              {renderGalleyList(runningPlans)}
             </div>
-            <div className="galley-module-content">
-              {renderProblemCollection()}
-            </div>
-          </div>
-          <div className="galley-module">
-            <div className="galley-module-header">
-              <div className="label">
-                进行中
-              </div>
-            </div>
-            {renderGalleyList(runningPlans)}
-          </div>
+          }
 
           <div className="galley-module">
             <div className="galley-module-header">

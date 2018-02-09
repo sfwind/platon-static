@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './StudyLine.less'
 import { connect } from 'react-redux'
-import { loadStudyline, gradeProblem } from './async'
+import { loadStudyline, gradeProblem, closePlan } from './async'
 import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
 import { changeTitle, scroll } from '../../utils/helpers'
 import { merge } from 'lodash'
@@ -102,12 +102,7 @@ export default class StudyLine extends React.Component<any, any> {
     dispatch(endLoad())
     const { msg, code } = res
     if(code === 200) {
-      let showScoreModal = false
-      if(completePracticePlanId) {
-        dispatch(set('completePracticePlanId', undefined))
-        showScoreModal = msg.needGrade
-      }
-      this.setState({ data: msg, showScoreModal })
+      this.setState({ data: msg })
     } else {
       dispatch(alertMsg(msg))
     }
@@ -184,6 +179,29 @@ export default class StudyLine extends React.Component<any, any> {
     }
   }
 
+  completePlan(){
+    const { dispatch, location } = this.props
+    const { data = {} } = this.state
+    const { planId } = location.query
+    dispatch(startLoad())
+    closePlan(planId).then(res => {
+      dispatch(endLoad())
+      const { code, msg } = res
+      if(code === 200) {
+        this.setState({ data: merge({}, data, { status: 3 }), showScoreModal:true })
+      } else {
+        if(code === -1) {
+          dispatch(alertMsg(`先完成所有的知识点和选择题<br/>才能查看报告哦`))
+        } else {
+          dispatch(alertMsg(msg))
+        }
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+  }
+
   submitScore(questionList) {
     const { data } = this.state
     const { dispatch } = this.props
@@ -200,7 +218,7 @@ export default class StudyLine extends React.Component<any, any> {
     dispatch(startLoad())
     gradeProblem(problemScores, problemId).then(res => {
       dispatch(endLoad())
-      this.setState({ showScoreModal: false, data: merge({}, data, { hasProblemScore: true }) })
+      this.setState({ showScoreModal: false })
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
@@ -217,7 +235,7 @@ export default class StudyLine extends React.Component<any, any> {
 
   render() {
     const { data, showScoreModal } = this.state
-    const { problemType, problemId, preview = [], review = [], chapters = [], grade } = data
+    const { problemType, problemId, preview = [], review = [], chapters = [], status } = data
 
     let styleType = ''
     if(problemType === MAJOR_PROBLEM) {
@@ -354,11 +372,22 @@ export default class StudyLine extends React.Component<any, any> {
           <ColumnSpan height={1} backgroundColor={'#eee'}/>
           {renderReview()}
         </div>
-        <FooterButton btnArray={[{
+        {status === 2 ?
+          <FooterButton btnArray={[{
+          click: () =>
+            this.completePlan()
+          , text: '结束课程', className: styleType
+        },{
           click: () =>
             window.location.href = '/rise/static/learn'
           , text: '返回课程列表', className: styleType
-        }]}/>
+        }]}/> :
+          <FooterButton btnArray={[{
+          click: () =>
+            window.location.href = '/rise/static/learn'
+          , text: '返回课程列表', className: styleType
+        }]}/>}
+
       </div>
     )
 
