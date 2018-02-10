@@ -167,7 +167,7 @@ export default class SchedulePlan extends React.Component
     const renderCourseType = (item) => {
       if(item.deadline && item.deadline > 0){
         return (
-          <div className="problem-item-deadline">{`${item.typeDesc} | ${item.point}分 | ${item.deadline}天后关闭`}</div>
+          <div className="problem-item-deadline">{`${item.typeDesc} | ${item.deadline}天后关闭`}</div>
         )
       }else{
         return (
