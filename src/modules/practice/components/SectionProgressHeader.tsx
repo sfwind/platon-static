@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './SectionProgressHeader.less'
-import { pget } from '../../../utils/request'
+import { loadPlanSeries } from './async'
 import _ from 'lodash'
 import { randomStr } from '../../../utils/helpers'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
@@ -41,14 +41,16 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
   componentWillMount() {
     const { practicePlanId } = this.props
 
-    pget(`/rise/plan/load/series/${practicePlanId}`).then(res => {
-      if(res.code === 200) {
-        this.setState({
-          title: res.msg.planSeriesTitle,
-          progress: res.msg.planSeriesStatuses
-        })
-      }
-    })
+    if(practicePlanId){
+      loadPlanSeries(practicePlanId).then(res => {
+        if(res.code === 200) {
+          this.setState({
+            title: res.msg.planSeriesTitle,
+            progress: res.msg.planSeriesStatuses
+          })
+        }
+      })
+    }
   }
 
   componentWillReceiveProps(nextProps){

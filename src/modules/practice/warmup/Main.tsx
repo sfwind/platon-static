@@ -208,7 +208,9 @@ export class Main extends React.Component <any, any> {
   }
 
   goAnalysis() {
-    this.setState(this.getInitialState(), () => this.props.analysis())
+    const { location } = this.props
+    const { query } = location
+    this.context.router.push({pathname:'/rise/static/practice/warmup', query:_.merge(query, {goAnalysis: true})})
   }
 
   clearStorage() {

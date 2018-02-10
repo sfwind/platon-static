@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { answer, loadWarmUpAnalysis, getOpenStatus, openConsolidation } from './async'
+import { loadWarmUpAnalysis } from './async'
 import { remove, set, merge, get, findIndex, isBoolean, isString } from 'lodash'
 import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import { Main } from './Main'
@@ -12,6 +12,9 @@ export default class Warumup extends React.Component<any, any> {
   constructor() {
     super()
   }
+
+  // 重新加载开关，只能加载一次
+  reloadSwitch = true
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -53,6 +56,25 @@ export default class Warumup extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.location.query.goAnalysis !== undefined && this.reloadSwitch) {
+      this.reloadSwitch = false
+      const { dispatch } = this.props
+      dispatch(startLoad())
+      loadWarmUpAnalysis(nextProps.location.query.practicePlanId).then(res => {
+        dispatch(endLoad())
+        const { code, msg } = res
+        if(code === 200) {
+          this.setState({ page: 'analysis', res: res })
+        }
+        else dispatch(alertMsg(msg))
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
+    }
   }
 
   render() {
