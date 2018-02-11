@@ -572,6 +572,7 @@ export default class Warumup extends React.Component<any, any> {
         </div>}
         {questionRender(practice[currentIndex] || {})}
         {showDiscuss && <div className="padding-comment-dialog"/>}
+        {discussAreaRender()}
         {footerButtonRender()}
         {submit &&
         <div className="result-mask">
