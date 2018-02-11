@@ -128,6 +128,8 @@ export default class Warumup extends React.Component<any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+
+    window.scrollTo(0, 0)
   }
 
   //更新用户选择的选项
@@ -363,6 +365,11 @@ export default class Warumup extends React.Component<any, any> {
 
   clearStorage() {
     window.localStorage.removeItem(WARMUP_AUTO_SAVING)
+  }
+
+  componentWillUnmount(){
+    const { dispatch } = this.props
+    dispatch(set('warmupCurrentIndex', undefined))
   }
 
   render() {
