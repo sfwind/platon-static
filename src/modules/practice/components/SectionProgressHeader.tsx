@@ -1,9 +1,10 @@
 import * as React from 'react'
 import './SectionProgressHeader.less'
-import { loadPlanSeries } from './async'
+import { loadPlanSeries, loadPracticePlan } from './async'
 import _ from 'lodash'
 import { randomStr } from '../../../utils/helpers'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { alertMsg } from 'redux/actions'
 
 interface SectionProgressHeaderProps {
   practicePlanId: string,
@@ -59,59 +60,70 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
     }
   }
 
-  goSeriesPage(index, force=false) {
+  goSeriesPage(index, dispatch) {
     const { progress } = this.state
-    const { planId, practicePlanId, practiceId, complete, unlock, type } = progress[index]
+    const { planId, practicePlanId, practiceId, complete, type } = progress[index]
 
-    if(!force){
-      if(!unlock) return
-    }
-
-    let queryParam = {
-      complete: complete,
-      planId: planId,
-      practicePlanId: practicePlanId
-    }
-    switch(index) {
-      case 0:
-        if(type === 31){
-          this.context.router.push({
-            pathname: '/rise/static/practice/knowledge',
-            query: queryParam
-          })
-        }else if(type === 32){
-          this.context.router.push({
-            pathname: '/rise/static/practice/knowledge/review',
-            query: queryParam
-          })
+    loadPracticePlan(practicePlanId).then(res => {
+      const {code, msg} = res
+      if(code === 200){
+        const {unlocked} = msg
+        if(!unlocked){
+          dispatch(alertMsg('练习尚未解锁'))
+          return
         }
-        break
-      case 1:
-        this.context.router.push({
-          pathname: '/rise/static/practice/warmup',
-          query: queryParam
-        })
-        break
-      case 2:
-        this.context.router.push({
-          pathname: '/rise/static/practice/application',
-          query: _.merge(queryParam, {
-            id: practiceId
-          })
-        })
-        break
-      case 3:
-        this.context.router.push({
-          pathname: '/rise/static/practice/application',
-          query: _.merge(queryParam, {
-            id: practiceId
-          })
-        })
-        break
-      default:
-        break
-    }
-    return
+
+        progress[index] = msg
+        this.setState({progress})
+
+        let queryParam = {
+          complete: complete,
+          planId: planId,
+          practicePlanId: practicePlanId
+        }
+        switch(index) {
+          case 0:
+            if(type === 31){
+              this.context.router.push({
+                pathname: '/rise/static/practice/knowledge',
+                query: queryParam
+              })
+            }else if(type === 32){
+              this.context.router.push({
+                pathname: '/rise/static/practice/knowledge/review',
+                query: queryParam
+              })
+            }
+            break
+          case 1:
+            this.context.router.push({
+              pathname: '/rise/static/practice/warmup',
+              query: queryParam
+            })
+            break
+          case 2:
+            this.context.router.push({
+              pathname: '/rise/static/practice/application',
+              query: _.merge(queryParam, {
+                id: practiceId
+              })
+            })
+            break
+          case 3:
+            this.context.router.push({
+              pathname: '/rise/static/practice/application',
+              query: _.merge(queryParam, {
+                id: practiceId
+              })
+            })
+            break
+          default:
+            break
+        }
+      }else{
+        dispatch(alertMsg(msg))
+      }
+    }).catch(er => alertMsg(er))
   }
 
   selfSeriesSwitch(index) {
@@ -133,17 +145,17 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
           </MarkBlock>
         </div>
         <div className="progress-text-container">
-        {
-          progress.map((part, index) => {
-            const { unlock, complete } = part
-            return (
+          {
+            progress.map((part, index) => {
+              const { unlock, complete } = part
+              return (
                 <div className={`progress-text ${unlock ? 'unlock' : 'lock'} ${index == currentIndex ? 'current' : ''}`}
-                   onClick={() => this.selfSeriesSwitch(index)} key={index}>
+                     onClick={() => this.selfSeriesSwitch(index)} key={index}>
                   {this.PROGRESS_TEXT[index]}
                 </div>
-            )
-          })
-        }
+              )
+            })
+          }
         </div>
       </div>
     )

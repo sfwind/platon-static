@@ -5,9 +5,8 @@ import { Route } from 'react-router'
 import Base from 'modules/base/Base'
 import StudyLine from 'modules/plan/StudyLine'
 import { KnowledgeViewer } from 'modules/practice/knowledge/KnowledgeViewer'
-import { Result as WarmUpResult } from 'modules/practice/warmup/Result'
-import { Main as Application } from 'modules/practice/application/Main'
-import { Challenge as Challenge } from 'modules/practice/challenge/Challenge'
+import { Application } from 'modules/practice/application/Application'
+import { Challenge } from 'modules/practice/challenge/Challenge'
 import { Main as Subject } from 'modules/practice/subject/Main'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
@@ -98,12 +97,10 @@ const routes = (
 
       <Route path="plan/view" component={ProblemIntroduction}/>
       <Route path="plan/study" component={StudyLine}/>
-      {/*<Route path="plan/study" component={PlanMain}/>*/}
       <Route path="plan/report" component={ImprovementReport}/>
 
       <Route path="practice/warmup" component={WarmUpNew}/>
       <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
-      <Route path="practice/warmup/result" component={WarmUpResult}/>
       <Route path="practice/application" component={Application}/>
       <Route path="practice/challenge" component={Challenge}/>
       <Route path="practice/application/comment" component={ApplicationComment}/>

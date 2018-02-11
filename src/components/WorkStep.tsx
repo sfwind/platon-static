@@ -12,7 +12,7 @@ interface WorkItem {
 export default class WorkStep extends React.Component<WorkStepProps,any>{
   constructor(props){
     super(props);
-    this.sate = {};
+    this.state = {};
   }
 
   render(){

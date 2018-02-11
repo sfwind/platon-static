@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './KnowledgeViewer.less'
 import AssetImg from '../../../components/AssetImg'
 import Audio from '../../../components/Audio'
+import WordUnfold from '../../../components/WordUnfold'
 import {
   loadDiscuss,
   discussKnowledge,
@@ -195,7 +196,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, true)
+        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, dispatch)
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -231,8 +232,8 @@ export class KnowledgeViewer extends React.Component<any, any> {
       <Block>
         <div className={`knowledge-view-container`}>
           {practicePlanId ? <SectionProgressHeader ref={'sectionProgress'}
-                                                    practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>
-          : <div className="page-header">{knowledge.knowledge}</div>}
+                                                   practicePlanId={practicePlanId} currentIndex={0} planId={planId}/>
+            : <div className="page-header">{knowledge.knowledge}</div>}
           {
             videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
           }
@@ -248,7 +249,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
               analysis &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/analysis2.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/analysis3.png"/>
                 </div>
                 {analysisAudio &&
                 <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div> }
@@ -262,7 +263,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
               means &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/means2.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/means3.png"/>
                 </div>
                 {meansAudio && <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div>}
                 <div className="text">
@@ -275,7 +276,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
               keynote &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/keynote2.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/keynote3.png"/>
                 </div>
                 {
                   keynoteAudio &&
@@ -291,7 +292,7 @@ export class KnowledgeViewer extends React.Component<any, any> {
               example &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg width={'100%'} url="https://static.iqycamp.com/images/fragment/example.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/example2.png"/>
                 </div>
                 <div className="question">
                   <pre dangerouslySetInnerHTML={{ __html: example.question }}></pre>
@@ -308,39 +309,39 @@ export class KnowledgeViewer extends React.Component<any, any> {
                       </div>
                       <pre dangerouslySetInnerHTML={{ __html: example.analysis }}></pre>
                     </div> :
-                    <div className="analysis">
-                      <div className="analysis-tip" onClick={() => this.setState({ showTip: true })}>点击查看解析</div>
+                    <WordUnfold words="点击查看解析" onUnfold={() => this.setState({ showTip: true })}/>
+                }
+              </div>
+            }
+            { showTip && <div className="title-bar">问答</div> }
+            { showTip &&
+              <div className="discuss">
+                {
+                  !_.isEmpty(discuss) &&
+                  discuss.map(item => {
+                    return (
+                      <DiscussShow discuss={item} showLength={50} reply={() => {
+                        this.reply(item)
+                      }} onDelete={() => this.onDelete(item.id)}/>
+                    )
+                  })
+                }
+                {
+                  discuss &&
+                  discuss.length > 0 ?
+                    <div className="show-more">
+                      你已经浏览完所有的讨论啦
+                    </div> :
+                    <div className="discuss-end">
+                      <div className="discuss-end-img">
+                        <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
+                                  height={92}></AssetImg>
+                      </div>
+                      <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
                     </div>
                 }
               </div>
             }
-            <div className="title-bar">问答</div>
-            <div className="discuss">
-              {
-                !_.isEmpty(discuss) &&
-                discuss.map(item => {
-                  return (
-                    <DiscussShow discuss={item} showLength={50} reply={() => {
-                      this.reply(item)
-                    }} onDelete={() => this.onDelete(item.id)}/>
-                  )
-                })
-              }
-              {
-                discuss &&
-                discuss.length > 0 ?
-                  <div className="show-more">
-                    你已经浏览完所有的讨论啦
-                  </div> :
-                  <div className="discuss-end">
-                    <div className="discuss-end-img">
-                      <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
-                                height={92}></AssetImg>
-                    </div>
-                    <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-                  </div>
-              }
-            </div>
           </div>
           {showDiscuss && <div className="padding-comment-dialog"/>}
           {

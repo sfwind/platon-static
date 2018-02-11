@@ -22,10 +22,10 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
   render() {
     const { btnArray = [] } = this.props
     if(btnArray.length === 1) {
-      const { click, text, className } = btnArray[0]
+      const { click, text, className='' } = btnArray[0]
       return (
         <div className="ft-button-wrapper button-footer">
-          <div className={`submit-btn ${className && className}`} onClick={() => click()}>{text}</div>
+          <div className={`submit-btn ${className}`} onClick={() => click()}>{text}</div>
         </div>
       )
     } else {
@@ -33,9 +33,9 @@ export class FooterButton extends React.Component<SubmitButtonProps, SubmitButto
         <div className="ft-button-wrapper button-footer two-buttons">
           {
             btnArray.map((btn, idx) => {
-              const { click, text, className } = btn
+              const { click, text, className='' } = btn
               return (
-                <div className={`button ${className && className}`} key={idx} onClick={() => click()}>
+                <div className={`button ${className}`} key={idx} onClick={() => click()}>
                   {text}
                 </div>
               )
