@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import './Main.less'
+import './Application.less'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
@@ -21,6 +21,7 @@ import { SectionProgressHeader, SectionProgressStep } from '../components/Sectio
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
 import { CardPrinter } from '../../plan/components/CardPrinter'
+import WordUnfold from '../../../components/WordUnfold'
 
 const { Alert } = Dialog
 let timer
@@ -31,7 +32,7 @@ const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
  * 应用题页
  */
 @connect(state => state)
-export class Main extends React.Component <any, any> {
+export class Application extends React.Component <any, any> {
   constructor() {
     super()
     this.state = this.getInitialState()
@@ -511,7 +512,7 @@ export class Main extends React.Component <any, any> {
           if(isBaseApplication) {
             return (
               <FooterButton btnArray={[{ click: () =>
-                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, true),
+                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, dispatch),
                 text: '下一题' }]}/>
             )
           } else {
@@ -552,7 +553,7 @@ export class Main extends React.Component <any, any> {
             {
               integrated == 'false' &&
               <div className="knowledge-link"
-                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
+                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
                 点击查看相关知识点
               </div>
             }
@@ -586,8 +587,8 @@ export class Main extends React.Component <any, any> {
             }
             {
               !showOthers &&
-              <div className="show-others-tip" onClick={() => this.others()}>
-                同学的作业
+              <div className="show-others-tip">
+                <WordUnfold words="同学的作业" onUnfold={() => this.others()} />
               </div>
             }
           </div>

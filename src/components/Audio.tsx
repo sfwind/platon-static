@@ -214,7 +214,7 @@ export default class Audio extends React.Component<AudioProps, any> {
         <div className={`audio-words`} dangerouslySetInnerHTML={{ __html: words }}/>
         <div className={`words-text-mask`}>
           <div className={`words-mask-tips`} onClick={() => this.handleClickShowWords(showWords)}>
-            <span className={`awb-tips ${showWords ? 'hide' : 'show'}`}>
+            <span className={`${showWords ? 'hide' : 'show'}`}>
               {showWords ? '收起' : '查看语音文稿'}
             </span>
           </div>

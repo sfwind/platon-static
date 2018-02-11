@@ -63,7 +63,7 @@ export class KnowledgeReview extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, true)
+        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, dispatch)
       } else {
         dispatch(alertMsg(res.msg))
       }

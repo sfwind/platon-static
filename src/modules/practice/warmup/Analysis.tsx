@@ -182,7 +182,8 @@ export class Analysis extends React.Component <any, any> {
       list, currentIndex, selected, practiceCount, showDiscuss, isReply, integrated, placeholder, knowledgeId
     } = this.state
     const { practice = [] } = list
-    const { planId } = this.props.location.query
+    const { dispatch, location } = this.props
+    const { planId } = location.query
 
     const questionRender = (practice) => {
       const { id, question, pic, choiceList = [], score = 0, discussList = [] } = practice
@@ -217,7 +218,7 @@ export class Analysis extends React.Component <any, any> {
                  dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
             {integrated == 'false' &&
             <div className="knowledge-link"
-                 onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
+                 onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
               点击查看相关知识点
             </div>
             }
@@ -307,7 +308,7 @@ export class Analysis extends React.Component <any, any> {
                 click: () => {
                   currentIndex + 1 < practiceCount ?
                     this.next() :
-                    this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION)
+                    this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION, dispatch)
                 },
                 text: '下一题'
               }

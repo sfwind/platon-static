@@ -152,7 +152,7 @@ export class Main extends React.Component <any, any> {
     const { dispatch } = this.props
     const { selected, currentIndex, practiceCount, list, openStatus } = this.state
     const { openConsolidation } = openStatus
-    const { practicePlanId } = this.props.location.query
+    const { practicePlanId } = this.props
     if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
@@ -222,7 +222,8 @@ export class Main extends React.Component <any, any> {
       list, currentIndex, selected, practiceCount, openStatus = {}, integrated,
       submit, data
     } = this.state
-    const { planId } = this.props.location.query
+    const { dispatch, location } = this.props.location.query
+    const { planId } = location.query
     const { total, rightNumber, point } = data
     const { openConsolidation = true } = openStatus
     const { practice = [] } = list
@@ -251,8 +252,9 @@ export class Main extends React.Component <any, any> {
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          {integrated == 'false' && <div className="knowledge-link"
-                                         onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE)}>
+          {integrated == 'false' &&
+          <div className="knowledge-link"
+               onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
             不确定?瞄一眼知识点
           </div>
           }
