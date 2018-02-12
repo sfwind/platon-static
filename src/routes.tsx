@@ -60,7 +60,6 @@ import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
-import StudyReport from './modules/plan/StudyReport'
 import MineCard from './modules/customer/card/MineCard'
 import CampCountDown from './modules/schedule/CampCountDown'
 import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
@@ -170,8 +169,6 @@ const routes = (
       <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
       <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
-
-    <Route path="/test" component={StudyReport}/>
   </Route>
 )
 
