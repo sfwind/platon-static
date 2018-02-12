@@ -119,7 +119,7 @@ export default class Personal extends React.Component<any, any> {
       return (
         <div className="personal-head" style={{ marginTop: this.marginTop + 'px' }}>
           <div className="personal-head-pic"
-               style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
+               style={{ background: 'url(' + window.ENV.headImgUrl + ')  no-repeat  center center/100% auto' }}/>
           <div className="personal-name">
             {window.ENV.userName}
           </div>
@@ -189,7 +189,7 @@ export default class Personal extends React.Component<any, any> {
       <div className="personal">
         <div className="personal-header" style={{ height: this.picHeight }}>
           <div className="personal-mask"
-               style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
+               style={{ background: 'url(' + window.ENV.headImgUrl + ')  no-repeat  center center/100% auto' }}/>
           {renderHeader()}
         </div>
         <div className="personal-container">

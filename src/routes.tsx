@@ -60,7 +60,6 @@ import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
-import StudyReport from './modules/plan/StudyReport'
 import MineCard from './modules/customer/card/MineCard'
 import CampCountDown from './modules/schedule/CampCountDown'
 import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
@@ -73,8 +72,7 @@ const routes = (
   <Route>
     <Route path="/rise/static" component={Base}
            onChange={(before, after) => {
-             config([ 'chooseWXPay' ])
-
+             config(['chooseWXPay'])
              if(after.location.state && after.location.state.pageScrollY) {
                setTimeout(() => {
                  window.scrollTo(0, after.location.state.pageScrollY)
@@ -171,8 +169,6 @@ const routes = (
       <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
       <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
-
-    <Route path="/test" component={StudyReport}/>
   </Route>
 )
 

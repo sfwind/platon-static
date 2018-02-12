@@ -216,7 +216,7 @@ class ButtonStatus {
     for(let i = 0; i < this.paymentGroup.length; i++) {
       if(status === this.paymentGroup[i]) {
         /** 如果：LandingPage的url不是空 && LandingPage的url不是当前的url && 是ios系统，则刷新页面  */
-        return window.ENV.configUrl != '' && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios'
+        return !_.isEmpty(window.ENV.configUrl) && window.ENV.configUrl !== window.location.href && window.ENV.osName === 'ios'
       }
     }
     return false

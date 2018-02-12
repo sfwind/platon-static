@@ -49,8 +49,8 @@ export default class PersonalModify extends React.Component {
         <div className="item">
           <div className="label">头像</div>
           <MarkBlock module={'打点'} func={'个人中心'} action={'点击修改头像'} className="content header-img"
-                     onClick={() => this.handleClickGoHeadImgModifyPage(window.ENV.headImage)}>
-            <AssetImg ref="headImg" url={window.ENV.headImage} alt=""/>
+                     onClick={() => this.handleClickGoHeadImgModifyPage(window.ENV.headImgUrl)}>
+            <AssetImg ref="headImg" url={window.ENV.headImgUrl} alt=""/>
           </MarkBlock>
         </div>
         <MarkBlock module={'打点'} func={'个人中心'} action={'点击修改昵称'} className="item"

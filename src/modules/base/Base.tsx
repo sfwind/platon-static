@@ -32,9 +32,6 @@ $.fn.extend({
 
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
 
   constructor() {
     super()
@@ -48,7 +45,8 @@ export default class Main extends React.Component<any, any> {
         ]
       },
       windowsClient: false,
-      activityMsg: false
+      activityMsg: false,
+      showPage: false
     }
     window.ENV.Detected = new UA(window.navigator.userAgent)
     window.ENV.osName = toLower(get(window, 'ENV.Detected.os.name'))
@@ -58,7 +56,17 @@ export default class Main extends React.Component<any, any> {
     fixIosShimoBug()
   }
 
-  componentWillMount() {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  async componentWillMount() {
+    let userInfoResult = await pget('/rise/customer/info')
+    if(userInfoResult.code === 200) {
+      window.ENV.userName = userInfoResult.msg.nickname
+      window.ENV.headImgUrl = userInfoResult.msg.headimgurl
+    }
+    this.setState({ showPage: true })
     if(window.location.href.indexOf('/rise/static/guest/') === -1) {
       // 不是guest页面，判断这个用户是否可以看到活动提示
       pget('/rise/index/msg').then(res => {
@@ -111,6 +119,10 @@ export default class Main extends React.Component<any, any> {
   }
 
   render() {
+    if(!this.state.showPage) {
+      return <div></div>
+    }
+
     const { showGlobalNotify, expiredInSevenDays, expired } = this.state
 
     const renderGlobalNotify = () => {

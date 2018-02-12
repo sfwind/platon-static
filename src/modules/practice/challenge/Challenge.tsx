@@ -145,7 +145,7 @@ export class Challenge extends React.Component <any, any> {
               <Block>
                 <div className="working-header">我的目标</div>
                 <Work onEdit={() => this.onEdit()} operation={false}
-                      headImage={window.ENV.headImage} userName={window.ENV.userName} {...data}/>
+                      headImage={window.ENV.headImgUrl} userName={window.ENV.userName} {...data}/>
                 <FooterButton btnArray={[{
                   click: () => this.context.router.push({pathname:'/rise/static/plan/study', query:{planId}}),
                   text: '返回'}]}/>
