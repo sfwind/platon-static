@@ -680,7 +680,8 @@ router.get("/rise/practice/application/start/*", (req, res) => {
           "request": null,
           "feedback": null,
           "draft": null,
-          "draftId": null
+          "draftId": null,
+          "isBaseApplication":true,
         }, "code": 200
       }
     ), Math.random() * 1500)

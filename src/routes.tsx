@@ -3,11 +3,10 @@ import { config } from 'modules/helpers/JsConfig'
 import { Route } from 'react-router'
 
 import Base from 'modules/base/Base'
-import { PlanMain } from 'modules/plan/PlanMain'
+import StudyLine from 'modules/plan/StudyLine'
 import { KnowledgeViewer } from 'modules/practice/knowledge/KnowledgeViewer'
-import { Result as WarmUpResult } from 'modules/practice/warmup/Result'
-import { Main as Application } from 'modules/practice/application/Main'
-import { Main as Challenge } from 'modules/practice/challenge/Main'
+import { Application } from 'modules/practice/application/Application'
+import { Challenge } from 'modules/practice/challenge/Challenge'
 import { Main as Subject } from 'modules/practice/subject/Main'
 import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
@@ -39,8 +38,8 @@ import AnswerComment from './modules/forum/question/AnswerComment'
 import SubmitQuestionInit from './modules/forum/question/SubmitQuestionInit'
 import SubmitQuestionDetail from './modules/forum/question/SubmitQuestionDetail'
 import { ImprovementReport } from 'modules/plan/ImprovementReport'
-import ProblemIntroduction from 'modules/problem/ProblemIntroduction'
-import ProblemExtension from './modules/problem/ProblemExtension'
+import ProblemIntroduction from 'modules/practice/introduction/ProblemIntroduction'
+import ProblemExtension from './modules/practice/extension/ProblemExtension'
 import PlanList from 'modules/plan/PlanList'
 import WarmUpNew from 'modules/practice/warmup/Warmup'
 import ForumQuestion from 'modules/customer/ForumQuestion'
@@ -61,6 +60,7 @@ import ScheduleNotice from './modules/schedule/ScheduleNotice'
 import ScheduleChoice from './modules/schedule/ScheduleChoice'
 import CountDown from './modules/schedule/CountDown'
 import ProblemNoPublish from './modules/schedule/nopublish/ProblemNoPublish'
+import StudyReport from './modules/plan/StudyReport'
 import MineCard from './modules/customer/card/MineCard'
 import CampCountDown from './modules/schedule/CampCountDown'
 import AnnualSummary from './modules/promotion/annualsummary/AnnualSummary'
@@ -95,12 +95,11 @@ const routes = (
       <Route path="problem/cards" component={CardsCollection}/>
 
       <Route path="plan/view" component={ProblemIntroduction}/>
-      <Route path="plan/study" component={PlanMain}/>
+      <Route path="plan/study" component={StudyLine}/>
       <Route path="plan/report" component={ImprovementReport}/>
 
       <Route path="practice/warmup" component={WarmUpNew}/>
       <Route path="practice/warmup/new/analysis" component={AnalysisNew}/>
-      <Route path="practice/warmup/result" component={WarmUpResult}/>
       <Route path="practice/application" component={Application}/>
       <Route path="practice/challenge" component={Challenge}/>
       <Route path="practice/application/comment" component={ApplicationComment}/>
@@ -171,6 +170,8 @@ const routes = (
       <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
       <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
+
+    <Route path="/test" component={StudyReport}/>
   </Route>
 )
 

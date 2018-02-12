@@ -1,18 +1,21 @@
-@import "../../style/variable";
+@import "../../../style/variable";
 
 .problem-introduction {
   background-color: @color_weak_background;
-
+  padding-bottom: 50px;
+  box-sizing: border-box;
+  overflow-x: hidden;
   .header-img {
     position: relative;
     height: 175px;
-    background-color: #CCEAEB;
+    background-image: linear-gradient(-90deg, #FFC701 0%, #FF983F 100%);
     img {
       display: block;
     }
     overflow: hidden;
     > .back-img {
       position: absolute;
+      top: 15px;
       width: 145px;
       height: 145px;
       left: ~"calc(50% - 72.5px)";
@@ -41,7 +44,7 @@
       z-index: 20;
       right: 22px;
       bottom: 5px;
-      font-size: 1.1em;
+      font-size: 1.1rem;
       background: url("@{imgPathFragment}/problem_uncollect.png?imageslim") no-repeat center 10%;
       &.collected {
         background: url("@{imgPathFragment}/problem_collected.png?imageslim") no-repeat center 10%;
@@ -66,34 +69,9 @@
 
       .title-content {
         text-align: center;
-        font-size: 2.0em;
+        font-size: 2.0rem;
         color: #fff;
         line-height: 25px;
-      }
-
-      .complete-person {
-        height: 20px;
-        right: 10px;
-        bottom: 0;
-        z-index: 1;
-        margin-top: 10px;
-        .icon-person {
-          display: inline-block;
-          width: 12px;
-          height: 12px;
-          background: url("https://static.iqycamp.com/images/fragment/electornic-person-icon_5.png?imageslim");
-          background-size: 12px 12px;
-        }
-        .completed-person-count {
-          position: relative;
-          bottom: 2px;
-          vertical-align: text-top;
-          display: inline-block;
-          height: 12px;
-          line-height: 12px;
-          color: #fff;
-          font-size: 1.2em;
-        }
       }
     }
 
@@ -102,95 +80,22 @@
       bottom: 8px;
       left: 22px;
       color: #fff !important;
-      font-size: 1.2em;
-      line-height: 1.2em;
-    }
-  }
-
-  > .mask {
-    position: fixed;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.6);
-  }
-
-  .pi-header {
-    height: auto;
-    position: relative;
-    background-color: #CCEAEB;
-    overflow: hidden;
-    .pi-h-body {
-      position: relative;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 10;
-      .left {
-        padding-left: 25px;
-      }
-      .pi-h-b-icon {
-        line-height: 0;
-        padding-top: 10px;
-        padding-left: 5px;
-      }
-      .pi-h-b-title {
-        width: 50%;
-        font-size: @font_title;
-        color: @color_context;
-      }
-      .pi-h-b-content {
-        width: 50%;
-        font-size: @font_help;
-        line-height: @font_click;
-        color: @color_help;
-        &.bottom {
-          padding-bottom: 33px;
-        }
-      }
-    }
-  }
-
-  .relation-tab {
-    width: 100%;
-    height: 50px;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: @color_weak_background;
-    > div {
-      display: inline-block;
-      float: left;
-      width: 50%;
-
-      > div {
-        width: 50%;
-        margin: 0 25%;
-        display: inline-block;
-        color: #999999;
-        text-align: center;
-        line-height: 50px;
-        font-size: 1.5em;
-        height: 49px;
-        &.selected {
-          border-bottom: 1px solid #55cbcb;
-          color: #55cbcb;
-        }
-      }
+      font-size: 1.2rem;
+      line-height: 1.2rem;
     }
   }
 
   .pi-content {
     background-color: @color_weak_background;
-    padding: 25px;
+    padding: 20px 30px;
     .white-content {
       background-color: @color_white;
       -webkit-border-radius: 5px;
       -moz-border-radius: 5px;
       border-radius: 5px;
-      padding: 0 10px 20px;
+      padding: 0 25px;
       &.mg-25 {
-        margin-top: 25px;
+        margin-top: 20px;
       }
     }
 
@@ -233,30 +138,26 @@
             margin: 0;
           }
         }
-        padding: 0 10px;
         .pi-c-f-c-text {
           line-height: 26px;
-          font-size: 1.5em;
+          font-size: 1.5rem;
           padding: 15px 0 0;
         }
       }
     }
     .pi-c-system {
       .pi-c-s-content {
-        padding: 0 10px;
         .pi-c-s-text {
           color: @color_title;
-          font-size: 1.5em;
+          font-size: 1.5rem;
           line-height: 26px;
         }
       }
     }
     .pi-c-learn {
       .pi-c-l-content {
-        .pi-c-text {
-          padding: 0 10px;
-        }
         .roadmap {
+          margin-top: -20px;
           .chapter-item {
             &:last-of-type {
               margin-bottom: 0;
@@ -278,14 +179,12 @@
                 width: 10px;
                 height: 10px;
                 margin: 3px 10px 0 5px;
-                -webkit-border-radius: 1em;
-                -moz-border-radius: 1em;
-                border-radius: 1em;
+                border-radius: 1px;
                 background-color: @color_strong;
               }
             }
             .section {
-              font-size: 1.5em;
+              font-size: 1.5rem;
               color: @color_title;
               padding-left: 24px;
             }
@@ -312,7 +211,7 @@
           }
           .wi-sequence {
             color: @color_strong;
-            font-size: 2.4em;
+            font-size: 2.4rem;
             margin-left: 15px;
             display: table-cell;
             width: 30px;
@@ -321,7 +220,7 @@
           .wi-text {
             color: @color_title;
             display: table-cell;
-            font-size: 1.5em;
+            font-size: 1.5rem;
             vertical-align: middle;
             &.just-one {
               width: ~'calc(100% - 10px)';
@@ -335,7 +234,7 @@
     .pi-c-ability {
       .pi-c-a-content {
         .text {
-          font-size: 1.5em;
+          font-size: 1.5rem;
           padding: 0 10px;
           color: @color_title;
         }
@@ -358,9 +257,6 @@
             color: @color_strong;
           }
           .pi-c-a-c-m-text {
-            //position: absolute;
-            //top:0;
-            //left:0;
             width: 100px;
             -webkit-transform: translateX(-23%);
             -moz-transform: translateX(-23%);
@@ -383,7 +279,7 @@
         padding: 0 10px;
         .pre-pay-message {
           color: #666;
-          font-size: 1.5em;
+          font-size: 1.5rem;
           line-height: 26px;
         }
       }
@@ -391,8 +287,8 @@
     .pi-c-learn-term {
       .pi-c-l-t-text {
         position: relative;
-        font-size: 1.5em;
-        line-height: 1.5em;
+        font-size: 1.5rem;
+        line-height: 1.5rem;
         padding: 8.5px 0 12px 25px;
         color: @color_title;
 
@@ -424,7 +320,7 @@
     .pi-c-tool {
       text-align: center;
       .pi-c-t-text {
-        font-size: 1.5em;
+        font-size: 1.5rem;
         color: @color_title;
       }
       .pi-c-t-content {
@@ -436,18 +332,14 @@
           box-shadow: 0 0 5px 5px rgba(0, 0, 0, .02);
           margin: 17px 30px;
           .platform {
-            font-size: 1.5em;
+            font-size: 1.5rem;
             color: @color_context;
           }
           .sub-title {
-            font-size: 1.5em;
+            font-size: 1.5rem;
             color: @color_title;
             &.left {
-              -webkit-transform: translateX(-1em);
-              -moz-transform: translateX(-1em);
-              -ms-transform: translateX(-1em);
-              -o-transform: translateX(-1em);
-              transform: translateX(-1em);
+              transform: translateX(-1rem);
             }
           }
         }
@@ -460,7 +352,7 @@
     }
     .pi-c-text {
       color: @color_title;
-      font-size: 1.5em;
+      font-size: 1.5rem;
       line-height: 26px;
     }
   }
@@ -545,8 +437,8 @@
             color: #fff;
             position: absolute;
             text-align: center;
-            font-size: 2.0em;
-            line-height: 2.0em;
+            font-size: 2.0rem;
+            line-height: 2.0rem;
             top: 50%;
             transform: translateY(-50%);
             opacity: 0.8;
@@ -592,7 +484,7 @@
           top: 15px;
           margin-left: 10px;
           color: #333;
-          font-size: 1.5em;
+          font-size: 1.5rem;
           line-height: 20px;
         }
         .problem-catalog {
@@ -602,92 +494,10 @@
           top: 66px;
           margin-left: 10px;
           color: #666;
-          font-size: 1.1em;
+          font-size: 1.1rem;
           line-height: 11px;
         }
       }
-    }
-  }
-
-  .button-footer {
-    box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.04);
-    display: block;
-    position: fixed;
-    font-size: @font_title;
-    bottom: 0;
-    width: 100%;
-    height: @button_footer_height;
-    text-align: center;
-    line-height: @button_footer_height;
-    background-size: 100% 100%;
-    background-image: url('https://static.iqycamp.com/images/bottom_button_bg3.png?imageslim');
-    color: #fff;
-    z-index: 10;
-    &.trial_pay {
-      background-image: url('https://static.iqycamp.com/images/bottom_button_bg3_trial.jpg?imageslim');
-    }
-    > .left {
-      display: inline-block;
-      width: 100%;
-      border-right: 1px solid white;
-      background: #F57F16;
-      color: #FFF;
-      height: 50px;
-      &.disabled {
-        background: #cccccc;
-      }
-      &.pay {
-        float: left;
-      }
-      img {
-        margin-right: 12px;
-        position: relative;
-        top: 4px;
-      }
-    }
-    > .right {
-      display: inline-block;
-      width: 0;
-      background: #F57F16;
-      color: #FFF;
-      height: 50px;
-      &.disabled {
-        background: #cccccc;
-      }
-      img {
-        margin-right: 12px;
-        position: relative;
-        top: 4px;
-      }
-    }
-    &.disabled {
-      background: #cccccc;
-    }
-
-    .together-class-notice {
-      font-size: 12px;
-      line-height: 25px;
-      padding: 7px 0 10px;
-      position: absolute;
-      left: 0;
-      bottom: 50px;
-      margin: 0 auto;
-      background-image: url('https://static.iqycamp.com/images/together-class-notice_1.png?imageslim');
-      background-size: 100% 100%;
-    }
-
-    .split-left {
-      width: 58%;
-      float: left;
-      background-color: #FFF;
-      color: #F57F16;
-    }
-
-    .split-right {
-      width: 42%;
-      float: left;
-      background-color: #F57F16;
-      color: #FFF;
     }
   }
 
@@ -705,9 +515,9 @@
     .pih-title {
       margin-left: 10px;
       display: inline-block;
-      line-height: 20px;
+      line-height: 1.8rem;
       color: @color_context;
-      font-size: 2em;
+      font-size: 1.8rem;
     }
   }
 }

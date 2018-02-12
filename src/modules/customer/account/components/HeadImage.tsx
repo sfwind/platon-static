@@ -93,7 +93,7 @@ export class HeadImage extends React.Component {
     } else {
       ppost(`/rise/customer/profile/headImg/update?headImgUrl=${this.state.headImgUrl}`).then(res => {
         if(res.code === 200) {
-          window.ENV.headImage = this.state.headImgUrl
+          window.ENV.headImgUrl = this.state.headImgUrl
           this.context.router.goBack()
         }
       })

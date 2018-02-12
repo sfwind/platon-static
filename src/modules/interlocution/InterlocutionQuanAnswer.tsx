@@ -90,7 +90,7 @@ export default class InterlocutionQuanAnswer extends Component {
   render() {
     const { data = {}, showAll, showQrDialog, qrCode } = this.state;
     const { answer = {}, nextDate = {}, dateInfo = {}, topic, nextAnswer, otherDates } = data;
-    console.log(otherDates);
+
     const renderAudioWords = () => {
       if(showAll) {
         // 实现全部

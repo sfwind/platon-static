@@ -53,7 +53,6 @@ export default class LetterPage extends React.Component {
   render() {
     const { currentProfile } = this.state
 
-    console.log(currentProfile)
     return (
       <div id='print-node' className="mailpage-container" onClick={() => this.savePng(currentProfile)}>
         <div className="print-nickname">{`亲爱的${currentProfile.nickname}，`}</div>

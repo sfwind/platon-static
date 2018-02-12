@@ -7,7 +7,7 @@ import { loadAllProblems } from './async'
 import './BannerArticle.less'
 
 @connect(state => state)
-export default class UpMind extends React.Component<any, any> {
+export default class BannerArticle extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {}

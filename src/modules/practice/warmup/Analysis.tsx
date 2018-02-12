@@ -9,7 +9,9 @@ import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import _ from 'lodash'
 import { scroll } from '../../../utils/helpers'
-import RenderInBody from '../../../components/RenderInBody'
+import { mark } from '../../../utils/request'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 
 const sequenceMap = {
   0: 'A',
@@ -63,11 +65,13 @@ export class Analysis extends React.Component <any, any> {
 
   next() {
     const { dispatch } = this.props
-    const { currentIndex, practiceCount } = this.state
+    const { currentIndex, practiceCount, list } = this.state
     if(currentIndex < practiceCount - 1) {
       this.setState({ currentIndex: currentIndex + 1 })
       //保存当前解析的题目index
       dispatch(set('warmupCurrentIndex', currentIndex + 1))
+      let questionId = _.get(list, `practice[${currentIndex}].id`)
+      mark({ module: '打点', function: questionId, action: '查看解析', memo: currentIndex })
     }
     window.scrollTo(0, 0)
   }
@@ -81,10 +85,6 @@ export class Analysis extends React.Component <any, any> {
       dispatch(set('warmupCurrentIndex', currentIndex - 1))
     }
     window.scrollTo(0, 0)
-  }
-
-  nextTask() {
-    window.history.back()
   }
 
   reload() {
@@ -101,7 +101,7 @@ export class Analysis extends React.Component <any, any> {
         this.setState({
           showDiscuss: false, list, content: '', placeholder: '解答同学的提问（限1000字）', repliedId: 0, isReply: false
         })
-        scroll('.discuss', '.container')
+        scroll('.discuss', '.warm-up-container')
       }
       else dispatch(alertMsg(msg))
     }).catch(ex => {
@@ -182,6 +182,8 @@ export class Analysis extends React.Component <any, any> {
       list, currentIndex, selected, practiceCount, showDiscuss, isReply, integrated, placeholder, knowledgeId
     } = this.state
     const { practice = [] } = list
+    const { dispatch, location } = this.props
+    const { planId } = location.query
 
     const questionRender = (practice) => {
       const { id, question, pic, choiceList = [], score = 0, discussList = [] } = practice
@@ -209,16 +211,17 @@ export class Analysis extends React.Component <any, any> {
                 正确答案：{choiceList.map((choice, idx) => rightAnswerRender(choice, idx))}
               </div>
             </div>
-            <div className="analysis">
-              <div className="analysis-icon">解析</div>
-              <div className="analysis-context"
-                   dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
-              {integrated == 'false' ?
-                <div className="knowledge-link"
-                     onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>
-                  点击查看相关知识</div> : null
-              }
+          </div>
+          <div className="analysis">
+            <div className="analysis-icon">解析</div>
+            <div className="analysis-context"
+                 dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
+            {integrated == 'false' &&
+            <div className="knowledge-link"
+                 onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
+              点击查看相关知识点
             </div>
+            }
           </div>
           <div className="discuss-container">
             <div className="discuss">
@@ -285,38 +288,44 @@ export class Analysis extends React.Component <any, any> {
     }
 
     return (
-      <div>
-        <div className="container has-footer">
-          <div className="warm-up">
-            {practice[currentIndex] && practice[currentIndex].knowledge ?
-              <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-              <div className="page-header">综合练习</div>
-            }
-            {questionRender(practice[currentIndex] || {})}
-          </div>
-          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
-        </div>
-        <RenderInBody>
-          <div>
-            {showDiscuss ? null :
-              <div className="button-footer">
-                <div className={`left ${currentIndex === 0 ? ' disabled' : 'origin'}`} onClick={this.prev.bind(this)}>
-                  上一题
-                </div>
-                {currentIndex + 1 < practiceCount ?
-                  <div className={`right`} onClick={this.next.bind(this)}>下一题</div> :
-                  <div className="right" onClick={this.nextTask.bind(this)}>返回</div>}
-              </div>}
-            {showDiscuss ? <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                                    submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
-                                    cancel={() => this.cancel()}/> :
+      <div className="warm-up-container">
+        <SectionProgressHeader ref={'sectionProgress'} planId={planId}
+                               practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
+        {questionRender(practice[currentIndex] || {})}
+        {showDiscuss && <div className="padding-comment-dialog"/>}
+        <div>
+          {
+            !showDiscuss &&
+            <FooterButton btnArray={[
+              {
+                click: () => {
+                  this.prev()
+                },
+                className: `${currentIndex === 0 && 'disable'}`,
+                text: '上一题'
+              },
+              {
+                click: () => {
+                  currentIndex + 1 < practiceCount ?
+                    this.next() :
+                    this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION, dispatch)
+                },
+                text: '下一题'
+              }
+            ]}/>
+          }
+          {
+            showDiscuss ?
+              <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                       submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+                       cancel={() => this.cancel()}/> :
               <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
                 <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-              </div>}
-          </div>
-        </RenderInBody>
-
+              </div>
+          }
+        </div>
       </div>
+
     )
   }
 }

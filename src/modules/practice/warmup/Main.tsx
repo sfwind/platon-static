@@ -2,13 +2,14 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import './Main.less'
-import { answer, getOpenStatus, openConsolidation } from './async'
+import { answer, getOpenStatus, consolidationStatus } from './async'
 import { mark } from '../../../utils/request'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
-import Tutorial from '../../../components/Tutorial'
 import AssetImg from '../../../components/AssetImg'
-import { scroll, unScrollToBorder } from '../../../utils/helpers'
-import RenderInBody from '../../../components/RenderInBody'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+
+var $ = require('jquery')
 
 const sequenceMap = {
   0: 'A',
@@ -26,13 +27,24 @@ const WARMUP_AUTO_SAVING = 'rise_warmup_autosaving'
 export class Main extends React.Component <any, any> {
   constructor() {
     super()
-    this.state = {
+    this.state = this.getInitialState()
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  getInitialState() {
+    return {
       list: [],
       currentIndex: 0,
       practiceCount: 0,
       selected: [],
       knowledge: {},
-      integrated: false
+      integrated: false,
+      submit: false,
+      openStatus: {},
+      data: {}
     }
   }
 
@@ -58,9 +70,6 @@ export class Main extends React.Component <any, any> {
           currentIndex = selectedChoices.length - 1
         }
         this.setState({ list, practiceCount: msg.practice.length, currentIndex, selected })
-        if(msg.practice[0].knowledge) {
-          this.setState({ knowledgeId: msg.practice[0].knowledge.id })
-        }
       }
     } else dispatch(alertMsg(msg))
 
@@ -69,10 +78,6 @@ export class Main extends React.Component <any, any> {
         this.setState({ openStatus: res.msg })
       }
     })
-  }
-
-  componentDidMount() {
-    unScrollToBorder('.container')
   }
 
   onChoiceSelected(choiceId) {
@@ -145,14 +150,24 @@ export class Main extends React.Component <any, any> {
 
   onSubmit() {
     const { dispatch } = this.props
-    const { selected, practice, currentIndex, practiceCount, list } = this.state
-    const { practicePlanId } = this.props.location.query
+    const { selected, currentIndex, practiceCount, list, openStatus } = this.state
+    const { openConsolidation } = openStatus
+    const { practicePlanId } = this.props
     if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
     }
+    if(!openConsolidation) {
+      consolidationStatus().then(res => {
+        const { code, msg } = res
+        if(code === 200) {
+          this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
+        } else {
+          dispatch(alertMsg(msg))
+        }
+      })
+    }
     if(currentIndex === practiceCount - 1) {
-      // let problemId = _.get(list, 'practice[0].problemId')
       let questionId = _.get(list, `practice[${currentIndex}].id`)
       mark({
         module: '打点',
@@ -162,40 +177,40 @@ export class Main extends React.Component <any, any> {
       })
       this.setChoice(p => {
         dispatch(startLoad())
-        answer({ practice: p }, practicePlanId).then(res => {
+        let res = answer({ practice: p }, practicePlanId).then(res => {
           dispatch(endLoad())
           const { code, msg } = res
           if(code === 200) {
+            const { total, rightNumber, point } = msg
             dispatch(set('completePracticePlanId', practicePlanId))
             this.clearStorage()
             // redux 存储弹卡片弹出区分变量
-            dispatch(set('CompleteChapterPracticePlanId', practicePlanId))
-            this.props.router.push({
-              pathname: '/rise/static/practice/warmup/result',
-              query: _.merge(msg, this.props.location.query)
+            dispatch(set('completeChapterPracticePlanId', practicePlanId))
+            this.setState({ data: msg, submit: true }, () => {
+              $('.result').circleProgress({
+                value: rightNumber / total,
+                size: 138,
+                startAngle: -Math.PI / 2,
+                fill: {
+                  gradient: ['#FF983F', '#FFC701']
+                }
+              })
             })
+
           } else {
             dispatch(alertMsg(msg))
           }
-        }).catch(ex => {
-          dispatch(endLoad())
-          dispatch(alertMsg(ex))
+        }).catch(e => {
+          dispatch(alertMsg(e))
         })
       })
     }
   }
 
-  tutorialEnd() {
-    const { dispatch } = this.props
-    const { openStatus } = this.state
-    openConsolidation().then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    })
+  goAnalysis() {
+    const { location } = this.props
+    const { query } = location
+    this.context.router.push({pathname:'/rise/static/practice/warmup', query:_.merge(query, {goAnalysis: true})})
   }
 
   clearStorage() {
@@ -203,7 +218,14 @@ export class Main extends React.Component <any, any> {
   }
 
   render() {
-    const { list, currentIndex, selected, practiceCount, openStatus = {}, integrated, knowledgeId } = this.state
+    const {
+      list, currentIndex, selected, practiceCount, openStatus = {}, integrated,
+      submit, data
+    } = this.state
+    const { dispatch, location } = this.props.location.query
+    const { planId } = location.query
+    const { total, rightNumber, point } = data
+    const { openConsolidation = true } = openStatus
     const { practice = [] } = list
 
     const questionRender = (practice) => {
@@ -211,18 +233,18 @@ export class Main extends React.Component <any, any> {
       return (
         <div className="intro-container">
           {
-            practiceCount !== 0 && currentIndex <= practiceCount - 1 ?
-              <div className="intro-index">
-                <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
-                <span className="tip">正确选项可能不止一个</span>
-                <div className="type"><span className="number">{score}</span>分</div>
-              </div> : null
+            practiceCount !== 0 && currentIndex <= practiceCount - 1 &&
+            <div className="intro-index">
+              <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
+              <span className="tip">正确选项可能不止一个</span>
+              <div className="type"><span className="number">{score}</span>分</div>
+            </div>
           }
           {
-            pic ?
-              <div className="context-img">
-                <AssetImg url={pic}/>
-              </div> : null
+            pic &&
+            <div className="context-img">
+              <AssetImg url={pic}/>
+            </div>
           }
           <div className="question">
             <div dangerouslySetInnerHTML={{ __html: question }}/>
@@ -230,10 +252,12 @@ export class Main extends React.Component <any, any> {
           <div className="choice-list">
             {choiceList.map((choice, idx) => choiceRender(choice, idx))}
           </div>
-          {integrated == 'false' ?
-            <div className="knowledge-link" style={{ backgroundColor: '#fff', marginTop: 20 }}
-                 onClick={() => this.props.router.push(`/rise/static/practice/knowledge?id=${knowledgeId}`)}>
-              不确定?瞄一眼知识点</div> : null}
+          {integrated == 'false' &&
+          <div className="knowledge-link"
+               onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
+            不确定?瞄一眼知识点
+          </div>
+          }
         </div>
       )
     }
@@ -251,32 +275,38 @@ export class Main extends React.Component <any, any> {
     }
 
     return (
-      <div>
-        <div className="container has-footer">
-          <div className="warm-up">
-            {practice[currentIndex] && practice[currentIndex].knowledge ?
-              <div className="page-header">{practice[currentIndex].knowledge.knowledge}</div> :
-              <div className="page-header">综合练习</div>}
-            {questionRender(practice[currentIndex] || {})}
+      <div className="warm-up-container">
+        <SectionProgressHeader ref={'sectionProgress'} planId={planId}
+                               practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
+        {!openConsolidation && <div className="progress-section-tip">
+          <div className="tip-angle"/>
+          点这里可以回看学过的知识点
+        </div>}
+        {questionRender(practice[currentIndex] || {})}
+
+        <FooterButton btnArray={[
+          { click: () => this.prev(), text: '上一题', className: `${currentIndex == 0 && 'disable'}` },
+          {
+            click: () => {
+              currentIndex !== practiceCount - 1 ?
+                this.next() : this.onSubmit()
+            },
+            text: currentIndex !== practiceCount - 1 ? '下一题' : '提交'
+          }
+        ]}/>
+        {submit &&
+        <div className="result-mask">
+          <div className="result-dialog">
+            <div className="result">
+              <div className="result-title">答对题数</div>
+              <div className="result-number">{rightNumber + '/' + total}</div>
+            </div>
+            <div className="award-title">获得奖励</div>
+            <div className="award-detail">任务得分{' '}<span>{'+' + point}</span></div>
+            <div className="go-analysis" onClick={() => this.goAnalysis()}>查看解析</div>
           </div>
         </div>
-        <RenderInBody>
-          <div className="button-footer">
-            <div className={`left origin ${currentIndex === 0 ? ' disabled' : ''}`} onClick={this.prev.bind(this)}>上一题
-            </div>
-            {
-              currentIndex !== practiceCount - 1 ?
-                <div className={`right`}
-                     onClick={
-                       this.next.bind(this)
-                     }>下一题</div> :
-                <div className={`right`} onClick={this.onSubmit.bind(this)}>提交</div>
-            }
-          </div>
-        </RenderInBody>
-        <Tutorial bgList={['https://static.iqycamp.com/images/rise_tutorial_gglx_0420.png?imageslim']}
-                  show={_.isBoolean(openStatus.openConsolidation) && !openStatus.openConsolidation}
-                  onShowEnd={() => this.tutorialEnd()}/>
+        }
       </div>
     )
   }

@@ -119,7 +119,7 @@ export default class Personal extends React.Component<any, any> {
       return (
         <div className="personal-head" style={{ marginTop: this.marginTop + 'px' }}>
           <div className="personal-head-pic"
-               style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
+               style={{ background: 'url(' + window.ENV.headImgUrl + ')  no-repeat  center center/100% auto' }}/>
           <div className="personal-name">
             {window.ENV.userName}
           </div>
@@ -143,10 +143,10 @@ export default class Personal extends React.Component<any, any> {
                      onClick={() => this.goAccount()}>
             <span>我的账户</span>
           </MarkBlock>
-          <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习礼品卡'} className="personal-item"
-                     onClick={() => this.goCardList()}>
-            <span>学习礼品卡</span>
-          </MarkBlock>
+          {/*<MarkBlock module={'打点'} func={'个人中心'} action={'点击学习礼品卡'} className="personal-item"*/}
+                     {/*onClick={() => this.goCardList()}>*/}
+            {/*<span>学习礼品卡</span>*/}
+          {/*</MarkBlock>*/}
           <MarkBlock module={'打点'} func={'个人中心'} action={'点击消息通知'} className="personal-item no-gutter"
                      onClick={() => this.goMessage()}>
             <span>消息通知</span>
@@ -189,7 +189,7 @@ export default class Personal extends React.Component<any, any> {
       <div className="personal">
         <div className="personal-header" style={{ height: this.picHeight }}>
           <div className="personal-mask"
-               style={{ background: 'url(' + window.ENV.headImage + ')  no-repeat  center center/100% auto' }}/>
+               style={{ background: 'url(' + window.ENV.headImgUrl + ')  no-repeat  center center/100% auto' }}/>
           {renderHeader()}
         </div>
         <div className="personal-container">

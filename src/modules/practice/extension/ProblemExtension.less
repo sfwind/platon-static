@@ -1,0 +1,119 @@
+@import "../../../style/variable.less";
+
+.problem-extension-container {
+  background-color: @color_weak_background;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 2.5rem 3rem;
+  
+  .extension-head {
+    height: 160px;
+    background-image: url("https://static.iqycamp.com/images/problem/extension_backimg.png?imageslim");
+    background-size: cover;
+    margin-bottom: -40px;
+  }
+  .extension-read {
+    box-sizing: border-box;
+    padding: 0 2rem;
+    background-color: #FFF;
+    border-radius: 5px;
+    .extension-read-content {
+      box-sizing: border-box;
+      padding: 2rem 0;
+      font-size: 1.5em;
+      color: @color_title;
+      a {
+        color: @color_strong;
+        text-decoration: underline;
+      }
+    }
+  }
+  .extension-activity {
+    box-sizing: border-box;
+    padding: 0 2rem;
+    background-color: #FFF;
+    margin: 2rem auto 0;
+    border-radius: 5px;
+  }
+  .extension-share {
+    box-sizing: border-box;
+    padding: 0 2rem 2rem;
+    background-color: #FFF;
+    margin: 2rem auto 0;
+    border-radius: 5px;
+    .extension-share-content {
+      text-align: center;
+      box-sizing: border-box;
+      padding: 2rem 0;
+      font-size: 1.3em;
+      color: @color_context;
+      line-height: 1.3rem;
+    }
+    .extension-share-view {
+      margin: 0 auto;
+      border-radius: 5px;
+      width: 64px;
+      height: 21px;
+      color: @color_strong;
+      font-size: 1.3em;
+      line-height: 21px;
+      text-align: center;
+      border: 1px solid @color_strong;
+    }
+  }
+  
+  // 内层带有 ICON 和文字的标题
+  .extension-head-title {
+    display: block;
+    text-align: center;
+    position: relative;
+    margin: 0 -2rem;
+    padding: 2rem 0;
+    font-size: 1.8rem;
+    height: 1.8rem;
+    line-height: 1.8rem;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  // 活动分类文本 Title
+  .activity-type-title {
+    margin: 10px 0;
+    font-size: 1.7em;
+    height: 17px;
+    line-height: 17px;
+    color: @color_context;
+    text-align: center;
+  }
+  
+  .content-box {
+    display: block;
+    position: relative;
+    margin: 0 -2rem;
+    border-bottom: 1px solid #f5f5f5;
+    &:last-of-type {
+      border-bottom: none;
+    }
+    box-sizing: border-box;
+    padding: 2rem;
+    .content {
+      font-size: 1.5rem;
+      color: #333;
+    }
+    .password {
+      display: block;
+      font-size: 1.2rem;
+      color: #333;
+      margin-top: 0.5rem;
+    }
+    .activity-type {
+      display: block;
+      font-size: 1.2rem;
+      color: #666;
+    }
+    .view {
+      display: block;
+      font-size: 1.2rem;
+      color: #0076ff;
+      text-align: right;
+    }
+  }
+}

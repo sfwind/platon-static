@@ -55,12 +55,22 @@ function SectionToChinese(section) {
   return chnStr
 }
 
-export function scroll(target, container) {
+export function scroll(target, container, delta) {
   if(document.querySelector(target)) {
-    let y = document.querySelector(target).offsetTop
+    let y = document.querySelector(target).offsetTop;
+    if(!!delta) {
+      y = y + delta;
+    }
     if(document.querySelector(container)) {
       document.querySelector(container).scrollTop = y
     }
+  }
+}
+
+export function scrollToHeight(target, height) {
+  if(document.querySelector(target)) {
+    let y = document.querySelector(target).offsetTop
+    window.scrollTo(0, y+height)
   }
 }
 
@@ -172,7 +182,7 @@ class ButtonStatus {
 
   constructor() {
     this.paymentGroup = []
-    this.notPaymentGroup = [1, 2, 3, 4, 5]
+    this.notPaymentGroup = [1, 2, 3, 4, 5, 6]
   }
 
   /**

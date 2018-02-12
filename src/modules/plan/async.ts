@@ -29,11 +29,11 @@ export function gradeProblem(problemScores, problemId) {
 }
 
 export function isRiseMember() {
-    return pget('/rise/plan/risemember')
+  return pget('/rise/plan/risemember')
 }
 
-export function learnKnowledge(knowledgeId) {
-  return ppost(`/rise/practice/knowledge/learn/${knowledgeId}`)
+export function learnKnowledge(practicePlanId) {
+  return ppost(`/rise/practice/knowledge/learn/${practicePlanId}`)
 }
 
 export function createPlan(problemId) {
@@ -74,13 +74,16 @@ export function loadHasGetOperationCoupon() {
   return pget('/rise/operation/free/coupon')
 }
 
-
-export function hasPrivilege(){
-  return pget(`/signup/check/business/school/privilege`);
-}
-
 export function createCampPlan(problemId) {
   return ppost(`/rise/plan/choose/problem/camp/${problemId}`)
+}
+
+export function hasPrivilege() {
+  return pget(`/signup/check/business/school/privilege`)
+}
+
+export function loadStudyline(planId) {
+  return pget(`/rise/plan/load/studyline/${planId}`)
 }
 
 export function unlockCampPlan(planId) {

@@ -12,7 +12,7 @@ export default class ProblemItem extends React.Component<any, any> {
     if(!problem) return null
 
     return (
-      <div className="problem-item"
+      <div className="problem-item-component"
            onClick={() => this.props.clickHandler(problem)}>
         <div className="pic">
           <div className={`problem-item-backcolor catalog${problem.catalogId}`}/>

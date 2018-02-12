@@ -8,16 +8,11 @@ interface ForumButtonProps {
   primary?: boolean;
 }
 
-var FastClick = require('fastclick');
 
 export default class ForumButton extends React.Component<ForumButtonProps, any> {
 
   constructor() {
     super()
-  }
-
-  componentDidMount(){
-    FastClick.attach(document.querySelector('.forum-button'));
   }
 
   render() {
@@ -26,7 +21,7 @@ export default class ForumButton extends React.Component<ForumButtonProps, any> 
     } = this.props
 
     return (
-        <div className="forum-button-div" onClick={()=>console.log('click')}>
+        <div className="forum-button-div">
           {forbid ?
               <div className={`forum-button forbid`}>
                 {content}

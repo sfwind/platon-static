@@ -4,9 +4,7 @@ import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import './DiscussShow.less'
 import AssetImg from '../../../components/AssetImg'
 import { Dialog } from 'react-weui'
-
 const { Alert } = Dialog
-var FastClick = require('fastclick')
 
 @connect(state => state)
 export default class DiscussShow extends React.Component <any, any> {
@@ -43,15 +41,11 @@ export default class DiscussShow extends React.Component <any, any> {
     })
   }
 
-  componentDidMount() {
-    FastClick.attach(document.querySelector('.function-button'))
-  }
-
-  filterText(comment, limit) {
-    if(comment && limit > 0) {
-      return comment.length > limit ? comment.substring(0, limit) + '...' : comment
-    } else {
-      return ''
+  filterText(comment, limit){
+    if(comment && limit>0){
+      return comment.length > limit? comment.substring(0, limit) + '...': comment;
+    }else{
+      return '';
     }
   }
 

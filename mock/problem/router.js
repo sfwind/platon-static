@@ -201,6 +201,143 @@ router.get("/rise/problem/load/mine", (req, res) => {
     }), Math.random() * 1500)
 });
 
+router.get("/rise/problem/get/my/*", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "id": 2,
+        "openid": null,
+        "problemId": 2,
+        "startDate": "2016-12-24",
+        "endDate": "2016-12-31",
+        "closeDate": "2017-01-07",
+        "currentSeries": 1, //当前题组
+        "completeSeries": 1, //完成题组
+        "totalSeries": 2,  //总题组
+        "warmupComplete": 3, //结束的热身训练
+        "applicationComplete": 2, //结束的应用训练
+        "total": 14, //总共的训练
+        "point": 0,
+        "complete": 0,
+        "status": 1,
+        "hasProblemScore": false,
+        "lockedStatus": -1,
+        "typeDesc":"主修",
+        "problem": {
+          "id": 2,
+          "problem": "让我们不焦虑也不懒散",
+          "pic": "http://www.iquanwai.com/images/fragment/problem1.png",
+          "catalogId": 1,
+          "length": 5,
+          "warmupCount": 10,
+          "applicationCount": 5,
+          "challengeCount": 1,
+          "description": "以情动人和以理服人是说服别人的两种方式，通过本训练，你将掌握提出明确的诉求、讲好故事、以及有效使用证据的方法。结合运用理性和感性，更好说服他人。"
+        },
+        "sections": [{
+          "name": "第一节",
+          "chapterName": "第一章",
+          "section": 1,
+          "chapter": 1,
+          "series": 1,
+          "practices": [{
+            "type": 31,
+            "status": 0,
+            "unlocked": true,
+            "practiceIdList": [49],
+            "series": 1,
+            "sequence": 1,
+            "practicePlanId": 1,
+            "planId": 3,
+          }, {
+            "type": 1,
+            "status": 0,
+            "unlocked": true,
+            "practiceIdList": [52, 56, 52],
+            "series": 1,
+            "sequence": 2,
+            "planId": 3,
+            "practicePlanId": 1
+          }, {
+            "type": 11,
+            "status": 1,
+            "unlocked": true,
+            "practiceIdList": [27],
+            "series": 1,
+            "sequence": 3,
+            "planId": 3,
+            "practicePlanId": 1,
+            "optional": true
+          }, {
+            "knowledge": null,
+            "type": 21,
+            "status": 1,
+            "unlocked": true,
+            "practiceIdList": [2],
+            "practicePlanId": 2,
+            "series": 0,
+            "sequence": 4,
+            "planId": 3,
+            "optional": true
+          }]
+        },
+          {
+            "name": "第二节",
+            "chapterName": "第一章",
+            "section": 2,
+            "chapter": 1,
+            "practices": [{
+              "type": 32,
+              "status": 0,
+              "unlocked": true,
+              "practiceIdList": [1],
+              "series": 2,
+              "sequence": 1,
+              "practicePlanId": 1,
+              "planId": 3,
+              "optional": true
+            }, {
+              "type": 1,
+              "status": 0,
+              "unlocked": true,
+              "practiceIdList": [52, 56, 52],
+              "series": 2,
+              "sequence": 2,
+              "planId": 3,
+              "practicePlanId": 1
+            }, {
+              "type": 11,
+              "status": 1,
+              "unlocked": true,
+              "practiceIdList": [27],
+              "series": 2,
+              "sequence": 3,
+              "planId": 3,
+              "practicePlanId": 1
+            }, {
+              "knowledge": null,
+              "type": 21,
+              "status": 1,
+              "unlocked": true,
+              "practiceIdList": [2],
+              "series": 2,
+              "sequence": 4,
+              "optional": true
+            }]
+          }
+        ],
+        "openRise": true,
+        "openConsolidation": true,
+        "openApplication": true,
+        "deadline": 7,
+        "month":12,
+      }, "code": 200
+    }), Math.random() * 1500)
+
+
+});
+
+
 router.get("/rise/problem/get/*", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
@@ -228,6 +365,7 @@ router.get("/rise/problem/get/*", (req, res) => {
         "done": null,
         "status": null,
         "hasProblemScore": false,
+        "problemType":1,
         "chapterList": [{
           "chapter": 1,
           "sections": [{
@@ -509,7 +647,7 @@ router.get("/rise/problem/open/*", (req, res) => {
             "monthlyCampMonth": null
           },
           "fee": 0.01,
-          "buttonStatus": 8,
+          "buttonStatus": 1,
           "planId": null,
           "bindMobile": false,
           "isFull": false,

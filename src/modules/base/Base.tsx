@@ -16,6 +16,8 @@ import Activity from '../../components/Activity'
 import UA from 'ua-device'
 import './Base.less'
 import $ from 'jquery'
+require("../../components/progress/circle-progress.js")
+
 
 $.fn.extend({
   animateCss: function(animationName, callback) {
@@ -91,7 +93,6 @@ export default class Main extends React.Component<any, any> {
       //排除不显示返回按钮的页面
       if(window.location.pathname !== '/rise/static/rise'
         && window.location.pathname !== '/rise/static/camp'
-        && window.location.pathname !== '/rise/static/practice/warmup/analysis'
         && window.location.pathname !== '/rise/static/practice/warmup') {
         if(!this.state.windowsClient) {
           this.setState({ windowsClient: true })

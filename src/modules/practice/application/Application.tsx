@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import './Main.less'
+import './Application.less'
 import {
   loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
@@ -15,11 +15,15 @@ import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodas
 import Tutorial from '../../../components/Tutorial'
 import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
-import { scroll, unScrollToBorder } from '../../../utils/helpers'
+import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-import RenderInBody from '../../../components/RenderInBody'
-import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import { Dialog } from 'react-weui'
+import { CardPrinter } from '../../plan/components/CardPrinter'
+import WordUnfold from '../../../components/WordUnfold'
 
+const { Alert } = Dialog
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
@@ -28,13 +32,22 @@ const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
  * 应用题页
  */
 @connect(state => state)
-export class Main extends React.Component <any, any> {
+export class Application extends React.Component <any, any> {
   constructor() {
     super()
-    this.state = {
+    this.state = this.getInitialState()
+
+    this.pullElement = null
+  }
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  getInitialState() {
+    return {
       data: {},
       knowledge: {},
-      submitId: 0,
       page: 1,
       otherList: [],
       otherHighlightList: [],
@@ -48,14 +61,15 @@ export class Main extends React.Component <any, any> {
       isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
-      completdApplicationCnt: 1000,
-      autoPushDraftFlag: null
+      completedApplicationCnt: 1000,
+      autoPushDraftFlag: null,
+      end: null,
+      planId: null,
+      openStatus: null,
+      showCardPrinter: false,
+      showDisable: false,
+      firstSubmit: false,
     }
-    this.pullElement = null
-  }
-
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
   }
 
   componentWillMount() {
@@ -96,16 +110,14 @@ export class Main extends React.Component <any, any> {
             isSynchronized: msg.isSynchronized
           })
         }
-
         // 更新其余数据
         this.setState({
           data: msg,
-          submitId: msg.submitId,
           planId: msg.planId,
-          applicationScore: res.msg.applicationScore,
-          autoPushDraftFlag: !msg.isSynchronized
+          autoPushDraftFlag: !msg.isSynchronized,
+          showCompletedBox: false,
+          firstSubmit: !msg.content
         })
-
         const { content } = msg
         if(integrated == 'false') {
           loadKnowledgeIntro(msg.knowledgeId).then(res => {
@@ -149,7 +161,7 @@ export class Main extends React.Component <any, any> {
     })
     loadApplicationCompletedCount(planId).then(res => {
       if(res.code === 200) {
-        this.setState({ completdApplicationCnt: res.msg })
+        this.setState({ completedApplicationCnt: res.msg })
       }
     })
   }
@@ -219,6 +231,12 @@ export class Main extends React.Component <any, any> {
       this.autoSaveApplicationDraftTimer()
     } else {
       clearInterval(timer)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.location.query.id !== this.props.location.query.id) {
+      this.setState(this.getInitialState(), () => this.componentWillMount())
     }
   }
 
@@ -299,7 +317,6 @@ export class Main extends React.Component <any, any> {
         this.setState({ otherList: newOtherList })
       }
       vote(id)
-    } else {
     }
   }
 
@@ -343,7 +360,7 @@ export class Main extends React.Component <any, any> {
 
   onSubmit() {
     const { dispatch, location } = this.props
-    const { data, planId, completdApplicationCnt } = this.state
+    const { data, planId, completedApplicationCnt } = this.state
     const answer = this.refs.editor.getValue()
     const { complete, practicePlanId } = location.query
     if(answer == null || answer.length === 0) {
@@ -357,13 +374,13 @@ export class Main extends React.Component <any, any> {
       const { code, msg } = res
       if(code === 200) {
         if(code.msg !== 0) {
-          this.setState({ completdApplicationCnt: res.msg, showCompletedBox: true }, () => {
+          this.setState({ completedApplicationCnt: res.msg }, () => {
             window.scrollTo(0, 0)
           })
         }
-        if(complete == 'false') {
-          dispatch(set('completePracticePlanId', practicePlanId))
-        }
+        // if(complete == 'false') {
+        //   dispatch(set('completePracticePlanId', practicePlanId))
+        // }
         dispatch(startLoad())
         loadApplicationPractice(location.query.id, planId).then(res => {
           dispatch(endLoad())
@@ -371,7 +388,6 @@ export class Main extends React.Component <any, any> {
           if(code === 200) {
             this.setState({
               data: msg,
-              submitId: msg.submitId,
               planId: msg.planId,
               edit: false,
               editorValue: msg.content
@@ -406,10 +422,12 @@ export class Main extends React.Component <any, any> {
 
   render() {
     const {
-      data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable,
-      showCompletedBox, completdApplicationCnt, integrated, loading, isRiseMember, applicationScore
+      data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
+      showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember
     } = this.state
-    const { topic, description, content, voteCount, submitId, voteStatus, pic } = data
+    const { planId } = this.props.location.query
+    const { completePracticePlanId, dispatch } = this.props
+    const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
@@ -438,13 +456,13 @@ export class Main extends React.Component <any, any> {
         return (
           <div>
             <Work {...data}
-                  onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
-                  onEdit={() => this.onEdit()}
-                  headImage={window.ENV.headImage}
-                  userName={window.ENV.userName}
-                  type={CommentType.Application}
-                  articleModule={ArticleViewModule.Application}
-                  goComment={() => this.goComment(submitId)}/>
+              onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
+              onEdit={() => this.onEdit()}
+              headImage={window.ENV.headImgUrl}
+              userName={window.ENV.userName}
+              type={CommentType.Application}
+              articleModule={ArticleViewModule.Application}
+              goComment={() => this.goComment(submitId)}/>
           </div>
         )
       }
@@ -471,103 +489,111 @@ export class Main extends React.Component <any, any> {
       }
     }
 
-    // 渲染应用练习完成弹框
-    const renderCompleteBox = () => {
-      if(!showCompletedBox || completdApplicationCnt === 0) return
-      return (
-        <div>
-          <div className="weui_mask" style={{ height: window.innerHeight, width: window.innerWidth }}/>
-          <div className="complete-box">
-            <div className="complete-tip-content">好棒！你完成了1个应用练习，+{applicationScore}积分。</div>
-          </div>
-        </div>
-      )
+    const renderCardPrinter = () => {
+      if(problemId) {
+        return (
+          <CardPrinter problemId={problemId}
+                       completePracticePlanId={this.props.location.query.practicePlanId}/>
+        )
+      }
+    }
+
+    const renderButton = () => {
+      if(showDisable) {
+        return (
+          <FooterButton btnArray={[{ click: () => {}, text: '提交中' }]}/>
+        )
+      } else {
+        if(edit) {
+          return (
+            <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
+          )
+        } else {
+          if(isBaseApplication) {
+            return (
+              <FooterButton btnArray={[{ click: () =>
+                this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, dispatch),
+                text: '下一题' }]}/>
+            )
+          } else {
+            return (
+              <FooterButton btnArray={[{ click: () =>
+              this.context.router.push({pathname:'/rise/static/plan/study',
+              query:{planId:this.props.location.query.planId}})
+              , text: '返回' }]}/>
+            )
+          }
+        }
+      }
     }
 
     return (
-      <div className="application">
+      <div className="application-edit-container">
+        {renderCardPrinter()}
         <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
-                  show={isBoolean(openStatus.openApplication) && !openStatus.openApplication}
+                  show={openStatus && isBoolean(openStatus.openApplication) && !openStatus.openApplication}
                   onShowEnd={() => this.tutorialEnd()}/>
-        <div className={`container ${edit ? 'has-footer' : ''}`}>
-          <div className="page-header">{topic}</div>
-          <div className="intro-container">
-            <div className="application-context">
-              <div className="application-title">
-                <AssetImg type="app" size={15}/><span>今日应用</span>
-              </div>
-              <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
-              {
-                pic ?
-                  <div className="app-image">
-                    <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
-                              onClick={() => {preview(pic, [pic])}}/>
-                  </div> :
-                  null
-              }
-              {
-                integrated == 'false' ?
-                  <div className="knowledge-link"
-                       onClick={() => this.context.router.push(`/rise/static/practice/knowledge?id=${knowledge.id}`)}>
-                    点击查看相关知识点
-                  </div> : null
-              }
+        <SectionProgressHeader ref={'sectionProgress'}
+                               planId={planId}
+                               practicePlanId={this.props.location.query.practicePlanId}
+                               currentIndex={`${isBaseApplication ? 2 : 3}`}/>
+        <div className="intro-container">
+          <div className="application-context">
+            <div className="application-title">
+              <AssetImg type="app" size={15}/><span>今日应用</span>
             </div>
+            <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
+            {
+              pic &&
+              <div className="app-image">
+                <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }}
+                          onClick={() => preview(pic, [pic])}/>
+              </div>
+            }
+            {
+              integrated == 'false' &&
+              <div className="knowledge-link"
+                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
+                点击查看相关知识点
+              </div>
+            }
           </div>
           <div ref="workContainer" className="work-container">
-            <div ref="submitBar" className="submit-bar">
-              {
-                content === null ?
-                  <div className="award_application">
-                    刻意练习是内化知识的最佳途径！用10分钟思考并写下你的答案，开始学以致用吧~
-                  </div> :
-                  '我的作业'
-              }
-            </div>
             {renderTip()}
             {
-              edit ?
-                <div className="editor">
-                  <Editor
-                    ref="editor"
-                    moduleId={3}
-                    value={this.state.editorValue}
-                    placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
-                    autoSave={() => {
-                      this.autoSave()
-                    }}
-                    onChange={(value) => this.handleChangeValue(value)}
-                  />
-                </div> :
-                null
+              edit &&
+              <div className="editor">
+                <Editor
+                  ref="editor"
+                  moduleId={3}
+                  value={this.state.editorValue}
+                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
+                  autoSave={() => {
+                    this.autoSave()
+                  }}
+                  onChange={() => this.handleChangeValue()}
+                />
+              </div>
             }
             {
-              showOthers ?
-                <div>
-                  <div className="submit-bar">{'同学的作业'}</div>
-                  <div className="app-work-list">
-                    {renderList(otherList)}
-                    {renderEnd()}
-                  </div>
-                </div> :
-                null
+              showOthers &&
+              <div>
+                <div className="submit-bar">{'同学的作业'}</div>
+                <div className="app-work-list">
+                  {renderList(otherList)}
+                  {renderEnd()}
+                </div>
+              </div>
             }
-            {!showOthers ? <MarkBlock module={'打点'} func={'应用题页'} action={'点击同学的作业'} className="show-others-tip"
-                                      onClick={this.others.bind(this)}>
-              同学的作业</MarkBlock> : null}
+            {
+              !showOthers &&
+              <div className="show-others-tip">
+                <WordUnfold words="同学的作业" onUnfold={() => this.others()} />
+              </div>
+            }
           </div>
         </div>
-        <RenderInBody>
-          {showDisable ?
-            <div className="button-footer disabled">提交中</div> :
-            edit ?
-              <MarkBlock module={'打点'} func={'应用题页'} action={'点击提交按钮'} className="button-footer"
-                         onClick={this.onSubmit.bind(this)}>提交</MarkBlock> :
-              <div/>}
-        </RenderInBody>
-        <div onClick={() => this.setState({ showCompletedBox: false, completdApplicationCnt: 0 })}>
-          {renderCompleteBox()}
-        </div>
+        {renderButton()}
       </div>
     )
   }
