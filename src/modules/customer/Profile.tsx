@@ -238,11 +238,6 @@ export default class Profile extends React.Component<any, any> {
               pathname: '/rise/static/customer/mobile/check',
               query: { goRise: true, runningPlanId: runningPlanId }
             })
-            // } else {
-            //   // 绑定过
-            //   // 类似于点商学院
-            //   window.location.href = `/rise/static/rise`
-            // }
           } else {
             dispatch(alertMsg('提交成功'))
             this.setState({ isFull: true })

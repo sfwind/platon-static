@@ -40,7 +40,6 @@ export default class BannerArticle extends React.Component<any, any> {
     let param = {
       id: problem.id
     }
-    // window.location.href = `https://${window.location.hostname}/rise/static/plan/view?id=${problem.id}`
     this.context.router.push({ pathname: '/rise/static/plan/view', query: param })
   }
 

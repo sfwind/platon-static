@@ -251,7 +251,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
             case 1: {
               return (
                 <FooterButton btnArray={[{
-                  click: () => window.location.href = `https://${window.location.hostname}/pay/rise`,
+                  click: () => window.location.href = `/pay/rise`,
                   text: '加入商学院，立即学习'
                 }]}/>
               )
