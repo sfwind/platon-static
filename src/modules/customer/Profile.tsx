@@ -8,7 +8,6 @@ import WorkStep from '../../components/WorkStep'
 import { pget, ppost, mark } from 'utils/request'
 import { loadUserProfileInfo } from './async'
 import { changeTitle } from 'utils/helpers'
-import { ButtonArea, Button } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const industryList = [
@@ -80,19 +79,26 @@ export default class Profile extends React.Component<any, any> {
     mark({ module: '打点', function: '个人中心', action: '打开我的信息页面' })
     changeTitle('个人信息')
     const { dispatch, region, location } = this.props
-    const { goRise } = location.query
+    const { goRise, goCamp } = location.query
     dispatch(startLoad())
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         let defaultIsFull = goRise ? false : res.msg.isFull
         this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
-          if(this.checkIsFull() && goRise && !res.msg.bindMobile) {
-            // 加载的时候就填写过，然后是goRise，则去绑定电话页面
-            this.context.router.push({
-              pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true }
-            })
+          if(this.checkIsFull() && goRise ) {
+            if(goCamp){
+              // 加载的时候就填写过，然后是goRise，则去绑定电话页面
+              this.context.router.push({
+                pathname: '/rise/static/customer/mobile/check',
+                query: { goRise: true, goCamp:true }
+              })
+            }else{
+              this.context.router.push({
+                pathname: '/rise/static/customer/mobile/check',
+                query: { goRise: true }
+              })
+            }
           }
         })
       } else {
@@ -189,20 +195,16 @@ export default class Profile extends React.Component<any, any> {
   checkFull() {
     const { dispatch, location } = this.props
     const functionValue = _.get(this.state, 'function')
-    const { runningPlanId, goRise } = location.query
+    const { goRise, goCamp } = location.query
     const { city, province, industry, workingYear, bindMobile, realName, address, receiver } = this.state
-    // if(goRise) {
-    //   if(city && province && industry && workingYear && functionValue && realName && address) {
-    //     return true;
-    //   }
-    // } else {
-    //   if(city && province && industry && workingYear && functionValue) {
-    //     return true;
-    //   }
-    // }
-
-    if(city && province && industry && workingYear && functionValue && realName && address && receiver) {
-      return true
+    if(goCamp) {
+      if(city && province && industry && workingYear && functionValue && realName) {
+        return true;
+      }
+    }else{
+      if(city && province && industry && workingYear && functionValue && realName && address && receiver) {
+        return true
+      }
     }
     return false
   }
@@ -211,7 +213,7 @@ export default class Profile extends React.Component<any, any> {
     const { dispatch, location } = this.props
     const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
-    const { runningPlanId, goRise } = location.query
+    const { goRise, goCamp } = location.query
     if(this.checkFull()) {
       let param = {
         city: city,
@@ -222,21 +224,20 @@ export default class Profile extends React.Component<any, any> {
       }
 
       _.merge(param, { realName: realName, address: address, receiver: receiver, married })
-      // if(goRise) {
-      //   _.merge(param, { realName: realName, address: address });
-      // }
       dispatch(startLoad())
       ppost('/rise/customer/profile', param).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
-          //从rise付款页跳转过来的，填完个人信息后引导去学习页面
-          if(goRise) {
-            // 是否mobile已经绑定
-            // if(!bindMobile) {
-            // 没有绑定过
+          //从付款页跳转过来的，填完个人信息后引导去学习页面
+          if(goCamp) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true, runningPlanId: runningPlanId }
+              query: { goRise: true, goCamp:true }
+            })
+          } else if(goRise){
+            this.context.router.push({
+              pathname: '/rise/static/customer/mobile/check',
+              query: { goRise: true }
             })
           } else {
             dispatch(alertMsg('提交成功'))
@@ -262,7 +263,7 @@ export default class Profile extends React.Component<any, any> {
 
   render() {
     const { region, location } = this.props
-    const { goRise } = location.query
+    const { goRise, goCamp } = location.query
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
@@ -463,7 +464,7 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-
+          { !goCamp &&
           <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none', height: '80px' }}>
             <div className="address-tips">收件地址</div>
             <textarea className="address" placeholder="商学院学员入学后，礼包会寄送到该地址（限大陆，海外用户请填写国内住址信息）" value={address}
@@ -471,8 +472,9 @@ export default class Profile extends React.Component<any, any> {
                         this.checkIsFull()
                       })}
             />
-          </div>
+          </div> }
 
+          { !goCamp &&
           <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none' }}>
             <div className="item-label">
               收件人
@@ -480,7 +482,7 @@ export default class Profile extends React.Component<any, any> {
             <div className="item-content">
               {renderReceiver()}
             </div>
-          </div>
+          </div> }
 
         </div>
         <div className="profile-bottom">
@@ -490,7 +492,6 @@ export default class Profile extends React.Component<any, any> {
             {goRise ? `下一步` : `完成`}
           </MarkBlock>
         </div>
-        {/*<div className="padding-footer"></div>*/}
       </div>
     )
   }

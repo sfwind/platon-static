@@ -22,7 +22,6 @@ export default class MobileBind extends React.Component<any, any> {
       sending: false,
       seconds: 60,
       show: false,
-      // showArea: false,
       disable: true,
       oversea: false,
     }
@@ -111,7 +110,9 @@ export default class MobileBind extends React.Component<any, any> {
         } else {
           this.setState({ show: true });
           setTimeout(() => {
-            if(location.query.goRise) {
+            if(location.query.goCamp) {
+              window.location.href = `/rise/static/camp`;
+            } else if (location.query.goRise){
               window.location.href = `/rise/static/rise`;
             } else {
               this.context.router.push('/rise/static/customer/account');
@@ -131,7 +132,9 @@ export default class MobileBind extends React.Component<any, any> {
         } else {
           this.setState({ show: true });
           setTimeout(() => {
-            if(location.query.goRise) {
+            if(location.query.goCamp) {
+              window.location.href = `/rise/static/camp`;
+            } else if (location.query.goRise){
               window.location.href = `/rise/static/rise`;
             } else {
               this.context.router.push('/rise/static/customer/account');
