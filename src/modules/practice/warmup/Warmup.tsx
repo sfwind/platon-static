@@ -94,7 +94,6 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   touchMoveSnipper () {
-    console.log('snipper')
     let node = document.getElementById('discuss-container')
     if (node && window.scrollY + window.innerHeight - 100 < node.offsetTop) {
       this.setState({
