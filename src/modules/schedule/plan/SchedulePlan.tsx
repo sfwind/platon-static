@@ -12,10 +12,10 @@ import { openAudition } from '../../problem/async'
 import { ToolBar } from '../../base/ToolBar'
 import { ColumnSpan } from '../../../components/ColumnSpan'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
+
 var $ = require('jquery')
 
-
-const { Alert } = Dialog
+const {Alert} = Dialog
 
 const MAJOR_PROBLEM = 1
 const MINOR_PROBLEM = 2
@@ -24,9 +24,9 @@ const MINOR_PROBLEM = 2
  * rise_icon_hr 左侧较宽 TODO
  */
 @connect(state => state)
-export default class SchedulePlan extends React.Component
-  <any, any> {
-  constructor() {
+export default class SchedulePlan extends React.Component<any, any> {
+
+  constructor () {
     super()
     this.state = {
       data: {}
@@ -39,76 +39,76 @@ export default class SchedulePlan extends React.Component
     router: React.PropTypes.object.isRequired
   }
 
-  async componentWillMount() {
+  async componentWillMount () {
     mark({
       module: '打点',
       function: '学习',
       action: '打开学习计划页面'
     })
 
-    const { dispatch, location } = this.props
+    const {dispatch, location} = this.props
     dispatch(startLoad())
 
     let res = await loadSchedulePlan()
     dispatch(endLoad())
-    if(res.code === 200) {
-      this.setState({ data: res.msg })
+    if (res.code === 200) {
+      this.setState({data: res.msg})
     } else {
       dispatch(alertMsg(res.msg))
     }
 
     let majorPercent = 0
     let minorPercent = 0
-    if(res.msg.majorTotal > 0){
+    if (res.msg.majorTotal > 0) {
       majorPercent = res.msg.majorComplete / res.msg.majorTotal
     }
 
-    if(res.msg.minorTotal > 0){
+    if (res.msg.minorTotal > 0) {
       minorPercent = res.msg.minorComplete / res.msg.minorTotal
     }
 
     $('.course-major').circleProgress({
       value: majorPercent,
       size: 85,
-      startAngle: - Math.PI / 2,
+      startAngle: -Math.PI / 2,
       fill: {
-        gradient: ["#FF983F", "#FFC701" ]
+        gradient: ['#FF983F', '#FFC701']
       }
     })
 
-    if(res.msg.minorSelected) {
+    if (res.msg.minorSelected) {
       $('.course-minor').circleProgress({
         value: minorPercent,
         size: 85,
         startAngle: -Math.PI / 2,
         fill: {
-          gradient: [ "#0063F8", "#35B0EA"  ]
+          gradient: ['#0063F8', '#35B0EA']
         }
       })
     }
   }
 
-  clickCourse(type, item) {
-    const { dispatch } = this.props
+  clickCourse (type, item) {
+    const {dispatch} = this.props
 
     // 没有开课
-    if(!item.id) {
+    if (!item.id) {
       this.setState({
         dialogButtons: [
           {
             label: '取消',
             onClick: () => {
-              this.setState({ dialogShow: false, dialogButtons: [], dialogContent: '' })
+              this.setState({dialogShow: false, dialogButtons: [], dialogContent: ''})
             }
           },
           {
             label: '确认',
             onClick: () => {
               dispatch(startLoad())
-              this.setState({ dialogShow: false })
+              this.setState({dialogShow: false})
               createPlan(item.problem.id).then(res => {
                 dispatch(endLoad())
-                if(res.code === 200) {
+                if (res.code === 200) {
                   this.context.router.push(`/rise/static/plan/study?planId=${res.msg}`)
                 } else {
                   dispatch(alertMsg(res.msg))
@@ -123,28 +123,28 @@ export default class SchedulePlan extends React.Component
         dialogContent: '课程开启后，学习期限为30天。期间完成学习即可永久查看内容。确认开启吗？'
       })
     } else {
-      this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
+      this.context.router.push({pathname: '/rise/static/plan/study', query: {planId: item.id}})
     }
   }
 
-  learn(item) {
-    this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: item.id } })
+  learn (item) {
+    this.context.router.push({pathname: '/rise/static/plan/study', query: {planId: item.id}})
   }
 
-  gotoOverview() {
+  gotoOverview () {
     this.context.router.push('/rise/static/course/schedule/overview')
   }
 
-  render() {
-    const { data } = this.state
-    const { month, topic, today, minorSelected, runningProblem = [], majorTotal, majorComplete, minorTotal, minorComplete, completeProblem = [] } = data
+  render () {
+    const {data} = this.state
+    const {month, topic, today, minorSelected, runningProblem = [], majorTotal, majorComplete, minorTotal, minorComplete, completeProblem = []} = data
 
     const renderRunningCourse = () => {
       return runningProblem.map((item, index) => {
           let styleType = ''
-          if(item.type === 1) {
+          if (item.type === 1) {
             styleType = 'major'
-          } else if(item.type === 2) {
+          } else if (item.type === 2) {
             styleType = 'minor'
           }
           return (
@@ -156,7 +156,7 @@ export default class SchedulePlan extends React.Component
                 <div className="problem-item-title">{item.problem.problem}</div>
                 {/*<div className="problem-pic"></div>*/}
                 {!item.id && <div className={`wait-open ${styleType}`}>待开课</div>}
-                { renderCourseType(item) }
+                {renderCourseType(item)}
               </div>
             </MarkBlock>
           )
@@ -165,11 +165,11 @@ export default class SchedulePlan extends React.Component
     }
 
     const renderCourseType = (item) => {
-      if(item.deadline && item.deadline > 0){
+      if (item.deadline && item.deadline > 0) {
         return (
           <div className="problem-item-deadline">{`${item.typeDesc} | ${item.deadline}天后关闭`}</div>
         )
-      }else{
+      } else {
         return (
           <div className="problem-item-deadline">{`${item.typeDesc}`}</div>
         )
@@ -181,19 +181,19 @@ export default class SchedulePlan extends React.Component
         var date = this.moment(item.closeTime).format('YYYY-MM-DD')
         return (
           <div className="complete-plan" key={index} onClick={() => this.learn(item)}>
-            <div className="status-line" />
-            <div className="plan-status" />
+            <div className="status-line"/>
+            <div className="plan-status"/>
             <div className="plan-detail">
               <div className="plan-title-above">
-                <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation} | ${item.point}分` }</div>
+                <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation} | ${item.point}分`}</div>
                 <div className="plan-close">
                   {date}
                 </div>
               </div>
               <div className="plan-title-below">
-                {item.problem.abbreviation+'：'+item.problem.problem}
+                {item.problem.abbreviation + '：' + item.problem.problem}
               </div>
-              <div className="plan-stamp" />
+              <div className="plan-stamp"/>
             </div>
           </div>
         )
@@ -201,7 +201,7 @@ export default class SchedulePlan extends React.Component
     }
 
     const renderDialog = () => {
-      const { dialogShow = false, dialogButtons = [], dialogContent } = this.state
+      const {dialogShow = false, dialogButtons = [], dialogContent} = this.state
 
       return (
         <Alert
@@ -212,7 +212,7 @@ export default class SchedulePlan extends React.Component
       )
     }
     return (
-      <div className="schedule-plan-container" style={{ minHeight: window.innerHeight }}>
+      <div className="schedule-plan-container" style={{minHeight: window.innerHeight}}>
         <div className="monthly-topic">
           {topic ? month + '月 ' + topic : null}
         </div>
@@ -220,13 +220,13 @@ export default class SchedulePlan extends React.Component
           <div className="monthly-title">本月进度</div>
           <div className="today">{today}</div>
         </div>
-        { majorTotal &&
-          <div className="course-progress course-major">
-            <div className="progress-name">主修课</div>
-            <div className="progress-percent">
-              {majorComplete + '/' + majorTotal}
-            </div>
+        {majorTotal &&
+        <div className="course-progress course-major">
+          <div className="progress-name">主修课</div>
+          <div className="progress-percent">
+            {majorComplete + '/' + majorTotal}
           </div>
+        </div>
         }
         {
           minorSelected &&
@@ -243,18 +243,16 @@ export default class SchedulePlan extends React.Component
             <div className="card-topic">进行中的课程</div>
           </div>
 
-          {_.isEmpty(runningProblem) ?
-            <div className="empty-container">
-              <div className="empty-img">
-                <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" width={55} height={56}/>
-              </div>
-              <div className="empty-text">
-                <span>还没有学习中的课程哦</span>
-              </div>
-            </div> :
-            <div className="course-container">
-              {renderRunningCourse()}
-            </div>}
+          {_.isEmpty(runningProblem) ? <div className="empty-container">
+            <div className="empty-img">
+              <AssetImg url="https://static.iqycamp.com/images/plan_empty.png" width={55} height={56}/>
+            </div>
+            <div className="empty-text">
+              <span>还没有学习中的课程哦</span>
+            </div>
+          </div> : <div className="course-container">
+            {renderRunningCourse()}
+          </div>}
 
         </div>
         <MarkBlock module={'打点'} func={'学习页面'} action={'点击学习计划按钮'} className="modify-course-schedule"
