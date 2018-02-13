@@ -59,6 +59,7 @@ export default class Warumup extends React.Component<any, any> {
 
   // 重新加载开关，只能加载一次
   reloadSwitch = true
+  moveSnipperTimer
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -81,16 +82,19 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   componentDidMount () {
-    window.addEventListener('touchmove', (ev) => this.touchMoveSnipper(ev))
+    this.moveSnipperTimer = setInterval(() => {
+      this.touchMoveSnipper()
+    }, 100)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('touchmove', (ev) => this.touchMoveSnipper(ev))
+    clearInterval(this.moveSnipperTimer)
     const {dispatch} = this.props
     dispatch(set('warmupCurrentIndex', undefined))
   }
 
-  touchMoveSnipper (ev) {
+  touchMoveSnipper () {
+    console.log('snipper')
     let node = document.getElementById('discuss-container')
     if (node && window.scrollY + window.innerHeight - 100 < node.offsetTop) {
       this.setState({
