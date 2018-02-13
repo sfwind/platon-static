@@ -8,12 +8,12 @@ interface ColumnSpanProps {
 
 export class ColumnSpan extends React.Component<ColumnSpanProps, any> {
 
-  constructor(props) {
+  constructor (props) {
     super(props)
   }
 
-  render() {
-    let { style = {}, height = 20, backgroundColor = '#f3f4f6' } = this.props
+  render () {
+    let {style = {}, height = 20, backgroundColor = '#f3f4f6', ...other} = this.props
 
     style = _.merge(style, {
       backgroundColor: backgroundColor,
@@ -21,7 +21,7 @@ export class ColumnSpan extends React.Component<ColumnSpanProps, any> {
     })
 
     return (
-      <div {...this.props} style={style}></div>
+      <div {...other} style={style}></div>
     )
   }
 }

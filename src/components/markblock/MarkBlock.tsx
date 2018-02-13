@@ -10,17 +10,17 @@ interface MarkBlockProps {
 
 export class MarkBlock extends React.Component<MarkBlockProps, any> {
 
-  constructor() {
+  constructor () {
     super()
   }
 
   state = {}
 
-  componentWillMount() {
+  componentWillMount () {
     this.initParams()
   }
 
-  initParams() {
+  initParams () {
     const { module = '打点', func, action, memo = '' } = this.props
     this.setState({
       module: module,
@@ -30,7 +30,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     })
   }
 
-  handleClickMarkBlock(onClickFunc) {
+  handleClickMarkBlock (onClickFunc) {
     const { module, func, action, memo } = this.state
     let param = {
       module: module,
@@ -39,7 +39,7 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
       memo: memo
     }
     mark(param).then(res => {
-      if(res.code === 200) {
+      if (res.code === 200) {
         onClickFunc()
       } else {
         console.error(res.msg)
@@ -47,11 +47,11 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
     }).catch(er => console.error(er))
   }
 
-  render() {
-    const { onClick = () => {} } = this.props
+  render () {
+    const { module, func, action, memo, onClick = () => {}, ...other } = this.props
 
     return (
-      <div {...this.props}
+      <div {...other}
            onClick={() => {
              this.handleClickMarkBlock(onClick)
            }}>
