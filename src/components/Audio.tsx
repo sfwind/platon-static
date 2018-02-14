@@ -158,14 +158,14 @@ export default class Audio extends React.Component<AudioProps, any> {
         <div className="audio-container">
           {loading ?
             <div className="audio-btn" onClick={this.pause.bind(this)}>
-              <AssetImg url="https://www.iqycamp.com/images/audio_loading.gif" size={20}/>
+              <AssetImg url="https://static.iqycamp.com/images/audio_loading.gif" size={20}/>
             </div>
             : playing ?
               <div className="audio-btn" onClick={this.pause.bind(this)}>
-                <AssetImg url="https://www.iqycamp.com/images/audio_pause.png" size={20}/>
+                <AssetImg url="https://static.iqycamp.com/images/audio_pause.png" size={20}/>
               </div> :
               <div className="audio-btn" onClick={this.start.bind(this)}>
-                <AssetImg url="https://www.iqycamp.com/images/audio_play.png" size={20}/>
+                <AssetImg url="https://static.iqycamp.com/images/audio_play.png" size={20}/>
               </div>
           }
           <div className="audio-progress">

@@ -33,7 +33,7 @@ export default class ScheduleNotice extends Component {
           <span>学习计划</span>
         </div>
         <div className="img-wrapper">
-          <AssetImg className="img" url="https://www.iqycamp.com/images/icon_maps.png?imageslim"/>
+          <AssetImg className="img" url="https://static.iqycamp.com/images/icon_maps.png?imageslim"/>
         </div>
         <MarkBlock module={'打点'} func={'课程计划'} action={'点击开始制定计划按钮'} className="start-btn btn" onClick={() => this.handleClickStart()}>开始</MarkBlock>
       </div>

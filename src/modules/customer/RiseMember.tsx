@@ -139,7 +139,7 @@ export default class RiseMember extends React.Component<any,any> {
           <div className="point-tip-container">
             <b style={{fontSize:"14px"}}>还未升级成正式版哦！</b><br/>
             <div className="rocket-container">
-              <img className="rocket" src="https://www.iqycamp.com/images/riseButtonRocket.png"  width="90%" height="auto"/>
+              <img className="rocket" src="https://static.iqycamp.com/images/riseButtonRocket.png?imageslim"  width="90%" height="auto"/>
               <MarkBlock module={'打点'} func={'个人中心'} action={'点击升级按钮'} className="button" onClick={()=>{this.goUp()}}>
                 升级正式版
               </MarkBlock>
