@@ -261,7 +261,8 @@ router.get("/rise/plan/load/studyline/*", (req, res) => {
         "problemName": "掌控压力：让我们不焦虑也不懒散",
         "headPic": null,
         "problemType": 1,
-        "needGrade": false,
+        "needGrade": true,
+        "status": 2,
       },
       "code": 200
     }), Math.random() * 1500)
