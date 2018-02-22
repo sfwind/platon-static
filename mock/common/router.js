@@ -2,7 +2,7 @@ var Router = require('express').Router
 
 var router = new Router()
 
-router.post('/rise/b/log', (req, res) => {
+router.post('/b/log', (req, res) => {
   setTimeout(() =>
     res.status(200).json({
       'msg': {

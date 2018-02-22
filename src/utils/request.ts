@@ -47,7 +47,7 @@ function mark (param) {
 }
 
 function log (url, msg) {
-  return post('/rise/b/log',
+  return post('/b/log',
     JSON.stringify({result: msg, cookie: document.cookie, url: url}))
 }
 
