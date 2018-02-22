@@ -71,7 +71,7 @@ export function loadApplicationCommentOfMessage(submitId, commentId) {
 }
 
 export function submitEvaluation(commentId, useful, reason) {
-  return ppost(`/rise/practice/evaluate/application`, { commentId, useful, reason })
+  return ppost(`/rise/practice/application/evaluate`, { commentId, useful, reason })
 }
 
 export function getNotifyStatus(){
