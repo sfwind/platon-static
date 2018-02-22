@@ -2,7 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './Application.less'
 import {
-  loadApplicationPractice, vote, loadOtherList, loadKnowledgeIntro,
+  loadApplicationPractice, vote, loadOtherList,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
   loadOtherListBatch, isRiseMember, loadApplicationCompletedCount
 } from './async'
@@ -47,7 +47,6 @@ export class Application extends React.Component <any, any> {
   getInitialState() {
     return {
       data: {},
-      knowledge: {},
       page: 1,
       otherList: [],
       otherHighlightList: [],
@@ -119,16 +118,6 @@ export class Application extends React.Component <any, any> {
           firstSubmit: !msg.content
         })
         const { content } = msg
-        if(integrated == 'false') {
-          loadKnowledgeIntro(msg.knowledgeId).then(res => {
-            const { code, msg } = res
-            if(code === 200) {
-              this.setState({ knowledge: msg })
-            } else {
-              dispatch(alertMsg(msg))
-            }
-          })
-        }
         //看评论的请求，锚定到评论区
         if(content !== null) {
           if(isUndefined(otherApplicationPracticeSubmitId) || id != applicationId) {
@@ -422,7 +411,7 @@ export class Application extends React.Component <any, any> {
 
   render() {
     const {
-      data, otherList, knowledge = {}, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
+      data, otherList, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
       showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember
     } = this.state
     const { planId } = this.props.location.query

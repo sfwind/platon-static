@@ -13,7 +13,7 @@ export function knowledgeReview(id) {
 }
 
 export function loadKnowledge(id){
-  return pget(`/rise/plan/knowledge/load/${id}`);
+  return pget(`/rise/practice/knowledge/${id}`);
 }
 
 export function loadDiscuss(knowledgeId,offset){
@@ -25,6 +25,6 @@ export function discussKnowledge(body){
 }
 
 export function deleteKnowledgeDiscuss(id) {
-  return pget(`/rise/practice/knowledge/discuss/del/${id}`)
+  return ppost(`/rise/practice/knowledge/discuss/del/${id}`)
 }
 
