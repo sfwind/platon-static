@@ -3,6 +3,7 @@ import "./DropChoice.less"
 import TweenOne, { TweenOneGroup } from 'rc-tween-one'
 import { get, set, merge, findIndex } from "lodash"
 import AssetImg from "./AssetImg"
+import { mark } from "utils/request"
 
 export default class DropChoice extends React.Component<any,any> {
   constructor(props) {
@@ -42,9 +43,11 @@ export default class DropChoice extends React.Component<any,any> {
     if(questionList && (!questionList[ idx ].choiceList ||
       findIndex(questionList[ idx ].choiceList, (o) => o.selected) !== -1)) {
       if(idx === (questionList.length - 1)) {
+        mark({module:"打点", function:"课程打分", action:"提交"})
         // 最后一个
         this.setState({ submit: true })
       } else {
+        mark({module:"打点", function:"课程打分", action:"点击下一步", memo: idx+1})
         //选择题为必填，填空题选填
         if(questionList[ idx + 1 ].choiceList) {
           this.setState({ idx: idx + 1, next: false })
@@ -122,7 +125,8 @@ export default class DropChoice extends React.Component<any,any> {
                     {item.subject}
                   </div>
                 )
-              }) :<textarea className="comment" placeholder="100字以内" maxLength="100" onChange={(e)=>this.comment(e)}>
+              }) :<textarea className="comment" placeholder="每一条我们都会仔细阅读，如果建议被采纳的话，可能有机会成为我们的优先体验官哦！（字数上限1000）"
+                            maxLength="1000" onChange={(e)=>this.comment(e)}>
               </textarea>}
           </div>
           <div className={`bottom-btn ${this.state.next?'can':''}`} onClick={()=>this.next()}
