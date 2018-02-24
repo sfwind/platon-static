@@ -14,7 +14,7 @@ import { ProblemTitle } from '../../problem/components/ProblemTitle'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 @connect(state => state)
-export class Challenge extends React.Component <any, any> {
+export default class Challenge extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {

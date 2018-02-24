@@ -12,7 +12,7 @@ import { mark } from '../../utils/request'
  * 知识点评论页
  */
 @connect(state => state)
-export class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
+export default class ReplyKnowledgeDiscussMessage extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {

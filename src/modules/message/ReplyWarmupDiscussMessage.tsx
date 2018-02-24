@@ -13,7 +13,7 @@ import { MarkBlock } from '../../components/markblock/MarkBlock'
  * 选择题评论页
  */
 @connect(state => state)
-export class ReplyDiscussMessage extends React.Component <any, any> {
+export default class ReplyDiscussMessage extends React.Component <any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired

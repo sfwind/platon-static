@@ -10,7 +10,7 @@ import Banner from '../../components/Banner'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
-export class EventWall extends React.Component<any, any> {
+export default class EventWall extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {

@@ -10,7 +10,7 @@ import { mark } from "../../utils/request"
 import { changeTitle, goOtherWeb } from '../../utils/helpers'
 
 @connect(state => state)
-export class MessageCenter extends React.Component <any, any> {
+export default class MessageCenter extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {

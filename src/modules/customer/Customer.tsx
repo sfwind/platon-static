@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { ToolBar } from '../base/ToolBar'
-import RenderInBody from '../../components/RenderInBody'
 
 @connect(state => state)
-export class Customer extends React.Component<any, any> {
+export default class Customer extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired

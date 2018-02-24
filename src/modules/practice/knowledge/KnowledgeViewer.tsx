@@ -34,7 +34,7 @@ const sequenceMap = {
 }
 
 @connect(state => state)
-export class KnowledgeViewer extends React.Component<any, any> {
+export default class KnowledgeViewer extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {

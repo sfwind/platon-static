@@ -32,7 +32,7 @@ const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
  * 应用题页
  */
 @connect(state => state)
-export class Application extends React.Component <any, any> {
+export default class Application extends React.Component <any, any> {
   constructor() {
     super()
     this.state = this.getInitialState()

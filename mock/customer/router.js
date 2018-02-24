@@ -119,6 +119,28 @@ router.get("/rise/customer/account", (req, res) => {
     ), Math.random() * 1500);
 })
 
+router.get("/rise/customer/coupon", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json(
+      {
+        "msg": {
+          "coupons": [{
+            "id": null,
+            "profileId": null,
+            "amount": 100,
+            "used": null,
+            "orderId": null,
+            "cost": null,
+            "expiredDate": null,
+            "category": null,
+            "description": "优惠券",
+            "expiredDateString": "2018年02月28日"
+          }], "total": 100
+        }, "code": 200
+      }
+    ), Math.random() * 1500);
+})
+
 router.get("/rise/customer/member", (req, res) => {
   setTimeout(() =>
     res.status(200).json(
@@ -449,6 +471,14 @@ router.get("/rise/customer/event/list", (req, res) => {
         }], "code": 200
       }
     ), Math.random() * 1500);
+})
+
+router.get('/rise/customer/info', (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      'msg': {"nickname":'风之伤',"headimgurl":"http://someurl"},
+      'code': 200
+    }), Math.random() * 1000)
 })
 
 module.exports = router;

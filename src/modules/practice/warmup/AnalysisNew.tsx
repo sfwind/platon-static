@@ -22,7 +22,7 @@ const sequenceMap = {
 }
 
 @connect(state => state)
-export class AnalysisNew extends React.Component <any, any> {
+export default class AnalysisNew extends React.Component <any, any> {
   constructor() {
     super()
     this.state = {

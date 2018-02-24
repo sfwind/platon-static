@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
-import { pget, ppost, mark } from 'utils/request'
+import { mark } from 'utils/request'
 import { changeTitle, unScrollToBorder } from 'utils/helpers'
 import './Account.less'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { loadUserAccount } from '../async'
 
 /**
  * 我的账户页面
@@ -27,7 +28,7 @@ export default class Rise extends React.Component<any, any> {
     changeTitle('我的账户')
     const { dispatch } = this.props
     dispatch(startLoad())
-    pget('/rise/customer/account').then(res => {
+    loadUserAccount().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         this.setState({ data: res.msg }, () => {
@@ -133,7 +134,7 @@ export default class Rise extends React.Component<any, any> {
             {mobile ? <span>{mobile}</span> : <span style={{ color: '#ccc' }}>去绑定手机号&nbsp;&nbsp;</span>}
           </div>
         </MarkBlock>
-        {renderCoupons()}
+        {/*{renderCoupons()}*/}
       </div>
     )
   }
