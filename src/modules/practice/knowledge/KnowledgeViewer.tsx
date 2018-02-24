@@ -315,32 +315,32 @@ export class KnowledgeViewer extends React.Component<any, any> {
             }
             { showTip && <div className="title-bar">问答</div> }
             { showTip &&
-              <div className="discuss">
-                {
-                  !_.isEmpty(discuss) &&
-                  discuss.map(item => {
-                    return (
-                      <DiscussShow discuss={item} showLength={50} reply={() => {
+            <div className="discuss">
+              {
+                !_.isEmpty(discuss) &&
+                discuss.map(item => {
+                  return (
+                    <DiscussShow discuss={item} showLength={50} reply={() => {
                         this.reply(item)
                       }} onDelete={() => this.onDelete(item.id)}/>
-                    )
-                  })
-                }
-                {
-                  discuss &&
-                  discuss.length > 0 ?
-                    <div className="show-more">
-                      你已经浏览完所有的讨论啦
-                    </div> :
-                    <div className="discuss-end">
-                      <div className="discuss-end-img">
-                        <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
-                                  height={92}></AssetImg>
-                      </div>
-                      <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
+                  )
+                })
+              }
+              {
+                discuss &&
+                discuss.length > 0 ?
+                  <div className="show-more">
+                    你已经浏览完所有的讨论啦
+                  </div> :
+                  <div className="discuss-end">
+                    <div className="discuss-end-img">
+                      <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94}
+                                height={92}></AssetImg>
                     </div>
-                }
-              </div>
+                    <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
+                  </div>
+              }
+            </div>
             }
           </div>
           {showDiscuss && <div className="padding-comment-dialog"/>}
@@ -352,14 +352,15 @@ export class KnowledgeViewer extends React.Component<any, any> {
             }]}/>
           }
           {
-            showDiscuss ?
-              <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
-                       submit={() => this.onSubmit()}
-                       onChange={(v) => this.onChange(v)}
-                       cancel={() => this.cancel()}/> :
-              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
-              </div>
+            showDiscuss &&
+            <Discuss isReply={isReply} placeholder={placeholder} limit={1000}
+                     submit={() => this.onSubmit()}
+                     onChange={(v) => this.onChange(v)}
+                     cancel={() => this.cancel()}/> }
+          { showTip && !showDiscuss &&
+            <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
+              <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
+            </div>
           }
         </div>
       </Block>

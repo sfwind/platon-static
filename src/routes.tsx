@@ -7,14 +7,12 @@ import StudyLine from 'modules/plan/StudyLine'
 import { KnowledgeViewer } from 'modules/practice/knowledge/KnowledgeViewer'
 import { Application } from 'modules/practice/application/Application'
 import { Challenge } from 'modules/practice/challenge/Challenge'
-import { Main as Subject } from 'modules/practice/subject/Main'
-import { Submit as SubjectSubmit } from 'modules/practice/subject/Submit'
 import { ReplyDiscussMessage } from 'modules/message/ReplyWarmupDiscussMessage'
 import { MessageCenter } from 'modules/message/MessageCenter'
 import { ReplyKnowledgeDiscussMessage } from 'modules/message/ReplyKnowledgeDiscussMessage'
 import { AnalysisNew } from 'modules/practice/warmup/AnalysisNew'
 import { Comment as ApplicationComment } from 'modules/practice/application/Comment'
-import { Comment as SubjectComment } from 'modules/practice/subject/Comment'
+import Subject from 'modules/practice/subject/Subject'
 import { KnowledgeReview } from 'modules/practice/knowledge/KnowledgeReview'
 import { ReplyCommentMessage } from 'modules/message/ReplyCommentMessage'
 import { Customer } from 'modules/customer/Customer'
@@ -102,14 +100,12 @@ const routes = (
       <Route path="practice/application" component={Application}/>
       <Route path="practice/challenge" component={Challenge}/>
       <Route path="practice/application/comment" component={ApplicationComment}/>
-      <Route path="practice/subject" component={Subject}/>
-      <Route path="practice/subject/submit" component={SubjectSubmit}/>
-      <Route path="practice/subject/comment" component={SubjectComment}/>
+      <Route path="practice/subject/comment" component={Subject}/>
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
 
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
-      <Route path="message/subject/reply" component={SubjectComment}/>
+      <Route path="message/subject/reply" component={Subject}/>
       <Route path="message/application/reply" component={ReplyApplicationComment}/>
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>

@@ -34,30 +34,9 @@ export default class StudyLine extends React.Component<any, any> {
       showScoreModal: false,
       questionList: [
         {
-          id: 1,
-          subject: '你已完成了本课程的训练<br/>对本课程的学习难度打个分吧',
-          choiceList: [
-            {
-              id: 5,
-              subject: '非常难'
-            }, {
-              id: 4,
-              subject: '比较难'
-            }, {
-              id: 3,
-              subject: '适中'
-            }, {
-              id: 2,
-              subject: '较简单'
-            }, {
-              id: 1,
-              subject: '很简单'
-            }
-          ]
-        },
-        {
           id: 2,
           subject: '本课程的训练对工作/生活有用吗？',
+          comment: null,
           choiceList: [
             {
               id: 5,
@@ -76,6 +55,49 @@ export default class StudyLine extends React.Component<any, any> {
               subject: '大部分不能应用'
             }
           ]
+        },
+        {
+          id: 3,
+          subject: '你是否愿意推荐本课程给你的朋友<br/>（1-10打分，分数越高代表推荐意愿越强）',
+          comment: null,
+          choiceList: [
+            {
+              id: 10,
+              subject: 10
+            }, {
+              id: 9,
+              subject: 9
+            }, {
+              id: 8,
+              subject: 8
+            }, {
+              id: 7,
+              subject: 7
+            }, {
+              id: 6,
+              subject: 6
+            }, {
+              id: 5,
+              subject: 5
+            }, {
+              id: 4,
+              subject: 4
+            }, {
+              id: 3,
+              subject: 3
+            }, {
+              id: 2,
+              subject: 2
+            }, {
+              id: 1,
+              subject: 1
+            }
+          ]
+        },{
+          id: 4,
+          subject: '对于圈外课程你有什么优化建议和想法吗？<br/>欢迎在下框留言。',
+          comment: null,
+          choiceList: null,
         }
       ],
     }
@@ -207,13 +229,17 @@ export default class StudyLine extends React.Component<any, any> {
     const { dispatch } = this.props
     const { problemId } = data
     let problemScores = questionList.map(item => {
-      let selectedChoice
-      item.choiceList.forEach(choice => {
-        if(choice.selected) {
-          selectedChoice = choice.id
-        }
-      })
-      return { question: item.id, choice: selectedChoice }
+      if(item.choiceList){
+        let selectedChoice
+        item.choiceList.forEach(choice => {
+          if(choice.selected) {
+            selectedChoice = choice.id
+          }
+        })
+        return { question: item.id, choice: selectedChoice }
+      }else{
+        return { question: item.id, comment: item.comment }
+      }
     })
     dispatch(startLoad())
     gradeProblem(problemScores, problemId).then(res => {
