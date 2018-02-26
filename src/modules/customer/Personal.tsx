@@ -176,12 +176,12 @@ export default class Personal extends React.Component<any, any> {
           <div className="pi-gray-tips">
             建议开启：周一至周五，若当天未登录学习，晚上09：30会发给你学习提醒消息
           </div>
-          {
-            window.ENV.showForum !== 'false' &&
-            <div className="personal-item no-gutter"
-                 onClick={() => {this.context.router.push('/forum/static/question')}}><span>论坛</span>
-            </div>
-          }
+          {/*{*/}
+            {/*window.ENV.showForum !== 'false' &&*/}
+            {/*<div className="personal-item no-gutter"*/}
+                 {/*onClick={() => {this.context.router.push('/forum/static/question')}}><span>论坛</span>*/}
+            {/*</div>*/}
+          {/*}*/}
           <MarkBlock module={'打点'} func={'个人中心'} action={'点击我的课程'} className="personal-item"
                      onClick={() => this.goProblem()}>
             <span>我的课程</span>
