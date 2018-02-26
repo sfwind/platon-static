@@ -11,7 +11,7 @@ import RenderInBody from '../../components/RenderInBody'
 const numeral = require('numeral');
 
 @connect(state => state)
-export class ImprovementReport extends React.Component<any, any> {
+export default class ImprovementReport extends React.Component<any, any> {
 
   constructor() {
     super();

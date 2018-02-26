@@ -4,6 +4,7 @@ import { set, startLoad, endLoad, alertMsg } from 'redux/actions'
 import { changeTitle } from 'utils/helpers'
 import { mark } from 'utils/request'
 import { getOldMsg, openNotifyStatus, closeNotifyStatus, getNotifyStatus } from '../message/async'
+import { loadUserCoupon } from './async'
 import './Personal.less'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import AssetImg from '../../components/AssetImg'
@@ -21,7 +22,8 @@ export default class Personal extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
-      learningNotify: true
+      learningNotify: true,
+      totalCoupon: 0,
     }
     this.picHeight = window.innerWidth / 2.5
     this.marginTop = (this.picHeight - 65) / 2 > 0 ? (this.picHeight - 65) / 2 : 0
@@ -35,6 +37,14 @@ export default class Personal extends React.Component<any, any> {
     getNotifyStatus().then(res => {
       dispatch(endLoad())
       this.setState({ learningNotify: res.msg })
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+
+    loadUserCoupon().then(res => {
+      this.setState({ totalCoupon: res.msg.total })
+      dispatch(endLoad())
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
@@ -56,8 +66,8 @@ export default class Personal extends React.Component<any, any> {
     this.context.router.push('/rise/static/customer/account')
   }
 
-  goCardList() {
-    this.context.router.push('/rise/static/customer/prize/card/list')
+  goCouponList() {
+    this.context.router.push('/rise/static/customer/coupon')
   }
 
   goMessage() {
@@ -113,7 +123,7 @@ export default class Personal extends React.Component<any, any> {
 
   render() {
     const { noticeMsgCount } = this.props
-    const { learningNotify } = this.state
+    const { learningNotify, totalCoupon } = this.state
 
     const renderHeader = () => {
       return (
@@ -143,15 +153,17 @@ export default class Personal extends React.Component<any, any> {
                      onClick={() => this.goAccount()}>
             <span>我的账户</span>
           </MarkBlock>
-          {/*<MarkBlock module={'打点'} func={'个人中心'} action={'点击学习礼品卡'} className="personal-item"*/}
-                     {/*onClick={() => this.goCardList()}>*/}
-            {/*<span>学习礼品卡</span>*/}
-          {/*</MarkBlock>*/}
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击我的优惠券'} className="personal-item"
+                     onClick={() => this.goCouponList()}>
+            <span>我的优惠券</span>
+            {totalCoupon ?
+              <span className="tail-message">{totalCoupon == 0 ? '暂无' : totalCoupon + '元'}</span> : null}
+          </MarkBlock>
           <MarkBlock module={'打点'} func={'个人中心'} action={'点击消息通知'} className="personal-item no-gutter"
                      onClick={() => this.goMessage()}>
             <span>消息通知</span>
             {noticeMsgCount ?
-              <span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
+              <span className="notify-message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
           </MarkBlock>
           <FormCell switch className="personal-item">
             <CellBody>学习提醒</CellBody>

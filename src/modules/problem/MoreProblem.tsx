@@ -9,7 +9,7 @@ import { mark } from '../../utils/request'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 @connect(state => state)
-export class MoreProblem extends React.Component<any, any> {
+export default class MoreProblem extends React.Component<any, any> {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }

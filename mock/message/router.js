@@ -162,4 +162,12 @@ router.get("/rise/message/comment/reply/*", (req, res) => {
         }), Math.random() * 1500)
 });
 
+router.get("/rise/message/status/learning/notify", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "code": 200,
+      "msg": true
+    }), Math.random() * 1500)
+});
+
 module.exports = router;

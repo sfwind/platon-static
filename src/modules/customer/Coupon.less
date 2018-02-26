@@ -1,0 +1,60 @@
+@import "../../style/variable";
+
+.coupon-container{
+  .item {
+    background-color: #ffffff;
+    height: 55px;
+    line-height: 55px;
+    font-size: 13px;
+    padding-left: 15px;
+    color: @color_context;
+    border-bottom: 1px solid @color_weak_background;
+    overflow: hidden;
+    > .label {
+      float: left;
+      font-size: 12px;
+      color: #333;
+    }
+    > .header-img {
+      height: 55px;
+      img {
+        position: absolute;
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+        top: 5px;
+        right: 30px;
+      }
+    }
+    > .content {
+      float: right;
+      position: relative;
+      padding-right: 20px;
+      font-size: 12px;
+      color: #666;
+      &:after {
+        content: ' ';
+        display: inline-block;
+        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+        width: 6px;
+        height: 11.5px;
+        float: right;
+        margin-top: 21.75px;
+        margin-left: 4px;
+      }
+    }
+    > .content-no-cut {
+      float: right;
+      position: relative;
+      padding-right: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+    > .coupon-img {
+      width: 18px;
+      height: 18px;
+      margin-top: 17px;
+      margin-right: 12px;
+    }
+  }
+}

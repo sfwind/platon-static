@@ -20,7 +20,7 @@ import { MarkBlock } from '../../../components/markblock/MarkBlock'
  * 应用题评论页
  */
 @connect(state => state)
-export class Comment extends React.Component<any, any> {
+export default class Comment extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {

@@ -8,7 +8,7 @@ import { isString, truncate } from "lodash";
 import { commentReply, loadArticleData } from "./async";
 
 @connect(state => state)
-export class ReplyCommentMessage extends React.Component<any, any> {
+export default class ReplyCommentMessage extends React.Component<any, any> {
 
   constructor() {
     super();

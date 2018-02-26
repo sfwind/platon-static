@@ -11,7 +11,7 @@ import { FooterButton } from '../../../components/submitbutton/FooterButton'
  * 知识点回顾页面
  */
 @connect(state => state)
-export class KnowledgeReview extends React.Component<any, any> {
+export default class KnowledgeReview extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
