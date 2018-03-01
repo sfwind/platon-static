@@ -161,7 +161,7 @@ export default class OverView extends React.Component {
         <MarkBlock  module={'打点'} func={'学习计划页'} action={'点击切换按钮'} className="overview-header">
           <span className="overview-title">学习计划</span>
           <span className={`modify-sequence ${draggable ? 'draggable' : ''}`}
-                onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复默认排序' : '调整课程顺序'}</span>
+                onClick={() => this.switchDraggableStatus(draggable)}>{draggable ? '恢复上次排序' : '调整课程顺序'}</span>
         </MarkBlock>
 
         <div id="overview-scroll" className="overview-scroll">
