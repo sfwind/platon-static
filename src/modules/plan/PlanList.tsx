@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './PlanList.less'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
+import { startLoad, endLoad, alertMsg } from '../../redux/actions'
 import { loadPlanList, createCampPlan, openAudition, unlockCampPlan } from './async'
 import AssetImg from '../../components/AssetImg'
 import { changeTitle } from '../../utils/helpers'
@@ -21,6 +21,8 @@ const { Alert } = Dialog
 @connect(state => state)
 export default class PlanList extends React.Component<any, any> {
   constructor() {
+    console.log('----------------------------')
+    console.log(startLoad)
     super()
     this.state = {
       riseMember: 1,

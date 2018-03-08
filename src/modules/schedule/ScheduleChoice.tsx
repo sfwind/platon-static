@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg, set } from 'redux/actions'
+import { startLoad, endLoad, alertMsg, set } from 'aredux/actions'
 import './ScheduleChoice.less'
 import { mark } from '../../utils/request'
 import { initSchedule, loadQuestions } from './async'

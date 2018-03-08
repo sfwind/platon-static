@@ -1,4 +1,3 @@
-require('es6-promise').polyfill()
 import './style.less'
 import 'whatwg-fetch'
 import * as React from 'react'
@@ -7,11 +6,11 @@ import { Router, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import configureStore from './redux/configureStore'
 import routes from './routes'
-import 'weui/dist/style/weui.min.css'
-import 'components/CustomerWeuiSwitch.less'
-import 'swiper/dist/css/swiper.css'
-import 'animate.css/animate.min.css'
-// import 'minirefresh/dist/debug/minirefresh.css'
+import './style/weui.min.css'
+import './components/CustomerWeuiSwitch.less'
+import './style/swiper.min.css'
+import './style/animate.min.css'
+
 const store = configureStore()
 
 declare var window: {

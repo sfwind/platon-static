@@ -2,8 +2,8 @@ import * as React from 'react'
 import './SchedulePlan.less'
 import { connect } from 'react-redux'
 import { loadSchedulePlan, createPlan } from './async'
-import { startLoad, endLoad, alertMsg } from 'redux/actions'
-import { changeTitle } from '../../../utils/helpers'
+import { startLoad, endLoad, alertMsg } from 'aredux/actions'
+import { changeTitle, formatDate } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 import { Dialog } from 'react-weui'
 import AssetImg from '../../../components/AssetImg'
@@ -32,7 +32,6 @@ export default class SchedulePlan extends React.Component<any, any> {
       data: {}
     }
     changeTitle('圈外同学')
-    this.moment = require('moment')
   }
 
   static contextTypes = {
@@ -178,7 +177,7 @@ export default class SchedulePlan extends React.Component<any, any> {
 
     const renderCompleteCourse = () => {
       return completeProblem.map((item, index) => {
-        var date = this.moment(item.closeTime).format('YYYY-MM-DD')
+        var date = formatDate(new Date(), "yyyy-MM-dd")
         return (
           <div className="complete-plan" key={index} onClick={() => this.learn(item)}>
             <div className="status-line"/>
