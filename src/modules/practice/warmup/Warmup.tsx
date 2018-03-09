@@ -427,6 +427,7 @@ export default class Warumup extends React.Component<any, any> {
             {
               practiceCount !== 0 && currentIndex <= practiceCount - 1 && <div className="intro-index">
                 <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
+                <span className="tip">正确选项可能不止一个</span>
                 <span className="type"><span className="number">{score}</span>分</span>
               </div>
             }
