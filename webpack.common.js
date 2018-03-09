@@ -43,7 +43,7 @@ module.exports = {
       {
         test: /\.(gif|jpg|png|woff|woff2|eot|ttf|svg)$/,
         exclude: /node_modules/,
-        use: ['url-loader']
+        use: ['url-loader?limit=10000']
       }
     ]
   }
