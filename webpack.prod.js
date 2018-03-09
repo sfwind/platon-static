@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    publicPath: `/rise_js/${process.env.VERSION}/`
+    publicPath: `/script/rise_js/${process.env.VERSION}/` || `/rise_js/`
   },
   plugins: [
     new CleanWebpackPlugin(['__build__']),
