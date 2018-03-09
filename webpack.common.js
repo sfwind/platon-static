@@ -10,7 +10,7 @@ module.exports = {
     path: path.join(__dirname, '__build__'),
     filename: '[name].bundle.js',
     chunkFilename: '[id].chunk.js',
-    publicPath: '/'
+    publicPath: '/rise_js/'
   },
   plugins: [],
   resolve: {

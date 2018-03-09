@@ -1,27 +1,17 @@
 {
   "name": "platon-static",
-  "version": "0.0.1",
-  "description": "",
   "main": "index.js",
-  "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
-    "test": "webpack --mode development",
     "mock": "nodemon --watch mock --exec node mock",
-    "start": "node server",
-    "dist": "NODE_ENV=production webpack",
-    "ftp": "NODE_ENV=production webpack; gulp ftp",
-    "beta": "NODE_ENV=production webpack; gulp beta",
-    "local": "PROXY=http://0.0.0.0:8080/ npm start",
-    "two": "RISE_PROXY=http://0.0.0.0:8081/ PROXY=http://0.0.0.0:8080/ npm start"
+    "dev": "webpack-dev-server --open --config webpack.dev.js",
+    "dist": "webpack --config webpack.prod.js",
+    "ftp": "npm run dist; gulp ftp",
+    "beta": "npm run dist; gulp beta"
   },
   "repository": {
     "type": "git",
     "url": "git@github.com:sfwind/platon-static.git"
   },
-  "author": "bx",
-  "license": "UNLICENSED",
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.15.2",
