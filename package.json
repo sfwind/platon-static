@@ -5,7 +5,7 @@
     "mock": "nodemon --watch mock --exec node mock",
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "dist": "webpack --config webpack.prod.js",
-    "ftp": "npm run dist; gulp ftp",
+    "ftp": "VERSION=4 npm run dist; VERSION=4 gulp ftp",
     "beta": "npm run dist; gulp beta"
   },
   "repository": {
