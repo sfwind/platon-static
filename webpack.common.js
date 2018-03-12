@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '__build__'),
     filename: '[name].bundle.js',
-    chunkFilename: '[id].chunk.js',
+    chunkFilename: '[id].chunk_[hash].js',
     publicPath: '/'
   },
   plugins: [],
@@ -17,7 +17,7 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       'utils': path.resolve(__dirname, 'src/utils'),
-      'aredux': path.resolve(__dirname, 'src/redux')
+      'reduxutil': path.resolve(__dirname, 'src/redux')
     }
   },
   module: {

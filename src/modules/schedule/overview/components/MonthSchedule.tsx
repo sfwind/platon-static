@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './MonthSchedule.less'
 import Sortable from 'sortablejs'
-import { startLoad, endLoad, alertMsg, set } from 'aredux/actions'
+import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { updateSelected } from '../../async'

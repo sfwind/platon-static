@@ -2,7 +2,7 @@ import * as React from 'react'
 import './HeadImage.less'
 import { mark, ppost } from '../../../../utils/request'
 import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg } from 'aredux/actions'
+import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { adjustImage } from '../../../../components/imageUtil/ImageUtil'
 import { MarkBlock } from '../../../../components/markblock/MarkBlock'
 

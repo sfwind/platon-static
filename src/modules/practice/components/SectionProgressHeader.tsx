@@ -4,7 +4,7 @@ import { loadPlanSeries, loadPracticePlan } from './async'
 import _ from 'lodash'
 import { randomStr } from '../../../utils/helpers'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
-import { alertMsg } from 'aredux/actions'
+import { alertMsg } from 'reduxutil/actions'
 
 interface SectionProgressHeaderProps {
   practicePlanId: string,
