@@ -1,0 +1,37 @@
+@import "../../style/variable";
+
+.faq-container {
+  background: @color_weak_background;
+  padding: 2.0rem 0;
+
+  > .faq-header {
+    padding-top: 3.4rem;
+    padding-bottom: 1.0rem;
+    font-size:2.6rem;
+    color:#333333;
+    text-align:center;
+    background-color:#fff;
+  }
+  > .faq-header {
+    background-color:#fff;
+    line-height: 6.0rem;
+    color: #333;
+    font-size: 1.5rem;
+    height:6.0rem;
+    &.arrow {
+      margin-bottom: 1.0rem;
+      &:after {
+        content: ' ';
+        display: inline-block;
+        background: url('https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim') no-repeat right center / .6rem 1.3rem;
+        width: .6rem;
+        height: 1.3rem;
+        float: right;
+        margin-top: 2.0rem;
+        margin-left: .4rem;
+        margin-right: 1.5rem;
+      }
+    }
+
+  }
+}
