@@ -83,13 +83,13 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.moveSnipperTimer = setInterval(() => {
-      this.touchMoveSnipper()
-    }, 100)
+    // this.moveSnipperTimer = setInterval(() => {
+    //   this.touchMoveSnipper()
+    // }, 100)
   }
 
   componentWillUnmount() {
-    clearInterval(this.moveSnipperTimer)
+    // clearInterval(this.moveSnipperTimer)
     const { dispatch } = this.props
     dispatch(set('warmupCurrentIndex', undefined))
   }
