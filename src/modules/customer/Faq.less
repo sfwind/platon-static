@@ -2,24 +2,23 @@
 
 .faq-container {
   background: @color_weak_background;
-  padding: 2.0rem 0;
-
-  > .faq-header {
-    padding-top: 3.4rem;
-    padding-bottom: 1.0rem;
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
+  > .faq-title {
+    padding: 3.4rem 2.0rem 1.0rem;
     font-size:2.6rem;
     color:#333333;
-    text-align:center;
     background-color:#fff;
   }
   > .faq-header {
+    padding: 0 2.0rem;
     background-color:#fff;
     line-height: 6.0rem;
     color: #333;
     font-size: 1.5rem;
     height:6.0rem;
     &.arrow {
-      margin-bottom: 1.0rem;
       &:after {
         content: ' ';
         display: inline-block;
@@ -29,7 +28,6 @@
         float: right;
         margin-top: 2.0rem;
         margin-left: .4rem;
-        margin-right: 1.5rem;
       }
     }
 

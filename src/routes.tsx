@@ -138,8 +138,8 @@ const RiseMember = Loadable({
   loader: () => import('./modules/customer/RiseMember'),
   loading: Loading
 })
-const FeedBack = Loadable({
-  loader: () => import('./modules/customer/FeedBack'),
+const Faq = Loadable({
+  loader: () => import('./modules/customer/Faq'),
   loading: Loading
 })
 const UserProtocol = Loadable({
@@ -314,7 +314,7 @@ const routes = (
         <Route path="point/tip" component={PointTip}/>
         <Route path="problem" component={ProblemGallery}/>
         <Route path="member" component={RiseMember}/>
-        <Route path="feedback" component={FeedBack}/>
+        <Route path="faq" component={Faq}/>
         <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
         <Route path="forum/mine" component={ForumQuestion}/>
