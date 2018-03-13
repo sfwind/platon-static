@@ -1,7 +1,7 @@
 import * as React from 'react'
-import './CurrentPlanBar.less'
+import './CompletePlanBar.less'
 
-export class CurrentPlanBar extends React.Component {
+export class CompletePlanBar extends React.Component {
 
   constructor() {
     super()
@@ -33,18 +33,17 @@ export class CurrentPlanBar extends React.Component {
     } = this.state.plan
 
     return (
-      <div className={`current-problem-component ${type === 1 ? 'major' : 'minor'}`}>
-        <div className="problem-name">{abbreviation}</div>
-        {
-          isLearning ?
-            <div className="learning-status">课程学习进度：{completeSeries} / {totalSeries}</div> :
-            <div className="waiting-status">待开课</div>
-        }
-        <div className="problem-description">{description}</div>
-        {isLearning && <div className="close-tips">{remainDaysCount} 天后关闭</div>}
+      <div className="complete-problem-component">
+        <div className="status-line"/>
+        <div className="plan-status"/>
+        <div className="plan-detail">
+          <div className="plan-name">{description}</div>
+          <div className="plan-close">{completeTime}</div>
+          <div className="plan-title-below">{name}</div>
+          <div className="plan-stamp"/>
+        </div>
       </div>
     )
   }
 
 }
-
