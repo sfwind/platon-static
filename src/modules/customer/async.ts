@@ -19,3 +19,7 @@ export function loadUserAccount(){
 export function loadUserCoupon(){
   return pget('/rise/customer/coupon')
 }
+
+export function loadUserInfo(){
+  return pget('/rise/customer/profile/info')
+}
