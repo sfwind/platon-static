@@ -75,7 +75,7 @@ export default class SchedulePlan extends React.Component {
           <div className="nickname">{window.ENV.userName}</div>
           <div className="personal-icon" onClick={() => this.handleGoPersonalCenter()}></div>
           <div className="parameter-box box1">
-            <div className="desc">连续登陆圈外天数</div>
+            <div className="desc">连续登陆天数</div>
             <div className="data">{loginCount}</div>
           </div>
           <div className="parameter-box box2">
@@ -87,13 +87,14 @@ export default class SchedulePlan extends React.Component {
             <div className="data">{totalPoint}</div>
           </div>
           <div className="problem-update-tip-icon"></div>
-          <marquee behavior="scroll" direction="left" className="problem-update-tips">课程更新消息！！！</marquee>
+          {/*<marquee behavior="scroll" direction="left" className="problem-update-tips">课程更新消息！！！</marquee>*/}
         </div>
         <div className="current-problems">
           <div className="title">我的课程</div>
           {
-            runningPlans.length > 0 ? (!showAllRunningPlan && runningPlans.length) > 3 ?
+            runningPlans.length > 0 ? !showAllRunningPlan ? runningPlans.length > 3 ?
               <div className="more" onClick={() => this.setState({showAllRunningPlan: true})}>更多&nbsp;&nbsp;></div> :
+              <div></div> :
               <div className="more" onClick={() => this.setState({showAllRunningPlan: false})}>收起&nbsp;&nbsp;∨</div> :
               <div className="no-running-plans">
                 <div className="no-running-icon"></div>
