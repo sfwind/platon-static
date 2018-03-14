@@ -83,9 +83,10 @@ export class CurrentPlanBar extends React.Component {
              onClick={() => this.handleClickCourse()}>
           <div className="problem-name">{abbreviation}</div>
           {
-            isLearning
-              ? <div className="learning-status">课程学习进度：{completeSeries} / {totalSeries}</div>
-              : <div className="waiting-status">待开课</div>
+            isLearning ? <div className="learning-status">课程学习进度：{completeSeries} / {totalSeries}</div> :
+              <div className="waiting-status">
+                <span className={`${type == 1 ? 'major' : 'minor'}`}>待开课</span>
+              </div>
           }
           <div className="problem-description">{description}</div>
           {isLearning && <div className="close-tips">{remainDaysCount} 天后关闭</div>}
