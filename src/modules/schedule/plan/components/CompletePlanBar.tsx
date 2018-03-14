@@ -3,25 +3,34 @@ import './CompletePlanBar.less'
 
 export class CompletePlanBar extends React.Component {
 
-  constructor() {
+  constructor () {
     super()
     this.state = {}
   }
 
-  componentWillMount() {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
+
+  componentWillMount () {
     this.setState(this.props)
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(nextProps) != JSON.stringify(this.props)) {
+  componentWillReceiveProps (nextProps) {
+    if (JSON.stringify(nextProps) != JSON.stringify(this.props)) {
       this.setState(nextProps)
     }
   }
 
-  render() {
+  handleClickCourse (planId) {
+    this.context.router.push({pathname: '/rise/static/plan/study', query: {planId: planId}})
+  }
+
+  render () {
     const {
       type = 1,
       problemId = 0,
+      planId,
       isLearning = false,
       name = '',
       abbreviation = '',
@@ -33,7 +42,7 @@ export class CompletePlanBar extends React.Component {
     } = this.state.plan
 
     return (
-      <div className="complete-problem-component">
+      <div className="complete-problem-component" onClick={() => this.handleClickCourse(planId)}>
         <div className="status-line"/>
         <div className="plan-status"/>
         <div className="plan-detail">

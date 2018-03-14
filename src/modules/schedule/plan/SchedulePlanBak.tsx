@@ -177,7 +177,7 @@ export default class SchedulePlan extends React.Component<any, any> {
 
     const renderCompleteCourse = () => {
       return completeProblem.map((item, index) => {
-        var date = formatDate(new Date(), "yyyy-MM-dd")
+        var date = formatDate(new Date(), 'yyyy-MM-dd')
         return (
           <div className="complete-plan" key={index} onClick={() => this.learn(item)}>
             <div className="status-line"/>
@@ -185,9 +185,7 @@ export default class SchedulePlan extends React.Component<any, any> {
             <div className="plan-detail">
               <div className="plan-title-above">
                 <div className="plan-name">{`${item.typeDesc} | ${item.problem.abbreviation} | ${item.point}分`}</div>
-                <div className="plan-close">
-                  {date}
-                </div>
+                <div className="plan-close">{date}</div>
               </div>
               <div className="plan-title-below">
                 {item.problem.abbreviation + '：' + item.problem.problem}
