@@ -17,14 +17,17 @@ declare var window: {
   ENV
 }
 
-render(
-  <Provider store={store}>
-    <Router history={browserHistory} routes={routes}/>
-  </Provider>,
-  document.getElementById(window.ENV.reactMountPoint))
+render(<Provider store={store}>
+  <Router history={browserHistory} routes={routes}/>
+</Provider>, document.getElementById(window.ENV.reactMountPoint))
 
-var fontSize = 0
-if(document.body.clientWidth > 414) {
+let fontCssLink = document.createElement('link')
+fontCssLink.href = 'https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+fontCssLink.rel = 'stylesheet'
+document.body.appendChild(fontCssLink)
+
+let fontSize = 0
+if (document.body.clientWidth > 414) {
   fontSize = 414 / 37.5
 } else {
   fontSize = document.body.clientWidth / 37.5

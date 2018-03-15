@@ -8,6 +8,8 @@ import AssetImg from '../../../components/AssetImg'
 import { loadPersonSchedulePlan } from './async'
 import { mark } from '../../../utils/request'
 import { ToolBar } from '../../base/ToolBar'
+import { ColumnSpan } from '../../../components/ColumnSpan'
+import * as FontAwesome from 'react-fontawesome'
 
 @connect(state => state)
 export default class SchedulePlan extends React.Component {
@@ -16,8 +18,7 @@ export default class SchedulePlan extends React.Component {
     super()
     this.state = {
       data: {
-        showAllRunningPlan: false,
-        sliceRunningPlans: [],
+        showAllRunningPlan: false, sliceRunningPlans: [],
       },
     }
   }
@@ -28,9 +29,7 @@ export default class SchedulePlan extends React.Component {
 
   async componentWillMount () {
     mark({
-      module: '打点',
-      function: '学习',
-      action: '打开学习计划页面',
+      module: '打点', function: '学习', action: '打开学习计划页面',
     })
     const {dispatch, location} = this.props
     dispatch(startLoad())
@@ -57,7 +56,7 @@ export default class SchedulePlan extends React.Component {
 
   render () {
     let {showAllRunningPlan, sliceRunningPlans} = this.state
-    let {completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0} = this.state.data
+    let {announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0} = this.state.data
 
     const renderRunningPlans = () => {
       sliceRunningPlans = !showAllRunningPlan ? runningPlans.slice(0, 3) : runningPlans
@@ -86,32 +85,44 @@ export default class SchedulePlan extends React.Component {
             <div className="desc">积分</div>
             <div className="data">{totalPoint}</div>
           </div>
-          <div className="problem-update-tip-icon"></div>
-          {/*<marquee behavior="scroll" direction="left" className="problem-update-tips">课程更新消息！！！</marquee>*/}
         </div>
+        {announce && <div>
+          <ColumnSpan height={10}/>
+          <div className="person-tip">
+            <div className="problem-update-tip-icon"></div>
+            <span>{announce}</span>
+          </div>
+          <ColumnSpan height={10}/>
+        </div>}
         <div className="current-problems">
           <div className="title">我的课程</div>
-          {
-            runningPlans.length > 0 ? !showAllRunningPlan ? runningPlans.length > 3 ?
-              <div className="more" onClick={() => this.setState({showAllRunningPlan: true})}>更多&nbsp;&nbsp;></div> :
-              <div></div> :
-              <div className="more" onClick={() => this.setState({showAllRunningPlan: false})}>收起&nbsp;&nbsp;∨</div> :
-              <div className="no-running-plans">
-                <div className="no-running-icon"></div>
-                <div className="no-running-tip1">您现在还没有选取课程哦</div>
-                <div className="no-running-tip2">点击查看我的学习计划立即开启学习之旅</div>
-              </div>
-          }
+          {runningPlans.length > 0 ?
+            !showAllRunningPlan ?
+              runningPlans.length > 3 ?
+                <div className="more" onClick={() => this.setState({showAllRunningPlan: true})}>
+                  更多&nbsp;
+                  <FontAwesome name="angle-right"/>
+                </div> :
+                <div></div> :
+              <div className="more" onClick={() => this.setState({showAllRunningPlan: false})}>
+                收起&nbsp;
+                <FontAwesome name="angle-down"/>
+              </div> :
+            <div className="no-running-plans">
+              <div className="no-running-icon"></div>
+              <div className="no-running-tip1">您现在还没有选取课程哦</div>
+              <div className="no-running-tip2">点击查看我的学习计划立即开启学习之旅</div>
+            </div>}
           {renderRunningPlans()}
-          <span className="view-course-schedule" onClick={() => this.handleGoOverView()}>查看我的学习计划&nbsp;&nbsp;></span>
+          <span className="view-course-schedule" onClick={() => this.handleGoOverView()}>
+            查看我的学习计划&nbsp;
+            <FontAwesome name="angle-right"/>
+          </span>
         </div>
-        {
-          completePlans.length > 0 &&
-          <div className="complete-problems">
-            <div className="title">已完成的课程</div>
-            {completePlans.map((plan, index) => <CompletePlanBar key={index} plan={plan}/>)}
-          </div>
-        }
+        {completePlans.length > 0 && <div className="complete-problems">
+          <div className="title">已完成的课程</div>
+          {completePlans.map((plan, index) => <CompletePlanBar key={index} plan={plan}/>)}
+        </div>}
         <ToolBar/>
       </div>
     )
