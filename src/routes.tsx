@@ -262,20 +262,23 @@ const ProblemCardList = Loadable({
   loader: () => import('./modules/customer/knowledgecards/ProblemCardList'),
   loading: Loading,
 })
+const RichTextView = Loadable({
+  loader: () => import('./modules/other/richtext/RichTextView'),
+  loading: Loading,
+})
 
 const routes = (
   <Route>
-    <Route path="/rise/static" component={Base}
-           onChange={(before, after) => {
-             config(['chooseWXPay'])
-             if (after.location.state && after.location.state.pageScrollY) {
-               setTimeout(() => {
-                 window.scrollTo(0, after.location.state.pageScrollY)
-               }, 1000)
-             } else {
-               window.scrollTo(0, 0)
-             }
-           }}>
+    <Route path="/rise/static" component={Base} onChange={(before, after) => {
+      config(['chooseWXPay'])
+      if (after.location.state && after.location.state.pageScrollY) {
+        setTimeout(() => {
+          window.scrollTo(0, after.location.state.pageScrollY)
+        }, 1000)
+      } else {
+        window.scrollTo(0, 0)
+      }
+    }}>
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={PlanList}/>
       <Route path="learn" component={PlanList}/>
@@ -306,6 +309,8 @@ const routes = (
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="guest/card/send" component={SendCard}/>
+
+      <Route path="article" component={RichTextView}/>
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
