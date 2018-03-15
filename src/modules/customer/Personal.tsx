@@ -76,6 +76,10 @@ export default class Personal extends React.Component<any, any> {
     }
   }
 
+  goProfile(){
+    this.context.router.push('/rise/static/customer/profile')
+  }
+
   render() {
     const { userInfo, learningNotify,isRiseMember } = this.state
 
@@ -85,7 +89,7 @@ export default class Personal extends React.Component<any, any> {
         <div className="header-container">
           <div className="img-container">
             <img src={userInfo.headImgUrl}/>
-            <div className="arrow"></div>
+            <MarkBlock module={'打点'} func={'个人中心'} action={'点击修改信息'} className="arrow" onClick={()=>this.goProfile()} />
           </div>
           <div className="info-container">
             <div className="nickname-container">
@@ -106,10 +110,10 @@ export default class Personal extends React.Component<any, any> {
 
             < div className="content-container">
               <div className="member">
-                1803011020
+                {userInfo.memberId}
               </div>
               <div className="grade">
-                3月2班
+                {userInfo.className}
               </div>
             </div>
 
@@ -131,13 +135,13 @@ export default class Personal extends React.Component<any, any> {
 
           <div className="achievement-container">
             <div className="essenceCard">
-              知识卡1张
+              知识卡{userInfo.cardSum}张
             </div>
             <div className="middle-divider">
 
             </div>
             <div className="certificate">
-              荣誉证书1张
+              荣誉证书{userInfo.certificateSum}张
             </div>
           </div>
         </div>
