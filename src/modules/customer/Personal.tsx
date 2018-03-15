@@ -3,13 +3,11 @@ import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { changeTitle } from 'utils/helpers'
 import { mark } from 'utils/request'
-import { getOldMsg, openNotifyStatus, closeNotifyStatus, getNotifyStatus } from '../message/async'
-import { loadUserCoupon, loadUserInfo } from './async'
+import { openNotifyStatus, closeNotifyStatus, getNotifyStatus } from '../message/async'
+import { loadUserInfo } from './async'
 import './Personal.less'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
-import AssetImg from '../../components/AssetImg'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
-
 /**
  * 个人中心页
  */
@@ -22,7 +20,9 @@ export default class Personal extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo: ''
+      userInfo: '',
+      learningNotify: true,
+      isRiseMember: true
     }
   }
 
@@ -31,8 +31,16 @@ export default class Personal extends React.Component<any, any> {
     mark({ module: '打点', function: '个人中心', action: '打开个人中心' })
     const { dispatch } = this.props
     dispatch(startLoad())
-    loadUserInfo().then(res => {
+
+    getNotifyStatus().then(res => {
       dispatch(endLoad())
+      this.setState({ learningNotify: res.msg })
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+
+    loadUserInfo().then(res => {
       const { code, msg } = res
       if(code === 200) {
         this.setState({
@@ -44,8 +52,32 @@ export default class Personal extends React.Component<any, any> {
     })
   }
 
+  handleClickLearningNotify() {
+    const { learningNotify } = this.state
+    const { dispatch } = this.props
+    if(learningNotify) {
+      dispatch(startLoad())
+      closeNotifyStatus().then(res => {
+        dispatch(endLoad())
+        this.setState({ learningNotify: false })
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
+    } else {
+      dispatch(startLoad())
+      openNotifyStatus().then(res => {
+        dispatch(endLoad())
+        this.setState({ learningNotify: true })
+      }).catch(ex => {
+        dispatch(endLoad())
+        dispatch(alertMsg(ex))
+      })
+    }
+  }
+
   render() {
-    const { userInfo } = this.state
+    const { userInfo, learningNotify,isRiseMember } = this.state
 
     const renderUserInfo = () => {
 
@@ -53,48 +85,114 @@ export default class Personal extends React.Component<any, any> {
         <div className="header-container">
           <div className="img-container">
             <img src={userInfo.headImgUrl}/>
+            <div className="arrow"></div>
           </div>
           <div className="info-container">
             <div className="nickname-container">
-            {userInfo.nickName}
+              {userInfo.nickName}
             </div>
             <div className="score-container">
-            积分2200分
+              积分2200分
             </div>
           </div>
-          <div className="class-container">
-            <div className="title">
-            学号
+          {isRiseMember &&
+          <div className="class-info-container">
+            <div className="class-container">
+              <div className="title">
+                学号
+              </div>
+              <div className="name">班级名称</div>
             </div>
-            <div className="name">班级名称</div>
-          </div>
 
-          <div className="content-container">
+            < div className="content-container">
               <div className="member">
                 1803011020
               </div>
               <div className="grade">
-                  3月2班
+                3月2班
               </div>
+            </div>
+
+            <div className="notice-container">
+              <FormCell switch className="learn-notice">
+                <CellBody>学习提醒</CellBody>
+                <CellFooter>
+                  <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习提醒'}>
+                    <Switch checked={learningNotify} onClick={() => this.handleClickLearningNotify()}/>
+                  </MarkBlock>
+                </CellFooter>
+              </FormCell>
+            </div>
+            <div className="notice-msg">
+              建议开启：周一至周五，若当天未登录学习，晚上09：30会发给学习提醒消息
+            </div>
+          </div>
+          }
+
+          <div className="achievement-container">
+            <div className="essenceCard">
+              知识卡1张
+            </div>
+            <div className="middle-divider">
+
+            </div>
+            <div className="certificate">
+              荣誉证书1张
+            </div>
           </div>
         </div>
       )
     }
 
-    // const renderList = () => {
-    //   return (
-    //     <div>
-    //       <MarkBlock module={'打点'} func={'个人中心'} action={'点击推荐给朋友'} className="personal-item no-gutter">
-    //         <span>推荐【圈外商学院】给朋友</span>
-    //       </MarkBlock>
-    //     </div>
-    //   )
-    // }
+    const renderList = () => {
+      return (
+        <div className="list-container">
+          <img src={isRiseMember? 'http://static.iqycamp.com/images/share_business.png':'http://static.iqycamp.com/images/join_business.png'}/>
+          <div className="hyq-container">
+            <div className="img-container">
+              <img src="http://static.iqycamp.com/images/icon_yhq.png"/>
+              <div className="arrow"></div>
+            </div>
+            <div className="content">我的抵用券</div>
+            <div className="amount">XX元</div>
+            <div className="arrow"></div>
+          </div>
+          <div className="study-report-container">
+            <div className="img-container">
+              <img src="http://static.iqycamp.com/images/icon_study.png"/>
+            </div>
+            <div className="content">我的学习报告</div>
+            <div className="arrow"></div>
+          </div>
+          <div className="message-container">
+            <div className="img-container">
+              <img src="http://static.iqycamp.com/images/icon_message.png"/>
+            </div>
+            <div className="content">消息中心</div>
+            <div className="arrow"></div>
+          </div>
+          <div className="help-container">
+            <div className="img-container">
+              <img src="http://static.iqycamp.com/images/icon_help.png"/>
+            </div>
+            <div className="content">使用帮助</div>
+            <div className="arrow"></div>
+          </div>
+          <div className="protocol-container">
+            <div className="img-container">
+              <img src="http://static.iqycamp.com/images/icon_user.png"/>
+            </div>
+            <div className="content">用户协议</div>
+            <div className="arrow"></div>
+          </div>
+        </div>
+      )
+    }
 
     return (
       <div className="person-center-container">
         {renderUserInfo()}
-        {/*{renderList()}*/}
+        {renderList()}
       </div>
     )
   }
