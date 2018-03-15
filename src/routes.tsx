@@ -114,6 +114,7 @@ const Profile = Loadable({
   loader: () => import('./modules/customer/Profile'),
   loading: Loading
 })
+
 const Account = Loadable({
   loader: () => import('./modules/customer/account/Account'),
   loading: Loading

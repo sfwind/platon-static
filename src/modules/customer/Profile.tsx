@@ -60,6 +60,7 @@ export default class Profile extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
+      nickName: null,
       function: null,
       industry: null,
       workingLife: null,
@@ -86,14 +87,14 @@ export default class Profile extends React.Component<any, any> {
       if(res.code === 200) {
         let defaultIsFull = goRise ? false : res.msg.isFull
         this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
-          if(this.checkIsFull() && goRise ) {
-            if(goCamp){
+          if(this.checkIsFull() && goRise) {
+            if(goCamp) {
               // 加载的时候就填写过，然后是goRise，则去绑定电话页面
               this.context.router.push({
                 pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true, goCamp:true }
+                query: { goRise: true, goCamp: true }
               })
-            }else{
+            } else {
               this.context.router.push({
                 pathname: '/rise/static/customer/mobile/check',
                 query: { goRise: true }
@@ -129,10 +130,7 @@ export default class Profile extends React.Component<any, any> {
 
   componentDidMount() {
     const { location, hiddenTab } = this.props
-    const { goRise } = location.query
-    // if(goRise){
     hiddenTab()
-    // }
   }
 
   changeValue(path, value, callback) {
@@ -199,9 +197,9 @@ export default class Profile extends React.Component<any, any> {
     const { city, province, industry, workingYear, bindMobile, realName, address, receiver } = this.state
     if(goCamp) {
       if(city && province && industry && workingYear && functionValue && realName) {
-        return true;
+        return true
       }
-    }else{
+    } else {
       if(city && province && industry && workingYear && functionValue && realName && address && receiver) {
         return true
       }
@@ -232,9 +230,9 @@ export default class Profile extends React.Component<any, any> {
           if(goCamp) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true, goCamp:true }
+              query: { goRise: true, goCamp: true }
             })
-          } else if(goRise){
+          } else if(goRise) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
               query: { goRise: true }
@@ -268,11 +266,18 @@ export default class Profile extends React.Component<any, any> {
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
     const { city, province, cityId, provinceId, industry, workingLife, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
-    const functionValue = _.get(this.state, 'function')
     const renderFunction = () => {
       return (
-        <div className={functionValue ? 'select-wrapper-has-no-cut' : 'select-wrapper'}>
+        <div className='select-wrapper-has'>
           <input id="functionInput" placeholder="请填写" type="text" {...this.bind('function', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderNickName = () => {
+      return (
+        <div className='select-wrapper-has'>
+          <input id="nickName" placeholder="请填写" type="text" {...this.bind('nickName', this.getInputValue)}/>
         </div>
       )
     }
@@ -291,7 +296,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderRealName = () => {
       return (
-        <div className={realName ? 'select-wrapper-has-no-cut' : 'select-wrapper'}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="realName" placeholder="用于颁发毕业证书" type="text" {...this.bind('realName', this.getInputValue)}/>
         </div>
       )
@@ -299,7 +304,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderReceiver = () => {
       return (
-        <div className={receiver ? 'select-wrapper-has-no-cut' : 'select-wrapper'}>
+        <div className={receiver ? 'select-wrapper-has-no-cut' : 'select-wrapper'} style={{ marginRight: 0 }}>
           <input id="realName" placeholder="请填写" type="text" {...this.bind('receiver', this.getInputValue)}/>
         </div>
       )
@@ -394,6 +399,48 @@ export default class Profile extends React.Component<any, any> {
         )
       }
     }
+
+    const renderClassInfo = () => {
+      return (
+        <div className="profile-container">
+          <div className="profile-item">
+            <div className="item-label">
+              学号
+            </div>
+            <div className="item-content">
+              1803011020
+            </div>
+          </div>
+          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
+            <div className="item-label">
+              班级
+            </div>
+            <div className="item-content">
+              3月2班
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    const renderPhoto = () => {
+      return (
+        <div className='select-wrapper-has'>
+          <img
+            src="http://thirdwx.qlogo.cn/mmopen/ibLButGMnqJMJhQx66RPQ7rB0wnD455eDxQ4f4egTKzMJfgwASDBkvjA1WAvybviaC9j9zNWnyBfgGbw4UWdf8wUKF0Q9fYDFs/132"
+            style={{ width: 40, marginTop: 10 }}/>
+        </div>
+      )
+    }
+
+    const renderTel = () => {
+      return (
+        <div className='select-wrapper-has'>
+          <input id="tel" placeholder="请填写" type="text" {...this.bind('tel', this.getInputValue)}/>
+        </div>
+      )
+    }
+
     return (
       <div className="profile">
         {goRise ? (
@@ -402,9 +449,9 @@ export default class Profile extends React.Component<any, any> {
               works={[{ text: '填写信息', done: !!defaultIsFull, cur: true },
                 { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false }]}/>
             <div className="guide">
-              { goCamp ?
-              <div className="first-guide">填写工作和地址信息<br/>才能加入校友会！</div>
-                : <div className="first-guide">填写工作和地址信息<br/>才能加入校友会，收到入学礼包！</div> }
+              {goCamp ?
+                <div className="first-guide">填写工作和地址信息<br/>才能加入校友会！</div>
+                : <div className="first-guide">填写工作和地址信息<br/>才能加入校友会，收到入学礼包！</div>}
               <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
             </div>
           </div>
@@ -413,7 +460,37 @@ export default class Profile extends React.Component<any, any> {
             {renderProfileHeader()}
           </div>
         )}
+
+        {!goCamp && renderClassInfo()}
+
         <div className="profile-container">
+
+          <div className="profile-item">
+            <div className="item-label">
+              ID
+            </div>
+            <div className="item-content">
+              54343
+            </div>
+          </div>
+          <div className="profile-item">
+            <div className="item-label">
+              昵称
+            </div>
+            <div className="item-content">
+              {renderNickName()}
+            </div>
+          </div>
+
+          <div className="profile-item">
+            <div className="item-label">
+              头像
+            </div>
+            <div className="item-content">
+              {renderPhoto()}
+            </div>
+          </div>
+
           <div className="profile-item">
             <div className="item-label">
               首次参加工作年份
@@ -430,7 +507,7 @@ export default class Profile extends React.Component<any, any> {
               {renderIndustry()}
             </div>
           </div>
-          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
+          <div className="profile-item">
             <div className="item-label">
               职业
             </div>
@@ -439,7 +516,7 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
+          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
             <div className="item-label">
               居住地点
             </div>
@@ -448,7 +525,7 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
+          <div className="profile-item">
             <div className="item-label">
               真实姓名
             </div>
@@ -457,7 +534,7 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
+          <div className="profile-item">
             <div className="item-label">
               感情状态（选填）
             </div>
@@ -466,30 +543,44 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-          { !goCamp &&
-          <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none', height: '80px' }}>
-            <div className="address-tips">收件地址</div>
-            <textarea className="address" placeholder="商学院学员入学后，礼包会寄送到该地址（限大陆，海外用户请填写国内住址信息）" value={address}
-                      onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
-                        this.checkIsFull()
-                      })}
-            />
-          </div> }
-
-          { !goCamp &&
-          <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none' }}>
+          {!goCamp &&
+          <div className="profile-item">
             <div className="item-label">
               收件人
             </div>
             <div className="item-content">
               {renderReceiver()}
             </div>
-          </div> }
+          </div>}
+
+          {!goCamp &&
+          <div className="profile-item">
+            <div className="item-label">
+              联系电话
+            </div>
+            <div className="item-content">
+              {renderTel()}
+            </div>
+          </div>}
+
+          {!goCamp &&
+          <div className="profile-item">
+            <div className="address-tips">收件地址</div>
+            <textarea className="address" placeholder="商学院学员入学后，礼包会寄送到该地址（限大陆，海外用户请填写国内住址信息）" value={address}
+                      onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
+                        this.checkIsFull()
+                      })}
+            />
+          </div>}
+
 
         </div>
         <div className="profile-bottom">
           <MarkBlock module={'打点'} func={'个人信息页'} action={'提交个人信息修改'}
-                     className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
+                     className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{
+            width: `${this.btnWidth}px`, borderRadius: 100, height: 44, lineHeight: `44px`, fontSize: 17,
+            letterSpacing: `4.7px`
+          }}
                      onClick={this.submitProfile.bind(this)}>
             {goRise ? `下一步` : `完成`}
           </MarkBlock>
