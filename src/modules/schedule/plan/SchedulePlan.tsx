@@ -31,12 +31,12 @@ export default class SchedulePlan extends React.Component {
     mark({
       module: '打点', function: '学习', action: '打开学习计划页面',
     })
-    const {dispatch, location} = this.props
+    const { dispatch, location } = this.props
     dispatch(startLoad())
     let res = await loadPersonSchedulePlan()
     dispatch(endLoad())
     if (res.code == 200) {
-      this.setState({data: res.msg})
+      this.setState({ data: res.msg })
     } else {
       dispatch(alertMsg(res.msg))
     }
@@ -47,7 +47,7 @@ export default class SchedulePlan extends React.Component {
   }
 
   handleClickCourse (planId) {
-    this.context.router.push({pathname: '/rise/static/plan/study', query: {planId: planId}})
+    this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId: planId } })
   }
 
   handleGoOverView () {
@@ -55,8 +55,8 @@ export default class SchedulePlan extends React.Component {
   }
 
   render () {
-    let {showAllRunningPlan, sliceRunningPlans} = this.state
-    let {announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0} = this.state.data
+    let { showAllRunningPlan, sliceRunningPlans } = this.state
+    let { announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0, hasCourseSchedule = true } = this.state.data
 
     const renderRunningPlans = () => {
       sliceRunningPlans = !showAllRunningPlan ? runningPlans.slice(0, 3) : runningPlans
@@ -99,25 +99,31 @@ export default class SchedulePlan extends React.Component {
           {runningPlans.length > 0 ?
             !showAllRunningPlan ?
               runningPlans.length > 3 ?
-                <div className="more" onClick={() => this.setState({showAllRunningPlan: true})}>
+                <div className="more" onClick={() => this.setState({ showAllRunningPlan: true })}>
                   更多&nbsp;
                   <FontAwesome name="angle-right"/>
                 </div> :
                 <div></div> :
-              <div className="more" onClick={() => this.setState({showAllRunningPlan: false})}>
+              <div className="more" onClick={() => this.setState({ showAllRunningPlan: false })}>
                 收起&nbsp;
                 <FontAwesome name="angle-down"/>
               </div> :
             <div className="no-running-plans">
               <div className="no-running-icon"></div>
               <div className="no-running-tip1">您现在还没有选取课程哦</div>
-              <div className="no-running-tip2">点击查看我的学习计划立即开启学习之旅</div>
+              {
+                hasCourseSchedule &&
+                <div className="no-running-tip2">点击查看我的学习计划立即开启学习之旅</div>
+              }
             </div>}
           {renderRunningPlans()}
-          <span className="view-course-schedule" onClick={() => this.handleGoOverView()}>
-            查看我的学习计划&nbsp;
-            <FontAwesome name="angle-right"/>
-          </span>
+          {
+            hasCourseSchedule &&
+            <span className="view-course-schedule" onClick={() => this.handleGoOverView()}>
+              查看我的学习计划&nbsp;
+              <FontAwesome name="angle-right"/>
+            </span>
+          }
         </div>
         {completePlans.length > 0 && <div className="complete-problems">
           <div className="title">已完成的课程</div>
