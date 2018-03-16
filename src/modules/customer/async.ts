@@ -23,3 +23,7 @@ export function loadUserCoupon(){
 export function loadUserInfo(){
   return pget('/rise/customer/profile/info')
 }
+
+export function loadCardList() {
+  return pget('/rise/problem/card/list')
+}
