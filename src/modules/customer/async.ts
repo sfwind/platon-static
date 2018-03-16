@@ -11,3 +11,7 @@ export function loadUserAccount(){
 export function loadUserCoupon(){
   return pget('/rise/customer/coupon')
 }
+
+export function loadCardList() {
+  return pget('/rise/problem/card/list')
+}

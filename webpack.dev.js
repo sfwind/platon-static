@@ -12,11 +12,11 @@ module.exports = merge(common, {
     hot: true,
     historyApiFallback: true,
     disableHostCheck: true,
-    bonjour: true,
+    bonjour: false,
     lazy: true,
     host: '0.0.0.0',
     port: 4000,
-    openPage: '',
+    openPage: 'rise/static/rise',
     proxy: {
       '/rise/*': {
         target: 'http://192.168.1.175:8080',

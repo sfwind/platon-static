@@ -43,6 +43,7 @@
     "react-copy-to-clipboard": "^4.2.3",
     "react-document-meta": "^2.0.3",
     "react-dom": "^15.4.2",
+    "react-fontawesome": "^1.6.1",
     "react-lite": "^0.15.35",
     "react-loadable": "^5.3.1",
     "react-motion": "^0.4.5",
