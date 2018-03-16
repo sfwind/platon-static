@@ -8,274 +8,281 @@ import Loadable from 'react-loadable'
 
 const PlanList = Loadable({
   loader: () => import('./modules/plan/PlanList'),
-  loading: Loading
+  loading: Loading,
 })
 const Explore = Loadable({
   loader: () => import('./modules/problem/Explore'),
-  loading: Loading
+  loading: Loading,
 })
 const MoreProblem = Loadable({
   loader: () => import('./modules/problem/MoreProblem'),
-  loading: Loading
+  loading: Loading,
 })
 const BannerArticle = Loadable({
   loader: () => import('./modules/problem/BannerArticle'),
-  loading: Loading
+  loading: Loading,
 })
 const ProblemExtension = Loadable({
   loader: () => import('./modules/practice/extension/ProblemExtension'),
-  loading: Loading
+  loading: Loading,
 })
 const CardsCollection = Loadable({
   loader: () => import('./modules/problem/CardsCollection'),
-  loading: Loading
+  loading: Loading,
 })
 const ProblemIntroduction = Loadable({
   loader: () => import('./modules/practice/introduction/ProblemIntroduction'),
-  loading: Loading
+  loading: Loading,
 })
 const StudyLine = Loadable({
   loader: () => import('./modules/plan/StudyLine'),
-  loading: Loading
+  loading: Loading,
 })
 const ImprovementReport = Loadable({
   loader: () => import('./modules/plan/ImprovementReport'),
-  loading: Loading
+  loading: Loading,
 })
 const WarmUpNew = Loadable({
   loader: () => import('./modules/practice/warmup/Warmup'),
-  loading: Loading
+  loading: Loading,
 })
 const AnalysisNew = Loadable({
   loader: () => import('./modules/practice/warmup/AnalysisNew'),
-  loading: Loading
+  loading: Loading,
 })
 const Application = Loadable({
   loader: () => import('./modules/practice/application/Application'),
-  loading: Loading
+  loading: Loading,
 })
 const Challenge = Loadable({
   loader: () => import('./modules/practice/challenge/Challenge'),
-  loading: Loading
+  loading: Loading,
 })
 const ApplicationComment = Loadable({
   loader: () => import('./modules/practice/application/Comment'),
-  loading: Loading
+  loading: Loading,
 })
 const Subject = Loadable({
   loader: () => import('./modules/practice/subject/Subject'),
-  loading: Loading
+  loading: Loading,
 })
 const KnowledgeViewer = Loadable({
   loader: () => import('./modules/practice/knowledge/KnowledgeViewer'),
-  loading: Loading
+  loading: Loading,
 })
 const KnowledgeReview = Loadable({
   loader: () => import('./modules/practice/knowledge/KnowledgeReview'),
-  loading: Loading
+  loading: Loading,
 })
 const ReplyDiscussMessage = Loadable({
   loader: () => import('./modules/message/ReplyWarmupDiscussMessage'),
-  loading: Loading
+  loading: Loading,
 })
 const ReplyApplicationComment = Loadable({
   loader: () => import('./modules/message/ReplyApplicationComment'),
-  loading: Loading
+  loading: Loading,
 })
 const ReplyKnowledgeDiscussMessage = Loadable({
   loader: () => import('./modules/message/ReplyKnowledgeDiscussMessage'),
-  loading: Loading
+  loading: Loading,
 })
 const ReplyCommentMessage = Loadable({
   loader: () => import('./modules/message/ReplyCommentMessage'),
-  loading: Loading
+  loading: Loading,
 })
 const SendCard = Loadable({
   loader: () => import('./modules/customer/card/experience/SendCard'),
-  loading: Loading
+  loading: Loading,
 })
 const Customer = Loadable({
   loader: () => import('./modules/customer/Customer'),
-  loading: Loading
+  loading: Loading,
 })
 const Personal = Loadable({
   loader: () => import('./modules/customer/Personal'),
-  loading: Loading
+  loading: Loading,
 })
 const PersonalModify = Loadable({
   loader: () => import('./modules/customer/account/PersonalModify'),
-  loading: Loading
+  loading: Loading,
 })
 const Coupon = Loadable({
   loader: () => import('./modules/customer/Coupon'),
-  loading: Loading
+  loading: Loading,
 })
 const Profile = Loadable({
   loader: () => import('./modules/customer/Profile'),
-  loading: Loading
+  loading: Loading,
 })
 const Account = Loadable({
   loader: () => import('./modules/customer/account/Account'),
-  loading: Loading
+  loading: Loading,
 })
 const NickName = Loadable({
   loader: () => import('./modules/customer/account/components/NickName'),
-  loading: Loading
+  loading: Loading,
 })
 const HeadImage = Loadable({
   loader: () => import('./modules/customer/account/components/HeadImage'),
-  loading: Loading
+  loading: Loading,
 })
 const PointTip = Loadable({
   loader: () => import('./modules/customer/PointTip'),
-  loading: Loading
+  loading: Loading,
 })
 const ProblemGallery = Loadable({
   loader: () => import('./modules/customer/ProblemGallery'),
-  loading: Loading
+  loading: Loading,
 })
 const RiseMember = Loadable({
   loader: () => import('./modules/customer/RiseMember'),
-  loading: Loading
+  loading: Loading,
 })
 const FeedBack = Loadable({
   loader: () => import('./modules/customer/FeedBack'),
-  loading: Loading
+  loading: Loading,
 })
 const UserProtocol = Loadable({
   loader: () => import('./modules/customer/UserProtocol'),
-  loading: Loading
+  loading: Loading,
 })
 const MobileBind = Loadable({
   loader: () => import('./modules/customer/MobileBind'),
-  loading: Loading
+  loading: Loading,
 })
 const ForumQuestion = Loadable({
   loader: () => import('./modules/customer/ForumQuestion'),
-  loading: Loading
+  loading: Loading,
 })
 const CertificateProfile = Loadable({
   loader: () => import('./modules/customer/certificate/Personal'),
-  loading: Loading
+  loading: Loading,
 })
 const Certificate = Loadable({
   loader: () => import('./modules/customer/certificate/Main'),
-  loading: Loading
+  loading: Loading,
 })
 const MineCard = Loadable({
   loader: () => import('./modules/customer/card/MineCard'),
-  loading: Loading
+  loading: Loading,
 })
 const MessageCenter = Loadable({
   loader: () => import('./modules/message/MessageCenter'),
-  loading: Loading
+  loading: Loading,
 })
 const EventWall = Loadable({
   loader: () => import('./modules/plan/EventWall'),
-  loading: Loading
+  loading: Loading,
 })
 const ForumBase = Loadable({
   loader: () => import('./modules/forum/ForumBase'),
-  loading: Loading
+  loading: Loading,
 })
 const QuestionAnswer = Loadable({
   loader: () => import('./modules/forum/question/QuestionAnswer'),
-  loading: Loading
+  loading: Loading,
 })
 const AnswerComment = Loadable({
   loader: () => import('./modules/forum/question/AnswerComment'),
-  loading: Loading
+  loading: Loading,
 })
 const Question = Loadable({
   loader: () => import('./modules/forum/question/Question'),
-  loading: Loading
+  loading: Loading,
 })
 const SubmitQuestionInit = Loadable({
   loader: () => import('./modules/forum/question/SubmitQuestionInit'),
-  loading: Loading
+  loading: Loading,
 })
 const SubmitQuestionDetail = Loadable({
   loader: () => import('./modules/forum/question/SubmitQuestionDetail'),
-  loading: Loading
+  loading: Loading,
 })
 const InterlocutionQuestion = Loadable({
   loader: () => import('./modules/interlocution/InterlocutionQuestion'),
-  loading: Loading
+  loading: Loading,
 })
 const InterlocutionQuestionSubmit = Loadable({
   loader: () => import('./modules/interlocution/InterlocutionQuestionSubmit'),
-  loading: Loading
+  loading: Loading,
 })
 const InterlocutionQuanAnswer = Loadable({
   loader: () => import('./modules/interlocution/InterlocutionQuanAnswer'),
-  loading: Loading
+  loading: Loading,
 })
 const ScheduleNotice = Loadable({
   loader: () => import('./modules/schedule/ScheduleNotice'),
-  loading: Loading
+  loading: Loading,
 })
 const ScheduleChoice = Loadable({
   loader: () => import('./modules/schedule/ScheduleChoice'),
-  loading: Loading
+  loading: Loading,
 })
 const OverView = Loadable({
   loader: () => import('./modules/schedule/overview/OverView'),
-  loading: Loading
+  loading: Loading,
 })
 const SchedulePlan = Loadable({
   loader: () => import('./modules/schedule/plan/SchedulePlan'),
-  loading: Loading
+  loading: Loading,
 })
 const ProblemNoPublish = Loadable({
   loader: () => import('./modules/schedule/nopublish/ProblemNoPublish'),
-  loading: Loading
+  loading: Loading,
 })
 const Transfer = Loadable({
   loader: () => import('./modules/schedule/overview/components/Transfer'),
-  loading: Loading
+  loading: Loading,
 })
 const CountDown = Loadable({
   loader: () => import('./modules/schedule/CountDown'),
-  loading: Loading
+  loading: Loading,
 })
 const CampCountDown = Loadable({
   loader: () => import('./modules/schedule/CampCountDown'),
-  loading: Loading
+  loading: Loading,
 })
 const GroupPromotionCountDown = Loadable({
   loader: () => import('./modules/promotion/grouplearning/GroupPromotionCountDown'),
-  loading: Loading
+  loading: Loading,
 })
 const AnnualSummary = Loadable({
   loader: () => import('./modules/promotion/annualsummary/AnnualSummary'),
-  loading: Loading
+  loading: Loading,
 })
 const SelfEvaluate = Loadable({
   loader: () => import('./modules/evaluation/self/SelfEvaluate'),
-  loading: Loading
+  loading: Loading,
 })
 const OtherEvaluate = Loadable({
   loader: () => import('./modules/evaluation/other/OtherEvaluate'),
-  loading: Loading
+  loading: Loading,
+})
+const ProblemCardList = Loadable({
+  loader: () => import('./modules/customer/knowledgecards/ProblemCardList'),
+  loading: Loading,
+})
+const RichTextView = Loadable({
+  loader: () => import('./modules/other/richtext/RichTextView'),
+  loading: Loading,
 })
 
 const routes = (
   <Route>
-    <Route path="/rise/static" component={Base}
-           onChange={(before, after) => {
-             config(['chooseWXPay'])
-             if(after.location.state && after.location.state.pageScrollY) {
-               setTimeout(() => {
-                 window.scrollTo(0, after.location.state.pageScrollY)
-               }, 1000)
-             } else {
-               window.scrollTo(0, 0)
-             }
-           }}>
-      <Route path="rise" component={PlanList}/>
-      <Route path="camp" component={PlanList}/>
-      <Route path="learn" component={PlanList}/>
-      <Route path="plan/main" component={PlanList}/>
+    <Route path="/rise/static" component={Base} onChange={(before, after) => {
+      config(['chooseWXPay'])
+      if (after.location.state && after.location.state.pageScrollY) {
+        setTimeout(() => {
+          window.scrollTo(0, after.location.state.pageScrollY)
+        }, 1000)
+      } else {
+        window.scrollTo(0, 0)
+      }
+    }}>
+      <Route path="rise" component={SchedulePlan}/>
+      <Route path="camp" component={SchedulePlan}/>
+      <Route path="learn" component={SchedulePlan}/>
+      <Route path="plan/main" component={SchedulePlan}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>
@@ -303,6 +310,8 @@ const routes = (
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="guest/card/send" component={SendCard}/>
 
+      <Route path="article" component={RichTextView}/>
+
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
@@ -321,6 +330,7 @@ const routes = (
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
+        <Route path="knowledge/card/list" component={ProblemCardList}/>
       </Route>
 
       <Route path="message" component={Customer}>
