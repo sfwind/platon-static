@@ -48,14 +48,6 @@ const tabItems = {
       label: '我的'
     }
   },
-  forum: {
-    key: 4,
-    bar: {
-      icon: 'https://static.iqycamp.com/images/tabbar_forum_v2.png?imageslim',
-      activeIcon: 'https://static.iqycamp.com/images/tabbar_forum_active_v2.png?imageslim',
-      label: '论坛'
-    }
-  }
 
 }
 
@@ -101,8 +93,6 @@ export class ToolBar extends React.Component<any, any> {
       window.location.pathname.indexOf('/rise/static/message') != -1) {
       //消息中心和个人中心
       tabIndex = 3
-    } else if (window.location.pathname.indexOf('/forum/') != -1) {
-      tabIndex = 4
     }
     dispatch(set('tabIndex', tabIndex))
     const { noticeMsgCount } = this.props
@@ -134,8 +124,6 @@ export class ToolBar extends React.Component<any, any> {
       })
     } else if (tabIndex === 3) {
       this.context.router.push('/rise/static/customer/personal')
-    } else if (tabIndex === 4) {
-      this.context.router.push('/forum/static/question')
     }
   }
 

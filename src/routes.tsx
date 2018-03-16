@@ -138,8 +138,12 @@ const RiseMember = Loadable({
   loader: () => import('./modules/customer/RiseMember'),
   loading: Loading
 })
+const FeedBack = Loadable({
+  loader: () => import('./modules/customer/faq/FeedBack'),
+  loading: Loading
+})
 const Faq = Loadable({
-  loader: () => import('./modules/customer/Faq'),
+  loader: () => import('./modules/customer/faq/Faq'),
   loading: Loading
 })
 const UserProtocol = Loadable({
@@ -148,10 +152,6 @@ const UserProtocol = Loadable({
 })
 const MobileBind = Loadable({
   loader: () => import('./modules/customer/MobileBind'),
-  loading: Loading
-})
-const ForumQuestion = Loadable({
-  loader: () => import('./modules/customer/ForumQuestion'),
   loading: Loading
 })
 const CertificateProfile = Loadable({
@@ -302,6 +302,8 @@ const routes = (
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="guest/card/send" component={SendCard}/>
+      <Route path="feedback" component={FeedBack}/>
+      <Route path="faq" component={Faq}/>
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
@@ -314,10 +316,8 @@ const routes = (
         <Route path="point/tip" component={PointTip}/>
         <Route path="problem" component={ProblemGallery}/>
         <Route path="member" component={RiseMember}/>
-        <Route path="faq" component={Faq}/>
         <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
-        <Route path="forum/mine" component={ForumQuestion}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>

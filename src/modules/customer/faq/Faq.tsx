@@ -1,9 +1,9 @@
 import * as React from 'react'
 import './Faq.less'
-import { changeTitle } from 'utils/helpers'
-import { mark } from 'utils/request'
-import { MarkBlock } from '../../components/markblock/MarkBlock'
-import { ColumnSpan } from '../../components/ColumnSpan'
+import { changeTitle } from '../../../utils/helpers'
+import { mark } from '../../../utils/request'
+import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { ColumnSpan } from '../../../components/ColumnSpan'
 
 export default class Faq extends React.Component<any, any> {
   constructor(props) {
@@ -45,11 +45,13 @@ export default class Faq extends React.Component<any, any> {
         </MarkBlock>
         <ColumnSpan/>
         <MarkBlock module={'打点'} func={'联系客服'} action={'点击联系客服'}
+                   onClick={() => _MEIQIA('showPanel')}
                    className="faq-header arrow">
           联系客服
         </MarkBlock>
         <ColumnSpan/>
         <MarkBlock module={'打点'} func={'意见反馈'} action={'点击意见反馈'}
+                   onClick={() => this.context.router.push('/rise/static/feedback')}
                    className="faq-header arrow">
           意见反馈
         </MarkBlock>

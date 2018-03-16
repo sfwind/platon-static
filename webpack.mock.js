@@ -19,7 +19,7 @@ module.exports = merge(common, {
     openPage: '',
     proxy: {
       '/rise/*': {
-        target: 'http://192.168.1.175:8080',
+        target: 'http://0.0.0.0:3000',
         secure: false,
         bypass: function(req) {
           if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
@@ -28,7 +28,7 @@ module.exports = merge(common, {
         }
       },
       '/': {
-        target: 'http://localhost:8080',
+        target: 'http://0.0.0.0:3000',
         secure: false,
         bypass: function(req) {
           if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
