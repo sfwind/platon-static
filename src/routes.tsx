@@ -281,7 +281,7 @@ const routes = (
     }}>
       <Route path="rise" component={PlanList}/>
       <Route path="camp" component={SchedulePlan}/>
-      <Route path="learn" component={PlanList}/>
+      <Route path="learn" component={SchedulePlan}/>
       <Route path="plan/main" component={PlanList}/>
 
       <Route path="problem/explore" component={Explore}/>
