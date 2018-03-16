@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { changeTitle } from 'utils/helpers'
 import { mark } from 'utils/request'
-import { openNotifyStatus, closeNotifyStatus, getNotifyStatus } from '../message/async'
+import { openNotifyStatus, closeNotifyStatus, getNotifyStatus, getOldMsg } from '../message/async'
 import { loadUserInfo } from './async'
 import './Personal.less'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
+import _ from 'lodash'
+
 /**
  * 个人中心页
  */
@@ -21,8 +23,7 @@ export default class Personal extends React.Component<any, any> {
     super(props)
     this.state = {
       userInfo: '',
-      learningNotify: true,
-      isRiseMember: true
+      learningNotify: true
     }
   }
 
@@ -76,30 +77,72 @@ export default class Personal extends React.Component<any, any> {
     }
   }
 
-  goProfile(){
-    this.context.router.push('/rise/static/customer/profile')
+  goProfile() {
+    this.context.router.push('/rise/static/customer/new/profile')
+  }
+
+  goShare() {
+    mark({ module: '打点', function: '个人中心', action: '点击分享圈外商学院图片' })
+    window.location.href = '/pay/static/share'
+  }
+
+  goRise() {
+    mark({ module: '打点', function: '个人中心', action: '点击加入圈外商学院图片' })
+    window.location.href = '/pay/rise'
+  }
+
+  goCouponList() {
+    this.context.router.push('/rise/static/customer/coupon')
+  }
+
+  goHelp() {
+    this.context.router.push('/rise/static/customer/feedback')
+  }
+
+  goMessage() {
+    const { dispatch } = this.props
+    dispatch(startLoad())
+    getOldMsg().then(res => {
+      dispatch(endLoad())
+      if(res.code === 200) {
+        dispatch(set('noticeMsgCount', 0))
+        this.context.router.push('/rise/static/message/center')
+      }
+    }).catch(ex => {
+      dispatch(endLoad())
+      dispatch(alertMsg(ex))
+    })
+  }
+
+  goProtocol() {
+    this.context.router.push('/rise/static/customer/userprotocol')
+  }
+
+  goStudyReport() {
+    this.context.router.push('/rise/static/customer/problem')
   }
 
   render() {
-    const { userInfo, learningNotify,isRiseMember } = this.state
+    const { userInfo, learningNotify } = this.state
 
     const renderUserInfo = () => {
 
       return (
-        <div className="header-container">
-          <div className="img-container">
+        <div className="header-container" >
+          <MarkBlock className="img-container"  module={'打点'} func={'个人中心'} action={'点击修改信息'}  onClick={() => this.goProfile()}>
             <img src={userInfo.headImgUrl}/>
-            <MarkBlock module={'打点'} func={'个人中心'} action={'点击修改信息'} className="arrow" onClick={()=>this.goProfile()} />
-          </div>
+            <div  className="arrow"
+                      />
+          </MarkBlock>
           <div className="info-container">
             <div className="nickname-container">
               {userInfo.nickName}
             </div>
             <div className="score-container">
-              积分2200分
+              积分{userInfo.point}分
             </div>
           </div>
-          {isRiseMember &&
+          { !_.isEmpty(userInfo.className) &&
           <div className="class-info-container">
             <div className="class-container">
               <div className="title">
@@ -151,44 +194,53 @@ export default class Personal extends React.Component<any, any> {
     const renderList = () => {
       return (
         <div className="list-container">
-          <img src={isRiseMember? 'http://static.iqycamp.com/images/share_business.png':'http://static.iqycamp.com/images/join_business.png'}/>
-          <div className="hyq-container">
+          {userInfo.memberTypeId === 3 ?
+            <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
+            <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击抵用券'} onClick={() => this.goCouponList()}
+                     className="hyq-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_yhq.png"/>
               <div className="arrow"></div>
             </div>
             <div className="content">我的抵用券</div>
-            <div className="amount">XX元</div>
+            <div className="amount">{userInfo.couponSum}元</div>
             <div className="arrow"></div>
-          </div>
-          <div className="study-report-container">
+          </MarkBlock>
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习报告'} onClick={() => this.goStudyReport()}
+                     className="study-report-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_study.png"/>
             </div>
             <div className="content">我的学习报告</div>
             <div className="arrow"></div>
-          </div>
-          <div className="message-container">
+          </MarkBlock>
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击消息中心'} onClick={() => this.goMessage()}
+                     className="message-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_message.png"/>
             </div>
             <div className="content">消息中心</div>
             <div className="arrow"></div>
-          </div>
-          <div className="help-container">
+          </MarkBlock>
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击使用帮助'} onClick={() => this.goHelp()}
+                     className="help-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_help.png"/>
             </div>
             <div className="content">使用帮助</div>
             <div className="arrow"></div>
-          </div>
-          <div className="protocol-container">
+          </MarkBlock>
+          {(userInfo.memberTypeId !== 1 || userInfo.memberTypeId !== 2) &&
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击用户协议'} onClick={() => this.goProtocol()}
+                     className="protocol-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_user.png"/>
             </div>
             <div className="content">用户协议</div>
             <div className="arrow"></div>
-          </div>
+          </MarkBlock>
+          }
         </div>
       )
     }

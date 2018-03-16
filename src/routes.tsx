@@ -115,6 +115,11 @@ const Profile = Loadable({
   loading: Loading
 })
 
+const NewProfile = Loadable({
+  loader: () => import('./modules/customer/NewProfile'),
+  loading: Loading
+})
+
 const Account = Loadable({
   loader: () => import('./modules/customer/account/Account'),
   loading: Loading
@@ -309,6 +314,7 @@ const routes = (
         <Route path="personal/modify" component={PersonalModify}/>
         <Route path="coupon" component={Coupon}/>
         <Route path="profile" component={Profile}/>
+        <Route path="new/profile" component={NewProfile}/>
         <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
         <Route path="modify/headImg" component={HeadImage}/>
