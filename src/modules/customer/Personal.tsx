@@ -119,7 +119,11 @@ export default class Personal extends React.Component<any, any> {
   }
 
   goStudyReport() {
-    this.context.router.push('/rise/static/customer/problem')
+    this.context.router.push('/rise/static/customer/person/study/list')
+  }
+
+  goCards(){
+    this.context.router.push('/rise/static/customer/knowledge/card/list')
   }
 
   render() {
@@ -130,7 +134,7 @@ export default class Personal extends React.Component<any, any> {
       return (
         <div className="header-container" >
           <MarkBlock className="img-container"  module={'打点'} func={'个人中心'} action={'点击修改信息'}  onClick={() => this.goProfile()}>
-            <img src={userInfo.headImgUrl}/>
+            <img src={window.ENV.headImgUrl}/>
             <div  className="arrow"
                       />
           </MarkBlock>
@@ -177,9 +181,9 @@ export default class Personal extends React.Component<any, any> {
           }
 
           <div className="achievement-container">
-            <div className="essenceCard">
+            <MarkBlock module={'打点'} func={'个人中心'} action={'点击知识卡'}   className="essenceCard" onClick={()=>this.goCards()}>
               知识卡{userInfo.cardSum}张
-            </div>
+            </MarkBlock>
             <div className="middle-divider">
 
             </div>

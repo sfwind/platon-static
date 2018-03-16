@@ -214,7 +214,6 @@ export default class NewProfile extends React.Component<any, any> {
     const { dispatch, location } = this.props
     const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
-    const { goRise, goCamp } = location.query
     if(this.checkFull()) {
       let param = {
         city: city,
@@ -406,7 +405,7 @@ export default class NewProfile extends React.Component<any, any> {
       return (
         <div className='select-wrapper-has'>
           <img
-            src={headImgUrl}
+            src={window.ENV.headImgUrl}
             style={{ width: 40, marginTop: 10 }}/>
         </div>
       )
