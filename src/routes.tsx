@@ -279,10 +279,10 @@ const routes = (
         window.scrollTo(0, 0)
       }
     }}>
-      <Route path="rise" component={PlanList}/>
+      <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>
       <Route path="learn" component={SchedulePlan}/>
-      <Route path="plan/main" component={PlanList}/>
+      <Route path="plan/main" component={SchedulePlan}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>

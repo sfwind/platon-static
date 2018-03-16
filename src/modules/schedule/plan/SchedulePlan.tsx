@@ -110,7 +110,7 @@ export default class SchedulePlan extends React.Component {
               </div> :
             <div className="no-running-plans">
               <div className="no-running-icon"></div>
-              <div className="no-running-tip1">您现在还没有选取课程哦</div>
+              <div className="no-running-tip1">现在没有在学的课程哦！</div>
               {
                 hasCourseSchedule &&
                 <div className="no-running-tip2">点击查看我的学习计划立即开启学习之旅</div>
