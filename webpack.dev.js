@@ -19,7 +19,7 @@ module.exports = merge(common, {
     openPage: 'rise/static/rise',
     proxy: {
       '/rise/*': {
-        target: 'http://192.168.1.175:8080',
+        target: 'http://localhost:8080',
         secure: false,
         bypass: function(req) {
           if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {

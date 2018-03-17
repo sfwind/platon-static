@@ -23,23 +23,33 @@ export default class Faq extends React.Component<any, any> {
     return (
       <div className="faq-container">
         <div className="faq-title">常见问题</div>
-        <MarkBlock module={'打点'} func={'账号问题'} action={'点击账号问题'}
-                   className="faq-header arrow">
-          账号问题
-        </MarkBlock>
-        <MarkBlock module={'打点'} func={'购买问题'} action={'点击购买问题'}
-                   className="faq-header arrow">
-          购买问题
-        </MarkBlock>
-        <MarkBlock module={'打点'} func={'发票问题'} action={'点击发票问题'}
-                   className="faq-header arrow">
-          发票问题
-        </MarkBlock>
         <MarkBlock module={'打点'} func={'课程学习'} action={'点击课程学习'}
+                   onClick={()=>this.context.router.push({pathname:'/rise/static/article',
+                    query: {id: 'f44c4607'}})}
                    className="faq-header arrow">
           课程学习
         </MarkBlock>
+        <MarkBlock module={'打点'} func={'使用问题'} action={'点击使用问题'}
+                   onClick={()=>this.context.router.push({pathname:'/rise/static/article',
+                    query: {id: 'f9302cdf'}})}
+                   className="faq-header arrow">
+          使用问题
+        </MarkBlock>
+        <MarkBlock module={'打点'} func={'奖项设置'} action={'点击奖项设置'}
+                   onClick={()=>this.context.router.push({pathname:'/rise/static/article',
+                    query: {id: 'f86cbc8c'}})}
+                   className="faq-header arrow">
+          奖项设置
+        </MarkBlock>
+        <MarkBlock module={'打点'} func={'发票问题'} action={'点击发票问题'}
+                   onClick={()=>this.context.router.push({pathname:'/rise/static/article',
+                    query: {id: 'f6435ca9'}})}
+                   className="faq-header arrow">
+          发票问题
+        </MarkBlock>
         <MarkBlock module={'打点'} func={'其他问题'} action={'点击其他问题'}
+                   onClick={()=>this.context.router.push({pathname:'/rise/static/article',
+                    query: {id: 'f7ad7a79'}})}
                    className="faq-header arrow">
           其他问题
         </MarkBlock>
