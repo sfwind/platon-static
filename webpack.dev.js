@@ -4,6 +4,8 @@ const merge = require('webpack-merge')
 const common = require('./webpack.common')
 
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 module.exports = merge(common, {
   mode: 'development',
@@ -51,6 +53,7 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       template: 'index.html'
     }),
+    new BundleAnalyzerPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ]
