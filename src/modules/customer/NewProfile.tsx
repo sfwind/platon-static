@@ -268,7 +268,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { memberTypeId, memberId,headImgUrl,nickName,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
+    const { memberTypeId, memberId,nickName,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -284,7 +284,7 @@ export default class NewProfile extends React.Component<any, any> {
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择居住地点'}
                    className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper'}>
           <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
-                        placeholder="以便参加当地校友会"
+                        placeholder="请填写"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
         </MarkBlock>
       )
@@ -293,7 +293,7 @@ export default class NewProfile extends React.Component<any, any> {
     const renderRealName = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
-          <input id="realName" placeholder="用于颁发毕业证书" type="text" {...this.bind('realName', this.getInputValue)}/>
+          <input id="realName" placeholder="请填写" type="text" {...this.bind('realName', this.getInputValue)}/>
         </div>
       )
     }
@@ -337,7 +337,7 @@ export default class NewProfile extends React.Component<any, any> {
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择感情状态'}
                    className={married ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[marryList]} userData={myMarried.id ? [myMarried] : null}
-                        placeholder="以便参加脱单群等活动"
+                        placeholder="请填写"
                         onChoice={(one) => this.onChoiceMarry(one)}/>
         </MarkBlock>
       )
@@ -447,7 +447,7 @@ export default class NewProfile extends React.Component<any, any> {
           </div>
         )}
 
-        {(memberTypeId === 3 || memberTypeId === 5) && renderClassInfo()}
+        {!_.isEmpty(memberId) && renderClassInfo()}
 
         <div className="profile-container">
 
@@ -553,7 +553,7 @@ export default class NewProfile extends React.Component<any, any> {
           {!goCamp &&
           <div className="profile-item">
             <div className="address-tips">收件地址</div>
-            <textarea className="address" placeholder="商学院学员入学后，礼包会寄送到该地址（限大陆，海外用户请填写国内住址信息）" value={address}
+            <textarea className="address" placeholder="请填写" value={address}
                       onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
                         this.checkIsFull()
                       })}
