@@ -158,11 +158,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   handleClickGoStudy() {
-    if(window.ENV.showExplore !== 'false') {
-      this.context.router.push('/rise/static/rise')
-    } else {
-      this.context.router.push('/rise/static/course/schedule/plan')
-    }
+    this.context.router.push('/rise/static/learn')
   }
 
   onClickHandleProblemCollection(selected, problemId) {

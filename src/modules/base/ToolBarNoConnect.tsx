@@ -117,11 +117,7 @@ export class ToolBarNoConnect extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(set('tabIndex', tabIndex))
     if(tabIndex === 0) {
-      if(window.ENV.showExplore !== 'false') {
-        this.props.router.push('/rise/static/rise');
-      } else {
-        this.props.router.push('/rise/static/course/schedule/plan');
-      }
+      this.props.router.push('/rise/static/learn')
     } else if(tabIndex === 1) {
       this.props.router.push('/rise/static/event/wall')
     } else if(tabIndex === 2) {

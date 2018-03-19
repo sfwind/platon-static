@@ -1,0 +1,98 @@
+@import "../../../style/variable";
+
+.feedback-container {
+  background: @color_weak_background;
+  min-height: 100%;
+  position: absolute;
+  width: 100%;
+  .text-area-div{
+    height: 12.5rem;
+    .feedback-word-count {
+      position: relative;
+      font-size: 1.3rem;
+      color: #b6b7bd;
+      bottom: 2.3rem;
+      right: 2.0rem;
+      text-align: right;
+    }
+    > textarea {
+      height: 12.5rem;
+      width: 100%;
+      background-color: #fff;
+      padding: 2.0rem 1.8rem;
+      font-size: 1.3rem;
+      -webkit-appearance: none;
+      resize: none;
+      border: none;
+      display: block;
+      box-sizing: border-box;
+      &::-webkit-input-placeholder{
+        color: #b6b7bd;
+      }
+    }
+  }
+
+  > input {
+    padding-left: 2.0rem;
+    font-size: 1.3rem !important;
+    border: none;
+    width: 100%;
+    height: 5.2rem;
+    line-height: 5.2rem;
+    &::-webkit-input-placeholder{
+      color: #b6b7bd;
+    }
+  }
+
+
+  .feedback-bottom {
+    position: relative;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding-left: 2.0rem;
+    .pic-container{
+      .feedback-pic-add {
+        margin-top: 2.0rem;
+        margin-right: 1.5rem;
+        float: left;
+      }
+    }
+
+
+
+    .img-item {
+      position: relative;
+      float: left;
+      height: 7.0rem;
+      width: 7.0rem;
+      margin-right: 1.5rem;
+      margin-top: 2.0rem;
+    }
+    .thumb-icon {
+      width: 7.0rem;
+      height: 7.0rem;
+    }
+    .img-remove {
+      position: absolute;
+      background:#b6b7bd;
+      border-radius:100%;
+      top: -0.5rem;
+      right: -0.5rem;
+      display: block;
+      width: 1.4rem;
+      height: 1.4rem;
+      line-height: 1.4rem;
+      color: #fff;
+      text-align: center;
+    }
+  }
+
+  .feedback-img-tip{
+    font-size:1.3rem;
+    color:#b6b7bd;
+    padding: 1.7rem 2.0rem .7rem;
+    margin-bottom: 1.4rem;
+    box-sizing: border-box;
+    background-color: #fff;
+  }
+}

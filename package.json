@@ -5,6 +5,7 @@
     "mock": "nodemon --watch mock --exec node mock",
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "dist": "webpack --config webpack.prod.js",
+    "local": "webpack-dev-server --open --config webpack.mock.js",
     "ftp": "npm run dist; gulp ftp",
     "beta": "npm run dist; gulp beta"
   },

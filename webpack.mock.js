@@ -12,14 +12,14 @@ module.exports = merge(common, {
     hot: true,
     historyApiFallback: true,
     disableHostCheck: true,
-    bonjour: false,
+    bonjour: true,
     lazy: true,
     host: '0.0.0.0',
     port: 4000,
-    openPage: 'rise/static/rise',
+    openPage: '',
     proxy: {
       '/rise/*': {
-        target: 'http://localhost:8080',
+        target: 'http://0.0.0.0:3000',
         secure: false,
         bypass: function(req) {
           if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
@@ -28,7 +28,7 @@ module.exports = merge(common, {
         }
       },
       '/': {
-        target: 'http://localhost:8080',
+        target: 'http://0.0.0.0:3000',
         secure: false,
         bypass: function(req) {
           if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {

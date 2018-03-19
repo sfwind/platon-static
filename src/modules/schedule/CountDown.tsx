@@ -30,7 +30,7 @@ export default class CountDown extends Component {
         const { days, hasSchedule, hasAudition } = res.msg;
         if(days <= 0) {
           if(hasSchedule) {
-            this.context.router.push({ pathname: '/rise/static/course/schedule/plan' });
+            this.context.router.push({ pathname: '/rise/static/learn' })
           } else {
             this.context.router.push({ pathname: '/rise/static/course/schedule/start' })
           }

@@ -143,7 +143,7 @@ export default class OverView extends React.Component {
         }
       })
     } else {
-      this.context.router.push(`/rise/static/course/schedule/plan`)
+      this.context.router.push(`/rise/static/learn`)
     }
   }
 

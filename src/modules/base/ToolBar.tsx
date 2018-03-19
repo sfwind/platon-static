@@ -88,17 +88,18 @@ export class ToolBar extends React.Component<any, any> {
     // check url
     const { dispatch } = this.props
     let tabIndex = 0
-    if (window.location.pathname === '/rise/static/rise' || window.location.pathname === '/rise/static/camp' || window.location.pathname === '/rise/static/learn') {
+    if (window.location.pathname === '/rise/static/rise' ||
+      window.location.pathname === '/rise/static/camp' ||
+      window.location.pathname === '/rise/static/learn') {
       tabIndex = 0
     } else if (window.location.pathname === '/rise/static/event/wall') {
       tabIndex = 1
     } else if (window.location.pathname === '/rise/static/problem/explore') {
       tabIndex = 2
-    } else if (window.location.pathname.indexOf('/rise/static/customer') != -1 || window.location.pathname.indexOf('/rise/static/message') != -1) {
+    } else if (window.location.pathname.indexOf('/rise/static/customer') != -1 ||
+      window.location.pathname.indexOf('/rise/static/message') != -1) {
       //消息中心和个人中心
       tabIndex = 3
-    } else if (window.location.pathname.indexOf('/forum/') != -1) {
-      tabIndex = 4
     }
     dispatch(set('tabIndex', tabIndex))
     const { noticeMsgCount } = this.props
@@ -117,11 +118,6 @@ export class ToolBar extends React.Component<any, any> {
     const { dispatch } = this.props
     dispatch(set('tabIndex', tabIndex))
     if (tabIndex === 0) {
-      // if (window.ENV.showExplore !== 'false') {
-      //   this.context.router.push('/rise/static/rise')
-      // } else {
-      //   this.context.router.push('/rise/static/course/schedule/plan')
-      // }
       this.context.router.push('/rise/static/learn')
     } else if (tabIndex === 1) {
       this.context.router.push('/rise/static/event/wall')
@@ -131,8 +127,6 @@ export class ToolBar extends React.Component<any, any> {
       })
     } else if (tabIndex === 3) {
       this.context.router.push('/rise/static/customer/personal')
-    } else if (tabIndex === 4) {
-      this.context.router.push('/forum/static/question')
     }
   }
 
