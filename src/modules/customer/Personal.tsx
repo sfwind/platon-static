@@ -122,8 +122,18 @@ export default class Personal extends React.Component<any, any> {
     this.context.router.push('/rise/static/customer/person/study/list')
   }
 
-  goCards(){
+  goCards(sum) {
+    if(sum===0){
+      return
+    }
     this.context.router.push('/rise/static/customer/knowledge/card/list')
+  }
+
+  goCertificates(sum) {
+    if(sum === 0) {
+      return
+    }
+    this.context.router.push('/rise/static/customer/person/certificate')
   }
 
   render() {
@@ -132,11 +142,12 @@ export default class Personal extends React.Component<any, any> {
     const renderUserInfo = () => {
 
       return (
-        <div className="header-container" >
-          <MarkBlock className="img-container"  module={'打点'} func={'个人中心'} action={'点击修改信息'}  onClick={() => this.goProfile()}>
+        <div className="header-container">
+          <MarkBlock className="img-container" module={'打点'} func={'个人中心'} action={'点击修改信息'}
+                     onClick={() => this.goProfile()}>
             <img src={window.ENV.headImgUrl}/>
-            <div  className="arrow"
-                      />
+            <div className="arrow"
+            />
           </MarkBlock>
           <div className="info-container">
             <div className="nickname-container">
@@ -146,7 +157,7 @@ export default class Personal extends React.Component<any, any> {
               积分{userInfo.point}分
             </div>
           </div>
-          { !_.isEmpty(userInfo.className) &&
+          {!_.isEmpty(userInfo.className) &&
           <div className="class-info-container">
             <div className="class-container">
               <div className="title">
@@ -181,15 +192,17 @@ export default class Personal extends React.Component<any, any> {
           }
 
           <div className="achievement-container">
-            <MarkBlock module={'打点'} func={'个人中心'} action={'点击知识卡'}   className="essenceCard" onClick={()=>this.goCards()}>
+            <MarkBlock module={'打点'} func={'个人中心'} action={'点击知识卡'} className="essenceCard"
+                       onClick={() => this.goCards(userInfo.cardSum)}>
               知识卡{userInfo.cardSum}张
             </MarkBlock>
             <div className="middle-divider">
 
             </div>
-            <div className="certificate">
+            <MarkBlock module={'打点'} func={'个人中心'} action={'点击荣誉证书'} className="certificate"
+                       onClick={() => this.goCertificates(userInfo.certificateSum)}>
               荣誉证书{userInfo.certificateSum}张
-            </div>
+            </MarkBlock>
           </div>
         </div>
       )

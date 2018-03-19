@@ -273,6 +273,11 @@ const StudyList = Loadable({
   loading: Loading
 })
 
+const ShowCertificate = Loadable({
+  loader: ()=>import('./modules/customer/person/ShowCertificate'),
+  loading:Loading
+})
+
 const RichTextView = Loadable({
   loader: () => import('./modules/other/richtext/RichTextView'),
   loading: Loading
@@ -344,6 +349,7 @@ const routes = (
         <Route path="prize/card/list" component={MineCard}/>
         <Route path="knowledge/card/list" component={ProblemCardList}/>
         <Route path="person/study/list" component={StudyList}/>
+        <Route path="person/certificate" component={ShowCertificate} />
       </Route>
 
       <Route path="message" component={Customer}>
