@@ -6,6 +6,18 @@ import Base from './modules/base/Base'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
 
+const LangdingPage = Loadable({
+  loader: () => import('./modules/home/LandingPage'),
+  loading: Loading,
+})
+const LiveListPage = Loadable({
+  loader: () => import('./modules/home/livelist/LiveListPage'),
+  loading: Loading,
+})
+const ActivityListPage = Loadable({
+  loader: () => import('./modules/home/activitylist/ActivityListPage'),
+  loading: Loading,
+})
 const PlanList = Loadable({
   loader: () => import('./modules/plan/PlanList'),
   loading: Loading,
@@ -279,6 +291,11 @@ const routes = (
         window.scrollTo(0, 0)
       }
     }}>
+
+      <Route path="home" component={LangdingPage}/>
+      <Route path="home/lives" component={LiveListPage}/>
+      <Route path="home/activities" component={ActivityListPage}/>
+
       <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>
       <Route path="learn" component={SchedulePlan}/>
