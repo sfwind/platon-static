@@ -15,7 +15,7 @@ export default class RichTextView extends React.Component {
 
   async componentWillMount () {
     const { id } = this.props.location.query
-    let res = await loadArticle(1)
+    let res = await loadArticle(id)
     if (res.code === 200) {
       this.setState({ data: res.msg })
     }
