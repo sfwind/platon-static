@@ -78,7 +78,7 @@ export default class Personal extends React.Component<any, any> {
   }
 
   goProfile() {
-    this.context.router.push('/rise/static/customer/new/profile')
+    this.context.router.push('/rise/static/new/profile')
   }
 
   goShare() {
@@ -92,11 +92,11 @@ export default class Personal extends React.Component<any, any> {
   }
 
   goCouponList() {
-    this.context.router.push('/rise/static/customer/coupon')
+    this.context.router.push('/rise/static/coupon')
   }
 
   goHelp() {
-    this.context.router.push('/rise/static/customer/feedback')
+    this.context.router.push('/rise/static/faq')
   }
 
   goMessage() {
@@ -115,25 +115,25 @@ export default class Personal extends React.Component<any, any> {
   }
 
   goProtocol() {
-    this.context.router.push('/rise/static/customer/userprotocol')
+    this.context.router.push('/rise/static/userprotocol')
   }
 
   goStudyReport() {
-    this.context.router.push('/rise/static/customer/person/study/list')
+    this.context.router.push('/rise/static/person/study/list')
   }
 
   goCards(sum) {
     if(sum===0){
       return
     }
-    this.context.router.push('/rise/static/customer/knowledge/card/list')
+    this.context.router.push('/rise/static/knowledge/card/list')
   }
 
   goCertificates(sum) {
     if(sum === 0) {
       return
     }
-    this.context.router.push('/rise/static/customer/person/certificate')
+    this.context.router.push('/rise/static/person/certificate')
   }
 
   render() {

@@ -129,8 +129,6 @@ export default class NewProfile extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const { location, hiddenTab } = this.props
-    hiddenTab()
   }
 
   changeValue(path, value, callback) {

@@ -160,10 +160,6 @@ const MobileBind = Loadable({
   loader: () => import('./modules/customer/MobileBind'),
   loading: Loading,
 })
-const ForumQuestion = Loadable({
-  loader: () => import('./modules/customer/ForumQuestion'),
-  loading: Loading,
-})
 const CertificateProfile = Loadable({
   loader: () => import('./modules/customer/certificate/Personal'),
   loading: Loading,
@@ -331,36 +327,34 @@ const routes = (
       <Route path="guest/card/send" component={SendCard}/>
       <Route path="feedback" component={FeedBack}/>
       <Route path="faq" component={Faq}/>
+      <Route path="userprotocol" component={UserProtocol}/>
 
       <Route path="article" component={RichTextView}/>
+
+      <Route path="coupon" component={Coupon}/>
+      <Route path="knowledge/card/list" component={ProblemCardList}/>
+      <Route path="person/study/list" component={StudyList}/>
+      <Route path="person/certificate" component={ShowCertificate} />
+      <Route path="message/center" component={MessageCenter}/>
+
+      <Route path="new/profile" component={NewProfile}/>
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
-        <Route path="coupon" component={Coupon}/>
         <Route path="profile" component={Profile}/>
-        <Route path="new/profile" component={NewProfile}/>
         <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
         <Route path="modify/headImg" component={HeadImage}/>
         <Route path="point/tip" component={PointTip}/>
         <Route path="problem" component={ProblemGallery}/>
         <Route path="member" component={RiseMember}/>
-        <Route path="feedback" component={FeedBack}/>
-        <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
-        <Route path="forum/mine" component={ForumQuestion}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
-        <Route path="knowledge/card/list" component={ProblemCardList}/>
-        <Route path="person/study/list" component={StudyList}/>
-        <Route path="person/certificate" component={ShowCertificate} />
       </Route>
 
-      <Route path="message" component={Customer}>
-        <Route path="center" component={MessageCenter}/>
-      </Route>
 
       <Route path="event/wall" component={EventWall}/>
 

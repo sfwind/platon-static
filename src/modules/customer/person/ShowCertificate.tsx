@@ -64,7 +64,7 @@ export default class ShowCertificate extends React.Component {
 
     const renderCertificates = () => {
       return (
-        <div className="study-list-container">
+        <div className="select-certificate-container">
           {tab === 1 ? renderFinished() : renderGrade()}
         </div>
       )
