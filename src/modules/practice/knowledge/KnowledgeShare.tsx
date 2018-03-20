@@ -157,8 +157,7 @@ export default class KnowledgeShare extends React.Component<any, any> {
               }
             </div>
           }
-          { showTip &&
-          <div>
+          <div className="follow-container">
             <ColumnSpan style={{margin: '0 -2.5rem'}}/>
             <div className="recently-tips white-bg">
               以上内容选自圈外商学院【沟通说服】课程<br/><br/>扫码添加小Y（微信ID：quanwai666）获取工具清单，教你职场不尬聊：
@@ -167,7 +166,7 @@ export default class KnowledgeShare extends React.Component<any, any> {
               <img src="https://static.iqycamp.com/images/qrcode_xiaoy.jpg?imageslim"
                    className="qrcode"/>
             </div>
-          </div>  }
+          </div>
         </div>
       </div>
     )
