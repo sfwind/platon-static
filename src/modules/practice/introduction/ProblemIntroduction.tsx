@@ -4,7 +4,7 @@ import './ProblemIntroduction.less'
 import Audio from '../../../components/Audio'
 import AssetImg from '../../../components/AssetImg'
 import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
-import { collectProblem, disCollectProblem, openProblemIntroduction } from '../../problem/async'
+import { openProblemIntroduction } from '../../problem/async'
 import { Toast, Dialog } from 'react-weui'
 import { isNumber } from 'lodash'
 
@@ -14,7 +14,6 @@ import { mark } from 'utils/request'
 import { buttonStatus } from 'utils/helpers'
 import { createPlan } from '../../plan/async'
 import QYVideo from '../../../components/QYVideo'
-import { MarkBlock } from '../../../components/markblock/MarkBlock'
 
 @connect(state => state)
 export default class ProblemIntroduction extends React.Component<any, any> {
@@ -165,29 +164,9 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     }
   }
 
-  onClickHandleProblemCollection(selected, problemId) {
-    const { dispatch } = this.props
-    if(selected) {
-      // 已经关注
-      disCollectProblem(problemId).then(res => {
-        if(res.code === 200) {
-          this.setState({ problemCollected: false })
-        }
-      }).catch(e => dispatch(alertMsg(e)))
-    } else {
-      // 还未关注
-      collectProblem(problemId).then(res => {
-        if(res.code === 200) {
-          this.setState({ problemCollected: true })
-        }
-      }).catch(e => dispatch(alertMsg(e)))
-
-    }
-  }
-
   render() {
     const {
-      data = {}, buttonStatus, free, problemCollected
+      data = {}, buttonStatus,
     } = this.state
     const { show } = this.props.location.query
     const {
@@ -370,10 +349,6 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="section-title">
             <div className="title-content">{data.problem}</div>
           </div>
-          {/*<MarkBlock module={'打点'} func={'课程介绍页'} action={'点击收藏课程按钮'} className={`problem-collect ${problemCollected ? 'collected' : ''}`}*/}
-               {/*onClick={() => this.onClickHandleProblemCollection(problemCollected, data.id)}>*/}
-            {/*<span>{problemCollected ? '已收藏' : '收藏课程'}</span>*/}
-          {/*</MarkBlock>*/}
         </div>
         {renderContent()}
         {renderFooter()}

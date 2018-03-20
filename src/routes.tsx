@@ -70,6 +70,10 @@ const KnowledgeViewer = Loadable({
   loader: () => import('./modules/practice/knowledge/KnowledgeViewer'),
   loading: Loading,
 })
+const KnowledgeShare = Loadable({
+    loader: () => import('./modules/practice/knowledge/KnowledgeShare'),
+  loading: Loading,
+  })
 const KnowledgeReview = Loadable({
   loader: () => import('./modules/practice/knowledge/KnowledgeReview'),
   loading: Loading,
@@ -301,6 +305,7 @@ const routes = (
       <Route path="practice/application/comment" component={ApplicationComment}/>
       <Route path="practice/subject/comment" component={Subject}/>
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
+      <Route path="practice/knowledge/view" component={KnowledgeShare}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
 
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
