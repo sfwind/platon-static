@@ -209,7 +209,7 @@ export default class NewProfile extends React.Component<any, any> {
   }
 
   submitProfile() {
-    const { dispatch, location } = this.props
+    const { dispatch} = this.props
     const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
     if(this.checkFull()) {
@@ -266,7 +266,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { memberTypeId, memberId,nickName,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
+    const {memberId,nickName,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -280,9 +280,9 @@ export default class NewProfile extends React.Component<any, any> {
       const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
       return (
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择居住地点'}
-                   className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper'}>
+                   className= 'select-wrapper-has'>
           <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
-                        placeholder="请填写"
+                        placeholder="请选择"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
         </MarkBlock>
       )
@@ -335,7 +335,7 @@ export default class NewProfile extends React.Component<any, any> {
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择感情状态'}
                    className={married ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[marryList]} userData={myMarried.id ? [myMarried] : null}
-                        placeholder="请填写"
+                        placeholder="请选择"
                         onChoice={(one) => this.onChoiceMarry(one)}/>
         </MarkBlock>
       )

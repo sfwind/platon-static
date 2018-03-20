@@ -72,7 +72,7 @@ export default class ShowCertificate extends React.Component {
 
     const renderFinished = () => {
       return (
-        <div>
+        <div className="render-container">
           {_.isEmpty(finishDto) ?
             <div className="no-certificate-container">
               <img src="https://static.iqycamp.com/images/no-certificate.png" style={{ width: 100, height: 100 }}/>
@@ -86,11 +86,11 @@ export default class ShowCertificate extends React.Component {
             finishDto.map((finish, index) => {
               const { abbreviation, certificateNo, month } = finish
               return (
-                <MarkBlock module={'打点'} function={'我的证书'} action={'查看我的结课证书'} className="card-section"
+                <MarkBlock module={'打点'} function={'我的证书'} action={'查看我的结课证书'} className="certificate-section"
                            onClick={() => {this.goCertificateView(certificateNo)}}>
-                  <div className="card-name">
-                    {month}月{abbreviation}课程结课证书
-                  </div>
+                  <div className="certificate-name">
+                    {abbreviation}结课证书</div>
+                  <div className="certificate-count">{month}月主修课程</div>
                 </MarkBlock>
               )
             })
@@ -101,7 +101,7 @@ export default class ShowCertificate extends React.Component {
 
     const renderGrade = () => {
       return (
-        <div>
+        <div className="render-container">
           {_.isEmpty(gradeDto) ?
             <div className="no-certificate-container">
               <img src="https://static.iqycamp.com/images/no-certificate.png" style={{ width: 100, height: 100 }}/>
@@ -115,16 +115,11 @@ export default class ShowCertificate extends React.Component {
             gradeDto.map((grade, index) => {
               const { abbreviation, certificateNo, month,typeName } = grade
               return (
-                <MarkBlock module={'打点'} function={'我的证书'} action={'查看我的优秀证书'} className="card-section"
+                <MarkBlock module={'打点'} function={'我的证书'} action={'查看我的优秀证书'} className="certificate-section"
                            onClick={() => {this.goCertificateView(certificateNo)}}>
-                  <div className="card-name">
-                    <div className="catalog-name">
-                      {month}月{abbreviation}训练营
-                    </div>
-                    <div className="type-name">
-                      {typeName}
-                    </div>
-                  </div>
+                  <div className="certificate-name">
+                    {abbreviation}{typeName}</div>
+                  <div className="certificate-count">{month}月训练营</div>
                 </MarkBlock>
               )
             })
