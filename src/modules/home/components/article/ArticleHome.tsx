@@ -2,7 +2,11 @@ import * as React from 'react'
 import './ArticleHome.less'
 import AssetImg from '../../../../components/AssetImg'
 
-export class ArticleHome extends React.Component {
+interface ArticleHomeProps {
+  data: any
+}
+
+export class ArticleHome extends React.Component<ArticleHomeProps, any> {
 
   constructor () {
     super()
@@ -12,16 +16,17 @@ export class ArticleHome extends React.Component {
   }
 
   render () {
+    console.log(this.props.data)
     const {
-      title = '别在刷屏了，请停止...',
-      desc = '您现在还没有优秀证书哦，继续努力加油吧。',
-      thumbnail = 'https://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ayic3SEaztBgIHFjfNZCFnvibW7bURBmYJIwUIpyice6aELS6zATiaepeeu1lMaggayc9Wpboj9nSZ5Nib/132',
-    } = this.state.data
+      title = '',
+      description = '',
+      thumbnail = '',
+    } = this.props.data
 
     return (
       <div className="article-home-component" data-thumbnail={''}>
-        <div className="title">{title}</div>
-        <div className="desc">{desc}</div>
+        <div className="title">{title.length > 12 ? title.substr(0, 12) + '...' : title}</div>
+        <div className="desc">{description.length > 20 ? description.substr(0, 20) + '...' : description}</div>
         <AssetImg className="thumbnail" url={thumbnail}></AssetImg>
       </div>
     )

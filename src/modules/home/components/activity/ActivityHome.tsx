@@ -3,13 +3,15 @@ import './ActivityHome.less'
 import AssetImg from '../../../../components/AssetImg'
 import { calcScheduleData } from '../../../schedule/overview/util'
 
-export class ActivityHome extends React.Component {
+interface ActivityHomeProps {
+  data: any
+}
+
+export class ActivityHome extends React.Component<ActivityHomeProps, any> {
 
   constructor () {
     super()
-    this.state = {
-      data: {},
-    }
+    this.state = {}
   }
 
   STATUS = {
@@ -26,7 +28,7 @@ export class ActivityHome extends React.Component {
       location = '上海市长宁区',
       status = 3,
       thumbnail = 'https://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ayic3SEaztBgIHFjfNZCFnvibW7bURBmYJIwUIpyice6aELS6zATiaepeeu1lMaggayc9Wpboj9nSZ5Nib/132',
-    } = this.state.data
+    } = this.props.data
 
     const renderStatus = () => {
       switch (status) {

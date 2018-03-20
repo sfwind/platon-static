@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './LandingPage.less'
+import { ProblemHome } from './components/problem/ProblemHome'
 import { LiveHome } from './components/live/LiveHome'
 import { ArticleHome } from './components/article/ArticleHome'
 import { ActivityHome } from './components/activity/ActivityHome'
@@ -7,23 +8,41 @@ import { ColumnSpan } from '../../components/ColumnSpan'
 import { changeTitle } from '../../utils/helpers'
 import * as FontAwesome from 'react-fontawesome'
 import Banner from '../../components/Banner'
+import { loadLandingPageData } from './async'
 
 export default class LandingPage extends React.Component {
 
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      data: {},
+      demo: 'init demo',
+    }
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount () {
+  async componentWillMount () {
     changeTitle('圈外同学')
+    let res = await loadLandingPageData()
+    console.log(res)
+    if (res.code === 200) {
+      this.setState({
+        data: res.msg,
+      })
+    }
   }
 
   render () {
+    const {
+      problemsFlows = [],
+      livesFlows = [],
+      articlesFlows = [],
+      activitiesFlows = [],
+    } = this.state.data
+
     return (
       <div className="landing-page-container">
         <div className="header">
@@ -50,15 +69,19 @@ export default class LandingPage extends React.Component {
         <div className="business-apply" onClick={() => this.context.router.push('/pay/rise')}></div>
         <div className="content-box">
           <div className="content-header">
+            <div className="content-title">圈外课</div>
+          </div>
+          {problemsFlows.map((problem, index) => <ProblemHome data={problem} key={index}/>)}
+        </div>
+        <div className="content-box">
+          <div className="content-header">
             <div className="content-title">拓眼界</div>
             <div className="more" onClick={() => this.context.router.push('/rise/static/home/lives')}>
               更多&nbsp;&nbsp;
               <FontAwesome name="angle-right"/>
             </div>
           </div>
-          <LiveHome/>
-          <LiveHome/>
-          <LiveHome/>
+          {livesFlows.map((live, index) => <LiveHome data={live} key={index}/>)}
         </div>
         <div className="content-box">
           <div className="content-header">
@@ -68,9 +91,7 @@ export default class LandingPage extends React.Component {
               <FontAwesome name="refresh"/>
             </div>
           </div>
-          <ArticleHome/>
-          <ArticleHome/>
-          <ArticleHome/>
+          {articlesFlows.map((article, index) => <ArticleHome data={article} key={index}/>)}
         </div>
         <div className="content-box">
           <div className="content-header">
@@ -80,9 +101,7 @@ export default class LandingPage extends React.Component {
               <FontAwesome name="angle-right"/>
             </div>
           </div>
-          <ActivityHome/>
-          <ActivityHome/>
-          <ActivityHome/>
+          {activitiesFlows.map((activity, index) => <ActivityHome data={activity} key={index}/>)}
         </div>
         <div className="bottom-text">我也是有底线的...</div>
       </div>
