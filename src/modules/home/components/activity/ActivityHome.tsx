@@ -22,12 +22,12 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
 
   render () {
     const {
-      name = '活动名称',
-      holder = '上海校友会',
-      holdingTime = '03月02日20：30-21：30',
-      location = '上海市长宁区',
-      status = 3,
-      thumbnail = 'https://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ayic3SEaztBgIHFjfNZCFnvibW7bURBmYJIwUIpyice6aELS6zATiaepeeu1lMaggayc9Wpboj9nSZ5Nib/132',
+      name = '',
+      holder = '',
+      startTimeStr = '',
+      location = '',
+      status = 1,
+      thumbnail = '',
     } = this.props.data
 
     const renderStatus = () => {
@@ -57,7 +57,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
       <div className="activity-home-component">
         <div className="name">{name}</div>
         <div className="holder">举办人：{holder}</div>
-        <div className="holding-time">举办时间：{holdingTime}</div>
+        <div className="holding-time">举办时间：{startTimeStr}</div>
         <div className="location">举办地点：{location}</div>
         {renderStatus()}
         <AssetImg className="thumbnail" url={thumbnail}/>

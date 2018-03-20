@@ -16,7 +16,6 @@ export class ArticleHome extends React.Component<ArticleHomeProps, any> {
   }
 
   render () {
-    console.log(this.props.data)
     const {
       title = '',
       description = '',

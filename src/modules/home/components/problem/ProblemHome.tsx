@@ -26,7 +26,7 @@ export class ProblemHome extends React.Component<ProblemHomeProps, any> {
       <div className="problem-home-component">
         <span className="abbreviation">{abbreviation}</span>
         <span className="problem">{name}</span>
-        {hot && <div className="hot">21天爆款课程</div>}
+        {hot && <div className="hot">21 天爆款课程</div>}
         <div className="order" onClick={() => alert('you click order')}>立即预约</div>
         <AssetImg className="thumbnail" url={thumbnail}></AssetImg>
       </div>
