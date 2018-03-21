@@ -2,6 +2,7 @@ import * as React from 'react'
 import './ActivityHome.less'
 import AssetImg from '../../../../components/AssetImg'
 import { calcScheduleData } from '../../../schedule/overview/util'
+import { splitContent } from '../../../../utils/helpers'
 
 interface ActivityHomeProps {
   data: any
@@ -58,7 +59,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
         <div className="name">{name}</div>
         <div className="holder">举办人：{holder}</div>
         <div className="holding-time">举办时间：{startTimeStr}</div>
-        <div className="location">举办地点：{location}</div>
+        <div className="location">举办地点：{splitContent(location, 10)}</div>
         {renderStatus()}
         <AssetImg className="thumbnail" url={thumbnail}/>
       </div>

@@ -5,10 +5,12 @@ import { LiveHome } from './components/live/LiveHome'
 import { ArticleHome } from './components/article/ArticleHome'
 import { ActivityHome } from './components/activity/ActivityHome'
 import { ColumnSpan } from '../../components/ColumnSpan'
-import { changeTitle } from '../../utils/helpers'
+import { changeTitle, lockWindow, unlockWindow } from '../../utils/helpers'
 import * as FontAwesome from 'react-fontawesome'
 import Banner from '../../components/Banner'
-import { loadLandingPageData } from './async'
+import { loadLandingPageData, loadShuffleArticles } from './async'
+import { SubscribeAlert } from './components/subscribe/SubscribeAlert'
+import AssetImg from '../../components/AssetImg'
 
 export default class LandingPage extends React.Component {
 
@@ -35,8 +37,42 @@ export default class LandingPage extends React.Component {
     }
   }
 
+  handleClickImageBanner (banner) {
+    if (banner.linkUrl.indexOf('http') > 0) {
+      window.location.href = banner.linkUrl
+    } else {
+      this.context.router.push(banner.linkUrl)
+    }
+  }
+
+  subscribeProblem () {
+    this.setState({ showSubscribeAlert: true })
+  }
+
+  closeSubscribe () {
+    this.setState({ showSubscribeAlert: false })
+  }
+
+  shuffleArticles () {
+    loadShuffleArticles().then(res => {
+      if (res.code === 200) {
+        let data = this.state.data
+        data.articlesFlows = res.msg
+        this.setState({
+          data: data,
+        })
+      }
+    })
+  }
+
   render () {
     const {
+      showSubscribeAlert = false,
+    } = this.state
+    const {
+      notify = false,
+      isBusinessMember = true,
+      pageBanners = [],
       problemsFlows = [],
       livesFlows = [],
       articlesFlows = [],
@@ -46,32 +82,40 @@ export default class LandingPage extends React.Component {
     return (
       <div className="landing-page-container">
         <div className="header">
-          <div className="message" onClick={() => alert('you click the message center')}>首页消息中心</div>
-          <div className="consult" onClick={() => alert('you click the consult button')}>首页入学咨询</div>
+          <div className="left-header-box" onClick={() => this.context.router.push('/rise/static/message/center')}>
+            <AssetImg className="message" url="https://static.iqycamp.com/icon_message@2x-8rkrc4h9.png"/>
+            {notify && <div className="notify"></div>}
+          </div>
+          <div className="right-header-box" onClick={() => {
+            alert('you click the consult center')
+            // _MEIQIA('showPanel')
+          }}>
+            <span>入学咨询&nbsp;</span>
+            <AssetImg className="consult-icon" url="https://static.iqycamp.com/icon_goutong @2x-8ww0p3at.png"/>
+          </div>
         </div>
         <div className="home-swiper">
           <Banner height='16rem'>
-            <img width='100%'
-                 height='16rem'
-                 className="banner-item swiper-slide"
-                 src="https://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ayic3SEaztBgIHFjfNZCFnvibW7bURBmYJIwUIpyice6aELS6zATiaepeeu1lMaggayc9Wpboj9nSZ5Nib/132"/>
-            <img width='100%'
-                 height='16rem'
-                 className="banner-item swiper-slide"
-                 src="https://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ayic3SEaztBgIHFjfNZCFnvibW7bURBmYJIwUIpyice6aELS6zATiaepeeu1lMaggayc9Wpboj9nSZ5Nib/132"/>
-            <img width='100%'
-                 height='16rem'
-                 className="banner-item swiper-slide"
-                 src="https://wx.qlogo.cn/mmopen/siaKjia9aBPcJHOCEV6z4Ayic3SEaztBgIHFjfNZCFnvibW7bURBmYJIwUIpyice6aELS6zATiaepeeu1lMaggayc9Wpboj9nSZ5Nib/132"/>
+            {pageBanners.map((banner, index) =>
+              <img key={index}
+                   src={banner.imageUrl}
+                   onClick={() => this.handleClickImageBanner(banner)}
+                   className="banner-item swiper-slide swiper-image"/>,
+            )}
           </Banner>
         </div>
         <ColumnSpan height="10" style={{ margin: '0 -2rem' }}/>
-        <div className="business-apply" onClick={() => this.context.router.push('/pay/rise')}></div>
+        {
+          !isBusinessMember &&
+          <div className="business-apply" onClick={() => this.context.router.push('/pay/rise')}></div>
+        }
         <div className="content-box">
           <div className="content-header">
             <div className="content-title">圈外课</div>
           </div>
-          {problemsFlows.map((problem, index) => <ProblemHome data={problem} key={index}/>)}
+          {problemsFlows.map((problem, index) => {
+            return <ProblemHome data={problem} key={index} subscribeFunc={() => this.subscribeProblem()}/>
+          })}
         </div>
         <div className="content-box">
           <div className="content-header">
@@ -86,7 +130,7 @@ export default class LandingPage extends React.Component {
         <div className="content-box">
           <div className="content-header">
             <div className="content-title">加油站</div>
-            <div className="more" onClick={() => alert('you click the refresh button')}>
+            <div className="more" onClick={() => this.shuffleArticles()}>
               换一换&nbsp;&nbsp;
               <FontAwesome name="refresh"/>
             </div>
@@ -104,6 +148,7 @@ export default class LandingPage extends React.Component {
           {activitiesFlows.map((activity, index) => <ActivityHome data={activity} key={index}/>)}
         </div>
         <div className="bottom-text">我也是有底线的...</div>
+        {showSubscribeAlert && <SubscribeAlert closeFunc={() => this.closeSubscribe()}/>}
       </div>
     )
   }
