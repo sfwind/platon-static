@@ -9,28 +9,28 @@ import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 @connect(state => state)
 export default class ProblemCardList extends React.Component {
 
-  constructor () {
+  constructor() {
     super()
     this.state = {}
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     const { dispatch } = this.props
     mark('打点', '个人中心', '知识卡列表')
     changeTitle('知识卡')
     let res = await loadCardList()
-    if (res.code === 200) {
+    if(res.code === 200) {
       this.setState({ data: res.msg })
     } else {
       dispatch(alertMsg(res.msg))
     }
   }
 
-  render () {
+  render() {
     const { data = [] } = this.state
 
     return (
@@ -39,6 +39,7 @@ export default class ProblemCardList extends React.Component {
           data.map((card, index) => {
             const { abbreviation, completeCount, name, planId } = card
             return (
+              completeCount > 0 &&
               <div className="card-section" onClick={() => {
                 this.context.router.push(`/rise/static/problem/cards?planId=${planId}`)
               }}>

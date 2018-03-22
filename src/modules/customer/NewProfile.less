@@ -1,6 +1,6 @@
 @import "../../style/variable";
 
-.profile {
+.new-profile {
   //TODO absolute 时有bug：底部上滑导航栏被遮盖
   position: relative;
   width: 100%;
@@ -57,15 +57,16 @@
         line-height: 50px;
       }
       > .address {
-        width: ~"calc(100% - 64px)";
+        width: ~"calc(100% - 80px)";
         resize: none;
         outline: none;
         border: 0;
         box-shadow: 0 0 0 rgba(0, 0, 0, 0);
         -webkit-appearance: none;
-        font-size: 13px;
+        font-size: 15px;
         height: ~"calc(100% - 15px)";
         padding-top: 15px;
+        text-align: right;
       }
       > .item-label {
         float: left;
@@ -90,7 +91,7 @@
               height: 11.5px;
               float: right;
               margin-top: 23px;
-              margin-left: 4px;
+              margin-left: 10px;
             }
             > .form-item {
               display: inline-block;
@@ -105,7 +106,7 @@
               border: none;
             }
             &-no-cut {
-              margin-right: 10px;
+              position: relative;
               > .form-item {
                 display: inline-block;
                 color: #399BD3;
@@ -115,9 +116,12 @@
                 }
               }
               > input {
+                position: absolute;
                 font-size: 15px;
-                text-align: right;
                 border: none;
+                text-align: right;
+                top:20px;
+                right: 0px;
               }
             }
           }
@@ -145,16 +149,16 @@
         }
         > .select-wrapper-choice {
           color: @color_help;
-            &:after {
-              content: ' ';
-              display: inline-block;
-              background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
-              width: 6px;
-              height: 11.5px;
-              float: right;
-              margin-top: 21.75px;
-              margin-left: 4px;
-            }
+          &:after {
+            content: ' ';
+            display: inline-block;
+            background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+            width: 6px;
+            height: 11.5px;
+            float: right;
+            margin-top: 21.75px;
+            margin-left: 10px;
+          }
           &-has {
             &:after {
               content: ' ';
@@ -164,7 +168,7 @@
               height: 11.5px;
               float: right;
               margin-top: 21.75px;
-              margin-left: 4px;
+              margin-left: 10px;
             }
             > .form-item {
               display: inline-block;
@@ -177,6 +181,7 @@
               font-size: 15px;
               text-align: right;
               border: none;
+              height: 20px;
             }
             &-no-cut {
               margin-right: 10px;

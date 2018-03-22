@@ -126,6 +126,12 @@ const Profile = Loadable({
   loader: () => import('./modules/customer/Profile'),
   loading: Loading,
 })
+
+const NewProfile = Loadable({
+  loader: () => import('./modules/customer/NewProfile'),
+  loading: Loading
+})
+
 const Account = Loadable({
   loader: () => import('./modules/customer/account/Account'),
   loading: Loading,
@@ -151,8 +157,12 @@ const RiseMember = Loadable({
   loading: Loading,
 })
 const FeedBack = Loadable({
-  loader: () => import('./modules/customer/FeedBack'),
-  loading: Loading,
+  loader: () => import('./modules/customer/faq/FeedBack'),
+  loading: Loading
+})
+const Faq = Loadable({
+  loader: () => import('./modules/customer/faq/Faq'),
+  loading: Loading
 })
 const UserProtocol = Loadable({
   loader: () => import('./modules/customer/UserProtocol'),
@@ -160,10 +170,6 @@ const UserProtocol = Loadable({
 })
 const MobileBind = Loadable({
   loader: () => import('./modules/customer/MobileBind'),
-  loading: Loading,
-})
-const ForumQuestion = Loadable({
-  loader: () => import('./modules/customer/ForumQuestion'),
   loading: Loading,
 })
 const CertificateProfile = Loadable({
@@ -274,6 +280,16 @@ const ProblemCardList = Loadable({
   loader: () => import('./modules/customer/knowledgecards/ProblemCardList'),
   loading: Loading,
 })
+const StudyList = Loadable({
+  loader: () => import('./modules/customer/person/StudyList'),
+  loading: Loading
+})
+
+const ShowCertificate = Loadable({
+  loader: ()=>import('./modules/customer/person/ShowCertificate'),
+  loading:Loading
+})
+
 const RichTextView = Loadable({
   loader: () => import('./modules/other/richtext/RichTextView'),
   loading: Loading,
@@ -326,13 +342,23 @@ const routes = (
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="guest/card/send" component={SendCard}/>
+      <Route path="feedback" component={FeedBack}/>
+      <Route path="faq" component={Faq}/>
+      <Route path="userprotocol" component={UserProtocol}/>
 
       <Route path="article" component={RichTextView}/>
+
+      <Route path="coupon" component={Coupon}/>
+      <Route path="knowledge/card/list" component={ProblemCardList}/>
+      <Route path="person/study/list" component={StudyList}/>
+      <Route path="person/certificate" component={ShowCertificate} />
+      <Route path="message/center" component={MessageCenter}/>
+
+      <Route path="new/profile" component={NewProfile}/>
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
-        <Route path="coupon" component={Coupon}/>
         <Route path="profile" component={Profile}/>
         <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
@@ -340,19 +366,12 @@ const routes = (
         <Route path="point/tip" component={PointTip}/>
         <Route path="problem" component={ProblemGallery}/>
         <Route path="member" component={RiseMember}/>
-        <Route path="feedback" component={FeedBack}/>
-        <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
-        <Route path="forum/mine" component={ForumQuestion}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
-        <Route path="knowledge/card/list" component={ProblemCardList}/>
       </Route>
 
-      <Route path="message" component={Customer}>
-        <Route path="center" component={MessageCenter}/>
-      </Route>
 
       <Route path="event/wall" component={EventWall}/>
 
