@@ -77,6 +77,10 @@ export default class KnowledgeShare extends React.Component<any, any> {
 
     return (
       <div className="knowledge-share-container">
+        <div className="follow-container">
+          <img src="https://static.iqycamp.com/images/knowledge_share_head2.png?imageslim"
+               className="qrcode"/>
+        </div>
         <div className="page-header">{knowledge.knowledge}</div>
         {
           videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
@@ -157,23 +161,11 @@ export default class KnowledgeShare extends React.Component<any, any> {
               }
             </div>
           }
-          <div className="follow-container">
-            <ColumnSpan style={{margin: '0 -2.5rem'}}/>
-            <div className="recently-tips white-bg">
-              以上内容来自圈外商学院全年课程<br/><br/>
 
-扫码添加小Y，即可获取更多实用学习资料：<br/><br/>
-
-1.  社交聊天工具表 —— 一张清单，告别职场尬聊<br/><br/>
-
-2.社交聊天书单推荐<br/><br/>
-
-添加小Y请备注“<b>职场沟通</b>”<br/><br/>
-            </div>
-            <div className="img-wrapper white-bg">
-              <img src="https://static.iqycamp.com/images/qrcode_xiaoy.jpg?imageslim"
-                   className="qrcode"/>
-            </div>
+          <div className="follow-container" style={{marginTop:'2.0rem'}}>
+            <ColumnSpan />
+            <img src="https://static.iqycamp.com/images/knowledge_share_tail.png?imageslim"
+                 className="qrcode"/>
           </div>
         </div>
       </div>
