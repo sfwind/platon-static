@@ -14,6 +14,10 @@ export class LiveHome extends React.Component<LiveHomeProps, any> {
     this.state = {}
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
   render () {
     const {
       name = '',
@@ -21,11 +25,12 @@ export class LiveHome extends React.Component<LiveHomeProps, any> {
       speakerDesc = '',
       startTimeStr = '',
       thumbnail = '',
+      linkUrl = '',
     } = this.props.data
 
     return (
-      <div className="live-home-component">
-        <span className="title">{name}</span>
+      <div className="live-home-component" onClick={() => window.location.href = linkUrl}>
+        <span className="title">{splitContent(name, 10)}</span>
         <span className="speaker">主讲人：{speaker}</span>
         <span className="speaker-desc">{splitContent(speakerDesc, 15)}</span>
         <span className="time">直播时间：{startTimeStr}</span>

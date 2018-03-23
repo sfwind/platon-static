@@ -16,15 +16,22 @@ export class ArticleHome extends React.Component<ArticleHomeProps, any> {
     }
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
   render () {
+    console.log(this.props.data)
     const {
       title = '',
       description = '',
       thumbnail = '',
+      linkParam = '',
     } = this.props.data
 
     return (
-      <div className="article-home-component" data-thumbnail={''}>
+      <div className="article-home-component"
+           onClick={() => this.context.router.push(`/rise/static/article?id=${linkParam}`)}>
         <div className="title">{splitContent(title, 12)}</div>
         <div className="desc">{splitContent(description, 20)}</div>
         <AssetImg className="thumbnail" url={thumbnail}></AssetImg>

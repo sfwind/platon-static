@@ -21,6 +21,10 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
     REVIEW: 3,
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
   render () {
     const {
       name = '',
@@ -29,6 +33,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
       location = '',
       status = 1,
       thumbnail = '',
+      linkUrl = '',
     } = this.props.data
 
     const renderStatus = () => {
@@ -55,7 +60,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
     }
 
     return (
-      <div className="activity-home-component">
+      <div className="activity-home-component" onClick={() => window.location.href = linkUrl}>
         <div className="name">{name}</div>
         <div className="holder">举办人：{holder}</div>
         <div className="holding-time">举办时间：{startTimeStr}</div>

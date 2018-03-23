@@ -11,6 +11,7 @@ import Banner from '../../components/Banner'
 import { loadLandingPageData, loadShuffleArticles } from './async'
 import { SubscribeAlert } from './components/subscribe/SubscribeAlert'
 import AssetImg from '../../components/AssetImg'
+import { ToolBar } from '../base/ToolBar'
 
 export default class LandingPage extends React.Component {
 
@@ -29,7 +30,6 @@ export default class LandingPage extends React.Component {
   async componentWillMount () {
     changeTitle('圈外同学')
     let res = await loadLandingPageData()
-    console.log(res)
     if (res.code === 200) {
       this.setState({
         data: res.msg,
@@ -87,8 +87,7 @@ export default class LandingPage extends React.Component {
             {notify && <div className="notify"></div>}
           </div>
           <div className="right-header-box" onClick={() => {
-            alert('you click the consult center')
-            // _MEIQIA('showPanel')
+            _MEIQIA('showPanel')
           }}>
             <span>入学咨询&nbsp;</span>
             <AssetImg className="consult-icon" url="https://static.iqycamp.com/icon_goutong @2x-8ww0p3at.png"/>
@@ -149,6 +148,7 @@ export default class LandingPage extends React.Component {
         </div>
         <div className="bottom-text">我也是有底线的...</div>
         {showSubscribeAlert && <SubscribeAlert closeFunc={() => this.closeSubscribe()}/>}
+        <ToolBar/>
       </div>
     )
   }
