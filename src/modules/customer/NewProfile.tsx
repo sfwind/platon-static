@@ -4,7 +4,6 @@ import './NewProfile.less'
 import * as _ from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import DropDownList from './components/DropDownList'
-import WorkStep from '../../components/WorkStep'
 import { pget, ppost, mark } from 'utils/request'
 import { loadUserProfileInfo } from './async'
 import { changeTitle } from 'utils/helpers'
@@ -49,7 +48,8 @@ export default class NewProfile extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
-      nickName: null,
+      nickName: window.ENV.userName,
+      memberTypeId:null,
       function: null,
       industry: null,
       workingLife: null,
@@ -69,12 +69,11 @@ export default class NewProfile extends React.Component<any, any> {
     mark({ module: '打点', function: '个人中心', action: '打开我的信息页面' })
     changeTitle('个人信息')
     const { dispatch, region, location } = this.props
-    const { goRise, goCamp } = location.query
     dispatch(startLoad())
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        let defaultIsFull = goRise ? false : res.msg.isFull
+        let defaultIsFull = res.msg.isFull
         this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
         })
       } else {
@@ -167,16 +166,14 @@ export default class NewProfile extends React.Component<any, any> {
   }
 
   checkFull() {
-    const { location } = this.props
     const functionValue = _.get(this.state, 'function')
-    const { goCamp } = location.query
-    const { city, province, industry, workingYear, bindMobile, realName, address, receiver } = this.state
-    if(goCamp) {
-      if(city && province && industry && workingYear && functionValue && realName) {
+    const { memberTypeId,nickName,city, province, industry, workingYear,realName, address, receiver } = this.state
+    if(memberTypeId===3) {
+      if(nickName && city && province && industry && workingYear && functionValue && realName && address && receiver) {
         return true
       }
     } else {
-      if(city && province && industry && workingYear && functionValue && realName && address && receiver) {
+      if(nickName && city && province && industry && workingYear && functionValue && realName) {
         return true
       }
     }
@@ -232,12 +229,11 @@ export default class NewProfile extends React.Component<any, any> {
 
 
   render() {
-    const { region, location } = this.props
-    const { goRise, goCamp } = location.query
+    const { region} = this.props
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const {memberId,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
+    const {memberTypeId,memberId,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -382,7 +378,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderNickName = () => {
       return (
-        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut'n style={{ marginRight: 0 }}>
           <input id="nickName" placeholder="请填写" type="text" {...this.bind('nickName', this.getInputValue)}/>
         </div>
       )
@@ -398,23 +394,9 @@ export default class NewProfile extends React.Component<any, any> {
 
     return (
       <div className="new-profile">
-        {goRise ? (
-          <div className="go-rise">
-            <WorkStep
-              works={[{ text: '填写信息', done: !!defaultIsFull, cur: true },
-                { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false }]}/>
-            <div className="guide">
-              {goCamp ?
-                <div className="first-guide">填写工作和地址信息<br/>才能加入校友会！</div>
-                : <div className="first-guide">填写工作和地址信息<br/>才能加入校友会，收到入学礼包！</div>}
-              <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
-            </div>
-          </div>
-        ) : (
           <div className="profile-header">
             {renderProfileHeader()}
           </div>
-        )}
 
         {!_.isEmpty(memberId) && renderClassInfo()}
 
@@ -499,7 +481,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>
 
-          {!goCamp &&
+          {memberTypeId===3 &&
           <div className="profile-item">
             <div className="item-label">
               收件人
@@ -509,7 +491,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>}
 
-          {!goCamp &&
+          {memberTypeId===3 &&
           <MarkBlock module={'个人中心'} function={'个人信息页'} action={'点击修改联系方式'} className="profile-item" onClick={()=>this.goMobileCheck()}>
             <div className="item-label">
               联系电话
@@ -518,8 +500,7 @@ export default class NewProfile extends React.Component<any, any> {
               {renderTel()}
             </div>
           </MarkBlock>}
-
-          {!goCamp &&
+          {memberTypeId===3 &&
           <div className="profile-item">
             <div className="address-tips">收件地址</div>
             <textarea className="address" placeholder="请填写" value={address}
@@ -538,7 +519,7 @@ export default class NewProfile extends React.Component<any, any> {
             letterSpacing: `4.7px`
           }}
                      onClick={this.submitProfile.bind(this)}>
-            {goRise ? `下一步` : `完成`}
+            完成
           </MarkBlock>
         </div>
       </div>
