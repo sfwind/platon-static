@@ -25,12 +25,12 @@ export class ArticleHome extends React.Component<ArticleHomeProps, any> {
       title = '',
       description = '',
       thumbnail = '',
+      linkUrl = '',
       linkParam = '',
     } = this.props.data
 
     return (
-      <div className="article-home-component"
-           onClick={() => this.context.router.push(`/rise/static/article?id=${linkParam}`)}>
+      <div className="article-home-component" onClick={() => window.location.href = linkUrl}>
         <div className="title">{splitContent(title, 12)}</div>
         <div className="desc">{splitContent(description, 20)}</div>
         <AssetImg className="thumbnail" url={thumbnail}></AssetImg>
