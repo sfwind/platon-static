@@ -270,7 +270,7 @@ export default class NewProfile extends React.Component<any, any> {
     const renderReceiver = () => {
       return (
         <div className={'select-wrapper-has-no-cut'} style={{ marginRight: 0 }}>
-          <input id="realName" placeholder="请填写" type="text" {...this.bind('receiver', this.getInputValue)}/>
+          <input id="receiver" placeholder="请填写" type="text" {...this.bind('receiver', this.getInputValue)}/>
         </div>
       )
     }
@@ -382,7 +382,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderNickName = () => {
       return (
-        <div className={'select-wrapper-has'} style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="nickName" placeholder="请填写" type="text" {...this.bind('nickName', this.getInputValue)}/>
         </div>
       )
