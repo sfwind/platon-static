@@ -118,49 +118,54 @@ export default class LandingPage extends React.Component {
           !isBusinessMember &&
           <div className="business-apply" onClick={() => window.location.href = `/pay/rise`}></div>
         }
-        <div className="content-box" style={{ marginTop: '2rem' }}>
-          <div className="content-header">
-            <div className="content-title">圈外课</div>
-          </div>
-          {problemsFlows.map((problem, index) => {
-            return <ProblemHome data={problem} key={index} subscribeFunc={() => this.subscribeProblem()}/>
-          })}
-        </div>
-        <div className="content-box">
-          <div className="content-header">
-            <div className="content-title">拓眼界</div>
-            {
-              livesFlows.length > 3 &&
-              <div className="more" onClick={() => this.context.router.push('/rise/static/home/lives')}>
-                更多&nbsp;&nbsp;
-                <FontAwesome name="angle-right"/>
+        <div className="content-box-container">
+          {
+            !isBusinessMember &&
+            <div className="content-box">
+              <div className="content-header">
+                <div className="content-title">圈外课</div>
               </div>
-            }
-          </div>
-          {livesFlows.map((live, index) => <LiveHome data={live} key={index}/>)}
-        </div>
-        <div className="content-box">
-          <div className="content-header">
-            <div className="content-title">加油站</div>
-            <div className="more" onClick={() => this.shuffleArticles()}>
-              换一换&nbsp;&nbsp;
-              <FontAwesome name="refresh"/>
+              {problemsFlows.map((problem, index) => {
+                return <ProblemHome data={problem} key={index} subscribeFunc={() => this.subscribeProblem()}/>
+              })}
             </div>
+          }
+          <div className="content-box">
+            <div className="content-header">
+              <div className="content-title">拓眼界</div>
+              {
+                livesFlows.length > 3 &&
+                <div className="more" onClick={() => this.context.router.push('/rise/static/home/lives')}>
+                  更多&nbsp;&nbsp;
+                  <FontAwesome name="angle-right"/>
+                </div>
+              }
+            </div>
+            {livesFlows.map((live, index) => <LiveHome data={live} key={index}/>)}
           </div>
-          {articlesFlows.map((article, index) => <ArticleHome data={article} key={index}/>)}
-        </div>
-        <div className="content-box">
-          <div className="content-header">
-            <div className="content-title">圈柚会</div>
-            {
-              activitiesFlows.length > 3 &&
-              <div className="more" onClick={() => this.context.router.push('/rise/static/home/activities')}>
-                更多&nbsp;&nbsp;
-                <FontAwesome name="angle-right"/>
+          <div className="content-box">
+            <div className="content-header">
+              <div className="content-title">加油站</div>
+              <div className="more" onClick={() => this.shuffleArticles()}>
+                换一换&nbsp;&nbsp;
+                <FontAwesome name="refresh"/>
               </div>
-            }
+            </div>
+            {articlesFlows.map((article, index) => <ArticleHome data={article} key={index}/>)}
           </div>
-          {activitiesFlows.map((activity, index) => <ActivityHome data={activity} key={index}/>)}
+          <div className="content-box">
+            <div className="content-header">
+              <div className="content-title">圈柚会</div>
+              {
+                activitiesFlows.length > 3 &&
+                <div className="more" onClick={() => this.context.router.push('/rise/static/home/activities')}>
+                  更多&nbsp;&nbsp;
+                  <FontAwesome name="angle-right"/>
+                </div>
+              }
+            </div>
+            {activitiesFlows.map((activity, index) => <ActivityHome data={activity} key={index}/>)}
+          </div>
         </div>
         <div className="bottom-text">我也是有底线的...</div>
         <ToolBar/>

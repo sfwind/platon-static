@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
-import './CountDown.less';
+import './CountDown.less'
 import { loadCountDownInfo } from './async'
 import AssetImg from '../../components/AssetImg'
-import { chooseAuditionCourse } from './async';
-
+import { chooseAuditionCourse } from './async'
+import { ToolBar } from '../base/ToolBar'
 
 @connect(state => state)
 export default class CountDown extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       ones: '0',
       tens: '0',
@@ -18,50 +18,50 @@ export default class CountDown extends Component {
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount() {
-    const { dispatch } = this.props;
-    dispatch(startLoad());
+  componentWillMount () {
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadCountDownInfo().then(res => {
       dispatch(endLoad())
-      if(res.code === 200) {
-        const { days, hasSchedule, hasAudition } = res.msg;
-        if(days <= 0) {
-          if(hasSchedule) {
+      if (res.code === 200) {
+        const { days, hasSchedule, hasAudition } = res.msg
+        if (days <= 0) {
+          if (hasSchedule) {
             this.context.router.push({ pathname: '/rise/static/learn' })
           } else {
             this.context.router.push({ pathname: '/rise/static/course/schedule/start' })
           }
-          return;
+          return
         }
 
-        let daysStr = days + '';
-        let ones = '0';
-        let tens = '0';
+        let daysStr = days + ''
+        let ones = '0'
+        let tens = '0'
         // 小于等于0 按0算
-        if(days > 0) {
+        if (days > 0) {
           // 两位数
-          if(daysStr.length > 1) {
-            ones = daysStr[ 1 ];
-            tens = daysStr[ 0 ];
+          if (daysStr.length > 1) {
+            ones = daysStr[1]
+            tens = daysStr[0]
           } else {
             // 1位数
-            ones = daysStr[ 0 ];
+            ones = daysStr[0]
           }
         }
-        this.setState({ days: days, ones: ones, tens: tens, hasAudition: hasAudition });
+        this.setState({ days: days, ones: ones, tens: tens, hasAudition: hasAudition })
       } else {
-        dispatch(alertMsg(res.msg));
+        dispatch(alertMsg(res.msg))
       }
     }).catch(ex => {
       dispatch(endLoad())
     })
   }
 
-  render() {
-    const { ones, tens, hasAudition } = this.state;
+  render () {
+    const { ones, tens, hasAudition } = this.state
     return (
       <div className="count-down">
         <div className="header">
@@ -89,6 +89,7 @@ export default class CountDown extends Component {
             </div>
           </div>
         </div>
+        <ToolBar/>
       </div>
     )
   }

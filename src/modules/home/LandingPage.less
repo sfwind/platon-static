@@ -1,6 +1,6 @@
 .landing-page-container {
   box-sizing: border-box;
-  padding: 5rem 2rem 2rem;
+  padding: 5rem 2rem 8rem;
   background-color: #fff;
   > .header {
     position: fixed;
@@ -76,25 +76,30 @@
     background: url("https://static.iqycamp.com/apply_participate_business_school-4o57ut6m.png?imageslim") no-repeat center center / 100% 9.4rem;
     border-radius: 4px;
   }
-  > .content-box {
-    margin-top: 6rem;
-    .content-header {
-      position: relative;
-      height: 3rem;
-      .content-title {
-        position: absolute;
-        left: 0;
-        top: 0;
-        font-size: 2.2rem;
-        color: #333333;
+  .content-box-container {
+    > .content-box {
+      &:first-of-type {
+        margin-top: 2rem;
       }
-      .more {
-        position: absolute;
-        right: 0;
-        top: 0;
-        line-height: 3rem;
-        font-size: 1.5rem;
-        color: #999;
+      margin-top: 6rem;
+      .content-header {
+        position: relative;
+        height: 3rem;
+        .content-title {
+          position: absolute;
+          left: 0;
+          top: 0;
+          font-size: 2.2rem;
+          color: #333333;
+        }
+        .more {
+          position: absolute;
+          right: 0;
+          top: 0;
+          line-height: 3rem;
+          font-size: 1.5rem;
+          color: #999;
+        }
       }
     }
   }

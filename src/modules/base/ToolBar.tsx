@@ -29,7 +29,7 @@ const tabItems = {
     bar: {
       icon: 'https://static.iqycamp.com/images/tabbar_book_v2.png?imageslim',
       activeIcon: 'https://static.iqycamp.com/images/tabbar_book_active_v2.png?imageslim',
-      label: '学习',
+      label: '课堂',
     },
   },
   mine: {
@@ -124,7 +124,8 @@ export class ToolBar extends React.Component<any, any> {
                 <TabBarIcon>
                   <img className={`${item.key === 2 ? 'mine_icon' : ''}`}
                        src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
-                  {noticeMsgCount ? <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
+                  {noticeMsgCount ?
+                   <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
                 </TabBarIcon>
                 <TabBarLabel>{bar.label}</TabBarLabel>
               </TabBarItem>

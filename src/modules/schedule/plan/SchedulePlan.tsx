@@ -5,7 +5,7 @@ import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { CurrentPlanBar } from './components/CurrentPlanBar'
 import { CompletePlanBar } from './components/CompletePlanBar'
 import AssetImg from '../../../components/AssetImg'
-import { loadPersonSchedulePlan } from './async'
+import { loadGoCountDownPageStatus, loadPersonSchedulePlan } from './async'
 import { mark } from '../../../utils/request'
 import { ToolBar } from '../../base/ToolBar'
 import { ColumnSpan } from '../../../components/ColumnSpan'
@@ -18,6 +18,7 @@ export default class SchedulePlan extends React.Component {
   constructor () {
     super()
     this.state = {
+      showPage: false,
       data: {
         showAllRunningPlan: false, sliceRunningPlans: [],
       },
@@ -33,6 +34,22 @@ export default class SchedulePlan extends React.Component {
       module: '打点', function: '学习', action: '打开学习计划页面',
     })
     const { dispatch, location } = this.props
+    let countDownPageStatus = await loadGoCountDownPageStatus()
+    if (countDownPageStatus.code === 200) {
+      const { goCountDownPage, memberTypeId } = countDownPageStatus.msg
+      if (goCountDownPage) {
+        if (memberTypeId == 1 || memberTypeId == 2 || memberTypeId == 3 || memberTypeId == 4) {
+          this.context.router.push('/rise/static/business/count/down')
+        } else if (memberTypeId == 5) {
+          this.context.router.push('/rise/static/camp/count/down')
+        } else {
+          this.setState({ showPage: true })
+        }
+      } else {
+        this.setState({ showPage: true })
+      }
+    }
+
     dispatch(startLoad())
     let res = await loadPersonSchedulePlan()
     dispatch(endLoad())
@@ -56,8 +73,12 @@ export default class SchedulePlan extends React.Component {
   }
 
   render () {
-    let { showAllRunningPlan, sliceRunningPlans } = this.state
+    let { showAllRunningPlan, sliceRunningPlans, showPage } = this.state
     let { announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0, hasCourseSchedule = true } = this.state.data
+
+    if (!showPage) {
+      return <div></div>
+    }
 
     const renderRunningPlans = () => {
       sliceRunningPlans = !showAllRunningPlan ? runningPlans.slice(0, 3) : runningPlans
@@ -102,27 +123,27 @@ export default class SchedulePlan extends React.Component {
           <div className="title">我的课程</div>
           {
             runningPlans.length > 0 ?
-              !showAllRunningPlan ?
-                runningPlans.length > 3 ?
-                  <div className="more" onClick={() => this.setState({ showAllRunningPlan: true })}>
-                    更多&nbsp;
-                    <FontAwesome name="angle-right"/>
-                  </div> :
-                  <div></div> :
-                <div className="more" onClick={() => this.setState({ showAllRunningPlan: false })}>
-                  收起&nbsp;
-                  <FontAwesome name="angle-down"/>
-                </div> :
-              <div className="no-running-plans">
-                <div className="no-running-icon"></div>
-                <div className="no-running-tip1">现在没有在学的课程哦！</div>
-                {
-                  hasCourseSchedule &&
-                  <MarkBlock module={'打点'} func={'学习页面'} action={'点击学习计划按钮'} className="no-running-tip2">
-                    点击查看我的学习计划立即开启学习之旅
-                  </MarkBlock>
-                }
-              </div>
+            !showAllRunningPlan ?
+            runningPlans.length > 3 ?
+            <div className="more" onClick={() => this.setState({ showAllRunningPlan: true })}>
+              更多&nbsp;
+              <FontAwesome name="angle-right"/>
+            </div> :
+            <div></div> :
+            <div className="more" onClick={() => this.setState({ showAllRunningPlan: false })}>
+              收起&nbsp;
+              <FontAwesome name="angle-down"/>
+            </div> :
+            <div className="no-running-plans">
+              <div className="no-running-icon"></div>
+              <div className="no-running-tip1">现在没有在学的课程哦！</div>
+              {
+                hasCourseSchedule &&
+                <MarkBlock module={'打点'} func={'学习页面'} action={'点击学习计划按钮'} className="no-running-tip2">
+                  点击查看我的学习计划立即开启学习之旅
+                </MarkBlock>
+              }
+            </div>
           }
           {renderRunningPlans()}
           {
