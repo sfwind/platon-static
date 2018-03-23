@@ -7,7 +7,8 @@
   .header-container {
     position: relative;
     background: white;
-    padding: 20px;
+    padding: 20px 20px 5px 20px;
+
 
     .img-container {
       top: 0;
@@ -16,10 +17,10 @@
         width: 53px;
         border-radius: 100%;
       }
-      .arrow{
-        position:absolute;
-        right:20px;
-        top:45px;
+      .arrow {
+        position: absolute;
+        right: 20px;
+        top: 45px;
         width: 6px;
         height: 10px;
         background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
@@ -31,11 +32,12 @@
       left: 81px;
 
       .nickname-container {
+        margin-top:4px;
         font-size: 1.7rem;
         color: @color_context;
       }
       .score-container {
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         color: #ceb18a;
       }
     }
@@ -58,72 +60,68 @@
 
     .content-container {
       margin-top: 2rem;
-      font-size: 1.7rem;
+      font-size: 2.2rem;
       color: #333333;
+      line-height: 34px;
       .member {
         float: left;
         width: 50%;
         text-align: center;
+        margin-top: 0.6rem;
+        margin-bottom: 2.2rem;
       }
       .grade {
+        margin-top: 0.6rem;
         float: right;
         width: 50%;
         text-align: center;
+        margin-bottom: 2.2rem;
       }
     }
 
     .notice-container {
       font-size: 1.5rem;
-      margin-top: 3.3rem;
+      margin-top: 2.3rem;
       vertical-align: middle;
 
       .learn-notice {
         margin-left: -15px;
         margin-right: -15px;
+        width:100%;
+        .study-notice{
+          margin-top:-2px;
+          color:#333333;
+        }
+
       }
     }
 
     .notice-msg {
       font-size: 1.2rem;
-      color: #666666;
-    }
-
-    .achievement-container {
-      margin-top: 13px;
-      height: 21px;
-      font-size: 1.5rem;
-      color: #3a424a;
-      text-align: center;
-      .essenceCard {
-        float: left;
-        width: 50%;
-      }
-
-      .middle-divider {
-        position: absolute;
-        z-index: 1;
-        width: 1px;
-        background: #dad9e2;
-        height: 21px;
-        left: 50%;
-      }
-
-      .certificate {
-        float: right;
-        width: 49%;
-      }
-
+      color: #999999;
+      padding-bottom: 0.9rem;
     }
 
   }
 
-  .list-container {
-    padding:20px 20px 60px 20px;
-    background:@color_weak_line;
-    font-size: 15px;
+  .business-list{
+    background: @color_weak_line;
+    padding: 15px 20px 15px 20px;
+
     img {
       width: 100%;
     }
+  }
+
+  .list-container {
+    padding: 0px 20px 60px 20px;
+    font-size: 15px;
+
+    img {
+      width: 100%;
+    }
+
+
     .hyq-container {
       position: relative;
       height: 20px;
@@ -133,7 +131,6 @@
       vertical-align: middle;
       color: #333333;
 
-
       .img-container {
         position: absolute;
         width: 20px;
@@ -142,13 +139,13 @@
         position: absolute;
         left: 30px;
       }
-      .amount{
+      .amount {
         float: right;
         margin-right: 20px;
-        font-size:15px;
-        color:#b6b7bd;
+        font-size: 15px;
+        color: #b6b7bd;
       }
-      .arrow{
+      .arrow {
         width: 100%;
         height: 100%;
         background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
@@ -172,14 +169,13 @@
         position: absolute;
         left: 30px;
       }
-      .arrow{
-        float:right;
+      .arrow {
+        float: right;
         width: 100%;
         height: 100%;
         background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
       }
     }
-
 
     .message-container {
       position: relative;
@@ -198,14 +194,13 @@
         position: absolute;
         left: 30px;
       }
-      .arrow{
+      .arrow {
         float: right;
         width: 100%;
         height: 100%;
         background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
       }
     }
-
 
     .help-container {
       position: relative;
@@ -216,7 +211,6 @@
       vertical-align: middle;
       color: #333333;
 
-
       .img-container {
         position: absolute;
         width: 20px;
@@ -225,8 +219,8 @@
         position: absolute;
         left: 30px;
       }
-      .arrow{
-        float:right;
+      .arrow {
+        float: right;
         width: 100%;
         height: 100%;
         background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
@@ -250,14 +244,95 @@
         position: absolute;
         left: 30px;
       }
-      .arrow{
-        float:right;
+      .arrow {
+        float: right;
         width: 100%;
         height: 100%;
         background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
       }
     }
 
+  }
+
+  .divider-container {
+    height: 1rem;
+    background-color: #f5f5f5;
+  }
+
+  .card-certificate-container {
+    position: relative;
+    background: white;
+    padding: 20px;
+    .achievement-container {
+      height: 21px;
+      font-size: 15px;
+      color: #3a424a;
+      text-align: center;
+
+      .essenceCard {
+        height: 21px;
+        float: left;
+        width: 50%;
+        .left-header-box {
+          position: absolute;
+          display: inline-block;
+          top: 50%;
+          left: 2rem;
+          //left:15%;
+          height: 2rem;
+          transform: translateY(-50%);
+
+          > span {
+            display: inline-block;
+            line-height: 2rem;
+            float: left;
+          }
+          .consult-icon {
+            width: 2rem;
+            height: 2rem;
+            display: inline-block;
+            float: left;
+          }
+        }
+
+      }
+
+      .middle-divider {
+        position: absolute;
+        z-index: 1;
+        width: 1px;
+        background: #dad9e2;
+        height: 21px;
+        left: 50%;
+      }
+
+      .certificate {
+        height: 21px;
+        float: right;
+        width: 49%;
+        .right-header-box {
+          position: absolute;
+          display: inline-block;
+          top: 50%;
+          right: 3.7rem;
+          right:15%;
+          height: 2rem;
+          transform: translateY(-50%);
+          > span {
+            display: inline-block;
+            line-height: 2rem;
+            float: left;
+          }
+          .consult-icon {
+            width: 2rem;
+            height: 2rem;
+            display: inline-block;
+            float: left;
+          }
+        }
+      }
+
+    }
   }
 }
 

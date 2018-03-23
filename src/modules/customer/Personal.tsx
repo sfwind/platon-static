@@ -9,6 +9,7 @@ import './Personal.less'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import _ from 'lodash'
+import AssetImg from '../../components/AssetImg'
 
 /**
  * 个人中心页
@@ -140,7 +141,6 @@ export default class Personal extends React.Component<any, any> {
     const { userInfo, learningNotify } = this.state
 
     const renderUserInfo = () => {
-
       return (
         <div className="header-container">
           <MarkBlock className="img-container" module={'打点'} func={'个人中心'} action={'点击修改信息'}
@@ -176,9 +176,9 @@ export default class Personal extends React.Component<any, any> {
             </div>
 
             <div className="notice-container">
-              <FormCell switch className="learn-notice" style={{width:"100%"}}>
+              <FormCell switch className="learn-notice">
                 <CellBody>
-                  <div style={{marginTop:-2,color:'#333333'}}>学习提醒</div></CellBody>
+                  <div className="study-notice">学习提醒</div></CellBody>
                 <CellFooter>
                   <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习提醒'}>
                     <Switch checked={learningNotify} onClick={() => this.handleClickLearningNotify()}/>
@@ -191,20 +191,46 @@ export default class Personal extends React.Component<any, any> {
             </div>
           </div>
           }
+        </div>
+      )
+    }
 
+    const renderCards = () => {
+      return (
+        <div className="card-certificate-container">
           <div className="achievement-container">
             <MarkBlock module={'打点'} func={'个人中心'} action={'点击知识卡'} className="essenceCard"
                        onClick={() => this.goCards(userInfo.cardSum)}>
-              知识卡{userInfo.cardSum}张
+              {/*<img src='http://static.iqycamp.com/images/card_icon.png'/>*/}
+              {/*<span>知识卡{userInfo.cardSum}张</span>*/}
+              <div className="left-header-box">
+                <img className="consult-icon" src="http://static.iqycamp.com/images/card_icon.png"/>
+                <span>&nbsp;知识卡{userInfo.cardSum}张</span>
+              </div>
             </MarkBlock>
             <div className="middle-divider">
 
             </div>
             <MarkBlock module={'打点'} func={'个人中心'} action={'点击荣誉证书'} className="certificate"
                        onClick={() => this.goCertificates(userInfo.certificateSum)}>
-              荣誉证书{userInfo.certificateSum}张
+              {/*<img src= 'http://static.iqycamp.com/images/certificate_icon.png'/>*/}
+              {/*<span>荣誉证书{userInfo.certificateSum}张</span>*/}
+              <div className="right-header-box">
+                <img className="consult-icon" src="http://static.iqycamp.com/images/certificate_icon.png"/>
+                <span>&nbsp;荣誉证书{userInfo.certificateSum}张</span>
+              </div>
             </MarkBlock>
           </div>
+        </div>
+      )
+    }
+
+    const renderBusiness = () => {
+      return (
+        <div className="business-list">
+          {userInfo.memberTypeId === 3 ?
+            <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
+            <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
         </div>
       )
     }
@@ -212,9 +238,6 @@ export default class Personal extends React.Component<any, any> {
     const renderList = () => {
       return (
         <div className="list-container">
-          {userInfo.memberTypeId === 3 ?
-            <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
-            <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
           <MarkBlock module={'打点'} func={'个人中心'} action={'点击抵用券'} onClick={() => this.goCouponList()}
                      className="hyq-container">
             <div className="img-container">
@@ -266,6 +289,9 @@ export default class Personal extends React.Component<any, any> {
     return (
       <div className="person-center-container">
         {renderUserInfo()}
+        <div className="divider-container"></div>
+        {renderCards()}
+        {renderBusiness()}
         {renderList()}
       </div>
     )
