@@ -280,7 +280,7 @@ export default class NewProfile extends React.Component<any, any> {
       const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
       return (
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择居住地点'}
-                   className= {provinceList ? 'select-wrapper-has' : 'select-wrapper-choice'}>
+                   className= {province ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
                         placeholder="请选择"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
@@ -298,7 +298,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderReceiver = () => {
       return (
-        <div className={receiver ? 'select-wrapper-has-no-cut' : 'select-wrapper'} style={{ marginRight: 0 }}>
+        <div className={'select-wrapper-has-no-cut'} style={{ marginRight: 0 }}>
           <input id="realName" placeholder="请填写" type="text" {...this.bind('receiver', this.getInputValue)}/>
         </div>
       )
