@@ -129,10 +129,13 @@ export default class LandingPage extends React.Component {
         <div className="content-box">
           <div className="content-header">
             <div className="content-title">拓眼界</div>
-            <div className="more" onClick={() => this.context.router.push('/rise/static/home/lives')}>
-              更多&nbsp;&nbsp;
-              <FontAwesome name="angle-right"/>
-            </div>
+            {
+              livesFlows.length > 3 &&
+              <div className="more" onClick={() => this.context.router.push('/rise/static/home/lives')}>
+                更多&nbsp;&nbsp;
+                <FontAwesome name="angle-right"/>
+              </div>
+            }
           </div>
           {livesFlows.map((live, index) => <LiveHome data={live} key={index}/>)}
         </div>
@@ -149,10 +152,13 @@ export default class LandingPage extends React.Component {
         <div className="content-box">
           <div className="content-header">
             <div className="content-title">圈柚会</div>
-            <div className="more" onClick={() => this.context.router.push('/rise/static/home/activities')}>
-              更多&nbsp;&nbsp;
-              <FontAwesome name="angle-right"/>
-            </div>
+            {
+              activitiesFlows.length > 3 &&
+              <div className="more" onClick={() => this.context.router.push('/rise/static/home/activities')}>
+                更多&nbsp;&nbsp;
+                <FontAwesome name="angle-right"/>
+              </div>
+            }
           </div>
           {activitiesFlows.map((activity, index) => <ActivityHome data={activity} key={index}/>)}
         </div>

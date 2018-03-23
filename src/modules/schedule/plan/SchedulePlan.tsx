@@ -44,7 +44,7 @@ export default class SchedulePlan extends React.Component {
   }
 
   handleGoPersonalCenter () {
-    this.context.router.push('/rise/static/customer/personal')
+    this.context.router.push('/rise/static/new/profile')
   }
 
   handleClickCourse (planId) {
