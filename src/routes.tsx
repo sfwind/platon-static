@@ -18,6 +18,10 @@ const ActivityListPage = Loadable({
   loader: () => import('./modules/home/activitylist/ActivityListPage'),
   loading: Loading,
 })
+const ProblemDesc = Loadable({
+  loader: () => import('./modules/home/problemdesc/ProblemDesc'),
+  loading: Loading,
+})
 const PlanList = Loadable({
   loader: () => import('./modules/plan/PlanList'),
   loading: Loading,
@@ -129,7 +133,7 @@ const Profile = Loadable({
 
 const NewProfile = Loadable({
   loader: () => import('./modules/customer/NewProfile'),
-  loading: Loading
+  loading: Loading,
 })
 
 const Account = Loadable({
@@ -158,11 +162,11 @@ const RiseMember = Loadable({
 })
 const FeedBack = Loadable({
   loader: () => import('./modules/customer/faq/FeedBack'),
-  loading: Loading
+  loading: Loading,
 })
 const Faq = Loadable({
   loader: () => import('./modules/customer/faq/Faq'),
-  loading: Loading
+  loading: Loading,
 })
 const UserProtocol = Loadable({
   loader: () => import('./modules/customer/UserProtocol'),
@@ -282,12 +286,12 @@ const ProblemCardList = Loadable({
 })
 const StudyList = Loadable({
   loader: () => import('./modules/customer/person/StudyList'),
-  loading: Loading
+  loading: Loading,
 })
 
 const ShowCertificate = Loadable({
-  loader: ()=>import('./modules/customer/person/ShowCertificate'),
-  loading:Loading
+  loader: () => import('./modules/customer/person/ShowCertificate'),
+  loading: Loading,
 })
 
 const RichTextView = Loadable({
@@ -311,6 +315,7 @@ const routes = (
       <Route path="home" component={LangdingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
+      <Route path="home/problem" component={ProblemDesc}/>
 
       <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>
@@ -351,7 +356,7 @@ const routes = (
       <Route path="coupon" component={Coupon}/>
       <Route path="knowledge/card/list" component={ProblemCardList}/>
       <Route path="person/study/list" component={StudyList}/>
-      <Route path="person/certificate" component={ShowCertificate} />
+      <Route path="person/certificate" component={ShowCertificate}/>
       <Route path="message/center" component={MessageCenter}/>
 
       <Route path="new/profile" component={NewProfile}/>

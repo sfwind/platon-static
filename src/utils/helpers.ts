@@ -302,7 +302,7 @@ export function splitContent (content, limit) {
       strArr.push(content.charAt(index))
       index++
     } while (currentLength < limit * 2)
-    return strArr.join('')
+    return strArr.join('') + '...'
   }
 }
 

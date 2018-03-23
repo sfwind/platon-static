@@ -55,14 +55,6 @@ export default class LandingPage extends React.Component {
     }
   }
 
-  subscribeProblem () {
-    this.setState({ showSubscribeAlert: true })
-  }
-
-  closeSubscribe () {
-    this.setState({ showSubscribeAlert: false })
-  }
-
   shuffleArticles () {
     const { dispatch } = this.props
     dispatch(startLoad())
@@ -84,9 +76,6 @@ export default class LandingPage extends React.Component {
   }
 
   render () {
-    const {
-      showSubscribeAlert = false,
-    } = this.state
     const {
       notify = false,
       isBusinessMember = true,
@@ -165,7 +154,6 @@ export default class LandingPage extends React.Component {
           {activitiesFlows.map((activity, index) => <ActivityHome data={activity} key={index}/>)}
         </div>
         <div className="bottom-text">我也是有底线的...</div>
-        {showSubscribeAlert && <SubscribeAlert closeFunc={() => this.closeSubscribe()}/>}
         <ToolBar/>
       </div>
     )

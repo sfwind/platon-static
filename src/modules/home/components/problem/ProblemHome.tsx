@@ -16,6 +16,10 @@ export class ProblemHome extends React.Component<ProblemHomeProps, any> {
     this.state = {}
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
   componentWillMount () {
     this.setState({
       data: this.props.data,
@@ -35,8 +39,8 @@ export class ProblemHome extends React.Component<ProblemHomeProps, any> {
   handleClickOrderProblem () {
     const { data = {}, subscribeFunc = () => {} } = this.state
     const { problemId = 1, abbreviation = '' } = data
-    mark({ module: '打点', function: '课程预约', action: problemId, memo: abbreviation })
-    subscribeFunc()
+    mark({ module: '打点', function: '查看详情', action: problemId, memo: abbreviation })
+    this.context.router.push(`/rise/static/home/problem?id=${problemId}`)
   }
 
   render () {
@@ -54,7 +58,7 @@ export class ProblemHome extends React.Component<ProblemHomeProps, any> {
         <span className="abbreviation">{abbreviation}</span>
         <span className="problem">{name}</span>
         {hot && <div className="hot">21 天爆款课程</div>}
-        <div className="order" onClick={() => this.handleClickOrderProblem()}>立即预约</div>
+        <div className="order" onClick={() => this.handleClickOrderProblem()}>查看详情</div>
         <AssetImg className="thumbnail" url={thumbnail}></AssetImg>
       </div>
     )
