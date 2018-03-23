@@ -2,6 +2,138 @@ var Router = require("express").Router;
 
 var router = new Router();
 
+router.get("/rise/schedule/load/person/plan", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "runningPlans": [ {
+          "problemId": 20,
+          "planId": 116,
+          "name": "用冰山模型，分析出真实的你",
+          "abbreviation": "认识自己",
+          "description": "1月主修",
+          "type": 1,
+          "isLearning": true,
+          "completeSeries": 0,
+          "totalSeries": 8,
+          "remainDaysCount": 28,
+          "completeTime": null,
+          "priority": 4
+        }, {
+          "problemId": 8,
+          "planId": 0,
+          "name": "给你的发展定个策略",
+          "abbreviation": "职业规划",
+          "description": "2月主修",
+          "type": 1,
+          "isLearning": false,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": null,
+          "priority": 2
+        }, {
+          "problemId": 5,
+          "planId": 0,
+          "name": "那些忽悠你多年的神逻辑，认出来没",
+          "abbreviation": "逻辑谬误",
+          "description": "辅修",
+          "type": 2,
+          "isLearning": false,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": null,
+          "priority": 1
+        }, {
+          "problemId": 6,
+          "planId": 0,
+          "name": "打造你的个人品牌\"名片\"",
+          "abbreviation": "设计简历",
+          "description": "辅修",
+          "type": 2,
+          "isLearning": false,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": null,
+          "priority": 1
+        }, {
+          "problemId": 7,
+          "planId": 0,
+          "name": "别把你的命运交给面试官",
+          "abbreviation": "掌控面试",
+          "description": "辅修",
+          "type": 2,
+          "isLearning": false,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": null,
+          "priority": 1
+        }, {
+          "problemId": 9,
+          "planId": 0,
+          "name": "找到本质问题，减少80%无效努力",
+          "abbreviation": "澄清问题",
+          "description": "辅修",
+          "type": 2,
+          "isLearning": false,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": null,
+          "priority": 1
+        }, {
+          "problemId": 16,
+          "planId": 0,
+          "name": "练就你无形的掌控力",
+          "abbreviation": "影响力",
+          "description": "辅修",
+          "type": 2,
+          "isLearning": false,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": null,
+          "priority": 1
+        }, {
+          "problemId": 22,
+          "planId": 0,
+          "name": "掌握这些方法，不再成为话题终结者",
+          "abbreviation": "社交聊天",
+          "description": "辅修",
+          "type": 2,
+          "isLearning": false,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": null,
+          "priority": 1
+        } ],
+        "completePlans": [ {
+          "problemId": 14,
+          "planId": 81,
+          "name": "讲故事：最重要的不是\"你说什么\"，而是\"你怎么说\"",
+          "abbreviation": "讲故事",
+          "description": "3月主修 | 讲故事 | 694分",
+          "type": 0,
+          "isLearning": null,
+          "completeSeries": 0,
+          "totalSeries": 0,
+          "remainDaysCount": 0,
+          "completeTime": "2018-03-22",
+          "priority": 0
+        } ],
+        "loginCount": 5,
+        "joinDays": 1,
+        "totalPoint": 5014,
+        "announce": null,
+        "hasCourseSchedule": true
+      }, "code": 200
+    }), Math.random() * 1500);
+});
+
 router.post("/rise/plan/choose/problem/*", (req, res) => {
   setTimeout(() =>
     res.status(200).json({
@@ -300,17 +432,17 @@ router.get("/rise/plan/load", (req, res) => {
           "challengeCount": 1,
           "description": "以情动人和以理服人是说服别人的两种方式，通过本训练，你将掌握提出明确的诉求、讲好故事、以及有效使用证据的方法。结合运用理性和感性，更好说服他人。"
         },
-        "sections": [{
+        "sections": [ {
           "name": "第一节",
           "chapterName": "第一章",
           "section": 1,
           "chapter": 1,
           "series": 1,
-          "practices": [{
+          "practices": [ {
             "type": 31,
             "status": 0,
             "unlocked": true,
-            "practiceIdList": [49],
+            "practiceIdList": [ 49 ],
             "series": 1,
             "sequence": 1,
             "practicePlanId": 1,
@@ -319,7 +451,7 @@ router.get("/rise/plan/load", (req, res) => {
             "type": 1,
             "status": 0,
             "unlocked": true,
-            "practiceIdList": [52, 56, 52],
+            "practiceIdList": [ 52, 56, 52 ],
             "series": 1,
             "sequence": 2,
             "planId": 3,
@@ -328,7 +460,7 @@ router.get("/rise/plan/load", (req, res) => {
             "type": 11,
             "status": 1,
             "unlocked": true,
-            "practiceIdList": [27],
+            "practiceIdList": [ 27 ],
             "series": 1,
             "sequence": 3,
             "planId": 3,
@@ -339,24 +471,24 @@ router.get("/rise/plan/load", (req, res) => {
             "type": 21,
             "status": 1,
             "unlocked": true,
-            "practiceIdList": [2],
+            "practiceIdList": [ 2 ],
             "practicePlanId": 2,
             "series": 0,
             "sequence": 4,
             "planId": 3,
             "optional": true
-          }]
+          } ]
         },
           {
             "name": "第二节",
             "chapterName": "第一章",
             "section": 2,
             "chapter": 1,
-            "practices": [{
+            "practices": [ {
               "type": 32,
               "status": 0,
               "unlocked": true,
-              "practiceIdList": [1],
+              "practiceIdList": [ 1 ],
               "series": 2,
               "sequence": 1,
               "practicePlanId": 1,
@@ -366,7 +498,7 @@ router.get("/rise/plan/load", (req, res) => {
               "type": 1,
               "status": 0,
               "unlocked": true,
-              "practiceIdList": [52, 56, 52],
+              "practiceIdList": [ 52, 56, 52 ],
               "series": 2,
               "sequence": 2,
               "planId": 3,
@@ -375,7 +507,7 @@ router.get("/rise/plan/load", (req, res) => {
               "type": 11,
               "status": 1,
               "unlocked": true,
-              "practiceIdList": [27],
+              "practiceIdList": [ 27 ],
               "series": 2,
               "sequence": 3,
               "planId": 3,
@@ -385,11 +517,11 @@ router.get("/rise/plan/load", (req, res) => {
               "type": 21,
               "status": 1,
               "unlocked": true,
-              "practiceIdList": [2],
+              "practiceIdList": [ 2 ],
               "series": 2,
               "sequence": 4,
               "optional": true
-            }]
+            } ]
           }
         ],
         "openRise": true,
@@ -607,18 +739,18 @@ router.get("/rise/plan/chapter/list", (req, res) => {
   setTimeout(() => {
     res.status(200).json(
       {
-        "msg": [{
+        "msg": [ {
           "chapterId": 1,
           "chapter": "结构清晰",
-          "sectionList": [{ "sectionId": 1, "section": "将信息归类分组", "series": 1 }, {
+          "sectionList": [ { "sectionId": 1, "section": "将信息归类分组", "series": 1 }, {
             "sectionId": 2,
             "section": "确保归类不重不漏",
             "series": 2
-          }]
+          } ]
         }, {
           "chapterId": 2,
           "chapter": "有序递进",
-          "sectionList": [{ "sectionId": 1, "section": "用时间顺序组织表达", "series": 3 }, {
+          "sectionList": [ { "sectionId": 1, "section": "用时间顺序组织表达", "series": 3 }, {
             "sectionId": 2,
             "section": "用空间顺序组织表达",
             "series": 4
@@ -626,20 +758,20 @@ router.get("/rise/plan/chapter/list", (req, res) => {
             "sectionId": 4,
             "section": "用三种顺序组织表达",
             "series": 6
-          }]
+          } ]
         }, {
           "chapterId": 3,
           "chapter": "主题鲜明",
-          "sectionList": [{ "sectionId": 1, "section": "表达时主题先行", "series": 7 }]
+          "sectionList": [ { "sectionId": 1, "section": "表达时主题先行", "series": 7 } ]
         }, {
           "chapterId": 4,
           "chapter": "复习",
-          "sectionList": [{ "sectionId": 1, "section": "内容回顾 & 综合练习1", "series": 8 }, {
+          "sectionList": [ { "sectionId": 1, "section": "内容回顾 & 综合练习1", "series": 8 }, {
             "sectionId": 2,
             "section": "内容回顾 & 综合练习2",
             "series": 9
-          }]
-        }], "code": 200
+          } ]
+        } ], "code": 200
       }
     );
   }, Math.random() * 1500);
@@ -658,7 +790,7 @@ router.get("/rise/plan/list", (req, res) => {
     res.status(200).json(
       {
         "msg": {
-          "runningPlans": [{
+          "runningPlans": [ {
             "name": "写出令HR过目难忘的简历",
             "point": 0,
             "problemId": 6,
@@ -750,8 +882,8 @@ router.get("/rise/plan/list", (req, res) => {
               "chosenPersonCount": 0,
               "monthlyCampMonth": null
             }
-          }],
-          "completedPlans": [{
+          } ],
+          "completedPlans": [ {
             "name": "如何高效学习",
             "point": 0,
             "problemId": 23,
@@ -889,8 +1021,8 @@ router.get("/rise/plan/list", (req, res) => {
               "chosenPersonCount": 0,
               "monthlyCampMonth": null
             }
-          }],
-          "recommendations": [{
+          } ],
+          "recommendations": [ {
             "id": 16,
             "problem": "影响力：让他人不再对我们说不",
             "pic": "https://static.iqycamp.com/images/fragment/problem16_1.png",
@@ -1088,7 +1220,7 @@ router.get("/rise/plan/list", (req, res) => {
             "catalog": null,
             "chosenPersonCount": 0,
             "monthlyCampMonth": null
-          }],
+          } ],
           "riseMember": null,
           "openNavigator": true,
           "openWelcome": true
