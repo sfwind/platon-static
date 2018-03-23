@@ -101,14 +101,17 @@ export default class LandingPage extends React.Component {
           </div>
         </div>
         <div className="home-swiper">
-          <Banner height='16rem'>
-            {pageBanners.map((banner, index) =>
-              <img key={index}
-                   src={banner.imageUrl}
-                   onClick={() => this.handleClickImageBanner(banner)}
-                   className="banner-item swiper-slide swiper-image"/>,
-            )}
-          </Banner>
+          {
+            pageBanners.length > 0 &&
+            <Banner height='16rem'>
+              {pageBanners.map((banner, index) =>
+                <img key={index}
+                     src={banner.imageUrl}
+                     onClick={() => this.handleClickImageBanner(banner)}
+                     className="banner-item swiper-slide swiper-image"/>,
+              )}
+            </Banner>
+          }
         </div>
         <ColumnSpan height="10" style={{ margin: '0 -2rem' }}/>
         {
