@@ -69,16 +69,12 @@ export class ToolBar extends React.Component<any, any> {
     const { dispatch } = this.props
     let tabIndex = 0
 
-    console.log(window.location.pathname)
-
     if (window.location.pathname.indexOf('/rise/static/home') != -1) {
-      console.log('enter 0')
       tabIndex = 0
-    } else if (window.location.pathname.indexOf('/rise/static/rise') != -1 || window.location.pathname.indexOf('/rise/static/camp') != -1 || window.location.pathname.indexOf('/rise/static/learn') != -1) {
-      console.log('enter 1')
+    } else if (window.location.pathname.indexOf('/rise/static/rise') != -1 || window.location.pathname.indexOf('/rise/static/camp') != -1
+      || window.location.pathname.indexOf('/rise/static/learn') != -1 || window.location.pathname.indexOf('/rise/static/course/schedule/plan') != -1) {
       tabIndex = 1
     } else if (window.location.pathname.indexOf('/rise/static/customer') != -1 || window.location.pathname.indexOf('/rise/static/message') != -1) {
-      console.log('enter 2')
       //消息中心和个人中心
       tabIndex = 2
     }
@@ -128,7 +124,7 @@ export class ToolBar extends React.Component<any, any> {
     }
 
     return (
-      this.props.hidden ? <div></div> : <div className="toolbar">
+      this.props.hidden ? null : <div className="toolbar">
         <TabBar ref="toolBar" id={'tool_bar'}>
           {this.state.tabs.map((item, idx) => {
             const { bar } = item
