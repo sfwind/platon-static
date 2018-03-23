@@ -124,7 +124,7 @@ export class ToolBar extends React.Component<any, any> {
                 <TabBarIcon>
                   <img className={`${item.key === 2 ? 'mine_icon' : ''}`}
                        src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
-                  {noticeMsgCount ? <span>{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
+                  {noticeMsgCount ? <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
                 </TabBarIcon>
                 <TabBarLabel>{bar.label}</TabBarLabel>
               </TabBarItem>
