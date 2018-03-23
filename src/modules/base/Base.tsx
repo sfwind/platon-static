@@ -16,8 +16,9 @@ import Activity from '../../components/Activity'
 import UA from 'ua-device'
 import './Base.less'
 import $ from 'jquery'
-require("../../components/progress/circle-progress.js")
 
+require("../../components/progress/circle-progress.js")
+import sa from 'sa-sdk-javascript';
 
 $.fn.extend({
   animateCss: function(animationName, callback) {
@@ -61,6 +62,17 @@ export default class Main extends React.Component<any, any> {
   }
 
   async componentWillMount() {
+    sa.init({
+      sdk_url: 'https://static.sensorsdata.cn/sdk/1.9.13/sensorsdata.min.js',
+      heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
+      name: 'sa',
+      web_url: 'https://quanwai.cloud.sensorsdata.cn/',
+      server_url: 'https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4',
+      heatmap: {},
+      is_single_page: true,
+    });
+    sa.quick('autoTrack')
+
     let userInfoResult = await pget('/rise/customer/info')
     if(userInfoResult.code === 200) {
       window.ENV.userName = userInfoResult.msg.nickname
@@ -106,7 +118,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   closeAnswer() {
