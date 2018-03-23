@@ -31,17 +31,6 @@ const industryList = [
   { id: '18', value: '其他' }
 ]
 
-const workingLifeList = [
-  { id: '2', value: '0' },
-  { id: '3', value: '0~1年' },
-  { id: '4', value: '1~3年' },
-  { id: '5', value: '3~5年' },
-  { id: '6', value: '5~7年' },
-  { id: '7', value: '7~10年' },
-  { id: '8', value: '10~15年' },
-  { id: '9', value: '15年以上' }
-]
-
 const marryList = [
   { id: '0', value: '已婚' },
   { id: '1', value: '未婚有对象' },
@@ -87,20 +76,6 @@ export default class NewProfile extends React.Component<any, any> {
       if(res.code === 200) {
         let defaultIsFull = goRise ? false : res.msg.isFull
         this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
-          if(this.checkIsFull() && goRise) {
-            if(goCamp) {
-              // 加载的时候就填写过，然后是goRise，则去绑定电话页面
-              this.context.router.push({
-                pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true, goCamp: true }
-              })
-            } else {
-              this.context.router.push({
-                pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true }
-              })
-            }
-          }
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -210,10 +185,11 @@ export default class NewProfile extends React.Component<any, any> {
 
   submitProfile() {
     const { dispatch} = this.props
-    const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
+    const {nickName, city, province, industry, workingYear,realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
     if(this.checkFull()) {
       let param = {
+        nickName:nickName,
         city: city,
         province: province,
         industry: industry,
@@ -223,7 +199,7 @@ export default class NewProfile extends React.Component<any, any> {
 
       _.merge(param, { realName: realName, address: address, receiver: receiver, married })
       dispatch(startLoad())
-      ppost('/rise/customer/profile', param).then(res => {
+      ppost('/rise/customer/new/profile', param).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
             dispatch(alertMsg('提交成功'))
@@ -246,11 +222,6 @@ export default class NewProfile extends React.Component<any, any> {
     return isFull
   }
 
-  modifyNickName() {
-    this.context.router.push({
-      pathname: `/rise/static/customer/modify/nickname`
-    })
-  }
 
   goMobileCheck() {
     this.context.router.push({
@@ -266,7 +237,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const {memberId,nickName,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
+    const {memberId,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -411,8 +382,8 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderNickName = () => {
       return (
-        <div className='select-wrapper-has'>
-          {nickName}
+        <div className={'select-wrapper-has'} style={{ marginRight: 0 }}>
+          <input id="nickName" placeholder="请填写" type="text" {...this.bind('nickName', this.getInputValue)}/>
         </div>
       )
     }
@@ -461,9 +432,9 @@ export default class NewProfile extends React.Component<any, any> {
             <div className="item-label">
               昵称
             </div>
-            <MarkBlock className="item-content" module={'个人中心'} function={'个人信息页'} action={'点击修改昵称'} onClick={()=>this.modifyNickName()}>
+            <div className="item-content" >
               {renderNickName()}
-            </MarkBlock>
+            </div>
           </div>
 
           <MarkBlock module={'个人中心'} func={'个人信息页'} action={'点击修改头像'} onClick={() => this.modifyPhoto(window.ENV.headImgUrl)}
