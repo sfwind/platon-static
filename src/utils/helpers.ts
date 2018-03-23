@@ -284,7 +284,7 @@ export function formatDate (date, fmt) {
 }
 
 // 切割字符，区分中英文
-function splitContent (content, limit) {
+export function splitContent (content, limit) {
   let realLength = getRealLength(content)
   if (limit * 2 >= realLength) {
     return content
@@ -302,6 +302,7 @@ function splitContent (content, limit) {
       strArr.push(content.charAt(index))
       index++
     } while (currentLength < limit * 2)
+    return strArr.join('')
   }
 }
 
