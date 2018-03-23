@@ -124,7 +124,7 @@ export default class LandingPage extends React.Component {
         <ColumnSpan height="10" style={{ margin: '0 -2rem' }}/>
         {
           !isBusinessMember &&
-          <div className="business-apply" onClick={() => this.context.router.push('/pay/rise')}></div>
+          <div className="business-apply" onClick={() => window.location.href = `/pay/rise`}></div>
         }
         <div className="content-box" style={{ marginTop: '2rem' }}>
           <div className="content-header">
