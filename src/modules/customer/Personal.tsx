@@ -176,9 +176,9 @@ export default class Personal extends React.Component<any, any> {
             </div>
 
             <div className="notice-container">
-              <FormCell switch className="learn-notice" style={{width:"100%"}}>
+              <FormCell switch className="learn-notice">
                 <CellBody>
-                  <div style={{marginTop:-2,color:'#333333'}}>学习提醒</div></CellBody>
+                  <div className="study-notice">学习提醒</div></CellBody>
                 <CellFooter>
                   <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习提醒'}>
                     <Switch checked={learningNotify} onClick={() => this.handleClickLearningNotify()}/>
