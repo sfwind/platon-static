@@ -5,6 +5,7 @@ import { changeTitle } from '../../../utils/helpers'
 import { loadAllActivities } from '../async'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
+import { mark } from '../../../utils/request'
 
 @connect(state => state)
 export default class ActivityListPage extends React.Component {
@@ -17,9 +18,12 @@ export default class ActivityListPage extends React.Component {
   }
 
   async componentWillMount () {
-    const { dispatch } = this.props
+    mark({ module: '打点', function: '着陆二级页', action: '打开活动列表页' })
     changeTitle('圈柚会')
+    const { dispatch } = this.props
+    dispatch(startLoad())
     let res = await loadAllActivities()
+    dispatch(endLoad())
     if (res.code === 200) {
       this.setState({
         data: res.msg,

@@ -12,14 +12,18 @@ import { loadLandingPageData, loadShuffleArticles } from './async'
 import { SubscribeAlert } from './components/subscribe/SubscribeAlert'
 import AssetImg from '../../components/AssetImg'
 import { ToolBar } from '../base/ToolBar'
+import { ToolBarNoConnect } from '../base/ToolBarNoConnect'
+import { mark } from '../../utils/request'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 
+@connect(state => state)
 export default class LandingPage extends React.Component {
 
   constructor () {
     super()
     this.state = {
       data: {},
-      demo: 'init demo',
     }
   }
 
@@ -29,16 +33,22 @@ export default class LandingPage extends React.Component {
 
   async componentWillMount () {
     changeTitle('圈外同学')
+    mark({ module: '打点', function: '着陆页', action: '打开着陆页' })
+    const { dispatch } = this.props
+    dispatch(startLoad())
     let res = await loadLandingPageData()
+    dispatch(endLoad())
     if (res.code === 200) {
       this.setState({
         data: res.msg,
       })
+    } else {
+      dispatch(alertMsg(res.msg))
     }
   }
 
   handleClickImageBanner (banner) {
-    if (banner.linkUrl.indexOf('http') > 0) {
+    if (banner.linkUrl.indexOf('http') >= 0) {
       window.location.href = banner.linkUrl
     } else {
       this.context.router.push(banner.linkUrl)
@@ -54,14 +64,22 @@ export default class LandingPage extends React.Component {
   }
 
   shuffleArticles () {
+    const { dispatch } = this.props
+    dispatch(startLoad())
     loadShuffleArticles().then(res => {
+      dispatch(endLoad())
       if (res.code === 200) {
         let data = this.state.data
         data.articlesFlows = res.msg
         this.setState({
           data: data,
         })
+      } else {
+        dispatch(alertMsg(res.msg))
       }
+    }).catch(er => {
+      dispatch(endLoad())
+      dispatch(alertMsg(er))
     })
   }
 
@@ -108,7 +126,7 @@ export default class LandingPage extends React.Component {
           !isBusinessMember &&
           <div className="business-apply" onClick={() => this.context.router.push('/pay/rise')}></div>
         }
-        <div className="content-box">
+        <div className="content-box" style={{ marginTop: '2rem' }}>
           <div className="content-header">
             <div className="content-title">圈外课</div>
           </div>
