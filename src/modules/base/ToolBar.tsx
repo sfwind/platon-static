@@ -69,7 +69,7 @@ export class ToolBar extends React.Component<any, any> {
     let tabs = []
     tabs.push(tabItems.home)
     tabs.push(tabItems.learn)
-    if (window.ENV.showExplore !== 'false') {
+    if (window.ENV.showExplore == 'true') {
       tabs.push(tabItems.explore)
     }
     tabs.push(tabItems.mine)
@@ -89,7 +89,7 @@ export class ToolBar extends React.Component<any, any> {
       || pathname.indexOf('/rise/static/learn') != -1 || pathname.indexOf('/rise/static/course/schedule/plan') != -1
       || pathname.indexOf('/rise/static/business/count/down') != -1 || pathname.indexOf('/rise/static/camp/count/down') != -1) {
       tabIndex = 1
-    } else if (pathname.indexOf('/rise/static/problem/explore') != -1 ) {
+    } else if (pathname.indexOf('/rise/static/problem/explore') != -1) {
       tabIndex = 2
     }
     else if (window.location.pathname.indexOf('/rise/static/customer') != -1 || window.location.pathname.indexOf('/rise/static/message') != -1) {
