@@ -200,7 +200,8 @@ export default class NewProfile extends React.Component<any, any> {
         dispatch(endLoad())
         if(res.code === 200) {
             dispatch(alertMsg('提交成功'))
-            this.setState({ isFull: true })
+            window.ENV.userName = nickName
+            this.setState({ isFull: true})
         } else {
           dispatch(alertMsg(res.msg))
         }
