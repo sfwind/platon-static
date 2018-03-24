@@ -12,6 +12,7 @@ import {
 import './ToolBar.less'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 import { loadOldCount } from '../message/async'
+import { loadGoCountDownPageStatus } from '../schedule/plan/async'
 
 var FastClick = require('fastclick')
 
@@ -32,8 +33,16 @@ const tabItems = {
       label: '课堂',
     },
   },
-  mine: {
+  explore: {
     key: 2,
+    bar: {
+      icon: 'https://static.iqycamp.com/images/tabbar_explore_v2.png?imageslim',
+      activeIcon: 'https://static.iqycamp.com/images/tabbar_explore_active_v2.png?imageslim',
+      label: '发现',
+    },
+  },
+  mine: {
+    key: 3,
     bar: {
       icon: 'https://static.iqycamp.com/images/tabbar_mine_v2.png?imageslim',
       activeIcon: 'https://static.iqycamp.com/images/tabbar_mine_active_v2.png?imageslim',
@@ -56,10 +65,13 @@ export class ToolBar extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount () {
+  async componentWillMount () {
     let tabs = []
     tabs.push(tabItems.home)
     tabs.push(tabItems.learn)
+    if (window.ENV.showExplore !== 'false') {
+      tabs.push(tabItems.explore)
+    }
     tabs.push(tabItems.mine)
 
     this.state = {
@@ -77,9 +89,12 @@ export class ToolBar extends React.Component<any, any> {
       || pathname.indexOf('/rise/static/learn') != -1 || pathname.indexOf('/rise/static/course/schedule/plan') != -1
       || pathname.indexOf('/rise/static/business/count/down') != -1 || pathname.indexOf('/rise/static/camp/count/down') != -1) {
       tabIndex = 1
-    } else if (window.location.pathname.indexOf('/rise/static/customer') != -1 || window.location.pathname.indexOf('/rise/static/message') != -1) {
-      //消息中心和个人中心
+    } else if (pathname.indexOf('/rise/static/problem/explore') != -1 ) {
       tabIndex = 2
+    }
+    else if (window.location.pathname.indexOf('/rise/static/customer') != -1 || window.location.pathname.indexOf('/rise/static/message') != -1) {
+      //消息中心和个人中心
+      tabIndex = 3
     }
     dispatch(set('tabIndex', tabIndex))
     const { noticeMsgCount } = this.props
@@ -102,6 +117,8 @@ export class ToolBar extends React.Component<any, any> {
     } else if (tabIndex === 1) {
       this.context.router.push('/rise/static/learn')
     } else if (tabIndex === 2) {
+      this.context.router.push('/rise/static/problem/explore')
+    } else if (tabIndex === 3) {
       this.context.router.push('/rise/static/customer/personal')
     }
   }
@@ -121,11 +138,11 @@ export class ToolBar extends React.Component<any, any> {
       <TabBar id='tool_bar'>
         {this.state.tabs.map((item, idx) => {
           const { bar } = item
-          if (item.key === 2) {
+          if (item.key === 3) {
             return (
               <TabBarItem key={idx} active={tabIndex == item.key} onClick={() => this.handleChangeTab(item.key)}>
                 <TabBarIcon>
-                  <img className={`${item.key === 2 ? 'mine_icon' : ''}`}
+                  <img className={`${item.key === 3 ? 'mine_icon' : ''}`}
                        src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
                   {noticeMsgCount ?
                    <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
