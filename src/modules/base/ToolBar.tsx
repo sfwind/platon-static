@@ -69,10 +69,13 @@ export class ToolBar extends React.Component<any, any> {
     const { dispatch } = this.props
     let tabIndex = 0
 
-    if (window.location.pathname.indexOf('/rise/static/home') != -1) {
+    let pathname = window.location.pathname
+
+    if (pathname.indexOf('/rise/static/home') != -1) {
       tabIndex = 0
-    } else if (window.location.pathname.indexOf('/rise/static/rise') != -1 || window.location.pathname.indexOf('/rise/static/camp') != -1
-      || window.location.pathname.indexOf('/rise/static/learn') != -1 || window.location.pathname.indexOf('/rise/static/course/schedule/plan') != -1) {
+    } else if (pathname.indexOf('/rise/static/rise') != -1 || pathname.indexOf('/rise/static/camp') != -1
+      || pathname.indexOf('/rise/static/learn') != -1 || pathname.indexOf('/rise/static/course/schedule/plan') != -1
+      || pathname.indexOf('/rise/static/business/count/down') != -1 || pathname.indexOf('/rise/static/camp/count/down') != -1) {
       tabIndex = 1
     } else if (window.location.pathname.indexOf('/rise/static/customer') != -1 || window.location.pathname.indexOf('/rise/static/message') != -1) {
       //消息中心和个人中心
