@@ -42,13 +42,3 @@ export function loadCardData(planId) {
 export function loadEssenceCard(problemId, chapterId) {
   return pget(`/rise/problem/card/${problemId}/${chapterId}`)
 }
-
-// 收藏当前课程
-export function collectProblem(problemId) {
-  return pget(`/rise/problem/collect/${problemId}`)
-}
-
-// 取消收藏当前课程
-export function disCollectProblem(problemId) {
-  return pget(`/rise/problem/discollect/${problemId}`)
-}

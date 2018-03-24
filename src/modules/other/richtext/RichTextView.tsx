@@ -22,7 +22,7 @@ export default class RichTextView extends React.Component {
   }
 
   render () {
-    const { title = '默认标题', content = '' } = this.state.data
+    const { title = '', content = '' } = this.state.data
 
     return (
       <div className="richtext-view-container">

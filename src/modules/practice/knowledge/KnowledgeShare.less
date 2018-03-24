@@ -1,0 +1,80 @@
+@import "../../../style/variable";
+
+.knowledge-share-container {
+  box-sizing: border-box;
+  padding: 0 2.5rem 8rem;
+  overflow-x: hidden;
+
+  pre {
+    line-height: 200%;
+    font-size: @font_context;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: hidden;
+    color: #666;
+  }
+
+  .intro-container {
+    .context-title-img {
+      text-align: center;
+      margin: 3rem -3rem;
+    }
+
+    .question {
+      font-size: @font_context;
+      width: 100%;
+      margin-bottom: 2.0rem;
+      white-space: normal;
+      word-break: break-all;
+    }
+
+    .title-bar {
+      color: @color_title;
+      background-color: @color_weak_background;
+      padding-left: 3rem;
+      margin: 0 -3rem;
+      height: 2rem;
+      line-height: 2rem;
+      font-size: @font_index;
+    }
+
+    .analysis {
+      font-size: @font_context;
+      .context {
+        padding: 2rem 0 ;
+      }
+      .analysis-tip {
+        color: @color_strong;
+        font-size: @font_click;
+      }
+    }
+
+    .choice-list {
+      margin-bottom: 1.0rem;
+      > .choice {
+        width: 100%;
+        display: table;
+        color: #666;
+        line-height: 200%;
+        font-size: @font_context;
+        > .index {
+          display: table-cell;
+          width: 2.5rem;
+        }
+        > .subject {
+          display: table-cell;
+          width: ~"calc(100% - 3.0rem)";
+          vertical-align: middle;
+          padding-left: .5rem;
+        }
+      }
+    }
+  }
+  .follow-container{
+    margin: 0 -2.5rem;
+    img {
+      width: 100%;
+    }
+  }
+
+}
