@@ -105,10 +105,10 @@ export default class LandingPage extends React.Component {
             pageBanners.length > 0 &&
             <Banner height='16rem'>
               {pageBanners.map((banner, index) =>
-                <img key={index}
-                     src={banner.imageUrl}
-                     onClick={() => this.handleClickImageBanner(banner)}
-                     className="banner-item swiper-slide swiper-image"/>,
+                <img key={index} src={banner.imageUrl} onClick={() => {
+                  mark({ module: '打点', function: '着陆页', action: "点击Banner" })
+                  this.handleClickImageBanner(banner)
+                }} className="banner-item swiper-slide swiper-image"/>,
               )}
             </Banner>
           }

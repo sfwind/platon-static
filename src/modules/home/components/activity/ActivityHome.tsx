@@ -3,6 +3,7 @@ import './ActivityHome.less'
 import AssetImg from '../../../../components/AssetImg'
 import { calcScheduleData } from '../../../schedule/overview/util'
 import { splitContent } from '../../../../utils/helpers'
+import { mark } from '../../../../utils/request'
 
 interface ActivityHomeProps {
   data: any
@@ -60,7 +61,10 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
     }
 
     return (
-      <div className="activity-home-component" onClick={() => window.location.href = linkUrl}>
+      <div className="activity-home-component" onClick={() => {
+        mark({ module: '打点', function: '着陆页', action: '点击活动' })
+        window.location.href = linkUrl
+      }}>
         <div className="name">{name}</div>
         <div className="holder">举办人：{holder}</div>
         <div className="holding-time">举办时间：{startTimeStr}</div>

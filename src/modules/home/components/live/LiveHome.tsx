@@ -2,6 +2,7 @@ import * as React from 'react'
 import './LiveHome.less'
 import AssetImg from '../../../../components/AssetImg'
 import { splitContent } from '../../../../utils/helpers'
+import { mark } from '../../../../utils/request'
 
 interface LiveHomeProps {
   data: any
@@ -29,7 +30,10 @@ export class LiveHome extends React.Component<LiveHomeProps, any> {
     } = this.props.data
 
     return (
-      <div className="live-home-component" onClick={() => window.location.href = linkUrl}>
+      <div className="live-home-component" onClick={() => {
+        mark({ module: '打点', function: '着陆页', action: '点击直播' })
+        window.location.href = linkUrl
+      }}>
         <span className="title">{splitContent(name, 10)}</span>
         <span className="speaker">主讲人：{speaker}</span>
         <span className="speaker-desc">{splitContent(speakerDesc, 15)}</span>
