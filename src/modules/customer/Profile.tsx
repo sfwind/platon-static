@@ -403,7 +403,7 @@ export default class Profile extends React.Component<any, any> {
                 { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false }]}/>
             <div className="guide">
               { goCamp ?
-              <div className="first-guide">填写工作和地址信息<br/>才能加入校友会！</div>
+                <div className="first-guide">填写工作和地址信息<br/>才能加入校友会！</div>
                 : <div className="first-guide">填写工作和地址信息<br/>才能加入校友会，收到入学礼包！</div> }
               <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
             </div>

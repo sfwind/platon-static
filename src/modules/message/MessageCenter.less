@@ -1,6 +1,6 @@
 @import "../../style/variable";
 
-.scroll{
+.scroll {
   height: 40px;
   width: 92%;
   position: absolute;
@@ -8,19 +8,20 @@
   background-color: red;
 }
 
-.read{
+.read {
   color: @color_weak !important;
 }
-.unread{
+
+.unread {
   color: @color_title !important;
 }
 
-.no_message{
+.no_message {
   color: @color_weak_background;
   font-size: @font_context;
   text-align: center;
   padding-top: 15px;
-  > .no_comment{
+  > .no_comment {
     margin-top: 125px;
   }
 }
@@ -29,24 +30,23 @@
 
   position: relative;
   width: 100%;
-  //height:~'calc(100% - 50px)' !important;
-  height:100%;
+  height: 100vh;
   overflow-y: scroll;
-  > .container{
-    padding:0 !important;
+  > .container {
+    padding: 0 !important;
   }
   .message-cell {
     position: relative;
     padding: 15px;
-    border-bottom:1px solid @color_weak_background;
+    border-bottom: 1px solid @color_weak_background;
     > .message-avatar {
       display: inline-block;
       vertical-align: top;
-      height:40px;
-      width:40px;
-      > .message-avatar-img{
-        height:40px;
-        width:40px;
+      height: 40px;
+      width: 40px;
+      > .message-avatar-img {
+        height: 40px;
+        width: 40px;
         border-radius: 20px;
       }
     }
@@ -54,15 +54,15 @@
       display: inline-block;
       margin-left: 15px;
       width: ~"calc(100% - 40px - 15px)";
-      > .message-head{
-        line-height:13px;
-        height:27px;
+      > .message-head {
+        line-height: 13px;
+        height: 27px;
         > .message-name {
           display: inline-block;
           color: @color_title;
           font-size: 1.3em;
         }
-        > .message-time{
+        > .message-time {
           display: inline-block;
           font-size: @font_help;
           color: @color_help;
@@ -79,7 +79,7 @@
             margin-right: 5px;
             margin-top: 2px;
           }
-          > .function-button{
+          > .function-button {
             display: inline-block;
             float: right;
             color: @color_strong;
@@ -87,8 +87,8 @@
           }
         }
       }
-      > .message-content{
-        line-height:1.3em;
+      > .message-content {
+        line-height: 1.3em;
         font-size: 1.3em;
         width: 100%;
         white-space: pre-wrap;

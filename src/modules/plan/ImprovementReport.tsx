@@ -117,11 +117,7 @@ export default class ImprovementReport extends React.Component<any, any> {
   }
 
   handleClickClose(){
-    if(window.ENV.showExplore !== 'false') {
-      this.context.router.push('/rise/static/rise');
-    } else {
-      this.context.router.push('/rise/static/course/schedule/plan');
-    }
+    this.context.router.push('/rise/static/learn')
   }
 
   renderBtns() {

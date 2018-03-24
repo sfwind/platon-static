@@ -404,12 +404,12 @@ export default class StudyLine extends React.Component<any, any> {
           , text: '结束课程', className: styleType
         },{
           click: () =>
-            window.location.href = '/rise/static/learn'
+            this.context.router.push('/rise/static/learn')
           , text: '返回课程列表', className: styleType
         }]}/> :
           <FooterButton btnArray={[{
           click: () =>
-            window.location.href = '/rise/static/learn'
+            this.context.router.push('/rise/static/learn')
           , text: '返回课程列表', className: styleType
         }]}/>}
 

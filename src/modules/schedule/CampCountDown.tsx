@@ -4,36 +4,37 @@ import AssetImg from '../../components/AssetImg'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { loadCampCountDown } from './async'
+import { ToolBar } from '../base/ToolBar'
 
 @connect(state => state)
 export default class CampCountDown extends React.Component {
 
-  constructor() {
+  constructor () {
     super()
     this.state = {}
   }
 
-  async componentWillMount() {
+  async componentWillMount () {
     const { dispatch } = this.props
     dispatch(startLoad())
     try {
       let res = await loadCampCountDown()
       dispatch(endLoad())
       const msg = res.msg
-      if(res.code === 200) {
+      if (res.code === 200) {
         this.setState({
           tens: msg.substr(0, 1),
-          ones: msg.substr(1)
+          ones: msg.substr(1),
         })
       } else {
         dispatch(alertMsg(msg))
       }
-    } catch(err) {
+    } catch (err) {
       dispatch(alertMsg(err))
     }
   }
 
-  render() {
+  render () {
     const { ones = 9, tens = 9 } = this.state
     return (
       <div className="count-down">
@@ -62,6 +63,7 @@ export default class CampCountDown extends React.Component {
             </div>
           </div>
         </div>
+        <ToolBar/>
       </div>
     )
   }

@@ -20,15 +20,6 @@ module.exports = merge(common, {
     port: 4000,
     openPage: 'rise/static/rise',
     proxy: {
-      '/forum/*': {
-        target: 'http://localhost:8080',
-        secure: false,
-        bypass: function(req) {
-          if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
-            return 'index.html'
-          }
-        }
-      },
       '/rise/*': {
         target: 'http://localhost:8080',
         secure: false,

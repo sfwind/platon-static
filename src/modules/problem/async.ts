@@ -12,7 +12,7 @@ export function loadMyProblem(id) {
   return pget(`/rise/problem/get/my/${id}`)
 }
 
-export function openProblemIntroduction(id, free, practicePlanId) {
+export function openProblemIntroduction(id, free, practicePlanId?) {
   let param = free ? { autoOpen: 'true' } : { autoOpen: 'false' }
   if(practicePlanId){
     param.practicePlanId = practicePlanId
