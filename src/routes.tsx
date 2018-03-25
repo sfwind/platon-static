@@ -5,6 +5,8 @@ import { Route } from 'react-router'
 import Base from './modules/base/Base'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
+import sa from 'sa-sdk-javascript';
+
 
 const PlanList = Loadable({
   loader: () => import('./modules/plan/PlanList'),
@@ -282,6 +284,7 @@ const routes = (
       } else {
         window.scrollTo(0, 0)
       }
+      sa.quick('autoTrackSinglePage');
     }}>
       <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>
