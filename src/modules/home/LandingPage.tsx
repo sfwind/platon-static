@@ -5,7 +5,7 @@ import { LiveHome } from './components/live/LiveHome'
 import { ArticleHome } from './components/article/ArticleHome'
 import { ActivityHome } from './components/activity/ActivityHome'
 import { ColumnSpan } from '../../components/ColumnSpan'
-import { changeTitle, lockWindow, unlockWindow } from '../../utils/helpers'
+import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/helpers'
 import * as FontAwesome from 'react-fontawesome'
 import Banner from '../../components/Banner'
 import { loadLandingPageData, loadShuffleArticles } from './async'
@@ -16,7 +16,9 @@ import { ToolBarNoConnect } from '../base/ToolBarNoConnect'
 import { mark } from '../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
+import { Dialog } from 'react-weui'
 
+const { Alert } = Dialog
 @connect(state => state)
 export default class LandingPage extends React.Component {
 
@@ -24,8 +26,27 @@ export default class LandingPage extends React.Component {
     super()
     this.state = {
       data: {},
+      dialogButtons: [
+        {
+          label: '知道了',
+          onClick: (e) => {
+            this.setState({ showAlert: false })
+          },
+        },
+        {
+          label: '立即入学',
+          onClick: (e) => {
+            this.setState({ showAlert: false })
+            window.location.href = '/pay/apply'
+          },
+        },
+      ],
+      showAlert: false,
+      remainTime: '',
     }
   }
+
+  countDownTimer
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
@@ -37,14 +58,27 @@ export default class LandingPage extends React.Component {
     const { dispatch } = this.props
     dispatch(startLoad())
     let res = await loadLandingPageData()
+    console.log(res)
     dispatch(endLoad())
     if (res.code === 200) {
       this.setState({
         data: res.msg,
+        showAlert: res.msg.isShowPassNotify,
+        remainTime: 57600000 + res.msg.remainTime,
+      }, () => {
+        if (res.msg.isShowPassNotify) {
+          this.countDownTimer = setInterval(() => {
+            this.setState({ remainTime: this.state.remainTime - 1000 > 0 ? this.state.remainTime - 1000 : 0 })
+          }, 1000)
+        }
       })
     } else {
       dispatch(alertMsg(res.msg))
     }
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.countDownTimer)
   }
 
   handleClickImageBanner (banner) {
@@ -106,7 +140,7 @@ export default class LandingPage extends React.Component {
             <Banner height='16rem'>
               {pageBanners.map((banner, index) =>
                 <img key={index} src={banner.imageUrl} onClick={() => {
-                  mark({ module: '打点', function: '着陆页', action: "点击Banner" })
+                  mark({ module: '打点', function: '着陆页', action: '点击Banner' })
                   this.handleClickImageBanner(banner)
                 }} className="banner-item swiper-slide swiper-image"/>,
               )}
@@ -141,7 +175,7 @@ export default class LandingPage extends React.Component {
                 </div>
               }
             </div>
-            {livesFlows.map((live, index) => <LiveHome data={live} key={index}/>)}
+            {livesFlows.slice(0, 3).map((live, index) => <LiveHome data={live} key={index}/>)}
           </div>
           <div className="content-box">
             <div className="content-header">
@@ -151,7 +185,7 @@ export default class LandingPage extends React.Component {
                 <FontAwesome name="refresh"/>
               </div>
             </div>
-            {articlesFlows.map((article, index) => <ArticleHome data={article} key={index}/>)}
+            {articlesFlows.slice(0, 3).map((article, index) => <ArticleHome data={article} key={index}/>)}
           </div>
           <div className="content-box">
             <div className="content-header">
@@ -164,10 +198,17 @@ export default class LandingPage extends React.Component {
                 </div>
               }
             </div>
-            {activitiesFlows.map((activity, index) => <ActivityHome data={activity} key={index}/>)}
+            {activitiesFlows.slice(0, 3).map((activity, index) => <ActivityHome data={activity} key={index}/>)}
           </div>
         </div>
         <div className="bottom-text">我也是有底线的...</div>
+        <Alert show={this.state.showAlert} buttons={this.state.dialogButtons}>
+          恭喜你通过商学院申请！
+          <br/>
+          离入学截止时间还剩{this.state.remainTime ? formatDate(new Date(this.state.remainTime), 'hh时mm分ss秒') : ''}
+          <br/>
+          点击立即入学，开启圈外商学院之旅
+        </Alert>
         <ToolBar/>
       </div>
     )
