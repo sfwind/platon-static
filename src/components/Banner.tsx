@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Swiper from 'swiper'
+import './Banner.less'
 
 export default class Banner extends React.Component<any, any> {
   constructor(props) {
