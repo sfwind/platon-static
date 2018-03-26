@@ -13,13 +13,21 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
 
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      data: {},
+    }
   }
 
   STATUS = {
     PREPARE: 1,
     CLOSED: 2,
     REVIEW: 3,
+  }
+
+  componentWillMount () {
+    this.setState({
+      data: this.props.data,
+    })
   }
 
   static contextTypes = {
@@ -34,8 +42,8 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
       location = '',
       status = 1,
       thumbnail = '',
-      linkUrl = '',
-    } = this.props.data
+      targetUrl = '',
+    } = this.state.data
 
     const renderStatus = () => {
       switch (status) {
@@ -63,7 +71,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
     return (
       <div className="activity-home-component" onClick={() => {
         mark({ module: '打点', function: '着陆页', action: '点击活动' })
-        window.location.href = linkUrl
+        window.location.href = targetUrl
       }}>
         <div className="name">{name}</div>
         <div className="holder">举办人：{holder}</div>
