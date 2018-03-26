@@ -37,7 +37,7 @@ export default class LandingPage extends React.Component {
           label: '立即入学',
           onClick: (e) => {
             this.setState({ showAlert: false })
-            window.location.href = '/pay/rise'
+            window.location.href = '/pay/apply'
           },
         },
       ],
@@ -58,12 +58,13 @@ export default class LandingPage extends React.Component {
     const { dispatch } = this.props
     dispatch(startLoad())
     let res = await loadLandingPageData()
+    console.log(res)
     dispatch(endLoad())
     if (res.code === 200) {
       this.setState({
         data: res.msg,
         showAlert: res.msg.isShowPassNotify,
-        remainTime: res.msg.remainTime,
+        remainTime: 57600000 + res.msg.remainTime,
       }, () => {
         if (res.msg.isShowPassNotify) {
           this.countDownTimer = setInterval(() => {
