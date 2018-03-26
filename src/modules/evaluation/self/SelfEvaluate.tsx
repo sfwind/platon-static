@@ -87,7 +87,8 @@ export default class SelfEvaluate extends React.Component {
           `我已完成KCDS自评，邀请你完成他评部分`,
           `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${selfSubmitId}`,
           'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
-          'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
+          '我刚刚完成了一个专业的职业测评，快来帮我做评价吧\n' +
+          '测评由华师大教育教练组和圈外同学共同开发，完成对我的评价还可以获得一个免费体验名额'
         )
       })
     }
@@ -105,7 +106,8 @@ export default class SelfEvaluate extends React.Component {
       `我已完成KCDS自评，邀请你完成他评部分`,
       `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${selfSubmitId}`,
       'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
-      'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
+      '我刚刚完成了一个专业的职业测评，快来帮我做评价吧\n' +
+      '测评由华师大教育教练组和圈外同学共同开发，完成对我的评价还可以获得一个免费体验名额'
     )
   }
 
@@ -115,7 +117,8 @@ export default class SelfEvaluate extends React.Component {
         `我已完成KCDS自评，邀请你完成他评部分`,
         `https://${window.location.hostname}/rise/static/guest/value/evaluation/other?refer=${submitId}`,
         'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
-        'KCDS: 职业发展核心能力和心理品质量表, 由华师大学教育教练研究组与圈外共同开发'
+        '我刚刚完成了一个专业的职业测评，快来帮我做评价吧\n' +
+        '测评由华师大教育教练组和圈外同学共同开发，完成对我的评价还可以获得一个免费体验名额'
       )
     });
   }
