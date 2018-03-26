@@ -11,6 +11,8 @@ import { ToolBar } from '../../base/ToolBar'
 import { ColumnSpan } from '../../../components/ColumnSpan'
 import * as FontAwesome from 'react-fontawesome'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { testAlert } from '../../../components/globalalert/GlobalRequest'
+import { demoRequest } from '../../../components/globalalert/RequestHelper'
 
 @connect(state => state)
 export default class SchedulePlan extends React.Component {
@@ -30,6 +32,8 @@ export default class SchedulePlan extends React.Component {
   }
 
   async componentWillMount () {
+    demoRequest()
+
     mark({
       module: '打点', function: '学习', action: '打开学习计划页面',
     })

@@ -17,9 +17,11 @@ declare var window: {
   ENV
 }
 
-render(<Provider store={store}>
-  <Router history={browserHistory} routes={routes}/>
-</Provider>, document.getElementById(window.ENV.reactMountPoint))
+render(
+  <Provider store={store}>
+    <Router history={browserHistory} routes={routes}/>
+  </Provider>, document.getElementById(window.ENV.reactMountPoint),
+)
 
 let fontCssLink = document.createElement('link')
 fontCssLink.href = 'https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
