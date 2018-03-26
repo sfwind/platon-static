@@ -165,7 +165,7 @@ const RiseMember = Loadable({
   loading: Loading,
 })
 const FeedBack = Loadable({
-  loader: () => import('./modules/customer/faq/FeedBack'),
+  loader: () => import('./modules/customer/faq/Feedback'),
   loading: Loading,
 })
 const Faq = Loadable({
