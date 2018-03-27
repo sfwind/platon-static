@@ -9,7 +9,6 @@ import './Personal.less'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import _ from 'lodash'
-import AssetImg from '../../components/AssetImg'
 
 /**
  * 个人中心页
