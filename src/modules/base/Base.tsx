@@ -62,6 +62,16 @@ export default class Main extends React.Component<any, any> {
   }
 
   async componentWillMount() {
+    let userInfoResult = await pget('/rise/customer/info')
+    if(userInfoResult.code === 200) {
+      window.ENV.riseId = userInfoResult.msg.riseId;
+      window.ENV.className = userInfoResult.msg.className;
+      window.ENV.groupId = userInfoResult.msg.groupId;
+      window.ENV.roleName = userInfoResult.msg.roleName;
+      window.ENV.userName = userInfoResult.msg.nickname;
+      window.ENV.headImgUrl = userInfoResult.msg.headimgurl;
+    }
+
     sa.init({
       sdk_url: 'https://static.sensorsdata.cn/sdk/1.9.13/sensorsdata.min.js',
       heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
@@ -71,13 +81,10 @@ export default class Main extends React.Component<any, any> {
       heatmap: {},
       is_single_page: true,
     });
-    sa.quick('autoTrack')
-
-    let userInfoResult = await pget('/rise/customer/info')
-    if(userInfoResult.code === 200) {
-      window.ENV.userName = userInfoResult.msg.nickname
-      window.ENV.headImgUrl = userInfoResult.msg.headimgurl
+    if(!!userInfoResult.msg.riseId) {
+      sa.login(userInfoResult.msg.riseId);
     }
+    sa.quick('autoTrack');
     this.setState({ showPage: true })
     if(window.location.href.indexOf('/rise/static/guest/') === -1) {
       // 不是guest页面，判断这个用户是否可以看到活动提示
