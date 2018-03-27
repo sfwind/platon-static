@@ -8,6 +8,22 @@ import Loadable from 'react-loadable'
 import sa from 'sa-sdk-javascript';
 
 
+const LangdingPage = Loadable({
+  loader: () => import('./modules/home/LandingPage'),
+  loading: Loading,
+})
+const LiveListPage = Loadable({
+  loader: () => import('./modules/home/livelist/LiveListPage'),
+  loading: Loading,
+})
+const ActivityListPage = Loadable({
+  loader: () => import('./modules/home/activitylist/ActivityListPage'),
+  loading: Loading,
+})
+const ProblemDesc = Loadable({
+  loader: () => import('./modules/home/problemdesc/ProblemDesc'),
+  loading: Loading,
+})
 const PlanList = Loadable({
   loader: () => import('./modules/plan/PlanList'),
   loading: Loading,
@@ -120,6 +136,12 @@ const Profile = Loadable({
   loader: () => import('./modules/customer/Profile'),
   loading: Loading,
 })
+
+const NewProfile = Loadable({
+  loader: () => import('./modules/customer/NewProfile'),
+  loading: Loading,
+})
+
 const Account = Loadable({
   loader: () => import('./modules/customer/account/Account'),
   loading: Loading,
@@ -145,7 +167,11 @@ const RiseMember = Loadable({
   loading: Loading,
 })
 const FeedBack = Loadable({
-  loader: () => import('./modules/customer/FeedBack'),
+  loader: () => import('./modules/customer/faq/Feedback'),
+  loading: Loading,
+})
+const Faq = Loadable({
+  loader: () => import('./modules/customer/faq/Faq'),
   loading: Loading,
 })
 const UserProtocol = Loadable({
@@ -154,10 +180,6 @@ const UserProtocol = Loadable({
 })
 const MobileBind = Loadable({
   loader: () => import('./modules/customer/MobileBind'),
-  loading: Loading,
-})
-const ForumQuestion = Loadable({
-  loader: () => import('./modules/customer/ForumQuestion'),
   loading: Loading,
 })
 const CertificateProfile = Loadable({
@@ -268,6 +290,16 @@ const ProblemCardList = Loadable({
   loader: () => import('./modules/customer/knowledgecards/ProblemCardList'),
   loading: Loading,
 })
+const StudyList = Loadable({
+  loader: () => import('./modules/customer/person/StudyList'),
+  loading: Loading,
+})
+
+const ShowCertificate = Loadable({
+  loader: () => import('./modules/customer/person/ShowCertificate'),
+  loading: Loading,
+})
+
 const RichTextView = Loadable({
   loader: () => import('./modules/other/richtext/RichTextView'),
   loading: Loading,
@@ -286,6 +318,12 @@ const routes = (
       }
       sa.quick('autoTrackSinglePage');
     }}>
+
+      <Route path="home" component={LangdingPage}/>
+      <Route path="home/lives" component={LiveListPage}/>
+      <Route path="home/activities" component={ActivityListPage}/>
+      <Route path="home/problem" component={ProblemDesc}/>
+
       <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>
       <Route path="learn" component={SchedulePlan}/>
@@ -317,13 +355,23 @@ const routes = (
       <Route path="message/knowledge/reply" component={ReplyKnowledgeDiscussMessage}/>
       <Route path="message/comment/reply" component={ReplyCommentMessage}/>
       <Route path="guest/card/send" component={SendCard}/>
+      <Route path="feedback" component={FeedBack}/>
+      <Route path="faq" component={Faq}/>
+      <Route path="userprotocol" component={UserProtocol}/>
 
       <Route path="article" component={RichTextView}/>
+
+      <Route path="coupon" component={Coupon}/>
+      <Route path="knowledge/card/list" component={ProblemCardList}/>
+      <Route path="person/study/list" component={StudyList}/>
+      <Route path="person/certificate" component={ShowCertificate}/>
+      <Route path="message/center" component={MessageCenter}/>
+
+      <Route path="new/profile" component={NewProfile}/>
 
       <Route path="customer" component={Customer}>
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
-        <Route path="coupon" component={Coupon}/>
         <Route path="profile" component={Profile}/>
         <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
@@ -331,19 +379,12 @@ const routes = (
         <Route path="point/tip" component={PointTip}/>
         <Route path="problem" component={ProblemGallery}/>
         <Route path="member" component={RiseMember}/>
-        <Route path="feedback" component={FeedBack}/>
-        <Route path="userprotocol" component={UserProtocol}/>
         <Route path="mobile/check" component={MobileBind}/>
-        <Route path="forum/mine" component={ForumQuestion}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
-        <Route path="knowledge/card/list" component={ProblemCardList}/>
       </Route>
 
-      <Route path="message" component={Customer}>
-        <Route path="center" component={MessageCenter}/>
-      </Route>
 
       <Route path="event/wall" component={EventWall}/>
 

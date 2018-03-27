@@ -1,5 +1,5 @@
 import * as React from "react"
-import "./FeedBack.less"
+import "./UserProtocol.less"
 import { changeTitle } from "utils/helpers"
 import { mark } from 'utils/request'
 
@@ -15,7 +15,7 @@ export default class UserProtocol extends React.Component<any, any> {
 
   render() {
     return (
-      <div className="feedback">
+      <div className="user-feedback-container">
         <div className="feedback-header" style={{ fontSize: '22px', fontWeight: 'bolder', color:'#2C2C2C', border: 'none' }}>
           圈外同学用户协议
         </div>

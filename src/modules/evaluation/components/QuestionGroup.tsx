@@ -48,13 +48,16 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
 
   async componentWillMount() {
     const { dispatch, category, firstTips } = this.props;
+    let questionRes = await loadSurvey(category);
     let saving = JSON.parse(window.localStorage.getItem(QUESTION_GROUP_SAVING));
-    if(!_.isEmpty(saving) && saving.category == category) {
+    let isEqual = _.isEqual(_.get(saving, 'allGroup[0].questions[0].version'), _.get(questionRes, 'msg.surveyQuestions[0].questions[0].version'));
+
+    if(!_.isEmpty(saving) && saving.category == category && isEqual) {
       this.setState({
         allGroup: saving.allGroup, currentIndex: saving.currentIndex, firstTips: saving.firstTips
       });
     } else {
-      let questionRes = await loadSurvey(category);
+      window.localStorage.setItem(QUESTION_GROUP_SAVING, JSON.stringify({}));
       this.setState({
         allGroup: questionRes.msg.surveyQuestions, currentIndex: 0, firstTips: firstTips
       });

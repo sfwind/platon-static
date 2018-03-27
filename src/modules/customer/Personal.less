@@ -1,145 +1,200 @@
 @import "../../style/variable";
 
-.personal {
-  position: relative;
-  width: 100%;
+.person-center-container {
   height: 100%;
   overflow-y: scroll;
-  background-color: @color_weak_background;
-  > .personal-header {
-    width: 100%;
+  //padding: 20px;
+  .header-container {
     position: relative;
-    overflow: hidden;
-    background-color: #FFFFFF;
-    //margin-bottom: 10px;
-    > .personal-mask {
-      height: 100%;
-      width: 100%;
-      position: absolute;
+    background: white;
+    padding: 20px 20px 5px 20px;
+
+
+    .img-container {
       top: 0;
       left: 0;
-      opacity: 0.1;
-      -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
-      filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
+      img {
+        width: 53px;
+        border-radius: 100%;
+      }
+      .arrow {
+        position: absolute;
+        right: 20px;
+        top: 45px;
+        width: 6px;
+        height: 10px;
+        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
+      }
     }
-    > .personal-head {
-      position: relative;
-      text-align: center;
-      > .personal-head-pic {
-        width: 60px;
-        height: 60px;
-        -webkit-border-radius: 60px;
-        -moz-border-radius: 60px;
-        border-radius: 60px;
-        display: inline-block;
-        margin-bottom: 2px;
+    .info-container {
+      position: absolute;
+      top: 24px;
+      left: 81px;
+
+      .nickname-container {
+        margin-top:4px;
+        font-size: 1.7rem;
+        color: @color_context;
       }
-      > .personal-name {
-        font-size: 13px;
-        color: @color_title;
+      .score-container {
+        font-size: 1.1rem;
+        color: #ceb18a;
       }
-      > .personal-edit {
-        height: 14px;
-        position: relative;
-        margin: 0 auto;
-        width: 60px;
-        .edit-icon {
-          display: block;
-          position: absolute;
-          left: 6px;
-          height: 14px;
-          width: 14px;
+    }
+
+    .class-container {
+      margin-top: 2.2rem;
+      font-size: 1.2rem;
+      color: #666666;
+      .title {
+        float: left;
+        width: 50%;
+        text-align: center;
+      }
+      .name {
+        float: right;
+        width: 50%;
+        text-align: center;
+      }
+    }
+
+    .content-container {
+      margin-top: 2rem;
+      font-size: 2.2rem;
+      color: #333333;
+      line-height: 34px;
+      .member {
+        float: left;
+        width: 50%;
+        text-align: center;
+        margin-top: 0.6rem;
+        margin-bottom: 2.2rem;
+      }
+      .grade {
+        margin-top: 0.6rem;
+        float: right;
+        width: 50%;
+        text-align: center;
+        margin-bottom: 2.2rem;
+      }
+    }
+
+    .notice-container {
+      font-size: 1.5rem;
+      margin-top: 2.3rem;
+      vertical-align: middle;
+
+      .learn-notice {
+        margin-left: -15px;
+        margin-right: -15px;
+        width:100%;
+        .study-notice{
+          margin-top:-2px;
+          color:#333333;
         }
-        .edit-text {
-          display: block;
-          position: absolute;
-          height: 14px;
-          right: 6px;
-          line-height: 14px;
-          font-size: 12px;
-          color: #4d9ad1;
-        }
+
       }
+    }
+
+    .notice-msg {
+      font-size: 1.2rem;
+      color: #999999;
+      padding-bottom: 0.9rem;
+    }
+
+  }
+
+  .business-list{
+    background: @color_weak_line;
+    padding: 15px 20px 15px 20px;
+
+    img {
+      width: 100%;
     }
   }
-  > .personal-container {
-    .pi-gray-tips {
-      padding: 0 15px 0 15px;
-      margin: -5px 0 15px 0;
-      font-size: @font_index;
-      color: @color_help;
 
+  .list-container {
+    padding: 0px 20px 60px 20px;
+    font-size: 15px;
+
+    img {
+      width: 100%;
     }
-    .personal-item {
-      &.weui_cell {
-        padding: 0 0 0 15px;
-        &:before {
-          display: none;
-        }
-        &:after {
-          display: none;
-        }
-        .weui_cell_ft {
-          position: relative;
-          height: 100%;
-          width: 70px;
-          .weui_switch {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            -webkit-transform: translateY(-50%);
-            -moz-transform: translateY(-50%);
-            -ms-transform: translateY(-50%);
-            -o-transform: translateY(-50%);
-            transform: translateY(-50%);
-          }
-        }
-      }
-      &.no-gutter {
-        margin-bottom: 0;
-      }
+
+
+    .hyq-container {
       position: relative;
-      height: 50px;
-      border-bottom: 1px @color_weak_background solid;
-      padding-left: 15px;
-      color: @color_context;
-      font-size: 13px;
-      cursor: pointer;
-      overflow: hidden;
+      height: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      line-height: 20px;
       vertical-align: middle;
-      line-height: 50px;
-      background-color: #FFFFFF;
-      margin-bottom: 10px;
-      &:after {
-        content: ' ';
-        display: block;
-        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
+      color: #333333;
+
+      .img-container {
+        position: absolute;
+        width: 20px;
+      }
+      .content {
+        position: absolute;
+        left: 30px;
+      }
+      .amount {
+        float: right;
+        margin-right: 20px;
+        font-size: 15px;
+        color: #b6b7bd;
+      }
+      .arrow {
         width: 100%;
         height: 100%;
+        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
+      }
+    }
+
+    .study-report-container {
+      position: relative;
+      height: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      line-height: 20px;
+      vertical-align: middle;
+      color: #333333;
+
+      .img-container {
         position: absolute;
-        top: -1px;
-        right: 15px;
+        width: 20px;
       }
-      > .item-label {
-        float: left;
+      .content {
+        position: absolute;
+        left: 30px;
       }
-      > .item-content {
+      .arrow {
         float: right;
-        padding-right: 24px;
-        font-size: 13px;
+        width: 100%;
+        height: 100%;
+        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
       }
-      .tail-message {
+    }
+
+    .message-container {
+      position: relative;
+      height: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      line-height: 20px;
+      vertical-align: middle;
+      color: #333333;
+
+      .img-container {
         position: absolute;
-        top: 50%;
-        right: 0;
-        margin-right: 30px;
-        height: 15px;
-        font-size: 13px;
-        line-height: 15px;
-        text-align: center;
-        transform: translateY(-50%);
+        width: 20px;
       }
-      .notify-message {
+      .content {
+        position: absolute;
+        left: 30px;
+      }
+      .notice_message {
         position: absolute;
         top: 50%;
         right: 0;
@@ -154,6 +209,145 @@
         color: #FFF;
         transform: translateY(-50%);
       }
+      .arrow {
+        float: right;
+        width: 100%;
+        height: 100%;
+        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
+      }
+    }
+
+    .help-container {
+      position: relative;
+      height: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      line-height: 20px;
+      vertical-align: middle;
+      color: #333333;
+
+      .img-container {
+        position: absolute;
+        width: 20px;
+      }
+      .content {
+        position: absolute;
+        left: 30px;
+      }
+      .arrow {
+        float: right;
+        width: 100%;
+        height: 100%;
+        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
+      }
+    }
+
+    .protocol-container {
+      position: relative;
+      height: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      line-height: 20px;
+      vertical-align: middle;
+      color: #333333;
+
+      .img-container {
+        position: absolute;
+        width: 20px;
+      }
+      .content {
+        position: absolute;
+        left: 30px;
+      }
+      .arrow {
+        float: right;
+        width: 100%;
+        height: 100%;
+        background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/ 6px 11.5px;
+      }
+    }
+
+  }
+
+  .divider-container {
+    height: 1rem;
+    background-color: #f5f5f5;
+  }
+
+  .card-certificate-container {
+    position: relative;
+    background: white;
+    padding: 20px;
+    .achievement-container {
+      height: 21px;
+      font-size: 15px;
+      color: #3a424a;
+      text-align: center;
+
+      .essenceCard {
+        height: 21px;
+        float: left;
+        width: 50%;
+        .left-header-box {
+          position: absolute;
+          display: inline-block;
+          top: 50%;
+          left: 2rem;
+          //left:15%;
+          height: 2rem;
+          transform: translateY(-50%);
+
+          > span {
+            display: inline-block;
+            line-height: 2rem;
+            float: left;
+          }
+          .consult-icon {
+            width: 2rem;
+            height: 2rem;
+            display: inline-block;
+            float: left;
+          }
+        }
+
+      }
+
+      .middle-divider {
+        position: absolute;
+        z-index: 1;
+        width: 1px;
+        background: #dad9e2;
+        height: 21px;
+        left: 50%;
+      }
+
+      .certificate {
+        height: 21px;
+        float: right;
+        width: 49%;
+        .right-header-box {
+          position: absolute;
+          display: inline-block;
+          top: 50%;
+          right: 3.7rem;
+          //right:15%;
+          height: 2rem;
+          transform: translateY(-50%);
+          > span {
+            display: inline-block;
+            line-height: 2rem;
+            float: left;
+          }
+          .consult-icon {
+            width: 2rem;
+            height: 2rem;
+            display: inline-block;
+            float: left;
+          }
+        }
+      }
+
     }
   }
 }
+

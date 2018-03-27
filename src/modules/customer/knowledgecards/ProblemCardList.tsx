@@ -20,7 +20,7 @@ export default class ProblemCardList extends React.Component {
 
   async componentWillMount () {
     const { dispatch } = this.props
-    mark('打点', '个人中心', '知识卡列表')
+    mark({ module: '打点', function: '个人中心', action: '知识卡列表' })
     changeTitle('知识卡')
     let res = await loadCardList()
     if (res.code === 200) {
@@ -39,6 +39,7 @@ export default class ProblemCardList extends React.Component {
           data.map((card, index) => {
             const { abbreviation, completeCount, name, planId } = card
             return (
+              completeCount > 0 &&
               <div className="card-section" onClick={() => {
                 this.context.router.push(`/rise/static/problem/cards?planId=${planId}`)
               }}>
