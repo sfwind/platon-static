@@ -9,7 +9,6 @@ import './Personal.less'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import _ from 'lodash'
-import AssetImg from '../../components/AssetImg'
 
 /**
  * 个人中心页
@@ -138,6 +137,7 @@ export default class Personal extends React.Component<any, any> {
   }
 
   render() {
+    const {noticeMsgCount} = this.props
     const { userInfo, learningNotify } = this.state
 
     const renderUserInfo = () => {
@@ -201,8 +201,6 @@ export default class Personal extends React.Component<any, any> {
           <div className="achievement-container">
             <MarkBlock module={'打点'} func={'个人中心'} action={'点击知识卡'} className="essenceCard"
                        onClick={() => this.goCards(userInfo.cardSum)}>
-              {/*<img src='http://static.iqycamp.com/images/card_icon.png'/>*/}
-              {/*<span>知识卡{userInfo.cardSum}张</span>*/}
               <div className="left-header-box">
                 <img className="consult-icon" src="http://static.iqycamp.com/images/card_icon.png"/>
                 <span>&nbsp;知识卡{userInfo.cardSum}张</span>
@@ -213,8 +211,6 @@ export default class Personal extends React.Component<any, any> {
             </div>
             <MarkBlock module={'打点'} func={'个人中心'} action={'点击荣誉证书'} className="certificate"
                        onClick={() => this.goCertificates(userInfo.certificateSum)}>
-              {/*<img src= 'http://static.iqycamp.com/images/certificate_icon.png'/>*/}
-              {/*<span>荣誉证书{userInfo.certificateSum}张</span>*/}
               <div className="right-header-box">
                 <img className="consult-icon" src="http://static.iqycamp.com/images/certificate_icon.png"/>
                 <span>&nbsp;荣誉证书{userInfo.certificateSum}张</span>
@@ -262,6 +258,8 @@ export default class Personal extends React.Component<any, any> {
               <img src="http://static.iqycamp.com/images/icon_message.png"/>
             </div>
             <div className="content">消息中心</div>
+            {noticeMsgCount ?
+              <span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
             <div className="arrow"></div>
           </MarkBlock>
           <MarkBlock module={'打点'} func={'个人中心'} action={'点击使用帮助'} onClick={() => this.goHelp()}
