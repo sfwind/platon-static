@@ -5,6 +5,7 @@ import { Route } from 'react-router'
 import Base from './modules/base/Base'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
+import DailyTalk from './modules/daily/DailyTalk'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -325,6 +326,9 @@ const routes = (
       <Route path="camp" component={SchedulePlan}/>
       <Route path="learn" component={SchedulePlan}/>
       <Route path="plan/main" component={SchedulePlan}/>
+
+
+      <Route path="daily/talk" component={DailyTalk}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>
