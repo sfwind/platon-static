@@ -4,16 +4,21 @@ import AssetImg from '../../../../components/AssetImg'
 import { calcScheduleData } from '../../../schedule/overview/util'
 import { splitContent } from '../../../../utils/helpers'
 import { mark } from '../../../../utils/request'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 
 interface ActivityHomeProps {
   data: any
 }
 
+@connect(state => state)
 export class ActivityHome extends React.Component<ActivityHomeProps, any> {
 
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      data: {},
+    }
   }
 
   STATUS = {
@@ -22,8 +27,24 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
     REVIEW: 3,
   }
 
+  componentWillMount () {
+    this.setState({
+      data: this.props.data,
+    })
+  }
+
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
+  }
+
+  handleClick (targetUrl) {
+    const { dispatch } = this.props
+    mark({ module: '打点', function: '着陆页', action: '点击活动' })
+    if (targetUrl) {
+      window.location.href = targetUrl
+    } else {
+      dispatch(alertMsg('报名已经结束咯，敬请期待下次活动'))
+    }
   }
 
   render () {
@@ -34,8 +55,9 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
       location = '',
       status = 1,
       thumbnail = '',
-      linkUrl = '',
-    } = this.props.data
+      targetUrl = '',
+    } = this.state.data
+    console.log(this.state)
 
     const renderStatus = () => {
       switch (status) {
@@ -61,10 +83,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
     }
 
     return (
-      <div className="activity-home-component" onClick={() => {
-        mark({ module: '打点', function: '着陆页', action: '点击活动' })
-        window.location.href = linkUrl
-      }}>
+      <div className="activity-home-component" onClick={() => this.handleClick(targetUrl)}>
         <div className="name">{name}</div>
         <div className="holder">举办人：{holder}</div>
         <div className="holding-time">举办时间：{startTimeStr}</div>
