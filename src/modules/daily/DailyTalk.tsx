@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
-import { loadDailyTalk } from './async'
+import { loadDailyInfo, loadDailyTalk } from './async'
 import './DailyTalk.less'
 
 @connect(state => state)
@@ -10,24 +10,32 @@ export default class DailyTalk extends React.Component<any, any> {
   constructor() {
     super()
     this.state = {
-      img: ''
+      data:[],
+      showImg:false,
+      img:'http://static.iqycamp.com/images/dailytalk/default_backend.png'
     }
   }
 
   async componentWillMount() {
     const { dispatch } = this.props
+    dispatch(startLoad())
     let res = await loadDailyTalk()
     if(res.code === 200) {
+      dispatch(endLoad())
       this.setState({
+        showImg:true,
         img: res.msg
       })
     } else {
-      dispatch(alertMsg('生成每日圈语出错'))
+      dispatch(alertMsg(res.msg))
     }
   }
 
   render() {
-    const { img } = this.state
+    const { img} = this.state
+
+
+
     return (
       <div className="daily_talk_container">
         <img src={img}/>
