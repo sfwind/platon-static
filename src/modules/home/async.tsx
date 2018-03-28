@@ -1,17 +1,17 @@
-import { pget, ppost } from '../../utils/request'
+import requestProxy from '../base/requestProxy'
 
 export function loadLandingPageData () {
-  return pget('/rise/landing/load')
+  return requestProxy.getProxy('/rise/landing/load')
 }
 
 export function loadAllLives () {
-  return pget('/rise/landing/load/lives')
+  return requestProxy.getProxy('/rise/landing/load/lives')
 }
 
 export function loadAllActivities () {
-  return pget('/rise/landing/load/activities')
+  return requestProxy.getProxy('/rise/landing/load/activities')
 }
 
 export function loadShuffleArticles () {
-  return pget('/rise/landing/load/shuffle/articles')
+  return requestProxy.getProxy('/rise/landing/load/shuffle/articles')
 }

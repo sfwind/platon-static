@@ -14,15 +14,16 @@ axios.interceptors.response.use(function (response) {
   } else {
     return response
   }
-}, function (error) {})
+}, function (error) {
+})
 
 const debug = _getQueryString('debug')
 
 function pget (url: string, query?: Object) {
-  return get(`${url}${_appendQs(merge(query, {debug: debug}))}`, {
+  return get(`${url}${_appendQs(merge(query, { debug: debug }))}`, {
     validateStatus: function (status) {
       return status >= 200 && status < 300 || status == 700
-    }
+    },
   }).then((res) => res.data).catch(error => {
     if (error.response) {
       log(url, JSON.stringify(error.response))
@@ -48,13 +49,13 @@ function mark (param) {
 
 function log (url, msg) {
   return post('/b/log',
-    JSON.stringify({result: msg, cookie: document.cookie, url: url}))
+    JSON.stringify({ result: msg, cookie: document.cookie, url: url }))
 }
 
 function _appendQs (query: Object): string {
   let queryCount = values(query).
-  filter(item => !isNull(item) && !(isUndefined(item))).length
-  return queryCount === 0 ? '' : `?${qs.stringify(merge(query, {debug: debug}))}`
+    filter(item => !isNull(item) && !(isUndefined(item))).length
+  return queryCount === 0 ? '' : `?${qs.stringify(merge(query, { debug: debug }))}`
 }
 
 function _getQueryString (name) {
