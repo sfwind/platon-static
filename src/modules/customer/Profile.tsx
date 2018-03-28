@@ -127,14 +127,6 @@ export default class Profile extends React.Component<any, any> {
     this.setState({ workingYearList: workingYearList })
   }
 
-  componentDidMount() {
-    const { location, hiddenTab } = this.props
-    const { goRise } = location.query
-    // if(goRise){
-    hiddenTab()
-    // }
-  }
-
   changeValue(path, value, callback) {
     this.setState(_.set(_.merge({}, this.state), path, value), () => {
       if(callback) {

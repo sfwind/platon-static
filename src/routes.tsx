@@ -1,8 +1,9 @@
 import * as React from 'react'
-import { config } from './modules/helpers/JsConfig'
-import { Route } from 'react-router'
 
+const path = require('path')
+import { Route } from 'react-router'
 import Base from './modules/base/Base'
+import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
 import GlobalRequest from './components/globalalert/GlobalRequest'
@@ -364,9 +365,7 @@ const routes = (
       <Route path="person/certificate" component={ShowCertificate}/>
       <Route path="message/center" component={MessageCenter}/>
 
-      <Route path="new/profile" component={NewProfile}/>
-
-      <Route path="customer" component={Customer}>
+      <Route path="customer">
         <Route path="personal" component={Personal}/>
         <Route path="personal/modify" component={PersonalModify}/>
         <Route path="profile" component={Profile}/>
@@ -380,8 +379,8 @@ const routes = (
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
+        <Route path="new/profile" component={NewProfile}/>
       </Route>
-
 
       <Route path="event/wall" component={EventWall}/>
 

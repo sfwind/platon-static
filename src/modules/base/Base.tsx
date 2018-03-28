@@ -13,7 +13,7 @@ const { Alert } = Dialog
 import { toLower, get } from 'lodash'
 import { pget } from 'utils/request'
 import Activity from '../../components/Activity'
-import UA from 'ua-device'
+// import UA from 'ua-device'
 import './Base.less'
 import $ from 'jquery'
 import RequestComponent from './RequestComponent'
@@ -49,7 +49,7 @@ export default class Main extends React.Component<any, any> {
       activityMsg: false,
       showPage: false,
     }
-    window.ENV.Detected = new UA(window.navigator.userAgent)
+    // window.ENV.Detected = new UA(window.navigator.userAgent)
     window.ENV.osName = toLower(get(window, 'ENV.Detected.os.name'))
     window.ENV.osVersion = toLower(get(window, 'ENV.Detected.os.version.original'))
     window.ENV.systemInfo = window.ENV.osName + ':' + window.ENV.osVersion
@@ -90,20 +90,20 @@ export default class Main extends React.Component<any, any> {
 
   componentWillUpdate () {
     //windows客户端显示返回按钮
-    if (navigator.userAgent.indexOf('WindowsWechat') !== -1) {
-      //排除不显示返回按钮的页面
-      if (window.location.pathname !== '/rise/static/rise'
-        && window.location.pathname !== '/rise/static/camp'
-        && window.location.pathname !== '/rise/static/practice/warmup') {
-        if (!this.state.windowsClient) {
-          this.setState({ windowsClient: true })
-        }
-      } else {
-        if (this.state.windowsClient) {
-          this.setState({ windowsClient: false })
-        }
-      }
-    }
+    // if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
+    //   //排除不显示返回按钮的页面
+    //   if(window.location.pathname !== '/rise/static/rise'
+    //     && window.location.pathname !== '/rise/static/camp'
+    //     && window.location.pathname !== '/rise/static/practice/warmup') {
+    //     if(!this.state.windowsClient) {
+    //       this.setState({ windowsClient: true })
+    //     }
+    //   } else {
+    //     if(this.state.windowsClient) {
+    //       this.setState({ windowsClient: false })
+    //     }
+    //   }
+    // }
   }
 
   componentDidMount () {

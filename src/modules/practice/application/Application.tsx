@@ -552,13 +552,13 @@ export default class Application extends React.Component <any, any> {
                           onClick={() => preview(pic, [pic])}/>
               </div>
             }
-            {
-              integrated == 'false' &&
-              <div className="knowledge-link"
-                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
-                点击查看相关知识点
-              </div>
-            }
+            {/*{*/}
+              {/*integrated == 'false' &&*/}
+              {/*<div className="knowledge-link"*/}
+                   {/*onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>*/}
+                {/*点击查看相关知识点*/}
+              {/*</div>*/}
+            {/*}*/}
           </div>
           <div ref="workContainer" className="work-container">
             {renderTip()}

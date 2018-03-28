@@ -78,7 +78,7 @@ export default class KnowledgeShare extends React.Component<any, any> {
     return (
       <div className="knowledge-share-container">
         <div className="follow-container">
-          <img src="https://static.iqycamp.com/images/knowledge_share_head2.png?imageslim"
+          <img src="https://static.iqycamp.com/images/knowledge_share_head3.jpeg?imageslim"
                className="qrcode"/>
         </div>
         <div className="page-header">{knowledge.knowledge}</div>
@@ -164,7 +164,7 @@ export default class KnowledgeShare extends React.Component<any, any> {
 
           <div className="follow-container" style={{marginTop:'2.0rem'}}>
             <ColumnSpan />
-            <img src="https://static.iqycamp.com/images/knowledge_share_tail.png?imageslim"
+            <img src="https://static.iqycamp.com/images/knowledge_share_tail2.jpeg?imageslim"
                  className="qrcode"/>
           </div>
         </div>

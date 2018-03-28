@@ -15,6 +15,7 @@ import { mark } from '../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 import { Dialog } from 'react-weui'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
 
 const { Alert } = Dialog
 @connect(state => state)
@@ -114,12 +115,14 @@ export default class LandingPage extends React.Component {
             <AssetImg className="message" url="https://static.iqycamp.com/icon_message@2x-8rkrc4h9.png"/>
             {notify && <div className="notify"></div>}
           </div>
-          <div className="right-header-box" onClick={() => {
-            _MEIQIA('showPanel')
-          }}>
+          <MarkBlock module="打点"
+                     func="着陆页"
+                     action="点击入学咨询"
+                     className="right-header-box"
+                     onClick={() => _MEIQIA('showPanel')}>
             <span>入学咨询&nbsp;</span>
             <AssetImg className="consult-icon" url="https://static.iqycamp.com/icon_goutong @2x-8ww0p3at.png"/>
-          </div>
+          </MarkBlock>
         </div>
         <div className="home-swiper">
           {
@@ -137,7 +140,11 @@ export default class LandingPage extends React.Component {
         <ColumnSpan height="10" style={{ margin: '0 -2rem' }}/>
         {
           !isBusinessMember &&
-          <div className="business-apply" onClick={() => window.location.href = `/pay/rise`}></div>
+          <MarkBlock module="打点"
+                     func="着陆页"
+                     action="申请加入商学院"
+                     className="business-apply"
+                     onClick={() => window.location.href = `/pay/rise`}></MarkBlock>
         }
         <div className="content-box-container">
           {
@@ -156,10 +163,14 @@ export default class LandingPage extends React.Component {
               <div className="content-title">拓眼界</div>
               {
                 livesFlows.length > 3 &&
-                <div className="more" onClick={() => this.context.router.push('/rise/static/home/lives')}>
+                <MarkBlock module="打点"
+                           func="着陆页"
+                           action="拓眼界更多"
+                           className="more"
+                           onClick={() => this.context.router.push('/rise/static/home/lives')}>
                   更多&nbsp;&nbsp;
                   <FontAwesome name="angle-right"/>
-                </div>
+                </MarkBlock>
               }
             </div>
             {livesFlows.slice(0, 3).map((live, index) => <LiveHome data={live} key={index}/>)}
@@ -167,10 +178,10 @@ export default class LandingPage extends React.Component {
           <div className="content-box">
             <div className="content-header">
               <div className="content-title">加油站</div>
-              <div className="more" onClick={() => this.shuffleArticles()}>
+              <MarkBlock module="打点" func="着陆页" action="加油站换一换" className="more" onClick={() => this.shuffleArticles()}>
                 换一换&nbsp;&nbsp;
                 <FontAwesome name="refresh"/>
-              </div>
+              </MarkBlock>
             </div>
             {articlesFlows.slice(0, 3).map((article, index) => <ArticleHome data={article} key={index}/>)}
           </div>
@@ -179,10 +190,14 @@ export default class LandingPage extends React.Component {
               <div className="content-title">圈柚会</div>
               {
                 activitiesFlows.length > 3 &&
-                <div className="more" onClick={() => this.context.router.push('/rise/static/home/activities')}>
+                <MarkBlock module="打点"
+                           func="着陆页"
+                           action="圈柚会更多"
+                           className="more"
+                           onClick={() => this.context.router.push('/rise/static/home/activities')}>
                   更多&nbsp;&nbsp;
                   <FontAwesome name="angle-right"/>
-                </div>
+                </MarkBlock>
               }
             </div>
             {activitiesFlows.slice(0, 3).map((activity, index) => <ActivityHome data={activity} key={index}/>)}

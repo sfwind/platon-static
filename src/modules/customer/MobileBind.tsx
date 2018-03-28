@@ -45,14 +45,6 @@ export default class MobileBind extends React.Component<any, any> {
     });
   }
 
-  componentDidMount() {
-    const { location, hiddenTab } = this.props;
-    const { goRise } = location.query;
-    if(goRise) {
-      hiddenTab();
-    }
-  }
-
   onClick() {
     let { phone, areaCode, bindMobile, isFull, oversea, weixinId } = this.state;
     const { dispatch } = this.props;

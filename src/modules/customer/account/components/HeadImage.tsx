@@ -33,16 +33,12 @@ export default class HeadImage extends React.Component {
       function:'个人中心',
       action:'加载修改头像页面'
     })
-    const { hiddenTab = () => {} } = this.props
-    hiddenTab()
     this.dispatch = this.props.dispatch
     this.setState({ headImgUrl: this.props.location.query.headImgUrl })
   }
 
   componentWillUnmount() {
     clearInterval(this.timer)
-    const { showTab = () => {} } = this.props
-    showTab()
   }
 
   autoUploadHeadImg() {

@@ -45,11 +45,6 @@ export default class Main extends React.Component<any, any> {
     })
   }
 
-  componentDidMount() {
-    const { hiddenTab } = this.props
-    hiddenTab()
-  }
-
   render() {
     const { imageUrl } = this.state
     return (
