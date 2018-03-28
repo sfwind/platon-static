@@ -9,6 +9,7 @@ import './Personal.less'
 import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import _ from 'lodash'
+import { ToolBar } from '../base/ToolBar'
 
 /**
  * 个人中心页
@@ -16,18 +17,18 @@ import _ from 'lodash'
 @connect(state => state)
 export default class Personal extends React.Component<any, any> {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       userInfo: '',
-      learningNotify: true
+      learningNotify: true,
     }
   }
 
-  componentWillMount() {
+  componentWillMount () {
     changeTitle('个人中心')
     mark({ module: '打点', function: '个人中心', action: '打开个人中心' })
     const { dispatch } = this.props
@@ -43,9 +44,9 @@ export default class Personal extends React.Component<any, any> {
 
     loadUserInfo().then(res => {
       const { code, msg } = res
-      if(code === 200) {
+      if (code === 200) {
         this.setState({
-          userInfo: msg
+          userInfo: msg,
         })
       } else {
         dispatch(alertMsg(msg))
@@ -53,10 +54,10 @@ export default class Personal extends React.Component<any, any> {
     })
   }
 
-  handleClickLearningNotify() {
+  handleClickLearningNotify () {
     const { learningNotify } = this.state
     const { dispatch } = this.props
-    if(learningNotify) {
+    if (learningNotify) {
       dispatch(startLoad())
       closeNotifyStatus().then(res => {
         dispatch(endLoad())
@@ -77,34 +78,34 @@ export default class Personal extends React.Component<any, any> {
     }
   }
 
-  goProfile() {
-    this.context.router.push('/rise/static/new/profile')
+  goProfile () {
+    this.context.router.push('/rise/static/customer/new/profile')
   }
 
-  goShare() {
+  goShare () {
     mark({ module: '打点', function: '个人中心', action: '点击分享圈外商学院图片' })
     window.location.href = '/pay/static/share'
   }
 
-  goRise() {
+  goRise () {
     mark({ module: '打点', function: '个人中心', action: '点击加入圈外商学院图片' })
     window.location.href = '/pay/rise'
   }
 
-  goCouponList() {
+  goCouponList () {
     this.context.router.push('/rise/static/coupon')
   }
 
-  goHelp() {
+  goHelp () {
     this.context.router.push('/rise/static/faq')
   }
 
-  goMessage() {
+  goMessage () {
     const { dispatch } = this.props
     dispatch(startLoad())
     getOldMsg().then(res => {
       dispatch(endLoad())
-      if(res.code === 200) {
+      if (res.code === 200) {
         dispatch(set('noticeMsgCount', 0))
         this.context.router.push('/rise/static/message/center')
       }
@@ -114,40 +115,42 @@ export default class Personal extends React.Component<any, any> {
     })
   }
 
-  goProtocol() {
+  goProtocol () {
     this.context.router.push('/rise/static/userprotocol')
   }
 
-  goStudyReport() {
+  goStudyReport () {
     this.context.router.push('/rise/static/person/study/list')
   }
 
-  goCards(sum) {
-    if(sum===0){
+  goCards (sum) {
+    if (sum === 0) {
       return
     }
     this.context.router.push('/rise/static/knowledge/card/list')
   }
 
-  goCertificates(sum) {
-    if(sum === 0) {
+  goCertificates (sum) {
+    if (sum === 0) {
       return
     }
     this.context.router.push('/rise/static/person/certificate')
   }
 
-  render() {
-    const {noticeMsgCount} = this.props
+  render () {
+    const { noticeMsgCount } = this.props
     const { userInfo, learningNotify } = this.state
 
     const renderUserInfo = () => {
       return (
         <div className="header-container">
-          <MarkBlock className="img-container" module={'打点'} func={'个人中心'} action={'点击修改信息'}
+          <MarkBlock className="img-container"
+                     module={'打点'}
+                     func={'个人中心'}
+                     action={'点击修改信息'}
                      onClick={() => this.goProfile()}>
             <img src={window.ENV.headImgUrl}/>
-            <div className="arrow"
-            />
+            <div className="arrow"/>
           </MarkBlock>
           <div className="info-container">
             <div className="nickname-container">
@@ -178,7 +181,8 @@ export default class Personal extends React.Component<any, any> {
             <div className="notice-container">
               <FormCell switch className="learn-notice">
                 <CellBody>
-                  <div className="study-notice">学习提醒</div></CellBody>
+                  <div className="study-notice">学习提醒</div>
+                </CellBody>
                 <CellFooter>
                   <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习提醒'}>
                     <Switch checked={learningNotify} onClick={() => this.handleClickLearningNotify()}/>
@@ -199,7 +203,10 @@ export default class Personal extends React.Component<any, any> {
       return (
         <div className="card-certificate-container">
           <div className="achievement-container">
-            <MarkBlock module={'打点'} func={'个人中心'} action={'点击知识卡'} className="essenceCard"
+            <MarkBlock module={'打点'}
+                       func={'个人中心'}
+                       action={'点击知识卡'}
+                       className="essenceCard"
                        onClick={() => this.goCards(userInfo.cardSum)}>
               <div className="left-header-box">
                 <img className="consult-icon" src="http://static.iqycamp.com/images/card_icon.png"/>
@@ -209,7 +216,10 @@ export default class Personal extends React.Component<any, any> {
             <div className="middle-divider">
 
             </div>
-            <MarkBlock module={'打点'} func={'个人中心'} action={'点击荣誉证书'} className="certificate"
+            <MarkBlock module={'打点'}
+                       func={'个人中心'}
+                       action={'点击荣誉证书'}
+                       className="certificate"
                        onClick={() => this.goCertificates(userInfo.certificateSum)}>
               <div className="right-header-box">
                 <img className="consult-icon" src="http://static.iqycamp.com/images/certificate_icon.png"/>
@@ -225,8 +235,8 @@ export default class Personal extends React.Component<any, any> {
       return (
         <div className="business-list">
           {userInfo.memberTypeId === 3 ?
-            <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
-            <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
+           <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
+           <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
         </div>
       )
     }
@@ -234,7 +244,10 @@ export default class Personal extends React.Component<any, any> {
     const renderList = () => {
       return (
         <div className="list-container">
-          <MarkBlock module={'打点'} func={'个人中心'} action={'点击抵用券'} onClick={() => this.goCouponList()}
+          <MarkBlock module={'打点'}
+                     func={'个人中心'}
+                     action={'点击抵用券'}
+                     onClick={() => this.goCouponList()}
                      className="hyq-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_yhq.png"/>
@@ -244,7 +257,10 @@ export default class Personal extends React.Component<any, any> {
             <div className="amount">{userInfo.couponSum}元</div>
             <div className="arrow"></div>
           </MarkBlock>
-          <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习报告'} onClick={() => this.goStudyReport()}
+          <MarkBlock module={'打点'}
+                     func={'个人中心'}
+                     action={'点击学习报告'}
+                     onClick={() => this.goStudyReport()}
                      className="study-report-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_study.png"/>
@@ -252,17 +268,23 @@ export default class Personal extends React.Component<any, any> {
             <div className="content">我的学习报告</div>
             <div className="arrow"></div>
           </MarkBlock>
-          <MarkBlock module={'打点'} func={'个人中心'} action={'点击消息中心'} onClick={() => this.goMessage()}
+          <MarkBlock module={'打点'}
+                     func={'个人中心'}
+                     action={'点击消息中心'}
+                     onClick={() => this.goMessage()}
                      className="message-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_message.png"/>
             </div>
             <div className="content">消息中心</div>
             {noticeMsgCount ?
-              <span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
+             <span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
             <div className="arrow"></div>
           </MarkBlock>
-          <MarkBlock module={'打点'} func={'个人中心'} action={'点击使用帮助'} onClick={() => this.goHelp()}
+          <MarkBlock module={'打点'}
+                     func={'个人中心'}
+                     action={'点击使用帮助'}
+                     onClick={() => this.goHelp()}
                      className="help-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_help.png"/>
@@ -271,7 +293,10 @@ export default class Personal extends React.Component<any, any> {
             <div className="arrow"></div>
           </MarkBlock>
           {(userInfo.memberTypeId !== 1 || userInfo.memberTypeId !== 2) &&
-          <MarkBlock module={'打点'} func={'个人中心'} action={'点击用户协议'} onClick={() => this.goProtocol()}
+          <MarkBlock module={'打点'}
+                     func={'个人中心'}
+                     action={'点击用户协议'}
+                     onClick={() => this.goProtocol()}
                      className="protocol-container">
             <div className="img-container">
               <img src="http://static.iqycamp.com/images/icon_user.png"/>
@@ -291,6 +316,7 @@ export default class Personal extends React.Component<any, any> {
         {renderCards()}
         {renderBusiness()}
         {renderList()}
+        <ToolBar/>
       </div>
     )
   }

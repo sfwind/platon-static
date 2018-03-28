@@ -22,14 +22,7 @@ export default class NickName extends React.Component {
       function: '个人中心',
       action: '修改昵称页面'
     })
-    const { hiddenTab = () => {} } = this.props
-    hiddenTab()
     this.setState({ nickname: window.ENV.userName })
-  }
-
-  componentWillUnmount() {
-    const { showTab = () => {} } = this.props
-    showTab()
   }
 
   handleUpdateNickname() {
