@@ -93,10 +93,6 @@ export default class Profile extends React.Component<any, any> {
     }).catch(err => dispatch(alertMsg(err)))
   }
 
-  componentDidMount() {
-    const { hiddenTab } = this.props
-    hiddenTab()
-  }
 
   changeValue(path, value) {
     this.setState(_.set(_.merge({}, this.state), path, value))
