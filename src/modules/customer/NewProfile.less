@@ -4,10 +4,11 @@
   //TODO absolute 时有bug：底部上滑导航栏被遮盖
   position: relative;
   width: 100%;
-  //height:~'calc(100% - 50px)' !important;
   overflow-y: scroll;
   background-color: @color_weak_background;
   height: 100vh;
+
+  -webkit-overflow-scrolling: touch;
   > .go-rise {
     margin-bottom: 20px;
     > .guide {
@@ -37,9 +38,8 @@
     }
   }
 
-
   > .profile-container {
-    font-size:15px;
+    font-size: 15px;
     > .profile-item {
       height: 60px;
       line-height: 60px;
@@ -120,7 +120,7 @@
                 font-size: 15px;
                 border: none;
                 text-align: right;
-                top:20px;
+                top: 20px;
                 right: 0px;
               }
             }
