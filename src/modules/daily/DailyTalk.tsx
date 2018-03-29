@@ -12,7 +12,7 @@ export default class DailyTalk extends React.Component<any, any> {
     this.state = {
       data:[],
       showImg:false,
-      img:'http://static.iqycamp.com/images/dailytalk/default_backend.png'
+      img:''
     }
   }
 
@@ -23,11 +23,10 @@ export default class DailyTalk extends React.Component<any, any> {
     if(res.code === 200) {
       dispatch(endLoad())
       this.setState({
-        showImg:true,
         img: res.msg
       })
     } else {
-      dispatch(alertMsg(res.msg))
+      this.context.router.push({pathname:'/rise/static/course/schedule/plan'})
     }
   }
 
