@@ -57,7 +57,6 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
       thumbnail = '',
       targetUrl = '',
     } = this.state.data
-    console.log(this.state)
 
     const renderStatus = () => {
       switch (status) {

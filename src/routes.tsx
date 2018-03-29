@@ -7,6 +7,7 @@ import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
 import DailyTalk from './modules/daily/DailyTalk'
+import GlobalRequest from './components/globalalert/GlobalRequest'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -317,7 +318,6 @@ const routes = (
         window.scrollTo(0, 0)
       }
     }}>
-
       <Route path="home" component={LangdingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
