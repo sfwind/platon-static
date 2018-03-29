@@ -323,13 +323,13 @@ const routes = (
       <Route path="home/activities" component={ActivityListPage}/>
       <Route path="home/problem" component={ProblemDesc}/>
 
-      <Route path="rise" component={DailyTalk}/>
-      <Route path="camp" component={DailyTalk}/>
+      <Route path="rise" component={SchedulePlan}/>
+      <Route path="camp" component={SchedulePlan}/>
       <Route path="learn" component={SchedulePlan}/>
       <Route path="plan/main" component={SchedulePlan}/>
 
 
-      {/*<Route path="daily/talk" component={DailyTalk}/>*/}
+      <Route path="daily/talk" component={DailyTalk}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>

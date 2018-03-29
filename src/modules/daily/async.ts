@@ -1,7 +1,7 @@
-import {pget} from '../../utils/request'
+import requestProxy from '../base/requestProxy'
 
 
 
 export function loadDailyTalk(){
-  return pget('/rise/daily/talk')
+  return requestProxy.getProxy('/rise/daily/talk')
 }

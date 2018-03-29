@@ -17,16 +17,11 @@ export default class DailyTalk extends React.Component<any, any> {
   }
 
   async componentWillMount() {
-    const { dispatch } = this.props
-    dispatch(startLoad())
     let res = await loadDailyTalk()
     if(res.code === 200) {
-      dispatch(endLoad())
       this.setState({
         img: res.msg
       })
-    } else {
-      this.context.router.push({pathname:'/rise/static/course/schedule/plan'})
     }
   }
 
