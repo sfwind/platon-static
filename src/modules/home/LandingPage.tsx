@@ -9,10 +9,8 @@ import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/h
 import * as FontAwesome from 'react-fontawesome'
 import Banner from '../../components/Banner'
 import { loadLandingPageData, loadShuffleArticles } from './async'
-import { SubscribeAlert } from './components/subscribe/SubscribeAlert'
 import AssetImg from '../../components/AssetImg'
 import { ToolBar } from '../base/ToolBar'
-import { ToolBarNoConnect } from '../base/ToolBarNoConnect'
 import { mark } from '../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
@@ -56,11 +54,7 @@ export default class LandingPage extends React.Component {
   async componentWillMount () {
     changeTitle('圈外同学')
     mark({ module: '打点', function: '着陆页', action: '打开着陆页' })
-    const { dispatch } = this.props
-    dispatch(startLoad())
     let res = await loadLandingPageData()
-    console.log(res)
-    dispatch(endLoad())
     if (res.code === 200) {
       this.setState({
         data: res.msg,
@@ -90,24 +84,17 @@ export default class LandingPage extends React.Component {
     }
   }
 
-  shuffleArticles () {
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    loadShuffleArticles().then(res => {
-      dispatch(endLoad())
-      if (res.code === 200) {
-        let data = this.state.data
-        data.articlesFlows = res.msg
-        this.setState({
-          data: data,
-        })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
-    }).catch(er => {
-      dispatch(endLoad())
-      dispatch(alertMsg(er))
-    })
+  async shuffleArticles () {
+    let res = await loadShuffleArticles()
+    if (res.code === 200) {
+      let data = this.state.data
+      data.articlesFlows = res.msg
+      this.setState({
+        data: data,
+      })
+    } else {
+      dispatch(alertMsg(res.msg))
+    }
   }
 
   render () {

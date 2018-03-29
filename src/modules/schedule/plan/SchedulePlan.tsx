@@ -11,6 +11,7 @@ import { ToolBar } from '../../base/ToolBar'
 import { ColumnSpan } from '../../../components/ColumnSpan'
 import * as FontAwesome from 'react-fontawesome'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
+import { testAlert } from '../../../components/globalalert/GlobalRequest'
 
 @connect(state => state)
 export default class SchedulePlan extends React.Component {
