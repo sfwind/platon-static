@@ -1,11 +1,12 @@
 import { pget, ppost } from 'utils/request'
+import requestProxy from '../../base/requestProxy'
 
 export function loadSchedulePlan () {
   return pget('/rise/schedule/load/plan')
 }
 
 export function loadPersonSchedulePlan () {
-  return pget('/rise/schedule/load/person/plan')
+  return requestProxy.getProxy('/rise/schedule/load/person/plan')
 }
 
 export function createPlan (problemId) {

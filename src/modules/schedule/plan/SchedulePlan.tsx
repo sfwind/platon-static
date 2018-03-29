@@ -63,9 +63,7 @@ export default class SchedulePlan extends React.Component {
       })
     }
 
-    dispatch(startLoad())
     let res = await loadPersonSchedulePlan()
-    dispatch(endLoad())
     if(res.code == 200) {
       this.setState({ data: res.msg })
     } else {
