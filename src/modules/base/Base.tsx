@@ -70,9 +70,9 @@ export default class Main extends React.Component<any, any> {
       window.ENV.roleName = userInfoResult.msg.roleName;
       window.ENV.userName = userInfoResult.msg.nickname;
       window.ENV.headImgUrl = userInfoResult.msg.headimgurl;
+      window.ENV.isAsst = userInfoResult.msg.isAsst;
     }
 
-    console.log(`${window.ENV.sensorsProject}`)
     sa.init({
       name: 'sa',
       web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
@@ -83,7 +83,16 @@ export default class Main extends React.Component<any, any> {
     if(!!userInfoResult.msg.riseId) {
       sa.login(userInfoResult.msg.riseId);
     }
+    let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst };
+    if(!!window.ENV.className && !!window.ENV.groupId) {
+      merge(props, {
+        className: window.ENV.className,
+        groupId: window.ENV.groupId
+      });
+    }
+    sa.registerPage(props);
     sa.quick('autoTrack');
+
     this.setState({ showPage: true })
     if(window.location.href.indexOf('/rise/static/guest/') === -1) {
       // 不是guest页面，判断这个用户是否可以看到活动提示
