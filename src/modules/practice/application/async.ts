@@ -12,10 +12,6 @@ export function loadApplicationCompletedCount(planId) {
   return pget(`/rise/practice/application/completed/count/${planId}`)
 }
 
-export function isRiseMember() {
-  return pget('/rise/plan/risemember');
-}
-
 export function submitApplicationPractice(planId, applicationId, params) {
   return ppost(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
 }

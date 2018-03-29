@@ -4,7 +4,7 @@ import './Application.less'
 import {
   loadApplicationPractice, vote, loadOtherList,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  loadOtherListBatch, isRiseMember, loadApplicationCompletedCount
+  loadOtherListBatch, loadApplicationCompletedCount
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
@@ -57,7 +57,6 @@ export default class Application extends React.Component <any, any> {
       draftId: -1,
       draft: '',
       showDraftToast: false,
-      isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
       completedApplicationCnt: 1000,
@@ -135,13 +134,6 @@ export default class Application extends React.Component <any, any> {
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
-    })
-    isRiseMember().then(res => {
-      if (res.code === 200) {
-        this.setState({isRiseMember: res.msg})
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
     })
     getOpenStatus().then(res => {
       if (res.code === 200) {
@@ -412,7 +404,7 @@ export default class Application extends React.Component <any, any> {
   render () {
     const {
       data, otherList, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
-      showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember
+      showCompletedBox = false, completedApplicationCnt, integrated, loading
     } = this.state
     const {planId} = this.props.location.query
     const {completePracticePlanId, dispatch} = this.props

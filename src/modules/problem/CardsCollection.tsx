@@ -150,12 +150,6 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
       <div className="cards-container">
         <div className={`cards-page ${showCard ? 'blur' : ''}`}>
           <div className="cards-header">{problem}</div>
-          {
-            // TODO 限免活动取消，记得删除这行代码
-            problemId === FREE_PROBLEM_ID && !isRiseMember ?
-              <div className="cards-call" style={{ height: 0.366 * window.innerWidth }}/> :
-              null
-          }
           {renderCards()}
         </div>
         {renderCardView()}

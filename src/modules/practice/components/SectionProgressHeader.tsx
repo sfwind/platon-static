@@ -27,18 +27,22 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
     this.goSeriesPage = this.goSeriesPage.bind(this)
   }
 
-  PROGRESS_TEXT = [
-    '知识点',
-    '选择题',
-    '应用题',
-    '附加题'
-  ]
+  // PROGRESS_TEXT = [
+  //   '知识点',
+  //   '选择题',
+  //   '应用题',
+  //   '附加题'
+  // ]
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
   componentWillMount() {
+    this.unlockSeries()
+  }
+
+  unlockSeries(){
     const { practicePlanId } = this.props
 
     if(practicePlanId) {
@@ -61,7 +65,6 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
 
   goSeriesPage(index, dispatch) {
     const { progress } = this.state
-    console.log(this.state)
     const { planId, practicePlanId, practiceId, complete, type } = progress[index]
     loadPracticePlan(practicePlanId).then(res => {
       const { code, msg } = res
@@ -130,7 +133,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
   }
 
   render() {
-    const { title, progress } = this.state
+    const { title, progress = [] } = this.state
     const { currentIndex, planId } = this.props
 
     return (
@@ -147,12 +150,12 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
         </div>
         <div className="progress-text-container">
           {
-            progress.map((part, index) => {
+            !_.isEmpty(progress) && progress.map((part, index) => {
               const { unlock, complete } = part
               return (
                 <div className={`progress-text ${unlock ? 'unlock' : 'lock'} ${index == currentIndex ? 'current' : ''}`}
                      onClick={() => this.selfSeriesSwitch(index)} key={index}>
-                  {this.PROGRESS_TEXT[index]}
+                  {part.title}
                 </div>
               )
             })
