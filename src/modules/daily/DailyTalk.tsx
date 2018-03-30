@@ -28,8 +28,6 @@ export default class DailyTalk extends React.Component<any, any> {
   render() {
     const { img} = this.state
 
-
-
     return (
       <div className="daily_talk_container">
         <img src={img}/>

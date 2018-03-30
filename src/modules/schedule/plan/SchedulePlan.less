@@ -6,18 +6,52 @@
   min-width: 100vw;
   padding-bottom: 9rem;
 
-  .daily_talk_container {
+  .shadow-container {
     position:fixed;
-    left:10%;
-    top:60px;
-    z-index: 999;
-    width: 90%;
+    top:0;
+    left:0;
+    opacity:.7;
+    width:100%;
+    height:100%;
+    background:#000;
+    z-index:900;
+    pointer-events: none;
+  }
 
-    .close-img{
-      position:absolute;
-      top:-4rem;
-      right:3.2rem;
-      width: 27px;
+  .daily_talk_backend {
+    position:fixed;
+    top:6%;
+    left:7%;
+    width: 86%;
+    height:82%;
+    z-index:950;
+    background: #FFFFFF;
+
+    .share-daily-talk{
+      position:fixed;
+      font-size:1.1rem;
+      letter-spacing: 1rem;
+      color:#999999;
+      left:25%;
+      top:81%;
+    }
+  }
+
+  .daily_talk_container {
+    position: fixed;
+    left: 15%;
+    top: 6%;
+    z-index: 999;
+    width: 70%;
+    box-shadow: 0px 1px 1px 1px aliceblue;
+    .close-img {
+      position: fixed;
+      top: 0;
+      right: 7%;
+      width: 24px;
+    }
+    .daily-talk-img{
+      width: 100%;
     }
   }
 
@@ -30,193 +64,6 @@
       box-shadow: 0 3px 30px 0 rgba(222, 225, 240, 0.88);
       height: 15.3rem;
       padding: 2rem;
-      .headimg-url {
-        display: inline-block;
-        border-radius: 4px;
-        width: 4.3rem;
-        height: 4.3rem;
-      }
-      .nickname {
-        display: inline-block;
-        font-size: 2.2rem;
-        color: #333;
-        text-align: center;
-        line-height: 4.3rem;
-        margin-left: 1rem;
-        vertical-align: top;
-      }
-      .personal-icon {
-        display: inline-block;
-        content: ' ';
-        width: 2rem;
-        height: 4.3rem;
-        line-height: 4.3rem;
-        margin-left: 1rem;
-        background: url("@{imgPathRoot}/schedule_plan_edit.png?imageslim") no-repeat right center / 2rem 2rem;
-      }
-      .parameter-box {
-        position: absolute;
-        top: 8.7rem;
-        display: inline-block;
-        text-align: center;
-        height: 5rem;
-        .desc {
-          font-size: 1.2rem;
-          color: #666666;
-        }
-        .data {
-          font-size: 2.4rem;
-          font-weight: 500;
-          color: #333333;
-        }
-        &.box1 {
-          min-width: 9.6rem;
-          left: 2.5rem;
-        }
-        &.box2 {
-          min-width: 7.2rem;
-          left: 15rem;
-        }
-        &.box3 {
-          min-width: 5rem;
-          left: 27.5rem;
-        }
-      }
-      .problem-update-tips {
-        position: absolute;
-        display: block;
-        left: 0;
-        margin: 0 2rem 0 4rem;
-        bottom: 2rem;
-        color: #333333;
-        font-size: 1.3rem;
-        height: 2rem;
-        line-height: 2rem;
-      }
-    }
-    .person-tip {
-      position: relative;
-      box-sizing: border-box;
-      padding: 2rem 2rem 2rem 4rem;
-      .problem-update-tip-icon {
-        position: absolute;
-        content: ' ';
-        display: inline-block;
-        width: 1.3rem;
-        height: 1.3rem;
-        left: 2rem;
-        top: 2rem;
-        background: url("@{imgPathRoot}/schedule_plan_broadcast.png?imageslim") no-repeat right center / 1.3rem 1.3rem;
-      }
-      span {
-        width: 100%;
-        font-size: 1.3rem;
-        color: #333333;
-        line-height: 1.5rem;
-        word-break: break-all;
-      }
-    }
-    .current-problems {
-      position: relative;
-      box-sizing: border-box;
-      padding: 3.5rem 2rem 0;
-      .title();
-      .more {
-        position: absolute;
-        height: 3.5rem;
-        line-height: 3.5rem;
-        font-size: 1.5rem;
-        color: #b6b7bd;
-        text-align: right;
-        right: 2rem;
-        top: 3.5rem;
-      }
-      .no-running-plans {
-        position: relative;
-        box-shadow: 0 3px 8px 0 rgba(73, 73, 73, 0.15);
-        border-radius: 4px;
-        height: 19.2rem;
-        margin: 1.4rem 0 2.1rem 0;
-        .no-running-icon {
-          position: absolute;
-          width: 10rem;
-          height: 10rem;
-          top: 1.8rem;
-          left: 50%;
-          transform: translateX(-50%);
-          background: url("@{imgPathRoot}/schedule_no_runningplans.png?imageslim") no-repeat bottom center / 10rem 10rem;
-        }
-        .no-running-tip1 {
-          position: absolute;
-          font-size: 1.7rem;
-          color: #666666;
-          text-align: center;
-          width: 100%;
-          left: 50%;
-          transform: translateX(-50%);
-          top: 11.7rem;
-        }
-        .no-running-tip2 {
-          position: absolute;
-          font-size: 1.4rem;
-          color: #b6b7bd;
-          text-align: center;
-          left: 50%;
-          width: 100%;
-          transform: translateX(-50%);
-          top: 14.8rem;
-        }
-      }
-      .plan-bar-box {
-        .current-problem-component {
-          &:first-of-type {
-            margin-top: 1.4rem;
-          }
-        }
-      }
-      .view-course-schedule {
-        box-sizing: border-box;
-        display: block;
-        border: 1px solid #ff983f;
-        border-radius: 4px;
-        height: 4.5rem;
-        line-height: 4.5rem;
-        font-size: 1.5rem;
-        color: #ff983f;
-        text-align: center;
-      }
-    }
-    .complete-problems {
-      box-sizing: border-box;
-      padding: 3.5rem 2rem 0;
-      .title();
-    }
-  }
-
-  .shadow-info-container {
-    position: fixed;
-    left: 0;
-    top: 0;
-    opacity: .7;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    z-index: 998;
-    .personal-detail {
-      box-sizing: border-box;
-      position: relative;
-      background: #ffffff;
-      box-shadow: 0 3px 30px 0 rgba(222, 225, 240, 0.88);
-      height: 15.3rem;
-      padding: 2rem;
-      position: fixed;
-      left: 0;
-      top: 0;
-      opacity: .7;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      z-index: 998;
       .headimg-url {
         display: inline-block;
         border-radius: 4px;

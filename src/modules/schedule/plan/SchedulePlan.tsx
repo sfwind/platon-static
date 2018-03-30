@@ -101,6 +101,24 @@ export default class SchedulePlan extends React.Component {
       )
     }
 
+    const renderShadow = () => {
+      return (
+        <div className="shadow-container">
+
+        </div>
+      )
+    }
+
+    const renderDailyBackend = () => {
+      return (
+        <div className="daily_talk_backend">
+          <div className="share-daily-talk">
+            分享我的每日圈语
+          </div>
+        </div>
+      )
+    }
+
     const renderDailyTalk = () => {
       return (
         <div className="daily_talk_container">
@@ -112,9 +130,11 @@ export default class SchedulePlan extends React.Component {
     }
 
     return (
-      <div className="schedule-plan-container">
+      <div className="schedule-plan-container" style={{position:showImg?'fixed':'absolute'}}>
+        {showImg && renderShadow()}
+        {showImg && renderDailyBackend()}
         {showImg && renderDailyTalk()}
-        <div className={showImg ? 'shadow-info-container' : 'info-container'}>
+        <div className='info-container'>
           <div className="personal-detail">
             <AssetImg className="headimg-url" url={window.ENV.headImgUrl}/>
             <div className="nickname">{window.ENV.userName}</div>
