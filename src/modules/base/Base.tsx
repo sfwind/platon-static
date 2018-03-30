@@ -90,6 +90,11 @@ export default class Main extends React.Component<any, any> {
         groupId: window.ENV.groupId
       });
     }
+    if(!!userInfoResult.msg.riseId) {
+      merge(props, {
+        riseId: userInfoResult.msg.riseId
+      });
+    }
     sa.registerPage(props);
     sa.quick('autoTrack');
 
