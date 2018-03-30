@@ -155,7 +155,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
               return (
                 <div className={`progress-text ${unlock ? 'unlock' : 'lock'} ${index == currentIndex ? 'current' : ''}`}
                      onClick={() => this.selfSeriesSwitch(index)} key={index}>
-                  {part.title}
+                  {part.name}
                 </div>
               )
             })
