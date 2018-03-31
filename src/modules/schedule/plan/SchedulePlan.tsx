@@ -205,7 +205,7 @@ export default class SchedulePlan extends React.Component {
               {completePlans.map((plan, index) => <CompletePlanBar key={index} plan={plan}/>)}
             </div>
           }
-          <ToolBar/>
+          <ToolBar hidden={showImg}/>
         </div>
       </div>
     )
