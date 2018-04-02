@@ -13,6 +13,7 @@ import * as FontAwesome from 'react-fontawesome'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
 import { testAlert } from '../../../components/globalalert/GlobalRequest'
 import { loadDailyTalk } from '../../daily/async'
+import * as _ from 'lodash'
 
 @connect(state => state)
 export default class SchedulePlan extends React.Component {
@@ -59,7 +60,6 @@ export default class SchedulePlan extends React.Component {
         let res2 = await  loadDailyTalk()
         if(res2.code === 200) {
           this.setState({
-            showImg:true,
             img: res2.msg
           })
         }
@@ -88,6 +88,7 @@ export default class SchedulePlan extends React.Component {
   }
 
   render() {
+    console.log(this.state)
     let { showAllRunningPlan, sliceRunningPlans, showPage, showImg, img } = this.state
     let { announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0, hasCourseSchedule = true } = this.state.data
     if(!showPage) {
@@ -114,7 +115,7 @@ export default class SchedulePlan extends React.Component {
     const renderDailyBackend = () => {
       return (
         <div className="daily_talk_backend">
-          <div className="share-daily-talk">
+          <div className="share-daily-talk" style={{top:innerWidth>375?'85%':'90%'}}>
             分享我的每日圈语
           </div>
         </div>
@@ -135,7 +136,7 @@ export default class SchedulePlan extends React.Component {
       <div className="schedule-plan-container" style={{position:showImg?'fixed':'absolute'}}>
         {showImg && renderShadow()}
         {showImg && renderDailyBackend()}
-        {showImg && renderDailyTalk()}
+        {showImg && !_.isEmpty(img) && renderDailyTalk()}
         <div className='info-container'>
           <div className="personal-detail">
             <AssetImg className="headimg-url" url={window.ENV.headImgUrl}/>
