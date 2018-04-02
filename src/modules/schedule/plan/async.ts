@@ -16,3 +16,7 @@ export function createPlan (problemId) {
 export function loadGoCountDownPageStatus () {
   return pget('/rise/customer/get/countdown/status')
 }
+
+export function isLoadDailyTalk(){
+  return requestProxy.getProxy('/rise/daily/talk/check')
+}

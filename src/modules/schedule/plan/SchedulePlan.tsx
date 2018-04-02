@@ -5,7 +5,7 @@ import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { CurrentPlanBar } from './components/CurrentPlanBar'
 import { CompletePlanBar } from './components/CompletePlanBar'
 import AssetImg from '../../../components/AssetImg'
-import { loadGoCountDownPageStatus, loadPersonSchedulePlan } from './async'
+import { isLoadDailyTalk, loadGoCountDownPageStatus, loadPersonSchedulePlan } from './async'
 import { mark } from '../../../utils/request'
 import { ToolBar } from '../../base/ToolBar'
 import { ColumnSpan } from '../../../components/ColumnSpan'
@@ -47,20 +47,23 @@ export default class SchedulePlan extends React.Component {
           this.context.router.push('/rise/static/business/count/down')
         } else if(memberTypeId == 5) {
           this.context.router.push('/rise/static/camp/count/down')
-        } else {
-          this.setState({ showPage: true })
         }
-      } else {
-        this.setState({ showPage: true })
       }
     }
 
-    let res1 = await  loadDailyTalk()
-    if(res1.code === 200) {
-      this.setState({
-        showImg: true,
-        img: res1.msg
-      })
+    let res1 = await isLoadDailyTalk()
+    if(res1.code === 200){
+      let show = res1.msg
+      this.setState({ showImg:show,showPage:true})
+      if(show){
+        let res2 = await  loadDailyTalk()
+        if(res2.code === 200) {
+          this.setState({
+            showImg:true,
+            img: res2.msg
+          })
+        }
+      }
     }
 
     let res = await loadPersonSchedulePlan()
@@ -87,7 +90,6 @@ export default class SchedulePlan extends React.Component {
   render() {
     let { showAllRunningPlan, sliceRunningPlans, showPage, showImg, img } = this.state
     let { announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0, hasCourseSchedule = true } = this.state.data
-
     if(!showPage) {
       return <div></div>
     }
