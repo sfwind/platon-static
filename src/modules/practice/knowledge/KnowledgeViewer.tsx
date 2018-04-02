@@ -313,8 +313,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                 }
               </div>
             }
-            {showTip && <div className="title-bar">问答</div>}
-            {showTip &&
+            <div className="title-bar">问答</div>
             <div className="discuss">
               {
                 !_.isEmpty(discuss) &&
@@ -341,7 +340,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   </div>
               }
             </div>
-            }
           </div>
           {showDiscuss && <div className="padding-comment-dialog"/>}
           {
@@ -357,7 +355,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                      submit={() => this.onSubmit()}
                      onChange={(v) => this.onChange(v)}
                      cancel={() => this.cancel()}/>}
-          {showTip && !showDiscuss &&
+          {!showDiscuss &&
           <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
             <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}></AssetImg>
           </div>
