@@ -83,7 +83,7 @@ export default class Main extends React.Component<any, any> {
     if(!!userInfoResult.msg.riseId) {
       sa.login(userInfoResult.msg.riseId);
     }
-    let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst };
+    let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst, platformType: 2 };
     if(!!window.ENV.className && !!window.ENV.groupId) {
       merge(props, {
         className: window.ENV.className,
