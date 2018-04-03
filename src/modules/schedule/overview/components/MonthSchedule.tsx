@@ -151,7 +151,7 @@ export class MonthSchedule extends React.Component<MonthScheduleProps, any> {
         dispatch(alertMsg('主修课为每月小班教学，无法取消'))
         return
       } else if (!schedule.problem.publish) {
-        dispatch(alertMsg('未开课的课程无法选择'))
+        dispatch(alertMsg('课程开发中，暂时无法选择'))
         return
       } else {
         if(!schedule.adjustable && schedule.problem.publish) {
