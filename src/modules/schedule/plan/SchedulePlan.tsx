@@ -88,7 +88,6 @@ export default class SchedulePlan extends React.Component {
   }
 
   render() {
-    console.log(window.innerWidth)
     let { showAllRunningPlan, sliceRunningPlans, showPage, showImg, img } = this.state
     let { announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0, hasCourseSchedule = true } = this.state.data
     if(!showPage) {
@@ -123,9 +122,6 @@ export default class SchedulePlan extends React.Component {
               <img className="daily-talk-img" src={img}/>
             </div>
             <div className="share-daily-talk">
-              <div className="text">
-              长按保存图片
-              </div>
             </div>
           </div>
           }
