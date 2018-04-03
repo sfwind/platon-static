@@ -10,15 +10,15 @@ const P = 'base'
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 const { Alert } = Dialog
-import { toLower, get } from 'lodash'
+import { toLower, get, merge } from 'lodash'
 import { pget } from 'utils/request'
 import Activity from '../../components/Activity'
 // import UA from 'ua-device'
 import './Base.less'
 import $ from 'jquery'
 import RequestComponent from './RequestComponent'
-
 require('../../components/progress/circle-progress.js')
+import sa from 'sa-sdk-javascript';
 
 $.fn.extend({
   animateCss: function (animationName, callback) {
@@ -64,9 +64,41 @@ export default class Main extends React.Component<any, any> {
   async componentWillMount () {
     let userInfoResult = await pget('/rise/customer/info')
     if (userInfoResult.code === 200) {
-      window.ENV.userName = userInfoResult.msg.nickname
-      window.ENV.headImgUrl = userInfoResult.msg.headimgurl
+      window.ENV.riseId = userInfoResult.msg.riseId;
+      window.ENV.className = userInfoResult.msg.className;
+      window.ENV.groupId = userInfoResult.msg.groupId;
+      window.ENV.roleName = userInfoResult.msg.roleName;
+      window.ENV.userName = userInfoResult.msg.nickname;
+      window.ENV.headImgUrl = userInfoResult.msg.headimgurl;
+      window.ENV.isAsst = userInfoResult.msg.isAsst;
     }
+
+    sa.init({
+      heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
+      name: 'sa',
+      web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
+      server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
+      heatmap: {},
+      is_single_page: true,
+    });
+    if(!!userInfoResult.msg.riseId) {
+      sa.login(userInfoResult.msg.riseId);
+    }
+    let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst, platformType: 2 };
+    if(!!window.ENV.className && !!window.ENV.groupId) {
+      merge(props, {
+        className: window.ENV.className,
+        groupId: window.ENV.groupId
+      });
+    }
+    if(!!userInfoResult.msg.riseId) {
+      merge(props, {
+        riseId: userInfoResult.msg.riseId
+      });
+    }
+    sa.registerPage(props);
+    sa.quick('autoTrack');
+
     this.setState({ showPage: true })
     if (window.location.href.indexOf('/rise/static/guest/') === -1) {
       // 不是guest页面，判断这个用户是否可以看到活动提示
@@ -107,7 +139,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentDidMount () {
-    config(['chooseWXPay'])
+    config([ 'chooseWXPay' ])
   }
 
   closeAnswer () {

@@ -1,6 +1,27 @@
 var Router = require("express").Router;
 var router = new Router();
 
+router.get("/rise/customer/global/notify", (req, res) => {
+  setTimeout(() =>
+    res.status(200).json({
+      "msg": {
+        "id": null,
+        "profileId": null,
+        "orderId": null,
+        "memberTypeId": null,
+        "openDate": null,
+        "expireDate": null,
+        "expired": false,
+        "addTime": null,
+        "startTime": null,
+        "endTime": null,
+        "name": null,
+        "expiredInSevenDays": false,
+        "showGlobalNotify": false
+      }, "code": 200
+    }), Math.random() * 1500);
+});
+
 router.get("/rise/customer/profile", (req, res) => {
   setTimeout(() =>
     res.status(200).json(
@@ -25,11 +46,11 @@ router.get("/rise/customer/region", (req, res) => {
     res.status(200).json(
       {
         "msg": {
-          "provinceList": [{ "id": "1", "value": "北京市", "parentId": "1000000" }, {
+          "provinceList": [ { "id": "1", "value": "北京市", "parentId": "1000000" }, {
             "id": "2",
             "value": "上海市",
             "parentId": "1000000"
-          }]
+          } ]
         }, "code": 200
       }
     ), Math.random() * 1500);
@@ -85,8 +106,8 @@ router.get("/rise/customer/plans", (req, res) => {
     res.status(200).json(
       {
         "msg": {
-          "runningPlans": [{ "name": "与人沟通时条理更清晰", "point": 0 }],
-          "donePlans": [{ "name": "面对前所未有的新问题时撬开脑洞", "point": 814 }, { "name": "临场发言也能掷地有声", "point": 124 }],
+          "runningPlans": [ { "name": "与人沟通时条理更清晰", "point": 0 } ],
+          "donePlans": [ { "name": "面对前所未有的新问题时撬开脑洞", "point": 814 }, { "name": "临场发言也能掷地有声", "point": 124 } ],
           "point": 2000
         }, "code": 200
       }
@@ -124,7 +145,7 @@ router.get("/rise/customer/coupon", (req, res) => {
     res.status(200).json(
       {
         "msg": {
-          "coupons": [{
+          "coupons": [ {
             "id": null,
             "profileId": null,
             "amount": 100,
@@ -135,7 +156,7 @@ router.get("/rise/customer/coupon", (req, res) => {
             "category": null,
             "description": "优惠券",
             "expiredDateString": "2018年02月28日"
-          }], "total": 100
+          } ], "total": 100
         }, "code": 200
       }
     ), Math.random() * 1500);
@@ -180,7 +201,7 @@ router.get("/rise/customer/event/list", (req, res) => {
   setTimeout(() =>
     res.status(200).json(
       {
-        "msg": [{
+        "msg": [ {
           "id": 36,
           "title": "圈外分舵一大波岗位来袭！",
           "publisher": " ",
@@ -468,7 +489,7 @@ router.get("/rise/customer/event/list", (req, res) => {
           "del": false,
           "showTime": null,
           "visibility": null
-        }], "code": 200
+        } ], "code": 200
       }
     ), Math.random() * 1500);
 })
@@ -476,9 +497,43 @@ router.get("/rise/customer/event/list", (req, res) => {
 router.get('/rise/customer/info', (req, res) => {
   setTimeout(() =>
     res.status(200).json({
-      'msg': {"nickname":'风之伤',"headimgurl":"http://someurl"},
-      'code': 200
-    }), Math.random() * 1000)
+      "msg": {
+        "id": 0,
+        "openid": null,
+        "nickname": "薛定谔的猫",
+        "city": null,
+        "country": null,
+        "province": null,
+        "headimgurl": "https://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM7ZzH69MKticPuHia0BQrSp3urQbKuwAEvs7ibtYWOQxCrIOkZfkdBKzsNNsqHdo3V4NJN7pBpZYuON9hGt1uGtYMHZxgWoiasfHm4/132",
+        "headImgUrlCheckTime": null,
+        "mobileNo": null,
+        "email": null,
+        "industry": null,
+        "function": null,
+        "workingLife": null,
+        "realName": null,
+        "signature": null,
+        "point": null,
+        "isFull": null,
+        "riseId": null,
+        "openRise": null,
+        "unionid": null,
+        "expireDate": null,
+        "riseMember": null,
+        "openNavigator": null,
+        "openApplication": null,
+        "openConsolidation": null,
+        "openWelcome": null,
+        "learningNotify": null,
+        "requestCommentCount": null,
+        "role": null,
+        "address": null,
+        "workingYear": null,
+        "weixinId": null,
+        "receiver": null,
+        "married": null
+      }, "code": 200
+    }), Math.random() * 1000);
 })
 
 module.exports = router;

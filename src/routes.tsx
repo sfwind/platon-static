@@ -6,6 +6,8 @@ import Base from './modules/base/Base'
 import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
+import sa from 'sa-sdk-javascript';
+
 import GlobalRequest from './components/globalalert/GlobalRequest'
 
 const LangdingPage = Loadable({
@@ -316,6 +318,7 @@ const routes = (
       } else {
         window.scrollTo(0, 0)
       }
+      sa.quick('autoTrackSinglePage');
     }}>
       <Route path="home" component={LangdingPage}/>
       <Route path="home/lives" component={LiveListPage}/>

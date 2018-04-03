@@ -1,6 +1,6 @@
 var app = require("./app")
 
-var port = process.env.EXPRESS_PORT || 3000
+var port = process.env.EXPRESS_PORT || 8080
 var ip = "0.0.0.0"
 
 console.info("正在启动 server")
