@@ -53,10 +53,10 @@ export default class SchedulePlan extends React.Component {
     }
 
     let res1 = await isLoadDailyTalk()
-    if(res1.code === 200){
+    if(res1.code === 200) {
       let show = res1.msg
-      this.setState({ showImg:show,showPage:true})
-      if(show){
+      this.setState({ showImg: show, showPage: true })
+      if(show) {
         let res2 = await  loadDailyTalk()
         if(res2.code === 200) {
           this.setState({
@@ -88,7 +88,7 @@ export default class SchedulePlan extends React.Component {
   }
 
   render() {
-    console.log(this.state)
+    console.log(window.innerWidth)
     let { showAllRunningPlan, sliceRunningPlans, showPage, showImg, img } = this.state
     let { announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0, hasCourseSchedule = true } = this.state.data
     if(!showPage) {
@@ -115,28 +115,28 @@ export default class SchedulePlan extends React.Component {
     const renderDailyBackend = () => {
       return (
         <div className="daily_talk_backend">
-          <div className="share-daily-talk" style={{top:innerWidth>375?'85%':'90%'}}>
-            分享我的每日圈语
+          {!_.isEmpty(img) &&
+          <div>
+            <div className="daily_talk_container">
+              <img className='close-img' src='http://static.iqycamp.com/images/dailytalk/source/close-icon.png'
+                   onClick={(e, v) => this.setState({ showImg: false })}/>
+              <img className="daily-talk-img" src={img}/>
+            </div>
+            <div className="share-daily-talk">
+              <div className="text">
+              长按保存图片
+              </div>
+            </div>
           </div>
-        </div>
-      )
-    }
-
-    const renderDailyTalk = () => {
-      return (
-        <div className="daily_talk_container">
-          <img className='close-img' src='http://static.iqycamp.com/images/dailytalk/source/close-icon.png'
-               onClick={(e, v) => this.setState({ showImg: false })}/>
-          <img className="daily-talk-img" src={img}/>
+          }
         </div>
       )
     }
 
     return (
-      <div className="schedule-plan-container" style={{position:showImg?'fixed':'absolute'}}>
+      <div className="schedule-plan-container" style={{ position: showImg ? 'fixed' : 'absolute' }}>
         {showImg && renderShadow()}
         {showImg && renderDailyBackend()}
-        {showImg && !_.isEmpty(img) && renderDailyTalk()}
         <div className='info-container'>
           <div className="personal-detail">
             <AssetImg className="headimg-url" url={window.ENV.headImgUrl}/>

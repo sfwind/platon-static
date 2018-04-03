@@ -3,5 +3,6 @@ import { pget } from '../../utils/request'
 
 
 export function loadDailyTalk(){
-  return pget('/rise/daily/talk')
+  return requestProxy.getProxy('/rise/daily/talk')
+  //return pget('/rise/daily/talk')
 }
