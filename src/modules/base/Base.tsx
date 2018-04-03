@@ -16,7 +16,8 @@ import Activity from '../../components/Activity'
 // import UA from 'ua-device'
 import './Base.less'
 import $ from 'jquery'
-import RequestComponent from './RequestComponent'require('../../components/progress/circle-progress.js')
+import RequestComponent from './RequestComponent'
+require('../../components/progress/circle-progress.js')
 import sa from 'sa-sdk-javascript';
 
 $.fn.extend({
