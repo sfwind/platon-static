@@ -48,31 +48,23 @@ export default class SchedulePlan extends React.Component {
           this.context.router.push('/rise/static/business/count/down')
         } else if(memberTypeId == 5) {
           this.context.router.push('/rise/static/camp/count/down')
-        }else{
-          this.setState({showPage:true})
         }
-      }else{
-        this.setState({showPage:true})
       }
     }
 
-    await loadDailyTalk()
-
-
-
-    // let res1 = await isLoadDailyTalk()
-    // if(res1.code === 200) {
-    //   let show = res1.msg
-    //   this.setState({ showImg: show, showPage: true })
-    //   if(show) {
-    //     let res2 = await  loadDailyTalk()
-    //     if(res2.code === 200) {
-    //       this.setState({
-    //         img: res2.msg
-    //       })
-    //     }
-    //   }
-    // }
+    let res1 = await isLoadDailyTalk()
+    if(res1.code === 200){
+      let show = res1.msg
+      this.setState({ showImg:show,showPage:true})
+      if(show){
+        let res2 = await  loadDailyTalk()
+        if(res2.code === 200) {
+          this.setState({
+            img: res2.msg
+          })
+        }
+      }
+    }
 
     let res = await loadPersonSchedulePlan()
     if(res.code == 200) {
