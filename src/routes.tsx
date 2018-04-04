@@ -9,6 +9,7 @@ import Loadable from 'react-loadable'
 import sa from 'sa-sdk-javascript';
 
 import GlobalRequest from './components/globalalert/GlobalRequest'
+import SchoolFriend from './modules/customer/person/SchoolFriend'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -383,6 +384,7 @@ const routes = (
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
         <Route path="new/profile" component={NewProfile}/>
+        <Route path="school/friend" component={SchoolFriend}/>
       </Route>
 
       <Route path="event/wall" component={EventWall}/>

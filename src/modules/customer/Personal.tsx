@@ -137,6 +137,10 @@ export default class Personal extends React.Component<any, any> {
     this.context.router.push('/rise/static/person/certificate')
   }
 
+  goSchoolFriend(){
+    this.context.router.push('/rise/static/person/friend')
+  }
+
   render () {
     const { noticeMsgCount } = this.props
     const { userInfo, learningNotify } = this.state
@@ -255,6 +259,15 @@ export default class Personal extends React.Component<any, any> {
             </div>
             <div className="content">我的抵用券</div>
             <div className="amount">{userInfo.couponSum}元</div>
+            <div className="arrow"></div>
+          </MarkBlock>
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击校友录'} onClick={()=>(e,v)=>this.goSchoolFriend()} className="friend-container">
+            <div className="img-container">
+              <img src='http://static.iqycamp.com/images/icon_friend.png'/>
+              <div className="arrow">
+              </div>
+            </div>
+            <div className="content">我的校友录</div>
             <div className="arrow"></div>
           </MarkBlock>
           <MarkBlock module={'打点'}
