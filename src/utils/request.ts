@@ -47,7 +47,7 @@ function ppost(url: string, body: Object) {
 function mark(param) {
   sa.track("frontMark", {
     module: param.module + "",
-    function: param.func + "",
+    function: param.function + "",
     action: param.action + "",
     memo: param.memo + ""
   });
