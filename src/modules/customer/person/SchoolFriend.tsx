@@ -85,18 +85,22 @@ export default class SchoolFriend extends React.Component<any, any> {
     const renderList = () => {
       return (
         <div className="school-friend-list">
-          <div className="school-friend-item">
-            <img src=""/>
-            <div className='nickname'>
-              向哲
-            </div>
-            <div className="introduction">
-              上海 | 互联网 | 工作年限：1-3年
-            </div>
-            <div className="memberId">
-              学号：180101108
-            </div>
-          </div>
+          {
+            elites.forEach((item)=>{
+              <div className="school-friend-item">
+                <img src={item.headImg}/>
+                <div className='nickname'>
+                  {item.nickName}
+                </div>
+                <div className="introduction">
+                  {item.province} | {item.industry} | 工作年限：{item.workLife}
+                </div>
+                <div className="memberId">
+                  学号：{item.memberId}
+                </div>
+              </div>
+            })
+          }
         </div>
       )
     }
