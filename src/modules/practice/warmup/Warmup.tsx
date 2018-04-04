@@ -19,7 +19,7 @@ import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import AssetImg from '../../../components/AssetImg'
 import './Main.less'
-import sa from 'sa-sdk-javascript';
+import { sa } from '../../../utils/helpers'
 
 var $ = require('jquery')
 
