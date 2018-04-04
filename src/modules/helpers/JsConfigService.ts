@@ -1,4 +1,4 @@
-import { pget, mark } from 'utils/request'
+import { pget, log } from 'utils/request'
 import * as _ from 'lodash'
 
 /**
@@ -93,7 +93,8 @@ class JsConfigService {
         if (e) {
           memo = 'error:' + JSON.stringify(e) + ',' + memo
         }
-        mark({
+
+        log({
           module: 'JSSDK',
           function: window.ENV.systemInfo,
           action: '签名失败',
