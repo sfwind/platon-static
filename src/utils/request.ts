@@ -74,4 +74,4 @@ function _getQueryString(name) {
   return undefined
 }
 
-export { pget, ppost, mark }
+export { pget, ppost, mark, log }
