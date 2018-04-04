@@ -7,7 +7,7 @@ import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
 import DailyTalk from './modules/daily/DailyTalk'
-import sa from 'sa-sdk-javascript';
+import { sa } from './utils/helpers'
 
 import GlobalRequest from './components/globalalert/GlobalRequest'
 
@@ -311,8 +311,8 @@ const RichTextView = Loadable({
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={(before, after) => {
-      config(['chooseWXPay'])
-      if (after.location.state && after.location.state.pageScrollY) {
+      config([ 'chooseWXPay' ])
+      if(after.location.state && after.location.state.pageScrollY) {
         setTimeout(() => {
           window.scrollTo(0, after.location.state.pageScrollY)
         }, 1000)
