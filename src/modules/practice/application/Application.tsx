@@ -4,7 +4,7 @@ import './Application.less'
 import {
   loadApplicationPractice, vote, loadOtherList,
   openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  loadOtherListBatch, isRiseMember, loadApplicationCompletedCount
+  loadOtherListBatch, isRiseMember, loadApplicationCompletedCount, loadPriorityApplicationCommenst,
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
@@ -13,7 +13,6 @@ import Work from '../components/NewWork'
 import PullElement from 'pull-element'
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
 import Tutorial from '../../../components/Tutorial'
-import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
@@ -21,9 +20,10 @@ import { SectionProgressHeader, SectionProgressStep } from '../components/Sectio
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
 import { CardPrinter } from '../../plan/components/CardPrinter'
-import WordUnfold from '../../../components/WordUnfold'
+import ApplicationDiscussDistrict from './ApplicationDiscussDistrict/ApplicationDiscussDistrict'
+import { ColumnSpan } from '../../../components/ColumnSpan'
 
-const {Alert} = Dialog
+const { Alert } = Dialog
 let timer
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
@@ -41,7 +41,7 @@ export default class Application extends React.Component <any, any> {
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   }
 
   getInitialState () {
@@ -67,20 +67,18 @@ export default class Application extends React.Component <any, any> {
       openStatus: null,
       showCardPrinter: false,
       showDisable: false,
-      firstSubmit: false
+      firstSubmit: false,
     }
   }
 
-  componentWillMount () {
-    mark({module: '打点', function: '学习', action: '打开应用题页'})
-    const {dispatch, location, otherApplicationPracticeSubmitId, applicationId} = this.props
-    const {integrated, id, planId} = location.query
-    this.setState({integrated})
-    dispatch(startLoad())
+  async componentWillMount () {
+    mark({ module: '打点', function: '学习', action: '打开应用题页' })
+    const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props
+    const { integrated, id, planId } = location.query
+    this.setState({ integrated })
     loadApplicationPractice(id, planId).then(res => {
-      const {code, msg} = res
+      const { code, msg } = res
       if (code === 200) {
-        dispatch(endLoad())
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
         // localStorage里存的是这个课程的缓存
         if (storageDraft && id == storageDraft.id) {
@@ -89,7 +87,7 @@ export default class Application extends React.Component <any, any> {
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: msg.isSynchronized ? msg.content : msg.draft,
-              isSynchronized: msg.isSynchronized
+              isSynchronized: msg.isSynchronized,
             })
             this.clearStorage()
           } else {
@@ -98,7 +96,7 @@ export default class Application extends React.Component <any, any> {
             this.setState({
               edit: !msg.isSynchronized,
               editorValue: draft,
-              isSynchronized: msg.isSynchronized
+              isSynchronized: msg.isSynchronized,
             })
           }
         } else {
@@ -106,7 +104,7 @@ export default class Application extends React.Component <any, any> {
           this.setState({
             edit: !msg.isSynchronized,
             editorValue: msg.isSynchronized ? msg.content : msg.draft,
-            isSynchronized: msg.isSynchronized
+            isSynchronized: msg.isSynchronized,
           })
         }
         // 更新其余数据
@@ -115,9 +113,9 @@ export default class Application extends React.Component <any, any> {
           planId: msg.planId,
           autoPushDraftFlag: !msg.isSynchronized,
           showCompletedBox: false,
-          firstSubmit: !msg.content
+          firstSubmit: !msg.content,
         })
-        const {content} = msg
+        const { content } = msg
         //看评论的请求，锚定到评论区
         if (content !== null) {
           if (isUndefined(otherApplicationPracticeSubmitId) || id != applicationId) {
@@ -125,41 +123,30 @@ export default class Application extends React.Component <any, any> {
             if (node) this.refs.submitBar.scrollTop = 0
           }
         }
-      } else {
-        dispatch(alertMsg(msg))
       }
       // 自动加载其它同学的作业
       if (otherApplicationPracticeSubmitId && id == applicationId) {
         this.others()
       }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
     })
     isRiseMember().then(res => {
-      if (res.code === 200) {
-        this.setState({isRiseMember: res.msg})
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
+      this.setState({ isRiseMember: res.msg })
     })
     getOpenStatus().then(res => {
-      if (res.code === 200) {
-        this.setState({openStatus: res.msg})
-      }
+      this.setState({ openStatus: res.msg })
     })
     loadApplicationCompletedCount(planId).then(res => {
-      if (res.code === 200) {
-        this.setState({completedApplicationCnt: res.msg})
-      }
+      this.setState({ completedApplicationCnt: res.msg })
     })
+    let commentsRes = await loadPriorityApplicationCommenst(id, planId)
+    this.setState({ commentsData: commentsRes.msg })
   }
 
   componentDidUpdate () {
-    const {showOthers, otherList} = this.state
+    const { showOthers, otherList } = this.state
     if (!this.pullElement && showOthers && !isEmpty(otherList)) {
       // 有内容并且米有pullElement
-      const {dispatch} = this.props
+      const { dispatch } = this.props
       this.pullElement = new PullElement({
         target: '#react-app',
         scroller: 'body',
@@ -174,36 +161,30 @@ export default class Application extends React.Component <any, any> {
               this.props.iNoBounce.disable()
             }
           }
-          this.setState({loading: true})
+          this.setState({ loading: true })
         },
         onPullUpEnd: (data) => {
           loadOtherList(this.props.location.query.id, this.state.page + 1).then(res => {
-            if (res.code === 200) {
-              this.setState({loading: false})
-              if (res.msg && res.msg.list && res.msg.list.length !== 0) {
-                remove(res.msg.list, (item) => {
-                  return findIndex(this.state.otherList, item) !== -1
-                })
-                this.setState({
-                  otherList: this.state.otherList.concat(res.msg.list),
-                  page: this.state.page + 1,
-                  end: res.msg.end
-                })
-              } else {
-                this.setState({end: res.msg.end})
-              }
+            this.setState({ loading: false })
+            if (res.msg && res.msg.list && res.msg.list.length !== 0) {
+              remove(res.msg.list, (item) => {
+                return findIndex(this.state.otherList, item) !== -1
+              })
+              this.setState({
+                otherList: this.state.otherList.concat(res.msg.list),
+                page: this.state.page + 1,
+                end: res.msg.end,
+              })
             } else {
-              dispatch(alertMsg(res.msg))
+              this.setState({ end: res.msg.end })
             }
-          }).catch(ex => {
-            dispatch(alertMsg(ex))
           })
           if (this.props.iNoBounce) {
             if (!this.props.iNoBounce.isEnabled()) {
               this.props.iNoBounce.enable()
             }
           }
-        }
+        },
       })
       this.pullElement.init()
     }
@@ -241,14 +222,14 @@ export default class Application extends React.Component <any, any> {
       if (storageDraft) {
         if (this.props.location.query.id === storageDraft.id) {
           window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-            id: this.props.location.query.id, content: value
+            id: this.props.location.query.id, content: value,
           }))
         } else {
           this.clearStorage()
         }
       } else {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-          id: this.props.location.query.id, content: value
+          id: this.props.location.query.id, content: value,
         }))
       }
     }
@@ -273,7 +254,7 @@ export default class Application extends React.Component <any, any> {
                 this.clearStorage()
               }
             })
-            this.setState({autoPushDraftFlag: false})
+            this.setState({ autoPushDraftFlag: false })
           }
         }
       }
@@ -281,105 +262,91 @@ export default class Application extends React.Component <any, any> {
   }
 
   onEdit () {
-    this.setState({edit: true})
+    this.setState({ edit: true })
   }
 
   goComment (submitId) {
-    const {dispatch} = this.props
+    const { dispatch } = this.props
     dispatch(set('otherApplicationPracticeSubmitId', submitId))
     dispatch(set('applicationId', this.props.location.query.id))
     dispatch(set('articlePage', this.state.page))
     this.context.router.push({
       pathname: '/rise/static/practice/application/comment',
-      query: merge({submitId: submitId}, this.props.location.query)
+      query: merge({ submitId: submitId }, this.props.location.query),
     })
   }
 
   voted (id, voteStatus, voteCount, isMine, seq) {
     if (!voteStatus) {
       if (isMine) {
-        this.setState({data: merge({}, this.state.data, {voteCount: voteCount + 1, voteStatus: true})})
+        this.setState({ data: merge({}, this.state.data, { voteCount: voteCount + 1, voteStatus: true }) })
       } else {
         let newOtherList = merge([], this.state.otherList)
         _.set(newOtherList, `[${seq}].voteCount`, voteCount + 1)
         _.set(newOtherList, `[${seq}].voteStatus`, 1)
-        this.setState({otherList: newOtherList})
+        this.setState({ otherList: newOtherList })
       }
       vote(id)
     }
   }
 
   tutorialEnd () {
-    const {dispatch} = this.props
-    const {openStatus} = this.state
+    const { openStatus } = this.state
     openApplication().then(res => {
-      const {code, msg} = res
-      if (code === 200) {
-        this.setState({openStatus: merge({}, openStatus, {openApplication: true})})
-      } else {
-        dispatch(alertMsg(msg))
-      }
+      const { code, msg } = res
+      this.setState({ openStatus: merge({}, openStatus, { openApplication: true }) })
     })
   }
 
   others () {
-    const {dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage} = this.props
-    dispatch(startLoad())
+    const { dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage } = this.props
     let page = 1
     if (articlePage) {
       page = articlePage
     }
     loadOtherListBatch(location.query.id, page).then(res => {
-      dispatch(endLoad())
-      if (res.code === 200) {
-        this.setState({
-          otherList: res.msg.list,
-          page: 1, end: res.msg.end, showOthers: true
-        }, () => {
-          if (otherApplicationPracticeSubmitId && location.query.id == applicationId) {
-            //锚定到上次看的练习
-            scroll('#app-' + otherApplicationPracticeSubmitId, '.container')
-          }
-        })
-      } else {
-        dispatch(alertMsg(res.msg))
-      }
+      this.setState({
+        otherList: res.msg.list,
+        page: 1, end: res.msg.end, showOthers: true,
+      }, () => {
+        if (otherApplicationPracticeSubmitId && location.query.id == applicationId) {
+          //锚定到上次看的练习
+          scroll('#app-' + otherApplicationPracticeSubmitId, '.container')
+        }
+      })
     })
   }
 
   onSubmit () {
-    const {dispatch, location} = this.props
-    const {data, planId, completedApplicationCnt} = this.state
+    const { dispatch, location } = this.props
+    const { data, planId, completedApplicationCnt } = this.state
     const answer = this.refs.editor.getValue()
-    const {complete, practicePlanId} = location.query
+    const { complete, practicePlanId } = location.query
     if (answer == null || answer.length === 0) {
       dispatch(alertMsg('请填写作业'))
       return
     }
-    this.setState({showDisable: true})
-    submitApplicationPractice(planId, location.query.id, {answer}).then(res => {
+    this.setState({ showDisable: true })
+    submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
       this.clearStorage()
       dispatch(endLoad())
-      const {code, msg} = res
+      const { code, msg } = res
       if (code === 200) {
         if (code.msg !== 0) {
-          this.setState({completedApplicationCnt: res.msg}, () => {
+          this.setState({ completedApplicationCnt: res.msg }, () => {
             window.scrollTo(0, 0)
           })
         }
-        // if(complete == 'false') {
-        //   dispatch(set('completePracticePlanId', practicePlanId))
-        // }
         dispatch(startLoad())
         loadApplicationPractice(location.query.id, planId).then(res => {
           dispatch(endLoad())
-          const {code, msg} = res
+          const { code, msg } = res
           if (code === 200) {
             this.setState({
               data: msg,
               planId: msg.planId,
               edit: false,
-              editorValue: msg.content
+              editorValue: msg.content,
             })
           }
           else dispatch(alertMsg(msg))
@@ -387,24 +354,24 @@ export default class Application extends React.Component <any, any> {
           dispatch(endLoad())
           dispatch(alertMsg(ex))
         })
-        this.setState({showDisable: false})
+        this.setState({ showDisable: false })
       } else {
         dispatch(alertMsg(msg))
-        this.setState({showDisable: false})
+        this.setState({ showDisable: false })
       }
     }).catch(ex => {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
-      this.setState({showDisable: false})
+      this.setState({ showDisable: false })
     })
   }
 
   handleChangeValue (value) {
-    const {autoPushDraftFlag} = this.state
+    const { autoPushDraftFlag } = this.state
     if (_.isBoolean(autoPushDraftFlag)) {
       // 非null(取到数据了) 并且没有打开保存draft的flag
       if (!autoPushDraftFlag) {
-        this.setState({autoPushDraftFlag: true})
+        this.setState({ autoPushDraftFlag: true })
       }
     }
   }
@@ -412,18 +379,20 @@ export default class Application extends React.Component <any, any> {
   render () {
     const {
       data, otherList, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
-      showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember
+      showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember,
+      commentsData = {},
     } = this.state
-    const {planId} = this.props.location.query
-    const {completePracticePlanId, dispatch} = this.props
-    const {topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId} = data
+    const { planId } = this.props.location.query
+    const { completePracticePlanId, dispatch } = this.props
+    const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
       if (list) {
         return list.map((item, seq) => {
           return (
             <div id={'app-' + item.submitId} className="application-article">
               <Work onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}  {...item}
-                    goComment={() => this.goComment(item.submitId)} type={CommentType.Application}
+                    goComment={() => this.goComment(item.submitId)}
+                    type={CommentType.Application}
                     articleModule={ArticleViewModule.Application}/>
             </div>
           )
@@ -444,8 +413,7 @@ export default class Application extends React.Component <any, any> {
       } else {
         return (
           <div>
-            <Work {...data}
-                  onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
+            <Work {...data} onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
                   onEdit={() => this.onEdit()}
                   headImage={window.ENV.headImgUrl}
                   userName={window.ENV.userName}
@@ -461,7 +429,7 @@ export default class Application extends React.Component <any, any> {
       if (showOthers) {
         if (loading) {
           return (
-            <div style={{textAlign: 'center', margin: '5px 0 60px'}}>
+            <div style={{ textAlign: 'center', margin: '5px 0 60px' }}>
               <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
             </div>
           )
@@ -481,8 +449,7 @@ export default class Application extends React.Component <any, any> {
     const renderCardPrinter = () => {
       if (problemId) {
         return (
-          <CardPrinter problemId={problemId}
-                       completePracticePlanId={this.props.location.query.practicePlanId}/>
+          <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}/>
         )
       }
     }
@@ -493,13 +460,13 @@ export default class Application extends React.Component <any, any> {
           <FooterButton btnArray={[
             {
               click: () => {
-              }, text: '提交中'
+              }, text: '提交中',
             }]}/>
         )
       } else {
         if (edit) {
           return (
-            <FooterButton btnArray={[{click: () => this.onSubmit(), text: '提交'}]}/>
+            <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
           )
         } else {
           if (isBaseApplication) {
@@ -508,7 +475,7 @@ export default class Application extends React.Component <any, any> {
                 {
                   click: () =>
                     this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, dispatch),
-                  text: '下一题'
+                  text: '下一题',
                 }]}/>
             )
           } else {
@@ -518,9 +485,9 @@ export default class Application extends React.Component <any, any> {
                   click: () =>
                     this.context.router.push({
                       pathname: '/rise/static/plan/study',
-                      query: {planId: this.props.location.query.planId}
+                      query: { planId: this.props.location.query.planId },
                     })
-                  , text: '返回'
+                  , text: '返回',
                 }]}/>
             )
           }
@@ -541,59 +508,18 @@ export default class Application extends React.Component <any, any> {
         <div className="intro-container">
           <div className="application-context">
             <div className="application-title">
-              {/*<AssetImg type="app" size={15}/>*/}
               <span>今日应用</span>
             </div>
-            <div className="section2" dangerouslySetInnerHTML={{__html: description}}/>
+            <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
             {
               pic &&
               <div className="app-image">
-                <AssetImg url={pic} width={'80%'} style={{margin: '0 auto'}}
-                          onClick={() => preview(pic, [pic])}/>
-              </div>
-            }
-            {/*{*/}
-              {/*integrated == 'false' &&*/}
-              {/*<div className="knowledge-link"*/}
-                   {/*onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>*/}
-                {/*点击查看相关知识点*/}
-              {/*</div>*/}
-            {/*}*/}
-          </div>
-          <div ref="workContainer" className="work-container">
-            {renderTip()}
-            {
-              edit &&
-              <div className="editor">
-                <Editor
-                  ref="editor"
-                  moduleId={3}
-                  value={this.state.editorValue}
-                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点下方按钮提交，就会得到点赞和专业点评哦！"
-                  autoSave={() => {
-                    this.autoSave()
-                  }}
-                  onChange={() => this.handleChangeValue()}
-                />
-              </div>
-            }
-            {
-              showOthers &&
-              <div>
-                <div className="submit-bar">{'同学的作业'}</div>
-                <div className="app-work-list">
-                  {renderList(otherList)}
-                  {renderEnd()}
-                </div>
-              </div>
-            }
-            {
-              !showOthers &&
-              <div className="show-others-tip">
-                <WordUnfold words="同学的作业" onUnfold={() => this.others()}/>
+                <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }} onClick={() => preview(pic, [pic])}/>
               </div>
             }
           </div>
+          <ColumnSpan height={15} style={{ margin: '2rem -2.5rem 0' }}/>
+          <ApplicationDiscussDistrict data={commentsData}/>
         </div>
         {renderButton()}
       </div>

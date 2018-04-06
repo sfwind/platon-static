@@ -219,7 +219,7 @@ export default class Editor extends React.Component<EditorProps, any> {
 
   render() {
     return (
-      <div>
+      <div className={this.props.className}>
         <textarea id={this.props.id ? this.props.id : 'editor'}
                   placeholder={this.props.placeholder}>
         </textarea>
