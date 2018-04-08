@@ -68,6 +68,7 @@ export default class Application extends React.Component <any, any> {
       showCardPrinter: false,
       showDisable: false,
       firstSubmit: false,
+      showApplicationCacheAlert: false,
     }
   }
 
@@ -80,33 +81,6 @@ export default class Application extends React.Component <any, any> {
       const { code, msg } = res
       if (code === 200) {
         let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
-        // localStorage里存的是这个课程的缓存
-        if (storageDraft && id == storageDraft.id) {
-          // 手动设置强制覆盖，或者msg是同步模式都需要清理localStorage
-          if (res.msg.overrideLocalStorage || msg.isSynchronized) {
-            this.setState({
-              edit: !msg.isSynchronized,
-              editorValue: msg.isSynchronized ? msg.content : msg.draft,
-              isSynchronized: msg.isSynchronized,
-            })
-            this.clearStorage()
-          } else {
-            // 非同步的，展示localStorage,除非localStorage里没有内容
-            let draft = storageDraft.content ? storageDraft.content : msg.draft
-            this.setState({
-              edit: !msg.isSynchronized,
-              editorValue: draft,
-              isSynchronized: msg.isSynchronized,
-            })
-          }
-        } else {
-          // 没有localStorage
-          this.setState({
-            edit: !msg.isSynchronized,
-            editorValue: msg.isSynchronized ? msg.content : msg.draft,
-            isSynchronized: msg.isSynchronized,
-          })
-        }
         // 更新其余数据
         this.setState({
           data: msg,
@@ -114,6 +88,7 @@ export default class Application extends React.Component <any, any> {
           autoPushDraftFlag: !msg.isSynchronized,
           showCompletedBox: false,
           firstSubmit: !msg.content,
+          showApplicationCacheAlert: res.msg.draft && !res.msg.isSynchronized,
         })
         const { content } = msg
         //看评论的请求，锚定到评论区
@@ -376,11 +351,19 @@ export default class Application extends React.Component <any, any> {
     }
   }
 
+  handleClickGoSubmitPage () {
+    const { planId, id } = this.props.location.query
+    this.context.router.push({
+      pathname: '/rise/static/practice/submit/application',
+      query: { id: id, planId: planId },
+    })
+  }
+
   render () {
     const {
       data, otherList, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
       showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember,
-      commentsData = {},
+      commentsData = {}, showApplicationCacheAlert,
     } = this.state
     const { planId, id } = this.props.location.query
     const { completePracticePlanId, dispatch } = this.props
@@ -389,7 +372,8 @@ export default class Application extends React.Component <any, any> {
       if (list) {
         return list.map((item, seq) => {
           return (
-            <div id={'app-' + item.submitId} className="application-article">
+            <div id={'app-' + item.submitId}
+                 className="application-article">
               <Work onVoted={() => this.voted(item.submitId, item.voteStatus, item.voteCount, false, seq)}  {...item}
                     goComment={() => this.goComment(item.submitId)}
                     type={CommentType.Application}
@@ -449,7 +433,8 @@ export default class Application extends React.Component <any, any> {
     const renderCardPrinter = () => {
       if (problemId) {
         return (
-          <CardPrinter problemId={problemId} completePracticePlanId={this.props.location.query.practicePlanId}/>
+          <CardPrinter problemId={problemId}
+                       completePracticePlanId={this.props.location.query.practicePlanId}/>
         )
       }
     }
@@ -494,6 +479,7 @@ export default class Application extends React.Component <any, any> {
         }
       }
     }
+
     return (
       <div className="application-edit-container">
         {renderCardPrinter()}
@@ -509,23 +495,38 @@ export default class Application extends React.Component <any, any> {
             <div className="application-title">
               <span>今日应用</span>
             </div>
-            <div className="section2" dangerouslySetInnerHTML={{ __html: description }}/>
+            <div className="section2"
+                 dangerouslySetInnerHTML={{ __html: description }}/>
             {
               pic &&
               <div className="app-image">
-                <AssetImg url={pic} width={'80%'} style={{ margin: '0 auto' }} onClick={() => preview(pic, [pic])}/>
+                <AssetImg url={pic}
+                          width={'80%'}
+                          style={{ margin: '0 auto' }}
+                          onClick={() => preview(pic, [pic])}/>
               </div>
             }
           </div>
-          <ColumnSpan height={15} style={{ margin: '2rem -2.5rem 0' }}/>
-          <ApplicationDiscussDistrict data={commentsData} clickFunc={() => {
-            this.context.router.push({
-              pathname: '/rise/static/practice/submit/application',
-              query: { id: id, planId: planId },
-            })
-          }}/>
+          <ColumnSpan height={15}
+                      style={{ margin: '2rem -2.5rem 0' }}/>
+          <ApplicationDiscussDistrict data={commentsData}
+                                      clickFunc={() => this.handleClickGoSubmitPage()}/>
         </div>
         {renderButton()}
+        <Alert show={showApplicationCacheAlert}
+               buttons={[
+                 {
+                   label: '关闭',
+                   onClick: () => this.setState({ showApplicationCacheAlert: false }),
+                 }, {
+                   label: '确定',
+                   onClick: () => this.handleClickGoSubmitPage(),
+                 },
+               ]}>
+          您还有没有提交草稿哦，
+          <br/>
+          点击确定立即更新我的作业
+        </Alert>
       </div>
     )
   }

@@ -20,7 +20,7 @@ export default class WarmUpDiscussDistrict extends React.Component {
       clickFunc = () => {
       },
     } = this.props
-    
+
     const {
       personal = [],
       priorities = [],
@@ -28,20 +28,35 @@ export default class WarmUpDiscussDistrict extends React.Component {
 
     return (
       <div className="warmup-discuss-district-component">
-        <DiscussTopBar leftLabel={'讨论区'} rightLabel={'我要发言'} rightOnClick={() => clickFunc()}/>
-        <div className="tips">我的观点</div>
+        <DiscussTopBar leftLabel={'讨论区'}
+                       rightLabel={'我要发言'}
+                       rightOnClick={() => clickFunc()}/>
+        {
+          personal.length > 0 && <div className="tips">我的观点</div>
+        }
         {
           personal.map((item, index) => {
-            return <PersonalDiscussDistrict key={index} discuss={item.discuss} comments={item.comments}/>
+            return <PersonalDiscussDistrict key={index}
+                                            discuss={item.discuss}
+                                            comments={item.comments}/>
           })
         }
-        <div className="tips">同学观点</div>
+        {
+          priorities.length > 0 && <div className="tips">同学观点</div>
+        }
         {
           priorities.map((priority, index) => {
             return <DiscussDistrict key={index}
                                     originDiscuss={priority.originDiscuss}
                                     priorityDiscuss={priority.priorityDiscuss}/>
           })
+        }
+        {
+          personal.length === 0 && priorities.length === 0 &&
+          <div className="empty-tip">
+            <div className="empty-icon"></div>
+            <div className="empty-text">沙发空缺，速去提交</div>
+          </div>
         }
       </div>
     )

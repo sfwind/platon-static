@@ -3,7 +3,7 @@ import './PersonalDiscussDistrict.less'
 import AssetImg from '../../../../components/AssetImg'
 import { formatDate, getRealLength, removeHtmlTags, splitContent } from '../../../../utils/helpers'
 
-export default class                                                               PersonalDiscussDistrict extends React.Component {
+export default class PersonalDiscussDistrict extends React.Component {
 
   constructor () {
     super()
@@ -60,10 +60,9 @@ export default class                                                            
                     className="headimg"/>
           <div className="right-block">
             <div className="nickname">{discuss.nickname}</div>
-            <div className="comment"
-                 dangerouslySetInnerHTML={{
-                   __html: showDiscussAll ? discuss.content : splitContent(discuss.content, 90),
-                 }}></div>
+            <div className={`comment ${showDiscussAll ? '' : 'hidden'}`}>
+              <div dangerouslySetInnerHTML={{ __html: discuss.content, }}></div>
+            </div>
             {
               getRealLength(removeHtmlTags(discuss.content)) > 90 &&
               <div className="show-tips"
@@ -83,7 +82,7 @@ export default class                                                            
                           className="headimg"/>
                 <div className="right-block">
                   <div className="nickname">{item.nickname}</div>
-                  <div className="comment">{item.showCommentAll ? item.content : splitContent(item.content, 75)}</div>
+                  <div className={`comment ${item.showCommentAll ? '' : 'hidden'}`}>{item.content}</div>
                   {
                     getRealLength(item.content) > 75 &&
                     <div className="show-tips"

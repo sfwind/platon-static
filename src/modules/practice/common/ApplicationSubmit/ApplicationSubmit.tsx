@@ -27,10 +27,23 @@ export default class ApplicationSubmit extends React.Component {
   async componentDidMount () {
     const { id, planId } = this.props.location.query
     let res = await loadApplicationPractice(id, planId)
-    console.log(res)
-    this.setState({
-      value: res.msg.content,
-    })
+    let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
+    if (storageDraft && storageDraft.id === id) {
+      if (res.msg.overrideLocalStorage) {
+        this.setState({
+          value: res.msg.isSynchronized ? res.msg.content : res.msg.draft,
+        }, () => this.autoSaveApplicationDraft())
+        this.clearStorage()
+      } else {
+        this.setState({
+          value: storageDraft.content,
+        }, () => this.autoSaveApplicationDraft())
+      }
+    } else {
+      this.setState({
+        value: res.msg.isSynchronized ? res.msg.content : res.msg.draft,
+      }, () => this.autoSaveApplicationDraft())
+    }
   }
 
   componentWillUnmount () {
@@ -51,7 +64,7 @@ export default class ApplicationSubmit extends React.Component {
           })
         }
       }
-    }, 10000)
+    }, 5000)
   }
 
   clearStorage () {

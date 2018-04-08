@@ -62,8 +62,8 @@ export default class DiscussDistrict extends React.Component {
                     className="headimg"/>
           <div className="right-block">
             <div className="nickname">{originDiscuss.nickname}</div>
-            <div className="comment">
-              {originDiscuss.showAll ? originDiscuss.content : splitContent(originDiscuss.content, 90)}
+            <div className={`comment ${originDiscuss.showAll ? '' : 'hidden'}`}>
+              {originDiscuss.content}
             </div>
             {
               getRealLength(originDiscuss.content) > 90 &&
@@ -82,8 +82,8 @@ export default class DiscussDistrict extends React.Component {
                       className="headimg"/>
             <div className="right-block">
               <div className="nickname">{priorityDiscuss.nickname}</div>
-              <div className="comment">
-                {priorityDiscuss.showAll ? priorityDiscuss.content : splitContent(priorityDiscuss.content, 75)}
+              <div className={`comment ${priorityDiscuss.showAll ? '' : 'hidden'}`}>
+                {priorityDiscuss.content}
               </div>
               {
                 getRealLength(priorityDiscuss.content) > 75 &&

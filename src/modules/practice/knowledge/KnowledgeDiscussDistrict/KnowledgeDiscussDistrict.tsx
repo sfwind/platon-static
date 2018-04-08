@@ -27,7 +27,9 @@ export default class KnowledgeDiscussDistrict extends React.Component {
         <DiscussTopBar leftLabel={'讨论区'}
                        rightLabel={'我要发言'}
                        rightOnClick={() => clickFunc()}/>
-        <div className="tips">我的观点</div>
+        {
+          personal.length > 0 && <div className="tips">我的观点</div>
+        }
         {
           personal.map((item, index) => {
             return <PersonalDiscussDistrict key={index}
@@ -35,13 +37,22 @@ export default class KnowledgeDiscussDistrict extends React.Component {
                                             comments={item.comments}/>
           })
         }
-        <div className="tips">同学观点</div>
+        {
+          priorities.length > 0 && <div className="tips">同学观点</div>
+        }
         {
           priorities.map((priority, index) => {
             return <DiscussDistrict key={index}
                                     originDiscuss={priority.originDiscuss}
                                     priorityDiscuss={priority.priorityDiscuss}/>
           })
+        }
+        {
+          personal.length === 0 && priorities.length === 0 &&
+          <div className="empty-tip">
+            <div className="empty-icon"></div>
+            <div className="empty-text">沙发空缺，速去提交</div>
+          </div>
         }
       </div>
     )
