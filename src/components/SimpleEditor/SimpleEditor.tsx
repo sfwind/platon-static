@@ -34,7 +34,7 @@ export default class SimpleEditor extends React.Component {
       style = {},
       className = '',
       placeholder = '',
-      maxLength = 3000,
+      maxLength = 500,
       value = '',
     } = this.state
 
