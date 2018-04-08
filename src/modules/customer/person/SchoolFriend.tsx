@@ -2,6 +2,7 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './SchoolFriend.less'
 import { alertMsg } from 'reduxutil/actions'
+import { loadAllElites } from './async'
 
 /**
  * 校友录（只有核心项目和商业进阶看到，展示核心项目和商业进阶）
@@ -13,14 +14,15 @@ export default class SchoolFriend extends React.Component<any, any> {
     super()
     this.state = {
       clickedItem: 0,
-      elites: []
+      elites: [],
+
     }
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { dispatch } = this.props
-    let res = await
-    loadAllElites()
+    let res = await loadAllElites()
+    console.log(res)
     if(res.code === 200) {
       this.setState({
         elites: res.msg
@@ -38,6 +40,7 @@ export default class SchoolFriend extends React.Component<any, any> {
   }
 
   goCity() {
+
     this.setState({
       clickItem: 1
     })
@@ -109,6 +112,7 @@ export default class SchoolFriend extends React.Component<any, any> {
       <div className="school-friend-container">
         {renderSelect()}
         {renderList()}
+        {/*{renderChoice()}*/}
       </div>
     )
   }
