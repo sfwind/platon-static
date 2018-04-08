@@ -70,7 +70,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     } else if (id) {
       let knowledge = await loadKnowledge(id)
       this.setState({ knowledge: knowledge.msg })
-      let discussRes = await loadKnowledgePriorityDiscuss(knowledge.msg[0].id)
+      let discussRes = await loadKnowledgePriorityDiscuss(id)
       this.setState({ discussData: discussRes.msg })
     }
   }
@@ -185,7 +185,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
       return (
-        <div key={id} className={`choice${choice.isRight ? ' right' : ''}`}>
+        <div key={id}
+             className={`choice${choice.isRight ? ' right' : ''}`}>
           <span className={`index`}>
             {sequenceMap[idx]}
           </span>
@@ -210,13 +211,16 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="page-header">{knowledge.knowledge}</div>
           }
           {
-            videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
+            videoUrl && <QYVideo videoUrl={videoUrl}
+                                 videoPoster={videoPoster}
+                                 videoWords={videoWords}/>
           }
           <div className="intro-container">
             {
               audio &&
               <div className="context-audio">
-                <Audio url={audio} words={audioWords}/>
+                <Audio url={audio}
+                       words={audioWords}/>
               </div>
             }
             {pic && <div className="context-img"><img src={pic}/></div>}
@@ -224,10 +228,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               analysis &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/analysis3.png"/>
+                  <AssetImg height={17}
+                            url="https://static.iqycamp.com/images/fragment/analysis3.png"/>
                 </div>
                 {analysisAudio &&
-                <div className="context-audio"><Audio url={analysisAudio} words={analysisAudioWords}/></div>}
+                <div className="context-audio"><Audio url={analysisAudio}
+                                                      words={analysisAudioWords}/></div>}
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: analysis }}/>
                 </div>
@@ -238,9 +244,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               means &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/means3.png"/>
+                  <AssetImg height={17}
+                            url="https://static.iqycamp.com/images/fragment/means3.png"/>
                 </div>
-                {meansAudio && <div className="context-audio"><Audio url={meansAudio} words={meansAudioWords}/></div>}
+                {meansAudio && <div className="context-audio"><Audio url={meansAudio}
+                                                                     words={meansAudioWords}/></div>}
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: means }}/>
                 </div>
@@ -251,11 +259,13 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               keynote &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/keynote3.png"/>
+                  <AssetImg height={17}
+                            url="https://static.iqycamp.com/images/fragment/keynote3.png"/>
                 </div>
                 {
                   keynoteAudio &&
-                  <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords}/></div>
+                  <div className="context-audio"><Audio url={keynoteAudio}
+                                                        words={keynoteAudioWords}/></div>
                 }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: keynote }}/>
@@ -267,7 +277,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               example &&
               <div>
                 <div className="context-title-img">
-                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/example2.png"/>
+                  <AssetImg height={17}
+                            url="https://static.iqycamp.com/images/fragment/example2.png"/>
                 </div>
                 <div className="question">
                   <pre dangerouslySetInnerHTML={{ __html: example.question }}></pre>
@@ -284,12 +295,23 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                       </div>
                       <pre dangerouslySetInnerHTML={{ __html: example.analysis }}></pre>
                     </div> :
-                    <WordUnfold words="点击查看解析" onUnfold={() => this.setState({ showTip: true })}/>
+                    <WordUnfold words="点击查看解析"
+                                onUnfold={() => this.setState({ showTip: true })}/>
                 }
               </div>
             }
-            <ColumnSpan height={15} style={{ margin: '2rem -2.5rem 0' }}/>
-            <KnowledgeDiscussDistrict data={this.state.discussData}/>
+            <ColumnSpan height={15}
+                        style={{ margin: '2rem -2.5rem 0' }}/>
+            <KnowledgeDiscussDistrict data={this.state.discussData}
+                                      clickFunc={() => {
+                                        this.context.router.push({
+                                          pathname: '/rise/static/practice/submit/comment',
+                                          query: {
+                                            referenceId: this.state.knowledge.id,
+                                            type: 1,
+                                          },
+                                        })
+                                      }}/>
           </div>
           {
             practicePlanId &&

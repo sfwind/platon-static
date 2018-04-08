@@ -22,7 +22,7 @@ export function loadDiscuss (knowledgeId, offset) {
 }
 
 export function discussKnowledge (body) {
-  return ppost(`/rise/practice/knowledge/discuss`, body)
+  return requestProxy.postProxy(`/rise/practice/knowledge/discuss`, body)
 }
 
 export function deleteKnowledgeDiscuss (id) {

@@ -16,10 +16,9 @@ export default class DiscussTopBar extends React.Component<DiscussTopBarProps, a
 
   render () {
     const {
-      leftLabel = '作业区',
-      rightLabel = '提交作业',
+      leftLabel = '',
+      rightLabel = '',
       rightOnClick = () => {
-        console.log('you clicked me')
       },
     } = this.props
 

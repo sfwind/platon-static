@@ -1,9 +1,8 @@
 import * as React from 'react'
-
-import './KnowledgeDiscussDistrict.less'
 import PersonalDiscussDistrict from '../../components/PersonalDiscussDisctrict/PersonalDiscussDistrict'
 import DiscussTopBar from '../../components/DiscussTopBar/DiscussTopBar'
 import DiscussDistrict from '../../components/DiscussDistrict/DiscussDistrict'
+import './KnowledgeDiscussDistrict.less'
 
 export default class KnowledgeDiscussDistrict extends React.Component {
 
@@ -13,7 +12,11 @@ export default class KnowledgeDiscussDistrict extends React.Component {
   }
 
   render () {
-    const { data = {} } = this.props
+    const {
+      data = {},
+      clickFunc = () => {
+      },
+    } = this.props
     const {
       personal = [],
       priorities = [],
@@ -21,11 +24,15 @@ export default class KnowledgeDiscussDistrict extends React.Component {
 
     return (
       <div className="knowledge-discuss-district-component">
-        <DiscussTopBar leftLabel={'讨论区'} rightLabel={'我要发言'} rightOnClick={() => alert(1)}/>
+        <DiscussTopBar leftLabel={'讨论区'}
+                       rightLabel={'我要发言'}
+                       rightOnClick={() => clickFunc()}/>
         <div className="tips">我的观点</div>
         {
           personal.map((item, index) => {
-            return <PersonalDiscussDistrict key={index} discuss={item.discuss} comments={item.comments}/>
+            return <PersonalDiscussDistrict key={index}
+                                            discuss={item.discuss}
+                                            comments={item.comments}/>
           })
         }
         <div className="tips">同学观点</div>

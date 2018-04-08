@@ -8,6 +8,7 @@ import DiscussShow from '../practice/components/DiscussShow'
 import _ from 'lodash'
 import { mark } from '../../utils/request'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
+import { removeHtmlTags, splitContentWithSuffix } from '../../utils/helpers'
 
 /**
  * 选择题评论页
@@ -16,10 +17,10 @@ import { MarkBlock } from '../../components/markblock/MarkBlock'
 export default class ReplyDiscussMessage extends React.Component <any, any> {
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   }
 
-  constructor() {
+  constructor () {
     super()
     this.state = {
       question: '',
@@ -27,15 +28,15 @@ export default class ReplyDiscussMessage extends React.Component <any, any> {
       commentId: 0,
       data: {},
       showDiscuss: false,
-      content: ''
+      content: '',
     }
   }
 
-  componentWillMount(props) {
+  componentWillMount (props) {
     mark({
       module: '打点',
       function: '学习',
-      action: '加载选择题评论页'
+      action: '加载选择题评论页',
     })
     const { dispatch, location } = props || this.props
     const { warmupPracticeId } = location.query
@@ -44,7 +45,7 @@ export default class ReplyDiscussMessage extends React.Component <any, any> {
     loadWarmUpDiscussReply(commentId).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
-      if(code === 200) {
+      if (code === 200) {
         this.setState({ data: msg, commentId })
       } else {
         dispatch(alertMsg(msg))
@@ -58,13 +59,14 @@ export default class ReplyDiscussMessage extends React.Component <any, any> {
       dispatch(endLoad())
       const { code, msg } = res
 
-      if(code === 200) {
+      if (code === 200) {
         let { question } = msg
-        if(question && question.length > 16) {
-          question = question.substring(0, 16) + '...'
+        if (removeHtmlTags(question).length > 16) {
+          this.setState({
+            question: splitContentWithSuffix(removeHtmlTags(question), 16),
+          })
         }
-        this.setState({ question, warmupPracticeId })
-
+        this.setState({ warmupPracticeId })
       } else {
         dispatch(alertMsg(msg))
       }
@@ -74,51 +76,51 @@ export default class ReplyDiscussMessage extends React.Component <any, any> {
     })
   }
 
-  goOrigin() {
+  goOrigin () {
     this.context.router.push({
-      pathname: '/rise/static/practice/warmup/new/analysis', query: this.props.location.query
+      pathname: '/rise/static/practice/warmup/new/analysis', query: this.props.location.query,
     })
   }
 
-  reply(item) {
+  reply (item) {
     this.setState({ showDiscuss: true, referenceId: item.warmupPracticeId, repliedId: item.id, content: '' })
   }
 
-  onChange(value) {
+  onChange (value) {
     this.setState({ content: value })
   }
 
-  cancel() {
+  cancel () {
     const { showDiscuss } = this.state
-    if(showDiscuss) {
+    if (showDiscuss) {
       this.setState({ showDiscuss: false })
     }
   }
 
-  onSubmit() {
+  onSubmit () {
     mark({
       module: '打点',
       function: '学习',
-      action: '提交选择题评论'
+      action: '提交选择题评论',
     })
     const { dispatch } = this.props
     const { referenceId, repliedId, content } = this.state
-    if(content.length == 0) {
+    if (content.length == 0) {
       dispatch(alertMsg('请填写评论'))
       return
     }
 
     let discussBody = { comment: content, referenceId: referenceId }
-    if(repliedId) {
+    if (repliedId) {
       _.merge(discussBody, { repliedId: repliedId })
     }
 
     discuss(discussBody).then(res => {
       const { code, msg } = res
-      if(code === 200) {
+      if (code === 200) {
         this.context.router.push({
           pathname: '/rise/static/practice/warmup/new/analysis',
-          query: this.props.location.query
+          query: this.props.location.query,
         })
       }
       else {
@@ -129,25 +131,36 @@ export default class ReplyDiscussMessage extends React.Component <any, any> {
     })
   }
 
-  render() {
+  render () {
     const { question, data, showDiscuss } = this.state
     const renderDiscuss = (discuss) => {
       return (
-        <DiscussShow discuss={discuss} showLength={50} reply={() => this.reply(discuss)}/>
+        <DiscussShow discuss={discuss}
+                     showLength={50}
+                     reply={() => this.reply(discuss)}/>
       )
     }
     return (
       <div>
-        <div className="container" onClick={() => this.cancel()}>
-          <div className="question">{question}</div>
-          <MarkBlock module={'打点'} func={'选择题评论页'} action={'点击查看原题按钮'} className="origin-question-tip"
+        <div className="container"
+             onClick={() => this.cancel()}>
+          <div className="question"
+               dangerouslySetInnerHTML={{ __html: question }}></div>
+          <MarkBlock module={'打点'}
+                     func={'选择题评论页'}
+                     action={'点击查看原题按钮'}
+                     className="origin-question-tip"
                      onClick={this.goOrigin.bind(this)}>点击查看原题</MarkBlock>
-          <div className="discuss-title-bar"><span
-            className="discuss-title">{this.state.data.del === 1 ? '该评论已删除' : '当前评论'}</span></div>
+          <div className="discuss-title-bar">
+            <span className="discuss-title">{this.state.data.del === 1 ? '该评论已删除' : '当前评论'}</span>
+          </div>
           {renderDiscuss(data)}
         </div>
-        {showDiscuss ? <Discuss isReply={true} placeholder={'回复 ' + data.name + ':'} limit={1000}
-                                submit={() => this.onSubmit()} onChange={(v) => this.onChange(v)}
+        {showDiscuss ? <Discuss isReply={true}
+                                placeholder={'回复 ' + data.name + ':'}
+                                limit={1000}
+                                submit={() => this.onSubmit()}
+                                onChange={(v) => this.onChange(v)}
                                 cancel={() => this.cancel()}/> : null}
       </div>
     )

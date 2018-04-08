@@ -23,7 +23,9 @@ export default class EditorTopBar extends React.Component<EditorTopBarProps, any
       leftOnClick = () => {},
       description = '',
       rightLabel = '',
-      rightOnClick = () => {},
+      rightOnClick = () => {
+        alert(2)
+      },
     } = this.props
 
     return (

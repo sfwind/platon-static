@@ -10,7 +10,7 @@ export function answer (params, practicePlanId) {
 }
 
 export function discuss (params) {
-  return ppost(`/rise/practice/warmup/discuss`, params)
+  return requestProxy.postProxy(`/rise/practice/warmup/discuss`, params)
 }
 
 export function loadWarmUpDiscuss (id, offset) {
@@ -18,7 +18,7 @@ export function loadWarmUpDiscuss (id, offset) {
 }
 
 export function loadWarmUpAnalysisNew (warmupPracticeId) {
-  return pget(`/rise/practice/warmup/new/analysis/${warmupPracticeId}`)
+  return requestProxy.getProxy(`/rise/practice/warmup/new/analysis/${warmupPracticeId}`)
 }
 
 export function getOpenStatus () {
@@ -35,4 +35,8 @@ export function deleteComment (id) {
 
 export function loadPriorityWarmUpAnalysis (practicePlanId) {
   return requestProxy.getProxy(`/rise/practice/warmup/analysis/priority/${practicePlanId}`)
+}
+
+export function loadPrioritySingleWarmUpAnalysis (warmUpPracticeId) {
+  return requestProxy.getProxy(`/rise/practice/warmup/analysis/priority/single/${warmUpPracticeId}`)
 }

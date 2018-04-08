@@ -397,7 +397,8 @@ export default class Warumup extends React.Component<any, any> {
         <div>
           <div className="intro-container">
             {
-              practiceCount !== 0 && currentIndex <= practiceCount - 1 && <div className="intro-index">
+              practiceCount !== 0 && currentIndex <= practiceCount - 1 &&
+              <div className="intro-index">
                 <span className="index">第{currentIndex + 1}/{practiceCount}题</span>
                 <span className="tip">正确选项可能不止一个</span>
                 <span className="type"><span className="number">{score}</span>分</span>
@@ -418,7 +419,8 @@ export default class Warumup extends React.Component<any, any> {
             {
               analysis &&
               <div className="answer-display">
-                <div className="chosen" style={{ marginBottom: 15 }}>
+                <div className="chosen"
+                     style={{ marginBottom: 15 }}>
                   已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
                 </div>
                 <div className="right">
@@ -440,7 +442,19 @@ export default class Warumup extends React.Component<any, any> {
               }
             </div>
           }
-          <WarmUpDiscussDistrict data={practice.warmupDiscussDistrict}/>
+          {
+            analysis &&
+            <WarmUpDiscussDistrict data={practice.warmupDiscussDistrict}
+                                   clickFunc={() => {
+                                     this.context.router.push({
+                                       pathname: '/rise/static/practice/submit/comment',
+                                       query: {
+                                         referenceId: practice.id,
+                                         type: 2,
+                                       },
+                                     })
+                                   }}/>
+          }
         </div>
       )
     }
@@ -479,7 +493,8 @@ export default class Warumup extends React.Component<any, any> {
       const { analysis } = this.state
       if (analysis) {
         return (
-          <div key={idx} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
+          <div key={idx}
+               className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
             <span className={`index${choice.selected ? ' selected' : ''}`}/>
             <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
           </div>
@@ -565,8 +580,11 @@ export default class Warumup extends React.Component<any, any> {
                 <div className="result-number">{rightNumber + '/' + total}</div>
               </div>
               <div className="award-title">获得奖励</div>
-              <div className="award-detail">任务得分{' '}<span>{'+' + point}</span></div>
-              <div className="go-analysis" onClick={() => this.loadWarmup()}>查看解析</div>
+              <div className="award-detail">任务得分{' '}<span>{'+' + point}</span>
+              </div>
+              <div className="go-analysis"
+                   onClick={() => this.loadWarmup()}>查看解析
+              </div>
             </div>
           </div>
         }

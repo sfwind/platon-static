@@ -18,7 +18,7 @@ export function isRiseMember () {
 }
 
 export function submitApplicationPractice (planId, applicationId, params) {
-  return ppost(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
+  return requestProxy.postProxy(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
 }
 
 export function autoSaveApplicationDraft (planId, applicationId, draft) {

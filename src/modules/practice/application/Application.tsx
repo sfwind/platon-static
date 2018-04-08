@@ -382,7 +382,7 @@ export default class Application extends React.Component <any, any> {
       showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember,
       commentsData = {},
     } = this.state
-    const { planId } = this.props.location.query
+    const { planId, id } = this.props.location.query
     const { completePracticePlanId, dispatch } = this.props
     const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId } = data
     const renderList = (list) => {
@@ -494,7 +494,6 @@ export default class Application extends React.Component <any, any> {
         }
       }
     }
-
     return (
       <div className="application-edit-container">
         {renderCardPrinter()}
@@ -519,7 +518,12 @@ export default class Application extends React.Component <any, any> {
             }
           </div>
           <ColumnSpan height={15} style={{ margin: '2rem -2.5rem 0' }}/>
-          <ApplicationDiscussDistrict data={commentsData}/>
+          <ApplicationDiscussDistrict data={commentsData} clickFunc={() => {
+            this.context.router.push({
+              pathname: '/rise/static/practice/submit/application',
+              query: { id: id, planId: planId },
+            })
+          }}/>
         </div>
         {renderButton()}
       </div>
