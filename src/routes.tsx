@@ -6,7 +6,8 @@ import Base from './modules/base/Base'
 import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
-import sa from 'sa-sdk-javascript';
+import DailyTalk from './modules/daily/DailyTalk'
+import { sa } from './utils/helpers'
 
 import GlobalRequest from './components/globalalert/GlobalRequest'
 import SchoolFriend from './modules/customer/person/SchoolFriend'
@@ -311,8 +312,8 @@ const RichTextView = Loadable({
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={(before, after) => {
-      config(['chooseWXPay'])
-      if (after.location.state && after.location.state.pageScrollY) {
+      config([ 'chooseWXPay' ])
+      if(after.location.state && after.location.state.pageScrollY) {
         setTimeout(() => {
           window.scrollTo(0, after.location.state.pageScrollY)
         }, 1000)
@@ -330,6 +331,9 @@ const routes = (
       <Route path="camp" component={SchedulePlan}/>
       <Route path="learn" component={SchedulePlan}/>
       <Route path="plan/main" component={SchedulePlan}/>
+
+
+      <Route path="daily/talk" component={DailyTalk}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>
