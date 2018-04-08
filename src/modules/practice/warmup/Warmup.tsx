@@ -18,6 +18,7 @@ import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import AssetImg from '../../../components/AssetImg'
 import DiscussDistrict, { DiscussType } from '../components/DiscussDistrict/DiscussDistrict'
+import { sa } from '../../../utils/helpers'
 
 var $ = require('jquery')
 
@@ -38,7 +39,7 @@ import WarmUpDiscussDistrict from './components/WarmUpDistrict/WarmUpDiscussDist
 
 @connect(state => state)
 export default class Warumup extends React.Component<any, any> {
-  constructor () {
+  constructor() {
     super()
     this.state = {
       list: [],
@@ -67,7 +68,7 @@ export default class Warumup extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount () {
+  componentWillMount() {
     mark({
       module: '打点',
       function: '学习',
@@ -75,41 +76,42 @@ export default class Warumup extends React.Component<any, any> {
     })
     this.loadWarmup()
     getOpenStatus().then(res => {
-      if (res.code === 200) {
+      if(res.code === 200) {
         this.setState({ openStatus: res.msg })
       }
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { dispatch } = this.props
     dispatch(set('warmupCurrentIndex', undefined))
   }
 
   //加载选择题
   loadWarmup () {
-    const { location, warmupCurrentIndex } = this.props
-    const { practicePlanId, integrated } = location.query
-    const { submit } = this.state
+    const { location, warmupCurrentIndex} = this.props
+    const {practicePlanId, integrated} = location.query
+    const {submit} = this.state
     loadPriorityWarmUpAnalysis(practicePlanId).then(res => {
-      const { code, msg } = res
+
+      const {code, msg} = res
       if (code === 200) {
-        const { practice } = msg
+        const {practice} = msg
         if (practice) {
           let idx = _.findIndex(practice, (item) => {
             const { choiceList } = item
-            if (choiceList) {
+            if(choiceList) {
               return choiceList.filter(choice => choice.selected).length > 0
             } else {
               return false
             }
           })
           //查看解析
-          if (idx !== -1) {
+          if(idx !== -1) {
             let currentIndex = 0
             //非从查看解析按钮过来的请求，从缓存中读取上次看到的选择题序号
-            if (!submit) {
-              if (warmupCurrentIndex) {
+            if(!submit) {
+              if(warmupCurrentIndex) {
                 currentIndex = warmupCurrentIndex
               }
             }
@@ -122,10 +124,10 @@ export default class Warumup extends React.Component<any, any> {
             //做选择题
             let currentIndex = 0
             let selected = []
-            if (practice) {
+            if(practice) {
               //从localstorage中读取上次选择题答案
               let storageDraft = JSON.parse(window.localStorage.getItem(WARMUP_AUTO_SAVING))
-              if (storageDraft && storageDraft.id == practicePlanId) {
+              if(storageDraft && storageDraft.id == practicePlanId) {
                 const selectedChoices = storageDraft.selectedChoices
                 selectedChoices.map((choiceSelected, questionIdx) => {
                   _.set(msg, `practice.${questionIdx}.choice`, choiceSelected)
@@ -147,54 +149,54 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   //更新用户选择的选项
-  setChoice (cb) {
+  setChoice(cb) {
     let { list, currentIndex, selected } = this.state
     _.set(list, `practice.${currentIndex}.choice`, selected)
     this.setState({ list })
-    if (cb) {
+    if(cb) {
       cb(list.practice)
     }
   }
 
   //当用户选择选项时调用
-  onChoiceSelected (choiceId) {
+  onChoiceSelected(choiceId) {
     const { practicePlanId } = this.props.location.query
     const { list, currentIndex, selected } = this.state
     let _list = selected
-    if (_list.indexOf(choiceId) > -1) {
+    if(_list.indexOf(choiceId) > -1) {
       _.remove(_list, n => n === choiceId)
     } else {
       _list.push(choiceId)
     }
     // 答案保存到localstorage
     let storageDraft = JSON.parse(window.localStorage.getItem(WARMUP_AUTO_SAVING))
-    if (storageDraft && storageDraft.id == practicePlanId) {
+    if(storageDraft && storageDraft.id == practicePlanId) {
       let { selectedChoices } = storageDraft
-      if (selectedChoices.length >= currentIndex + 1) {
-        selectedChoices[currentIndex] = _list
+      if(selectedChoices.length >= currentIndex + 1) {
+        selectedChoices[ currentIndex ] = _list
       } else {
         selectedChoices.push(_list)
       }
     } else {
       // 初始化
-      storageDraft = { id: practicePlanId, selectedChoices: [_list] }
+      storageDraft = { id: practicePlanId, selectedChoices: [ _list ] }
     }
     window.localStorage.setItem(WARMUP_AUTO_SAVING, JSON.stringify(storageDraft))
     this.setState({ selected: _list })
   }
 
   //下一题
-  next () {
+  next() {
     const { dispatch } = this.props
     const { currentIndex, practiceCount, list, selected, analysis } = this.state
-    if (!analysis && selected && selected.length === 0) {
+    if(!analysis && selected && selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
     }
-    if (currentIndex < practiceCount - 1) {
+    if(currentIndex < practiceCount - 1) {
       this.setChoice()
-      let selected = list.practice[`${currentIndex + 1}`].choice
-      if (!selected) {
+      let selected = list.practice[ `${currentIndex + 1}` ].choice
+      if(!selected) {
         selected = []
       }
       this.setState({ currentIndex: currentIndex + 1, selected })
@@ -208,12 +210,12 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   //上一题
-  prev () {
+  prev() {
     const { dispatch } = this.props
     const { currentIndex, list } = this.state
-    if (currentIndex > 0) {
+    if(currentIndex > 0) {
       this.setChoice()
-      const selected = list.practice[`${currentIndex - 1}`].choice
+      const selected = list.practice[ `${currentIndex - 1}` ].choice
       this.setState({ currentIndex: currentIndex - 1, selected })
       //保存当前解析的题目index
       dispatch(set('warmupCurrentIndex', currentIndex - 1))
@@ -222,26 +224,26 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   //选择题提交
-  onSubmit () {
+  onSubmit() {
     const { dispatch } = this.props
     const { selected, currentIndex, practiceCount, list, openStatus } = this.state
     const { openConsolidation = true } = openStatus
     const { practicePlanId } = this.props.location.query
-    if (selected.length === 0) {
+    if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
     }
-    if (!openConsolidation) {
+    if(!openConsolidation) {
       consolidationStatus().then(res => {
         const { code, msg } = res
-        if (code === 200) {
+        if(code === 200) {
           this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
         } else {
           dispatch(alertMsg(msg))
         }
       })
     }
-    if (currentIndex === practiceCount - 1) {
+    if(currentIndex === practiceCount - 1) {
       let questionId = _.get(list, `practice[${currentIndex}].id`)
       mark({
         module: '打点',
@@ -254,7 +256,7 @@ export default class Warumup extends React.Component<any, any> {
         let res = answer({ practice: p }, practicePlanId).then(res => {
           dispatch(endLoad())
           const { code, msg } = res
-          if (code === 200) {
+          if(code === 200) {
             const { total, rightNumber, point } = msg
             dispatch(set('completePracticePlanId', practicePlanId))
             this.clearStorage()
@@ -266,7 +268,7 @@ export default class Warumup extends React.Component<any, any> {
                 size: 138,
                 startAngle: -Math.PI / 2,
                 fill: {
-                  gradient: ['#FF983F', '#FFC701'],
+                  gradient: [ '#FF983F', '#FFC701' ],
                 },
               })
             })
@@ -281,16 +283,16 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   //更新评论
-  reload () {
+  reload() {
     const { dispatch } = this.props
     let { list, currentIndex } = this.state
     const { practice = [] } = list
-    const { id } = practice[currentIndex]
+    const { id } = practice[ currentIndex ]
 
     loadWarmUpDiscuss(id, 1).then(res => {
       dispatch(endLoad())
       const { code, msg } = res
-      if (code === 200) {
+      if(code === 200) {
         _.set(list, `practice.${currentIndex}.discussList`, msg)
         this.setState({
           showDiscuss: false, list, content: '', placeholder: '解答同学的提问（限1000字）', repliedId: 0, isReply: false,
@@ -305,7 +307,7 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   //点击回复评论
-  reply (item) {
+  reply(item) {
     this.setState({
       showDiscuss: true, isReply: true,
       placeholder: '回复 ' + item.name + ':', content: '',
@@ -314,34 +316,34 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   //评论更新
-  onChange (value) {
+  onChange(value) {
     this.setState({ content: value })
   }
 
   //取消评论
-  cancel () {
+  cancel() {
     this.setState({ placeholder: '解答同学的提问（限1000字）', isReply: false, showDiscuss: false, repliedId: 0 })
   }
 
   //提交评论
-  onDiscuss () {
+  onDiscuss() {
     const { dispatch } = this.props
     const { repliedId, content, list, currentIndex } = this.state
     const { practice = [] } = list
-    const { id } = practice[currentIndex]
-    if (content.length == 0) {
+    const { id } = practice[ currentIndex ]
+    if(content.length == 0) {
       dispatch(alertMsg('请填写评论'))
       return
     }
 
     let discussBody = { comment: content, referenceId: id }
-    if (repliedId) {
+    if(repliedId) {
       _.merge(discussBody, { repliedId: repliedId })
     }
 
     discuss(discussBody).then(res => {
       const { code, msg } = res
-      if (code === 200) {
+      if(code === 200) {
         this.reload()
       }
       else {
@@ -353,18 +355,18 @@ export default class Warumup extends React.Component<any, any> {
   }
 
   //删除评论
-  onDelete (discussId) {
+  onDelete(discussId) {
     const { dispatch } = this.props
 
     deleteComment(discussId).then(res => {
       let { list, currentIndex } = this.state
       const { practice = [] } = list
-      const { id } = practice[currentIndex]
+      const { id } = practice[ currentIndex ]
 
       loadWarmUpDiscuss(id, 1).then(res => {
         dispatch(endLoad())
         const { code, msg } = res
-        if (code === 200) {
+        if(code === 200) {
           _.set(list, `practice.${currentIndex}.discussList`, msg)
           this.setState({ showDiscuss: false, list })
         }
@@ -376,11 +378,11 @@ export default class Warumup extends React.Component<any, any> {
     })
   }
 
-  clearStorage () {
+  clearStorage() {
     window.localStorage.removeItem(WARMUP_AUTO_SAVING)
   }
 
-  render () {
+  render() {
     const {
       list, currentIndex, selected, practiceCount, showDiscuss, isReply,
       integrated, placeholder, openStatus, analysis, submit, data, moveDiscussArea,
@@ -491,12 +493,12 @@ export default class Warumup extends React.Component<any, any> {
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
       const { analysis } = this.state
-      if (analysis) {
+      if(analysis) {
         return (
           <div key={idx}
                className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
             <span className={`index${choice.selected ? ' selected' : ''}`}/>
-            <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
+            <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
           </div>
         )
       } else {
@@ -504,24 +506,24 @@ export default class Warumup extends React.Component<any, any> {
           <div key={idx}
                className={`choice${selected.indexOf(id) > -1 ? ' selected' : ''}`}
                onClick={e => this.onChoiceSelected(id)}>
-            <span className={`index ${selected.indexOf(id) > -1 ? ' selected' : ''}`}>{sequenceMap[idx]}</span>
-            <span className={`text`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
+            <span className={`index ${selected.indexOf(id) > -1 ? ' selected' : ''}`}>{sequenceMap[ idx ]}</span>
+            <span className={`text`}>{sequenceMap[ idx ]}&nbsp;&nbsp;{subject}</span>
           </div>
         )
       }
     }
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
+      return (choice.isRight ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const myAnswerRender = (choice, idx) => {
-      return (choice.selected ? sequenceMap[idx] + ' ' : '')
+      return (choice.selected ? sequenceMap[ idx ] + ' ' : '')
     }
 
     const footerButtonRender = () => {
-      if (analysis) {
-        if (!showDiscuss) {
+      if(analysis) {
+        if(!showDiscuss) {
           return (
             <FooterButton btnArray={[
               {
@@ -568,7 +570,7 @@ export default class Warumup extends React.Component<any, any> {
             <div className="tip-angle"/>
             点这里可以回看学过的知识点 </div>
         }
-        {questionRender(practice[currentIndex] || {})}
+        {questionRender(practice[ currentIndex ] || {})}
         {showDiscuss && <div className="padding-comment-dialog"/>}
         {footerButtonRender()}
         {
@@ -583,7 +585,10 @@ export default class Warumup extends React.Component<any, any> {
               <div className="award-detail">任务得分{' '}<span>{'+' + point}</span>
               </div>
               <div className="go-analysis"
-                   onClick={() => this.loadWarmup()}>查看解析
+                   onClick={() => {
+                sa.track('clickDialogLookAnalysis');
+                this.loadWarmup()
+              }}>查看解析
               </div>
             </div>
           </div>

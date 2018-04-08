@@ -10,7 +10,7 @@ const P = 'base'
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 const { Alert } = Dialog
-import { toLower, get } from 'lodash'
+import { toLower, get, merge } from 'lodash'
 import { pget } from 'utils/request'
 import Activity from '../../components/Activity'
 // import UA from 'ua-device'
@@ -19,13 +19,14 @@ import $ from 'jquery'
 import RequestComponent from '../../components/requestproxy/RequestComponent'
 
 require('../../components/progress/circle-progress.js')
+import { sa } from '../../utils/helpers'
 
 $.fn.extend({
-  animateCss: function (animationName, callback) {
+  animateCss: function(animationName, callback) {
     var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend'
-    this.addClass('animated ' + animationName).one(animationEnd, function () {
+    this.addClass('animated ' + animationName).one(animationEnd, function() {
       $(this).removeClass('animated ' + animationName)
-      if (callback) callback()
+      if(callback) callback()
     })
     return this
   },
@@ -34,7 +35,7 @@ $.fn.extend({
 @connect(state => state)
 export default class Main extends React.Component<any, any> {
 
-  constructor () {
+  constructor() {
     super()
     this.state = {
       alert: {
@@ -61,25 +62,57 @@ export default class Main extends React.Component<any, any> {
     router: React.PropTypes.object.isRequired,
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     let userInfoResult = await pget('/rise/customer/info')
-    if (userInfoResult.code === 200) {
-      window.ENV.userName = userInfoResult.msg.nickname
-      window.ENV.headImgUrl = userInfoResult.msg.headimgurl
+    if(userInfoResult.code === 200) {
+      window.ENV.riseId = userInfoResult.msg.riseId;
+      window.ENV.className = userInfoResult.msg.className;
+      window.ENV.groupId = userInfoResult.msg.groupId;
+      window.ENV.roleName = userInfoResult.msg.roleName;
+      window.ENV.userName = userInfoResult.msg.nickname;
+      window.ENV.headImgUrl = userInfoResult.msg.headimgurl;
+      window.ENV.isAsst = userInfoResult.msg.isAsst;
     }
+
+    sa.init({
+      heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
+      name: 'sa',
+      web_url: `https://quanwai.cloud.sensorsdata.cn/?project=${window.ENV.sensorsProject}`,
+      server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
+      heatmap: {},
+      is_single_page: true,
+    });
+    if(!!userInfoResult.msg.riseId) {
+      sa.login(userInfoResult.msg.riseId);
+    }
+    let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst, platformType: 2 };
+    if(!!window.ENV.className && !!window.ENV.groupId) {
+      merge(props, {
+        className: window.ENV.className,
+        groupId: window.ENV.groupId
+      });
+    }
+    if(!!userInfoResult.msg.riseId) {
+      merge(props, {
+        riseId: userInfoResult.msg.riseId
+      });
+    }
+    sa.registerPage(props);
+    sa.quick('autoTrack');
+
     this.setState({ showPage: true })
-    if (window.location.href.indexOf('/rise/static/guest/') === -1) {
+    if(window.location.href.indexOf('/rise/static/guest/') === -1) {
       // 不是guest页面，判断这个用户是否可以看到活动提示
       pget('/rise/index/msg').then(res => {
-        if (res.msg) {
+        if(res.msg) {
           const { url, message } = res.msg
           this.setState({ activityMsg: true, url, message })
         }
       })
       pget(`/rise/customer/global/notify`).then(res => {
-        if (res.code === 200) {
+        if(res.code === 200) {
           this.setState({
-            showGlobalNotify: res.msg.showGlobalNotify,
+            // showGlobalNotify: res.msg.showGlobalNotify,
             expiredInSevenDays: res.msg.expiredInSevenDays,
             expired: res.msg.expired,
           })
@@ -88,7 +121,7 @@ export default class Main extends React.Component<any, any> {
     }
   }
 
-  componentWillUpdate () {
+  componentWillUpdate() {
     //windows客户端显示返回按钮
     // if(navigator.userAgent.indexOf('WindowsWechat') !== -1) {
     //   //排除不显示返回按钮的页面
@@ -106,31 +139,31 @@ export default class Main extends React.Component<any, any> {
     // }
   }
 
-  componentDidMount () {
-    config(['chooseWXPay'])
+  componentDidMount() {
+    config([ 'chooseWXPay' ])
   }
 
-  closeAnswer () {
+  closeAnswer() {
     const { dispatch } = this.props
     dispatch(set(SHOW_MODAL_KEY, false))
   }
 
-  handleClickGoRisePay () {
+  handleClickGoRisePay() {
     window.location.href = `/pay/rise`
   }
 
-  render () {
-    if (!this.state.showPage) {
+  render() {
+    if(!this.state.showPage) {
       return <div></div>
     }
 
-    const { showGlobalNotify, expiredInSevenDays, expired } = this.state
+    const { showGlobalNotify = false, expiredInSevenDays, expired } = this.state
 
     const renderGlobalNotify = () => {
-      if (showGlobalNotify) {
-        if (expiredInSevenDays) {
+      if(showGlobalNotify) {
+        if(expiredInSevenDays) {
           return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expire"/>
-        } else if (expired) {
+        } else if(expired) {
           return <div onClick={() => this.handleClickGoRisePay()} className="global-notify expired"/>
         }
       }

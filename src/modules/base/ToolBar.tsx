@@ -106,6 +106,9 @@ export class ToolBar extends React.Component<any, any> {
   }
 
   componentDidMount () {
+    if(document.querySelector('#tool_bar')==null){
+      return
+    }
     FastClick.attach(document.querySelector('#tool_bar'))
   }
 
