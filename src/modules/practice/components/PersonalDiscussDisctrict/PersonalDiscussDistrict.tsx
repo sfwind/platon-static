@@ -59,7 +59,14 @@ export default class PersonalDiscussDistrict extends React.Component {
           <AssetImg url={discuss.avatar}
                     className="headimg"/>
           <div className="right-block">
-            <div className="nickname">{discuss.nickname}</div>
+            <div className="person-detail">
+              <div className="nickname">{discuss.nickname}</div>
+              {
+                discuss.isAsst &&
+                <AssetImg className="person-title"
+                          url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+              }
+            </div>
             <div className={`comment ${showDiscussAll ? '' : 'hidden'}`}>
               <div dangerouslySetInnerHTML={{ __html: discuss.content, }}></div>
             </div>
@@ -81,7 +88,14 @@ export default class PersonalDiscussDistrict extends React.Component {
                 <AssetImg url={item.avatar}
                           className="headimg"/>
                 <div className="right-block">
-                  <div className="nickname">{item.nickname}</div>
+                  <div className="person-detail">
+                    <div className="nickname">{item.nickname}</div>
+                    {
+                      item.isAsst &&
+                      <AssetImg className="person-title"
+                                url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+                    }
+                  </div>
                   <div className={`comment ${item.showCommentAll ? '' : 'hidden'}`}>{item.content}</div>
                   {
                     getRealLength(item.content) > 75 &&

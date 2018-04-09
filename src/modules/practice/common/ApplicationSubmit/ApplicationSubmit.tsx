@@ -29,20 +29,25 @@ export default class ApplicationSubmit extends React.Component {
     let res = await loadApplicationPractice(id, planId)
     let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
     if (storageDraft && storageDraft.id === id) {
-      if (res.msg.overrideLocalStorage) {
+      if (res.msg.overrideLocalStorage || res.msg.isSynchronized) {
         this.setState({
           value: res.msg.isSynchronized ? res.msg.content : res.msg.draft,
-        }, () => this.autoSaveApplicationDraft())
-        this.clearStorage()
+        }, () => {
+          this.autoSaveApplicationDraft()
+        })
       } else {
         this.setState({
           value: storageDraft.content,
-        }, () => this.autoSaveApplicationDraft())
+        }, () => {
+          this.autoSaveApplicationDraft()
+        })
       }
     } else {
       this.setState({
         value: res.msg.isSynchronized ? res.msg.content : res.msg.draft,
-      }, () => this.autoSaveApplicationDraft())
+      }, () => {
+        this.autoSaveApplicationDraft()
+      })
     }
   }
 
@@ -57,14 +62,21 @@ export default class ApplicationSubmit extends React.Component {
       if (this.refs.editor) {
         let draft = this.refs.editor.getValue()
         if (draft.trim().length > 0) {
-          autoSaveApplicationDraft(planId, id, draft).then(res => {
-            if (res.code === 200) {
-              this.clearStorage()
-            }
-          })
+          autoSaveApplicationDraft(planId, id, draft)
         }
       }
-    }, 5000)
+    }, 10000)
+  }
+
+  autoSave () {
+    if (this.refs.editor) {
+      let value = this.refs.editor.getValue()
+      if (value) {
+        window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
+          id: this.props.location.query.id, content: value,
+        }))
+      }
+    }
   }
 
   clearStorage () {
@@ -80,6 +92,7 @@ export default class ApplicationSubmit extends React.Component {
     const { id, planId } = this.props.location.query
     let res = await submitApplicationPractice(planId, id, { answer: value })
     if (res.code === 200) {
+      this.clearStorage()
       this.context.router.goBack()
     }
   }
@@ -101,6 +114,7 @@ export default class ApplicationSubmit extends React.Component {
                 moduleId="6"
                 toolbarFloat={false}
                 value={value}
+                autoSave={() => this.autoSave()}
                 placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点上方按钮提交，就会得到点赞和专业点评哦！"/>
       </div>
     )

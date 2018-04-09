@@ -17,12 +17,25 @@
       display: inline-block;
       width: ~"calc(100% - 4.6rem)";
       margin-left: 1.2rem;
-      .nickname {
-        left: 4.5rem;
-        font-size: 1.4rem;
-        color: #666666;
-        line-height: 125%;
-        text-align: left;
+      .person-detail {
+        position: relative;
+        height: 18px;
+        .nickname {
+          position: relative;
+          font-size: 14px;
+          color: #666666;
+          height: 18px;
+          line-height: 18px;
+          display: inline-block;
+        }
+        .person-title {
+          position: absolute;
+          display: inline-block;
+          line-height: 18px;
+          height: 18px;
+          margin-left: 8px;
+          top: 0;
+        }
       }
       .comment {
         left: 4.5rem;

@@ -61,7 +61,14 @@ export default class DiscussDistrict extends React.Component {
           <AssetImg url={originDiscuss.avatar}
                     className="headimg"/>
           <div className="right-block">
-            <div className="nickname">{originDiscuss.nickname}</div>
+            <div className="person-detail">
+              <div className="nickname">{originDiscuss.nickname}</div>
+              {
+                originDiscuss.isAsst &&
+                <AssetImg className="person-title"
+                          url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+              }
+            </div>
             <div className={`comment ${originDiscuss.showAll ? '' : 'hidden'}`}>
               {originDiscuss.content}
             </div>
@@ -81,7 +88,14 @@ export default class DiscussDistrict extends React.Component {
             <AssetImg url={priorityDiscuss.avatar}
                       className="headimg"/>
             <div className="right-block">
-              <div className="nickname">{priorityDiscuss.nickname}</div>
+              <div className="person-detail">
+                <div className="nickname">{priorityDiscuss.nickname}</div>
+                {
+                  priorityDiscuss.isAsst &&
+                  <AssetImg className="person-title"
+                            url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+                }
+              </div>
               <div className={`comment ${priorityDiscuss.showAll ? '' : 'hidden'}`}>
                 {priorityDiscuss.content}
               </div>
