@@ -3,12 +3,17 @@ import './PersonalDiscussDistrict.less'
 import AssetImg from '../../../../components/AssetImg'
 import { formatDate, getRealLength, removeHtmlTags } from '../../../../utils/helpers'
 import * as FontAwesome from 'react-fontawesome'
+import { Dialog } from 'react-weui'
+
+const { Alert } = Dialog
 
 export default class PersonalDiscussDistrict extends React.Component {
 
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      showDeleteConfirm: false,
+    }
   }
 
   componentWillMount () {
@@ -38,6 +43,27 @@ export default class PersonalDiscussDistrict extends React.Component {
     })
     this.setState({
       comments: targetCommenst,
+    })
+  }
+
+  handleClickDeleteComment (id) {
+    const { deleteFunc, } = this.props
+    this.setState({
+      deleteConfirmParams: {
+        buttons: [
+          { label: '取消', onClick: () => this.setState({ showDeleteConfirm: false }) },
+          {
+            label: '确认',
+            onClick: () => {
+              this.setState({
+                showDeleteConfirm: false,
+              })
+              deleteFunc(id)
+            },
+          },
+        ],
+      },
+      showDeleteConfirm: true,
     })
   }
 
@@ -71,6 +97,8 @@ export default class PersonalDiscussDistrict extends React.Component {
       },
       comments = [],
       showDiscussAll = false,
+      deleteConfirmParams = {},
+      showDeleteConfirm = false,
     } = this.state
     const {
       deleteFunc,
@@ -106,7 +134,7 @@ export default class PersonalDiscussDistrict extends React.Component {
               {
                 deleteFunc &&
                 <div className="delete"
-                     onClick={() => deleteFunc(discuss.id)}>删除</div>
+                     onClick={() => this.handleClickDeleteComment(discuss.id)}>删除</div>
               }
               {
                 showVote &&
@@ -152,6 +180,9 @@ export default class PersonalDiscussDistrict extends React.Component {
             )
           })
         }
+        <Alert {...deleteConfirmParams} show={showDeleteConfirm}>
+          <p>确认删除此评论？</p>
+        </Alert>
       </div>
     )
   }
