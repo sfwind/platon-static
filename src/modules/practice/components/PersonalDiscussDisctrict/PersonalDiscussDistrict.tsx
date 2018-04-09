@@ -68,7 +68,7 @@ export default class PersonalDiscussDistrict extends React.Component {
               }
             </div>
             <div className={`comment ${showDiscussAll ? '' : 'hidden'}`}>
-              <div dangerouslySetInnerHTML={{ __html: discuss.content, }}></div>
+              <div dangerouslySetInnerHTML={{ __html: showDiscussAll ? discuss.content : removeHtmlTags(discuss.content), }}></div>
             </div>
             {
               getRealLength(removeHtmlTags(discuss.content)) > 90 &&
@@ -96,9 +96,9 @@ export default class PersonalDiscussDistrict extends React.Component {
                                 url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
                     }
                   </div>
-                  <div className={`comment ${item.showCommentAll ? '' : 'hidden'}`}>{item.content}</div>
+                  <div className={`comment ${item.showCommentAll ? '' : 'hidden'}`}>{item.showCommentAll ? item.content : removeHtmlTags(item.content)}</div>
                   {
-                    getRealLength(item.content) > 75 &&
+                    getRealLength(removeHtmlTags(item.content)) > 75 &&
                     <div className="show-tips"
                          onClick={() => this.handleClickToggleCommentsShow(index)}>
                       {item.showCommentAll ? '收起' : '展开'}

@@ -14,7 +14,7 @@ import PullElement from 'pull-element'
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
 import Tutorial from '../../../components/Tutorial'
 import { mark } from '../../../utils/request'
-import { scroll } from '../../../utils/helpers'
+import { randomStr, scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
 import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
@@ -316,7 +316,6 @@ export default class Application extends React.Component <any, any> {
     this.setState({ showDisable: true })
     submitApplicationPractice(planId, location.query.id, { answer }).then(res => {
       this.clearStorage()
-      dispatch(endLoad())
       const { code, msg } = res
       if (code === 200) {
         if (code.msg !== 0) {
@@ -324,9 +323,7 @@ export default class Application extends React.Component <any, any> {
             window.scrollTo(0, 0)
           })
         }
-        dispatch(startLoad())
         loadApplicationPractice(location.query.id, planId).then(res => {
-          dispatch(endLoad())
           const { code, msg } = res
           if (code === 200) {
             this.setState({
@@ -335,20 +332,11 @@ export default class Application extends React.Component <any, any> {
               editorValue: msg.content,
             })
           }
-          else dispatch(alertMsg(msg))
-        }).catch(ex => {
-          dispatch(endLoad())
-          dispatch(alertMsg(ex))
         })
         this.setState({ showDisable: false })
       } else {
-        dispatch(alertMsg(msg))
         this.setState({ showDisable: false })
       }
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-      this.setState({ showDisable: false })
     })
   }
 
@@ -514,7 +502,8 @@ export default class Application extends React.Component <any, any> {
           </div>
           <ColumnSpan height={15}
                       style={{ margin: '2rem -2.5rem 0' }}/>
-          <ApplicationDiscussDistrict data={commentsData}
+          <ApplicationDiscussDistrict key={randomStr(12)}
+                                      data={commentsData}
                                       clickFunc={() => this.handleClickGoSubmitPage()}/>
         </div>
         {renderButton()}

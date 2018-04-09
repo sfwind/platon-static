@@ -3,7 +3,7 @@ import { loadPriorityWarmUpAnalysis } from '../../warmup/async'
 import AssetImg from '../../../../components/AssetImg'
 
 import './DiscussDistrict.less'
-import { formatDate, getRealLength, splitContent } from '../../../../utils/helpers'
+import { formatDate, getRealLength, removeHtmlTags, splitContent } from '../../../../utils/helpers'
 
 export default class DiscussDistrict extends React.Component {
 
@@ -70,10 +70,10 @@ export default class DiscussDistrict extends React.Component {
               }
             </div>
             <div className={`comment ${originDiscuss.showAll ? '' : 'hidden'}`}>
-              {originDiscuss.content}
+              {originDiscuss.showAll ? originDiscuss.content : removeHtmlTags(originDiscuss.content)}
             </div>
             {
-              getRealLength(originDiscuss.content) > 90 &&
+              getRealLength(removeHtmlTags(originDiscuss.content)) > 90 &&
               <div className="show-tips"
                    onClick={() => this.handleClickToggleOriginDiscuss()}>
                 {originDiscuss.showAll ? '收起' : '展开'}
@@ -97,10 +97,10 @@ export default class DiscussDistrict extends React.Component {
                 }
               </div>
               <div className={`comment ${priorityDiscuss.showAll ? '' : 'hidden'}`}>
-                {priorityDiscuss.content}
+                {priorityDiscuss.showAll ? priorityDiscuss.content : removeHtmlTags(priorityDiscuss.content)}
               </div>
               {
-                getRealLength(priorityDiscuss.content) > 75 &&
+                getRealLength(removeHtmlTags(priorityDiscuss.content)) > 75 &&
                 <div className="show-tips"
                      onClick={() => this.handleClickTogglePriorityDiscuss()}>
                   {priorityDiscuss.showAll ? '收起' : '展开'}
