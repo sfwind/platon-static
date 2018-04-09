@@ -43,6 +43,7 @@ export default class PersonalDiscussDistrict extends React.Component {
   render () {
     const {
       discuss = {
+        id: 0,
         avatar: '',
         addTime: '',
         content: '',
@@ -52,6 +53,9 @@ export default class PersonalDiscussDistrict extends React.Component {
       comments = [],
       showDiscussAll = false,
     } = this.state
+    const {
+      deleteFunc,
+    } = this.props
 
     return (
       <div className="personal-discuss-district-component">
@@ -71,13 +75,20 @@ export default class PersonalDiscussDistrict extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: showDiscussAll ? discuss.content : removeHtmlTags(discuss.content), }}></div>
             </div>
             {
-              getRealLength(removeHtmlTags(discuss.content)) > 90 &&
+              (getRealLength(removeHtmlTags(discuss.content)) > 90 || discuss.content.indexOf('<p') > -1 || discuss.content.indexOf('<img') > -1) &&
               <div className="show-tips"
                    onClick={() => this.handleClickToggleDiscussShow()}>
                 {showDiscussAll ? '收起' : '展开'}
               </div>
             }
-            <div className="publish">{formatDate(new Date(discuss.publishTime), 'yyyy-MM-dd hh:mm')}</div>
+            <div className="bottom-data">
+              <div className="publish">{formatDate(new Date(discuss.publishTime), 'yyyy-MM-dd hh:mm')}</div>
+              {
+                deleteFunc &&
+                <div className="delete"
+                     onClick={() => deleteFunc(discuss.id)}>删除</div>
+              }
+            </div>
           </div>
         </div>
         {
@@ -104,7 +115,9 @@ export default class PersonalDiscussDistrict extends React.Component {
                       {item.showCommentAll ? '收起' : '展开'}
                     </div>
                   }
-                  <div className="publish">{formatDate(new Date(item.publishTime), 'yyyy-MM-dd hh:mm')}</div>
+                  <div className="bottom-data">
+                    <div className="publish">{formatDate(new Date(item.publishTime), 'yyyy-MM-dd hh:mm')}</div>
+                  </div>
                 </div>
               </div>
             )

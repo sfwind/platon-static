@@ -27,7 +27,7 @@ export default class ApplicationDiscussDistrict extends React.Component {
                        rightLabel={'提交作业'}
                        rightOnClick={() => clickFunc()}/>
         {
-          personal.length > 0 && <div className="tips">我的作业</div>
+          personal.length > 0 && <div className="tips top">我的作业</div>
         }
         {
           personal.map((item, index) => {
@@ -37,7 +37,7 @@ export default class ApplicationDiscussDistrict extends React.Component {
           })
         }
         {
-          priorities.length > 0 && <div className="tips">同学作业</div>
+          priorities.length > 0 && <div className="tips bottom">同学作业</div>
         }
         {
           priorities.map((item, index) => {
@@ -50,7 +50,7 @@ export default class ApplicationDiscussDistrict extends React.Component {
           personal.length === 0 && priorities.length === 0 &&
           <div className="empty-tip">
             <div className="empty-icon"></div>
-            <div className="empty-text">沙发空缺，速去提交</div>
+            <div className="empty-text">优质发言或者作业会被精选发布哦</div>
           </div>
         }
       </div>

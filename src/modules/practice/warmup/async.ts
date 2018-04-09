@@ -30,7 +30,7 @@ export function consolidationStatus () {
 }
 
 export function deleteComment (id) {
-  return ppost(`/rise/practice/warmup/delete/comment/${id}`)
+  return requestProxy.postProxy(`/rise/practice/warmup/delete/comment/${id}`)
 }
 
 export function loadPriorityWarmUpAnalysis (practicePlanId) {

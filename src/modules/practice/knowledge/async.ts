@@ -26,7 +26,7 @@ export function discussKnowledge (body) {
 }
 
 export function deleteKnowledgeDiscuss (id) {
-  return ppost(`/rise/practice/knowledge/discuss/del/${id}`)
+  return requestProxy.postProxy(`/rise/practice/knowledge/discuss/del/${id}`)
 }
 
 export function loadKnowledgePriorityDiscuss (knowledgeId) {
