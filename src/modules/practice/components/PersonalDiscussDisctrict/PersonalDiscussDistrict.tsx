@@ -1,7 +1,8 @@
 import * as React from 'react'
 import './PersonalDiscussDistrict.less'
 import AssetImg from '../../../../components/AssetImg'
-import { formatDate, getRealLength, removeHtmlTags, splitContent } from '../../../../utils/helpers'
+import { formatDate, getRealLength, removeHtmlTags } from '../../../../utils/helpers'
+import * as FontAwesome from 'react-fontawesome'
 
 export default class PersonalDiscussDistrict extends React.Component {
 
@@ -40,6 +41,24 @@ export default class PersonalDiscussDistrict extends React.Component {
     })
   }
 
+  async handleClickVote (discuss) {
+    const { id, selfVoted } = discuss
+    if (selfVoted) {
+      return
+    }
+    const {
+      voteFunc = () => {
+      },
+    } = this.props
+    let targetDiscuss = JSON.parse(JSON.stringify(this.state.discuss))
+    targetDiscuss.selfVoted = true
+    targetDiscuss.voteCount = targetDiscuss.voteCount + 1
+    this.setState({
+      discuss: targetDiscuss,
+    })
+    voteFunc(id)
+  }
+
   render () {
     const {
       discuss = {
@@ -55,6 +74,7 @@ export default class PersonalDiscussDistrict extends React.Component {
     } = this.state
     const {
       deleteFunc,
+      showVote = false,
     } = this.props
 
     return (
@@ -87,6 +107,15 @@ export default class PersonalDiscussDistrict extends React.Component {
                 deleteFunc &&
                 <div className="delete"
                      onClick={() => deleteFunc(discuss.id)}>删除</div>
+              }
+              {
+                showVote &&
+                <div className="vote-data"
+                     onClick={() => this.handleClickVote(discuss)}>
+                  <FontAwesome name={discuss.selfVoted ? 'thumbs-up' : 'thumbs-o-up'}
+                               className="icon"/>
+                  <span>&nbsp;&nbsp;{discuss.voteCount}</span>
+                </div>
               }
             </div>
           </div>

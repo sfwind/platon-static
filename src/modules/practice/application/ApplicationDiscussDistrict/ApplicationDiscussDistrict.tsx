@@ -2,6 +2,7 @@ import * as React from 'react'
 import DiscussTopBar from '../../components/DiscussTopBar/DiscussTopBar'
 import PersonalDiscussDistrict from '../../components/PersonalDiscussDisctrict/PersonalDiscussDistrict'
 import './ApplicationDiscussDistrict.less'
+import { vote } from '../async'
 
 export default class ApplicationDiscussDistrict extends React.Component {
 
@@ -33,7 +34,9 @@ export default class ApplicationDiscussDistrict extends React.Component {
           personal.map((item, index) => {
             return <PersonalDiscussDistrict key={index}
                                             discuss={item.discuss}
-                                            comments={item.comments}/>
+                                            comments={item.comments}
+                                            showVote={true}
+                                            voteFunc={(id) => vote(id)}/>
           })
         }
         {
@@ -43,7 +46,9 @@ export default class ApplicationDiscussDistrict extends React.Component {
           priorities.map((item, index) => {
             return <PersonalDiscussDistrict key={personal.length + index}
                                             discuss={item.priorityDiscuss}
-                                            comments={item.multiComments}/>
+                                            comments={item.multiComments}
+                                            showVote={true}
+                                            voteFunc={(id) => vote(id)}/>
           })
         }
         {
