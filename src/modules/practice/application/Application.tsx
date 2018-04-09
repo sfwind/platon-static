@@ -384,28 +384,14 @@ export default class Application extends React.Component <any, any> {
     }
 
     const renderTip = () => {
-      if (edit) {
-        return (
-          <div className="no-comment">
-            <div className="content">
-              <div className="text">更喜欢电脑上提交?</div>
-              <div className="text">登录www.iquanwai.com/community</div>
-            </div>
+      return (
+        <div className="no-comment">
+          <div className="content">
+            <div className="text">更喜欢电脑上提交?</div>
+            <div className="text">登录www.iquanwai.com/community</div>
           </div>
-        )
-      } else {
-        return (
-          <div>
-            <Work {...data} onVoted={() => this.voted(submitId, voteStatus, voteCount, true)}
-                  onEdit={() => this.onEdit()}
-                  headImage={window.ENV.headImgUrl}
-                  userName={window.ENV.userName}
-                  type={CommentType.Application}
-                  articleModule={ArticleViewModule.Application}
-                  goComment={() => this.goComment(submitId)}/>
-          </div>
-        )
-      }
+        </div>
+      )
     }
 
     const renderEnd = () => {

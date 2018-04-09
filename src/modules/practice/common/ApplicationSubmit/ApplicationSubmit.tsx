@@ -116,6 +116,10 @@ export default class ApplicationSubmit extends React.Component {
                 value={value}
                 autoSave={() => this.autoSave()}
                 placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点上方按钮提交，就会得到点赞和专业点评哦！"/>
+        <div className="bottom-tip">
+          <div>更喜欢电脑上提交？</div>
+          <div>登录 www.iquanwai.com/community</div>
+        </div>
       </div>
     )
   }
