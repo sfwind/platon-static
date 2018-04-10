@@ -17,7 +17,7 @@ class RequestProxy {
       try {
         let res = await pget(url, query)
         this.observer.endLoad()
-        if (res.code === 200) {
+        if (res.code >= 200 && res.code <= 220) {
           return res
         } else {
           this.observer.alertMessage(res.msg)
