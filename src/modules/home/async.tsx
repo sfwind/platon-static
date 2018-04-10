@@ -1,4 +1,4 @@
-import requestProxy from '../base/requestProxy'
+import requestProxy from '../../components/requestproxy/requestProxy'
 
 export function loadLandingPageData () {
   return requestProxy.getProxy('/rise/landing/load')

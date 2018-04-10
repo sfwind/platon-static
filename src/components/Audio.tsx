@@ -117,7 +117,7 @@ export default class Audio extends React.Component<AudioProps, any> {
           clearInterval(timer)
           this.setState({ playing: false })
         }
-      }, 100)
+      }, 1000)
     })
   }
 

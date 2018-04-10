@@ -2,7 +2,7 @@ import * as React from 'react'
 import './ActivityHome.less'
 import AssetImg from '../../../../components/AssetImg'
 import { calcScheduleData } from '../../../schedule/overview/util'
-import { splitContent } from '../../../../utils/helpers'
+import { splitContentWithSuffix } from '../../../../utils/helpers'
 import { mark } from '../../../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
@@ -86,7 +86,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
         <div className="name">{name}</div>
         <div className="holder">举办人：{holder}</div>
         <div className="holding-time">举办时间：{startTimeStr}</div>
-        <div className="location">举办地点：{splitContent(location, 10)}</div>
+        <div className="location">举办地点：{splitContentWithSuffix(location, 10)}</div>
         {renderStatus()}
         <AssetImg className="thumbnail" url={thumbnail}/>
       </div>
