@@ -43,7 +43,8 @@ export default class ApplicationDiscussDistrict extends React.Component {
                                             discuss={item.discuss}
                                             comments={item.comments}
                                             showVote={true}
-                                            voteFunc={(id) => vote(id)}/>
+                                            voteFunc={(id) => vote(id)}
+                                            showRequestComment={true}/>
           })
         }
         {

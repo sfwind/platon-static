@@ -2,8 +2,8 @@ import * as React from 'react'
 import './PersonalDiscussDistrict.less'
 import AssetImg from '../../../../components/AssetImg'
 import { formatDate, getRealLength, removeHtmlTags } from '../../../../utils/helpers'
-import * as FontAwesome from 'react-fontawesome'
 import { Dialog } from 'react-weui'
+import { requestApplicationComment } from '../../../message/async'
 
 const { Alert } = Dialog
 
@@ -12,7 +12,9 @@ export default class PersonalDiscussDistrict extends React.Component {
   constructor () {
     super()
     this.state = {
-      showDeleteConfirm: false,
+      confirmParams: {},
+      showConfirm: false,
+      confirmContent: '',
     }
   }
 
@@ -49,22 +51,48 @@ export default class PersonalDiscussDistrict extends React.Component {
   handleClickDeleteComment (id) {
     const { deleteFunc, } = this.props
     this.setState({
-      deleteConfirmParams: {
+      confirmParams: {
         buttons: [
-          { label: '取消', onClick: () => this.setState({ showDeleteConfirm: false }) },
+          { label: '取消', onClick: () => this.setState({ showConfirm: false }) },
           {
             label: '确认',
             onClick: () => {
               this.setState({
-                showDeleteConfirm: false,
+                showConfirm: false,
               })
               deleteFunc(id)
             },
           },
         ],
       },
-      showDeleteConfirm: true,
+      showConfirm: true,
+      confirmContent: '确认删除此评论？',
     })
+  }
+
+  async handleRequestApplicationComment (id) {
+    let res = await requestApplicationComment(id)
+    if (res.code === 200) {
+      this.setState({
+        confirmParams: {
+          buttons: [
+            { label: '我知道了', onClick: () => this.setState({ showConfirm: false }) },
+          ],
+        },
+        showConfirm: true,
+        confirmContent: '求点评成功',
+      })
+    } else {
+      this.setState({
+        confirmParams: {
+          buttons: [
+            { label: '我知道了', onClick: () => this.setState({ showConfirm: false }) },
+          ],
+        },
+        showConfirm: true,
+        confirmContent: '本课程求点评次数已用完',
+      })
+    }
   }
 
   async handleClickVote (discuss) {
@@ -97,12 +125,14 @@ export default class PersonalDiscussDistrict extends React.Component {
       },
       comments = [],
       showDiscussAll = false,
-      deleteConfirmParams = {},
-      showDeleteConfirm = false,
+      confirmParams = {},
+      showConfirm = false,
+      confirmContent = '',
     } = this.state
     const {
       deleteFunc,
       showVote = false,
+      showRequestComment = false,
     } = this.props
 
     return (
@@ -145,6 +175,12 @@ export default class PersonalDiscussDistrict extends React.Component {
                 <div className="delete"
                      onClick={() => this.handleClickDeleteComment(discuss.id)}>删除</div>
               }
+              {
+                showRequestComment &&
+                <div className="delete"
+                     style={{ color: '#56cec0' }}
+                     onClick={() => this.handleRequestApplicationComment(discuss.id)}>求点评</div>
+              }
             </div>
           </div>
         </div>
@@ -180,8 +216,10 @@ export default class PersonalDiscussDistrict extends React.Component {
             )
           })
         }
-        <Alert {...deleteConfirmParams} show={showDeleteConfirm}>
-          <p>确认删除此评论？</p>
+
+
+        <Alert {...confirmParams} show={showConfirm}>
+          <p>{confirmContent}</p>
         </Alert>
       </div>
     )
