@@ -49,7 +49,7 @@ export default class NewProfile extends React.Component<any, any> {
     super(props)
     this.state = {
       nickName: window.ENV.userName,
-      memberTypeId:null,
+      memberTypeId: null,
       function: null,
       industry: null,
       workingLife: null,
@@ -167,8 +167,8 @@ export default class NewProfile extends React.Component<any, any> {
 
   checkFull() {
     const functionValue = _.get(this.state, 'function')
-    const { memberTypeId,nickName,city, province, industry, workingYear,realName, address, receiver } = this.state
-    if(memberTypeId===3) {
+    const { memberTypeId, nickName, city, province, industry, workingYear, realName, address, receiver } = this.state
+    if(memberTypeId === 3) {
       if(nickName && city && province && industry && workingYear && functionValue && realName && address && receiver) {
         return true
       }
@@ -181,12 +181,12 @@ export default class NewProfile extends React.Component<any, any> {
   }
 
   submitProfile() {
-    const { dispatch} = this.props
-    const {nickName, city, province, industry, workingYear,realName, address, receiver, married } = this.state
+    const { dispatch } = this.props
+    const { nickName, city, province, industry, workingYear, realName, address, receiver, married } = this.state
     const functionValue = _.get(this.state, 'function')
     if(this.checkFull()) {
       let param = {
-        nickName:nickName,
+        nickName: nickName,
         city: city,
         province: province,
         industry: industry,
@@ -199,9 +199,9 @@ export default class NewProfile extends React.Component<any, any> {
       ppost('/rise/customer/new/profile', param).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
-            dispatch(alertMsg('提交成功'))
-            window.ENV.userName = nickName
-            this.setState({ isFull: true})
+          dispatch(alertMsg('提交成功'))
+          window.ENV.userName = nickName
+          this.setState({ isFull: true })
         } else {
           dispatch(alertMsg(res.msg))
         }
@@ -220,21 +220,19 @@ export default class NewProfile extends React.Component<any, any> {
     return isFull
   }
 
-
   goMobileCheck() {
     this.context.router.push({
       pathname: '/rise/static/customer/mobile/check',
-      query: { person:true }
+      query: { person: true }
     })
   }
 
-
   render() {
-    const { region} = this.props
+    const { region } = this.props
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const {memberTypeId,memberId,phone,riseId,className, city, province, cityId, provinceId, industry,isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
+    const { memberTypeId, memberId, phone, riseId, className, city, province, cityId, provinceId, industry, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -243,12 +241,11 @@ export default class NewProfile extends React.Component<any, any> {
       )
     }
 
-
     const renderRegion = () => {
       const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
       return (
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择居住地点'}
-                   className= {province ? 'select-wrapper-has' : 'select-wrapper-choice'}>
+                   className={province ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
                         placeholder="请选择"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
@@ -355,7 +352,7 @@ export default class NewProfile extends React.Component<any, any> {
               {memberId}
             </div>
           </div>
-          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
+          <div className="profile-item">
             <div className="item-label">
               班级
             </div>
@@ -379,11 +376,20 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderNickName = () => {
       return (
-        <div className='select-wrapper-has-no-cut'n style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="nickName" placeholder="请填写" type="text" {...this.bind('nickName', this.getInputValue)}/>
         </div>
       )
     }
+
+    const renderCompany = () => {
+      return(
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+          <input id="company" placeholder="请填写" type="text" {...this.bind('company', this.getInputValue)}/>
+        </div>
+      )
+    }
+
 
     const renderTel = () => {
       return (
@@ -392,35 +398,29 @@ export default class NewProfile extends React.Component<any, any> {
         </div>
       )
     }
-
     return (
       <div className="new-profile">
-          <div className="profile-header">
-            {renderProfileHeader()}
-          </div>
+        <div className="profile-header">
+          {renderProfileHeader()}
+        </div>
 
         {!_.isEmpty(memberId) && renderClassInfo()}
 
         <div className="profile-container">
-
-          <div className="profile-item">
-            <div className="item-label">
-              ID
-            </div>
-            <div className="item-content">
-              {riseId}
-            </div>
+          <div className="title-container">
+            基本信息
           </div>
           <div className="profile-item">
             <div className="item-label">
               昵称
             </div>
-            <div className="item-content" >
+            <div className="item-content">
               {renderNickName()}
             </div>
           </div>
 
-          <MarkBlock module={'个人中心'} func={'个人信息页'} action={'点击修改头像'} onClick={() => this.modifyPhoto(window.ENV.headImgUrl)}
+          <MarkBlock module={'个人中心'} func={'个人信息页'} action={'点击修改头像'}
+                     onClick={() => this.modifyPhoto(window.ENV.headImgUrl)}
                      className="profile-item">
             <div className="item-label">
               头像
@@ -438,6 +438,15 @@ export default class NewProfile extends React.Component<any, any> {
               {renderWorkingYear()}
             </div>
           </div>
+
+          <div className="profile-item">
+            <div className="item-label">
+              所在城市
+            </div>
+            <div className="item-content" id="region-select">
+              {renderRegion()}
+            </div>
+          </div>
           <div className="profile-item">
             <div className="item-label">
               行业
@@ -446,30 +455,64 @@ export default class NewProfile extends React.Component<any, any> {
               {renderIndustry()}
             </div>
           </div>
+
           <div className="profile-item">
             <div className="item-label">
-              职业
+              所在公司/机构
+            </div>
+            <div className="item-content">
+              {renderCompany()}
+            </div>
+          </div>
+
+
+          <div className="profile-item">
+            <div className="item-label">
+              目前职位
             </div>
             <div className="item-content">
               {renderFunction()}
             </div>
           </div>
 
-          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
+          <div className="title-container">
+              详细信息
+          </div>
+
+          <div className="profile-item">
             <div className="item-label">
-              居住地点
+              毕业院校
             </div>
-            <div className="item-content" id="region-select">
-              {renderRegion()}
+            <div className="item-content">
+              {renderFunction()}
             </div>
           </div>
 
           <div className="profile-item">
             <div className="item-label">
-              真实姓名
+              手机号
             </div>
             <div className="item-content">
-              {renderRealName()}
+              {renderFunction()}
+            </div>
+          </div>
+
+          <div className="profile-item">
+            <div className="item-label">
+              微信号
+            </div>
+            <div className="item-content">
+              {renderFunction()}
+            </div>
+          </div>
+
+
+          <div className="profile-item">
+            <div className="item-label">
+              邮箱
+            </div>
+            <div className="item-content">
+              {renderFunction()}
             </div>
           </div>
 
@@ -482,35 +525,75 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>
 
-          {memberTypeId===3 &&
           <div className="profile-item">
             <div className="item-label">
-              收件人
+              感情状态（选填）
             </div>
             <div className="item-content">
-              {renderReceiver()}
+              {renderMarried()}
             </div>
-          </div>}
+          </div>
+          <div className="introduction-container">
+            <div className="introduction-header">
+              个人简介
+            </div>
+            <div className="introduction-body">
+              <textarea placeholder="请填写个人简介">
 
-          {memberTypeId===3 &&
-          <MarkBlock module={'个人中心'} function={'个人信息页'} action={'点击修改联系方式'} className="profile-item" onClick={()=>this.goMobileCheck()}>
-            <div className="item-label">
-              联系电话
+              </textarea>
             </div>
-            <div className="item-content">
-              {renderTel()}
-            </div>
-          </MarkBlock>}
-          {memberTypeId===3 &&
-          <div className="profile-item">
-            <div className="address-tips">收件地址</div>
-            <textarea className="address" placeholder="请填写" value={address}
-                      onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
-                        this.checkIsFull()
-                      })}
-            />
-          </div>}
 
+          </div>
+
+          {memberTypeId===3 || memberTypeId ===8 &&
+            <div className="title-container">
+              邮寄信息（本信息用于邮寄你的圈外商学院礼包）
+            </div>
+          }
+
+          {memberTypeId===3 || memberTypeId ===8 &&
+            <div className="profile-item">
+              <div className="item-label">
+                真实姓名
+              </div>
+              <div className="item-content">
+                {renderRealName()}
+              </div>
+            </div>
+          }
+
+          {memberTypeId===3 || memberTypeId ===8 &&
+            <div className="profile-item">
+              <div className="item-label">
+                收件人
+              </div>
+              <div className="item-content">
+                {renderReceiver()}
+              </div>
+            </div>
+          }
+
+          {memberTypeId===3 || memberTypeId ===8 &&
+            <MarkBlock module={'个人中心'} function={'个人信息页'} action={'点击修改联系方式'} className="profile-item"
+                       onClick={() => this.goMobileCheck()}>
+              <div className="item-label">
+                联系电话
+              </div>
+              <div className="item-content">
+                {renderTel()}
+              </div>
+            </MarkBlock>
+          }
+          {memberTypeId===3 || memberTypeId ===8 &&
+            <div className="profile-item">
+              <div className="address-tips">收件地址</div>
+              <textarea className="address" placeholder="请填写" value={address}
+                        onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
+                          this.checkIsFull()
+                        })}
+              />
+            </div>
+          }
 
         </div>
         <div className="profile-bottom">
