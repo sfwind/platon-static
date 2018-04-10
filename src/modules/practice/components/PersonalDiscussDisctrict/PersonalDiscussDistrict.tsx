@@ -116,7 +116,16 @@ export default class PersonalDiscussDistrict extends React.Component {
               {
                 discuss.isAsst &&
                 <AssetImg className="person-title"
-                          url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+                          url="https://static.iqycamp.com/asst-gh4skljm.png"></AssetImg>
+              }
+              {
+                showVote &&
+                <div className="vote-data"
+                     onClick={() => this.handleClickVote(discuss)}>
+                  <AssetImg className="icon"
+                            url={discuss.selfVoted ? 'https://static.iqycamp.com/voted-9lfn0uhh.png' : 'https://static.iqycamp.com/forvote-fjcbveqn.png'}/>
+                  <span className="vote-count">&nbsp;&nbsp;{discuss.voteCount}</span>
+                </div>
               }
             </div>
             <div className={`comment ${showDiscussAll ? '' : 'hidden'}`}>
@@ -136,15 +145,6 @@ export default class PersonalDiscussDistrict extends React.Component {
                 <div className="delete"
                      onClick={() => this.handleClickDeleteComment(discuss.id)}>删除</div>
               }
-              {
-                showVote &&
-                <div className="vote-data"
-                     onClick={() => this.handleClickVote(discuss)}>
-                  <AssetImg className="icon"
-                            url={discuss.selfVoted ? 'https://static.iqycamp.com/voted-9lfn0uhh.png' : 'https://static.iqycamp.com/forvote-fjcbveqn.png'}/>
-                  <span className="vote-count">&nbsp;&nbsp;{discuss.voteCount}</span>
-                </div>
-              }
             </div>
           </div>
         </div>
@@ -161,7 +161,7 @@ export default class PersonalDiscussDistrict extends React.Component {
                     {
                       item.isAsst &&
                       <AssetImg className="person-title"
-                                url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+                                url="https://static.iqycamp.com/asst-gh4skljm.png"></AssetImg>
                     }
                   </div>
                   <div className={`comment ${item.showCommentAll ? '' : 'hidden'}`}>{item.showCommentAll ? item.content : removeHtmlTags(item.content)}</div>

@@ -66,7 +66,7 @@ export default class DiscussDistrict extends React.Component {
               {
                 originDiscuss.isAsst &&
                 <AssetImg className="person-title"
-                          url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+                          url="https://static.iqycamp.com/asst-gh4skljm.png"></AssetImg>
               }
             </div>
             <div className={`comment ${originDiscuss.showAll ? '' : 'hidden'}`}>
@@ -93,7 +93,7 @@ export default class DiscussDistrict extends React.Component {
                 {
                   priorityDiscuss.isAsst &&
                   <AssetImg className="person-title"
-                            url="https://static.iqycamp.com/asst_icon-dlwllkbr.png"></AssetImg>
+                            url="https://static.iqycamp.com/asst-gh4skljm.png"></AssetImg>
                 }
               </div>
               <div className={`comment ${priorityDiscuss.showAll ? '' : 'hidden'}`}>
