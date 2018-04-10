@@ -88,12 +88,14 @@ export default class ApplicationSubmit extends React.Component {
     const value = this.refs.editor.getValue()
     if (!value || value.length === 0) {
       dispatch(alertMsg('请填写作业'))
-    }
-    const { id, planId } = this.props.location.query
-    let res = await submitApplicationPractice(planId, id, { answer: value })
-    if (res.code === 200) {
-      this.clearStorage()
-      this.context.router.goBack()
+      return
+    } else {
+      const { id, planId } = this.props.location.query
+      let res = await submitApplicationPractice(planId, id, { answer: value })
+      if (res.code === 200) {
+        this.clearStorage()
+        this.context.router.goBack()
+      }
     }
   }
 
