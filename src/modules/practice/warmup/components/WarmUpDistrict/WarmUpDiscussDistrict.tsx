@@ -61,7 +61,10 @@ export default class WarmUpDiscussDistrict extends React.Component {
       <div className="warmup-discuss-district-component">
         <DiscussTopBar leftLabel={'讨论区'}
                        rightLabel={'我要发言'}
-                       rightOnClick={() => clickFunc()}/>
+                       rightOnClick={() => {
+                         this.context.router.setState({ pageScrollY: window.pageYOffset })
+                         clickFunc()
+                       }}/>
         {
           personal.length > 0 && <div className="tips top">我的观点</div>
         }

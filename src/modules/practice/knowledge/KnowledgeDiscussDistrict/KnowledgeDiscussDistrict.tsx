@@ -12,6 +12,10 @@ export default class KnowledgeDiscussDistrict extends React.Component {
     this.state = {}
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
   componentWillMount () {
     const {
       data = {},
@@ -57,7 +61,10 @@ export default class KnowledgeDiscussDistrict extends React.Component {
       <div className="knowledge-discuss-district-component">
         <DiscussTopBar leftLabel={'讨论区'}
                        rightLabel={'我要发言'}
-                       rightOnClick={() => clickFunc()}/>
+                       rightOnClick={() => {
+                         this.context.router.setState({ pageScrollY: window.pageYOffset })
+                         clickFunc()
+                       }}/>
         {
           personal.length > 0 && <div className="tips top">我的观点</div>
         }

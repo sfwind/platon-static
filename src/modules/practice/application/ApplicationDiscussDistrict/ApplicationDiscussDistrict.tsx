@@ -11,6 +11,10 @@ export default class ApplicationDiscussDistrict extends React.Component {
     this.state = {}
   }
 
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
   render () {
     const {
       data,
@@ -26,7 +30,10 @@ export default class ApplicationDiscussDistrict extends React.Component {
       <div className="application-discuss-district-component">
         <DiscussTopBar leftLabel={'作业区'}
                        rightLabel={'提交作业'}
-                       rightOnClick={() => clickFunc()}/>
+                       rightOnClick={() => {
+                         this.context.router.setState({ pageScrollY: window.pageYOffset })
+                         clickFunc()
+                       }}/>
         {
           personal.length > 0 && <div className="tips top">我的作业</div>
         }
