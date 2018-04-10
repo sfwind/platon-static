@@ -87,7 +87,7 @@ export default class WarmUpDiscussDistrict extends React.Component {
           personal.length === 0 && priorities.length === 0 &&
           <div className="empty-tip">
             <div className="empty-icon"></div>
-            <div className="empty-text">优质发言或者作业会被精选发布哦</div>
+            <div className="empty-text">优质发言或作业会被精选发布哦</div>
           </div>
         }
       </div>

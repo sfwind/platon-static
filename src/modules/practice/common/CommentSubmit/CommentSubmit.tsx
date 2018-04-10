@@ -51,11 +51,20 @@ export default class CommentSubmit extends React.Component {
     }
   }
 
+  handleClickCancel () {
+    const { warmUpIndex } = this.props.location.query
+    const { dispatch } = this.props
+    if (warmUpIndex && warmUpIndex > 0) {
+      dispatch(set('warmupCurrentIndex', parseInt(warmUpIndex)))
+    }
+    this.context.router.goBack()
+  }
+
   render () {
     return (
       <div className="comment-submit-container">
         <EditorTopBar leftLabel={'取消'}
-                      leftOnClick={() => this.context.router.goBack()}
+                      leftOnClick={() => this.handleClickCancel()}
                       description={'我的发言'}
                       rightLabel={'提交'}
                       rightOnClick={() => this.handleSubmitComment()}/>

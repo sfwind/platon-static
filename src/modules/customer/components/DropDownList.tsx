@@ -15,8 +15,6 @@ export default class DropDownList extends React.Component<any, any> {
         level,
         data,
         this.init(level, data, userData, defaultData, onChoice));
-    } else {
-      console.log("数据还未准备好");
     }
   }
 

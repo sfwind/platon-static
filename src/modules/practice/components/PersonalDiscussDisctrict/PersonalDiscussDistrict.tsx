@@ -140,9 +140,9 @@ export default class PersonalDiscussDistrict extends React.Component {
                 showVote &&
                 <div className="vote-data"
                      onClick={() => this.handleClickVote(discuss)}>
-                  <FontAwesome name={discuss.selfVoted ? 'thumbs-up' : 'thumbs-o-up'}
-                               className="icon"/>
-                  <span>&nbsp;&nbsp;{discuss.voteCount}</span>
+                  <AssetImg className="icon"
+                            url={discuss.selfVoted ? 'https://static.iqycamp.com/voted-9lfn0uhh.png' : 'https://static.iqycamp.com/forvote-fjcbveqn.png'}/>
+                  <span className="vote-count">&nbsp;&nbsp;{discuss.voteCount}</span>
                 </div>
               }
             </div>
