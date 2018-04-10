@@ -106,7 +106,7 @@ export class ToolBar extends React.Component<any, any> {
   }
 
   componentDidMount () {
-    if(document.querySelector('#tool_bar')==null){
+    if (document.querySelector('#tool_bar') == null) {
       return
     }
     FastClick.attach(document.querySelector('#tool_bar'))
@@ -137,33 +137,35 @@ export class ToolBar extends React.Component<any, any> {
     }
 
     return (
-      this.props.hidden ? <div></div> :
-      <TabBar id='tool_bar'>
-        {this.state.tabs.map((item, idx) => {
-          const { bar } = item
-          if (item.key === 3) {
-            return (
-              <TabBarItem key={idx} active={tabIndex == item.key} onClick={() => this.handleChangeTab(item.key)}>
-                <TabBarIcon>
-                  <img className={`${item.key === 3 ? 'mine_icon' : ''}`}
-                       src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
-                  {noticeMsgCount ?
-                   <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
-                </TabBarIcon>
-                <TabBarLabel>{bar.label}</TabBarLabel>
-              </TabBarItem>
-            )
-          } else {
-            return (
-              <TabBarItem key={idx}
-                          active={tabIndex == item.key}
-                          onClick={() => this.handleChangeTab(item.key)}
-                          label={bar.label}
-                          icon={renderIcon(item, idx)}/>
-            )
-          }
-        })}
-      </TabBar>
+      this.props.hidden === true ? <div></div> :
+        <TabBar id='tool_bar'>
+          {this.state.tabs.map((item, idx) => {
+            const { bar } = item
+            if (item.key === 3) {
+              return (
+                <TabBarItem key={idx}
+                            active={tabIndex == item.key}
+                            onClick={() => this.handleChangeTab(item.key)}>
+                  <TabBarIcon>
+                    <img className={`${item.key === 3 ? 'mine_icon' : ''}`}
+                         src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
+                    {noticeMsgCount ?
+                      <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
+                  </TabBarIcon>
+                  <TabBarLabel>{bar.label}</TabBarLabel>
+                </TabBarItem>
+              )
+            } else {
+              return (
+                <TabBarItem key={idx}
+                            active={tabIndex == item.key}
+                            onClick={() => this.handleChangeTab(item.key)}
+                            label={bar.label}
+                            icon={renderIcon(item, idx)}/>
+              )
+            }
+          })}
+        </TabBar>
     )
   }
 }
