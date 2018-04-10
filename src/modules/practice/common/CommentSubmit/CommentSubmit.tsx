@@ -26,6 +26,7 @@ export default class CommentSubmit extends React.Component {
 
   handleSubmitComment () {
     const { dispatch } = this.props
+    const { warmUpIndex } = this.props.location.query
     let commentValue = this.refs.simple.getValue()
     if (!commentValue || commentValue.length <= 0) {
       dispatch(alertMsg('清输入内容再提交'))
@@ -38,11 +39,17 @@ export default class CommentSubmit extends React.Component {
     if (type == COMMENT_TYPE.KNOWLEDGE) {
       // 知识点啊
       discussKnowledge({ comment: commentValue, referenceId: referenceId }).then(res => {
+        if (warmUpIndex && warmUpIndex > 0) {
+          dispatch(set('warmupCurrentIndex', parseInt(warmUpIndex)))
+        }
         this.context.router.goBack()
       })
     } else if (type == COMMENT_TYPE.WARMUPPRACTICE) {
       // 选择题
       discuss({ comment: commentValue, referenceId: referenceId }).then(res => {
+        if (warmUpIndex && warmUpIndex > 0) {
+          dispatch(set('warmupCurrentIndex', parseInt(warmUpIndex)))
+        }
         this.context.router.goBack()
       })
     } else {
