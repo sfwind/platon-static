@@ -55,7 +55,7 @@ export class LiveHome extends React.Component<LiveHomeProps, any> {
       if (linkUrl) {
         window.location.href = linkUrl
       } else {
-        requestProxy.alertMessage('恭喜您已经预约成功')
+        requestProxy.alertMessage('恭喜你已预约成功！直播开始3天前，我们会通过圈外同学服务号提醒你参加分享~')
         mark({ module: '打点', function: '着陆页', action: '点击预约', memo: name })
       }
     } else {
