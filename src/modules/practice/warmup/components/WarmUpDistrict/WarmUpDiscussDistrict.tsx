@@ -81,7 +81,7 @@ export default class WarmUpDiscussDistrict extends React.Component {
         }
         {
           priorities.map((priority, index) => {
-            return <DiscussDistrict key={priority.originDiscuss.id ? priority.originDiscuss.id : index}
+            return <DiscussDistrict key={priority.priorityDiscuss && priority.priorityDiscuss.id ? priority.priorityDiscuss.id : index}
                                     originDiscuss={priority.originDiscuss}
                                     priorityDiscuss={priority.priorityDiscuss}/>
           })
