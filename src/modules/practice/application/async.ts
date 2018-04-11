@@ -26,7 +26,7 @@ export function autoSaveApplicationDraft (planId, applicationId, draft) {
 }
 
 export function vote (referencedId) {
-  return ppost('/rise/practice/vote', { referencedId: referencedId, status: 1, type: CommentType.Application })
+  return requestProxy.postProxy('/rise/practice/vote', { referencedId: referencedId, status: 1, type: CommentType.Application })
 }
 
 export function loadOtherList (applicationId, page) {

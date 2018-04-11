@@ -56,7 +56,7 @@ export function requestCommentByType(type, submitId) {
 }
 
 export function requestApplicationComment(submitId) {
-  return ppost(`/rise/practice/request/comment/2/${submitId}`)
+  return requestProxy.postProxy(`/rise/practice/request/comment/2/${submitId}`)
 }
 
 export function loadArticleData(moduleId, commentId) {

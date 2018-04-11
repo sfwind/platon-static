@@ -90,11 +90,15 @@ export default class SchedulePlan extends React.Component {
       <div className="schedule-plan-container">
         <div className='info-container'>
           <div className="personal-detail">
-            <AssetImg className="headimg-url"
-                      url={window.ENV.headImgUrl}/>
-            <div className="nickname">{window.ENV.userName}</div>
-            <div className="personal-icon"
-                 onClick={() => this.handleGoPersonalCenter()}></div>
+            <div className="detail-top">
+              <AssetImg className="headimg-url"
+                        url={window.ENV.headImgUrl}/>
+              <div className="nickname">{window.ENV.userName}</div>
+              <div className="personal-icon"
+                   onClick={() => this.handleGoPersonalCenter()}></div>
+              <div className="count-down">距离<span className="bold">商业思维项目</span>开学还有<span className="number">09</span>天
+              </div>
+            </div>
             <div className="parameter-box box1">
               <div className="desc">连续登陆天数</div>
               <div className="data">{loginCount}</div>
