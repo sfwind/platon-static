@@ -4,6 +4,8 @@ import AssetImg from '../../../../components/AssetImg'
 import { splitContentWithSuffix } from '../../../../utils/helpers'
 import { mark } from '../../../../utils/request'
 import { Dialog } from 'react-weui'
+import { alertMsg } from 'reduxutil/actions'
+import requestProxy from '../../../../components/requestproxy/requestProxy'
 
 const { Alert } = Dialog
 
@@ -47,10 +49,15 @@ export class LiveHome extends React.Component<LiveHomeProps, any> {
     })
   }
 
-  handleClick (visibility, linkUrl) {
+  handleClick (visibility, linkUrl, name) {
     mark({ module: '打点', function: '着陆页', action: '点击直播' })
     if (visibility) {
-      window.location.href = linkUrl
+      if (linkUrl) {
+        window.location.href = linkUrl
+      } else {
+        requestProxy.alertMessage('恭喜您已经预约成功')
+        mark({ module: '打点', function: '着陆页', action: '点击预约', memo: name })
+      }
     } else {
       this.setState({ showAlert: true })
     }
@@ -68,13 +75,16 @@ export class LiveHome extends React.Component<LiveHomeProps, any> {
     } = this.state.data
 
     return (
-      <div className="live-home-component" onClick={() => this.handleClick(visibility, linkUrl)}>
+      <div className="live-home-component"
+           onClick={() => this.handleClick(visibility, linkUrl, name)}>
         <span className="title">{splitContentWithSuffix(name, 10)}</span>
         <span className="speaker">主讲人：{speaker}</span>
         <span className="speaker-desc">{splitContentWithSuffix(speakerDesc, 15)}</span>
         <span className="time">直播时间：{startTimeStr}</span>
-        <AssetImg className="thumbnail" url={thumbnail}></AssetImg>
-        <Alert show={this.state.showAlert} buttons={this.state.dialogButtons}>需要加入圈外商学院才能看哦</Alert>
+        <AssetImg className="thumbnail"
+                  url={thumbnail}></AssetImg>
+        <Alert show={this.state.showAlert}
+               buttons={this.state.dialogButtons}>需要加入圈外商学院才能看哦</Alert>
       </div>
     )
   }
