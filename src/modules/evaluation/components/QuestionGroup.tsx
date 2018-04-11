@@ -219,7 +219,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
           maxChoose = _.get(JSON.parse(memo), 'maxChoose');
         } catch(e) {
           // ignore
-          console.log(e);
+          console.error(e);
         }
         return {
           flag: !_.isEmpty(chosenIds) && chosenIds.length === maxChoose,
@@ -280,7 +280,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
               maxChoose = _.get(JSON.parse(memo), 'maxChoose');
             } catch(e) {
               // ignore
-              console.log(e);
+              console.error(e);
             }
             checkResult = !_.isEmpty(chosenIds) && chosenIds.length === maxChoose;
             break;

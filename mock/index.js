@@ -7,7 +7,7 @@ console.info("正在启动 server")
 
 app.listen(port, ip, function(err) {
   if (err) {
-    console.log(err);
+    console.error(err);
     return
   }
   console.info("==> 🌎 启动完毕, 地址为: http://0.0.0.0:%s/", port)

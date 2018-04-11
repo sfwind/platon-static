@@ -10,6 +10,9 @@ import DailyTalk from './modules/daily/DailyTalk'
 import { sa } from './utils/helpers'
 
 import GlobalRequest from './components/globalalert/GlobalRequest'
+import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
+import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
+import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -321,6 +324,7 @@ const routes = (
       }
       sa.quick('autoTrackSinglePage');
     }}>
+      <Route path={'demo'} component={DiscussDistrict}/>
       <Route path="home" component={LangdingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
@@ -353,6 +357,9 @@ const routes = (
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="guest/practice/knowledge/view" component={KnowledgeShare}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
+      <Route path="practice/submit/comment" component={CommentSubmit}/>
+      <Route path="practice/submit/application" component={ApplicationSubmit}/>
+
 
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={Subject}/>
