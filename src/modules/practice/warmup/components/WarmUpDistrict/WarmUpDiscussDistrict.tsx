@@ -30,7 +30,7 @@ export default class WarmUpDiscussDistrict extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+    if (JSON.stringify(nextProps.data) !== JSON.stringify(this.props.data)) {
       this.props = nextProps
       this.componentWillMount()
     }
