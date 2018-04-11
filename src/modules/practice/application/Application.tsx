@@ -15,7 +15,7 @@ import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodas
 import { mark } from '../../../utils/request'
 import { randomStr, scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
 import { CardPrinter } from '../../plan/components/CardPrinter'
@@ -421,7 +421,7 @@ export default class Application extends React.Component <any, any> {
             <FooterButton btnArray={[
               {
                 click: () =>
-                  this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, dispatch),
+                  this.refs.sectionProgress.goNextPage(dispatch),
                 text: '下一题',
               }]}/>
           )
@@ -446,8 +446,7 @@ export default class Application extends React.Component <any, any> {
         {renderCardPrinter()}
         <SectionProgressHeader ref={'sectionProgress'}
                                planId={planId}
-                               practicePlanId={this.props.location.query.practicePlanId}
-                               currentIndex={`${isBaseApplication ? 2 : 3}`}/>
+                               practicePlanId={this.props.location.query.practicePlanId}/>
         <div className="intro-container">
           <div className="application-context">
             <div className="application-title">

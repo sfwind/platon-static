@@ -10,7 +10,7 @@ import { mark } from '../../../utils/request'
 import QYVideo from '../../../components/QYVideo'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Block } from '../../../components/Block'
-import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 
 
 @connect(state => state)
@@ -48,7 +48,7 @@ export default class ProblemPreview extends React.Component<any, any> {
     const { dispatch } = this.props
     mark({ module: '打点', function: '课前思考', action: '完成课前思考' })
     let res = await learnPreview(practicePlanId)
-    this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)
+    this.refs.sectionProgress.goNextPage(dispatch)
   }
 
   render () {
@@ -65,7 +65,6 @@ export default class ProblemPreview extends React.Component<any, any> {
           {
               <SectionProgressHeader ref={'sectionProgress'}
                                      practicePlanId={practicePlanId}
-                                     currentIndex={0}
                                      planId={planId}/>
           }
           {

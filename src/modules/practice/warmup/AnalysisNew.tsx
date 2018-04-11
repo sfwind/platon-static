@@ -1,10 +1,9 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './Main.less'
-import { loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss, loadPriorityWarmUpAnalysis, loadPrioritySingleWarmUpAnalysis } from './async'
+import { loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss, loadPrioritySingleWarmUpAnalysis } from './async'
 import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
-import Discuss from '../components/Discuss'
 import _ from 'lodash'
 import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
@@ -173,9 +172,6 @@ export default class AnalysisNew extends React.Component <any, any> {
             <div className="analysis-icon">解析</div>
             <div className="analysis-context"
                  dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
-            <div className="knowledge-link"
-                 onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
-              点击查看相关知识点 </div>
           </div>
           <WarmUpDiscussDistrict data={warmupDiscussDistrict}
                                  clickFunc={() => {

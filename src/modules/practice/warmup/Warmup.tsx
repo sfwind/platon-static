@@ -12,7 +12,7 @@ import _ from 'lodash'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import { mark } from '../../../utils/request'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import AssetImg from '../../../components/AssetImg'
@@ -434,10 +434,6 @@ export default class Warumup extends React.Component<any, any> {
               <div className="analysis-icon">解析</div>
               <div className="analysis-context"
                    dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
-              <div className="knowledge-link"
-                   onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
-                点击查看相关知识点
-              </div>
             </div>
           }
           {
@@ -532,8 +528,7 @@ export default class Warumup extends React.Component<any, any> {
               },
               {
                 click: () => {
-                  currentIndex + 1 < practiceCount ? this.next() : this.refs.sectionProgress.goSeriesPage(
-                    SectionProgressStep.BASE_APPLICATION, dispatch)
+                  currentIndex + 1 < practiceCount ? this.next() : this.refs.sectionProgress.goNextPage(dispatch)
                 },
                 text: '下一题',
               },
@@ -559,8 +554,7 @@ export default class Warumup extends React.Component<any, any> {
       <div className="warm-up-container">
         <SectionProgressHeader ref={'sectionProgress'}
                                planId={planId}
-                               practicePlanId={this.props.location.query.practicePlanId}
-                               currentIndex={1}/>
+                               practicePlanId={this.props.location.query.practicePlanId}/>
         {
           !openConsolidation &&
           <div className="progress-section-tip">

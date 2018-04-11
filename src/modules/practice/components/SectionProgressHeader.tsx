@@ -8,26 +8,18 @@ import { alertMsg } from 'reduxutil/actions'
 
 interface SectionProgressHeaderProps {
   practicePlanId: string,
-  currentIndex: number
 }
 
-const SectionProgressStep = {
-  PREVIEW: 0,
-  KNOWLEDGE: 1,
-  WARMUP: 2,
-  BASE_APPLICATION: 3,
-  UPGRADE_APPLICATION: 4,
-}
-
-class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, any> {
-  constructor () {
+export class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, any> {
+  constructor() {
     super()
     this.state = {
       progress: [],
+      title: '',
+      currentIndex: 0,
     }
     this.goSeriesPage = this.goSeriesPage.bind(this)
   }
-
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
@@ -37,110 +29,96 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
     this.unlockSeries()
   }
 
-  unlockSeries(){
+  async unlockSeries() {
     const { practicePlanId } = this.props
 
-    if (practicePlanId) {
-      loadPlanSeries(practicePlanId).then(res => {
-        if (res.code === 200) {
-          this.setState({
-            title: res.msg.planSeriesTitle,
-            progress: res.msg.planSeriesStatuses,
-          })
-        }
+    if(practicePlanId) {
+      let res = await loadPlanSeries(practicePlanId)
+      this.setState({
+        title: res.msg.planSeriesTitle,
+        progress: res.msg.planSeriesStatuses,
+        currentIndex: res.msg.index,
       })
     }
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.currentIndex !== this.props.currentIndex) {
-      this.props.currentIndex = nextProps.currentIndex
-      this.unlockSeries()
+  goNextPage(dispatch) {
+    const { progress, currentIndex } = this.state
+    const detailProgress = progress[ currentIndex + 1 ]
+
+    this.goPage(detailProgress, dispatch)
+  }
+
+  goSeriesPage(index, dispatch) {
+    const { progress } = this.state
+    const detailProgress = progress[ index ]
+
+    this.goPage(detailProgress, dispatch)
+  }
+
+  async goPage(progress, dispatch) {
+    const { planId, practicePlanId, practiceId, complete, type } = progress
+    let res = await loadPracticePlan(practicePlanId)
+    const { code, msg } = res
+    const { unlocked } = msg
+    if(!unlocked) {
+      dispatch(alertMsg('练习尚未解锁'))
+      return
+    }
+
+    let queryParam = {
+      complete: complete,
+      planId: planId,
+      practicePlanId: practicePlanId,
+    }
+    switch(type) {
+      case 41:
+        this.context.router.push({
+          pathname: '/rise/static/practice/preview',
+          query: queryParam,
+        })
+        break
+      case 31:
+        this.context.router.push({
+          pathname: '/rise/static/practice/knowledge',
+          query: queryParam,
+        })
+        break
+      case 32:
+        this.context.router.push({
+          pathname: '/rise/static/practice/knowledge/review',
+          query: queryParam,
+        })
+        break
+      case 1:
+      case 2:
+        this.context.router.push({
+          pathname: '/rise/static/practice/warmup',
+          query: queryParam,
+        })
+        break
+      case 11:
+      case 12:
+        this.context.router.push({
+          pathname: '/rise/static/practice/application',
+          query: _.merge(queryParam, {
+            id: practiceId,
+          }),
+        })
+        break
+      default:
+        break
     }
   }
 
-  goSeriesPage (index, dispatch) {
-    const { progress } = this.state
-    const { planId, practicePlanId, practiceId, complete, type } = progress[index]
-
-    console.log("index:"+index)
-
-    loadPracticePlan(practicePlanId).then(res => {
-      const { code, msg } = res
-      if (code === 200) {
-        const { unlocked } = msg
-        if (!unlocked) {
-          dispatch(alertMsg('练习尚未解锁'))
-          return
-        }
-
-        progress[index] = msg
-        this.setState({ progress })
-
-        let queryParam = {
-          complete: complete,
-          planId: planId,
-          practicePlanId: practicePlanId,
-        }
-        switch (index) {
-          case SectionProgressStep.PREVIEW:
-            this.context.router.push({
-              pathname: '/rise/static/practice/preview',
-              query: queryParam,
-            })
-            break
-          case SectionProgressStep.KNOWLEDGE:
-            if (type === 31) {
-              this.context.router.push({
-                pathname: '/rise/static/practice/knowledge',
-                query: queryParam,
-              })
-            } else if (type === 32) {
-              this.context.router.push({
-                pathname: '/rise/static/practice/knowledge/review',
-                query: queryParam,
-              })
-            }
-            break
-          case SectionProgressStep.WARMUP:
-            this.context.router.push({
-              pathname: '/rise/static/practice/warmup',
-              query: queryParam,
-            })
-            break
-          case SectionProgressStep.BASE_APPLICATION:
-            this.context.router.push({
-              pathname: '/rise/static/practice/application',
-              query: _.merge(queryParam, {
-                id: practiceId,
-              }),
-            })
-            break
-          case SectionProgressStep.UPGRADE_APPLICATION:
-            this.context.router.push({
-              pathname: '/rise/static/practice/application',
-              query: _.merge(queryParam, {
-                id: practiceId,
-              }),
-            })
-            break
-          default:
-            break
-        }
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    }).catch(er => alertMsg(er))
-  }
-
-  selfSeriesSwitch (index) {
+  selfSeriesSwitch(index) {
     this.goSeriesPage(index)
   }
 
-  render () {
-    const { title, progress = [] } = this.state
+  render() {
+    const { title, progress = [], currentIndex } = this.state
 
-    const { currentIndex, planId } = this.props
+    const { planId } = this.props
 
     return (
       <div className="section-progress-component"
@@ -175,5 +153,3 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
   }
 
 }
-
-export { SectionProgressStep, SectionProgressHeader }

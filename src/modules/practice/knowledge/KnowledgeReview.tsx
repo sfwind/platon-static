@@ -4,7 +4,7 @@ import './KnowledgeReview.less'
 import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { mark } from '../../../utils/request'
 import { knowledgeReview, learnKnowledge } from './async'
-import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 
 /**
@@ -63,7 +63,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, dispatch)
+        this.refs.sectionProgress.goNextPage(dispatch)
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -103,7 +103,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
 
     return (
       <div className="knowledge-review-container">
-        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} currentIndex={0}
+        <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId}
                                planId={planId}/>
         <div className="detail-header">
           课程知识点

@@ -1,11 +1,10 @@
-import { pget, ppost } from 'utils/request'
 import requestProxy from '../../../components/requestproxy/requestProxy'
 
 export function loadPreview (practicePlanId) {
-  return pget(`/rise/practice/preview/start/${practicePlanId}`)
+  return requestProxy.getProxy(`/rise/practice/preview/start/${practicePlanId}`)
 }
 
 export function learnPreview (practicePlanId) {
-  return ppost(`/rise/practice/preview/learn/${practicePlanId}`)
+  return requestProxy.postProxy(`/rise/practice/preview/learn/${practicePlanId}`)
 }
 
