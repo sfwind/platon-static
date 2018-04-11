@@ -8,10 +8,6 @@ export function loadQuestions() {
   return pget('/rise/schedule/load/questions')
 }
 
-export function loadCountDownInfo() {
-  return pget('/rise/schedule/count/down')
-}
-
 export function loadPersonalSchedule() {
   return pget(`/rise/schedule/load/personal`)
 }
@@ -28,6 +24,3 @@ export function updateCourseScheduleAll(data) {
   return ppost(`/rise/schedule/update/all`, { monthCourseSchedules: data })
 }
 
-export function loadCampCountDown() {
-  return pget(`/rise/schedule/camp/count/down`)
-}
