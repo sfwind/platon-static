@@ -12,10 +12,11 @@ interface SectionProgressHeaderProps {
 }
 
 const SectionProgressStep = {
-  KNOWLEDGE: 0,
-  WARMUP: 1,
-  BASE_APPLICATION: 2,
-  UPGRADE_APPLICATION: 3,
+  PREVIEW: 0,
+  KNOWLEDGE: 1,
+  WARMUP: 2,
+  BASE_APPLICATION: 3,
+  UPGRADE_APPLICATION: 4,
 }
 
 class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, any> {
@@ -27,13 +28,6 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
     this.goSeriesPage = this.goSeriesPage.bind(this)
   }
 
-
-  PROGRESS_TEXT = [
-    '知识点',
-    '选择题',
-    '应用题',
-    '附加题',
-  ]
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
@@ -60,13 +54,17 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.currentIndex !== this.props.currentIndex) {
-      this.componentWillMount()
+      this.props.currentIndex = nextProps.currentIndex
+      this.unlockSeries()
     }
   }
 
   goSeriesPage (index, dispatch) {
     const { progress } = this.state
     const { planId, practicePlanId, practiceId, complete, type } = progress[index]
+
+    console.log("index:"+index)
+
     loadPracticePlan(practicePlanId).then(res => {
       const { code, msg } = res
       if (code === 200) {
@@ -85,7 +83,13 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
           practicePlanId: practicePlanId,
         }
         switch (index) {
-          case 0:
+          case SectionProgressStep.PREVIEW:
+            this.context.router.push({
+              pathname: '/rise/static/practice/preview',
+              query: queryParam,
+            })
+            break
+          case SectionProgressStep.KNOWLEDGE:
             if (type === 31) {
               this.context.router.push({
                 pathname: '/rise/static/practice/knowledge',
@@ -98,13 +102,13 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
               })
             }
             break
-          case 1:
+          case SectionProgressStep.WARMUP:
             this.context.router.push({
               pathname: '/rise/static/practice/warmup',
               query: queryParam,
             })
             break
-          case 2:
+          case SectionProgressStep.BASE_APPLICATION:
             this.context.router.push({
               pathname: '/rise/static/practice/application',
               query: _.merge(queryParam, {
@@ -112,7 +116,7 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
               }),
             })
             break
-          case 3:
+          case SectionProgressStep.UPGRADE_APPLICATION:
             this.context.router.push({
               pathname: '/rise/static/practice/application',
               query: _.merge(queryParam, {

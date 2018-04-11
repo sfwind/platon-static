@@ -173,11 +173,9 @@ export default class AnalysisNew extends React.Component <any, any> {
             <div className="analysis-icon">解析</div>
             <div className="analysis-context"
                  dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
-            {integrated == 'false' &&
             <div className="knowledge-link"
                  onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
               点击查看相关知识点 </div>
-            }
           </div>
           <WarmUpDiscussDistrict data={warmupDiscussDistrict}
                                  clickFunc={() => {

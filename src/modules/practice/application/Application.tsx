@@ -49,7 +49,6 @@ export default class Application extends React.Component <any, any> {
       page: 1,
       otherList: [],
       otherHighlightList: [],
-      integrated: true,
       showOthers: false,
       editorValue: '',
       edit: false,
@@ -73,8 +72,7 @@ export default class Application extends React.Component <any, any> {
   async componentWillMount () {
     mark({ module: '打点', function: '学习', action: '打开应用题页' })
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props
-    const { integrated, id, planId } = location.query
-    this.setState({ integrated })
+    const { id, planId } = location.query
     loadApplicationPractice(id, planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
@@ -345,7 +343,7 @@ export default class Application extends React.Component <any, any> {
   render () {
     const {
       data, otherList, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
-      showCompletedBox = false, completedApplicationCnt, integrated, loading,
+      showCompletedBox = false, completedApplicationCnt, loading,
       commentsData = {}, showApplicationCacheAlert,
     } = this.state
     const { planId, id } = this.props.location.query

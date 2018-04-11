@@ -56,6 +56,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   async componentWillMount () {
     mark({ module: '打点', function: '学习', action: '打开知识点页面' })
     const { id, practicePlanId, complete } = this.props.location.query
+    const { dispatch } = this.props
 
     if (practicePlanId) {
       let knowledge = await loadKnowledges(practicePlanId)
