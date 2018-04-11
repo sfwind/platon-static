@@ -48,7 +48,7 @@ export default class ProblemPreview extends React.Component<any, any> {
     const { dispatch } = this.props
     mark({ module: '打点', function: '课前思考', action: '完成课前思考' })
     let res = await learnPreview(practicePlanId)
-    this.refs.sectionProgress.goNextPage(dispatch)
+    this.refs.sectionProgress.goNextPage()
   }
 
   render () {

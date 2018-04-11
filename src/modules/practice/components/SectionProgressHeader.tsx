@@ -4,7 +4,7 @@ import { loadPlanSeries, loadPracticePlan } from './async'
 import _ from 'lodash'
 import { randomStr } from '../../../utils/helpers'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
-import { alertMsg } from 'reduxutil/actions'
+import requestProxy from '../../../components/requestproxy/requestProxy'
 
 interface SectionProgressHeaderProps {
   practicePlanId: string,
@@ -37,32 +37,34 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
       this.setState({
         title: res.msg.planSeriesTitle,
         progress: res.msg.planSeriesStatuses,
-        currentIndex: res.msg.index,
+        currentIndex: res.msg.index - 1,
       })
     }
   }
 
-  goNextPage(dispatch) {
+  goNextPage() {
     const { progress, currentIndex } = this.state
     const detailProgress = progress[ currentIndex + 1 ]
 
-    this.goPage(detailProgress, dispatch)
+    this.setState({currentIndex: currentIndex + 1})
+    this.goPage(detailProgress)
   }
 
-  goSeriesPage(index, dispatch) {
+  goSeriesPage(index) {
     const { progress } = this.state
     const detailProgress = progress[ index ]
 
-    this.goPage(detailProgress, dispatch)
+    this.setState({currentIndex: index})
+    this.goPage(detailProgress)
   }
 
-  async goPage(progress, dispatch) {
+  async goPage(progress) {
     const { planId, practicePlanId, practiceId, complete, type } = progress
     let res = await loadPracticePlan(practicePlanId)
     const { code, msg } = res
     const { unlocked } = msg
     if(!unlocked) {
-      dispatch(alertMsg('练习尚未解锁'))
+      requestProxy.alertMessage('练习尚未解锁')
       return
     }
 

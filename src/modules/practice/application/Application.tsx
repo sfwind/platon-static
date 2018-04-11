@@ -421,7 +421,7 @@ export default class Application extends React.Component <any, any> {
             <FooterButton btnArray={[
               {
                 click: () =>
-                  this.refs.sectionProgress.goNextPage(dispatch),
+                  this.refs.sectionProgress.goNextPage(),
                 text: '下一题',
               }]}/>
           )

@@ -303,7 +303,7 @@ export class Analysis extends React.Component <any, any> {
                 click: () => {
                   currentIndex + 1 < practiceCount ?
                     this.next() :
-                    this.refs.sectionProgress.goNextPage(dispatch)
+                    this.refs.sectionProgress.goNextPage()
                 },
                 text: '下一题'
               }

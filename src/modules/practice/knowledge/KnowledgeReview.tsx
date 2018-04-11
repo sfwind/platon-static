@@ -63,7 +63,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        this.refs.sectionProgress.goNextPage(dispatch)
+        this.refs.sectionProgress.goNextPage()
       } else {
         dispatch(alertMsg(res.msg))
       }
