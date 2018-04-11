@@ -16,7 +16,7 @@ import Activity from '../../components/Activity'
 // import UA from 'ua-device'
 import './Base.less'
 import $ from 'jquery'
-import RequestComponent from './RequestComponent'
+import RequestComponent from '../../components/requestproxy/RequestComponent'
 
 require('../../components/progress/circle-progress.js')
 import { sa } from '../../utils/helpers'
@@ -112,7 +112,7 @@ export default class Main extends React.Component<any, any> {
       pget(`/rise/customer/global/notify`).then(res => {
         if(res.code === 200) {
           this.setState({
-            showGlobalNotify: res.msg.showGlobalNotify,
+            // showGlobalNotify: res.msg.showGlobalNotify,
             expiredInSevenDays: res.msg.expiredInSevenDays,
             expired: res.msg.expired,
           })
@@ -157,7 +157,7 @@ export default class Main extends React.Component<any, any> {
       return <div></div>
     }
 
-    const { showGlobalNotify, expiredInSevenDays, expired } = this.state
+    const { showGlobalNotify = false, expiredInSevenDays, expired } = this.state
 
     const renderGlobalNotify = () => {
       if(showGlobalNotify) {
@@ -171,9 +171,9 @@ export default class Main extends React.Component<any, any> {
 
     return (
       <div className={`${isPending(this.props, LOAD_KEY) ? 'over-hidden' : ''}`}>
+        <RequestComponent/>
         {renderGlobalNotify()}
         {this.props.children}
-        <RequestComponent/>
         <Toast show={isPending(this.props, LOAD_KEY)} icon="loading">
           <div style={{ fontSize: 13, paddingTop: 10 }}>加载中...</div>
         </Toast>

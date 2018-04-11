@@ -16,11 +16,6 @@ export default class Tutorial extends React.Component<any,any> {
     }
   }
 
-
-  componentWillMount() {
-
-  }
-
   next() {
     const {index, bgList} = this.state;
     if (index >= bgList.length - 1) {
@@ -49,7 +44,7 @@ export default class Tutorial extends React.Component<any,any> {
         }
         break;
       }
-      default: console.log(index,type);
+      default:
     }
 
   }

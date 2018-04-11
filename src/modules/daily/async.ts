@@ -1,8 +1,5 @@
-import requestProxy from '../base/requestProxy'
-import { pget } from '../../utils/request'
+import requestProxy from '../../components/requestproxy/requestProxy'
 
-
-export function loadDailyTalk(){
+export function loadDailyTalk () {
   return requestProxy.getProxy('/rise/daily/talk')
-  //return pget('/rise/daily/talk')
 }

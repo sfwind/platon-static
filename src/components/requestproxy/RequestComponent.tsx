@@ -10,7 +10,7 @@ export default class RequestComponent extends React.Component {
     super()
   }
 
-  componentDidMount () {
+  componentWillMount () {
     requestProxy.addObserver(this)
   }
 

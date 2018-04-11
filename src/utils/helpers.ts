@@ -239,7 +239,8 @@ export function unScrollToBorder(selector) {
     }
   } else {
     // return 空函数，防止报错
-    return () => {}
+    return () => {
+    }
   }
 }
 
@@ -285,7 +286,7 @@ export function formatDate(date, fmt) {
 }
 
 // 切割字符，区分中英文
-export function splitContent(content, limit) {
+export function splitContentWithSuffix (content, limit) {
   let realLength = getRealLength(content)
   if(limit * 2 >= realLength) {
     return content
@@ -307,12 +308,34 @@ export function splitContent(content, limit) {
   }
 }
 
+export function splitContent (content, limit) {
+  let realLength = getRealLength(content)
+  if (limit * 2 >= realLength) {
+    return content
+  } else {
+    let strArr = []
+    let index = 0
+    let currentLength = 0
+    do {
+      let charCode = content.charCodeAt(index)
+      if (charCode > 0 && charCode <= 128) {
+        currentLength += 1
+      } else {
+        currentLength += 2
+      }
+      strArr.push(content.charAt(index))
+      index++
+    } while (currentLength < limit * 2)
+    return strArr.join('')
+  }
+}
+
 // 获取字符串的长度，英文数字占 1 个，其余占 2 个
-function getRealLength(str) {
+export function getRealLength(str) {
   var realLength = 0, len = str.length, charCode = -1
   for(var i = 0; i < len; i++) {
     charCode = str.charCodeAt(i)
-    if(charCode > 0 && charCode <= 128) {
+    if(charCode > 0 && charCode <= 256) {
       realLength += 1
     } else {
       realLength += 2
