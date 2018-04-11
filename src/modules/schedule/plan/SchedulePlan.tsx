@@ -24,7 +24,6 @@ export default class SchedulePlan extends React.Component {
       data: {
         showAllRunningPlan: false, sliceRunningPlans: [],
       },
-      hiddenToolBar: true,
     }
   }
 
@@ -35,7 +34,6 @@ export default class SchedulePlan extends React.Component {
   async componentWillMount () {
     mark({ module: '打点', function: '学习', action: '打开学习计划页面' })
     const { dispatch, location } = this.props
-
     let countDownPageStatus = await loadGoCountDownPageStatus()
     if (countDownPageStatus.code === 200) {
       const { goCountDownPage, memberTypeId } = countDownPageStatus.msg
