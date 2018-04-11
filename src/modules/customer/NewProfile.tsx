@@ -96,7 +96,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     // workingTime
     let workingYearList = []
-    for(let i = 1960; i <= 2017; i++) {
+    for(let i = 1960; i <= 2018; i++) {
       workingYearList.push({ id: '' + i, value: '' + i })
     }
     this.setState({ workingYearList: workingYearList })
@@ -232,7 +232,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { memberTypeId, memberId, phone, riseId, className, city, province, cityId, provinceId, industry, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
+    const { memberId, phone, isShowInfo, className, city, province, cityId, provinceId, industry, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married,college} = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -398,6 +398,19 @@ export default class NewProfile extends React.Component<any, any> {
         </div>
       )
     }
+
+    const renderCollege = () => {
+      return (
+        <div className='select-wrapper-has'>
+          {college}
+        </div>
+      )
+    }
+
+
+
+
+
     return (
       <div className="new-profile">
         <div className="profile-header">
@@ -484,7 +497,7 @@ export default class NewProfile extends React.Component<any, any> {
               毕业院校
             </div>
             <div className="item-content">
-              {renderFunction()}
+              {renderCollege()}
             </div>
           </div>
 
@@ -493,7 +506,7 @@ export default class NewProfile extends React.Component<any, any> {
               手机号
             </div>
             <div className="item-content">
-              {renderFunction()}
+              {renderMobile()}
             </div>
           </div>
 
@@ -502,7 +515,7 @@ export default class NewProfile extends React.Component<any, any> {
               微信号
             </div>
             <div className="item-content">
-              {renderFunction()}
+              {renderWeiXinId()}
             </div>
           </div>
 
@@ -512,7 +525,7 @@ export default class NewProfile extends React.Component<any, any> {
               邮箱
             </div>
             <div className="item-content">
-              {renderFunction()}
+              {renderMail()}
             </div>
           </div>
 
@@ -525,14 +538,6 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="profile-item">
-            <div className="item-label">
-              感情状态（选填）
-            </div>
-            <div className="item-content">
-              {renderMarried()}
-            </div>
-          </div>
           <div className="introduction-container">
             <div className="introduction-header">
               个人简介
@@ -542,16 +547,15 @@ export default class NewProfile extends React.Component<any, any> {
 
               </textarea>
             </div>
-
           </div>
 
-          {memberTypeId===3 || memberTypeId ===8 &&
+          {isShowInfo &&
             <div className="title-container">
               邮寄信息（本信息用于邮寄你的圈外商学院礼包）
             </div>
           }
 
-          {memberTypeId===3 || memberTypeId ===8 &&
+          {isShowInfo &&
             <div className="profile-item">
               <div className="item-label">
                 真实姓名
@@ -562,7 +566,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           }
 
-          {memberTypeId===3 || memberTypeId ===8 &&
+          {isShowInfo &&
             <div className="profile-item">
               <div className="item-label">
                 收件人
@@ -573,7 +577,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           }
 
-          {memberTypeId===3 || memberTypeId ===8 &&
+          {isShowInfo &&
             <MarkBlock module={'个人中心'} function={'个人信息页'} action={'点击修改联系方式'} className="profile-item"
                        onClick={() => this.goMobileCheck()}>
               <div className="item-label">
@@ -584,7 +588,7 @@ export default class NewProfile extends React.Component<any, any> {
               </div>
             </MarkBlock>
           }
-          {memberTypeId===3 || memberTypeId ===8 &&
+          {isShowInfo &&
             <div className="profile-item">
               <div className="address-tips">收件地址</div>
               <textarea className="address" placeholder="请填写" value={address}
