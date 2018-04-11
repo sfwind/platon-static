@@ -70,7 +70,7 @@ export default class WarmUpDiscussDistrict extends React.Component {
         }
         {
           personal.map((item, index) => {
-            return <PersonalDiscussDistrict key={item.discuss.id ? item.discuss.id : index}
+            return <PersonalDiscussDistrict key={item.discuss && item.discuss.id ? item.discuss.id : index}
                                             discuss={item.discuss}
                                             comments={item.comments}
                                             deleteFunc={(id) => this.handleDeleteWarmUpDiscuss(id)}/>
@@ -81,7 +81,7 @@ export default class WarmUpDiscussDistrict extends React.Component {
         }
         {
           priorities.map((priority, index) => {
-            return <DiscussDistrict key={priority.originDiscuss.id ? priority.originDiscuss.id : index}
+            return <DiscussDistrict key={priority.priorityDiscuss && priority.priorityDiscuss.id ? priority.priorityDiscuss.id : index}
                                     originDiscuss={priority.originDiscuss}
                                     priorityDiscuss={priority.priorityDiscuss}/>
           })
