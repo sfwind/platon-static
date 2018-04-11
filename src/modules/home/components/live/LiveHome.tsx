@@ -31,6 +31,7 @@ export class LiveHome extends React.Component<LiveHomeProps, any> {
           label: '立即入学',
           onClick: (e) => {
             e.stopPropagation()
+            mark({ module: '打点', function: '着陆页', action: '直播点击入学' })
             this.setState({ showAlert: false })
             window.location.href = '/pay/rise'
           },
