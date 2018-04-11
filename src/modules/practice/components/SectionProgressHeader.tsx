@@ -15,27 +15,28 @@ const SectionProgressStep = {
   KNOWLEDGE: 0,
   WARMUP: 1,
   BASE_APPLICATION: 2,
-  UPGRADE_APPLICATION: 3
+  UPGRADE_APPLICATION: 3,
 }
 
 class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, any> {
-  constructor() {
+  constructor () {
     super()
     this.state = {
-      progress: []
+      progress: [],
     }
     this.goSeriesPage = this.goSeriesPage.bind(this)
   }
 
-  // PROGRESS_TEXT = [
-  //   '知识点',
-  //   '选择题',
-  //   '应用题',
-  //   '附加题'
-  // ]
+
+  PROGRESS_TEXT = [
+    '知识点',
+    '选择题',
+    '应用题',
+    '附加题',
+  ]
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
   }
 
   componentWillMount() {
@@ -45,32 +46,32 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
   unlockSeries(){
     const { practicePlanId } = this.props
 
-    if(practicePlanId) {
+    if (practicePlanId) {
       loadPlanSeries(practicePlanId).then(res => {
-        if(res.code === 200) {
+        if (res.code === 200) {
           this.setState({
             title: res.msg.planSeriesTitle,
-            progress: res.msg.planSeriesStatuses
+            progress: res.msg.planSeriesStatuses,
           })
         }
       })
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.currentIndex !== this.props.currentIndex) {
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.currentIndex !== this.props.currentIndex) {
       this.componentWillMount()
     }
   }
 
-  goSeriesPage(index, dispatch) {
+  goSeriesPage (index, dispatch) {
     const { progress } = this.state
     const { planId, practicePlanId, practiceId, complete, type } = progress[index]
     loadPracticePlan(practicePlanId).then(res => {
       const { code, msg } = res
-      if(code === 200) {
+      if (code === 200) {
         const { unlocked } = msg
-        if(!unlocked) {
+        if (!unlocked) {
           dispatch(alertMsg('练习尚未解锁'))
           return
         }
@@ -81,42 +82,42 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
         let queryParam = {
           complete: complete,
           planId: planId,
-          practicePlanId: practicePlanId
+          practicePlanId: practicePlanId,
         }
-        switch(index) {
+        switch (index) {
           case 0:
-            if(type === 31) {
+            if (type === 31) {
               this.context.router.push({
                 pathname: '/rise/static/practice/knowledge',
-                query: queryParam
+                query: queryParam,
               })
-            } else if(type === 32) {
+            } else if (type === 32) {
               this.context.router.push({
                 pathname: '/rise/static/practice/knowledge/review',
-                query: queryParam
+                query: queryParam,
               })
             }
             break
           case 1:
             this.context.router.push({
               pathname: '/rise/static/practice/warmup',
-              query: queryParam
+              query: queryParam,
             })
             break
           case 2:
             this.context.router.push({
               pathname: '/rise/static/practice/application',
               query: _.merge(queryParam, {
-                id: practiceId
-              })
+                id: practiceId,
+              }),
             })
             break
           case 3:
             this.context.router.push({
               pathname: '/rise/static/practice/application',
               query: _.merge(queryParam, {
-                id: practiceId
-              })
+                id: practiceId,
+              }),
             })
             break
           default:
@@ -128,22 +129,26 @@ class SectionProgressHeader extends React.Component<SectionProgressHeaderProps, 
     }).catch(er => alertMsg(er))
   }
 
-  selfSeriesSwitch(index) {
+  selfSeriesSwitch (index) {
     this.goSeriesPage(index)
   }
 
-  render() {
+  render () {
     const { title, progress = [] } = this.state
+
     const { currentIndex, planId } = this.props
 
     return (
-      <div className="section-progress-component" key={randomStr(12)}>
+      <div className="section-progress-component"
+           key={randomStr(12)}>
         <div className="progress-head">
           <div className="progress-title">{title}</div>
-          <MarkBlock module={'打点'} func={'首页'} action={'返回学习首页'}
+          <MarkBlock module={'打点'}
+                     func={'首页'}
+                     action={'返回学习首页'}
                      className={`goto-learn-page`}
                      onClick={() => this.context.router.push({
-                       pathname: '/rise/static/plan/study', query: { planId }
+                       pathname: '/rise/static/plan/study', query: { planId },
                      })}>
             返回大纲
           </MarkBlock>

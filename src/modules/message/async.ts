@@ -1,4 +1,5 @@
 import { pget, ppost } from '../../utils/request'
+import requestProxy from '../../components/requestproxy/requestProxy'
 
 export function loadMessage(offset) {
   return pget('/rise/message/load', { page: offset })
@@ -52,6 +53,10 @@ export function discuss(params) {
 
 export function requestCommentByType(type, submitId) {
   return ppost(`/rise/practice/request/comment/${type}/${submitId}`)
+}
+
+export function requestApplicationComment(submitId) {
+  return ppost(`/rise/practice/request/comment/2/${submitId}`)
 }
 
 export function loadArticleData(moduleId, commentId) {

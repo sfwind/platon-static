@@ -2,9 +2,8 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import './Application.less'
 import {
-  loadApplicationPractice, vote, loadOtherList,
-  openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  loadOtherListBatch, loadApplicationCompletedCount
+  loadApplicationPractice, vote, loadOtherList,  loadOtherListBatch, loadApplicationCompletedCount,
+  getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft
 } from './async'
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
@@ -12,7 +11,6 @@ import _ from 'lodash'
 import Work from '../components/NewWork'
 import PullElement from 'pull-element'
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
-import Tutorial from '../../../components/Tutorial'
 import Editor from '../../../components/simditor/Editor'
 import { mark } from '../../../utils/request'
 import { scroll } from '../../../utils/helpers'
@@ -135,6 +133,7 @@ export default class Application extends React.Component <any, any> {
       dispatch(endLoad())
       dispatch(alertMsg(ex))
     })
+
     getOpenStatus().then(res => {
       if(res.code === 200) {
         this.setState({ openStatus: res.msg })
@@ -301,19 +300,6 @@ export default class Application extends React.Component <any, any> {
     }
   }
 
-  tutorialEnd() {
-    const { dispatch } = this.props
-    const { openStatus } = this.state
-    openApplication().then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        this.setState({ openStatus: merge({}, openStatus, { openApplication: true }) })
-      } else {
-        dispatch(alertMsg(msg))
-      }
-    })
-  }
-
   others() {
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage } = this.props
     dispatch(startLoad())
@@ -359,6 +345,9 @@ export default class Application extends React.Component <any, any> {
             window.scrollTo(0, 0)
           })
         }
+        // if(complete == 'false') {
+        //   dispatch(set('completePracticePlanId', practicePlanId))
+        // }
         dispatch(startLoad())
         loadApplicationPractice(location.query.id, planId).then(res => {
           dispatch(endLoad())
@@ -405,7 +394,7 @@ export default class Application extends React.Component <any, any> {
     } = this.state
     const { planId } = this.props.location.query
     const { completePracticePlanId, dispatch } = this.props
-    const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, problemId, name } = data
+    const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, isLastApplication, problemId } = data
     const renderList = (list) => {
       if(list) {
         return list.map((item, seq) => {
@@ -491,7 +480,7 @@ export default class Application extends React.Component <any, any> {
             <FooterButton btnArray={[{click: () => this.onSubmit(), text: '提交'}]}/>
           )
         } else {
-          if(isBaseApplication) {
+          if(!isLastApplication) {
             return (
               <FooterButton btnArray={[
                 {
@@ -520,9 +509,6 @@ export default class Application extends React.Component <any, any> {
     return (
       <div className="application-edit-container">
         {renderCardPrinter()}
-        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
-                  show={openStatus && isBoolean(openStatus.openApplication) && !openStatus.openApplication}
-                  onShowEnd={() => this.tutorialEnd()}/>
         <SectionProgressHeader ref={'sectionProgress'}
                                planId={planId}
                                practicePlanId={this.props.location.query.practicePlanId}
@@ -530,7 +516,7 @@ export default class Application extends React.Component <any, any> {
         <div className="intro-container">
           <div className="application-context">
             <div className="application-title">
-              <span>{name}</span>
+              <span>今日应用</span>
             </div>
             <div className="section2" dangerouslySetInnerHTML={{__html: description}}/>
             {
@@ -540,13 +526,6 @@ export default class Application extends React.Component <any, any> {
                           onClick={() => preview(pic, [pic])}/>
               </div>
             }
-            {/*{*/}
-            {/*integrated == 'false' &&*/}
-            {/*<div className="knowledge-link"*/}
-            {/*onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>*/}
-            {/*点击查看相关知识点*/}
-            {/*</div>*/}
-            {/*}*/}
           </div>
           <div ref="workContainer" className="work-container">
             {renderTip()}

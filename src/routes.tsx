@@ -6,6 +6,13 @@ import Base from './modules/base/Base'
 import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
+import DailyTalk from './modules/daily/DailyTalk'
+import { sa } from './utils/helpers'
+
+import GlobalRequest from './components/globalalert/GlobalRequest'
+import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
+import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
+import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -307,16 +314,17 @@ const RichTextView = Loadable({
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={(before, after) => {
-      config(['chooseWXPay'])
-      if (after.location.state && after.location.state.pageScrollY) {
+      config([ 'chooseWXPay' ])
+      if(after.location.state && after.location.state.pageScrollY) {
         setTimeout(() => {
           window.scrollTo(0, after.location.state.pageScrollY)
         }, 1000)
       } else {
         window.scrollTo(0, 0)
       }
+      sa.quick('autoTrackSinglePage');
     }}>
-
+      <Route path={'demo'} component={DiscussDistrict}/>
       <Route path="home" component={LangdingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
@@ -326,6 +334,9 @@ const routes = (
       <Route path="camp" component={SchedulePlan}/>
       <Route path="learn" component={SchedulePlan}/>
       <Route path="plan/main" component={SchedulePlan}/>
+
+
+      <Route path="daily/talk" component={DailyTalk}/>
 
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>
@@ -346,6 +357,9 @@ const routes = (
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
       <Route path="guest/practice/knowledge/view" component={KnowledgeShare}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
+      <Route path="practice/submit/comment" component={CommentSubmit}/>
+      <Route path="practice/submit/application" component={ApplicationSubmit}/>
+
 
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={Subject}/>

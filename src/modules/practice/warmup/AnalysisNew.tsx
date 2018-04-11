@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './Main.less'
-import { loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss } from './async'
+import { loadWarmUpAnalysisNew, discuss, deleteComment, loadWarmUpDiscuss, loadPriorityWarmUpAnalysis, loadPrioritySingleWarmUpAnalysis } from './async'
 import { startLoad, endLoad, alertMsg } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
 import Discuss from '../components/Discuss'
@@ -10,6 +10,7 @@ import DiscussShow from '../components/DiscussShow'
 import SubDiscussShow from '../components/SubDiscussShow'
 import { scroll } from '../../../utils/helpers'
 import RenderInBody from '../../../components/RenderInBody'
+import WarmUpDiscussDistrict from './components/WarmUpDistrict/WarmUpDiscussDistrict'
 
 const sequenceMap = {
   0: 'A',
@@ -41,21 +42,18 @@ export default class AnalysisNew extends React.Component <any, any> {
     router: React.PropTypes.object.isRequired,
   }
 
-  componentWillMount (props) {
+  async componentWillMount (props) {
     const { dispatch, location } = props || this.props
     const { warmupPracticeId, integrated } = location.query
     this.setState({ integrated })
-    dispatch(startLoad())
-    loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if (code === 200) {
-        this.setState({ data: msg, warmupPracticeId })
-      }
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+    let warmUpDetail = await loadWarmUpAnalysisNew(warmupPracticeId)
+    this.setState({
+      data: warmUpDetail.msg,
+      warmupPracticeId: warmupPracticeId,
+    })
+    let discuss = await loadPrioritySingleWarmUpAnalysis(warmupPracticeId)
+    this.setState({
+      warmupDiscussDistrict: discuss.msg,
     })
   }
 
@@ -64,19 +62,12 @@ export default class AnalysisNew extends React.Component <any, any> {
     let { data, warmupPracticeId } = this.state
 
     loadWarmUpAnalysisNew(warmupPracticeId).then(res => {
-      dispatch(endLoad())
       const { code, msg } = res
-      if (code === 200) {
-        _.set(data, 'discussList', msg.discussList)
-        this.setState({
-          showDiscuss: false, data, content: '', placeholder: '解答同学的提问（限1000字）', repliedId: 0, isReply: false,
-        })
-        scroll('.discuss', '.container')
-      }
-      else dispatch(alertMsg(msg))
-    }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
+      _.set(data, 'discussList', msg.discussList)
+      this.setState({
+        showDiscuss: false, data, content: '', placeholder: '解答同学的提问（限1000字）', repliedId: 0, isReply: false,
+      })
+      scroll('.discuss', '.container')
     })
   }
 
@@ -148,7 +139,7 @@ export default class AnalysisNew extends React.Component <any, any> {
   }
 
   render () {
-    const { data, selected, showDiscuss, isReply, integrated, placeholder } = this.state
+    const { data, selected, showDiscuss, isReply, integrated, placeholder, warmupDiscussDistrict } = this.state
     const { knowledge } = data
 
     const questionRender = (practice) => {
@@ -169,7 +160,8 @@ export default class AnalysisNew extends React.Component <any, any> {
               {choiceList.map((choice, idx) => choiceRender(choice, idx))}
             </div>
             <div className="answer-display">
-              <div className="chosen" style={{ marginBottom: 15 }}>
+              <div className="chosen"
+                   style={{ marginBottom: 15 }}>
                 已选答案：{choiceList.map((choice, idx) => myAnswerRender(choice, idx))}
               </div>
               <div className="right">
@@ -179,31 +171,24 @@ export default class AnalysisNew extends React.Component <any, any> {
           </div>
           <div className="analysis">
             <div className="analysis-icon">解析</div>
-            <div className="analysis-context" dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
+            <div className="analysis-context"
+                 dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
             {integrated == 'false' &&
             <div className="knowledge-link"
                  onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
               点击查看相关知识点 </div>
             }
           </div>
-          <div className="discuss-container" ref={'discussContainer'} id={'discuss-container'}>
-            <div className="discuss">
-              <div className="discuss-bar">问答</div>
-              {
-                !_.isEmpty(discussList) &&
-                discussList.map((discuss, idx) => discussRender(discuss, idx))
-              }
-              {
-                !_.isEmpty(discussList) ? <div className="show-more">
-                  你已经浏览完所有的讨论啦 </div> : <div className="discuss-end">
-                  <div className="discuss-end-img">
-                    <AssetImg url="https://static.iqycamp.com/images/no_comment.png" width={94} height={92}/>
-                  </div>
-                  <span className="discuss-end-span">点击左侧按钮，发表第一个好问题吧</span>
-                </div>
-              }
-            </div>
-          </div>
+          <WarmUpDiscussDistrict data={warmupDiscussDistrict}
+                                 clickFunc={() => {
+                                   this.context.router.push({
+                                     pathname: '/rise/static/practice/submit/comment',
+                                     query: {
+                                       referenceId: practice.id,
+                                       type: 2,
+                                     },
+                                   })
+                                 }}/>
         </div>
       )
     }
@@ -239,7 +224,8 @@ export default class AnalysisNew extends React.Component <any, any> {
     const choiceRender = (choice, idx) => {
       const { id, subject } = choice
       return (
-        <div key={idx} className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
+        <div key={idx}
+             className={`choice${choice.selected ? ' selected' : ''}${choice.isRight ? ' right' : ''}`}>
           <span className={`index${choice.selected ? ' selected' : ''}`}/>
           <span className={`text${choice.isRight ? ' right' : ''}`}>{sequenceMap[idx]}&nbsp;&nbsp;{subject}</span>
         </div>
@@ -259,21 +245,12 @@ export default class AnalysisNew extends React.Component <any, any> {
         <div className="warm-up-container has-footer">
           {knowledge ? <div className="page-header">{knowledge.knowledge}</div> : null}
           {questionRender(data)}
-          {showDiscuss ? <div className="padding-comment-dialog"/> : null}
         </div>
         <RenderInBody>
           <div>
-            {showDiscuss ? null : <div className="button-footer" onClick={this.back.bind(this)}>关闭</div>}
-
-            {showDiscuss ? <Discuss isReply={isReply}
-                                    placeholder={placeholder}
-                                    limit={1000}
-                                    submit={() => this.onSubmit()}
-                                    onChange={(v) => this.onChange(v)}
-                                    cancel={() => this.cancel()}/> :
-              <div className="write-discuss" onClick={() => this.setState({ showDiscuss: true })}>
-                <AssetImg url="https://static.iqycamp.com/images/discuss.png" width={45} height={45}/>
-              </div>}
+            <div className="button-footer"
+                 onClick={this.back.bind(this)}>关闭
+            </div>
           </div>
         </RenderInBody>
       </div>

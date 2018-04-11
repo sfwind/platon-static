@@ -2,7 +2,7 @@
 
 .knowledge-view-container {
   box-sizing: border-box;
-  padding: 2.5rem 2.5rem 8rem;
+  padding: 2.5rem 2.5rem 6rem;
   overflow-x: hidden;
   &.no-footer {
     z-index: 1 !important;
@@ -23,7 +23,6 @@
       text-align: center;
       margin: 3rem -3rem;
     }
-
     .question {
       font-size: @font_context;
       width: 100%;
@@ -31,29 +30,26 @@
       white-space: normal;
       word-break: break-all;
     }
-
     .title-bar {
       color: @color_title;
       background-color: @color_weak_background;
       padding-left: 3rem;
-      margin: 0 -3rem;
+      margin: 2rem -3rem 0;
       height: 2rem;
       line-height: 2rem;
       font-size: @font_index;
     }
-
     .analysis {
       font-size: @font_context;
       padding-bottom: 2.0rem;
       .context {
-        padding: 2rem 0 ;
+        padding: 2rem 0;
       }
       .analysis-tip {
         color: @color_strong;
         font-size: @font_click;
       }
     }
-
     .choice-list {
       margin-bottom: 1.0rem;
       > .choice {
@@ -74,7 +70,15 @@
         }
       }
     }
+    .priority-label {
+      font-size: 1.3rem;
+      color: #333333;
+    }
+    .priority-comments {
+
+    }
   }
+
   .discuss-end {
     padding: 2rem;
     text-align: center;

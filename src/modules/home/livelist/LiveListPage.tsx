@@ -21,10 +21,7 @@ export default class LiveListPage extends React.Component {
   async componentWillMount () {
     mark({ module: '打点', function: '着陆二级页', action: '打开直播列表页' })
     changeTitle('拓眼界')
-    const { dispatch } = this.props
-    dispatch(startLoad())
     let res = await loadAllLives()
-    dispatch(endLoad())
     if (res.code === 200) {
       this.setState({
         data: res.msg,
