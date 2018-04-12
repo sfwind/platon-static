@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import './Application.less'
 import {
   loadApplicationPractice, vote, loadOtherList,
-  getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
+  submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
   loadOtherListBatch, loadApplicationCompletedCount, loadPriorityApplicationCommenst,
 } from './async'
 import { alertMsg, set } from '../../../redux/actions'
@@ -61,7 +61,6 @@ export default class Application extends React.Component <any, any> {
       autoPushDraftFlag: null,
       end: null,
       planId: null,
-      openStatus: null,
       showCardPrinter: false,
       showDisable: false,
       firstSubmit: false,
@@ -101,11 +100,6 @@ export default class Application extends React.Component <any, any> {
       }
     })
 
-    getOpenStatus().then(res => {
-
-      this.setState({ openStatus: res.msg })
-
-    })
     loadApplicationCompletedCount(planId).then(res => {
 
       this.setState({ completedApplicationCnt: res.msg })
@@ -342,7 +336,7 @@ export default class Application extends React.Component <any, any> {
 
   render () {
     const {
-      data, otherList, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
+      data, otherList, end, showOthers, edit, showDisable, firstSubmit,
       showCompletedBox = false, completedApplicationCnt, loading,
       commentsData = {}, showApplicationCacheAlert,
     } = this.state
@@ -362,38 +356,6 @@ export default class Application extends React.Component <any, any> {
             </div>
           )
         })
-      }
-    }
-
-    const renderTip = () => {
-      return (
-        <div className="no-comment">
-          <div className="content">
-            <div className="text">更喜欢电脑上提交?</div>
-            <div className="text">登录www.iquanwai.com/community</div>
-          </div>
-        </div>
-      )
-    }
-
-    const renderEnd = () => {
-      if (showOthers) {
-        if (loading) {
-          return (
-            <div style={{ textAlign: 'center', margin: '5px 0 60px' }}>
-              <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
-            </div>
-          )
-        }
-        if (!end) {
-          return (
-            <div className="show-more">上拉加载更多消息</div>
-          )
-        } else {
-          return (
-            <div className="show-more">没有更多了</div>
-          )
-        }
       }
     }
 

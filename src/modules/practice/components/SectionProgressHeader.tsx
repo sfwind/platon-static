@@ -46,19 +46,17 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
     const { progress, currentIndex } = this.state
     const detailProgress = progress[ currentIndex + 1 ]
 
-    this.setState({currentIndex: currentIndex + 1})
-    this.goPage(detailProgress)
+    this.goPage(detailProgress, currentIndex + 1)
   }
 
   goSeriesPage(index) {
     const { progress } = this.state
     const detailProgress = progress[ index ]
 
-    this.setState({currentIndex: index})
-    this.goPage(detailProgress)
+    this.goPage(detailProgress, index)
   }
 
-  async goPage(progress) {
+  async goPage(progress, index) {
     const { planId, practicePlanId, practiceId, complete, type } = progress
     let res = await loadPracticePlan(practicePlanId)
     const { code, msg } = res
@@ -67,6 +65,8 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
       requestProxy.alertMessage('练习尚未解锁')
       return
     }
+
+    this.setState({ currentIndex: index })
 
     let queryParam = {
       complete: complete,
