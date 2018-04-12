@@ -162,7 +162,7 @@ export default class LandingPage extends React.Component {
             <div className="content-header">
               <div className="content-title">拓眼界</div>
               {
-                livesFlows.length > 3 &&
+                livesFlows.length > 5 &&
                 <MarkBlock module="打点"
                            func="着陆页"
                            action="拓眼界更多"
@@ -173,7 +173,7 @@ export default class LandingPage extends React.Component {
                 </MarkBlock>
               }
             </div>
-            {livesFlows.slice(0, 3).map((live, index) => <LiveHome data={live} key={index}/>)}
+            {livesFlows.slice(0, 5).map((live, index) => <LiveHome data={live} key={index}/>)}
           </div>
           <div className="content-box">
             <div className="content-header">
