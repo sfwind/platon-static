@@ -503,7 +503,7 @@ export default class Application extends React.Component <any, any> {
                    onClick: () => this.handleClickGoSubmitPage(),
                  },
                ]}>
-          您还有没有提交草稿哦，
+          您还没有提交草稿哦，
           <br/>
           点击确定立即更新我的作业
         </Alert>
