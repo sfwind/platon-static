@@ -1,12 +1,9 @@
 import * as React from 'react'
 import requestProxy from './requestProxy'
-import { connect } from 'react-redux'
-import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { Toast, Dialog } from 'react-weui'
 
 const { Alert } = Dialog
 
-@connect(state => state)
 export default class RequestComponent extends React.Component {
 
   constructor () {
