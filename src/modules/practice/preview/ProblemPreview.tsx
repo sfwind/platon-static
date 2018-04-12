@@ -80,7 +80,7 @@ export default class ProblemPreview extends React.Component<any, any> {
                        words={audioWords}/>
               </div>
             }
-            <div className="text">
+            <div className="description">
               <pre dangerouslySetInnerHTML={{ __html: description }}/>
             </div>
           </div>
