@@ -31,17 +31,6 @@ const industryList = [
   { id: '18', value: '其他' }
 ]
 
-const workingLifeList = [
-  { id: '2', value: '0' },
-  { id: '3', value: '0~1年' },
-  { id: '4', value: '1~3年' },
-  { id: '5', value: '3~5年' },
-  { id: '6', value: '5~7年' },
-  { id: '7', value: '7~10年' },
-  { id: '8', value: '10~15年' },
-  { id: '9', value: '15年以上' }
-]
-
 const marryList = [
   { id: '0', value: '已婚' },
   { id: '1', value: '未婚有对象' },
@@ -79,28 +68,26 @@ export default class Profile extends React.Component<any, any> {
     mark({ module: '打点', function: '个人中心', action: '打开我的信息页面' })
     changeTitle('个人信息')
     const { dispatch, region, location } = this.props
-    const { goRise, goCamp } = location.query
+    const { goCamp } = location.query
     dispatch(startLoad())
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        let defaultIsFull = goRise ? false : res.msg.isFull
-        this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
-          if(this.checkIsFull() && goRise ) {
-            if(goCamp){
-              // 加载的时候就填写过，然后是goRise，则去绑定电话页面
-              this.context.router.push({
-                pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true, goCamp:true }
-              })
-            }else{
-              this.context.router.push({
-                pathname: '/rise/static/customer/mobile/check',
-                query: { goRise: true }
-              })
-            }
+        if(res.msg.canSubmit){
+          if(goCamp) {
+            this.context.router.push({
+              pathname: '/rise/static/customer/mobile/check',
+              query: { goCamp: true }
+            })
+          }else{
+            this.context.router.push({
+              pathname: '/rise/static/customer/mobile/check',
+              query: { goRise: true }
+            })
           }
-        })
+        }else{
+          this.setState(_.merge({},res.msg))
+        }
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -121,7 +108,7 @@ export default class Profile extends React.Component<any, any> {
 
     // workingTime
     let workingYearList = []
-    for(let i = 1960; i <= 2017; i++) {
+    for(let i = 1960; i <= 2018; i++) {
       workingYearList.push({ id: '' + i, value: '' + i })
     }
     this.setState({ workingYearList: workingYearList })
@@ -140,7 +127,7 @@ export default class Profile extends React.Component<any, any> {
       value: this.state[field],
       onChange: (e) => {
         this.changeValue(field, getValue ? getValue(e) : e, () => {
-          this.checkIsFull()
+          this.checkCanSubmit()
         })
       }
     }
@@ -158,25 +145,19 @@ export default class Profile extends React.Component<any, any> {
       city: cityRegion.value,
       cityId: cityRegion.id
     }, () => {
-      this.checkIsFull()
+      this.checkCanSubmit()
     })
   }
 
   onChoiceIndustry(industry) {
     this.setState({ industry: industry.value }, () => {
-      this.checkIsFull()
-    })
-  }
-
-  onChoiceWorkingLife(workingLife) {
-    this.setState({ workingLife: workingLife.value }, () => {
-      this.checkIsFull()
+      this.checkCanSubmit()
     })
   }
 
   onChoiceWorkingYear(workingYear) {
     this.setState({ workingYear: workingYear.value }, () => {
-      this.checkIsFull()
+      this.checkCanSubmit()
     })
   }
 
@@ -184,38 +165,54 @@ export default class Profile extends React.Component<any, any> {
     this.setState({ married: marry.value })
   }
 
-  checkFull() {
-    const { dispatch, location } = this.props
+  checkCanSubmit() {
     const functionValue = _.get(this.state, 'function')
-    const { goRise, goCamp } = location.query
-    const { city, province, industry, workingYear, bindMobile, realName, address, receiver } = this.state
-    if(goCamp) {
-      if(city && province && industry && workingYear && functionValue && realName) {
-        return true;
+    const { workingYear, province, city, industry, realName, receiver, address, phone, isShowInfo } = this.state
+    if(isShowInfo) {
+      if(workingYear && province && city && industry && functionValue && realName && receiver && address && phone) {
+        this.setState({ canSubmit: true })
+        return true
       }
-    }else{
-      if(city && province && industry && workingYear && functionValue && realName && address && receiver) {
+    } else {
+      if(workingYear && province && city && industry && functionValue) {
+        this.setState({ canSubmit: true })
         return true
       }
     }
+    this.setState({ canSubmit: false })
     return false
   }
 
   submitProfile() {
     const { dispatch, location } = this.props
-    const { city, province, industry, workingYear, bindMobile, realName, address, receiver, married } = this.state
+    const {
+      city, province, industry, workingYear, realName, address, receiver, married, company,
+      college,
+      mobile,
+      weixinId,
+      email,
+      introduction, phone
+    } = this.state
     const functionValue = _.get(this.state, 'function')
     const { goRise, goCamp } = location.query
-    if(this.checkFull()) {
+    if(this.checkCanSubmit()) {
       let param = {
         city: city,
         province: province,
         industry: industry,
         workingYear: workingYear,
-        function: functionValue
+        function: functionValue,
+        rate: 0
       }
 
-      _.merge(param, { realName: realName, address: address, receiver: receiver, married })
+      _.merge(param, {
+        realName, address, receiver, married, company,
+        college,
+        mobile,
+        weixinId,
+        email,
+        introduction, phone
+      })
       dispatch(startLoad())
       ppost('/rise/customer/profile', param).then(res => {
         dispatch(endLoad())
@@ -224,16 +221,13 @@ export default class Profile extends React.Component<any, any> {
           if(goCamp) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true, goCamp:true }
+              query: { goRise: true, goCamp: true }
             })
-          } else if(goRise){
+          } else if(goRise) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
               query: { goRise: true }
             })
-          } else {
-            dispatch(alertMsg('提交成功'))
-            this.setState({ isFull: true })
           }
         } else {
           dispatch(alertMsg(res.msg))
@@ -247,24 +241,57 @@ export default class Profile extends React.Component<any, any> {
     }
   }
 
-  checkIsFull() {
-    let isFull = this.checkFull()
-    this.setState({ isFull: isFull })
-    return isFull
-  }
-
   render() {
     const { region, location } = this.props
     const { goRise, goCamp } = location.query
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { city, province, cityId, provinceId, industry, workingLife, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married } = this.state
-    const functionValue = _.get(this.state, 'function')
+    const { city, province, cityId, provinceId, industry, bindMobile, workingYearList, workingYear, realName, address, receiver, married, score, isShowInfo, canSubmit, introduction, phone } = this.state
     const renderFunction = () => {
       return (
-        <div className={functionValue ? 'select-wrapper-has-no-cut' : 'select-wrapper'}>
+        <div className='select-wrapper' style={{ marginRight: 0 }}>
           <input id="functionInput" placeholder="请填写" type="text" {...this.bind('function', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderCompany = () => {
+      return (
+        <div className='select-wrapper' style={{ marginRight: 0 }}>
+          <input id="company" placeholder="请填写" type="text" {...this.bind('company', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderCollege = () => {
+      return (
+        <div className='select-wrapper' style={{ marginRight: 0 }}>
+          <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderWeiXinId = () => {
+      return (
+        <div className='select-wrapper' style={{ marginRight: 0 }}>
+          <input id="weixinId" placeholder="请填写" type="text" {...this.bind('weixinId', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderMail = () => {
+      return (
+        <div className='select-wrapper' style={{ marginRight: 0 }}>
+          <input id="email" placeholder="请填写" type="text" {...this.bind('email', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderTel = () => {
+      return (
+        <div className='select-wrapper' style={{ marginRight: 0 }}>
+          <input id="phone" placeholder="请填写" type="text" {...this.bind('phone', this.getInputValue)}/>
         </div>
       )
     }
@@ -273,9 +300,9 @@ export default class Profile extends React.Component<any, any> {
       const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
       return (
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择居住地点'}
-                   className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper'}>
+                   className={provinceId && cityId ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={2} data={[provinceList, cityList]} userData={userData[1].id ? userData : null}
-                        placeholder="以便参加当地校友会"
+                        placeholder="请选择"
                         onChoice={(one, two) => this.onChoiceRegion(one, two)}/>
         </MarkBlock>
       )
@@ -283,7 +310,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderRealName = () => {
       return (
-        <div className={realName ? 'select-wrapper-has-no-cut' : 'select-wrapper'}>
+        <div className={realName ? 'select-wrapper-has-no-cut' : 'select-wrapper'} style={{ marginRight: 0 }}>
           <input id="realName" placeholder="用于颁发毕业证书" type="text" {...this.bind('realName', this.getInputValue)}/>
         </div>
       )
@@ -291,7 +318,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderReceiver = () => {
       return (
-        <div className={receiver ? 'select-wrapper-has-no-cut' : 'select-wrapper'}>
+        <div className={receiver ? 'select-wrapper-has-no-cut' : 'select-wrapper'} style={{ marginRight: 0 }}>
           <input id="realName" placeholder="请填写" type="text" {...this.bind('receiver', this.getInputValue)}/>
         </div>
       )
@@ -315,24 +342,6 @@ export default class Profile extends React.Component<any, any> {
       )
     }
 
-    const renderWorkingLife = () => {
-      let myWorkingLife = { value: workingLife }
-      for(let item in workingLifeList) {
-        if(_.isEqual(workingLifeList[item].value, workingLife)) {
-          myWorkingLife.id = workingLifeList[item].id
-          break
-        }
-      }
-
-      return (
-        <div className={workingLife ? 'select-wrapper-has' : 'select-wrapper-choice'}>
-          <DropDownList level={1} data={[workingLifeList]} userData={myWorkingLife.id ? [myWorkingLife] : null}
-                        placeholder="请选择"
-                        onChoice={(one) => this.onChoiceWorkingLife(one)}/>
-        </div>
-      )
-    }
-
     const renderMarried = () => {
       let myMarried = { value: married }
       for(let item in marryList) {
@@ -346,7 +355,7 @@ export default class Profile extends React.Component<any, any> {
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择感情状态'}
                    className={married ? 'select-wrapper-has' : 'select-wrapper-choice'}>
           <DropDownList level={1} data={[marryList]} userData={myMarried.id ? [myMarried] : null}
-                        placeholder="以便参加脱单群等活动"
+                        placeholder="请选择"
                         onChoice={(one) => this.onChoiceMarry(one)}/>
         </MarkBlock>
       )
@@ -371,40 +380,19 @@ export default class Profile extends React.Component<any, any> {
       )
     }
 
-    const renderProfileHeader = () => {
-      if(isFull) {
-        return (
-          <div className="profile-header-tip" style={{ color: '#f7a466', backgroundColor: '#FFFFFF' }}>
-            个人资料完整，30积分get！
-          </div>
-        )
-      } else {
-        return (
-          <div className="profile-header-tip" style={{ color: '#FFFFFF', backgroundColor: '#f9b685' }}>
-            完整的个人资料=30积分
-          </div>
-        )
-      }
-    }
     return (
       <div className="profile">
-        {goRise ? (
-          <div className="go-rise">
-            <WorkStep
-              works={[{ text: '填写信息', done: !!defaultIsFull, cur: true },
-                { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false }]}/>
-            <div className="guide">
-              { goCamp ?
-                <div className="first-guide">填写工作和地址信息<br/>才能加入校友会！</div>
-                : <div className="first-guide">填写工作和地址信息<br/>才能加入校友会，收到入学礼包！</div> }
-              <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
-            </div>
+        <div className="go-rise">
+          <WorkStep
+            works={[{ text: '填写信息', done: !!canSubmit, cur: true },
+              { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false }]}/>
+          <div className="guide">
+            {!isShowInfo ?
+              <div className="first-guide">填写工作和所在城市<br/>才能加入校友会！</div>
+              : <div className="first-guide">填写工作、所在城市还有邮寄信息，<br/>才能加入校友会和收到入学礼包哦！</div>}
+            <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
           </div>
-        ) : (
-          <div className="profile-header">
-            {renderProfileHeader()}
-          </div>
-        )}
+        </div>
         <div className="profile-container">
           <div className="profile-item">
             <div className="item-label">
@@ -412,6 +400,15 @@ export default class Profile extends React.Component<any, any> {
             </div>
             <div className="item-content">
               {renderWorkingYear()}
+            </div>
+          </div>
+
+          <div className="profile-item">
+            <div className="item-label">
+              所在城市
+            </div>
+            <div className="item-content" id="region-select">
+              {renderRegion()}
             </div>
           </div>
           <div className="profile-item">
@@ -422,34 +419,59 @@ export default class Profile extends React.Component<any, any> {
               {renderIndustry()}
             </div>
           </div>
-          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
+
+          <div className="profile-item">
             <div className="item-label">
-              职业
+              所在公司/机构
+            </div>
+            <div className="item-content">
+              {renderCompany()}
+            </div>
+          </div>
+
+
+          <div className="profile-item">
+            <div className="item-label">
+              目前职位
             </div>
             <div className="item-content">
               {renderFunction()}
             </div>
           </div>
 
-          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
-            <div className="item-label">
-              居住地点
-            </div>
-            <div className="item-content" id="region-select">
-              {renderRegion()}
-            </div>
+          <div className="title-container">
+            详细信息
           </div>
 
-          <div className="profile-item" style={{ marginBottom: '1px', borderBottom: 'none' }}>
+          <div className="profile-item">
             <div className="item-label">
-              真实姓名
+              毕业院校
             </div>
             <div className="item-content">
-              {renderRealName()}
+              {renderCollege()}
             </div>
           </div>
 
-          <div className="profile-item" style={{ marginBottom: '10px', borderBottom: 'none' }}>
+          <div className="profile-item">
+            <div className="item-label">
+              微信号
+            </div>
+            <div className="item-content">
+              {renderWeiXinId()}
+            </div>
+          </div>
+
+
+          <div className="profile-item">
+            <div className="item-label">
+              邮箱
+            </div>
+            <div className="item-content">
+              {renderMail()}
+            </div>
+          </div>
+
+          <div className="profile-item">
             <div className="item-label">
               感情状态（选填）
             </div>
@@ -458,32 +480,71 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
 
-          { !goCamp &&
-          <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none', height: '80px' }}>
-            <div className="address-tips">收件地址</div>
-            <textarea className="address" placeholder="商学院学员入学后，礼包会寄送到该地址（限大陆，海外用户请填写国内住址信息）" value={address}
-                      onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
-                        this.checkIsFull()
-                      })}
-            />
-          </div> }
+          <div className="introduction-container">
+            <div className="introduction-header">
+              个人简介
+            </div>
+            <div className="introduction-body">
+              <textarea placeholder="王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
+                        onChange={(e) => this.setState({ introduction: e.currentTarget.value })}/>
+            </div>
+          </div>
 
-          { !goCamp &&
-          <div className="profile-item" style={{ marginTop: '1px', borderBottom: 'none' }}>
+          {isShowInfo &&
+          <div className="title-container">
+            邮寄信息（本信息用于邮寄你的圈外商学院礼包）
+          </div>
+          }
+
+          {isShowInfo &&
+          <div className="profile-item">
+            <div className="item-label">
+              真实姓名
+            </div>
+            <div className="item-content">
+              {renderRealName()}
+            </div>
+          </div>
+          }
+
+          {isShowInfo &&
+          <div className="profile-item">
             <div className="item-label">
               收件人
             </div>
             <div className="item-content">
               {renderReceiver()}
             </div>
-          </div> }
+          </div>
+          }
+
+          {isShowInfo &&
+          <div className="profile-item">
+            <div className="item-label">
+              联系电话
+            </div>
+            <div className="item-content">
+              {renderTel()}
+            </div>
+          </div>
+          }
+          {isShowInfo &&
+          <div className="profile-item">
+            <div className="address-tips">收件地址</div>
+            <textarea className="address" placeholder="请填写" value={address}
+                      onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
+                        this.checkCanSubmit()
+                      })}
+            />
+          </div>
+          }
 
         </div>
         <div className="profile-bottom">
           <MarkBlock module={'打点'} func={'个人信息页'} action={'提交个人信息修改'}
-                     className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
+                     className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
                      onClick={this.submitProfile.bind(this)}>
-            {goRise ? `下一步` : `完成`}
+            下一步
           </MarkBlock>
         </div>
       </div>

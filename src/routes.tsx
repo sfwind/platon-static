@@ -337,8 +337,6 @@ const routes = (
       <Route path="plan/main" component={SchedulePlan}/>
 
 
-      <Route path="daily/talk" component={DailyTalk}/>
-
       <Route path="problem/explore" component={Explore}/>
       <Route path="problem/more" component={MoreProblem}/>
       <Route path="problem/package" component={BannerArticle}/>

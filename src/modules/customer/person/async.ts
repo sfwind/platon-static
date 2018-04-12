@@ -1,8 +1,8 @@
-import { pget, ppost } from '../../../utils/request'
-import requestProxy from '../../base/requestProxy'
+
+import requestProxy from '../../../components/requestproxy/requestProxy'
 
 export function loadCertificates() {
-  return pget('/rise/customer/get/certificate')
+  return requestProxy.getProxy('/rise/customer/get/certificate')
 }
 
 export function loadAllElites() {

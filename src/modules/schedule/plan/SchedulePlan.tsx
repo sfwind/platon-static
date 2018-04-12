@@ -96,7 +96,7 @@ export default class SchedulePlan extends React.Component {
             <div className="personal-icon"
                  onClick={() => this.handleGoPersonalCenter()}></div>
             <div className="parameter-box box1">
-              <div className="desc">连续登陆天数</div>
+              <div className="desc">连续学习天数</div>
               <div className="data">{loginCount}</div>
             </div>
             <div className="parameter-box box2">

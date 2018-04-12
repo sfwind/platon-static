@@ -49,13 +49,13 @@ export default class NewProfile extends React.Component<any, any> {
     super(props)
     this.state = {
       nickName: window.ENV.userName,
-      memberTypeId: null,
       function: null,
       industry: null,
       workingLife: null,
       city: null,
       province: null,
       isFull: false,
+      canSubmit:false,
       workingTime: null,
       realName: null,
       address: null,
@@ -68,13 +68,13 @@ export default class NewProfile extends React.Component<any, any> {
   componentWillMount() {
     mark({ module: '打点', function: '个人中心', action: '打开我的信息页面' })
     changeTitle('个人信息')
-    const { dispatch, region, location } = this.props
+    const { dispatch, region} = this.props
     dispatch(startLoad())
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         let defaultIsFull = res.msg.isFull
-        this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
+        this.setState(_.merge({},{canSubmit:res.msg.canSubmit},{ defaultIsFull: defaultIsFull }, res.msg), () => {
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -118,7 +118,7 @@ export default class NewProfile extends React.Component<any, any> {
       value: this.state[field],
       onChange: (e) => {
         this.changeValue(field, getValue ? getValue(e) : e, () => {
-          this.checkIsFull()
+          this.checkCanSubmit()
         })
       }
     }
@@ -136,13 +136,13 @@ export default class NewProfile extends React.Component<any, any> {
       city: cityRegion.value,
       cityId: cityRegion.id
     }, () => {
-      this.checkIsFull()
+      this.checkCanSubmit()
     })
   }
 
   onChoiceIndustry(industry) {
     this.setState({ industry: industry.value }, () => {
-      this.checkIsFull()
+      this.checkCanSubmit()
     })
   }
 
@@ -157,7 +157,7 @@ export default class NewProfile extends React.Component<any, any> {
 
   onChoiceWorkingYear(workingYear) {
     this.setState({ workingYear: workingYear.value }, () => {
-      this.checkIsFull()
+      this.checkCanSubmit()
     })
   }
 
@@ -165,43 +165,44 @@ export default class NewProfile extends React.Component<any, any> {
     this.setState({ married: marry.value })
   }
 
-  checkFull() {
-    const functionValue = _.get(this.state, 'function')
-    const { memberTypeId, nickName, city, province, industry, workingYear, realName, address, receiver } = this.state
-    if(memberTypeId === 3) {
-      if(nickName && city && province && industry && workingYear && functionValue && realName && address && receiver) {
+  checkCanSubmit(){
+     const functionValue = _.get(this.state, 'function')
+      const {nickName,workingYear,province,city,industry} = this.state
+      if(nickName && workingYear && province && city && industry && functionValue){
+        this.setState({ canSubmit: true })
         return true
       }
-    } else {
-      if(nickName && city && province && industry && workingYear && functionValue && realName) {
-        return true
-      }
-    }
-    return false
+    this.setState({ canSubmit: false })
+      return false
   }
 
   submitProfile() {
     const { dispatch } = this.props
-    const { nickName, city, province, industry, workingYear, realName, address, receiver, married } = this.state
+    const { nickName,workingYear,province,city,industry,company,college,mobile,weixinId,email,introduction,realName,receiver,address,married} = this.state
     const functionValue = _.get(this.state, 'function')
-    if(this.checkFull()) {
+    const rate = this.checkCompletion()
+    if(this.checkCanSubmit()) {
       let param = {
-        nickName: nickName,
-        city: city,
-        province: province,
-        industry: industry,
-        workingYear: workingYear,
-        function: functionValue
+        nickName,
+        city,
+        province,
+        industry,
+        workingYear,
+        function: functionValue,
+        rate
       }
-
-      _.merge(param, { realName: realName, address: address, receiver: receiver, married })
+      _.merge(param, { realName, address, receiver, married,  company,
+        college,
+        mobile,
+        weixinId,
+        email,
+        introduction })
       dispatch(startLoad())
       ppost('/rise/customer/new/profile', param).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
           dispatch(alertMsg('提交成功'))
           window.ENV.userName = nickName
-          this.setState({ isFull: true })
         } else {
           dispatch(alertMsg(res.msg))
         }
@@ -210,14 +211,8 @@ export default class NewProfile extends React.Component<any, any> {
         dispatch(alertMsg(err + ''))
       })
     } else {
-      dispatch(alertMsg('请全部填写后提交'))
+      dispatch(alertMsg('请全部f填写后提交'))
     }
-  }
-
-  checkIsFull() {
-    let isFull = this.checkFull()
-    this.setState({ isFull: isFull })
-    return isFull
   }
 
   goMobileCheck() {
@@ -227,12 +222,57 @@ export default class NewProfile extends React.Component<any, any> {
     })
   }
 
+  checkCompletion () {
+    const functionValue = _.get(this.state, 'function')
+    const {nickName , workingYear , province , city , industry , company ,college , mobile ,weixinId ,email , introduction ,married}=this.state
+    let count = 5
+    if(nickName){
+      count = count+5
+    }
+    if(workingYear){
+      count=count+5
+    }
+    if(province && city){
+      count = count+5
+    }
+    if(industry){
+      count = count +5
+    }
+    if(company){
+      count = count +10
+    }
+    if(functionValue){
+      count = count +10
+    }
+    if(college){
+      count = count + 8
+    }
+    if(mobile){
+      count = count + 8
+    }
+    if(weixinId){
+      count = count + 8
+    }
+    if(email){
+      count = count +8
+    }
+    if(married){
+      count = count + 8
+    }
+    if(introduction){
+      count = count + 15
+    }
+
+    return count
+
+  }
+
   render() {
     const { region } = this.props
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { memberId, phone, isShowInfo, className, city, province, cityId, provinceId, industry, isFull, bindMobile, defaultIsFull, workingYearList, workingYear, realName, address, receiver, married,college} = this.state
+    const { memberId, phone, isShowInfo,city, province, cityId, provinceId, industry, canSubmit,workingYearList, workingYear,address, married,introduction,score,defaultIsFull,mobile} = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -326,24 +366,18 @@ export default class NewProfile extends React.Component<any, any> {
     }
 
     const renderProfileHeader = () => {
-      if(isFull) {
-        return (
-          <div className="profile-header-tip" style={{ color: '#f7a466', backgroundColor: '#FFFFFF' }}>
-            个人资料完整，30积分get！
-          </div>
-        )
-      } else {
-        return (
-          <div className="profile-header-tip" style={{ color: '#FFFFFF', backgroundColor: '#f9b685' }}>
-            完整的个人资料=30积分
-          </div>
-        )
-      }
+      const rate = this.checkCompletion()
+      return(
+        rate!=100 && !defaultIsFull && <div className="profile-header-tip">
+          {`当前资料完整度${rate}%，完善至100%+`}
+          <span>{`${score}积分`}</span>
+          积分！
+        </div>
+      )
     }
 
     const renderClassInfo = () => {
       return (
-        <div className="profile-container">
           <div className="profile-item">
             <div className="item-label">
               学号
@@ -351,15 +385,6 @@ export default class NewProfile extends React.Component<any, any> {
             <div className="item-content">
               {memberId}
             </div>
-          </div>
-          <div className="profile-item">
-            <div className="item-label">
-              班级
-            </div>
-            <div className="item-content">
-              {className}
-            </div>
-          </div>
         </div>
       )
     }
@@ -390,6 +415,37 @@ export default class NewProfile extends React.Component<any, any> {
       )
     }
 
+    const renderCollege = () => {
+      return(
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+          <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderMobile = () => {
+      return(
+        <div className='select-wrapper-has'>
+          {mobile}
+        </div>
+      )
+    }
+
+    const renderWeiXinId = () => {
+      return(
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+          <input id="weixinId" placeholder="请填写" type="text" {...this.bind('weixinId', this.getInputValue)}/>
+        </div>
+      )
+    }
+
+    const renderMail = () => {
+      return(
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+          <input id="email" placeholder="请填写" type="text" {...this.bind('email', this.getInputValue)}/>
+        </div>
+      )
+    }
 
     const renderTel = () => {
       return (
@@ -399,30 +455,18 @@ export default class NewProfile extends React.Component<any, any> {
       )
     }
 
-    const renderCollege = () => {
-      return (
-        <div className='select-wrapper-has'>
-          {college}
-        </div>
-      )
-    }
-
-
-
-
-
     return (
       <div className="new-profile">
         <div className="profile-header">
           {renderProfileHeader()}
         </div>
 
-        {!_.isEmpty(memberId) && renderClassInfo()}
 
         <div className="profile-container">
           <div className="title-container">
             基本信息
           </div>
+          {!_.isEmpty(memberId) && renderClassInfo()}
           <div className="profile-item">
             <div className="item-label">
               昵称
@@ -501,14 +545,16 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>
 
-          <div className="profile-item">
+          <MarkBlock module={'个人中心'} function={'个人信息页'} action={'修改手机号'} className="profile-item"
+                     onClick={() => this.goMobileCheck()}>
             <div className="item-label">
               手机号
             </div>
             <div className="item-content">
               {renderMobile()}
             </div>
-          </div>
+          </MarkBlock>
+
 
           <div className="profile-item">
             <div className="item-label">
@@ -543,13 +589,12 @@ export default class NewProfile extends React.Component<any, any> {
               个人简介
             </div>
             <div className="introduction-body">
-              <textarea placeholder="请填写个人简介">
-
-              </textarea>
+              <textarea placeholder="王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
+                        onChange={(e) => this.setState({ introduction: e.currentTarget.value })}/>
             </div>
           </div>
 
-          {isShowInfo &&
+          {isShowInfo&&
             <div className="title-container">
               邮寄信息（本信息用于邮寄你的圈外商学院礼包）
             </div>
@@ -566,7 +611,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           }
 
-          {isShowInfo &&
+          {isShowInfo&&
             <div className="profile-item">
               <div className="item-label">
                 收件人
@@ -593,7 +638,7 @@ export default class NewProfile extends React.Component<any, any> {
               <div className="address-tips">收件地址</div>
               <textarea className="address" placeholder="请填写" value={address}
                         onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
-                          this.checkIsFull()
+                          this.checkCanSubmit()
                         })}
               />
             </div>
@@ -602,7 +647,7 @@ export default class NewProfile extends React.Component<any, any> {
         </div>
         <div className="profile-bottom">
           <MarkBlock module={'打点'} func={'个人信息页'} action={'提交个人信息修改'}
-                     className={`submit-btn ${isFull ? '' : 'disabled'}`} style={{
+                     className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{
             width: `${this.btnWidth}px`, borderRadius: 100, height: 44, lineHeight: `44px`, fontSize: 17,
             letterSpacing: `4.7px`
           }}
