@@ -31,17 +31,17 @@
     text-align: center;
     .progress-text {
       font-size: 1.3rem;
-      width: ~"calc(25% - 2px)";
+      width: 25%;
       height: 3.0rem;
       line-height: 3.0rem;
       text-align: center;
-      //box-sizing: border-box;
       position: relative;
       margin-top: 2.5rem;
       display: inline-block;
       border-right: solid 1px;
       border-top: solid 1px;
       border-bottom: solid 1px;
+      box-sizing: border-box;
       &:first-child {
         border-left: solid 1px;
       }
@@ -51,6 +51,8 @@
         text-indent: 0.4rem;
         background-color: #F8F8F8;
         border-color: #EEE;
+        text-align: right;
+        padding-right: .5rem;
       }
       &.unlock{
         border-color: #FFA300;
