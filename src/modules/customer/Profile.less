@@ -4,10 +4,11 @@
   //TODO absolute 时有bug：底部上滑导航栏被遮盖
   position: relative;
   width: 100%;
-  //height:~'calc(100% - 50px)' !important;
   overflow-y: scroll;
   background-color: @color_weak_background;
   height: 100vh;
+
+  -webkit-overflow-scrolling: touch;
   > .go-rise {
     margin-bottom: 20px;
     > .guide {
@@ -28,10 +29,12 @@
   }
 
   > .profile-header {
+    background: white;
     > .profile-header-tip {
       height: 60px;
       line-height: 60px;
       font-size: 15px;
+      color: #333333;
       border-bottom: 1px solid @color_weak_background;
       padding-left: 20px;
       span {
@@ -103,7 +106,7 @@
               height: 11.5px;
               float: right;
               margin-top: 23px;
-              margin-left: 4px;
+              margin-left: 10px;
             }
             > .form-item {
               display: inline-block;
@@ -118,19 +121,21 @@
               border: none;
             }
             &-no-cut {
-              margin-right: 10px;
+              position: relative;
               > .form-item {
                 display: inline-block;
-                color: #399BD3;
                 > .pc-box {
                   > span {
                   }
                 }
               }
               > input {
+                position: absolute;
                 font-size: 15px;
-                text-align: right;
                 border: none;
+                text-align: right;
+                top: 20px;
+                right: 0px;
               }
             }
           }
@@ -165,7 +170,7 @@
             height: 11.5px;
             float: right;
             margin-top: 21.75px;
-            margin-left: 4px;
+            margin-left: 10px;
           }
           &-has {
             &:after {
@@ -176,7 +181,7 @@
               height: 11.5px;
               float: right;
               margin-top: 21.75px;
-              margin-left: 4px;
+              margin-left: 10px;
             }
             > .form-item {
               display: inline-block;
@@ -189,12 +194,12 @@
               font-size: 15px;
               text-align: right;
               border: none;
+              height: 20px;
             }
             &-no-cut {
               margin-right: 10px;
               > .form-item {
                 display: inline-block;
-                color: #399BD3;
                 > .pc-box {
                   > span {
                   }
@@ -269,4 +274,5 @@
       }
     }
   }
+
 }

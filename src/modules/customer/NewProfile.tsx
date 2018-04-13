@@ -417,7 +417,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderCollege = () => {
       return(
-        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+        <div className='select-wrapper' style={{ marginRight: 0 }}>
           <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
         </div>
       )
@@ -449,8 +449,8 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderTel = () => {
       return (
-        <div className='select-wrapper-has'>
-          {phone}
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+          <input id="mobileNo" placeholder="请填写" type="text" {...this.bind('mobileNo', this.getInputValue)}/>
         </div>
       )
     }
@@ -623,15 +623,15 @@ export default class NewProfile extends React.Component<any, any> {
           }
 
           {isShowInfo &&
-            <MarkBlock module={'个人中心'} function={'个人信息页'} action={'点击修改联系方式'} className="profile-item"
-                       onClick={() => this.goMobileCheck()}>
+            <div className="profile-item"
+                       >
               <div className="item-label">
                 联系电话
               </div>
               <div className="item-content">
                 {renderTel()}
               </div>
-            </MarkBlock>
+            </div>
           }
           {isShowInfo &&
             <div className="profile-item">

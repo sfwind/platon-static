@@ -186,7 +186,7 @@ export default class MobileBind extends React.Component<any, any> {
 
     return (
       <div className="mobile-bind">
-        {location.query.goRise ?
+        {!location.query.person ?
           <div className="go-rise">
             <WorkStep
               works={[{ text: '填写信息', done: !!canSubmit },

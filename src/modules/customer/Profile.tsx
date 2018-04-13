@@ -221,7 +221,7 @@ export default class Profile extends React.Component<any, any> {
           if(goCamp) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true, goCamp: true }
+              query: {goCamp: true }
             })
           } else if(goRise) {
             this.context.router.push({
@@ -242,15 +242,14 @@ export default class Profile extends React.Component<any, any> {
   }
 
   render() {
-    const { region, location } = this.props
-    const { goRise, goCamp } = location.query
+    const { region} = this.props
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
     const { city, province, cityId, provinceId, industry, bindMobile, workingYearList, workingYear, realName, address, receiver, married, score, isShowInfo, canSubmit, introduction, phone } = this.state
     const renderFunction = () => {
       return (
-        <div className='select-wrapper' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="functionInput" placeholder="请填写" type="text" {...this.bind('function', this.getInputValue)}/>
         </div>
       )
@@ -258,7 +257,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderCompany = () => {
       return (
-        <div className='select-wrapper' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="company" placeholder="请填写" type="text" {...this.bind('company', this.getInputValue)}/>
         </div>
       )
@@ -266,7 +265,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderCollege = () => {
       return (
-        <div className='select-wrapper' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
         </div>
       )
@@ -274,7 +273,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderWeiXinId = () => {
       return (
-        <div className='select-wrapper' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="weixinId" placeholder="请填写" type="text" {...this.bind('weixinId', this.getInputValue)}/>
         </div>
       )
@@ -282,7 +281,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderMail = () => {
       return (
-        <div className='select-wrapper' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="email" placeholder="请填写" type="text" {...this.bind('email', this.getInputValue)}/>
         </div>
       )
@@ -290,7 +289,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderTel = () => {
       return (
-        <div className='select-wrapper' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="phone" placeholder="请填写" type="text" {...this.bind('phone', this.getInputValue)}/>
         </div>
       )
@@ -310,16 +309,16 @@ export default class Profile extends React.Component<any, any> {
 
     const renderRealName = () => {
       return (
-        <div className={realName ? 'select-wrapper-has-no-cut' : 'select-wrapper'} style={{ marginRight: 0 }}>
-          <input id="realName" placeholder="用于颁发毕业证书" type="text" {...this.bind('realName', this.getInputValue)}/>
+        <div className= 'select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+          <input id="realName" placeholder="请填写" type="text" {...this.bind('realName', this.getInputValue)}/>
         </div>
       )
     }
 
     const renderReceiver = () => {
       return (
-        <div className={receiver ? 'select-wrapper-has-no-cut' : 'select-wrapper'} style={{ marginRight: 0 }}>
-          <input id="realName" placeholder="请填写" type="text" {...this.bind('receiver', this.getInputValue)}/>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+          <input id="receiver" placeholder="请填写" type="text" {...this.bind('receiver', this.getInputValue)}/>
         </div>
       )
     }
@@ -541,11 +540,11 @@ export default class Profile extends React.Component<any, any> {
 
         </div>
         <div className="profile-bottom">
-          <MarkBlock module={'打点'} func={'个人信息页'} action={'提交个人信息修改'}
+          <div
                      className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
                      onClick={this.submitProfile.bind(this)}>
             下一步
-          </MarkBlock>
+          </div>
         </div>
       </div>
     )
