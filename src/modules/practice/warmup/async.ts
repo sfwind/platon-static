@@ -21,14 +21,6 @@ export function loadWarmUpAnalysisNew (warmupPracticeId) {
   return requestProxy.getProxy(`/rise/practice/warmup/new/analysis/${warmupPracticeId}`)
 }
 
-export function getOpenStatus () {
-  return pget('/rise/open/status')
-}
-
-export function consolidationStatus () {
-  return ppost('/rise/open/consolidation')
-}
-
 export function deleteComment (id) {
   return requestProxy.postProxy(`/rise/practice/warmup/delete/comment/${id}`)
 }

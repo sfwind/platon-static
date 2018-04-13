@@ -48,14 +48,6 @@ export function commentReply (submitId, comment, replyedCommentId) {
   })
 }
 
-export function openApplication () {
-  return requestProxy.postProxy('/rise/open/application')
-}
-
-export function getOpenStatus () {
-  return requestProxy.getProxy('/rise/open/status')
-}
-
 export function getApplicationPractice (submitId) {
   return pget(`/rise/practice/application/article/${submitId}`)
 }
