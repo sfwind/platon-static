@@ -2,8 +2,6 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import {
   answer,
-  getOpenStatus,
-  consolidationStatus,
   loadWarmUpDiscuss,
   discuss,
   deleteComment, loadPriorityWarmUpAnalysis,
@@ -53,7 +51,6 @@ export default class Warumup extends React.Component<any, any> {
       content: '',
       analysis: false,
       submit: false,
-      openStatus: {},
       data: {},
       moveDiscussArea: false,
     }
@@ -73,11 +70,6 @@ export default class Warumup extends React.Component<any, any> {
       action: '加载选择题页面',
     })
     this.loadWarmup()
-    getOpenStatus().then(res => {
-      if(res.code === 200) {
-        this.setState({ openStatus: res.msg })
-      }
-    })
   }
 
   componentWillUnmount() {
@@ -223,22 +215,11 @@ export default class Warumup extends React.Component<any, any> {
   //选择题提交
   onSubmit() {
     const { dispatch } = this.props
-    const { selected, currentIndex, practiceCount, list, openStatus } = this.state
-    const { openConsolidation = true } = openStatus
+    const { selected, currentIndex, practiceCount, list } = this.state
     const { practicePlanId } = this.props.location.query
     if(selected.length === 0) {
       dispatch(alertMsg('你还没有选择答案哦'))
       return
-    }
-    if(!openConsolidation) {
-      consolidationStatus().then(res => {
-        const { code, msg } = res
-        if(code === 200) {
-          this.setState({ openStatus: _.merge({}, openStatus, { openConsolidation: true }) })
-        } else {
-          dispatch(alertMsg(msg))
-        }
-      })
     }
     if(currentIndex === practiceCount - 1) {
       let questionId = _.get(list, `practice[${currentIndex}].id`)
@@ -382,9 +363,8 @@ export default class Warumup extends React.Component<any, any> {
   render() {
     const {
       list, currentIndex, selected, practiceCount, showDiscuss, isReply,
-      placeholder, openStatus, analysis, submit, data, moveDiscussArea,
+      placeholder, analysis, submit, data, moveDiscussArea,
     } = this.state
-    const { openConsolidation = true } = openStatus
     const { total, rightNumber, point } = data
     const { practice = [] } = list
     const { dispatch, location } = this.props
@@ -555,12 +535,6 @@ export default class Warumup extends React.Component<any, any> {
         <SectionProgressHeader ref={'sectionProgress'}
                                planId={planId}
                                practicePlanId={this.props.location.query.practicePlanId}/>
-        {
-          !openConsolidation &&
-          <div className="progress-section-tip">
-            <div className="tip-angle"/>
-            点这里可以回看学过的知识点 </div>
-        }
         {questionRender(practice[ currentIndex ] || {})}
         {showDiscuss && <div className="padding-comment-dialog"/>}
         {footerButtonRender()}
