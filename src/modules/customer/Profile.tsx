@@ -205,6 +205,12 @@ export default class Profile extends React.Component<any, any> {
         rate: 0
       }
 
+      if(introduction.length>=300){
+        dispatch(alertMsg('个人简介内容过长'))
+        return
+      }
+
+
       _.merge(param, {
         realName, address, receiver, married, company,
         college,
@@ -484,7 +490,7 @@ export default class Profile extends React.Component<any, any> {
               个人简介
             </div>
             <div className="introduction-body">
-              <textarea placeholder="王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
+              <textarea cols="30" rows="10" placeholder="王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
                         onChange={(e) => this.setState({ introduction: e.currentTarget.value })}/>
             </div>
           </div>
