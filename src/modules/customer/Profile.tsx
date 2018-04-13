@@ -290,7 +290,7 @@ export default class Profile extends React.Component<any, any> {
     const renderTel = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
-          <input id="phone" placeholder="请填写" type="text" {...this.bind('phone', this.getInputValue)}/>
+          <input id="phone" placeholder="请填写" type="number" {...this.bind('phone', this.getInputValue)}/>
         </div>
       )
     }
