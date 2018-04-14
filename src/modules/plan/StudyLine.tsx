@@ -164,7 +164,7 @@ export default class StudyLine extends React.Component<any, any> {
         query: { id: problemId, practicePlanId: id, planId, complete }
       })
     } else if(type === 31) {
-      const { practicePlanId, integrated } = item
+      const { practicePlanId } = item
       this.context && this.context.router.push({
         pathname: '/rise/static/practice/knowledge',
         query: { practicePlanId, planId, complete }
@@ -174,6 +174,12 @@ export default class StudyLine extends React.Component<any, any> {
       this.context && this.context.router.push({
         pathname: '/rise/static/practice/knowledge/review',
         query: { problemId, practicePlanId, planId, complete }
+      })
+    } else if(type === 41) {
+      const { practicePlanId } = item
+      this.context && this.context.router.push({
+        pathname: '/rise/static/practice/preview',
+        query: { practicePlanId, planId, complete }
       })
     } else if(type === 101) {
       this.context && this.context.router.push({
@@ -186,12 +192,12 @@ export default class StudyLine extends React.Component<any, any> {
         query: { problemId, planId }
       })
     } else if(type === 1 || type === 2) {
-      const { practicePlanId, integrated } = item
+      const { practicePlanId } = item
       this.context ? this.context.router.push({
           pathname: '/rise/static/practice/warmup',
           query: { practicePlanId, planId, complete }
         }) : null
-    } else if(type === 11 || type === 12) {
+    } else if(type === 11 || type === 12 || type == 13) {
       const { practicePlanId, practiceId, integrated } = item
       this.context ? this.context.router.push({
           pathname: '/rise/static/practice/application',

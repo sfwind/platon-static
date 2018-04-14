@@ -162,7 +162,7 @@ export default class PersonalDiscussDistrict extends React.Component {
               <div dangerouslySetInnerHTML={{ __html: showDiscussAll ? discuss.content : removeHtmlTags(discuss.content), }}></div>
             </div>
             {
-              (getRealLength(removeHtmlTags(discuss.content)) > 90 || discuss.content.indexOf('<p') > -1 || discuss.content.indexOf('<img') > -1) &&
+              (discuss.content && (getRealLength(removeHtmlTags(discuss.content)) > 90 || discuss.content.indexOf('<p') > -1 || discuss.content.indexOf('<img') > -1)) &&
               <div className="show-tips"
                    onClick={() => this.handleClickToggleDiscussShow()}>
                 {showDiscussAll ? '收起' : '展开'}

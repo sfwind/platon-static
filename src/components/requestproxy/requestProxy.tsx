@@ -47,6 +47,10 @@ class RequestProxy {
     }
   }
 
+  alertMessage (message) {
+    this.observer.alertMessage(message)
+  }
+
 }
 
 let requestProxy = new RequestProxy()

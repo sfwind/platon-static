@@ -11,7 +11,7 @@ import _ from 'lodash'
 import { scroll } from '../../../utils/helpers'
 import { mark } from '../../../utils/request'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 
 const sequenceMap = {
   0: 'A',
@@ -217,12 +217,6 @@ export class Analysis extends React.Component <any, any> {
             <div className="analysis-icon">解析</div>
             <div className="analysis-context"
                  dangerouslySetInnerHTML={{ __html: practice ? practice.analysis : '' }}/>
-            {integrated == 'false' &&
-            <div className="knowledge-link"
-                 onClick={() => this.refs.sectionProgress.goSeriesPage(SectionProgressStep.KNOWLEDGE, dispatch)}>
-              点击查看相关知识点
-            </div>
-            }
           </div>
           <div className="discuss-container">
             <div className="discuss">
@@ -291,7 +285,7 @@ export class Analysis extends React.Component <any, any> {
     return (
       <div className="warm-up-container">
         <SectionProgressHeader ref={'sectionProgress'} planId={planId}
-                               practicePlanId={this.props.location.query.practicePlanId} currentIndex={1}/>
+                               practicePlanId={this.props.location.query.practicePlanId}/>
         {questionRender(practice[currentIndex] || {})}
         {showDiscuss && <div className="padding-comment-dialog"/>}
         <div>
@@ -309,7 +303,7 @@ export class Analysis extends React.Component <any, any> {
                 click: () => {
                   currentIndex + 1 < practiceCount ?
                     this.next() :
-                    this.refs.sectionProgress.goSeriesPage(SectionProgressStep.BASE_APPLICATION, dispatch)
+                    this.refs.sectionProgress.goNextPage()
                 },
                 text: '下一题'
               }

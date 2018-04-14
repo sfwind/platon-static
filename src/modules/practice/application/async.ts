@@ -13,10 +13,6 @@ export function loadApplicationCompletedCount (planId) {
   return requestProxy.getProxy(`/rise/practice/application/completed/count/${planId}`)
 }
 
-export function isRiseMember () {
-  return requestProxy.getProxy('/rise/plan/risemember')
-}
-
 export function submitApplicationPractice (planId, applicationId, params) {
   return requestProxy.postProxy(`/rise/practice/application/submit/${planId}/${applicationId}`, params)
 }
@@ -50,14 +46,6 @@ export function commentReply (submitId, comment, replyedCommentId) {
     comment: comment,
     repliedId: replyedCommentId,
   })
-}
-
-export function openApplication () {
-  return requestProxy.postProxy('/rise/open/application')
-}
-
-export function getOpenStatus () {
-  return requestProxy.getProxy('/rise/open/status')
 }
 
 export function getApplicationPractice (submitId) {
