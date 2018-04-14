@@ -10,7 +10,6 @@ import DailyTalk from './modules/daily/DailyTalk'
 import { sa } from './utils/helpers'
 
 import GlobalRequest from './components/globalalert/GlobalRequest'
-import SchoolFriend from './modules/customer/person/SchoolFriend'
 import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
@@ -395,7 +394,6 @@ const routes = (
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
         <Route path="new/profile" component={NewProfile}/>
-        <Route path="school/friend" component={SchoolFriend}/>
       </Route>
 
       <Route path="event/wall" component={EventWall}/>
