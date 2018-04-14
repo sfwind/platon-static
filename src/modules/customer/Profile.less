@@ -28,19 +28,9 @@
     }
   }
 
-  > .profile-header {
-    background: white;
-    > .profile-header-tip {
-      height: 60px;
-      line-height: 60px;
-      font-size: 15px;
-      color: #333333;
-      border-bottom: 1px solid @color_weak_background;
-      padding-left: 20px;
-      span {
-        color: #f7a466;
-      }
-    }
+  >.interval{
+    height:1rem;
+    background-color: #FFFFFF;
   }
 
   > .profile-container {
@@ -91,7 +81,7 @@
         position: relative;
         padding-right: 20px;
         font-size: 15px;
-        width: 50%;
+        width: 60%;
         text-align: right;
 
         > .select-wrapper {
@@ -136,6 +126,7 @@
                 text-align: right;
                 top: 20px;
                 right: 0px;
+                width:100%;
               }
             }
           }
@@ -235,6 +226,158 @@
           }
         }
       }
+
+      > .working-year-content {
+        float: right;
+        position: relative;
+        padding-right: 20px;
+        font-size: 15px;
+        width: 50%;
+        text-align: right;
+
+        > .select-wrapper {
+          color: @color_help;
+          margin-right: 10px;
+          &-has {
+            &:after {
+              content: ' ';
+              display: inline-block;
+              background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+              width: 6px;
+              height: 11.5px;
+              float: right;
+              margin-top: 23px;
+              margin-left: 10px;
+            }
+            > .form-item {
+              display: inline-block;
+              > .pc-box {
+                > span {
+                }
+              }
+            }
+            > input {
+              font-size: 15px;
+              text-align: right;
+              border: none;
+            }
+            &-no-cut {
+              position: relative;
+              > .form-item {
+                display: inline-block;
+                > .pc-box {
+                  > span {
+                  }
+                }
+              }
+              > input {
+                position: absolute;
+                font-size: 15px;
+                border: none;
+                text-align: right;
+                top: 20px;
+                right: 0px;
+                width:100%;
+              }
+            }
+          }
+          > .form-item {
+            display: inline-block;
+          }
+          > input {
+            font-size: 15px;
+            text-align: right;
+            border: none;
+            &::-webkit-input-placeholder { /* WebKit browsers */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 19+ */
+              color: @color_help;
+            }
+            &::-ms-input-placeholder { /* Internet Explorer 10+ */
+              color: @color_help;
+            }
+          }
+        }
+        > .select-wrapper-choice {
+          color: @color_help;
+          &:after {
+            content: ' ';
+            display: inline-block;
+            background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+            width: 6px;
+            height: 11.5px;
+            float: right;
+            margin-top: 21.75px;
+            margin-left: 10px;
+          }
+          &-has {
+            &:after {
+              content: ' ';
+              display: inline-block;
+              background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+              width: 6px;
+              height: 11.5px;
+              float: right;
+              margin-top: 21.75px;
+              margin-left: 10px;
+            }
+            > .form-item {
+              display: inline-block;
+              > .pc-box {
+                > span {
+                }
+              }
+            }
+            > input {
+              font-size: 15px;
+              text-align: right;
+              border: none;
+              height: 20px;
+            }
+            &-no-cut {
+              margin-right: 10px;
+              > .form-item {
+                display: inline-block;
+                > .pc-box {
+                  > span {
+                  }
+                }
+              }
+              > input {
+                font-size: 15px;
+                text-align: right;
+                border: none;
+              }
+            }
+          }
+          > .form-item {
+            display: inline-block;
+          }
+          > input {
+            font-size: 15px;
+            color: @color_strong;
+            text-align: right;
+            border: none;
+            &::-webkit-input-placeholder { /* WebKit browsers */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 19+ */
+              color: @color_help;
+            }
+            &::-ms-input-placeholder { /* Internet Explorer 10+ */
+              color: @color_help;
+            }
+          }
+        }
+      }
+
     }
   }
 
@@ -271,6 +414,7 @@
         line-height: 2rem;
         padding:20px;
         resize:none;
+        font-weight: lighter;
       }
     }
   }

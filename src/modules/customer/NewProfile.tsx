@@ -178,10 +178,10 @@ export default class NewProfile extends React.Component<any, any> {
 
   submitProfile() {
     const { dispatch } = this.props
-    const { nickName,workingYear,province,city,industry,company,college,mobile,weixinId,email,introduction,realName,receiver,address,married} = this.state
+    const { nickName,workingYear,province,city,industry,company,college,mobile,weixinId,email,introduction,realName,receiver,address,married,mobileNo} = this.state
     const functionValue = _.get(this.state, 'function')
     const rate = this.checkCompletion()
-    if(introduction.length>=300){
+    if(!_.isEmpty(introduction)&&introduction.length>=300){
       dispatch(alertMsg('个人简介内容过长'))
       return
     }
@@ -201,7 +201,7 @@ export default class NewProfile extends React.Component<any, any> {
         mobile,
         weixinId,
         email,
-        introduction })
+        introduction,mobileNo })
       dispatch(startLoad())
 
       ppost('/rise/customer/new/profile', param).then(res => {
@@ -217,7 +217,7 @@ export default class NewProfile extends React.Component<any, any> {
         dispatch(alertMsg(err + ''))
       })
     } else {
-      dispatch(alertMsg('请全部f填写后提交'))
+      dispatch(alertMsg('请全部填写后提交'))
     }
   }
 
@@ -278,7 +278,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { memberId, phone, isShowInfo,city, province, cityId, provinceId, industry, canSubmit,workingYearList, workingYear,address, married,introduction,score,defaultIsFull,mobile} = this.state
+    const { memberId, memberTypeId,city, province, cityId, provinceId, industry, canSubmit,workingYearList, workingYear,address, married,introduction,score,defaultIsFull,mobile} = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -374,11 +374,11 @@ export default class NewProfile extends React.Component<any, any> {
     const renderProfileHeader = () => {
       const rate = this.checkCompletion()
       return(
-        rate!=100 && !defaultIsFull && <div className="profile-header-tip">
+        rate!=100 && !defaultIsFull && score && <div className="profile-header-tip">
           当前资料完整度
           <span>{rate}%</span>
-          ，完善至100%+
-          <span>{`${score}积分`}</span>
+          ，完善至100%
+          <span>{`加${score}积分`}</span>
         </div>
       )
     }
@@ -424,7 +424,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderCollege = () => {
       return(
-        <div className='select-wrapper' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
         </div>
       )
@@ -457,7 +457,7 @@ export default class NewProfile extends React.Component<any, any> {
     const renderTel = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
-          <input id="mobileNo" placeholder="请填写" type="text" {...this.bind('mobileNo', this.getInputValue)}/>
+          <input id="mobileNo" placeholder="请填写" type="number" {...this.bind('mobileNo', this.getInputValue)}/>
         </div>
       )
     }
@@ -498,7 +498,7 @@ export default class NewProfile extends React.Component<any, any> {
             <div className="item-label">
               首次参加工作年份
             </div>
-            <div className="item-content">
+            <div className="working-year-content">
               {renderWorkingYear()}
             </div>
           </div>
@@ -552,7 +552,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>
 
-          <MarkBlock module={'个人中心'} function={'个人信息页'} action={'修改手机号'} className="profile-item"
+          <MarkBlock module={'个人中心'} func={'个人信息页'} action={'修改手机号'} className="profile-item"
                      onClick={() => this.goMobileCheck()}>
             <div className="item-label">
               手机号
@@ -586,7 +586,7 @@ export default class NewProfile extends React.Component<any, any> {
             <div className="item-label">
               感情状态（选填）
             </div>
-            <div className="item-content">
+            <div className="working-year-content">
               {renderMarried()}
             </div>
           </div>
@@ -596,18 +596,18 @@ export default class NewProfile extends React.Component<any, any> {
               个人简介
             </div>
             <div className="introduction-body">
-              <textarea cols="30" rows="10" placeholder="王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
+              <textarea cols="30" rows="10" placeholder="示例：王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
                         onChange={(e) => this.setState({ introduction: e.currentTarget.value })}/>
             </div>
           </div>
 
-          {isShowInfo&&
+          {memberTypeId===3&&
             <div className="title-container">
               邮寄信息（本信息用于邮寄你的圈外商学院礼包）
             </div>
           }
 
-          {isShowInfo &&
+          {memberTypeId===3 &&
             <div className="profile-item">
               <div className="item-label">
                 真实姓名
@@ -618,7 +618,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           }
 
-          {isShowInfo&&
+          {memberTypeId===3&&
             <div className="profile-item">
               <div className="item-label">
                 收件人
@@ -629,7 +629,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           }
 
-          {isShowInfo &&
+          {memberTypeId===3 &&
             <div className="profile-item"
                        >
               <div className="item-label">
@@ -640,7 +640,7 @@ export default class NewProfile extends React.Component<any, any> {
               </div>
             </div>
           }
-          {isShowInfo &&
+          {memberTypeId===3 &&
             <div className="profile-item">
               <div className="address-tips">收件地址</div>
               <textarea className="address" placeholder="请填写" value={address}
@@ -653,14 +653,14 @@ export default class NewProfile extends React.Component<any, any> {
 
         </div>
         <div className="profile-bottom">
-          <MarkBlock module={'打点'} func={'个人信息页'} action={'提交个人信息修改'}
+          <div
                      className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{
             width: `${this.btnWidth}px`, borderRadius: 100, height: 44, lineHeight: `44px`, fontSize: 17,
             letterSpacing: `4.7px`
           }}
                      onClick={this.submitProfile.bind(this)}>
             完成
-          </MarkBlock>
+          </div>
         </div>
       </div>
     )

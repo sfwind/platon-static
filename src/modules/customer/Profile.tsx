@@ -73,20 +73,20 @@ export default class Profile extends React.Component<any, any> {
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        if(res.msg.canSubmit){
+        if(res.msg.canSubmit) {
           if(goCamp) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
               query: { goCamp: true }
             })
-          }else{
+          } else {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
               query: { goRise: true }
             })
           }
-        }else{
-          this.setState(_.merge({},res.msg))
+        } else {
+          this.setState(_.merge({}, res.msg))
         }
       } else {
         dispatch(alertMsg(res.msg))
@@ -167,9 +167,11 @@ export default class Profile extends React.Component<any, any> {
 
   checkCanSubmit() {
     const functionValue = _.get(this.state, 'function')
-    const { workingYear, province, city, industry, realName, receiver, address, phone, isShowInfo } = this.state
-    if(isShowInfo) {
-      if(workingYear && province && city && industry && functionValue && realName && receiver && address && phone) {
+    const { location } = this.props
+    const { goRise } = location.query
+    const { workingYear, province, city, industry, realName, receiver, address, mobileNo } = this.state
+    if(goRise) {
+      if(workingYear && province && city && industry && functionValue && realName && receiver && address && mobileNo) {
         this.setState({ canSubmit: true })
         return true
       }
@@ -191,7 +193,7 @@ export default class Profile extends React.Component<any, any> {
       mobile,
       weixinId,
       email,
-      introduction, phone
+      introduction, mobileNo
     } = this.state
     const functionValue = _.get(this.state, 'function')
     const { goRise, goCamp } = location.query
@@ -205,11 +207,10 @@ export default class Profile extends React.Component<any, any> {
         rate: 0
       }
 
-      if(introduction.length>=300){
+      if(!_.isEmpty(introduction)&&introduction.length>=300){
         dispatch(alertMsg('个人简介内容过长'))
         return
       }
-
 
       _.merge(param, {
         realName, address, receiver, married, company,
@@ -217,7 +218,7 @@ export default class Profile extends React.Component<any, any> {
         mobile,
         weixinId,
         email,
-        introduction, phone
+        introduction, mobileNo
       })
       dispatch(startLoad())
       ppost('/rise/customer/profile', param).then(res => {
@@ -227,7 +228,7 @@ export default class Profile extends React.Component<any, any> {
           if(goCamp) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
-              query: {goCamp: true }
+              query: { goCamp: true }
             })
           } else if(goRise) {
             this.context.router.push({
@@ -248,11 +249,13 @@ export default class Profile extends React.Component<any, any> {
   }
 
   render() {
-    const { region} = this.props
+    const { region, location } = this.props
+
+    const { goCamp, goRise } = location.query
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { city, province, cityId, provinceId, industry, bindMobile, workingYearList, workingYear, realName, address, receiver, married, score, isShowInfo, canSubmit, introduction, phone } = this.state
+    const { city, province, cityId, provinceId, industry, bindMobile, workingYearList, workingYear, address, married, canSubmit, introduction } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
@@ -296,7 +299,7 @@ export default class Profile extends React.Component<any, any> {
     const renderTel = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
-          <input id="phone" placeholder="请填写" type="number" {...this.bind('phone', this.getInputValue)}/>
+          <input id="mobileNo" placeholder="请填写" type="number" {...this.bind('mobileNo', this.getInputValue)}/>
         </div>
       )
     }
@@ -315,7 +318,7 @@ export default class Profile extends React.Component<any, any> {
 
     const renderRealName = () => {
       return (
-        <div className= 'select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
+        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="realName" placeholder="请填写" type="text" {...this.bind('realName', this.getInputValue)}/>
         </div>
       )
@@ -392,18 +395,25 @@ export default class Profile extends React.Component<any, any> {
             works={[{ text: '填写信息', done: !!canSubmit, cur: true },
               { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false }]}/>
           <div className="guide">
-            {!isShowInfo ?
+            {goCamp ?
               <div className="first-guide">填写工作和所在城市<br/>才能加入校友会！</div>
               : <div className="first-guide">填写工作、所在城市还有邮寄信息，<br/>才能加入校友会和收到入学礼包哦！</div>}
             <div className="second-guide">数据仅用于提升学习服务，圈外会严格保密。</div>
           </div>
         </div>
+        <div className="interval">
+
+        </div>
+
         <div className="profile-container">
+          <div className="title-container">
+            基本信息
+          </div>
           <div className="profile-item">
             <div className="item-label">
               首次参加工作年份
             </div>
-            <div className="item-content">
+            <div className="working-year-content">
               {renderWorkingYear()}
             </div>
           </div>
@@ -480,7 +490,7 @@ export default class Profile extends React.Component<any, any> {
             <div className="item-label">
               感情状态（选填）
             </div>
-            <div className="item-content">
+            <div className="working-year-content">
               {renderMarried()}
             </div>
           </div>
@@ -490,18 +500,20 @@ export default class Profile extends React.Component<any, any> {
               个人简介
             </div>
             <div className="introduction-body">
-              <textarea cols="30" rows="10" placeholder="王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
+              <textarea cols="30" rows="10"
+                        placeholder="示例：王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。"
+                        value={introduction}
                         onChange={(e) => this.setState({ introduction: e.currentTarget.value })}/>
             </div>
           </div>
 
-          {isShowInfo &&
+          {goRise &&
           <div className="title-container">
             邮寄信息（本信息用于邮寄你的圈外商学院礼包）
           </div>
           }
 
-          {isShowInfo &&
+          {goRise &&
           <div className="profile-item">
             <div className="item-label">
               真实姓名
@@ -512,7 +524,7 @@ export default class Profile extends React.Component<any, any> {
           </div>
           }
 
-          {isShowInfo &&
+          {goRise &&
           <div className="profile-item">
             <div className="item-label">
               收件人
@@ -523,7 +535,7 @@ export default class Profile extends React.Component<any, any> {
           </div>
           }
 
-          {isShowInfo &&
+          {goRise &&
           <div className="profile-item">
             <div className="item-label">
               联系电话
@@ -533,7 +545,7 @@ export default class Profile extends React.Component<any, any> {
             </div>
           </div>
           }
-          {isShowInfo &&
+          {goRise &&
           <div className="profile-item">
             <div className="address-tips">收件地址</div>
             <textarea className="address" placeholder="请填写" value={address}
@@ -547,8 +559,8 @@ export default class Profile extends React.Component<any, any> {
         </div>
         <div className="profile-bottom">
           <div
-                     className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
-                     onClick={this.submitProfile.bind(this)}>
+            className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
+            onClick={this.submitProfile.bind(this)}>
             下一步
           </div>
         </div>
