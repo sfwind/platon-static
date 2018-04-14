@@ -280,7 +280,7 @@ export default class NewProfile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { memberId, memberTypeId,city, province, cityId, provinceId, industry, canSubmit,workingYearList, workingYear,address, married,introduction,score,defaultIsFull,mobile} = this.state
+    const { memberId, isShowInfo,city, province, cityId, provinceId, industry, canSubmit,workingYearList, workingYear,address, married,introduction,score,defaultIsFull,mobile} = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -603,13 +603,13 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>
 
-          {memberTypeId===3&&
+          {isShowInfo&&
             <div className="title-container">
               邮寄信息（本信息用于邮寄你的圈外商学院礼包）
             </div>
           }
 
-          {memberTypeId===3 &&
+          {isShowInfo&&
             <div className="profile-item">
               <div className="item-label">
                 真实姓名
@@ -620,7 +620,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           }
 
-          {memberTypeId===3&&
+          {isShowInfo&&
             <div className="profile-item">
               <div className="item-label">
                 收件人
@@ -631,7 +631,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           }
 
-          {memberTypeId===3 &&
+          {isShowInfo &&
             <div className="profile-item"
                        >
               <div className="item-label">
@@ -642,7 +642,7 @@ export default class NewProfile extends React.Component<any, any> {
               </div>
             </div>
           }
-          {memberTypeId===3 &&
+          {isShowInfo &&
             <div className="profile-item">
               <div className="address-tips">收件地址</div>
               <textarea className="address" placeholder="请填写" value={address}

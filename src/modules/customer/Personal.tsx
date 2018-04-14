@@ -238,7 +238,7 @@ export default class Personal extends React.Component<any, any> {
     const renderBusiness = () => {
       return (
         <div className="business-list">
-          {userInfo.memberTypeId === 3 || userInfo.memberTypeId === 8 ?
+          {userInfo.showShare ?
            <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
            <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
         </div>
