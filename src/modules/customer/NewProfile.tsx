@@ -96,7 +96,9 @@ export default class NewProfile extends React.Component<any, any> {
 
     // workingTime
     let workingYearList = []
-    for(let i = 1960; i <= 2018; i++) {
+    let date = new Date()
+    let year = date.getFullYear()
+    for(let i = 1960; i <= year; i++) {
       workingYearList.push({ id: '' + i, value: '' + i })
     }
     this.setState({ workingYearList: workingYearList })
