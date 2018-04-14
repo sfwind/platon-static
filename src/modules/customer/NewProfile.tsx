@@ -375,7 +375,7 @@ export default class NewProfile extends React.Component<any, any> {
       const rate = this.checkCompletion()
       return(
         rate!=100 && !defaultIsFull && score && <div className="profile-header-tip">
-          当前资料完整度
+          当前完整度
           <span>{rate}%</span>
           ，完善至100%
           <span>{`加${score}积分`}</span>
