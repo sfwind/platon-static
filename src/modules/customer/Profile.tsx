@@ -73,7 +73,7 @@ export default class Profile extends React.Component<any, any> {
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        if(res.msg.canSubmit) {
+        if(res.msg.canSubmit && res.msg.canSkip) {
           if(goCamp) {
             this.context.router.push({
               pathname: '/rise/static/customer/mobile/check',
