@@ -83,7 +83,7 @@ export class ActivityHome extends React.Component<ActivityHomeProps, any> {
 
     return (
       <div className="activity-home-component" onClick={() => this.handleClick(targetUrl)}>
-        <div className="name">{name}</div>
+        <div className="name">{splitContentWithSuffix(name, 9)}</div>
         <div className="holder">举办人：{holder}</div>
         <div className="holding-time">举办时间：{startTimeStr}</div>
         <div className="location">举办地点：{splitContentWithSuffix(location, 10)}</div>
