@@ -41,7 +41,7 @@ export default class LandingPage extends React.Component {
             const { applySuccess = {} } = this.state;
             let newApplySuccess = _.merge(_.cloneDeep(applySuccess), { isShowPassNotify: false });
             this.setState({ applySuccess: newApplySuccess }, () => {
-              window.location.href = `/pay/apply?goodsId=${goPayMemberTypeId}`
+              window.location.href = `/pay/apply?goodsId=${applySuccess.goPayMemberTypeId}`
             })
           },
         },
