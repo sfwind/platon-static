@@ -7,28 +7,28 @@
   padding-bottom: 9rem;
 
   .shadow-container {
-    position:fixed;
-    top:0;
-    left:0;
-    opacity:.7;
-    width:100%;
-    height:100%;
-    background:#000;
-    z-index:900;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: .7;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 900;
     pointer-events: none;
   }
 
   .daily_talk_backend {
-    position:fixed;
-    top:6.5%;
-    left:6.6%;
+    position: fixed;
+    top: 6.5%;
+    left: 6.6%;
     width: 87%;
-    z-index:950;
+    z-index: 950;
     background: #FFFFFF;
 
-    .share-daily-talk{
-      position:relative;
-      padding-bottom:2rem;
+    .share-daily-talk {
+      position: relative;
+      padding-bottom: 2rem;
       width: 87%;
     }
   }
@@ -36,10 +36,10 @@
   .daily_talk_container {
     position: relative;
     margin: 0 auto;
-    padding-top:2.2rem;
+    padding-top: 2.2rem;
     z-index: 999;
     width: 86%;
-    box-shadow: 0 12px 16px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.08);
 
     .close-img {
       position: fixed;
@@ -47,7 +47,7 @@
       right: 7%;
       width: 24px;
     }
-    .daily-talk-img{
+    .daily-talk-img {
       width: 100%;
     }
   }
@@ -61,29 +61,62 @@
       box-shadow: 0 3px 30px 0 rgba(222, 225, 240, 0.88);
       height: 15.3rem;
       padding: 2rem;
-      .headimg-url {
-        display: inline-block;
-        border-radius: 4px;
-        width: 4.3rem;
+      .detail-top {
+        display: block;
+        position: relative;
+        width: 100%;
         height: 4.3rem;
-      }
-      .nickname {
-        display: inline-block;
-        font-size: 2.2rem;
-        color: #333;
-        text-align: center;
-        line-height: 4.3rem;
-        margin-left: 1rem;
-        vertical-align: top;
-      }
-      .personal-icon {
-        display: inline-block;
-        content: ' ';
-        width: 2rem;
-        height: 4.3rem;
-        line-height: 4.3rem;
-        margin-left: 1rem;
-        background: url("@{imgPathRoot}/schedule_plan_edit.png?imageslim") no-repeat right center / 2rem 2rem;
+        .headimg-url {
+          display: inline-block;
+          border-radius: 4px;
+          width: 4.3rem;
+          height: 4.3rem;
+        }
+        .nickname {
+          display: inline-block;
+          font-size: 2.2rem;
+          color: #333;
+          text-align: center;
+          line-height: 2.3rem;
+          margin-left: 1rem;
+          vertical-align: top;
+        }
+        .personal-icon {
+          display: inline-block;
+          content: ' ';
+          width: 2rem;
+          height: 2.3rem;
+          line-height: 2.3rem;
+          margin-left: 1rem;
+          background: url("@{imgPathRoot}/schedule_plan_edit.png?imageslim") no-repeat right center / 2rem 2rem;
+          vertical-align: top;
+        }
+        .count-down {
+          display: inline-block;
+          color: #666666;
+          position: absolute;
+          bottom: -5px;
+          left: 5.3rem;
+          font-size: 11px;
+          height: 22px;
+          line-height: 22px;
+          .bold {
+            font-weight: bold;
+            color: #333;
+            font-size: 13px;
+          }
+          .number {
+            display: inline-block;
+            width: 22px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 5px;
+            background-color: #7dbe00;
+            color: #fff;
+            font-size: 1.6rem;
+          }
+        }
       }
       .parameter-box {
         position: absolute;

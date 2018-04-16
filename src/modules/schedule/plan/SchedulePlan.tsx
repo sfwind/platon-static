@@ -5,7 +5,7 @@ import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { CurrentPlanBar } from './components/CurrentPlanBar'
 import { CompletePlanBar } from './components/CompletePlanBar'
 import AssetImg from '../../../components/AssetImg'
-import { loadGoCountDownPageStatus, loadPersonSchedulePlan } from './async'
+import { loadPersonSchedulePlan } from './async'
 import { mark } from '../../../utils/request'
 import { ToolBar } from '../../base/ToolBar'
 import { ColumnSpan } from '../../../components/ColumnSpan'
@@ -34,17 +34,6 @@ export default class SchedulePlan extends React.Component {
   async componentWillMount () {
     mark({ module: '打点', function: '学习', action: '打开学习计划页面' })
     const { dispatch, location } = this.props
-    let countDownPageStatus = await loadGoCountDownPageStatus()
-    if (countDownPageStatus.code === 200) {
-      const { goCountDownPage, memberTypeId } = countDownPageStatus.msg
-      if (goCountDownPage) {
-        if (memberTypeId == 1 || memberTypeId == 2 || memberTypeId == 3 || memberTypeId == 4) {
-          this.context.router.push('/rise/static/business/count/down')
-        } else if (memberTypeId == 5) {
-          this.context.router.push('/rise/static/camp/count/down')
-        }
-      }
-    }
 
     let res = await loadPersonSchedulePlan()
     this.setState({
@@ -78,7 +67,16 @@ export default class SchedulePlan extends React.Component {
       showPage,
       showToolBar,
     } = this.state
-    let { announce, completePlans = [], runningPlans = [], joinDays = 0, loginCount = 0, totalPoint = 0, hasCourseSchedule = true } = this.state.data
+    let {
+      announce,
+      completePlans = [],
+      runningPlans = [],
+      joinDays = 0,
+      loginCount = 0,
+      totalPoint = 0,
+      hasCourseSchedule = true,
+      countDownElement = {},
+    } = this.state.data
 
     sliceRunningPlans = !showAllRunningPlan ? runningPlans.slice(0, 3) : runningPlans
 
@@ -90,11 +88,18 @@ export default class SchedulePlan extends React.Component {
       <div className="schedule-plan-container">
         <div className='info-container'>
           <div className="personal-detail">
-            <AssetImg className="headimg-url"
-                      url={window.ENV.headImgUrl}/>
-            <div className="nickname">{window.ENV.userName}</div>
-            <div className="personal-icon"
-                 onClick={() => this.handleGoPersonalCenter()}></div>
+            <div className="detail-top">
+              <AssetImg className="headimg-url"
+                        url={window.ENV.headImgUrl}/>
+              <div className="nickname">{window.ENV.userName}</div>
+              <div className="personal-icon"
+                   onClick={() => this.handleGoPersonalCenter()}></div>
+              {
+                countDownElement &&
+                <div className="count-down">距离<span className="bold">{countDownElement.description}</span>开学还有<span className="number">{countDownElement.remainCount}</span>天
+                </div>
+              }
+            </div>
             <div className="parameter-box box1">
               <div className="desc">连续学习天数</div>
               <div className="data">{loginCount}</div>

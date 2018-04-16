@@ -12,7 +12,6 @@ import {
 import './ToolBar.less'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 import { loadOldCount } from '../message/async'
-import { loadGoCountDownPageStatus } from '../schedule/plan/async'
 
 var FastClick = require('fastclick')
 

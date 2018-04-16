@@ -273,18 +273,6 @@ const Transfer = Loadable({
   loader: () => import('./modules/schedule/overview/components/Transfer'),
   loading: Loading,
 })
-const CountDown = Loadable({
-  loader: () => import('./modules/schedule/CountDown'),
-  loading: Loading,
-})
-const CampCountDown = Loadable({
-  loader: () => import('./modules/schedule/CampCountDown'),
-  loading: Loading,
-})
-const GroupPromotionCountDown = Loadable({
-  loader: () => import('./modules/promotion/grouplearning/GroupPromotionCountDown'),
-  loading: Loading,
-})
 const AnnualSummary = Loadable({
   loader: () => import('./modules/promotion/annualsummary/AnnualSummary'),
   loading: Loading,
@@ -425,10 +413,6 @@ const routes = (
       <Route path="course/schedule/nopublish" component={ProblemNoPublish}/>
 
       <Route path="transfer" component={Transfer}/>
-      <Route path="business/count/down" component={CountDown}/>
-      <Route path="camp/count/down" component={CampCountDown}/>
-      {/*/!*团队学习倒计时页面*!/*/}
-      <Route path="group/promotion/count/down" component={GroupPromotionCountDown}/>
       <Route path="guest/annual/summary" component={AnnualSummary}/>
       <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
       <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
