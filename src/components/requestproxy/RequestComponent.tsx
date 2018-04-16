@@ -1,13 +1,19 @@
 import * as React from 'react'
 import requestProxy from './requestProxy'
-import { connect } from 'react-redux'
-import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
+import { Toast, Dialog } from 'react-weui'
 
-@connect(state => state)
+const { Alert } = Dialog
+
 export default class RequestComponent extends React.Component {
 
   constructor () {
     super()
+    this.state = {
+      showToast: false,
+      showAlert: false,
+      alertParams: {},
+      alertContent: '',
+    }
   }
 
   componentWillMount () {
@@ -15,23 +21,66 @@ export default class RequestComponent extends React.Component {
   }
 
   startLoad () {
-    const { dispatch } = this.props
-    dispatch(startLoad())
+    this.setState({
+      showToast: true,
+    })
   }
 
   endLoad () {
-    const { dispatch } = this.props
-    dispatch(endLoad())
+    this.setState({
+      showToast: false,
+    })
   }
 
   alertMessage (message) {
-    const { dispatch } = this.props
-    dispatch(alertMsg(message))
+    if (message && typeof message === 'string') {
+      this.setState({
+        showAlert: true,
+        alertParams: {
+          buttons: [
+            {
+              label: '取消',
+              onClick: () => this.setState({
+                showAlert: false,
+              }),
+            },
+          ],
+        },
+        alertContent: message,
+      })
+    }
   }
 
   render () {
+    const {
+      showToast,
+      showAlert,
+      alertParams,
+      alertContent,
+    } = this.state
+
+    const renderToast = () => {
+      return (
+        <Toast show={showToast}
+               icon="loading">
+          <div style={{ fontSize: 13, paddingTop: 10 }}>加载中...</div>
+        </Toast>
+      )
+    }
+
+    const renderAlert = () => {
+      return (
+        <Alert {...alertParams} show={showAlert}>
+          <p>{alertContent}</p>
+        </Alert>
+      )
+    }
+
     return (
-      <div></div>
+      <div>
+        {renderToast()}
+        {renderAlert()}
+      </div>
     )
   }
 
