@@ -125,7 +125,7 @@ export default class LandingPage extends React.Component {
 
   formatDateString(date) {
     // { remainHour, remainMinute, remainSecond }
-    let dateInfo = formatSeconds(date / 1000);
+    let dateInfo = this.formatSeconds(date / 1000);
     return `${dateInfo.remainHour}时${dateInfo.remainMinute}分${dateInfo.remainSecond}秒`
   }
 
