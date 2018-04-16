@@ -42,6 +42,7 @@ export default class QYVideo extends React.Component<any, any> {
       <div>
         <video  ref="video" src={videoUrl} poster={videoPoster} controls="controls" width="100%">您的设备不支持Video标签
         </video>
+        {videoWords &&
         <div className={`video-words-container ${showWords ? 'show-all' : 'hide'}`}>
           <div className={`video-words`} dangerouslySetInnerHTML={{ __html: videoWords }}/>
           <div className={`words-text-mask`}>
@@ -52,6 +53,9 @@ export default class QYVideo extends React.Component<any, any> {
             </div>
           </div>
         </div>
+        }
+
+
       </div>
     )
   }

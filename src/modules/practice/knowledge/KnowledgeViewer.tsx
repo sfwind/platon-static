@@ -178,7 +178,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
       analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
-      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords,
+      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords,description,keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords,
     } = knowledge
     const { location } = this.props
     const { practicePlanId, planId, complete } = location.query
@@ -223,6 +223,15 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                        words={audioWords}/>
               </div>
             }
+
+            {
+              description && <div className="text">
+                <pre dangerouslySetInnerHTML={{ __html: description }}/>
+              </div>
+            }
+
+
+
             {pic && <div className="context-img"><img src={pic}/></div>}
             {
               analysis &&
