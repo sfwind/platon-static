@@ -104,6 +104,31 @@ export default class LandingPage extends React.Component {
     }
   }
 
+  formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
+    var remainSecond = parseInt(value);// 秒
+    var remainMinute = 0;// 分
+    var remainHour = 0;// 小时
+    if(remainSecond > 60) {
+      remainMinute = parseInt(remainSecond / 60);
+      remainSecond = parseInt(remainSecond % 60);
+      if(remainMinute > 60) {
+        remainHour = parseInt(remainMinute / 60);
+        remainMinute = parseInt(remainMinute % 60);
+      }
+    }
+    if(remainSecond <= 0) {
+      remainSecond = 0;
+    }
+
+    return { remainHour, remainMinute, remainSecond };
+  }
+
+  formatDateString(date) {
+    // { remainHour, remainMinute, remainSecond }
+    let dateInfo = formatSeconds(date / 1000);
+    return `${dateInfo.remainHour}时${dateInfo.remainMinute}分${dateInfo.remainSecond}秒`
+  }
+
   render() {
     const {
       notify = false,
@@ -214,7 +239,7 @@ export default class LandingPage extends React.Component {
         <Alert show={this.state.applySuccess.isShowPassNotify} buttons={this.state.dialogButtons}>
           恭喜你通过{this.state.applySuccess.name}申请！
           <br/>
-          离入学截止时间还剩{this.state.applySuccess.remainTime ? formatDate(new Date(this.state.applySuccess.remainTime), 'hh时mm分ss秒') : ''}
+          离入学截止时间还剩{this.state.applySuccess.remainTime ? this.formatDateString(this.state.applySuccess.remainTime) : ''}
           <br/>
           点击立即入学，开启圈外商学院之旅
         </Alert>
