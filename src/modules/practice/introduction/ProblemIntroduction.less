@@ -81,7 +81,8 @@
       left: 22px;
       color: #fff !important;
       font-size: 1.2rem;
-      line-height: 1.2rem;
+      line-height: 200%;
+
     }
   }
 
@@ -139,9 +140,9 @@
           }
         }
         .pi-c-f-c-text {
-          line-height: 26px;
           font-size: 1.5rem;
           padding: 15px 0 0;
+          line-height: 200%;
         }
       }
     }
@@ -169,7 +170,7 @@
             box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.02);
             .chapter {
               font-size: @font_context;
-              line-height: 16px;
+              line-height: 200%;
               color: @color_context;
               padding: 15px 0;
               &:before {
@@ -178,7 +179,7 @@
                 display: inline-block;
                 width: 10px;
                 height: 10px;
-                margin: 3px 10px 0 5px;
+                margin: 1.1rem 10px 0 5px;
                 border-radius: 1px;
                 background-color: @color_strong;
               }
@@ -187,6 +188,7 @@
               font-size: 1.5rem;
               color: @color_title;
               padding-left: 24px;
+              line-height: 200%;
             }
           }
         }
@@ -222,6 +224,7 @@
             display: table-cell;
             font-size: 1.5rem;
             vertical-align: middle;
+            line-height: 200%;
             &.just-one {
               width: ~'calc(100% - 10px)';
               margin-left: 20px;
@@ -498,6 +501,10 @@
         }
       }
     }
+  }
+
+  img{
+    width: 100%;
   }
 
 }

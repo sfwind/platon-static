@@ -161,6 +161,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
   }
 
   render() {
+
     const {
       data = {}, buttonStatus,
     } = this.state
@@ -340,12 +341,14 @@ export default class ProblemIntroduction extends React.Component<any, any> {
 
     return (
       <div className={`problem-introduction`}>
-        <div className="header-img">
-          <div className={`back-img catalog${data.catalogId}`}/>
-          <div className="section-title">
-            <div className="title-content">{data.problem}</div>
+        {pic?<img src={pic}/>:
+          <div className="header-img">
+            <div className={`back-img catalog${data.catalogId}`}/>
+            <div className="section-title">
+              <div className="title-content">{data.problem}</div>
+            </div>
           </div>
-        </div>
+        }
         {renderContent()}
         {renderFooter()}
         <Alert {...this.state.alert}
