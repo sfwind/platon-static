@@ -81,6 +81,7 @@ export default class Main extends React.Component<any, any> {
       server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
       heatmap: {},
       is_single_page: true,
+      show_log: false
     });
     if(!!userInfoResult.msg.riseId) {
       sa.login(userInfoResult.msg.riseId);

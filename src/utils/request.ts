@@ -55,7 +55,8 @@ function mark(param) {
 }
 
 function log(url, msg) {
-  return post('/b/log', { result: !!msg ? JSON.stringify(msg) : '', cookie: document.cookie, url: url });
+  // TODO
+  // return post('/b/log', { result: !!msg ? JSON.stringify(msg) : '', cookie: document.cookie, url: url });
 }
 
 function _appendQs(query: Object): string {
