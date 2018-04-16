@@ -16,12 +16,13 @@ import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 import { Dialog } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
+import * as _ from 'lodash';
 
 const { Alert } = Dialog
 @connect(state => state)
 export default class LandingPage extends React.Component {
 
-  constructor () {
+  constructor() {
     super()
     this.state = {
       data: {},
@@ -29,19 +30,23 @@ export default class LandingPage extends React.Component {
         {
           label: '知道了',
           onClick: (e) => {
-            this.setState({ showAlert: false })
+            const { applySuccess = {} } = this.state;
+            let newApplySuccess = _.merge(_.cloneDeep(applySuccess), { isShowPassNotify: false });
+            this.setState({ applySuccess: newApplySuccess })
           },
         },
         {
           label: '立即入学',
           onClick: (e) => {
-            this.setState({ showAlert: false })
-            window.location.href = '/pay/apply'
+            const { applySuccess = {} } = this.state;
+            let newApplySuccess = _.merge(_.cloneDeep(applySuccess), { isShowPassNotify: false });
+            this.setState({ applySuccess: newApplySuccess }, () => {
+              window.location.href = `/pay/apply?goodsId=${applySuccess.goPayMemberTypeId}`
+            })
           },
         },
       ],
-      showAlert: false,
-      remainTime: '',
+      applySuccess: {},
     }
   }
 
@@ -51,19 +56,21 @@ export default class LandingPage extends React.Component {
     router: React.PropTypes.object.isRequired,
   }
 
-  async componentWillMount () {
+  async componentWillMount() {
     changeTitle('圈外同学')
     mark({ module: '打点', function: '着陆页', action: '打开着陆页' })
     let res = await loadLandingPageData()
-    if (res.code === 200) {
+    if(res.code === 200) {
       this.setState({
         data: res.msg,
-        showAlert: res.msg.isShowPassNotify,
-        remainTime: 57600000 + res.msg.remainTime,
+        applySuccess: res.msg.applySuccess
       }, () => {
-        if (res.msg.isShowPassNotify) {
+        if(res.msg.applySuccess.isShowPassNotify) {
           this.countDownTimer = setInterval(() => {
-            this.setState({ remainTime: this.state.remainTime - 1000 > 0 ? this.state.remainTime - 1000 : 0 })
+            const { applySuccess = {} } = this.state;
+            let newApplySuccess = _.cloneDeep(applySuccess);
+            newApplySuccess = _.merge(newApplySuccess, { remainTime: applySuccess.remainTime - 1000 > 0 ? applySuccess.remainTime - 1000 : 0 })
+            this.setState({ applySuccess: newApplySuccess })
           }, 1000)
         }
       })
@@ -72,21 +79,21 @@ export default class LandingPage extends React.Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearInterval(this.countDownTimer)
   }
 
-  handleClickImageBanner (banner) {
-    if (banner.linkUrl.indexOf('http') >= 0) {
+  handleClickImageBanner(banner) {
+    if(banner.linkUrl.indexOf('http') >= 0) {
       window.location.href = banner.linkUrl
     } else {
       this.context.router.push(banner.linkUrl)
     }
   }
 
-  async shuffleArticles () {
+  async shuffleArticles() {
     let res = await loadShuffleArticles()
-    if (res.code === 200) {
+    if(res.code === 200) {
       let data = this.state.data
       data.articlesFlows = res.msg
       this.setState({
@@ -97,7 +104,7 @@ export default class LandingPage extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const {
       notify = false,
       isBusinessMember = true,
@@ -204,10 +211,10 @@ export default class LandingPage extends React.Component {
           </div>
         </div>
         <div className="bottom-text">我也是有底线的...</div>
-        <Alert show={this.state.showAlert} buttons={this.state.dialogButtons}>
-          恭喜你通过商学院申请！
+        <Alert show={this.state.applySuccess.isShowPassNotify} buttons={this.state.dialogButtons}>
+          恭喜你通过{this.state.applySuccess.name}申请！
           <br/>
-          离入学截止时间还剩{this.state.remainTime ? formatDate(new Date(this.state.remainTime), 'hh时mm分ss秒') : ''}
+          离入学截止时间还剩{this.state.applySuccess.remainTime ? formatDate(new Date(this.state.applySuccess.remainTime), 'hh时mm分ss秒') : ''}
           <br/>
           点击立即入学，开启圈外商学院之旅
         </Alert>

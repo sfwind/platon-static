@@ -164,41 +164,41 @@ export default class Personal extends React.Component<any, any> {
               积分{userInfo.point}分
             </div>
           </div>
-          {!_.isEmpty(userInfo.className) &&
-          <div className="class-info-container">
-            <div className="class-container">
-              <div className="title">
-                学号
-              </div>
-              <div className="name">班级名称</div>
-            </div>
+          {/*{!_.isEmpty(userInfo.memberId) &&*/}
+          {/*<div className="class-info-container">*/}
+            {/*<div className="class-container">*/}
+              {/*<div className="title">*/}
+                {/*学号*/}
+              {/*</div>*/}
+              {/*/!*<div className="name">班级名称</div>*!/*/}
+            {/*</div>*/}
 
-            < div className="content-container">
-              <div className="member">
-                {userInfo.memberId}
-              </div>
-              <div className="grade">
-                {userInfo.className}
-              </div>
-            </div>
+            {/*< div className="content-container">*/}
+              {/*<div className="member">*/}
+                {/*{userInfo.memberId}*/}
+              {/*</div>*/}
+              {/*/!*<div className="grade">*!/*/}
+                {/*/!*{userInfo.className}*!/*/}
+              {/*/!*</div>*!/*/}
+            {/*</div>*/}
 
-            <div className="notice-container">
-              <FormCell switch className="learn-notice">
-                <CellBody>
-                  <div className="study-notice">学习提醒</div>
-                </CellBody>
-                <CellFooter>
-                  <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习提醒'}>
-                    <Switch checked={learningNotify} onClick={() => this.handleClickLearningNotify()}/>
-                  </MarkBlock>
-                </CellFooter>
-              </FormCell>
-            </div>
-            <div className="notice-msg">
-              建议开启：周一至周五，若当天未登录学习，晚上09：30会发给学习提醒消息
-            </div>
+          {/*</div>*/}
+          {/*}*/}
+          <div className="notice-container">
+            <FormCell switch className="learn-notice">
+              <CellBody>
+                <div className="study-notice">学习提醒</div>
+              </CellBody>
+              <CellFooter>
+                <MarkBlock module={'打点'} func={'个人中心'} action={'点击学习提醒'}>
+                  <Switch checked={learningNotify} onClick={() => this.handleClickLearningNotify()}/>
+                </MarkBlock>
+              </CellFooter>
+            </FormCell>
           </div>
-          }
+          <div className="notice-msg">
+            建议开启：周一至周五，若当天未登录学习，晚上09：30会发给学习提醒消息
+          </div>
         </div>
       )
     }
