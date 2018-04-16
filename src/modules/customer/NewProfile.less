@@ -29,17 +29,32 @@
   }
 
   > .profile-header {
+    background: white;
     > .profile-header-tip {
       height: 60px;
       line-height: 60px;
       font-size: 15px;
+      color: #333333;
       border-bottom: 1px solid @color_weak_background;
       padding-left: 20px;
+      span {
+        color: #f7a466;
+      }
     }
   }
 
   > .profile-container {
     font-size: 15px;
+
+    .title-container {
+      font-size: 1.3rem;
+      height: 50px;
+      line-height: 50px;
+      vertical-align: middle;
+      color: #333333;
+      padding-left: 20px;
+    }
+
     > .profile-item {
       height: 60px;
       line-height: 60px;
@@ -57,7 +72,7 @@
         line-height: 50px;
       }
       > .address {
-        width: ~"calc(100% - 80px)";
+        width: ~"calc(100% - 11rem)";
         resize: none;
         outline: none;
         border: 0;
@@ -66,12 +81,13 @@
         font-size: 15px;
         height: ~"calc(100% - 15px)";
         padding-top: 15px;
-        text-align: right;
+        margin-left: 3rem;
       }
       > .item-label {
         float: left;
       }
-      > .item-content {
+
+      > .working-year-content {
         float: right;
         position: relative;
         padding-right: 20px;
@@ -109,7 +125,6 @@
               position: relative;
               > .form-item {
                 display: inline-block;
-                color: #399BD3;
                 > .pc-box {
                   > span {
                   }
@@ -122,6 +137,80 @@
                 text-align: right;
                 top: 20px;
                 right: 0px;
+                width:100%;
+              }
+            }
+          }
+          > .form-item {
+            display: inline-block;
+          }
+          > input {
+            font-size: 15px;
+            text-align: right;
+            border: none;
+            &::-webkit-input-placeholder { /* WebKit browsers */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 19+ */
+              color: @color_help;
+            }
+            &::-ms-input-placeholder { /* Internet Explorer 10+ */
+              color: @color_help;
+            }
+          }
+        }
+        > .select-wrapper-choice {
+          color: @color_help;
+          &:after {
+            content: ' ';
+            display: inline-block;
+            background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+            width: 6px;
+            height: 11.5px;
+            float: right;
+            margin-top: 21.75px;
+            margin-left: 10px;
+          }
+          &-has {
+            &:after {
+              content: ' ';
+              display: inline-block;
+              background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+              width: 6px;
+              height: 11.5px;
+              float: right;
+              margin-top: 21.75px;
+              margin-left: 10px;
+            }
+            > .form-item {
+              display: inline-block;
+              > .pc-box {
+                > span {
+                }
+              }
+            }
+            > input {
+              font-size: 15px;
+              text-align: right;
+              border: none;
+              height: 20px;
+            }
+            &-no-cut {
+              margin-right: 10px;
+              > .form-item {
+                display: inline-block;
+                > .pc-box {
+                  > span {
+                  }
+                }
+              }
+              > input {
+                font-size: 15px;
+                text-align: right;
+                border: none;
               }
             }
           }
@@ -131,6 +220,83 @@
           > input {
             font-size: 15px;
             color: @color_strong;
+            text-align: right;
+            border: none;
+            &::-webkit-input-placeholder { /* WebKit browsers */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+              color: @color_help;
+            }
+            &::-moz-placeholder { /* Mozilla Firefox 19+ */
+              color: @color_help;
+            }
+            &::-ms-input-placeholder { /* Internet Explorer 10+ */
+              color: @color_help;
+            }
+          }
+        }
+      }
+
+      > .item-content {
+        float: right;
+        position: relative;
+        padding-right: 20px;
+        font-size: 15px;
+        width: 60%;
+        text-align: right;
+
+        > .select-wrapper {
+          color: @color_help;
+          margin-right: 10px;
+          &-has {
+            &:after {
+              content: ' ';
+              display: inline-block;
+              background: url("https://static.iqycamp.com/images/mobilePersonalEnter.png?imageslim") no-repeat right center/  6px 11.5px;
+              width: 6px;
+              height: 11.5px;
+              float: right;
+              margin-top: 23px;
+              margin-left: 10px;
+            }
+            > .form-item {
+              display: inline-block;
+              > .pc-box {
+                > span {
+                }
+              }
+            }
+            > input {
+              font-size: 15px;
+              text-align: right;
+              border: none;
+            }
+            &-no-cut {
+              position: relative;
+              > .form-item {
+                display: inline-block;
+                > .pc-box {
+                  > span {
+                  }
+                }
+              }
+              > input {
+                position: absolute;
+                font-size: 15px;
+                border: none;
+                text-align: right;
+                top: 20px;
+                right: 0px;
+                width: 100%;
+              }
+            }
+          }
+          > .form-item {
+            display: inline-block;
+          }
+          > input {
+            font-size: 15px;
             text-align: right;
             border: none;
             &::-webkit-input-placeholder { /* WebKit browsers */
@@ -205,7 +371,6 @@
           }
           > input {
             font-size: 15px;
-            color: @color_strong;
             text-align: right;
             border: none;
             &::-webkit-input-placeholder { /* WebKit browsers */
@@ -242,4 +407,25 @@
       }
     }
   }
+
+  .introduction-container {
+    background: #FFFFFF;
+    .introduction-header {
+      padding: 20px 0px 10px 20px;
+    }
+    .introduction-body {
+      padding: 0px 6.7% 10px 6.7%;
+      width: 86.3%;
+      textarea {
+        width:~"calc(100% - 40px)";
+        border: 1px solid #d3d7da;
+        font-size: 1.3rem;
+        line-height: 2rem;
+        padding:20px;
+        resize:none;
+        font-weight: lighter;
+      }
+    }
+  }
+
 }

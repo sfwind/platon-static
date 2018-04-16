@@ -1,9 +1,9 @@
-import { pget, ppost } from "utils/request";
+import requestProxy from '../../../components/requestproxy/requestProxy'
 
 export function loadPlanSeries(practicePlanId) {
-  return pget(`/rise/plan/load/series/${practicePlanId}`)
+  return requestProxy.getProxy(`/rise/plan/load/series/${practicePlanId}`)
 }
 
 export function loadPracticePlan(practicePlanId) {
-  return pget(`/rise/practice/load/${practicePlanId}`)
+  return requestProxy.getProxy(`/rise/practice/load/${practicePlanId}`)
 }

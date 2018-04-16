@@ -3,20 +3,19 @@ import { connect } from 'react-redux'
 import './Application.less'
 import {
   loadApplicationPractice, vote, loadOtherList,
-  openApplication, getOpenStatus, submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
-  loadOtherListBatch, isRiseMember, loadApplicationCompletedCount, loadPriorityApplicationCommenst,
+  submitApplicationPractice, CommentType, ArticleViewModule, autoSaveApplicationDraft,
+  loadOtherListBatch, loadApplicationCompletedCount, loadPriorityApplicationCommenst,
 } from './async'
-import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
+import { alertMsg, set } from '../../../redux/actions'
 import AssetImg from '../../../components/AssetImg'
 import _ from 'lodash'
 import Work from '../components/NewWork'
 import PullElement from 'pull-element'
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash'
-import Tutorial from '../../../components/Tutorial'
 import { mark } from '../../../utils/request'
 import { randomStr, scroll } from '../../../utils/helpers'
 import { preview } from '../../helpers/JsConfig'
-import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Dialog } from 'react-weui'
 import { CardPrinter } from '../../plan/components/CardPrinter'
@@ -50,21 +49,18 @@ export default class Application extends React.Component <any, any> {
       page: 1,
       otherList: [],
       otherHighlightList: [],
-      integrated: true,
       showOthers: false,
       editorValue: '',
       edit: false,
       draftId: -1,
       draft: '',
       showDraftToast: false,
-      isRiseMember: 2,
       loading: false,
       showCompletedBox: false,
       completedApplicationCnt: 1000,
       autoPushDraftFlag: null,
       end: null,
       planId: null,
-      openStatus: null,
       showCardPrinter: false,
       showDisable: false,
       firstSubmit: false,
@@ -75,8 +71,7 @@ export default class Application extends React.Component <any, any> {
   async componentWillMount () {
     mark({ module: '打点', function: '学习', action: '打开应用题页' })
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props
-    const { integrated, id, planId } = location.query
-    this.setState({ integrated })
+    const { id, planId } = location.query
     loadApplicationPractice(id, planId).then(res => {
       const { code, msg } = res
       if (code === 200) {
@@ -104,16 +99,7 @@ export default class Application extends React.Component <any, any> {
         this.others()
       }
     })
-    isRiseMember().then(res => {
 
-      this.setState({ isRiseMember: res.msg })
-
-    })
-    getOpenStatus().then(res => {
-
-      this.setState({ openStatus: res.msg })
-
-    })
     loadApplicationCompletedCount(planId).then(res => {
 
       this.setState({ completedApplicationCnt: res.msg })
@@ -273,16 +259,6 @@ export default class Application extends React.Component <any, any> {
     }
   }
 
-  tutorialEnd () {
-    const { openStatus } = this.state
-    openApplication().then(res => {
-      const { code, msg } = res
-
-      this.setState({ openStatus: merge({}, openStatus, { openApplication: true }) })
-
-    })
-  }
-
   others () {
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId, articlePage } = this.props
     let page = 1
@@ -360,8 +336,8 @@ export default class Application extends React.Component <any, any> {
 
   render () {
     const {
-      data, otherList, end, openStatus = {}, showOthers, edit, showDisable, firstSubmit,
-      showCompletedBox = false, completedApplicationCnt, integrated, loading, isRiseMember,
+      data, otherList, end, showOthers, edit, showDisable, firstSubmit,
+      showCompletedBox = false, completedApplicationCnt, loading,
       commentsData = {}, showApplicationCacheAlert,
     } = this.state
     const { planId, id } = this.props.location.query
@@ -380,38 +356,6 @@ export default class Application extends React.Component <any, any> {
             </div>
           )
         })
-      }
-    }
-
-    const renderTip = () => {
-      return (
-        <div className="no-comment">
-          <div className="content">
-            <div className="text">更喜欢电脑上提交?</div>
-            <div className="text">登录www.iquanwai.com/community</div>
-          </div>
-        </div>
-      )
-    }
-
-    const renderEnd = () => {
-      if (showOthers) {
-        if (loading) {
-          return (
-            <div style={{ textAlign: 'center', margin: '5px 0 60px' }}>
-              <AssetImg url="https://static.iqycamp.com/images/loading1.gif"/>
-            </div>
-          )
-        }
-        if (!end) {
-          return (
-            <div className="show-more">上拉加载更多消息</div>
-          )
-        } else {
-          return (
-            <div className="show-more">没有更多了</div>
-          )
-        }
       }
     }
 
@@ -439,7 +383,7 @@ export default class Application extends React.Component <any, any> {
             <FooterButton btnArray={[
               {
                 click: () =>
-                  this.refs.sectionProgress.goSeriesPage(SectionProgressStep.UPGRADE_APPLICATION, dispatch),
+                  this.refs.sectionProgress.goNextPage(),
                 text: '下一题',
               }]}/>
           )
@@ -462,13 +406,9 @@ export default class Application extends React.Component <any, any> {
     return (
       <div className="application-edit-container">
         {renderCardPrinter()}
-        <Tutorial bgList={['https://static.iqycamp.com/images/fragment/rise_tutorial_yylx_0419.png?imageslim']}
-                  show={openStatus && isBoolean(openStatus.openApplication) && !openStatus.openApplication}
-                  onShowEnd={() => this.tutorialEnd()}/>
         <SectionProgressHeader ref={'sectionProgress'}
                                planId={planId}
-                               practicePlanId={this.props.location.query.practicePlanId}
-                               currentIndex={`${isBaseApplication ? 2 : 3}`}/>
+                               practicePlanId={this.props.location.query.practicePlanId}/>
         <div className="intro-container">
           <div className="application-context">
             <div className="application-title">
@@ -503,7 +443,7 @@ export default class Application extends React.Component <any, any> {
                    onClick: () => this.handleClickGoSubmitPage(),
                  },
                ]}>
-          您还有没有提交草稿哦，
+          您还没有提交草稿哦，
           <br/>
           点击确定立即更新我的作业
         </Alert>

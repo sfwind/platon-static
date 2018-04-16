@@ -13,6 +13,7 @@ import GlobalRequest from './components/globalalert/GlobalRequest'
 import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
+import ProblemPreview from './modules/practice/preview/ProblemPreview'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -100,6 +101,10 @@ const KnowledgeShare = Loadable({
 })
 const KnowledgeReview = Loadable({
   loader: () => import('./modules/practice/knowledge/KnowledgeReview'),
+  loading: Loading,
+})
+const ProblemPreview = Loadable({
+  loader: () => import('./modules/practice/preview/ProblemPreview'),
   loading: Loading,
 })
 const ReplyDiscussMessage = Loadable({
@@ -355,6 +360,7 @@ const routes = (
       <Route path="practice/application/comment" component={ApplicationComment}/>
       <Route path="practice/subject/comment" component={Subject}/>
       <Route path="practice/knowledge" component={KnowledgeViewer}/>
+      <Route path="practice/preview" component={ProblemPreview}/>
       <Route path="guest/practice/knowledge/view" component={KnowledgeShare}/>
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
       <Route path="practice/submit/comment" component={CommentSubmit}/>

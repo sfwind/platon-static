@@ -19,7 +19,7 @@ import { mark } from '../../../utils/request'
 import QYVideo from '../../../components/QYVideo'
 import { FooterButton } from '../../../components/submitbutton/FooterButton'
 import { Block } from '../../../components/Block'
-import { SectionProgressHeader, SectionProgressStep } from '../components/SectionProgressHeader'
+import { SectionProgressHeader } from '../components/SectionProgressHeader'
 import { ColumnSpan } from '../../../components/ColumnSpan'
 import KnowledgeDiscussDistrict from './KnowledgeDiscussDistrict/KnowledgeDiscussDistrict'
 
@@ -167,7 +167,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {
       dispatch(endLoad())
       if (res.code === 200) {
-        this.refs.sectionProgress.goSeriesPage(SectionProgressStep.WARMUP, dispatch)
+        this.refs.sectionProgress.goNextPage()
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -207,7 +207,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             practicePlanId ?
               <SectionProgressHeader ref={'sectionProgress'}
                                      practicePlanId={practicePlanId}
-                                     currentIndex={0}
                                      planId={planId}/> :
               <div className="page-header">{knowledge.knowledge}</div>
           }
