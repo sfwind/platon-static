@@ -92,12 +92,5 @@ router.get('/rise/customer/global/notify', (req, res) => {
   }), Math.random() * 1000)
 })
 
-router.get('/rise/customer/info', (req, res) => {
-  setTimeout(() =>
-res.status(200).json({
-  'msg': {"msg":{"id":0,"openid":null,"nickname":"风之伤","city":null,"country":null,"province":null,"headimgurl":"https://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM6LrkJRYApibxYsAEYm2CmS7JZwX09AmHsP0X2VJQSpibHyoHsQKNcvqf1hzFgJr6l40vyhH7KtGWupGmgKHwFibbiaOOS0qKuvjsQ/132","headImgUrlCheckTime":null,"mobileNo":null,"email":null,"industry":null,"function":null,"workingLife":null,"realName":null,"signature":null,"point":null,"isFull":null,"riseId":null,"openRise":null,"unionid":null,"expireDate":null,"riseMember":null,"openNavigator":null,"openApplication":null,"openConsolidation":null,"openWelcome":null,"learningNotify":null,"requestCommentCount":null,"role":null,"address":null,"workingYear":null,"weixinId":null,"receiver":null,"married":null},"code":200},
-  'code': 200
-}), Math.random() * 1000)
-})
 
 module.exports = router
