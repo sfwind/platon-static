@@ -211,9 +211,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               <div className="page-header">{knowledge.knowledge}</div>
           }
           {
-            videoUrl && <QYVideo videoUrl={videoUrl}
+            videoUrl &&
+              <div style={{marginTop:'20px',marginBottom:'20px'}}>
+            <QYVideo videoUrl={videoUrl}
                                  videoPoster={videoPoster}
-                                 videoWords={videoWords}/>
+                     videoWords={videoWords}/></div>
           }
           <div className="intro-container">
             {
