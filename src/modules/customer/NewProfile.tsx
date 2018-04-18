@@ -55,7 +55,7 @@ export default class NewProfile extends React.Component<any, any> {
       city: null,
       province: null,
       isFull: false,
-      canSubmit:false,
+      canSubmit: false,
       workingTime: null,
       realName: null,
       address: null,
@@ -68,13 +68,13 @@ export default class NewProfile extends React.Component<any, any> {
   componentWillMount() {
     mark({ module: '打点', function: '个人中心', action: '打开我的信息页面' })
     changeTitle('个人信息')
-    const { dispatch, region} = this.props
+    const { dispatch, region } = this.props
     dispatch(startLoad())
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
         let defaultIsFull = res.msg.isFull
-        this.setState(_.merge({},{canSubmit:res.msg.canSubmit},{ defaultIsFull: defaultIsFull }, res.msg), () => {
+        this.setState(_.merge({}, { canSubmit: res.msg.canSubmit }, { defaultIsFull: defaultIsFull }, res.msg), () => {
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -117,7 +117,7 @@ export default class NewProfile extends React.Component<any, any> {
 
   bind(field, getValue) {
     return {
-      value: this.state[field],
+      value: this.state[ field ],
       onChange: (e) => {
         this.changeValue(field, getValue ? getValue(e) : e, () => {
           this.checkCanSubmit()
@@ -167,23 +167,23 @@ export default class NewProfile extends React.Component<any, any> {
     this.setState({ married: marry.value })
   }
 
-  checkCanSubmit(){
-     const functionValue = _.get(this.state, 'function')
-      const {nickName,workingYear,province,city,industry} = this.state
-      if(nickName && workingYear && province && city && industry && functionValue){
-        this.setState({ canSubmit: true })
-        return true
-      }
+  checkCanSubmit() {
+    const functionValue = _.get(this.state, 'function')
+    const { nickName, workingYear, province, city, industry } = this.state
+    if(nickName && workingYear && province && city && industry && functionValue) {
+      this.setState({ canSubmit: true })
+      return true
+    }
     this.setState({ canSubmit: false })
-      return false
+    return false
   }
 
   submitProfile() {
     const { dispatch } = this.props
-    const { nickName,workingYear,province,city,industry,company,college,mobile,weixinId,email,introduction,realName,receiver,address,married,mobileNo} = this.state
+    const { nickName, workingYear, province, city, industry, company, college, mobile, weixinId, email, introduction, realName, receiver, address, married, mobileNo } = this.state
     const functionValue = _.get(this.state, 'function')
     const rate = this.checkCompletion()
-    if(!_.isEmpty(introduction)&&introduction.length>=300){
+    if(!_.isEmpty(introduction) && introduction.length >= 300) {
       dispatch(alertMsg('个人简介内容过长'))
       return
     }
@@ -198,12 +198,14 @@ export default class NewProfile extends React.Component<any, any> {
         function: functionValue,
         rate
       }
-      _.merge(param, { realName, address, receiver, married,  company,
+      _.merge(param, {
+        realName, address, receiver, married, company,
         college,
         mobile,
         weixinId,
         email,
-        introduction,mobileNo })
+        introduction, mobileNo
+      })
       dispatch(startLoad())
 
       ppost('/rise/customer/new/profile', param).then(res => {
@@ -230,44 +232,44 @@ export default class NewProfile extends React.Component<any, any> {
     })
   }
 
-  checkCompletion () {
+  checkCompletion() {
     const functionValue = _.get(this.state, 'function')
-    const {nickName , workingYear , province , city , industry , company ,college , mobile ,weixinId ,email , introduction ,married}=this.state
+    const { nickName, workingYear, province, city, industry, company, college, mobile, weixinId, email, introduction, married }=this.state
     let count = 5
-    if(nickName){
-      count = count+5
+    if(nickName) {
+      count = count + 5
     }
-    if(workingYear){
-      count=count+5
+    if(workingYear) {
+      count = count + 5
     }
-    if(province && city){
-      count = count+5
+    if(province && city) {
+      count = count + 5
     }
-    if(industry){
-      count = count +5
+    if(industry) {
+      count = count + 5
     }
-    if(company){
-      count = count +10
+    if(company) {
+      count = count + 10
     }
-    if(functionValue){
-      count = count +10
+    if(functionValue) {
+      count = count + 10
     }
-    if(college){
+    if(college) {
       count = count + 8
     }
-    if(mobile){
+    if(mobile) {
       count = count + 8
     }
-    if(weixinId){
+    if(weixinId) {
       count = count + 8
     }
-    if(email){
-      count = count +8
-    }
-    if(married){
+    if(email) {
       count = count + 8
     }
-    if(introduction){
+    if(married) {
+      count = count + 8
+    }
+    if(introduction) {
       count = count + 15
     }
 
@@ -280,7 +282,10 @@ export default class NewProfile extends React.Component<any, any> {
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { memberId, isShowInfo,city, province, cityId, provinceId, industry, canSubmit,workingYearList, workingYear,address, married,introduction,score,defaultIsFull,mobile} = this.state
+    const {
+      memberId, isShowInfo, city, province, cityId, provinceId, industry, canSubmit, workingYearList, workingYear,
+      address, married, introduction, score, defaultIsFull, mobile, riseId
+    } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut'>
@@ -290,7 +295,7 @@ export default class NewProfile extends React.Component<any, any> {
     }
 
     const renderRegion = () => {
-      const userData = [{ value: province, id: provinceId }, { value: city, id: cityId }]
+      const userData = [ { value: province, id: provinceId }, { value: city, id: cityId } ]
       return (
         <MarkBlock module={'打点'} func={'个人信息页'} action={'选择居住地点'}
                    className={province ? 'select-wrapper-has' : 'select-wrapper-choice'}>
@@ -320,8 +325,8 @@ export default class NewProfile extends React.Component<any, any> {
     const renderIndustry = () => {
       let myIndustry = { value: industry }
       for(let item in industryList) {
-        if(_.isEqual(industryList[item].value, industry)) {
-          myIndustry.id = industryList[item].id
+        if(_.isEqual(industryList[ item ].value, industry)) {
+          myIndustry.id = industryList[ item ].id
           break
         }
       }
@@ -338,8 +343,8 @@ export default class NewProfile extends React.Component<any, any> {
     const renderMarried = () => {
       let myMarried = { value: married }
       for(let item in marryList) {
-        if(_.isEqual(marryList[item].value, married)) {
-          myMarried.id = marryList[item].id
+        if(_.isEqual(marryList[ item ].value, married)) {
+          myMarried.id = marryList[ item ].id
           break
         }
       }
@@ -357,8 +362,8 @@ export default class NewProfile extends React.Component<any, any> {
     const renderWorkingYear = () => {
       let myWorkingLife = { value: workingYear }
       for(let item in workingYearList) {
-        if(_.isEqual(workingYearList[item].value, workingYear)) {
-          myWorkingLife.id = workingYearList[item].id
+        if(_.isEqual(workingYearList[ item ].value, workingYear)) {
+          myWorkingLife.id = workingYearList[ item ].id
           break
         }
       }
@@ -375,8 +380,8 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderProfileHeader = () => {
       const rate = this.checkCompletion()
-      return(
-        rate!=100 && !defaultIsFull && score && <div className="profile-header-tip">
+      return (
+        rate != 100 && !defaultIsFull && score && <div className="profile-header-tip">
           当前完整度
           <span>{rate}%</span>
           ，完善至100%
@@ -387,13 +392,13 @@ export default class NewProfile extends React.Component<any, any> {
 
     const renderClassInfo = () => {
       return (
-          <div className="profile-item">
-            <div className="item-label">
-              学号
-            </div>
-            <div className="item-content">
-              {memberId}
-            </div>
+        <div className="profile-item">
+          <div className="item-label">
+            学号
+          </div>
+          <div className="item-content">
+            {memberId}
+          </div>
         </div>
       )
     }
@@ -408,6 +413,19 @@ export default class NewProfile extends React.Component<any, any> {
       )
     }
 
+    const renderId = () => {
+      return (
+        <div className="profile-item">
+          <div className="item-label">
+            圈外ID
+          </div>
+          <div className="item-content">
+            {riseId}
+          </div>
+        </div>
+      )
+    }
+
     const renderNickName = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
@@ -417,7 +435,7 @@ export default class NewProfile extends React.Component<any, any> {
     }
 
     const renderCompany = () => {
-      return(
+      return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="company" placeholder="请填写" type="text" {...this.bind('company', this.getInputValue)}/>
         </div>
@@ -425,7 +443,7 @@ export default class NewProfile extends React.Component<any, any> {
     }
 
     const renderCollege = () => {
-      return(
+      return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
         </div>
@@ -433,7 +451,7 @@ export default class NewProfile extends React.Component<any, any> {
     }
 
     const renderMobile = () => {
-      return(
+      return (
         <div className='select-wrapper-has'>
           {mobile}
         </div>
@@ -441,7 +459,7 @@ export default class NewProfile extends React.Component<any, any> {
     }
 
     const renderWeiXinId = () => {
-      return(
+      return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="weixinId" placeholder="请填写" type="text" {...this.bind('weixinId', this.getInputValue)}/>
         </div>
@@ -449,7 +467,7 @@ export default class NewProfile extends React.Component<any, any> {
     }
 
     const renderMail = () => {
-      return(
+      return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="email" placeholder="请填写" type="text" {...this.bind('email', this.getInputValue)}/>
         </div>
@@ -475,6 +493,8 @@ export default class NewProfile extends React.Component<any, any> {
           <div className="title-container">
             基本信息
           </div>
+
+          {renderId()}
           {!_.isEmpty(memberId) && renderClassInfo()}
           <div className="profile-item">
             <div className="item-label">
@@ -542,7 +562,7 @@ export default class NewProfile extends React.Component<any, any> {
           </div>
 
           <div className="title-container">
-              详细信息
+            详细信息
           </div>
 
           <div className="profile-item">
@@ -598,69 +618,71 @@ export default class NewProfile extends React.Component<any, any> {
               个人简介
             </div>
             <div className="introduction-body">
-              <textarea cols="30" rows="10" placeholder="示例：王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。" value={introduction}
+              <textarea cols="30" rows="10"
+                        placeholder="示例：王婷出生于新疆伊宁，上海财经大学电子商务专业毕业后，她先后服务于国际知名咨询公司IBM和德硕管理咨询，为各行业企业提供管理咨询服务，6年后加入德国汉高，担任亚太业务流程顾问经理一职。工作之余，王婷喜欢电影、体育和尝试不同国家的美食。她期望能够在圈外读书期间跟大家交朋友。"
+                        value={introduction}
                         onChange={(e) => this.setState({ introduction: e.currentTarget.value })}/>
             </div>
           </div>
 
-          {isShowInfo&&
-            <div className="title-container">
-              邮寄信息（本信息用于邮寄你的圈外商学院礼包）
-            </div>
-          }
-
-          {isShowInfo&&
-            <div className="profile-item">
-              <div className="item-label">
-                真实姓名
-              </div>
-              <div className="item-content">
-                {renderRealName()}
-              </div>
-            </div>
-          }
-
-          {isShowInfo&&
-            <div className="profile-item">
-              <div className="item-label">
-                收件人
-              </div>
-              <div className="item-content">
-                {renderReceiver()}
-              </div>
-            </div>
+          {isShowInfo &&
+          <div className="title-container">
+            邮寄信息（本信息用于邮寄你的圈外商学院礼包）
+          </div>
           }
 
           {isShowInfo &&
-            <div className="profile-item"
-                       >
-              <div className="item-label">
-                联系电话
-              </div>
-              <div className="item-content">
-                {renderTel()}
-              </div>
+          <div className="profile-item">
+            <div className="item-label">
+              真实姓名
             </div>
+            <div className="item-content">
+              {renderRealName()}
+            </div>
+          </div>
+          }
+
+          {isShowInfo &&
+          <div className="profile-item">
+            <div className="item-label">
+              收件人
+            </div>
+            <div className="item-content">
+              {renderReceiver()}
+            </div>
+          </div>
+          }
+
+          {isShowInfo &&
+          <div className="profile-item"
+          >
+            <div className="item-label">
+              联系电话
+            </div>
+            <div className="item-content">
+              {renderTel()}
+            </div>
+          </div>
           }
           {isShowInfo &&
-            <div className="profile-item">
-              <div className="address-tips">收件地址</div>
-              <textarea className="address" placeholder="请填写" value={address}
-                        onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
+          <div className="profile-item">
+            <div className="address-tips">收件地址</div>
+            <textarea className="address" placeholder="请填写" value={address}
+                      onChange={(e) => this.setState({ address: e.currentTarget.value }, () => {
                           this.checkCanSubmit()
                         })}
-              />
-            </div>
+            />
+          </div>
           }
 
         </div>
         <div className="profile-bottom">
           <div
-                     className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{
+            className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{
             width: `${this.btnWidth}px`, borderRadius: 100, height: 44, lineHeight: `44px`, fontSize: 17,
             letterSpacing: `4.7px`
           }}
-                     onClick={this.submitProfile.bind(this)}>
+            onClick={this.submitProfile.bind(this)}>
             完成
           </div>
         </div>
