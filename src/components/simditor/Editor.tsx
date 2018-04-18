@@ -144,18 +144,18 @@ export default class Editor extends React.Component<EditorProps, any> {
         if (!$p.is('img')) {
           $p.removeAttr('style')
         }
-      })
+      });
 
       $content.each((key, item) => {
-        let $p = $(item)
+        let $p = $(item);
         if (!$p.is('img')) {
           $p.removeAttr('style')
         }
       })
-    })
+    });
 
     if (this.props.value && this.props.value.length > 0) {
-      editor.setValue(this.props.value)
+      editor.setValue(this.props.value);
       this.calcValue(this.props.value)
     }
     this.setState({ editor: editor }, () => {
@@ -183,7 +183,7 @@ export default class Editor extends React.Component<EditorProps, any> {
 
   handleValueChanged () {
     if (this.state.editor) {
-      this.calcValue(this.getValue())
+      this.calcValue(this.getValue());
       //自动保存
       if (this.props.autoSave) {
         this.props.autoSave()
@@ -200,12 +200,12 @@ export default class Editor extends React.Component<EditorProps, any> {
         value = this.state.editor.getValue()
       }
     }
-    value = value.replace(/<[^>]+>/g, '')
+    value = value.replace(/<[^>]+>/g, '');
     this.setState({ length: value.length }, () => {
-      const { editor, length } = this.state
-      const { maxLength } = this.props
+      const { editor, length } = this.state;
+      const { maxLength } = this.props;
       if (maxLength && editor) {
-        let text = $('.simditor-toolbar ul .text-length')
+        let text = $('.simditor-toolbar ul .text-length');
         if (text.length >= 1) {
           text.text(`${length}/${maxLength}`)
         } else {

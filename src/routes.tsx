@@ -13,7 +13,7 @@ import GlobalRequest from './components/globalalert/GlobalRequest'
 import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
-import ProblemPreview from './modules/practice/preview/ProblemPreview'
+import ProblemPreview from './modules/practice/preview/ProblemPreview';
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),

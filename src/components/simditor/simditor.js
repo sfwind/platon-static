@@ -4387,7 +4387,7 @@
             if (!$img.hasClass('uploading')) {
               return;
             }
-            src = img ? img.src : _this.defaultImage;
+            src = img ?  img.src : _this.defaultImage;
             // 这个src是base64的，不要存放base64的图
             return _this.loadImage($img, _this.defaultImage, function() {
               if (_this.popover.active) {
@@ -4404,6 +4404,7 @@
           return;
         }
         $mask = file.img.data('mask');
+
         if (!$mask) {
           return;
         }
