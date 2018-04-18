@@ -22,8 +22,8 @@ export default class ApplicationSubmit extends React.Component {
   }
 
   componentWillMount () {
-    document.body.addEventListener('mousewheel', this.lockWindow)
-    document.body.addEventListener('touchmove', this.lockWindow)
+    // document.body.addEventListener('mousewheel', this.lockWindow)
+    // document.body.addEventListener('touchmove', this.lockWindow)
   }
 
   lockWindow (e) {
@@ -59,8 +59,8 @@ export default class ApplicationSubmit extends React.Component {
 
   componentWillUnmount () {
     clearInterval(this.autoSaveTimer)
-    document.body.removeEventListener('mousewheel', this.lockWindow)
-    document.body.removeEventListener('touchmove', this.lockWindow)
+    // document.body.removeEventListener('mousewheel', this.lockWindow)
+    // document.body.removeEventListener('touchmove', this.lockWindow)
   }
 
   autoSaveApplicationDraft () {
