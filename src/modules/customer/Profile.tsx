@@ -160,7 +160,7 @@ export default class Profile extends React.Component<any, any> {
     const functionValue = _.get(this.state, 'function')
     const { location } = this.props
     const { goRise } = location.query
-    const { workingYear, province, city, industry, realName, receiver, address, mobileNo, weixinId } = this.state
+    const { workingYear, province, city, industry, realName, receiver, address, mobile,mobileNo, weixinId } = this.state
     if(goRise) {
       if(workingYear && province && city && industry && functionValue && realName && receiver && address && mobileNo && (mobile || weixinId)) {
         this.setState({ canSubmit: true })
@@ -184,7 +184,7 @@ export default class Profile extends React.Component<any, any> {
       mobile,
       weixinId,
       email,
-      introduction, mobileNo
+      introduction, mobileNo,code
     } = this.state
     const functionValue = _.get(this.state, 'function')
     const { goRise, goCamp } = location.query
@@ -210,23 +210,16 @@ export default class Profile extends React.Component<any, any> {
         mobile,
         weixinId,
         email,
-        introduction, mobileNo
+        introduction, mobileNo,mobile,code
       })
       dispatch(startLoad())
       ppost('/rise/customer/profile', param).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
-          //从付款页跳转过来的，填完个人信息后引导去学习页面
-          if(goCamp) {
-            this.context.router.push({
-              pathname: '/rise/static/customer/mobile/check',
-              query: { goCamp: true }
-            })
-          } else if(goRise) {
-            this.context.router.push({
-              pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true }
-            })
+          if(goCamp){
+            window.location.href = `/rise/static/camp`
+          }else{
+            window.location.href = `/rise/static/rise`
           }
         } else {
           dispatch(alertMsg(res.msg))
@@ -244,18 +237,22 @@ export default class Profile extends React.Component<any, any> {
     this.setState({
       mobile: v
     })
+    this.checkCanSubmit()
   }
 
   changeCode(v) {
     this.setState({
       code: v
     })
+    this.checkCanSubmit()
   }
 
+  //修改微信号
   changeWeiXinId(v) {
     this.setState({
       weixinId: v
     })
+    this.checkCanSubmit()
   }
 
   render() {
@@ -418,7 +415,7 @@ export default class Profile extends React.Component<any, any> {
             基本信息
           </div>
           {/*//手机绑定组件*/}
-          <MobileBindComponent mobile={mobile} weixinId={weixinId} changeMobile={this.changeMobile.bind(this)} changeCode={this.changeCode.bind(this)} changWeiXinId={this.changeWeiXinId.bind(this)}/>
+          <MobileBindComponent mobile={mobile} weixinId={weixinId} changeMobile={this.changeMobile.bind(this)} changeCode={this.changeCode.bind(this)} changeWeiXinId={this.changeWeiXinId.bind(this)} dispatch={this.props.dispatch}/>
 
           <div className="profile-item">
             <div className="item-label">
