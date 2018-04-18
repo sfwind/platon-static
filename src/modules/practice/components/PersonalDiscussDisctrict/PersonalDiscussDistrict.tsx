@@ -154,7 +154,7 @@ export default class PersonalDiscussDistrict extends React.Component {
                      style={{ color: '#56cec0' }}
                      onClick={() => this.handleRequestApplicationComment(discuss.id)}>
                   <AssetImg className="icon"
-                            url="https://static.iqycamp.com/request_comment-8ifoeh1g.png"/>
+                            url="https://static.iqycamp.com/request_comment_2-g9tnvx5x.png"/>
                   <span className="request-span">求点评</span>
                 </div>
               }
