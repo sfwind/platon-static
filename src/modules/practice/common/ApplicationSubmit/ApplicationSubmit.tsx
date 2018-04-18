@@ -21,6 +21,15 @@ export default class ApplicationSubmit extends React.Component {
     router: React.PropTypes.object.isRequired,
   }
 
+  componentWillMount () {
+    document.body.addEventListener('mousewheel', this.lockWindow)
+    document.body.addEventListener('touchmove', this.lockWindow)
+  }
+
+  lockWindow (e) {
+    e.preventDefault()
+  }
+
   async componentDidMount () {
     const { id, planId } = this.props
     let res = await loadApplicationPractice(id, planId)
@@ -50,6 +59,8 @@ export default class ApplicationSubmit extends React.Component {
 
   componentWillUnmount () {
     clearInterval(this.autoSaveTimer)
+    document.body.removeEventListener('mousewheel', this.lockWindow)
+    document.body.removeEventListener('touchmove', this.lockWindow)
   }
 
   autoSaveApplicationDraft () {
