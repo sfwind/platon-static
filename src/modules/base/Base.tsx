@@ -10,7 +10,7 @@ const P = 'base'
 const LOAD_KEY = `${P}.loading`
 const SHOW_MODAL_KEY = `${P}.showModal`
 const { Alert } = Dialog
-import { toLower, get, merge } from 'lodash'
+import { toLower, get, merge, isEmpty, isPlainObject, isArray } from 'lodash'
 import { pget } from 'utils/request'
 import Activity from '../../components/Activity'
 // import UA from 'ua-device'
@@ -66,12 +66,12 @@ export default class Main extends React.Component<any, any> {
     let userInfoResult = await pget('/rise/customer/info')
     if(userInfoResult.code === 200) {
       window.ENV.riseId = userInfoResult.msg.riseId;
-      window.ENV.className = userInfoResult.msg.className;
-      window.ENV.groupId = userInfoResult.msg.groupId;
-      window.ENV.roleName = userInfoResult.msg.roleName;
       window.ENV.userName = userInfoResult.msg.nickname;
       window.ENV.headImgUrl = userInfoResult.msg.headimgurl;
       window.ENV.isAsst = userInfoResult.msg.isAsst;
+      window.ENV.roleNames = userInfoResult.msg.roleNames;
+      window.ENV.classGroupMaps = userInfoResult.msg.classGroupMaps;
+
     }
 
     sa.init({
@@ -81,17 +81,18 @@ export default class Main extends React.Component<any, any> {
       server_url: `https://quanwai.cloud.sensorsdata.cn:4006/sa?token=0a145b5e1c9814f4&project=${window.ENV.sensorsProject}`,
       heatmap: {},
       is_single_page: true,
-      show_log: false
+      show_log: true
     });
     if(!!userInfoResult.msg.riseId) {
       sa.login(userInfoResult.msg.riseId);
     }
-    let props = { roleName: window.ENV.roleName, isAsst: window.ENV.isAsst, platformType: 2 };
-    if(!!window.ENV.className && !!window.ENV.groupId) {
-      merge(props, {
-        className: window.ENV.className,
-        groupId: window.ENV.groupId
-      });
+    let props = { isAsst: window.ENV.isAsst, platformType: 2 };
+    if(!isEmpty(window.ENV.classGroupMaps) && isPlainObject(window.ENV.classGroupMaps)) {
+      // merge班组信息
+      merge(props, window.ENV.classGroupMaps);
+    }
+    if(!isEmpty(window.ENV.roleNames) && isArray(window.ENV.roleNames)) {
+      merge(props, { 'roleNames': window.ENV.roleNames })
     }
     if(!!userInfoResult.msg.riseId) {
       merge(props, {
