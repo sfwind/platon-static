@@ -1,14 +1,11 @@
 import * as React from 'react'
 import './ApplicationSubmit.less'
-import EditorTopBar from '../../components/EditorTopBar/EditorTopBar'
 import Editor from '../../../../components/simditor/Editor'
-import { connect } from 'react-redux'
+import requestProxy from '../../../../components/requestproxy/requestProxy'
 import { autoSaveApplicationDraft, loadApplicationPractice, submitApplicationPractice } from '../../application/async'
-import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 
 const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
 
-@connect(state => state)
 export default class ApplicationSubmit extends React.Component {
 
   autoSaveTimer = null
@@ -25,7 +22,7 @@ export default class ApplicationSubmit extends React.Component {
   }
 
   async componentDidMount () {
-    const { id, planId } = this.props.location.query
+    const { id, planId } = this.props
     let res = await loadApplicationPractice(id, planId)
     let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
     if (storageDraft && storageDraft.id === id) {
@@ -57,7 +54,7 @@ export default class ApplicationSubmit extends React.Component {
 
   autoSaveApplicationDraft () {
     clearInterval(this.autoSaveTimer)
-    const { id, planId } = this.props.location.query
+    const { id, planId } = this.props
     this.autoSaveTimer = setInterval(() => {
       if (this.refs.editor) {
         let draft = this.refs.editor.getValue()
@@ -73,7 +70,7 @@ export default class ApplicationSubmit extends React.Component {
       let value = this.refs.editor.getValue()
       if (value) {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-          id: this.props.location.query.id, content: value,
+          id: this.props, content: value,
         }))
       }
     }
@@ -84,44 +81,65 @@ export default class ApplicationSubmit extends React.Component {
   }
 
   async handleSubmitApplicationSubmit () {
-    const { dispatch } = this.props
+    const {
+      hideCallback = () => {
+      },
+      submitCallback = () => {
+      },
+    } = this.props
     const value = this.refs.editor.getValue()
     if (!value || value.length === 0) {
-      dispatch(alertMsg('请填写作业'))
+      requestProxy.alertMessage('请填写作业')
       return
     } else {
-      const { id, planId } = this.props.location.query
+      const { id, planId } = this.props
       let res = await submitApplicationPractice(planId, id, { answer: value })
       if (res.code === 200) {
         this.clearStorage()
-        this.context.router.goBack()
+        hideCallback()
+        submitCallback()
       }
     }
   }
 
   render () {
+    const {
+      id,
+      planId,
+      hideCallback = () => {
+      },
+      submitCallback = () => {
+      },
+    } = this.props
     const { value } = this.state
 
     return (
-      <div className="application-submit-container">
-        <EditorTopBar leftLabel={'取消'}
-                      leftOnClick={() => {
-                        this.context.router.goBack()
-                      }}
-                      description={'我的作业'}
-                      rightLabel={'提交'}
-                      rightOnClick={() => this.handleSubmitApplicationSubmit()}/>
-        <Editor ref="editor"
-                className="editor"
-                moduleId="6"
-                toolbarFloat={false}
-                value={value}
-                autoSave={() => this.autoSave()}
-                placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点上方按钮提交，就会得到点赞和专业点评哦！"/>
-        <div className="bottom-tip">
-          <div>更喜欢电脑上提交？</div>
-          <div>登录 www.iquanwai.com/community</div>
+      <div className="application-submit-component">
+        <div className="editor-box">
+          <Editor ref="editor"
+                  className="editor"
+                  moduleId="6"
+                  toolbarFloat={false}
+                  value={value}
+                  autoSave={() => this.autoSave()}
+                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点上方按钮提交，就会得到点赞和专业点评哦！"/>
+          <div className="bottom-tip">
+            <div>更喜欢电脑上提交？</div>
+            <div>登录 www.iquanwai.com/community</div>
+          </div>
+          <div className="footerbutton">
+            <div className="temp-save"
+                 onClick={() => {
+                   hideCallback()
+                   autoSaveApplicationDraft(planId, id, this.refs.editor.getValue())
+                 }}>保存并返回
+            </div>
+            <div className="submit"
+                 onClick={() => this.handleSubmitApplicationSubmit()}>提交
+            </div>
+          </div>
         </div>
+        <div className="mask"></div>
       </div>
     )
   }

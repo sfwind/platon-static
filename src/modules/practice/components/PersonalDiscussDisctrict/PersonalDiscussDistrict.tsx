@@ -149,6 +149,16 @@ export default class PersonalDiscussDistrict extends React.Component {
                           url="https://static.iqycamp.com/asst-gh4skljm.png"></AssetImg>
               }
               {
+                showRequestComment &&
+                <div className="request-comment"
+                     style={{ color: '#56cec0' }}
+                     onClick={() => this.handleRequestApplicationComment(discuss.id)}>
+                  <AssetImg className="icon"
+                            url="https://static.iqycamp.com/request_comment-8ifoeh1g.png"/>
+                  <span className="request-span">求点评</span>
+                </div>
+              }
+              {
                 showVote &&
                 <div className="vote-data"
                      onClick={() => this.handleClickVote(discuss)}>
@@ -174,12 +184,6 @@ export default class PersonalDiscussDistrict extends React.Component {
                 deleteFunc &&
                 <div className="delete"
                      onClick={() => this.handleClickDeleteComment(discuss.id)}>删除</div>
-              }
-              {
-                showRequestComment &&
-                <div className="delete"
-                     style={{ color: '#56cec0' }}
-                     onClick={() => this.handleRequestApplicationComment(discuss.id)}>求点评</div>
               }
             </div>
           </div>
@@ -216,7 +220,6 @@ export default class PersonalDiscussDistrict extends React.Component {
             )
           })
         }
-
 
         <Alert {...confirmParams} show={showConfirm}>
           <p>{confirmContent}</p>

@@ -21,6 +21,7 @@ import { Dialog } from 'react-weui'
 import { CardPrinter } from '../../plan/components/CardPrinter'
 import ApplicationDiscussDistrict from './ApplicationDiscussDistrict/ApplicationDiscussDistrict'
 import { ColumnSpan } from '../../../components/ColumnSpan'
+import ApplicationSubmit from '../common/ApplicationSubmit/ApplicationSubmit'
 
 const { Alert } = Dialog
 let timer
@@ -101,9 +102,7 @@ export default class Application extends React.Component <any, any> {
     })
 
     loadApplicationCompletedCount(planId).then(res => {
-
       this.setState({ completedApplicationCnt: res.msg })
-
     })
     let commentsRes = await loadPriorityApplicationCommenst(id, planId)
     this.setState({ commentsData: commentsRes.msg })
@@ -327,10 +326,9 @@ export default class Application extends React.Component <any, any> {
   }
 
   handleClickGoSubmitPage () {
-    const { planId, id } = this.props.location.query
-    this.context.router.push({
-      pathname: '/rise/static/practice/submit/application',
-      query: { id: id, planId: planId },
+    this.setState({
+      showApplicationCacheAlert: false,
+      showSubmit: true,
     })
   }
 
@@ -338,7 +336,7 @@ export default class Application extends React.Component <any, any> {
     const {
       data, otherList, end, showOthers, edit, showDisable, firstSubmit,
       showCompletedBox = false, completedApplicationCnt, loading,
-      commentsData = {}, showApplicationCacheAlert,
+      commentsData = {}, showApplicationCacheAlert, showSubmit = false,
     } = this.state
     const { planId, id } = this.props.location.query
     const { completePracticePlanId, dispatch } = this.props
@@ -429,24 +427,44 @@ export default class Application extends React.Component <any, any> {
           <ColumnSpan height={15}
                       style={{ margin: '2rem -2.5rem 0' }}/>
           <ApplicationDiscussDistrict key={randomStr(12)}
-                                      data={commentsData}
-                                      clickFunc={() => this.handleClickGoSubmitPage()}/>
+                                      ref="applicationDiscuss"
+                                      data={commentsData}/>
+          <AssetImg url="https://static.iqycamp.com/icon_bianji@2x-gmynhbel.png"
+                    className="edit-icon"
+                    onClick={() => this.setState({ showSubmit: true })}/>
         </div>
         {renderButton()}
         <Alert show={showApplicationCacheAlert}
                buttons={[
                  {
                    label: '关闭',
-                   onClick: () => this.setState({ showApplicationCacheAlert: false }),
-                 }, {
+                   onClick: () => {
+                     this.setState({
+                       showApplicationCacheAlert: false,
+                     })
+                   },
+                 },
+                 {
                    label: '确定',
-                   onClick: () => this.handleClickGoSubmitPage(),
+                   onClick: () => {
+                     this.setState({
+                       showApplicationCacheAlert: false,
+                       showSubmit: true,
+                     })
+                   },
                  },
                ]}>
           您还没有提交草稿哦，
           <br/>
           点击确定立即更新我的作业
         </Alert>
+        {
+          showSubmit &&
+          <ApplicationSubmit id={id}
+                             planId={planId}
+                             hideCallback={() => this.setState({ showSubmit: false })}
+                             submitCallback={() => this.componentWillMount()}/>
+        }
       </div>
     )
   }
