@@ -164,26 +164,6 @@ export default class Personal extends React.Component<any, any> {
               积分{userInfo.point}分
             </div>
           </div>
-          {/*{!_.isEmpty(userInfo.memberId) &&*/}
-          {/*<div className="class-info-container">*/}
-            {/*<div className="class-container">*/}
-              {/*<div className="title">*/}
-                {/*学号*/}
-              {/*</div>*/}
-              {/*/!*<div className="name">班级名称</div>*!/*/}
-            {/*</div>*/}
-
-            {/*< div className="content-container">*/}
-              {/*<div className="member">*/}
-                {/*{userInfo.memberId}*/}
-              {/*</div>*/}
-              {/*/!*<div className="grade">*!/*/}
-                {/*/!*{userInfo.className}*!/*/}
-              {/*/!*</div>*!/*/}
-            {/*</div>*/}
-
-          {/*</div>*/}
-          {/*}*/}
           <div className="notice-container">
             <FormCell switch className="learn-notice">
               <CellBody>
@@ -307,7 +287,7 @@ export default class Personal extends React.Component<any, any> {
             <div className="content">使用帮助</div>
             <div className="arrow"></div>
           </MarkBlock>
-          {(userInfo.memberTypeId !== 1 || userInfo.memberTypeId !== 2) &&
+          {!userInfo.isProMember &&
           <MarkBlock module={'打点'}
                      func={'个人中心'}
                      action={'点击用户协议'}
