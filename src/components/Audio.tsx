@@ -22,7 +22,7 @@ interface AudioProps {
 
 export default class Audio extends React.Component<AudioProps, any> {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       duration: 0,
       currentSecond: 0,
