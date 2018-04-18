@@ -7,14 +7,15 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
-    define('simditor', ["jquery","simple-module","simple-hotkeys","simple-uploader"], function ($, SimpleModule, simpleHotkeys, simpleUploader) {
+    define('simditor', ["jquery","simple-module","simple-hotkeys","./uploader"], function ($, SimpleModule, simpleHotkeys,simpleUploader) {
+      /* var simpleUploader =require("./uploader");*/
       return (root['Simditor'] = factory($, SimpleModule, simpleHotkeys, simpleUploader));
     });
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory(require("jquery"),require("simple-module"),require("simple-hotkeys"),require("simple-uploader"));
+    module.exports = factory(require("jquery"),require("simple-module"),require("simple-hotkeys"),require("./uploader"));
   } else {
     root['Simditor'] = factory(jQuery,SimpleModule,simple.hotkeys,simple.uploader);
   }
