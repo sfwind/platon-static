@@ -22,10 +22,12 @@ export default class ApplicationSubmit extends React.Component {
   };
 
   componentWillMount () {
-    document.body.addEventListener('mousewheel', this.lockWindow)
-    document.body.addEventListener('touchmove', this.lockWindow)
+    // 初始化组件，固定背景
+    document.body.addEventListener('mousewheel', this.lockWindow);
+    document.body.addEventListener('touchmove', this.lockWindow);
   }
 
+  // 阻止默认事件
   lockWindow (e) {
     e.preventDefault();
   }
@@ -59,10 +61,11 @@ export default class ApplicationSubmit extends React.Component {
 
   componentWillUnmount () {
     clearInterval(this.autoSaveTimer);
-    document.body.removeEventListener('mousewheel', this.lockWindow)
-    document.body.removeEventListener('touchmove', this.lockWindow)
+    document.body.removeEventListener('mousewheel', this.lockWindow);
+    document.body.removeEventListener('touchmove', this.lockWindow);
   }
 
+  // 开启自动保存草稿的功能
   autoSaveApplicationDraft () {
     clearInterval(this.autoSaveTimer);
     const { id, planId } = this.props;
@@ -76,6 +79,7 @@ export default class ApplicationSubmit extends React.Component {
     }, 10000);
   }
 
+  // 自动保存
   autoSave () {
     if (this.refs.editor) {
       let value = this.refs.editor.getValue();
@@ -91,6 +95,7 @@ export default class ApplicationSubmit extends React.Component {
     window.localStorage.removeItem(APPLICATION_AUTO_SAVING);
   }
 
+  // 点击提交应用题内容
   async handleSubmitApplicationSubmit () {
     const {
       hideCallback = () => {

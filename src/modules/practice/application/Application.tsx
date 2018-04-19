@@ -458,6 +458,7 @@ export default class Application extends React.Component <any, any> {
         {
           showSubmit &&
           <ApplicationSubmit id={id}
+                             key={randomStr(12)}
                              planId={planId}
                              hideCallback={() => {
                                this.setState({ showSubmit: false });
