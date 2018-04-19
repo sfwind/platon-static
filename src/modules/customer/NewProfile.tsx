@@ -8,6 +8,7 @@ import { pget, ppost, mark } from 'utils/request'
 import { loadUserProfileInfo } from './async'
 import { changeTitle } from 'utils/helpers'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
+import MobileBind from './components/MobileBind'
 
 const industryList = [
   { id: '1', value: '互联网/电商' },
@@ -36,9 +37,13 @@ const marryList = [
   { id: '2', value: '单身' }
 ]
 
-/**
- * 个人信息修改页
- */
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能： 个人中心信息修改页面
+ 3. 作者： yangren@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 @connect(state => state)
 export default class NewProfile extends React.Component<any, any> {
   static contextTypes = {
@@ -74,7 +79,8 @@ export default class NewProfile extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         let defaultIsFull = res.msg.isFull
-        this.setState(_.merge({}, { canSubmit: res.msg.canSubmit }, { defaultIsFull: defaultIsFull }, res.msg), () => {
+        this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
+          this.checkCanSubmit()
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -180,7 +186,7 @@ export default class NewProfile extends React.Component<any, any> {
 
   submitProfile() {
     const { dispatch } = this.props
-    const { nickName, workingYear, province, city, industry, company, college, mobile, weixinId, email, introduction, realName, receiver, address, married, mobileNo } = this.state
+    const { nickName, workingYear, province, city, industry, company, college, mobile, weixinId, email, introduction, realName, receiver, address, married, mobileNo,code } = this.state
     const functionValue = _.get(this.state, 'function')
     const rate = this.checkCompletion()
     if(!_.isEmpty(introduction) && introduction.length >= 300) {
@@ -204,7 +210,7 @@ export default class NewProfile extends React.Component<any, any> {
         mobile,
         weixinId,
         email,
-        introduction, mobileNo
+        introduction, mobileNo,code
       })
       dispatch(startLoad())
 
@@ -225,12 +231,6 @@ export default class NewProfile extends React.Component<any, any> {
     }
   }
 
-  goMobileCheck() {
-    this.context.router.push({
-      pathname: '/rise/static/customer/mobile/check',
-      query: { person: true }
-    })
-  }
 
   checkCompletion() {
     const functionValue = _.get(this.state, 'function')
@@ -275,6 +275,24 @@ export default class NewProfile extends React.Component<any, any> {
 
     return count
 
+  }
+
+/*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    子组件修改渲染父级页面回调函数修改手机号
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
+  changeMobile(v) {
+    this.setState({
+      mobile: v
+    })
+  }
+
+  /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     子组件修改渲染父级页面回调函数修改code
+      -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
+  changeCode(v) {
+    this.setState({
+      code: v
+    })
   }
 
   render() {
@@ -450,14 +468,6 @@ export default class NewProfile extends React.Component<any, any> {
       )
     }
 
-    const renderMobile = () => {
-      return (
-        <div className='select-wrapper-has'>
-          {mobile}
-        </div>
-      )
-    }
-
     const renderWeiXinId = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
@@ -487,7 +497,6 @@ export default class NewProfile extends React.Component<any, any> {
         <div className="profile-header">
           {renderProfileHeader()}
         </div>
-
 
         <div className="profile-container">
           <div className="title-container">
@@ -565,24 +574,7 @@ export default class NewProfile extends React.Component<any, any> {
             详细信息
           </div>
 
-          <div className="profile-item">
-            <div className="item-label">
-              毕业院校
-            </div>
-            <div className="item-content">
-              {renderCollege()}
-            </div>
-          </div>
-
-          <MarkBlock module={'个人中心'} func={'个人信息页'} action={'修改手机号'} className="profile-item"
-                     onClick={() => this.goMobileCheck()}>
-            <div className="item-label">
-              手机号
-            </div>
-            <div className="item-content">
-              {renderMobile()}
-            </div>
-          </MarkBlock>
+          <MobileBind mobile={mobile}  changeMobile={this.changeMobile.bind(this)} changeCode={this.changeCode.bind(this)} dispatch={this.props.dispatch}/>
 
 
           <div className="profile-item">
@@ -601,6 +593,15 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
             <div className="item-content">
               {renderMail()}
+            </div>
+          </div>
+
+          <div className="profile-item">
+            <div className="item-label">
+              毕业院校
+            </div>
+            <div className="item-content">
+              {renderCollege()}
             </div>
           </div>
 

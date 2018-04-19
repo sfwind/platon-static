@@ -27,7 +27,7 @@ export default class TextInput extends React.Component<TextInputProps,any>{
   render(){
 
     return (
-      <div className="text-input" style={{marginBottom:"10px",borderBottom:"none"}}>
+      <div className="text-input" style={{borderBottom:"none"}}>
         <div className="text-input-label">
           {this.props.label}
         </div>

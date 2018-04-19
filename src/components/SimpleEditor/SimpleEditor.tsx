@@ -1,7 +1,6 @@
 import * as React from 'react'
-
-import './SimpleEditor.less'
 import { randomStr } from '../../utils/helpers'
+import './SimpleEditor.less'
 
 interface SimpleEditorProps {
   style?: object,

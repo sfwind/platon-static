@@ -4,11 +4,11 @@ import './Profile.less'
 import * as _ from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import DropDownList from './components/DropDownList'
-import WorkStep from '../../components/WorkStep'
 import { pget, ppost, mark } from 'utils/request'
 import { loadUserProfileInfo } from './async'
 import { changeTitle } from 'utils/helpers'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
+import MobileBindComponent from './components/MobileBindComponent'
 
 const industryList = [
   { id: '1', value: '互联网/电商' },
@@ -36,10 +36,14 @@ const marryList = [
   { id: '1', value: '未婚有对象' },
   { id: '2', value: '单身' }
 ]
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能：入学完善个人信息页
+ 3. 作者： yangren@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/**
- * 个人信息修改页
- */
+
 @connect(state => state)
 export default class Profile extends React.Component<any, any> {
   static contextTypes = {
@@ -59,7 +63,9 @@ export default class Profile extends React.Component<any, any> {
       realName: null,
       address: null,
       receiver: null,
-      married: null
+      married: null,
+      mobile: '',
+      code:null
     }
     this.btnWidth = 690 / 750 * window.innerWidth
   }
@@ -67,27 +73,13 @@ export default class Profile extends React.Component<any, any> {
   componentWillMount() {
     mark({ module: '打点', function: '个人中心', action: '打开我的信息页面' })
     changeTitle('个人信息')
-    const { dispatch, region, location } = this.props
-    const { goCamp } = location.query
+    const { dispatch, region } = this.props
     dispatch(startLoad())
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        if(res.msg.canSubmit && res.msg.canSkip) {
-          if(goCamp) {
-            this.context.router.push({
-              pathname: '/rise/static/customer/mobile/check',
-              query: { goCamp: true }
-            })
-          } else {
-            this.context.router.push({
-              pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true }
-            })
-          }
-        } else {
           this.setState(_.merge({}, res.msg))
-        }
+          this.checkCanSubmit()
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -171,14 +163,14 @@ export default class Profile extends React.Component<any, any> {
     const functionValue = _.get(this.state, 'function')
     const { location } = this.props
     const { goRise } = location.query
-    const { workingYear, province, city, industry, realName, receiver, address, mobileNo } = this.state
+    const { workingYear, province, city, industry, realName, receiver, address, mobile,mobileNo, weixinId } = this.state
     if(goRise) {
-      if(workingYear && province && city && industry && functionValue && realName && receiver && address && mobileNo) {
+      if(workingYear && province && city && industry && functionValue && realName && receiver && address && mobileNo && (mobile || weixinId)) {
         this.setState({ canSubmit: true })
         return true
       }
     } else {
-      if(workingYear && province && city && industry && functionValue) {
+      if(workingYear && province && city && industry && functionValue && (mobile || weixinId)) {
         this.setState({ canSubmit: true })
         return true
       }
@@ -195,10 +187,11 @@ export default class Profile extends React.Component<any, any> {
       mobile,
       weixinId,
       email,
-      introduction, mobileNo
+      introduction, mobileNo,code
     } = this.state
     const functionValue = _.get(this.state, 'function')
-    const { goRise, goCamp } = location.query
+    const {goCamp } = location.query
+
     if(this.checkCanSubmit()) {
       let param = {
         city: city,
@@ -209,7 +202,7 @@ export default class Profile extends React.Component<any, any> {
         rate: 0
       }
 
-      if(!_.isEmpty(introduction)&&introduction.length>=300){
+      if(!_.isEmpty(introduction) && introduction.length >= 300) {
         dispatch(alertMsg('个人简介内容过长'))
         return
       }
@@ -220,23 +213,16 @@ export default class Profile extends React.Component<any, any> {
         mobile,
         weixinId,
         email,
-        introduction, mobileNo
+        introduction, mobileNo,mobile,code
       })
       dispatch(startLoad())
       ppost('/rise/customer/profile', param).then(res => {
         dispatch(endLoad())
         if(res.code === 200) {
-          //从付款页跳转过来的，填完个人信息后引导去学习页面
-          if(goCamp) {
-            this.context.router.push({
-              pathname: '/rise/static/customer/mobile/check',
-              query: { goCamp: true }
-            })
-          } else if(goRise) {
-            this.context.router.push({
-              pathname: '/rise/static/customer/mobile/check',
-              query: { goRise: true }
-            })
+          if(goCamp){
+            window.location.href = `/rise/static/camp`
+          }else{
+            window.location.href = `/rise/static/rise`
           }
         } else {
           dispatch(alertMsg(res.msg))
@@ -250,14 +236,45 @@ export default class Profile extends React.Component<any, any> {
     }
   }
 
+  /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    子组件修改渲染父级页面回调函数设置手机号
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
+  changeMobile(v) {
+    this.setState({
+      mobile: v
+    })
+    this.checkCanSubmit()
+  }
+
+  /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    子组件修改渲染父级页面回调函数设置code
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
+  changeCode(v) {
+    this.setState({
+      code: v
+    })
+    this.checkCanSubmit()
+  }
+
+  /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    子组件修改渲染父级页面回调函数修改微信号
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
+  changeWeiXinId(v) {
+    this.setState({
+      weixinId: v
+    })
+    this.checkCanSubmit()
+  }
+
   render() {
+    const { mobile, weixinId } = this.state
     const { region, location } = this.props
 
     const { goCamp, goRise } = location.query
 
     const provinceList = _.get(region, 'provinceList')
     const cityList = _.get(region, 'cityList')
-    const { city, province, cityId, provinceId, industry, bindMobile, workingYearList, workingYear, address, married, canSubmit, introduction } = this.state
+    const { city, province, cityId, provinceId, industry, workingYearList, workingYear, address, married, canSubmit, introduction } = this.state
     const renderFunction = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
@@ -278,14 +295,6 @@ export default class Profile extends React.Component<any, any> {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
-        </div>
-      )
-    }
-
-    const renderWeiXinId = () => {
-      return (
-        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
-          <input id="weixinId" placeholder="请填写" type="text" {...this.bind('weixinId', this.getInputValue)}/>
         </div>
       )
     }
@@ -393,9 +402,6 @@ export default class Profile extends React.Component<any, any> {
     return (
       <div className="profile">
         <div className="go-rise">
-          <WorkStep
-            works={[{ text: '填写信息', done: !!canSubmit, cur: true },
-              { text: '绑定手机', done: !!bindMobile }, { text: '去上课', done: false }]}/>
           <div className="guide">
             {goCamp ?
               <div className="first-guide">填写工作和所在城市<br/>才能加入校友会！</div>
@@ -411,6 +417,9 @@ export default class Profile extends React.Component<any, any> {
           <div className="title-container">
             基本信息
           </div>
+          {/*//手机绑定组件*/}
+          <MobileBindComponent mobile={mobile} weixinId={weixinId} changeMobile={this.changeMobile.bind(this)} changeCode={this.changeCode.bind(this)} changeWeiXinId={this.changeWeiXinId.bind(this)} dispatch={this.props.dispatch}/>
+
           <div className="profile-item">
             <div className="item-label">
               首次参加工作年份
@@ -466,15 +475,6 @@ export default class Profile extends React.Component<any, any> {
             </div>
             <div className="item-content">
               {renderCollege()}
-            </div>
-          </div>
-
-          <div className="profile-item">
-            <div className="item-label">
-              微信号
-            </div>
-            <div className="item-content">
-              {renderWeiXinId()}
             </div>
           </div>
 
@@ -563,7 +563,7 @@ export default class Profile extends React.Component<any, any> {
           <div
             className={`submit-btn ${canSubmit ? '' : 'disabled'}`} style={{ width: `${this.btnWidth}px` }}
             onClick={this.submitProfile.bind(this)}>
-            下一步
+            完成
           </div>
         </div>
       </div>
