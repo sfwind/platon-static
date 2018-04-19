@@ -14,6 +14,7 @@ import DiscussDistrict from './modules/practice/components/DiscussDistrict/Discu
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 import ProblemPreview from './modules/practice/preview/ProblemPreview'
+import OpenCourse from './modules/plan/OpenCourse'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -322,6 +323,8 @@ const routes = (
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
       <Route path="home/problem" component={ProblemDesc}/>
+
+      <Route path="open/course" component={OpenCourse} />
 
       <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>

@@ -96,3 +96,7 @@ export function unlockCampPlan(planId) {
 export function openAudition() {
   return ppost('/rise/plan/open/audition/course')
 }
+
+export function openCourse(problemId){
+  return pget("/rise/open/course?problemId="+problemId)
+}
