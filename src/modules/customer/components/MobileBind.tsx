@@ -97,6 +97,8 @@ export default class MobileBind extends React.Component<any,any>{
                   </div>
               }
             </TextInput>
+        <div className="interval-div">
+        </div>
       </div>
     )
   }

@@ -564,14 +564,6 @@ export default class NewProfile extends React.Component<any, any> {
             详细信息
           </div>
 
-          <div className="profile-item">
-            <div className="item-label">
-              毕业院校
-            </div>
-            <div className="item-content">
-              {renderCollege()}
-            </div>
-          </div>
 
           <MobileBind mobile={mobile}  changeMobile={this.changeMobile.bind(this)} changeCode={this.changeCode.bind(this)} dispatch={this.props.dispatch}/>
 
@@ -592,6 +584,15 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
             <div className="item-content">
               {renderMail()}
+            </div>
+          </div>
+
+          <div className="profile-item">
+            <div className="item-label">
+              毕业院校
+            </div>
+            <div className="item-content">
+              {renderCollege()}
             </div>
           </div>
 

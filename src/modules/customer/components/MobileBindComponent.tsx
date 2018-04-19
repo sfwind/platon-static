@@ -128,6 +128,8 @@ export default class MobileBindComponent extends React.Component<any, any> {
                        onChange={(e) => this.handleChangePhone(e)}/>
             <TextInput placeholder="请填写" value={this.state.code} label="验证码"
                        onChange={(e) => this.handleChangeCode(e)}>
+              <div className="interval-div">
+              </div>
               {
                 sending ?
                   <div className={`send-code sending`}>
@@ -140,6 +142,8 @@ export default class MobileBindComponent extends React.Component<any, any> {
             </TextInput>
             <TextInput placeholder={'不确定？微信点击右下角“我”可查看'} value={weixinId} label="微信号"
                        onChange={(e) => this.handleChangeWeixin(e)}/>
+            <div className="interval-div">
+            </div>
           </div>
         }
       </div>
