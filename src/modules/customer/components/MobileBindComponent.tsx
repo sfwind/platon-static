@@ -107,6 +107,8 @@ export default class MobileBindComponent extends React.Component<any, any> {
             </div>
             <TextInput placeholder={'不确定？微信点击右下角“我”可查看'} value={weixinId} label="微信号"
                        onChange={(e) => this.handleChangeWeixin(e)}/>
+            <div className="interval-div">
+            </div>
           </div>
           :
           <div>
