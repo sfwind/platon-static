@@ -8,6 +8,7 @@ import { pget, ppost, mark } from 'utils/request'
 import { loadUserProfileInfo } from './async'
 import { changeTitle } from 'utils/helpers'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
+import MobileBind from './components/MobileBind'
 
 const industryList = [
   { id: '1', value: '互联网/电商' },
@@ -225,12 +226,6 @@ export default class NewProfile extends React.Component<any, any> {
     }
   }
 
-  goMobileCheck() {
-    this.context.router.push({
-      pathname: '/rise/static/customer/mobile/check',
-      query: { person: true }
-    })
-  }
 
   checkCompletion() {
     const functionValue = _.get(this.state, 'function')
@@ -275,6 +270,18 @@ export default class NewProfile extends React.Component<any, any> {
 
     return count
 
+  }
+
+  changeMobile(v) {
+    this.setState({
+      mobile: v
+    })
+  }
+
+  changeCode(v) {
+    this.setState({
+      code: v
+    })
   }
 
   render() {
@@ -450,14 +457,6 @@ export default class NewProfile extends React.Component<any, any> {
       )
     }
 
-    const renderMobile = () => {
-      return (
-        <div className='select-wrapper-has'>
-          {mobile}
-        </div>
-      )
-    }
-
     const renderWeiXinId = () => {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
@@ -487,7 +486,6 @@ export default class NewProfile extends React.Component<any, any> {
         <div className="profile-header">
           {renderProfileHeader()}
         </div>
-
 
         <div className="profile-container">
           <div className="title-container">
@@ -574,15 +572,7 @@ export default class NewProfile extends React.Component<any, any> {
             </div>
           </div>
 
-          <MarkBlock module={'个人中心'} func={'个人信息页'} action={'修改手机号'} className="profile-item"
-                     onClick={() => this.goMobileCheck()}>
-            <div className="item-label">
-              手机号
-            </div>
-            <div className="item-content">
-              {renderMobile()}
-            </div>
-          </MarkBlock>
+          <MobileBind mobile={mobile}  changeMobile={this.changeMobile.bind(this)} changeCode={this.changeCode.bind(this)} dispatch={this.props.dispatch}/>
 
 
           <div className="profile-item">

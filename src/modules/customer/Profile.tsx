@@ -38,7 +38,7 @@ const marryList = [
 ]
 
 /**
- * 个人信息修改页
+ * 入学完善信息页
  */
 @connect(state => state)
 export default class Profile extends React.Component<any, any> {
