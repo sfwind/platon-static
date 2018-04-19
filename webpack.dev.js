@@ -15,13 +15,13 @@ module.exports = merge(common, {
     historyApiFallback: true,
     disableHostCheck: true,
     bonjour: false,
-    lazy: true,
+  /*  lazy: true,*/
     host: '0.0.0.0',
     port: 4000,
     openPage: 'rise/static/rise',
     proxy: {
       '/rise/*': {
-        target: 'http://localhost:8080',
+        target: 'http://beta.confucius.mobi',
         secure: false,
         bypass: function(req) {
           if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
@@ -30,7 +30,7 @@ module.exports = merge(common, {
         }
       },
       '/': {
-        target: 'http://localhost:8180',
+        target: 'http://beta.confucius.mobi',
         secure: false,
         bypass: function(req) {
           if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
@@ -44,7 +44,7 @@ module.exports = merge(common, {
     new HtmlWebpackPlugin({
       template: 'index.html'
     }),
-    new BundleAnalyzerPlugin(),
+ /*   new BundleAnalyzerPlugin(),*/
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ]

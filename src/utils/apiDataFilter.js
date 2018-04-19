@@ -24,7 +24,7 @@ let apiDataFilter =  {
         let opts = {
             "timeout" : apiConf.timeout ,
             "headers" : {
-
+              "platform" : 'we_mobile'
             }
         } ;
         /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -49,13 +49,13 @@ let apiDataFilter =  {
         errorCallback = errorCallback || this.errorCallback ;
         if(method === "post") {
           axios[method](apiUrl , data , opts ).then( (res) => {
-                if( parseInt(res.body.status , 10) === apiConf.successStatusCode) successCallback(res) ;
+                if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res) ;
                 else { errorCallback(res&&res.body&&res.body.message) ; } ;
             } , errorCallback) ;
         }
         else if(  method === "jsonp" ||  method === "get" ) {
           axios[method](apiUrl , opts ).then( (res) => {
-                if( parseInt(res.body.status , 10) === apiConf.successStatusCode) successCallback(res) ;
+                if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res) ;
                 else { errorCallback(res&&res.body&&res.body.message,res) ; } ;
             } , errorCallback) ;
         }
@@ -95,13 +95,13 @@ let apiDataFilter =  {
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
     pathToUrl(apiPath) {
         let pathArray = apiPath.split(".") ;
-       /* let prefix = apiConf.prefix[this.getEnv()] ;*/
+        let prefix = apiConf.prefix[this.getEnv()] ;
         let suffix = apiConf.suffix ;
         for(let n = 0 ; n < pathArray.length ; n ++) {
             suffix = suffix[pathArray[n]] ;
         }
         if(suffix === undefined) suffix = "" ;
-        return prefix + "/" + suffix ;
+        return prefix+ suffix ;
        /* return prefix + "/" + suffix ;*/
     }
      /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------

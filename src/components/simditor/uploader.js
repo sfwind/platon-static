@@ -135,7 +135,7 @@
     Uploader.prototype._xhrUpload = function(file) {
       var formData, k, ref, v;
       formData = new FormData();
-      if (file.obj.size/1024  > 1025){   // 判断是不是大于1m
+      if (file.obj.size/1024  >= 1024){   // 判断是不是大于1M
         var thatSelf = this;
         var ready=new FileReader();
         /*开始读取指定的Blob对象或File对象中的内容. 当读取操作完成时,readyState属性的值会成为DONE,如果设置了onloadend事件处理程序,则调用之.同时,result属性中将包含一个data: URL格式的字符串以表示所读取文件的内容.*/
