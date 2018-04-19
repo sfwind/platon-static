@@ -154,7 +154,7 @@ export default class PersonalDiscussDistrict extends React.Component {
                      style={{ color: '#56cec0' }}
                      onClick={() => this.handleRequestApplicationComment(discuss.id)}>
                   <AssetImg className="icon"
-                            url="https://static.iqycamp.com/request_comment_2-g9tnvx5x.png"/>
+                            url="https://static.iqycamp.com/request_comment-1wsx0d4q.png"/>
                   <span className="request-span">求点评</span>
                 </div>
               }
@@ -163,7 +163,7 @@ export default class PersonalDiscussDistrict extends React.Component {
                 <div className="vote-data"
                      onClick={() => this.handleClickVote(discuss)}>
                   <AssetImg className="icon"
-                            url={discuss.selfVoted ? 'https://static.iqycamp.com/voted-9lfn0uhh.png' : 'https://static.iqycamp.com/forvote-fjcbveqn.png'}/>
+                            url={discuss.selfVoted ? 'https://static.iqycamp.com/voted-nm7ga1oc.png' : 'https://static.iqycamp.com/vote-9467wr3b.png'}/>
                   <span className="vote-count">&nbsp;&nbsp;{discuss.voteCount}</span>
                 </div>
               }

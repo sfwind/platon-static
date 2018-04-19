@@ -462,7 +462,10 @@ export default class Application extends React.Component <any, any> {
           showSubmit &&
           <ApplicationSubmit id={id}
                              planId={planId}
-                             hideCallback={() => this.setState({ showSubmit: false })}
+                             hideCallback={() => {
+                               this.setState({ showSubmit: false })
+                               this.componentWillMount()
+                             }}
                              submitCallback={() => this.componentWillMount()}/>
         }
       </div>
