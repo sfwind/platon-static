@@ -1,0 +1,47 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能：手机绑定页面css样式
+ 3. 作者： yangren@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+@import "../../../style/variable";
+
+.base-mobile-bind-component{
+  position: relative;
+  width: 100%;
+  background-color: @color_weak_background;
+  .send-code {
+    //display: inline-block;
+    float: right;
+    border-radius: @border-radius;
+    margin-left: 10px;
+    height: 33px;
+    line-height: 33px;
+    margin-top: 11px;
+    padding: 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 1px;
+    &.sending {
+      background-color: @color_weak;
+      color: #fff;
+      border: 1px solid @color_weak;
+    }
+    &.free {
+      background-color: #FFF;
+      color: #399BD3;
+      border: 1px solid #399BD3;
+      font-size:14px;
+    }
+  }
+
+  .text {
+    color: #fff;
+    font-size: @font_context;
+  }
+  .interval-div{
+    height: 1px;
+    color: @color_weak_background;
+  }
+}
