@@ -74,11 +74,6 @@ export default class Application extends React.Component <any, any> {
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props;
     const { id, planId } = location.query;
     this.loadApplicationData(true);
-    loadApplicationCompletedCount(planId).then(res => {
-      this.setState({ completedApplicationCnt: res.msg });
-    });
-    let commentsRes = await loadPriorityApplicationCommenst(id, planId);
-    this.setState({ commentsData: commentsRes.msg });
   }
 
   componentDidUpdate () {
@@ -155,6 +150,7 @@ export default class Application extends React.Component <any, any> {
   }
 
   async loadApplicationData (alertTips = false) {
+    const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props;
     const { id, planId } = this.props.location.query;
     const { code, msg } = await loadApplicationPractice(id, planId);
     if (code === 200) {
@@ -185,6 +181,11 @@ export default class Application extends React.Component <any, any> {
     if (otherApplicationPracticeSubmitId && id == applicationId) {
       this.others();
     }
+    loadApplicationCompletedCount(planId).then(res => {
+      this.setState({ completedApplicationCnt: res.msg });
+    });
+    let commentsRes = await loadPriorityApplicationCommenst(id, planId);
+    this.setState({ commentsData: commentsRes.msg });
   }
 
   autoSave () {
@@ -335,6 +336,7 @@ export default class Application extends React.Component <any, any> {
       showCompletedBox = false, completedApplicationCnt, loading,
       commentsData = {}, showApplicationCacheAlert, showSubmit = false,
     } = this.state;
+    console.log(commentsData);
     const { planId, id } = this.props.location.query;
     const { completePracticePlanId, dispatch } = this.props;
     const { topic, description, content, voteCount, submitId, voteStatus, pic, isBaseApplication, isLastApplication, problemId } = data;
@@ -451,9 +453,9 @@ export default class Application extends React.Component <any, any> {
                    },
                  },
                ]}>
-          您还没有提交草稿哦，
+          你还没有提交作业哦，
           <br/>
-          点击提交立即更新我的作业
+          点击确定立即去提交作业
         </Alert>
         {
           showSubmit &&
