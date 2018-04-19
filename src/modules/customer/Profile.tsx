@@ -187,7 +187,7 @@ export default class Profile extends React.Component<any, any> {
       introduction, mobileNo,code
     } = this.state
     const functionValue = _.get(this.state, 'function')
-    const { goRise, goCamp } = location.query
+    const {goCamp } = location.query
 
     if(this.checkCanSubmit()) {
       let param = {
@@ -284,14 +284,6 @@ export default class Profile extends React.Component<any, any> {
       return (
         <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
           <input id="college" placeholder="请填写" type="text" {...this.bind('college', this.getInputValue)}/>
-        </div>
-      )
-    }
-
-    const renderWeiXinId = () => {
-      return (
-        <div className='select-wrapper-has-no-cut' style={{ marginRight: 0 }}>
-          <input id="weixinId" placeholder="请填写" type="text" {...this.bind('weixinId', this.getInputValue)}/>
         </div>
       )
     }
@@ -472,15 +464,6 @@ export default class Profile extends React.Component<any, any> {
             </div>
             <div className="item-content">
               {renderCollege()}
-            </div>
-          </div>
-
-          <div className="profile-item">
-            <div className="item-label">
-              微信号
-            </div>
-            <div className="item-content">
-              {renderWeiXinId()}
             </div>
           </div>
 

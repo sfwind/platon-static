@@ -1,9 +1,9 @@
 import * as React from 'react'
 import _ from 'lodash'
 import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
-import { ppost } from '../../../utils/request'
 import TextInput from './TextInput'
 import './MobileBindComponent.less'
+import { getMobileCode } from './async'
 
 export default class MobileBindComponent extends React.Component<any, any> {
 
@@ -20,8 +20,8 @@ export default class MobileBindComponent extends React.Component<any, any> {
   }
 
   onClick() {
-    let { mobile, areaCode } = this.state
-    const { dispatch } = this.props
+    let { areaCode } = this.state
+    const { dispatch ,mobile} = this.props
 
     let NUMBER_REG = /^[0-9]+$/
     if(!mobile) {
@@ -57,66 +57,10 @@ export default class MobileBindComponent extends React.Component<any, any> {
         clearInterval(this.intervalTrigger)
       }
     }, 1000)
-    ppost('/rise/customer/send/valid/code', param).then(res => {
-      if(res.code !== 200) {
-        dispatch(alertMsg(res.msg))
-      }
-    })
+
+    getMobileCode(param)
   }
 
-  // onSubmit() {
-  //   const { code, oversea, weixinId } = this.state
-  //   const { dispatch, location } = this.props
-  //
-  //   // 海外用户
-  //   if(oversea) {
-  //     ppost('/rise/customer/update/weixinId', { weixinId: _.trim(weixinId) }).then(res => {
-  //       if(res.code !== 200) {
-  //         dispatch(alertMsg(res.msg))
-  //       } else {
-  //         this.setState({ show: true })
-  //         setTimeout(() => {
-  //           if(location.query.goCamp) {
-  //             window.location.href = `/rise/static/camp`
-  //           } else if(location.query.goRise) {
-  //             window.location.href = `/rise/static/rise`
-  //           } else if(location.query.person) {
-  //             window.location.href = `/rise/static/customer/new/profile`
-  //           }
-  //           else {
-  //             this.context.router.push('/rise/static/customer/account')
-  //           }
-  //         }, 2100)
-  //       }
-  //     })
-  //   } else {
-  //     //国内用户
-  //     if(!code) {
-  //       dispatch(alertMsg('请输入验证码'))
-  //       return
-  //     }
-  //     ppost('/rise/customer/valid/sms', { code: _.trim(code) }).then(res => {
-  //       if(res.code !== 200) {
-  //         dispatch(alertMsg('验证输入错误<br/>请重新输入'))
-  //       } else {
-  //         this.setState({ show: true })
-  //         setTimeout(() => {
-  //           if(location.query.goCamp) {
-  //             window.location.href = `/rise/static/camp`
-  //           } else if(location.query.goRise) {
-  //             window.location.href = `/rise/static/rise`
-  //           } else if(location.query.person) {
-  //             window.location.href = `/rise/static/customer/new/profile`
-  //           }
-  //           else {
-  //             this.context.router.push('/rise/static/customer/account')
-  //           }
-  //         }, 2100)
-  //       }
-  //     })
-  //   }
-  //
-  // }
 
   handleChangePhone(e) {
     let value = e.currentTarget.value
@@ -194,6 +138,8 @@ export default class MobileBindComponent extends React.Component<any, any> {
                   </div>
               }
             </TextInput>
+            <TextInput placeholder={'不确定？微信点击右下角“我”可查看'} value={weixinId} label="微信号"
+                       onChange={(e) => this.handleChangeWeixin(e)}/>
           </div>
         }
       </div>
