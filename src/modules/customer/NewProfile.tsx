@@ -75,7 +75,8 @@ export default class NewProfile extends React.Component<any, any> {
       dispatch(endLoad())
       if(res.code === 200) {
         let defaultIsFull = res.msg.isFull
-        this.setState(_.merge({}, { canSubmit: res.msg.canSubmit }, { defaultIsFull: defaultIsFull }, res.msg), () => {
+        this.setState(_.merge({}, { defaultIsFull: defaultIsFull }, res.msg), () => {
+          this.checkCanSubmit()
         })
       } else {
         dispatch(alertMsg(res.msg))
@@ -181,7 +182,7 @@ export default class NewProfile extends React.Component<any, any> {
 
   submitProfile() {
     const { dispatch } = this.props
-    const { nickName, workingYear, province, city, industry, company, college, mobile, weixinId, email, introduction, realName, receiver, address, married, mobileNo } = this.state
+    const { nickName, workingYear, province, city, industry, company, college, mobile, weixinId, email, introduction, realName, receiver, address, married, mobileNo,code } = this.state
     const functionValue = _.get(this.state, 'function')
     const rate = this.checkCompletion()
     if(!_.isEmpty(introduction) && introduction.length >= 300) {
@@ -205,7 +206,7 @@ export default class NewProfile extends React.Component<any, any> {
         mobile,
         weixinId,
         email,
-        introduction, mobileNo
+        introduction, mobileNo,code
       })
       dispatch(startLoad())
 

@@ -74,9 +74,8 @@ export default class Profile extends React.Component<any, any> {
     loadUserProfileInfo().then(res => {
       dispatch(endLoad())
       if(res.code === 200) {
-        if(res.msg.canSubmit && res.msg.canSkip) {
           this.setState(_.merge({}, res.msg))
-        }
+          this.checkCanSubmit()
       } else {
         dispatch(alertMsg(res.msg))
       }
@@ -178,6 +177,7 @@ export default class Profile extends React.Component<any, any> {
 
   submitProfile() {
     const { dispatch, location } = this.props
+    console.log(this.state)
     const {
       city, province, industry, workingYear, realName, address, receiver, married, company,
       college,
