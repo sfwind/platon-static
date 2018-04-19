@@ -92,10 +92,10 @@ export default class LandingPage extends React.Component {
   }
 
   async shuffleArticles() {
-    let res = await loadShuffleArticles()
+    let res = await loadShuffleArticles();
     if(res.code === 200) {
-      let data = this.state.data
-      data.articlesFlows = res.msg
+      let data = this.state.data;
+      data.articlesFlows = res.msg;
       this.setState({
         data: data,
       })
@@ -130,6 +130,7 @@ export default class LandingPage extends React.Component {
   }
 
   render() {
+
     const {
       notify = false,
       isBusinessMember = true,
@@ -138,7 +139,7 @@ export default class LandingPage extends React.Component {
       livesFlows = [],
       articlesFlows = [],
       activitiesFlows = [],
-    } = this.state.data
+    } = this.state.data;
 
     return (
       <div className="landing-page-container">
@@ -181,7 +182,7 @@ export default class LandingPage extends React.Component {
         <div className="content-box-container">
           {
             !isBusinessMember &&
-            <div className="content-box">
+            <div className="content-box" id="#QWClass">
               <div className="content-header">
                 <div className="content-title">圈外课</div>
               </div>
@@ -190,7 +191,7 @@ export default class LandingPage extends React.Component {
               })}
             </div>
           }
-          <div className="content-box">
+          <div className="content-box" id="#QWEyes">
             <div className="content-header">
               <div className="content-title">拓眼界</div>
               {
@@ -207,7 +208,7 @@ export default class LandingPage extends React.Component {
             </div>
             {livesFlows.slice(0, 5).map((live, index) => <LiveHome data={live} key={index}/>)}
           </div>
-          <div className="content-box">
+          <div className="content-box" id="#QWStation">
             <div className="content-header">
               <div className="content-title">加油站</div>
               <MarkBlock module="打点" func="着陆页" action="加油站换一换" className="more" onClick={() => this.shuffleArticles()}>
@@ -217,7 +218,7 @@ export default class LandingPage extends React.Component {
             </div>
             {articlesFlows.slice(0, 3).map((article, index) => <ArticleHome data={article} key={index}/>)}
           </div>
-          <div className="content-box">
+          <div className="content-box" id="#QWClassmate">
             <div className="content-header">
               <div className="content-title">圈柚会</div>
               {

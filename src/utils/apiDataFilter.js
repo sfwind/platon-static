@@ -24,7 +24,7 @@ let apiDataFilter =  {
         let opts = {
             "timeout" : apiConf.timeout ,
             "headers" : {
-
+              "platform" : 'we_mobile'
             }
         } ;
         /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -49,13 +49,13 @@ let apiDataFilter =  {
         errorCallback = errorCallback || this.errorCallback ;
         if(method === "post") {
           axios[method](apiUrl , data , opts ).then( (res) => {
-                if( parseInt(res.body.status , 10) === apiConf.successStatusCode) successCallback(res) ;
+                if( parseInt(res.body.code , 10) === apiConf.successStatusCode) successCallback(res) ;
                 else { errorCallback(res&&res.body&&res.body.message) ; } ;
             } , errorCallback) ;
         }
         else if(  method === "jsonp" ||  method === "get" ) {
           axios[method](apiUrl , opts ).then( (res) => {
-                if( parseInt(res.body.status , 10) === apiConf.successStatusCode) successCallback(res) ;
+                if( parseInt(res.body.code , 10) === apiConf.successStatusCode) successCallback(res) ;
                 else { errorCallback(res&&res.body&&res.body.message,res) ; } ;
             } , errorCallback) ;
         }
