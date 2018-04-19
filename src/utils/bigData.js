@@ -45,6 +45,6 @@ import sa from 'sa-sdk-javascript'
      sa.track("frontMark", param);
    }
 }
-const BigData = new bigData();
+const BigData = new bigData();  // new一个实例
 
 export default BigData
