@@ -1,129 +1,167 @@
-import * as React from 'react'
-import './ApplicationSubmit.less'
-import EditorTopBar from '../../components/EditorTopBar/EditorTopBar'
-import Editor from '../../../../components/simditor/Editor'
-import { connect } from 'react-redux'
-import { autoSaveApplicationDraft, loadApplicationPractice, submitApplicationPractice } from '../../application/async'
-import { set, startLoad, endLoad, alertMsg } from 'reduxutil/actions'
+import * as React from 'react';
+import './ApplicationSubmit.less';
+import Editor from '../../../../components/simditor/Editor';
+import requestProxy from '../../../../components/requestproxy/requestProxy';
+import { autoSaveApplicationDraft, loadApplicationPractice, submitApplicationPractice } from '../../application/async';
 
-const APPLICATION_AUTO_SAVING = 'rise_application_autosaving'
+const APPLICATION_AUTO_SAVING = 'rise_application_autosaving';
 
-@connect(state => state)
 export default class ApplicationSubmit extends React.Component {
 
-  autoSaveTimer = null
+  autoSaveTimer = null;
 
   constructor () {
-    super()
+    super();
     this.state = {
       value: '',
-    }
+    };
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
+  };
+
+  componentWillMount () {
+    // 初始化组件，固定背景
+    document.body.addEventListener('mousewheel', this.lockWindow);
+    document.body.addEventListener('touchmove', this.lockWindow);
+  }
+
+  // 阻止默认事件
+  lockWindow (e) {
+    e.preventDefault();
   }
 
   async componentDidMount () {
-    const { id, planId } = this.props.location.query
-    let res = await loadApplicationPractice(id, planId)
-    let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING))
+    const { id, planId } = this.props;
+    let res = await loadApplicationPractice(id, planId);
+    let storageDraft = JSON.parse(window.localStorage.getItem(APPLICATION_AUTO_SAVING));
     if (storageDraft && storageDraft.id === id) {
       if (res.msg.overrideLocalStorage || res.msg.isSynchronized) {
         this.setState({
           value: res.msg.isSynchronized ? res.msg.content : res.msg.draft,
         }, () => {
-          this.autoSaveApplicationDraft()
-        })
+          this.autoSaveApplicationDraft();
+        });
       } else {
         this.setState({
           value: storageDraft.content,
         }, () => {
-          this.autoSaveApplicationDraft()
-        })
+          this.autoSaveApplicationDraft();
+        });
       }
     } else {
       this.setState({
         value: res.msg.isSynchronized ? res.msg.content : res.msg.draft,
       }, () => {
-        this.autoSaveApplicationDraft()
-      })
+        this.autoSaveApplicationDraft();
+      });
     }
   }
 
   componentWillUnmount () {
-    clearInterval(this.autoSaveTimer)
+    clearInterval(this.autoSaveTimer);
+    document.body.removeEventListener('mousewheel', this.lockWindow);
+    document.body.removeEventListener('touchmove', this.lockWindow);
   }
 
+  // 开启自动保存草稿的功能
   autoSaveApplicationDraft () {
-    clearInterval(this.autoSaveTimer)
-    const { id, planId } = this.props.location.query
+    clearInterval(this.autoSaveTimer);
+    const { id, planId } = this.props;
     this.autoSaveTimer = setInterval(() => {
       if (this.refs.editor) {
-        let draft = this.refs.editor.getValue()
+        let draft = this.refs.editor.getValue();
         if (draft.trim().length > 0) {
-          autoSaveApplicationDraft(planId, id, draft)
+          autoSaveApplicationDraft(planId, id, draft);
         }
       }
-    }, 10000)
+    }, 10000);
   }
 
+  // 自动保存
   autoSave () {
     if (this.refs.editor) {
-      let value = this.refs.editor.getValue()
+      let value = this.refs.editor.getValue();
       if (value) {
         window.localStorage.setItem(APPLICATION_AUTO_SAVING, JSON.stringify({
-          id: this.props.location.query.id, content: value,
-        }))
+          id: this.props, content: value,
+        }));
       }
     }
   }
 
   clearStorage () {
-    window.localStorage.removeItem(APPLICATION_AUTO_SAVING)
+    window.localStorage.removeItem(APPLICATION_AUTO_SAVING);
   }
 
+  // 点击提交应用题内容
   async handleSubmitApplicationSubmit () {
-    const { dispatch } = this.props
-    const value = this.refs.editor.getValue()
+    const {
+      hideCallback = () => {
+      },
+      submitCallback = () => {
+      },
+    } = this.props;
+    const value = this.refs.editor.getValue();
     if (!value || value.length === 0) {
-      dispatch(alertMsg('请填写作业'))
-      return
+      requestProxy.alertMessage('请填写作业');
+      return;
     } else {
-      const { id, planId } = this.props.location.query
-      let res = await submitApplicationPractice(planId, id, { answer: value })
+      const { id, planId } = this.props;
+      let res = await submitApplicationPractice(planId, id, { answer: value });
       if (res.code === 200) {
-        this.clearStorage()
-        this.context.router.goBack()
+        this.clearStorage();
+        hideCallback();
+        submitCallback();
       }
     }
   }
 
   render () {
-    const { value } = this.state
+    const {
+      id,
+      planId,
+      hideCallback = () => {
+      },
+      submitCallback = () => {
+      },
+    } = this.props;
+    const { value } = this.state;
 
     return (
-      <div className="application-submit-container">
-        <EditorTopBar leftLabel={'取消'}
-                      leftOnClick={() => {
-                        this.context.router.goBack()
-                      }}
-                      description={'我的作业'}
-                      rightLabel={'提交'}
-                      rightOnClick={() => this.handleSubmitApplicationSubmit()}/>
-        <Editor ref="editor"
-                className="editor"
-                moduleId="6"
-                toolbarFloat={false}
-                value={value}
-                autoSave={() => this.autoSave()}
-                placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点上方按钮提交，就会得到点赞和专业点评哦！"/>
-        <div className="bottom-tip">
-          <div>更喜欢电脑上提交？</div>
-          <div>登录 www.iquanwai.com/community</div>
+      <div className="application-submit-component">
+        <div className="editor-box">
+          <Editor ref="editor"
+                  className="editor"
+                  moduleId="6"
+                  toolbarFloat={false}
+                  value={value}
+                  autoSave={() => this.autoSave()}
+                  placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。完成后点上方按钮提交，就会得到点赞和专业点评哦！"/>
+          <div className="bottom-tip">
+            <div>更喜欢电脑上提交？</div>
+            <div>登录 www.iquanwai.com/community</div>
+          </div>
+          <div className="footerbutton">
+            <div className="temp-save"
+                 onClick={() => {
+                   hideCallback();
+                   autoSaveApplicationDraft(planId, id, this.refs.editor.getValue());
+                 }}>保存并返回
+            </div>
+            <div className="submit"
+                 onClick={() => this.handleSubmitApplicationSubmit()}>提交
+            </div>
+          </div>
         </div>
+        <div className="mask"
+             onClick={() => {
+               hideCallback();
+               autoSaveApplicationDraft(planId, id, this.refs.editor.getValue());
+             }}></div>
       </div>
-    )
+    );
   }
 
 }

@@ -149,11 +149,21 @@ export default class PersonalDiscussDistrict extends React.Component {
                           url="https://static.iqycamp.com/asst-gh4skljm.png"></AssetImg>
               }
               {
+                showRequestComment &&
+                <div className="request-comment"
+                     style={{ color: '#56cec0' }}
+                     onClick={() => this.handleRequestApplicationComment(discuss.id)}>
+                  <AssetImg className="icon"
+                            url="https://static.iqycamp.com/request_comment-1wsx0d4q.png"/>
+                  <span className="request-span">求点评</span>
+                </div>
+              }
+              {
                 showVote &&
                 <div className="vote-data"
                      onClick={() => this.handleClickVote(discuss)}>
                   <AssetImg className="icon"
-                            url={discuss.selfVoted ? 'https://static.iqycamp.com/voted-9lfn0uhh.png' : 'https://static.iqycamp.com/forvote-fjcbveqn.png'}/>
+                            url={discuss.selfVoted ? 'https://static.iqycamp.com/voted-nm7ga1oc.png' : 'https://static.iqycamp.com/vote-9467wr3b.png'}/>
                   <span className="vote-count">&nbsp;&nbsp;{discuss.voteCount}</span>
                 </div>
               }
@@ -174,12 +184,6 @@ export default class PersonalDiscussDistrict extends React.Component {
                 deleteFunc &&
                 <div className="delete"
                      onClick={() => this.handleClickDeleteComment(discuss.id)}>删除</div>
-              }
-              {
-                showRequestComment &&
-                <div className="delete"
-                     style={{ color: '#56cec0' }}
-                     onClick={() => this.handleRequestApplicationComment(discuss.id)}>求点评</div>
               }
             </div>
           </div>
@@ -216,7 +220,6 @@ export default class PersonalDiscussDistrict extends React.Component {
             )
           })
         }
-
 
         <Alert {...confirmParams} show={showConfirm}>
           <p>{confirmContent}</p>
