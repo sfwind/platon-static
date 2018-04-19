@@ -15,6 +15,7 @@ import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 import ProblemPreview from './modules/practice/preview/ProblemPreview'
 import PageNotFound from './modules/other/pageNotFound/PageNotFound'
+import ProblemPreview from './modules/practice/preview/ProblemPreview';
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
