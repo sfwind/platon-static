@@ -18,12 +18,12 @@ import { Dialog } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import * as _ from 'lodash';
 
-const { Alert } = Dialog
+const { Alert } = Dialog;
 @connect(state => state)
 export default class LandingPage extends React.Component {
 
   constructor() {
-    super()
+    super();
     this.state = {
       data: {},
       dialogButtons: [
@@ -50,16 +50,16 @@ export default class LandingPage extends React.Component {
     }
   }
 
-  countDownTimer
+  countDownTimer;
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
-  }
+  };
 
   async componentWillMount() {
-    changeTitle('圈外同学')
-    mark({ module: '打点', function: '着陆页', action: '打开着陆页' })
-    let res = await loadLandingPageData()
+    changeTitle('圈外同学');
+    mark({ module: '打点', function: '着陆页', action: '打开着陆页' });
+    let res = await loadLandingPageData();
     if(res.code === 200) {
       this.setState({
         data: res.msg,
@@ -163,7 +163,7 @@ export default class LandingPage extends React.Component {
             <Banner height='16rem'>
               {pageBanners.map((banner, index) =>
                 <img key={index} src={banner.imageUrl} onClick={() => {
-                  mark({ module: '打点', function: '着陆页', action: '点击Banner' })
+                  mark({ module: '打点', function: '着陆页', action: '点击Banner' });
                   this.handleClickImageBanner(banner)
                 }} className="banner-item swiper-slide swiper-image"/>,
               )}

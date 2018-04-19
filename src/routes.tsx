@@ -15,10 +15,6 @@ import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 import ProblemPreview from './modules/practice/preview/ProblemPreview';
 
-const liyang = Loadable({
-  loader: () => import('./modules/yang/liYang'),
-  loading: Loading,
-})
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
   loading: Loading,
@@ -421,7 +417,6 @@ const routes = (
       <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
       <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
-    <Route path="/liyang" component={liyang}/>
   </Route>
 )
 
