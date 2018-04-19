@@ -3,12 +3,15 @@ import DiscussTopBar from '../../components/DiscussTopBar/DiscussTopBar'
 import PersonalDiscussDistrict from '../../components/PersonalDiscussDisctrict/PersonalDiscussDistrict'
 import './ApplicationDiscussDistrict.less'
 import { vote } from '../async'
+import ApplicationSubmit from '../../common/ApplicationSubmit/ApplicationSubmit'
 
 export default class ApplicationDiscussDistrict extends React.Component {
 
   constructor () {
     super()
-    this.state = {}
+    this.state = {
+      showSubmit: false,
+    }
   }
 
   static contextTypes = {
@@ -18,8 +21,6 @@ export default class ApplicationDiscussDistrict extends React.Component {
   render () {
     const {
       data,
-      clickFunc = () => {
-      },
     } = this.props
     const {
       personal = [],
@@ -28,12 +29,6 @@ export default class ApplicationDiscussDistrict extends React.Component {
 
     return (
       <div className="application-discuss-district-component">
-        <DiscussTopBar leftLabel={'作业区'}
-                       rightLabel={'提交作业'}
-                       rightOnClick={() => {
-                         this.context.router.setState({ pageScrollY: window.pageYOffset })
-                         clickFunc()
-                       }}/>
         {
           personal.length > 0 && <div className="tips top">我的作业</div>
         }
