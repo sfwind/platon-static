@@ -177,7 +177,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   render () {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
     const {
-      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
+      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic, fileId,
       analysisAudio, analysisAudioWords, meansAudio, meansAudioWords,description,keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords,
     } = knowledge
     const { location } = this.props
@@ -213,9 +213,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           {
             videoUrl &&
               <div style={{marginTop:'20px',marginBottom:'20px'}}>
-            <QYVideo videoUrl={videoUrl}
-                                 videoPoster={videoPoster}
-                     videoWords={videoWords}/></div>
+            <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords} fileId={fileId}/></div>
           }
           <div className="intro-container">
             {

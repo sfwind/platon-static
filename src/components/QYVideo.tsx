@@ -1,17 +1,32 @@
 import * as React from 'react'
 import './QYVideo.less'
 import { mark } from '../utils/request'
-import enableInlineVideo from 'iphone-inline-video'
 
 export default class QYVideo extends React.Component<any, any> {
 
   constructor() {
-    super()
-    this.state = {}
+    super();
+    this.state = {};
+    this.player = null;
   }
 
+  componentDidMount() {
+    const { fileId, videoPoster } = this.props
+    if(fileId) {
+      // 初始化腾讯播放器
+      this.player = TCPlayer('player-container', { // player-container-id 为播放器容器ID，必须与html中一致
+        fileID: fileId, // 请传入需要播放的视频fileID 必须
+        appID: '1256115011', // 请传入点播账号的appID 必须
+        playsinline : true,
+      });
+    }
+  }
+
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    点击展开或者折叠文字稿
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   handleClickShowWords(showWords) {
-    const { beforeShowWords, cantShowWords } = this.props
+    const { beforeShowWords, cantShowWords } = this.props;
     if(!showWords) {
       // 原来是关闭的，现在展开
       if(beforeShowWords) {
@@ -36,12 +51,17 @@ export default class QYVideo extends React.Component<any, any> {
   }
 
   render() {
-    const { videoUrl, videoPoster, videoWords } = this.props
-    const { showWords } = this.state
+    const { videoUrl, videoPoster, videoWords, fileId } = this.props;
+    const { showWords } = this.state;
     return (
-      <div>
-        <video  ref="video" src={videoUrl} poster={videoPoster} controls="controls" width="100%">您的设备不支持Video标签
-        </video>
+      <div className="video-container">
+        { fileId ?
+            <video id="player-container" preload="auto" poster={videoPoster}>
+            </video>
+          :
+          <video ref="video" src={videoUrl} poster={videoPoster} controls="controls" width="100%"
+                 playsinline webkit-playinline x5-playinline></video>
+        }
         {videoWords &&
         <div className={`video-words-container ${showWords ? 'show-all' : 'hide'}`}>
           <div className={`video-words`} dangerouslySetInnerHTML={{ __html: videoWords }}/>

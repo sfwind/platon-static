@@ -15,7 +15,7 @@ import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 import ProblemPreview from './modules/practice/preview/ProblemPreview';
 
-const LangdingPage = Loadable({
+const LandingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
   loading: Loading,
 })
@@ -318,7 +318,7 @@ const routes = (
       sa.quick('autoTrackSinglePage');
     }}>
       <Route path={'demo'} component={DiscussDistrict}/>
-      <Route path="home" component={LangdingPage}/>
+      <Route path="home" component={LandingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
       <Route path="home/problem" component={ProblemDesc}/>
