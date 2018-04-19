@@ -14,6 +14,7 @@ import DiscussDistrict from './modules/practice/components/DiscussDistrict/Discu
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 import ProblemPreview from './modules/practice/preview/ProblemPreview'
+import PageNotFound from './modules/other/pageNotFound/PageNotFound'
 
 const LangdingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -328,7 +329,6 @@ const routes = (
       <Route path="learn" component={SchedulePlan}/>
       <Route path="plan/main" component={SchedulePlan}/>
 
-
       <Route path="daily/talk" component={DailyTalk}/>
 
       <Route path="problem/explore" component={Explore}/>
@@ -353,7 +353,6 @@ const routes = (
       <Route path="practice/knowledge/review" component={KnowledgeReview}/>
       <Route path="practice/submit/comment" component={CommentSubmit}/>
       <Route path="practice/submit/application" component={ApplicationSubmit}/>
-
 
       <Route path="message/warmup/reply" component={ReplyDiscussMessage}/>
       <Route path="message/subject/reply" component={Subject}/>
@@ -417,6 +416,7 @@ const routes = (
       <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
       <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
+    <Route path="*" component={PageNotFound}></Route>
   </Route>
 )
 
