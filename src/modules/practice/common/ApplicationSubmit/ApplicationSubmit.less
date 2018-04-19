@@ -1,7 +1,7 @@
 .application-submit-component {
   width: 100vw;
   height: 100vh;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 130;
@@ -61,12 +61,14 @@
     max-height: 30rem !important;
   }
   .mask {
+    position: fixed;
     width: 100%;
     min-height: 100%;
     background: rgba(0, 0, 0, 0.70);
-    position: absolute;
     left: 0;
+    right: 0;
     top: 0;
+    bottom: 0;
     z-index: 135;
   }
 }
