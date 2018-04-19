@@ -36,7 +36,7 @@ const sequenceMap = {
 @connect(state => state)
 export default class KnowledgeViewer extends React.Component<any, any> {
   constructor () {
-    super()
+    super();
     this.state = {
       showTip: false,
       showDiscuss: false,
@@ -51,27 +51,27 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
-  }
+  };
 
   async componentWillMount () {
-    mark({ module: '打点', function: '学习', action: '打开知识点页面' })
-    const { dispatch, location } = this.props
-    const { id, practicePlanId, complete } = this.props.location.query
+    mark({ module: '打点', function: '学习', action: '打开知识点页面' });
+    const { dispatch, location } = this.props;
+    const { id, practicePlanId, complete } = this.props.location.query;
 
     if (practicePlanId) {
-      let knowledge = await loadKnowledges(practicePlanId)
-      this.setState({ knowledge: knowledge.msg[0], referenceId: knowledge.msg[0].id })
-      let discussRes = await loadKnowledgePriorityDiscuss(knowledge.msg[0].id)
-      this.setState({ discussData: discussRes.msg })
+      let knowledge = await loadKnowledges(practicePlanId);
+      this.setState({ knowledge: knowledge.msg[0], referenceId: knowledge.msg[0].id });
+      let discussRes = await loadKnowledgePriorityDiscuss(knowledge.msg[0].id);
+      this.setState({ discussData: discussRes.msg });
 
       if (complete == 'false') {
         // 完成练习动效
         dispatch(set('completePracticePlanId', practicePlanId))
       }
     } else if (id) {
-      let knowledge = await loadKnowledge(id)
-      this.setState({ knowledge: knowledge.msg })
-      let discussRes = await loadKnowledgePriorityDiscuss(id)
+      let knowledge = await loadKnowledge(id);
+      this.setState({ knowledge: knowledge.msg });
+      let discussRes = await loadKnowledgePriorityDiscuss(id);
       this.setState({ discussData: discussRes.msg })
     }
   }
@@ -88,13 +88,13 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   reload () {
-    const { knowledge } = this.state
+    const { knowledge } = this.state;
     loadDiscuss(knowledge.id, 1).then(res => {
       if (res.code === 200) {
         this.setState({
           discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
           placeholder: '提出你的疑问或意见吧（限1000字）', content: '',
-        })
+        });
         scroll('.discuss', '.container')
       }
     })
@@ -113,11 +113,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       module: '打点',
       function: '学习',
       action: '点击提交知识点评论',
-    })
-    const { dispatch } = this.props
-    const { referenceId, repliedId, content } = this.state
+    });
+    const { dispatch } = this.props;
+    const { referenceId, repliedId, content } = this.state;
     if (content.length == 0) {
-      dispatch(alertMsg('请填写评论'))
+      dispatch(alertMsg('请填写评论'));
       return
     }
 
@@ -141,12 +141,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   }
 
   onDelete (id) {
-    const { dispatch } = this.props
-    const { knowledge } = this.state
-    dispatch(startLoad())
+    const { dispatch } = this.props;
+    const { knowledge } = this.state;
+    dispatch(startLoad());
     deleteKnowledgeDiscuss(id).then(res => {
       loadDiscuss(knowledge.id, 1).then(res => {
-        dispatch(endLoad())
+        dispatch(endLoad());
         if (res.code === 200) {
           this.setState({
             discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
@@ -155,17 +155,17 @@ export default class KnowledgeViewer extends React.Component<any, any> {
         }
       })
     }).catch(ex => {
-      dispatch(endLoad())
+      dispatch(endLoad());
       dispatch(alertMsg(ex))
     })
   }
 
   handleClickGoWarmup (practicePlanId) {
-    const { dispatch } = this.props
-    dispatch(startLoad())
-    mark({ module: '打点', function: '知识点', action: '完成知识点学习' })
+    const { dispatch } = this.props;
+    dispatch(startLoad());
+    mark({ module: '打点', function: '知识点', action: '完成知识点学习' });
     learnKnowledge(practicePlanId).then(res => {
-      dispatch(endLoad())
+      dispatch(endLoad());
       if (res.code === 200) {
         this.refs.sectionProgress.goNextPage()
       } else {
@@ -179,12 +179,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const {
       analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
       analysisAudio, analysisAudioWords, meansAudio, meansAudioWords,description,keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords,
-    } = knowledge
-    const { location } = this.props
-    const { practicePlanId, planId, complete } = location.query
+    } = knowledge;
+    const { location } = this.props;
+    const { practicePlanId, planId, complete } = location.query;
 
     const choiceRender = (choice, idx) => {
-      const { id, subject } = choice
+      const { id, subject } = choice;
       return (
         <div key={id}
              className={`choice${choice.isRight ? ' right' : ''}`}>

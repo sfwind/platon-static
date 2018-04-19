@@ -152,7 +152,7 @@ export default class Audio extends React.Component<AudioProps, any> {
 
   //使用定制化audio组件
   renderCustomize(url) {
-    const { currentSecond, playing, duration, loading, showWords } = this.state
+    const { currentSecond, playing, duration, loading, showWords } = this.state;
     return (
       <div className="audio">
         <div className="audio-container">
