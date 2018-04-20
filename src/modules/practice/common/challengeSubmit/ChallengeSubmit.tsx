@@ -7,7 +7,6 @@
 
 import * as React from 'react';
 import Editor from '../../../../components/simditor/Editor';
-import requestProxy from '../../../../components/requestproxy/requestProxy';
 import './ChallengeSubmit.less';
 
 export default class ChallengeSubmit extends React.Component {
