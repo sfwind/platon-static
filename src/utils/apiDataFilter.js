@@ -18,7 +18,7 @@ let apiDataFilter =  {
     请求数据 , successCallback的唯一参数为：response，返回的json数据应该这样取得：response.body
     @method : get | post | jsonp
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
-    request({ apiPath , data = {} , method = "get" , contentType , jsonp = "callback" ,path = false, successCallback , errorCallback}) {
+    request({ apiPath , data = {} , method = "get" , contentType , jsonp = "callback" ,path = false, successCallback ,otherCallback, errorCallback}) {
         let apiUrl = this.pathToUrl(apiPath) ;
         method =  method.toLowerCase() ;
         let opts = {
@@ -50,13 +50,13 @@ let apiDataFilter =  {
         if(method === "post") {
           axios[method](apiUrl , data , opts ).then( (res) => {
                 if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data) ;
-                else { errorCallback(res&&res.data&&res.data.msg) ; } ;
+                else { otherCallback(res.data) ; } ;
             } , errorCallback) ;
         }
         else if(  method === "jsonp" ||  method === "get" ) {
           axios[method](apiUrl , opts ).then( (res) => {
                 if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data) ;
-                else { errorCallback(res&&res.data&&res.data.msg,res.data) ; } ;
+                else { otherCallback(res.data) ; } ;
             } , errorCallback) ;
         }
     } ,

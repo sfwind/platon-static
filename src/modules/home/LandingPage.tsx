@@ -87,8 +87,8 @@ export default class LandingPage extends React.Component {
           }
         })
       },
-      errorCallback(err){
-        dispatch(alertMsg(err))
+      otherCallback(data){
+        dispatch(alertMsg(data.msg))
       }
     });
   }
@@ -107,7 +107,7 @@ export default class LandingPage extends React.Component {
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   接口 点击换文章信息列表内容
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  async shuffleArticles() {
+   shuffleArticles() {
     let self = this;
     apiDataFilter.request({
       apiPath:"home.articles",
@@ -118,8 +118,8 @@ export default class LandingPage extends React.Component {
           data: dataArticles,
         })
       },
-      errorCallback(err){
-        dispatch(alertMsg(err))
+      otherCallback(data){
+        dispatch(alertMsg(data.msg))
       }
     });
   }
