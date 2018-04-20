@@ -320,7 +320,7 @@ const routes = (
       sa.quick('autoTrackSinglePage');
     }}>
       <Route path={'demo'} component={DiscussDistrict}/>
-      <Route path="home" title={"年后"} component={LangdingPage}/>
+      <Route path="home"  component={LangdingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
       <Route path="home/problem" component={ProblemDesc}/>
