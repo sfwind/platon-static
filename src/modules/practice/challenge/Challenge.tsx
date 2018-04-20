@@ -162,6 +162,9 @@ export default class Challenge extends React.Component <any, any> {
                   }]}/>
               </Block>
           }
+          <AssetImg url="https://static.iqycamp.com/icon_bianji@2x-gmynhbel.png"
+                    className="edit-icon"
+                    onClick={() => this.setState({ edit: true })}/>
         </div>
       </Block>
     );
