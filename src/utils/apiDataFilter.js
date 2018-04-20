@@ -10,6 +10,7 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
 import axios from "axios" ;
 import apiConf from "../configs/api" ;
+import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions';
 /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 apiDataFilter的定义
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
@@ -47,16 +48,21 @@ let apiDataFilter =  {
         发起请求
         -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
         errorCallback = errorCallback || this.errorCallback ;
-        if(method === "post") {
-          axios[method](apiUrl , data , opts ).then( (res) => {
-                if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data) ;
-                else { otherCallback(res.data) ; } ;
-            } , errorCallback) ;
-        }
+             if (method === "post") {
+               axios[method](apiUrl, data, opts).then((res) => {
+                 if (res.status === 700) {  // 登录特殊情况的重定向
+                   window.location.href = decodeURI(`${window.location.protocol}//${window.location.host}/wx/oauth/auth?callbackUrl=${window.location.href}`);
+                 }
+                 if (parseInt(res.data.code, 10) === apiConf.successStatusCode) {successCallback(res.data)}
+                 else if(parseInt(res.data.code, 10) === apiConf.errStatusCode) alertMsg(data.msg); // 请求返回错误的统一处理
+                 else { otherCallback(res.data);}
+               }, errorCallback);
+             }
         else if(  method === "jsonp" ||  method === "get" ) {
           axios[method](apiUrl , opts ).then( (res) => {
                 if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data) ;
-                else { otherCallback(res.data) ; } ;
+                else if(parseInt(res.data.code, 10) === apiConf.errStatusCode) alertMsg(data.msg);
+                else { otherCallback(res.data) ; }
             } , errorCallback) ;
         }
     } ,
@@ -87,11 +93,10 @@ let apiDataFilter =  {
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
     errorCallback(res,arg) {
         console.log("API error"+res) ;
-       /* $.tips(typeof res == 'string' && res || "网络错误，请重试^_^",3);*/
     } ,
     /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
     根据apiPath返回apiUrl
-    @apiPath：从api配置中suffix往下层写如："example.rent.detail"
+    @apiPath：从api配置中suffix往下层写如："example.common.detail"
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
     pathToUrl(apiPath) {
         let pathArray = apiPath.split(".") ;
@@ -101,8 +106,7 @@ let apiDataFilter =  {
             suffix = suffix[pathArray[n]] ;
         }
         if(suffix === undefined) suffix = "" ;
-        return prefix+ suffix ;
-       /* return prefix + "/" + suffix ;*/
+        return prefix + suffix ;
     },
     /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
     通过path传参的参数处理
