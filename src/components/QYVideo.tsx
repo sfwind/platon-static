@@ -18,7 +18,14 @@ export default class QYVideo extends React.Component<any, any> {
       this.player = new TCPlayer(this.playerId, { // player-container-id 为播放器容器ID，必须与html中一致
         fileID: fileId, // 请传入需要播放的视频fileID 必须
         appID: '1256115011', // 请传入点播账号的appID 必须
-        playsinline: true,
+        playsinline: true, // 行内播放模式
+        plugins:{
+          ContinuePlay: { // 开启续播功能
+            // auto: true, //[可选] 是否在视频播放后自动续播
+            // text:'上次播放至 ', //[可选] 提示文案
+            // btnText: '恢复播放' //[可选] 按钮文案
+          },
+        }
       });
     }
   }
