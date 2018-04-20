@@ -72,11 +72,6 @@ export default class LandingPage extends React.Component {
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     apiDataFilter.request({
       apiPath:"home.load",
-      data:{
-        flag:1,
-        flag:343
-      },
-      path:true,
       successCallback(data){
         self.setState({
           data: data.msg,
@@ -109,26 +104,32 @@ export default class LandingPage extends React.Component {
       this.context.router.push(banner.linkUrl)
     }
   }
-
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  接口 点击换文章信息列表内容
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   async shuffleArticles() {
-    let res = await loadShuffleArticles();
-    if(res.code === 200) {
-      let data = this.state.data;
-      data.articlesFlows = res.msg;
-      this.setState({
-        data: data,
-      })
-    } else {
-      dispatch(alertMsg(res.msg))
-    }
+    let self = this;
+    apiDataFilter.request({
+      apiPath:"home.articles",
+      successCallback(data){
+        let dataArticles = self.state.data;
+        dataArticles.articlesFlows = data.msg;
+        self.setState({
+          data: dataArticles,
+        })
+      },
+      errorCallback(err){
+        dispatch(alertMsg(err))
+      }
+    });
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
    根据秒 计算时分秒
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
-    var remainSecond = parseInt(value);// 秒
-    var remainMinute = 0;// 分
-    var remainHour = 0;// 小时
+    let remainSecond = parseInt(value);// 秒
+    let remainMinute = 0;// 分
+    let remainHour = 0;// 小时
     if(remainSecond > 60) {
       remainMinute = parseInt(remainSecond / 60);
       remainSecond = parseInt(remainSecond % 60);

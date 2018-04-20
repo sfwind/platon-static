@@ -34,7 +34,7 @@ let apiDataFilter =  {
             if(contentType) opts.headers["content-type"] = contentType ;
         }
         else if(  method === "jsonp" ||  method === "get" ) {
-            path ? (apiUrl+this.dataToPath(data)):opts.params = data ;
+            path ? (apiUrl = apiUrl+this.dataToPath(data)):(opts.params = data);
             if( method === "jsonp" && jsonp !== "" && jsonp !== undefined ) opts.jsonp = jsonp ;
         }
         /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -113,9 +113,8 @@ let apiDataFilter =  {
       let i = 0;
       let pathString = '';
       for ( pathName[i++] in data){
-        pathString +=`/${data[pathName[i]]}`
+        pathString +=`/${data[pathName[i-1]]}`
       }
-       console.log(pathString);
        return pathString;
     }
      /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------

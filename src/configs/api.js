@@ -18,7 +18,8 @@ export default {
         "bigData": "rise/b/mark",// 大数据的埋点
       },
       "home": {
-        "load":"rise/landing/load" // 获取着陆页所有信息
+        "load":"rise/landing/load", // 获取着陆页所有信息
+        "articles":"rise/landing/load/shuffle/articles"  // 获取活动列表
       }
 
     }
