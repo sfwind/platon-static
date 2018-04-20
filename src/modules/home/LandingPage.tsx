@@ -1,23 +1,30 @@
 import * as React from 'react'
 import './LandingPage.less'
+import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/helpers'
+import * as FontAwesome from 'react-fontawesome'
+import { loadLandingPageData, loadShuffleArticles } from './async'
+import { ToolBar } from '../base/ToolBar'
+import { mark } from '../../utils/request'
+import { connect } from 'react-redux'
+import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
+import * as _ from 'lodash';
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+公共组建的引入
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+import { Dialog } from 'react-weui'
+import { MarkBlock } from '../../components/markblock/MarkBlock'
+import AssetImg from '../../components/AssetImg'
 import { ProblemHome } from './components/problem/ProblemHome'
 import { LiveHome } from './components/live/LiveHome'
 import { ArticleHome } from './components/article/ArticleHome'
 import { ActivityHome } from './components/activity/ActivityHome'
 import { ColumnSpan } from '../../components/ColumnSpan'
-import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/helpers'
-import * as FontAwesome from 'react-fontawesome'
 import Banner from '../../components/Banner'
-import { loadLandingPageData, loadShuffleArticles } from './async'
-import AssetImg from '../../components/AssetImg'
-import { ToolBar } from '../base/ToolBar'
-import { mark } from '../../utils/request'
-import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
-import { Dialog } from 'react-weui'
-import { MarkBlock } from '../../components/markblock/MarkBlock'
-import * as _ from 'lodash';
-
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+公共方法的引入
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+import  BigData from  '../../utils/bigData'
+import  apiDataFilter from  '../../utils/apiDataFilter';
 const { Alert } = Dialog;
 @connect(state => state)
 export default class LandingPage extends React.Component {
@@ -25,7 +32,7 @@ export default class LandingPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: {},
+      data: {},   //接口参数
       dialogButtons: [
         {
           label: '知道了',
@@ -45,8 +52,8 @@ export default class LandingPage extends React.Component {
             })
           },
         },
-      ],
-      applySuccess: {},
+      ], // 弹窗需要的参数
+      applySuccess: {},    // 申请是否成功
     }
   }
 
@@ -56,27 +63,39 @@ export default class LandingPage extends React.Component {
     router: React.PropTypes.object.isRequired,
   };
 
-  async componentWillMount() {
-    changeTitle('圈外同学');
-    mark({ module: '打点', function: '着陆页', action: '打开着陆页' });
-    let res = await loadLandingPageData();
-    if(res.code === 200) {
-      this.setState({
-        data: res.msg,
-        applySuccess: res.msg.applySuccess
-      }, () => {
-        if(res.msg.applySuccess.isShowPassNotify) {
-          this.countDownTimer = setInterval(() => {
-            const { applySuccess = {} } = this.state;
-            let newApplySuccess = _.cloneDeep(applySuccess);
-            newApplySuccess = _.merge(newApplySuccess, { remainTime: applySuccess.remainTime - 1000 > 0 ? applySuccess.remainTime - 1000 : 0 })
-            this.setState({ applySuccess: newApplySuccess })
-          }, 1000)
-        }
-      })
-    } else {
-      dispatch(alertMsg(res.msg))
-    }
+    componentWillMount() {
+    changeTitle('圈外同学'); // 变更标题
+    BigData.sendBigData({ module: '打点', function: '着陆页', action: '打开着陆页' }); // 页面埋点
+    let self =this;
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+     接口请求  获取着陆页所有信息
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    apiDataFilter.request({
+      apiPath:"home.load",
+      data:{
+        flag:1,
+        flag:343
+      },
+      path:true,
+      successCallback(data){
+        self.setState({
+          data: data.msg,
+          applySuccess: data.msg.applySuccess
+        }, () => {
+          if(data.msg.applySuccess.isShowPassNotify) {
+            self.countDownTimer = setInterval(() => {
+              const { applySuccess = {} } = self.state;
+              let newApplySuccess = _.cloneDeep(applySuccess);
+              newApplySuccess = _.merge(newApplySuccess, { remainTime: applySuccess.remainTime - 1000 > 0 ? applySuccess.remainTime - 1000 : 0 });
+              self.setState({ applySuccess: newApplySuccess })
+            }, 1000)
+          }
+        })
+      },
+      errorCallback(err){
+        dispatch(alertMsg(err))
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -103,7 +122,9 @@ export default class LandingPage extends React.Component {
       dispatch(alertMsg(res.msg))
     }
   }
-
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   根据秒 计算时分秒
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
     var remainSecond = parseInt(value);// 秒
     var remainMinute = 0;// 分
@@ -122,7 +143,9 @@ export default class LandingPage extends React.Component {
 
     return { remainHour, remainMinute, remainSecond };
   }
-
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   改变时间显示格式
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   formatDateString(date) {
     // { remainHour, remainMinute, remainSecond }
     let dateInfo = this.formatSeconds(date / 1000);
@@ -143,6 +166,7 @@ export default class LandingPage extends React.Component {
 
     return (
       <div className="landing-page-container">
+        {/*-----header模块----*/}
         <div className="header">
           <div className="left-header-box" onClick={() => this.context.router.push('/rise/static/message/center')}>
             <AssetImg className="message" url="https://static.iqycamp.com/icon_message@2x-8rkrc4h9.png"/>
@@ -157,6 +181,7 @@ export default class LandingPage extends React.Component {
             <AssetImg className="consult-icon" url="https://static.iqycamp.com/icon_goutong @2x-8ww0p3at.png"/>
           </MarkBlock>
         </div>
+        {/*-----swiper模块----*/}
         <div className="home-swiper">
           {
             pageBanners.length > 0 &&
@@ -180,6 +205,7 @@ export default class LandingPage extends React.Component {
                      onClick={() => window.location.href = `/pay/rise`}></MarkBlock>
         }
         <div className="content-box-container">
+          {/*-----   圈外课模块  -----*/}
           {
             !isBusinessMember &&
             <div className="content-box" id="QWClass">
@@ -191,6 +217,7 @@ export default class LandingPage extends React.Component {
               })}
             </div>
           }
+          {/*-----   拓眼界模块  -----*/}
           <div className="content-box" id="QWEyes">
             <div className="content-header">
               <div className="content-title">拓眼界</div>
@@ -208,6 +235,7 @@ export default class LandingPage extends React.Component {
             </div>
             {livesFlows.slice(0, 5).map((live, index) => <LiveHome data={live} key={index}/>)}
           </div>
+          {/*-----   加油站模块  -----*/}
           <div className="content-box" id="QWStation">
             <div className="content-header">
               <div className="content-title">加油站</div>
@@ -218,6 +246,7 @@ export default class LandingPage extends React.Component {
             </div>
             {articlesFlows.slice(0, 3).map((article, index) => <ArticleHome data={article} key={index}/>)}
           </div>
+          {/*-----   圈柚会模块  -----*/}
           <div className="content-box" id="QWClassmate">
             <div className="content-header">
               <div className="content-title">圈柚会</div>
@@ -237,6 +266,7 @@ export default class LandingPage extends React.Component {
           </div>
         </div>
         <div className="bottom-text">我也是有底线的...</div>
+        {/*-----   弹框模块  -----*/}
         <Alert show={this.state.applySuccess.isShowPassNotify} buttons={this.state.dialogButtons}>
           恭喜你通过{this.state.applySuccess.name}申请！
           <br/>

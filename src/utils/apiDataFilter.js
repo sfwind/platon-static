@@ -18,7 +18,7 @@ let apiDataFilter =  {
     请求数据 , successCallback的唯一参数为：response，返回的json数据应该这样取得：response.body
     @method : get | post | jsonp
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
-    request({ apiPath , data = {} , method = "get" , contentType , jsonp = "callback" , successCallback , errorCallback}) {
+    request({ apiPath , data = {} , method = "get" , contentType , jsonp = "callback" ,path = false, successCallback , errorCallback}) {
         let apiUrl = this.pathToUrl(apiPath) ;
         method =  method.toLowerCase() ;
         let opts = {
@@ -34,7 +34,7 @@ let apiDataFilter =  {
             if(contentType) opts.headers["content-type"] = contentType ;
         }
         else if(  method === "jsonp" ||  method === "get" ) {
-            opts.params = data ;
+            path ? (apiUrl+this.dataToPath(data)):opts.params = data ;
             if( method === "jsonp" && jsonp !== "" && jsonp !== undefined ) opts.jsonp = jsonp ;
         }
         /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -49,14 +49,14 @@ let apiDataFilter =  {
         errorCallback = errorCallback || this.errorCallback ;
         if(method === "post") {
           axios[method](apiUrl , data , opts ).then( (res) => {
-                if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res) ;
-                else { errorCallback(res&&res.body&&res.body.message) ; } ;
+                if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data) ;
+                else { errorCallback(res&&res.data&&res.data.msg) ; } ;
             } , errorCallback) ;
         }
         else if(  method === "jsonp" ||  method === "get" ) {
           axios[method](apiUrl , opts ).then( (res) => {
-                if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res) ;
-                else { errorCallback(res&&res.body&&res.body.message,res) ; } ;
+                if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data) ;
+                else { errorCallback(res&&res.data&&res.data.msg,res.data) ; } ;
             } , errorCallback) ;
         }
     } ,
@@ -103,6 +103,20 @@ let apiDataFilter =  {
         if(suffix === undefined) suffix = "" ;
         return prefix+ suffix ;
        /* return prefix + "/" + suffix ;*/
+    },
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    通过path传参的参数处理
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    dataToPath(data) {
+      if (data.constructor != Object) return;
+      let pathName = [];
+      let i = 0;
+      let pathString = '';
+      for ( pathName[i++] in data){
+        pathString +=`/${data[pathName[i]]}`
+      }
+       console.log(pathString);
+       return pathString;
     }
      /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
     整个工具定义结束

@@ -4,7 +4,7 @@ import './Banner.less'
 
 export default class Banner extends React.Component<any, any> {
   constructor (props) {
-    super(props)
+    super(props);
     this.state = {
       index: 0,
     }
@@ -26,7 +26,7 @@ export default class Banner extends React.Component<any, any> {
   }
 
   render () {
-    const { index } = this.state
+    const { index } = this.state;
     return (<div>
       <div id="swiepr-banner"
            className="swiper-container"
