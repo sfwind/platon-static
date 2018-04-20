@@ -17,18 +17,18 @@ import { ToolBar } from '../base/ToolBar'
 @connect(state => state)
 export default class Personal extends React.Component<any, any> {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       userInfo: '',
-      learningNotify: true,
+      learningNotify: true
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     changeTitle('个人中心')
     mark({ module: '打点', function: '个人中心', action: '打开个人中心' })
     const { dispatch } = this.props
@@ -44,9 +44,9 @@ export default class Personal extends React.Component<any, any> {
 
     loadUserInfo().then(res => {
       const { code, msg } = res
-      if (code === 200) {
+      if(code === 200) {
         this.setState({
-          userInfo: msg,
+          userInfo: msg
         })
       } else {
         dispatch(alertMsg(msg))
@@ -54,10 +54,10 @@ export default class Personal extends React.Component<any, any> {
     })
   }
 
-  handleClickLearningNotify () {
+  handleClickLearningNotify() {
     const { learningNotify } = this.state
     const { dispatch } = this.props
-    if (learningNotify) {
+    if(learningNotify) {
       dispatch(startLoad())
       closeNotifyStatus().then(res => {
         dispatch(endLoad())
@@ -78,34 +78,34 @@ export default class Personal extends React.Component<any, any> {
     }
   }
 
-  goProfile () {
+  goProfile() {
     this.context.router.push('/rise/static/customer/new/profile')
   }
 
-  goShare () {
+  goShare() {
     mark({ module: '打点', function: '个人中心', action: '点击分享圈外商学院图片' })
     window.location.href = '/pay/static/share'
   }
 
-  goRise () {
+  goRise() {
     mark({ module: '打点', function: '个人中心', action: '点击加入圈外商学院图片' })
     window.location.href = '/pay/rise'
   }
 
-  goCouponList () {
+  goCouponList() {
     this.context.router.push('/rise/static/coupon')
   }
 
-  goHelp () {
+  goHelp() {
     this.context.router.push('/rise/static/faq')
   }
 
-  goMessage () {
+  goMessage() {
     const { dispatch } = this.props
     dispatch(startLoad())
     getOldMsg().then(res => {
       dispatch(endLoad())
-      if (res.code === 200) {
+      if(res.code === 200) {
         dispatch(set('noticeMsgCount', 0))
         this.context.router.push('/rise/static/message/center')
       }
@@ -115,33 +115,36 @@ export default class Personal extends React.Component<any, any> {
     })
   }
 
-  goProtocol () {
+  goProtocol() {
     this.context.router.push('/rise/static/userprotocol')
   }
 
-  goStudyReport () {
+  goStudyReport() {
     this.context.router.push('/rise/static/person/study/list')
   }
 
-  goCards (sum) {
-    if (sum === 0) {
+  goCards(sum) {
+    if(sum === 0) {
       return
     }
     this.context.router.push('/rise/static/knowledge/card/list')
   }
 
-  goCertificates (sum) {
-    if (sum === 0) {
+  goCertificates(sum) {
+    if(sum === 0) {
       return
     }
     this.context.router.push('/rise/static/person/certificate')
   }
 
-  goSchoolFriend(){
-    this.context.router.push('/rise/static/person/friend')
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   前往校友录页面
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  goSchoolFriend() {
+    this.context.router.push(`/rise/static/customer/school/friend`)
   }
 
-  render () {
+  render() {
     const { noticeMsgCount } = this.props
     const { userInfo, learningNotify } = this.state
 
@@ -219,8 +222,8 @@ export default class Personal extends React.Component<any, any> {
       return (
         <div className="business-list">
           {userInfo.showShare ?
-           <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
-           <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
+            <img src="http://static.iqycamp.com/images/share_business.png" onClick={() => this.goShare()}/> :
+            <img src="http://static.iqycamp.com/images/join_business.png" onClick={() => this.goRise()}/>}
         </div>
       )
     }
@@ -241,15 +244,16 @@ export default class Personal extends React.Component<any, any> {
             <div className="amount">{userInfo.couponSum}元</div>
             <div className="arrow"></div>
           </MarkBlock>
-          {/*<MarkBlock module={'打点'} func={'个人中心'} action={'点击校友录'} onClick={()=>(e,v)=>this.goSchoolFriend()} className="friend-container">*/}
-            {/*<div className="img-container">*/}
-              {/*<img src='http://static.iqycamp.com/images/icon_friend.png'/>*/}
-              {/*<div className="arrow">*/}
-              {/*</div>*/}
-            {/*</div>*/}
-            {/*<div className="content">我的校友录</div>*/}
-            {/*<div className="arrow"></div>*/}
-          {/*</MarkBlock>*/}
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击校友录'} onClick={()=> this.goSchoolFriend()}
+                     className="friend-container">
+            <div className="img-container">
+              <img src='http://static.iqycamp.com/images/icon_friend.png'/>
+              <div className="arrow">
+              </div>
+            </div>
+            <div className="content">我的校友录</div>
+            <div className="arrow"></div>
+          </MarkBlock>
 
 
           <MarkBlock module={'打点'}
@@ -273,7 +277,7 @@ export default class Personal extends React.Component<any, any> {
             </div>
             <div className="content">消息中心</div>
             {noticeMsgCount ?
-             <span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
+              <span className="notice_message">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
             <div className="arrow"></div>
           </MarkBlock>
           <MarkBlock module={'打点'}

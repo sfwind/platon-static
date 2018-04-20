@@ -3,116 +3,129 @@ import { connect } from 'react-redux'
 import './SchoolFriend.less'
 import { alertMsg } from 'reduxutil/actions'
 import { loadAllElites } from './async'
+import PullElement from 'pull-element';
+import { isEmpty,remove} from 'lodash';
 
-/**
- * 校友录（只有核心项目和商业进阶看到，展示核心项目和商业进阶）
- */
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能： 校友录页面
+ 3. 作者： yangren@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 @connect(state => state)
 export default class SchoolFriend extends React.Component<any, any> {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      clickedItem: 0,
       elites: [],
+      showOthers: true,
+      end: null,
+      page:1
+    }
+    this.pullElement = null;
+  }
 
+  async componentWillMount(){
+    let res = await loadAllElites(1);
+    this.setState({
+      elites:res.msg
+    })
+  }
+
+  componentDidUpdate () {
+    const { showOthers, elites } = this.state;
+    if (!this.pullElement && showOthers && !isEmpty(elites)) {
+      this.pullElement = new PullElement({
+        target: '#react-app',
+        scroller: 'body',
+        trigger: '.school-friend-list',
+        damping: 3,
+        detectScroll: false,
+        detectScrollOnStart: true,
+
+        onPullUp: (data) => {
+          if (this.props.iNoBounce) {
+            if (this.props.iNoBounce.isEnabled()) {
+              this.props.iNoBounce.disable();
+            }
+          }
+          this.setState({ loading: true });
+        },
+        onPullUpEnd: (data) => {
+          loadAllElites(this.state.page + 1).then(res => {
+            this.setState({ loading: false });
+            if (res.msg && res.msg.length !== 0) {
+              remove(res.msg.list, (item) => {
+                return findIndex(this.state.elites, item) !== -1;
+              });
+              this.setState({
+                elites: this.state.elites.concat(res.msg),
+                page: this.state.page + 1,
+                end: res.msg.end,
+              });
+            } else {
+              this.setState({ end: res.msg.end });
+            }
+          });
+          if (this.props.iNoBounce) {
+            if (!this.props.iNoBounce.isEnabled()) {
+              this.props.iNoBounce.enable();
+            }
+          }
+        },
+      });
+      this.pullElement.init();
+    }
+    if (this.pullElement) {
+      if (this.state.end) {
+        this.pullElement.disable();
+      } else {
+        this.pullElement.enable();
+      }
     }
   }
 
-  async componentWillMount() {
-    const { dispatch } = this.props
-    let res = await loadAllElites()
-    console.log(res)
-    if(res.code === 200) {
-      this.setState({
-        elites: res.msg
-      })
-    } else {
-      dispatch(alertMsg(res.msg))
-    }
 
-  }
-
-  goAll() {
-    this.setState({
-      clickItem: 0
-    })
-  }
-
-  goCity() {
-
-    this.setState({
-      clickItem: 1
-    })
-  }
-
-  goIndustry() {
-    this.setState({
-      clickItem: 2
-    })
-  }
-
-  goWorkYear() {
-    this.setState({
-      clickItem: 3
-    })
-  }
 
   render() {
-
-    const { clickItem = 0, elites = [] } = this.state
-
-    const renderSelect = () => {
-      return (
-        <div className="select-container">
-          <div className="select-item" onClick={(e, v) => this.goAll()}
-               style={{ color: clickItem === 0 ? '#333333' : '#666666' }}>
-            显示全部
-          </div>
-          <div className="select-item" onClick={(e, v) => this.goCity()}
-               style={{ color: clickItem === 1 ? '#333333' : '#666666' }}>
-            所在城市
-          </div>
-          <div className="select-item" onClick={(e, v) => this.goIndustry()}
-               style={{ color: clickItem === 2 ? '#333333' : '#666666' }}>
-            所在行业
-          </div>
-          <div className="select-item" onClick={(e, v) => this.goWorkYear()}
-               style={{ color: clickItem === 3 ? '#333333' : '#666666' }}>
-            工作年限
-          </div>
-        </div>
-      )
-    }
-
+    const { elites = []} = this.state
+    console.log(elites)
     const renderList = () => {
       return (
         <div className="school-friend-list">
-          {
-            elites.forEach((item)=>{
+          {elites && elites.map((item, index) => {
+            return (
               <div className="school-friend-item">
-                <img src={item.headImg}/>
-                <div className='nickname'>
+                <div className="head-image-container">
+                  <img src={item.headImgUrl}/>
+                </div>
+                <div className="nickname-container">
                   {item.nickName}
                 </div>
-                <div className="introduction">
-                  {item.province} | {item.industry} | 工作年限：{item.workLife}
+                <div className="province-industry-container">
+                  <img src="http://static.iqycamp.com/images/school-friend-icon.png"/>
+                  {item.province} | {item.industry}
                 </div>
-                <div className="memberId">
+
+                <div className="company-container">
+                  所在公司/机构：{item.company}
+                </div>
+
+                <div className="member-container">
                   学号：{item.memberId}
                 </div>
               </div>
-            })
-          }
+            )
+          })}
         </div>
       )
     }
 
     return (
       <div className="school-friend-container">
-        {renderSelect()}
         {renderList()}
-        {/*{renderChoice()}*/}
       </div>
     )
   }

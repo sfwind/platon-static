@@ -1,64 +1,54 @@
 .school-friend-container {
-  background-color: #FFFFFF;
-  .select-container {
-    position:fixed;
-    height:1.8rem;
-    width:92%;
-    padding:4% 1.6rem 0rem 4%;
-    .select-item{
-      display: inline-block;
-      width:25%;
-      font-size:1.3rem;
-      text-align: center;
-      &:after{
-        display: inline-block;
-        width: 1rem;
-        height: 1rem;
-        padding-left: 0.5rem;
-        content: '';
-        background: url("https://static.iqycamp.com/images/arrow_bottom.png?imageslim") no-repeat right center/  1rem 1rem;
-      }
-    }
-  }
-  .school-friend-list{
-    padding:6.6rem 5% 2rem 5%;
+  background: #FFFFFF;
+  .school-friend-list {
 
-    .school-friend-item{
-      position:relative;
-      height:12rem;
-      box-shadow:0 3px 20px 4px rgba(222,225,240,0.58);
-
-      img{
-        position:absolute;
-        top:1rem;
-        left:1rem;
-        width: 10rem;
-        height:10rem;
+    .school-friend-item {
+      position: relative;
+      margin: 2rem;
+      height: 12rem;
+      box-shadow: 0 3px 20px 4px;
+      border-radius: 4px;
+      line-height: 3rem;
+      background-color: rgba(222,225,240,0.58);
+      color:#333333;
+      .head-image-container{
+        img {
+          position: absolute;
+          left: 1rem;
+          top: 1rem;
+          height: 10rem;
+        }
       }
-      .nickname{
-        position:absolute;
-        top: 1.2rem;
+      .nickname-container{
+        position: absolute;
+        top:0.8rem;
         left:12rem;
         font-size:1.4rem;
-        color:#333333;
       }
-      .introduction{
+      .province-industry-container{
         position:absolute;
-        top:3.6rem;
+        top:3.4rem;
         left:12rem;
         font-size:1.2rem;
-        color:#666666;
+        display: inline-block;
+        img{
+          vertical-align: middle;
+          height: 1.3rem;
+        }
       }
-      .memberId{
-        position:absolute;
-        top:7.9rem;
+      .company-container{
+        position: absolute;
+        top:5.9rem;
         left:12rem;
         font-size:1.2rem;
-        color:#666666;
       }
+      .member-container{
+        position:absolute;
+        top:8.4rem;
+        left:12rem;
+        font-size:1.2rem;
 
+      }
     }
   }
-
-
 }
