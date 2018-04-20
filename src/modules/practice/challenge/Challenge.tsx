@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './Challenge.less';
 import { loadChallengePractice, submitChallengePractice } from './async';
 import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions';
-import Editor from '../../../components/simditor/Editor';
 import { merge } from 'lodash';
 import { mark } from '../../../utils/request';
 import AssetImg from '../../../components/AssetImg';
@@ -12,6 +11,7 @@ import { Block } from '../../../components/Block';
 import { ProblemTitle } from '../../problem/components/ProblemTitle';
 import { FooterButton } from '../../../components/submitbutton/FooterButton';
 import ChallengeDiscussDistrict from './challengeDiscussDistrict/ChallengeDiscussDistrict';
+import ChallengeSubmit from '../common/challengeSubmit/ChallengeSubmit';
 
 @connect(state => state)
 export default class Challenge extends React.Component <any, any> {
@@ -61,12 +61,12 @@ export default class Challenge extends React.Component <any, any> {
     });
   }
 
-  onSubmit () {
+  onSubmit (answer) {
     mark({ module: '打点', function: '小目标', action: '提交小目标' });
     const { dispatch, location } = this.props;
     const { data, planId } = this.state;
     const { complete, practicePlanId } = location.query;
-    const answer = this.refs.editor.getValue();
+    // const answer = this.refs.editor.getValue();
     if (answer == null || answer.length === 0) {
       dispatch(alertMsg('请填写作业'));
       return;
@@ -101,7 +101,7 @@ export default class Challenge extends React.Component <any, any> {
   }
 
   render () {
-    const { data, edit = false, showDisable } = this.state;
+    const { data, edit = false, showDisable, showEdit = false } = this.state;
     const { content } = data;
     const { planId } = this.props.location.query;
 
@@ -113,7 +113,6 @@ export default class Challenge extends React.Component <any, any> {
           <div className="challenge-context">
             你有什么目标，可以利用本课程的训练实现呢？制定目标帮你更积极地学习，也带给你更多成就感！
           </div>
-
           <div className="intro-container">
             <AssetImg className='challenge-image'
                       url="https://static.iqycamp.com/images/fragment/challenge_practice_2.png"/>
@@ -124,47 +123,37 @@ export default class Challenge extends React.Component <any, any> {
               <p className="tip">制定目标之前，可以先回顾该课程的知识体系</p>
             </div>
           </div>
-
           <ColumnSpan style={{ margin: '0 -3rem' }}/>
-
           {
-            edit ?
-              <Block>
-                <div className="working-tip">
-                  <p>更喜欢电脑上提交?</p>
-                  <p>登录www.iquanwai.com/community</p>
-                </div>
-                <Editor ref="editor"
-                        moduleId={3}
-                        value={content}
-                        placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。"/>
+            !edit &&
+            <Block>
+              <ChallengeDiscussDistrict data={{
+                discuss: {
+                  id: data.id,
+                  avatar: window.ENV.headImgUrl,
+                  addTime: data.submitUpdateTime,
+                  content: data.content,
+                  nickname: window.ENV.userName,
+                  publishTime: data.submitUpdateTime,
+                },
+              }}/>
+              <FooterButton btnArray={[
                 {
-                  showDisable ?
-                    <FooterButton btnArray={[{ text: '提交中' }]}/> :
-                    <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
-                }
-              </Block> :
-              <Block>
-                <ChallengeDiscussDistrict data={{
-                  discuss: {
-                    id: data.id,
-                    avatar: window.ENV.headImgUrl,
-                    addTime: data.submitUpdateTime,
-                    content: data.content,
-                    nickname: window.ENV.userName,
-                    publishTime: data.submitUpdateTime,
-                  },
-                }}/>
-                <FooterButton btnArray={[
-                  {
-                    click: () => this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId } }),
-                    text: '返回',
-                  }]}/>
-              </Block>
+                  click: () => this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId } }),
+                  text: '返回',
+                },
+              ]}/>
+            </Block>
           }
-          <AssetImg url="https://static.iqycamp.com/icon_bianji@2x-gmynhbel.png"
-                    className="edit-icon"
-                    onClick={() => this.setState({ edit: true })}/>
+          {
+            showEdit ?
+              <ChallengeSubmit submitCallback={(value) => this.onSubmit(value)}
+                               hideCallback={() => this.setState({ showEdit: false })}
+                               value={data.content}/> :
+              <AssetImg url="https://static.iqycamp.com/icon_bianji@2x-gmynhbel.png"
+                        className="edit-icon"
+                        onClick={() => this.setState({ showEdit: true })}/>
+          }
         </div>
       </Block>
     );

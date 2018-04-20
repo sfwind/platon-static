@@ -142,7 +142,6 @@ export default class PersonalDiscussDistrict extends React.Component {
       showRequestComment = false,
     } = this.props;
 
-    console.log(discuss);
     return (
       <div className="personal-discuss-district-component">
         <div className="personal-block">
