@@ -12,11 +12,10 @@ export default class QYVideo extends React.Component<any, any> {
   }
 
   componentDidMount () {
-    console.log('did mount');
     const { fileId, videoPoster } = this.props;
     if (fileId) {
       // 初始化腾讯播放器
-      this.player = TCPlayer(this.playerId, { // player-container-id 为播放器容器ID，必须与html中一致
+      this.player = new TCPlayer(this.playerId, { // player-container-id 为播放器容器ID，必须与html中一致
         fileID: fileId, // 请传入需要播放的视频fileID 必须
         appID: '1256115011', // 请传入点播账号的appID 必须
         playsinline: true,
@@ -55,6 +54,7 @@ export default class QYVideo extends React.Component<any, any> {
   render () {
     const { videoUrl, videoPoster, videoWords, fileId } = this.props;
     const { showWords } = this.state;
+
     return (
       <div className="video-container">
         {
