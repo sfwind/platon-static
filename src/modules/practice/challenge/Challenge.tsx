@@ -1,109 +1,109 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import './Challenge.less'
-import { loadChallengePractice, submitChallengePractice } from './async'
-import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
-import Work from '../components/NewWork'
-import Editor from '../../../components/simditor/Editor'
-import { merge } from 'lodash'
-import { mark } from '../../../utils/request'
-import AssetImg from '../../../components/AssetImg'
-import { ColumnSpan } from '../../../components/ColumnSpan'
-import { Block } from '../../../components/Block'
-import { ProblemTitle } from '../../problem/components/ProblemTitle'
-import { FooterButton } from '../../../components/submitbutton/FooterButton'
+import * as React from 'react';
+import { connect } from 'react-redux';
+import './Challenge.less';
+import { loadChallengePractice, submitChallengePractice } from './async';
+import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions';
+import Editor from '../../../components/simditor/Editor';
+import { merge } from 'lodash';
+import { mark } from '../../../utils/request';
+import AssetImg from '../../../components/AssetImg';
+import { ColumnSpan } from '../../../components/ColumnSpan';
+import { Block } from '../../../components/Block';
+import { ProblemTitle } from '../../problem/components/ProblemTitle';
+import { FooterButton } from '../../../components/submitbutton/FooterButton';
+import ChallengeDiscussDistrict from './challengeDiscussDistrict/ChallengeDiscussDistrict';
 
 @connect(state => state)
 export default class Challenge extends React.Component <any, any> {
-  constructor() {
-    super()
+  constructor () {
+    super();
     this.state = {
       data: {},
       knowledge: {},
       submitId: 0,
       page: 1,
       otherList: [],
-      opacity: 0
-    }
+      opacity: 0,
+    };
   }
 
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  }
+    router: React.PropTypes.object.isRequired,
+  };
 
-  componentWillMount() {
-    mark({ module: '打点', function: '学习', action: '打开小目标页' })
+  componentWillMount () {
+    mark({ module: '打点', function: '学习', action: '打开小目标页' });
 
-    const { dispatch, location } = this.props
-    dispatch(startLoad())
+    const { dispatch, location } = this.props;
+    dispatch(startLoad());
     loadChallengePractice(location.query.id, location.query.planId).then(res => {
-      dispatch(endLoad())
-      const { code, msg } = res
-      if(code === 200) {
-        const { content } = msg
-        this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId, edit: !content })
+      dispatch(endLoad());
+      const { code, msg } = res;
+      if (code === 200) {
+        const { content } = msg;
+        this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId, edit: !content });
       }
-      else dispatch(alertMsg(msg))
+      else dispatch(alertMsg(msg));
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-    })
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+    });
   }
 
-  onEdit() {
-    this.setState({ edit: true })
+  onEdit () {
+    this.setState({ edit: true });
   }
 
-  goComment(submitId) {
+  goComment (submitId) {
     this.context.router.push({
       pathname: '/rise/static/practice/challenge/comment',
-      query: merge({ submitId: submitId }, this.props.location.query)
-    })
+      query: merge({ submitId: submitId }, this.props.location.query),
+    });
   }
 
-  onSubmit() {
-    mark({ module: '打点', function: '小目标', action: '提交小目标' })
-    const { dispatch, location } = this.props
-    const { data, planId } = this.state
-    const { complete, practicePlanId } = location.query
-    const answer = this.refs.editor.getValue()
-    if(answer == null || answer.length === 0) {
-      dispatch(alertMsg('请填写作业'))
-      return
+  onSubmit () {
+    mark({ module: '打点', function: '小目标', action: '提交小目标' });
+    const { dispatch, location } = this.props;
+    const { data, planId } = this.state;
+    const { complete, practicePlanId } = location.query;
+    const answer = this.refs.editor.getValue();
+    if (answer == null || answer.length === 0) {
+      dispatch(alertMsg('请填写作业'));
+      return;
     }
-    this.setState({ showDisable: true })
+    this.setState({ showDisable: true });
     submitChallengePractice(planId, location.query.id, { answer }).then(res => {
-      const { code, msg } = res
-      if(code === 200) {
-        dispatch(startLoad())
-        if(complete == 'false') {
-          dispatch(set('completePracticePlanId', practicePlanId))
+      const { code, msg } = res;
+      if (code === 200) {
+        dispatch(startLoad());
+        if (complete == 'false') {
+          dispatch(set('completePracticePlanId', practicePlanId));
         }
         loadChallengePractice(location.query.id, location.query.planId).then(res => {
-          dispatch(endLoad())
-          const { code, msg } = res
-          if(code === 200) {
-            this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId, edit: false })
+          dispatch(endLoad());
+          const { code, msg } = res;
+          if (code === 200) {
+            this.setState({ data: msg, submitId: msg.submitId, planId: msg.planId, edit: false });
           }
-          else dispatch(alertMsg(msg))
-        })
-        this.setState({ showDisable: false })
+          else dispatch(alertMsg(msg));
+        });
+        this.setState({ showDisable: false });
       }
       else {
-        dispatch(alertMsg(msg))
-        this.setState({ showDisable: false })
+        dispatch(alertMsg(msg));
+        this.setState({ showDisable: false });
       }
     }).catch(ex => {
-      dispatch(endLoad())
-      dispatch(alertMsg(ex))
-      this.setState({ showDisable: false })
-    })
+      dispatch(endLoad());
+      dispatch(alertMsg(ex));
+      this.setState({ showDisable: false });
+    });
   }
 
-  render() {
-    const { data, edit = false, showDisable } = this.state
-    const { content } = data
-    const { planId } = this.props.location.query
+  render () {
+    const { data, edit = false, showDisable } = this.state;
+    const { content } = data;
+    const { planId } = this.props.location.query;
 
     return (
       <Block>
@@ -134,25 +134,36 @@ export default class Challenge extends React.Component <any, any> {
                   <p>更喜欢电脑上提交?</p>
                   <p>登录www.iquanwai.com/community</p>
                 </div>
-                <Editor ref="editor" moduleId={3} value={content}
+                <Editor ref="editor"
+                        moduleId={3}
+                        value={content}
                         placeholder="有灵感时马上记录在这里吧，系统会自动为你保存。"/>
                 {
                   showDisable ?
-                    <FooterButton btnArray={[{text: '提交中'}]}/> :
-                    <FooterButton btnArray={[{click:() => this.onSubmit(), text:'提交'}]}/>
+                    <FooterButton btnArray={[{ text: '提交中' }]}/> :
+                    <FooterButton btnArray={[{ click: () => this.onSubmit(), text: '提交' }]}/>
                 }
               </Block> :
               <Block>
-                <div className="working-header">我的目标</div>
-                <Work onEdit={() => this.onEdit()} operation={false}
-                      headImage={window.ENV.headImgUrl} userName={window.ENV.userName} {...data}/>
-                <FooterButton btnArray={[{
-                  click: () => this.context.router.push({pathname:'/rise/static/plan/study', query:{planId}}),
-                  text: '返回'}]}/>
+                <ChallengeDiscussDistrict data={{
+                  discuss: {
+                    id: data.id,
+                    avatar: window.ENV.headImgUrl,
+                    addTime: data.submitUpdateTime,
+                    content: data.content,
+                    nickname: window.ENV.userName,
+                    publishTime: data.submitUpdateTime,
+                  },
+                }}/>
+                <FooterButton btnArray={[
+                  {
+                    click: () => this.context.router.push({ pathname: '/rise/static/plan/study', query: { planId } }),
+                    text: '返回',
+                  }]}/>
               </Block>
           }
         </div>
       </Block>
-    )
+    );
   }
 }
