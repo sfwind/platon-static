@@ -9,13 +9,10 @@ import Loadable from 'react-loadable'
 import DailyTalk from './modules/daily/DailyTalk'
 import { sa } from './utils/helpers'
 
-import GlobalRequest from './components/globalalert/GlobalRequest'
 import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
-import ProblemPreview from './modules/practice/preview/ProblemPreview'
 import PageNotFound from './modules/other/pageNotFound/PageNotFound'
-import ProblemPreview from './modules/practice/preview/ProblemPreview';
 
 const LandingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -211,34 +208,6 @@ const MessageCenter = Loadable({
   loader: () => import('./modules/message/MessageCenter'),
   loading: Loading,
 })
-const EventWall = Loadable({
-  loader: () => import('./modules/plan/EventWall'),
-  loading: Loading,
-})
-const ForumBase = Loadable({
-  loader: () => import('./modules/forum/ForumBase'),
-  loading: Loading,
-})
-const QuestionAnswer = Loadable({
-  loader: () => import('./modules/forum/question/QuestionAnswer'),
-  loading: Loading,
-})
-const AnswerComment = Loadable({
-  loader: () => import('./modules/forum/question/AnswerComment'),
-  loading: Loading,
-})
-const Question = Loadable({
-  loader: () => import('./modules/forum/question/Question'),
-  loading: Loading,
-})
-const SubmitQuestionInit = Loadable({
-  loader: () => import('./modules/forum/question/SubmitQuestionInit'),
-  loading: Loading,
-})
-const SubmitQuestionDetail = Loadable({
-  loader: () => import('./modules/forum/question/SubmitQuestionDetail'),
-  loading: Loading,
-})
 const InterlocutionQuestion = Loadable({
   loader: () => import('./modules/interlocution/InterlocutionQuestion'),
   loading: Loading,
@@ -388,18 +357,6 @@ const routes = (
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
         <Route path="new/profile" component={NewProfile}/>
-      </Route>
-
-      <Route path="event/wall" component={EventWall}/>
-
-      <Route component={ForumBase}>
-        <Route path="/rise/static/message/question/answer" component={QuestionAnswer}/>
-        <Route path="/rise/static/message/answer/comment" component={AnswerComment}/>
-        <Route path="/forum/static/question" component={Question}/>
-        <Route path="/forum/static/answer" component={QuestionAnswer}/>
-        <Route path="/forum/static/answer/comment" component={AnswerComment}/>
-        <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
-        <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
 
       <Route path="guest/inter/questions" component={InterlocutionQuestion}/>
