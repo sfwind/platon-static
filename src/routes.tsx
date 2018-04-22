@@ -30,10 +30,6 @@ const ProblemDesc = Loadable({
   loader: () => import('./modules/home/problemdesc/ProblemDesc'),
   loading: Loading,
 })
-const PlanList = Loadable({
-  loader: () => import('./modules/plan/PlanList'),
-  loading: Loading,
-})
 const Explore = Loadable({
   loader: () => import('./modules/problem/Explore'),
   loading: Loading,
@@ -162,18 +158,6 @@ const NickName = Loadable({
 })
 const HeadImage = Loadable({
   loader: () => import('./modules/customer/account/components/HeadImage'),
-  loading: Loading,
-})
-const PointTip = Loadable({
-  loader: () => import('./modules/customer/PointTip'),
-  loading: Loading,
-})
-const ProblemGallery = Loadable({
-  loader: () => import('./modules/customer/ProblemGallery'),
-  loading: Loading,
-})
-const RiseMember = Loadable({
-  loader: () => import('./modules/customer/RiseMember'),
   loading: Loading,
 })
 const FeedBack = Loadable({
@@ -349,9 +333,6 @@ const routes = (
         <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
         <Route path="modify/headImg" component={HeadImage}/>
-        <Route path="point/tip" component={PointTip}/>
-        <Route path="problem" component={ProblemGallery}/>
-        <Route path="member" component={RiseMember}/>
         <Route path="mobile/check" component={MobileBind}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
