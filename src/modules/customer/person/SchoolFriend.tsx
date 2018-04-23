@@ -91,7 +91,6 @@ export default class SchoolFriend extends React.Component<any, any> {
 
   render() {
     const { elites = []} = this.state
-    console.log(elites)
     const renderList = () => {
       return (
         <div className="school-friend-list">

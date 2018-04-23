@@ -228,6 +228,23 @@ export default class Personal extends React.Component<any, any> {
       )
     }
 
+    const renderProject = () => {
+      const {memberExpiredDate} = this.state.userInfo
+      return(
+       <div className="project-item-container">
+         {memberExpiredDate && memberExpiredDate.map((item,index)=>{
+           return(
+             <div className="project-item">
+               {item}
+             </div>
+           )
+         })}
+       </div>
+
+
+      )
+    }
+
     const renderList = () => {
       return (
         <div className="list-container">
@@ -255,6 +272,14 @@ export default class Personal extends React.Component<any, any> {
             <div className="arrow"></div>
           </MarkBlock>
 
+          <div className="project-container">
+            <div className="img-container">
+              <img src='http://static.iqycamp.com/images/icon_friend.png'/>
+            </div>
+            <div className="content">我的学习项目</div>
+          </div>
+
+          {renderProject()}
 
           <MarkBlock module={'打点'}
                      func={'个人中心'}
