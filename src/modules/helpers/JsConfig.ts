@@ -3,7 +3,7 @@ import JsConfigService from "./JsConfigService"
 
 
 export function config(apiList,callback){
-  JsConfigService.config(apiList,callback);
+    JsConfigService.config(apiList,callback);
 }
 
 export function preview(current, picList) {

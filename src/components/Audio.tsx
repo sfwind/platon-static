@@ -71,11 +71,11 @@ export default class Audio extends React.Component<AudioProps, any> {
   props传值发生改变触发函数
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   componentWillReceiveProps(nextProps){
-    if (nextProps.playFlag.split(".")[1]=== "true"){
-      if (this.state.device == Device.ANDROID){
-        this.refs[this.state.autoPlayFlag].play();
+    if (nextProps.playFlag.split(".")[1]== "true"){
+      if (this.state.device == Device.IPHONE){
+        /*this.start();*/
       }else {
-        this.start();
+        this.refs[this.state.autoPlayFlag].play();
       }
     }
   }
@@ -91,7 +91,7 @@ export default class Audio extends React.Component<AudioProps, any> {
   onEnd() {
     this.setState({ currentSecond: this.state.duration, playing: false });
     clearInterval(timer);
-    this.props.getPlayEnd(this.props.playFlag.split(".")[0])
+    /*this.props.getPlayEnd(this.props.playFlag.split(".")[0])*/
   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ios音频开始播放点击事件
@@ -114,6 +114,7 @@ ios音频开始播放点击事件
         //【IOS bug解决方法】先播放，再暂停，获取控件duration
         self.refs.sound.play();
         self.refs.sound.pause();
+        /*alert(self.refs.sound.src);*/
         if(self.refs.sound.duration) {
           self.setState({ duration: Math.floor(self.refs.sound.duration), loading: false });
           self.play()
@@ -203,7 +204,7 @@ ios音频开始播放点击事件
           <div className="audio-duration">
             {intToTime(currentSecond)} / {intToTime(duration)}
           </div>
-          <audio ref="sound" src={url} onEnded={this.onEnd.bind(this)}
+          <audio ref="sound" id={this.state.autoPlayFlag}  src={url} onEnded={this.onEnd.bind(this)}
           />
         </div>
       </div>
