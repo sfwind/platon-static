@@ -85,7 +85,8 @@ export default class LandingPage extends React.Component {
               self.setState({ applySuccess: newApplySuccess })
             }, 1000)
           }
-        })
+        });
+        dispatch(alertMsg("成功"))
       },
       otherCallback(data){
         dispatch(alertMsg(data.msg))
