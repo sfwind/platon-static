@@ -46,6 +46,10 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       placeholder: '提出你的疑问或意见吧（限1000字）',
       isReply: false,
       content: '',   //评论内容
+      audioPlay:"audioPlay.false", //第一个音频自动播放标识
+      analysisPlay:"analysisPlay.false" ,//第二个音频自动播放标识
+      meansPlay:"meansPlay.false", //第三个音频自动播放标识
+      keynotePlay:"keynotePlay.false", //第四个音频自动播放标识
     }
   }
 
@@ -75,7 +79,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       this.setState({ discussData: discussRes.msg })
     }
   }
-
   reply (item) {
     this.setState({
       showDiscuss: true,
@@ -178,8 +181,23 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }).catch(er => alertMsg(er))
   }
 
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+完成播放后得到的标识  重新赋值
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  getPlayStation(flag) {
+    if (flag === "audioPlay"){
+      this.setState({audioPlay:"audioPlay.false",analysisPlay:"analysisPlay.true" ,meansPlay:"meansPlay.false",keynotePlay:"keynotePlay.false",});
+      window.scrollTo(0,this.refs.analysis.offsetTop);
+    }else if (flag === "analysisPlay"){
+      this.setState({audioPlay:"audioPlay.false",analysisPlay:"analysisPlay.false" ,meansPlay:"meansPlay.true",keynotePlay:"keynotePlay.false",});
+     window.scrollTo(0,this.refs.means.offsetTop);
+    }else if (flag === "meansPlay"){
+      this.setState({audioPlay:"audioPlay.false",analysisPlay:"analysisPlay.false" ,meansPlay:"meansPlay.false",keynotePlay:"keynotePlay.true",});
+      window.scrollTo(0,this.refs.keynote.offsetTop);
+    }
+  }
   render () {
-    const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state
+    const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state;
     const {
       analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
       analysisAudio, analysisAudioWords, meansAudio, meansAudioWords,description,keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords,
@@ -198,20 +216,18 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           <span className={`subject`}>{subject}</span>
         </div>
       )
-    }
+    };
 
     const rightAnswerRender = (choice, idx) => {
       return (choice.isRight ? sequenceMap[idx] + ' ' : '')
-    }
-
+    };
+   let flag = true;
     return (
       <Block>
         <div className={`knowledge-view-container`}>
           {
             practicePlanId ?
-              <SectionProgressHeader ref={'sectionProgress'}
-                                     practicePlanId={practicePlanId}
-                                     planId={planId}/> :
+              <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} planId={planId}/> :
               <div className="page-header">{knowledge.knowledge}</div>
           }
           {
@@ -221,12 +237,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                                  videoPoster={videoPoster}
                      videoWords={videoWords}/></div>
           }
+          {/*-----  音频的渲染   -----*/}
           <div className="intro-container">
             {
               audio &&
               <div className="context-audio">
-                <Audio url={audio}
-                       words={audioWords}/>
+                <Audio url={audio} words={audioWords} playFlag={this.state.audioPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
               </div>
             }
 
@@ -239,29 +255,30 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             {pic && <div className="context-img"><img src={pic}/></div>}
             {
               analysis &&
-              <div>
+              <div ref="analysis">
                 <div className="context-title-img">
-                  <AssetImg height={17}
-                            url="https://static.iqycamp.com/images/fragment/analysis3.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/analysis3.png"/>
                 </div>
                 {analysisAudio &&
-                <div className="context-audio"><Audio url={analysisAudio}
-                                                      words={analysisAudioWords}/></div>}
+                <div className="context-audio">
+                  <Audio url={analysisAudio} words={analysisAudioWords} playFlag={ this.state.analysisPlay } getPlayEnd={this.getPlayStation.bind(this)}/>
+                </div>}
                 <div className="text">
-                  <pre dangerouslySetInnerHTML={{ __html: analysis }}/>
+                  <pre dangerouslySetInnerHTML={{__html: analysis}}/>
                 </div>
                 {analysisPic && <div className="context-img"><img src={analysisPic}/></div>}
               </div>
             }
             {
               means &&
-              <div>
+              <div ref="means">
                 <div className="context-title-img">
-                  <AssetImg height={17}
-                            url="https://static.iqycamp.com/images/fragment/means3.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/means3.png"/>
                 </div>
-                {meansAudio && <div className="context-audio"><Audio url={meansAudio}
-                                                                     words={meansAudioWords}/></div>}
+                {meansAudio && <div className="context-audio">
+                  <Audio url={meansAudio} words={meansAudioWords} playFlag={this.state.meansPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
+                </div>
+                }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: means }}/>
                 </div>
@@ -270,15 +287,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             }
             {
               keynote &&
-              <div>
+              <div ref="keynote">
                 <div className="context-title-img">
                   <AssetImg height={17}
                             url="https://static.iqycamp.com/images/fragment/keynote3.png"/>
                 </div>
                 {
                   keynoteAudio &&
-                  <div className="context-audio"><Audio url={keynoteAudio}
-                                                        words={keynoteAudioWords}/></div>
+                  <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords} playFlag={this.state.keynotePlay} getPlayEnd={this.getPlayStation.bind(this)}/></div>
                 }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: keynote }}/>

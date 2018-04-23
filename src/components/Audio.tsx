@@ -33,6 +33,7 @@ export default class Audio extends React.Component<AudioProps, any> {
       loading: false,
       start: false,
       showWords: false,
+      autoPlayFlag:''
     }
   }
 
@@ -44,6 +45,8 @@ export default class Audio extends React.Component<AudioProps, any> {
     } else {
       this.setState({ device: Device.OTHER })
     }
+    let autoPlayFlag = this.props.playFlag.split(".")[0];
+    this.setState({autoPlayFlag:autoPlayFlag});
   }
 
   componentDidMount() {
@@ -51,30 +54,53 @@ export default class Audio extends React.Component<AudioProps, any> {
     if(device == Device.ANDROID) {
       try {
         //华为某些机型不支持https的语音
-        this.refs.sound.src = this.refs.sound.src.replace('https', 'http');
-        this.refs.sound.load()
+        this.refs[this.state.autoPlayFlag].src = this.refs[this.state.autoPlayFlag].src.replace('https', 'http');
+        this.refs[this.state.autoPlayFlag].load()
       } catch(e) {
         alert(e)
       }
-
     }
+
   }
 
   componentWillUnmount() {
     clearInterval(timer);
     clearInterval(duration_load_timer);
   }
-
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  props传值发生改变触发函数
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  componentWillReceiveProps(nextProps){
+    if (nextProps.playFlag.split(".")[1]=== "true"){
+      if (this.state.device == Device.ANDROID){
+        this.refs[this.state.autoPlayFlag].play();
+      }else {
+        this.start();
+      }
+    }
+  }
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+安卓结束播放运行函数
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  androidEndPlay() {
+    this.props.getPlayEnd(this.props.playFlag.split(".")[0])
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ios结束播放运行函数
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   onEnd() {
     this.setState({ currentSecond: this.state.duration, playing: false });
-    clearInterval(timer)
+    clearInterval(timer);
+    this.props.getPlayEnd(this.props.playFlag.split(".")[0])
   }
-
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ios音频开始播放点击事件
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   start() {
     let self = this;
     // 首次点击播放按钮
     this.setState({ playing: true, start: true });
-    mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
+    mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url });
     // 首次加载
     if(this.state.duration === 0 && !this.state.start) {
       // 加载音频
@@ -89,7 +115,7 @@ export default class Audio extends React.Component<AudioProps, any> {
         self.refs.sound.play();
         self.refs.sound.pause();
         if(self.refs.sound.duration) {
-          self.setState({ duration: Math.floor(self.refs.sound.duration), loading: false })
+          self.setState({ duration: Math.floor(self.refs.sound.duration), loading: false });
           self.play()
         }
       }, 500)
@@ -139,18 +165,20 @@ export default class Audio extends React.Component<AudioProps, any> {
       this.play()
     })
   }
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+使用原生audio标签  android
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-  //使用原生audio标签
   renderOrigin(url) {
-    const { words } = this.props;
     return (
-      <audio ref="sound" onPlaying={() => {
+      <audio ref={this.state.autoPlayFlag}  onPlaying={() => {
         mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
-      }} src={url} controls="controls"/>
+      }} src={url} controls="controls"  onEnded={this.androidEndPlay.bind(this)}/>
     )
   }
-
-  //使用定制化audio组件
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+使用定制化audio组件  ios
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   renderCustomize(url) {
     const { currentSecond, playing, duration, loading, showWords } = this.state;
     return (
@@ -175,8 +203,7 @@ export default class Audio extends React.Component<AudioProps, any> {
           <div className="audio-duration">
             {intToTime(currentSecond)} / {intToTime(duration)}
           </div>
-          <audio ref="sound" src={url}
-                 onEnded={this.onEnd.bind(this)}
+          <audio ref="sound" src={url} onEnded={this.onEnd.bind(this)}
           />
         </div>
       </div>
@@ -227,7 +254,7 @@ export default class Audio extends React.Component<AudioProps, any> {
     const { url } = this.props;
     const { words } = this.props;
     const { showWords, device } = this.state;
-    let renderList = [];
+    let renderList = '';
     let wordsComponent = null;
     if(words) {
       // 有文字，显示文字提示
@@ -235,18 +262,19 @@ export default class Audio extends React.Component<AudioProps, any> {
     }
     // 区分平台显示不同的音频组件
     if(device === Device.ANDROID) {
-      renderList.push(this.renderOrigin(url));
+      renderList = this.renderOrigin(url);
     } else {
-      renderList.push(this.renderCustomize(url));
+      renderList = this.renderCustomize(url);
     }
 
     // 语音文字
-    if(wordsComponent) {
+  /*  if(wordsComponent) {
       renderList.push(wordsComponent);
-    }
+    }*/
     return (
       <div className="audio-wrapper">
         {renderList}
+        {wordsComponent}
       </div>
     );
   }
