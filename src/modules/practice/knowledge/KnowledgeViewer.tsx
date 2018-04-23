@@ -45,7 +45,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       discuss: {},
       placeholder: '提出你的疑问或意见吧（限1000字）',
       isReply: false,
-      content: '',
+      content: '',   //评论内容
     }
   }
 
@@ -59,17 +59,17 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { id, practicePlanId, complete } = this.props.location.query;
 
     if (practicePlanId) {
-      let knowledge = await loadKnowledges(practicePlanId);
+      let knowledge = await loadKnowledges(practicePlanId);   // 打开知识点
       this.setState({ knowledge: knowledge.msg[0], referenceId: knowledge.msg[0].id });
-      let discussRes = await loadKnowledgePriorityDiscuss(knowledge.msg[0].id);
-      this.setState({ discussData: discussRes.msg });
+      let discussRes = await loadKnowledgePriorityDiscuss(knowledge.msg[0].id);   // 获取当前知识点加精过后的讨论 区域
+      this.setState({ discussData: discussRes.msg });  // 留言数据
 
       if (complete == 'false') {
         // 完成练习动效
         dispatch(set('completePracticePlanId', practicePlanId))
       }
     } else if (id) {
-      let knowledge = await loadKnowledge(id);
+      let knowledge = await loadKnowledge(id); // 加载知识点
       this.setState({ knowledge: knowledge.msg });
       let discussRes = await loadKnowledgePriorityDiscuss(id);
       this.setState({ discussData: discussRes.msg })
@@ -86,10 +86,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       referenceId: item.knowledgeId,
     })
   }
-
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+评论之后的重新加载
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   reload () {
     const { knowledge } = this.state;
-    loadDiscuss(knowledge.id, 1).then(res => {
+    loadDiscuss(knowledge.id, 1).then(res => {   // 加载更多讨论
       if (res.code === 200) {
         this.setState({
           discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
@@ -127,8 +129,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       _.merge(discussBody, { repliedId: repliedId })
     }
 
-    discussKnowledge(discussBody).then(res => {
-      const { code, msg } = res
+    discussKnowledge(discussBody).then(res => {  // 提交知识点评论
+      const { code, msg } = res;
       if (code === 200) {
         this.reload()
       }
@@ -144,7 +146,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { dispatch } = this.props;
     const { knowledge } = this.state;
     dispatch(startLoad());
-    deleteKnowledgeDiscuss(id).then(res => {
+    deleteKnowledgeDiscuss(id).then(res => {     // 删除知识点评论
       loadDiscuss(knowledge.id, 1).then(res => {
         dispatch(endLoad());
         if (res.code === 200) {
@@ -159,12 +161,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       dispatch(alertMsg(ex))
     })
   }
-
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+去往练习题
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   handleClickGoWarmup (practicePlanId) {
     const { dispatch } = this.props;
     dispatch(startLoad());
     mark({ module: '打点', function: '知识点', action: '完成知识点学习' });
-    learnKnowledge(practicePlanId).then(res => {
+    learnKnowledge(practicePlanId).then(res => {    // 学习知识点
       dispatch(endLoad());
       if (res.code === 200) {
         this.refs.sectionProgress.goNextPage()

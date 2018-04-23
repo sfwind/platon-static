@@ -47,11 +47,11 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   componentDidMount() {
-    const { device } = this.state
+    const { device } = this.state;
     if(device == Device.ANDROID) {
       try {
         //华为某些机型不支持https的语音
-        this.refs.sound.src = this.refs.sound.src.replace('https', 'http')
+        this.refs.sound.src = this.refs.sound.src.replace('https', 'http');
         this.refs.sound.load()
       } catch(e) {
         alert(e)
@@ -66,28 +66,28 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   onEnd() {
-    this.setState({ currentSecond: this.state.duration, playing: false })
+    this.setState({ currentSecond: this.state.duration, playing: false });
     clearInterval(timer)
   }
 
   start() {
-    let self = this
+    let self = this;
     // 首次点击播放按钮
-    this.setState({ playing: true, start: true })
+    this.setState({ playing: true, start: true });
     mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
     // 首次加载
     if(this.state.duration === 0 && !this.state.start) {
       // 加载音频
-      this.setState({ loading: true })
-      self.refs.sound.load()
+      this.setState({ loading: true });
+      self.refs.sound.load();
       duration_load_timer = setInterval(() => {
         if(self.state.duration) {
-          clearInterval(duration_load_timer)
+          clearInterval(duration_load_timer);
           return
         }
         //【IOS bug解决方法】先播放，再暂停，获取控件duration
-        self.refs.sound.play()
-        self.refs.sound.pause()
+        self.refs.sound.play();
+        self.refs.sound.pause();
         if(self.refs.sound.duration) {
           self.setState({ duration: Math.floor(self.refs.sound.duration), loading: false })
           self.play()
@@ -103,18 +103,18 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   play() {
-    const self = this
+    const self = this;
     if(timer) {
       clearInterval(timer)
     }
     this.setState({ playing: true, pause: false }, () => {
-      self.refs.sound.play()
+      self.refs.sound.play();
       timer = setInterval(() => {
         if(this.state.currentSecond < this.state.duration) {
           //设置已播放时长
           self.setState({ currentSecond: self.refs.sound.currentTime })
         } else {
-          clearInterval(timer)
+          clearInterval(timer);
           this.setState({ playing: false })
         }
       }, 1000)
@@ -122,8 +122,8 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   pause() {
-    this.setState({ playing: false, pause: true })
-    clearInterval(timer)
+    this.setState({ playing: false, pause: true });
+    clearInterval(timer);
     this.refs.sound.pause()
   }
 
@@ -133,9 +133,9 @@ export default class Audio extends React.Component<AudioProps, any> {
     if(this.state.duration === 0) {
       return
     }
-    clearInterval(timer)
+    clearInterval(timer);
     this.setState({ playing: true, currentSecond: value }, () => {
-      this.refs.sound.currentTime = value
+      this.refs.sound.currentTime = value;
       this.play()
     })
   }
@@ -224,7 +224,7 @@ export default class Audio extends React.Component<AudioProps, any> {
   }
 
   render() {
-    const { url } = this.props
+    const { url } = this.props;
     const { words } = this.props;
     const { showWords, device } = this.state;
     let renderList = [];
