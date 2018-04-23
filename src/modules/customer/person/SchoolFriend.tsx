@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import './SchoolFriend.less'
 import { alertMsg } from 'reduxutil/actions'
 import { loadAllElites } from './async'
-import PullElement from 'pull-element';
-import { isEmpty,remove} from 'lodash';
+import PullElement from 'pull-element'
+import { isEmpty, remove } from 'lodash'
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
  1. 项目名称：platon-static
@@ -22,21 +22,21 @@ export default class SchoolFriend extends React.Component<any, any> {
       elites: [],
       showOthers: true,
       end: null,
-      page:1
+      page: 1
     }
-    this.pullElement = null;
+    this.pullElement = null
   }
 
-  async componentWillMount(){
-    let res = await loadAllElites(1);
+  async componentWillMount() {
+    let res = await loadAllElites(1)
     this.setState({
-      elites:res.msg
+      elites: res.msg
     })
   }
 
-  componentDidUpdate () {
-    const { showOthers, elites } = this.state;
-    if (!this.pullElement && showOthers && !isEmpty(elites)) {
+  componentDidUpdate() {
+    const { showOthers, elites } = this.state
+    if(!this.pullElement && showOthers && !isEmpty(elites)) {
       this.pullElement = new PullElement({
         target: '#react-app',
         scroller: 'body',
@@ -46,51 +46,49 @@ export default class SchoolFriend extends React.Component<any, any> {
         detectScrollOnStart: true,
 
         onPullUp: (data) => {
-          if (this.props.iNoBounce) {
-            if (this.props.iNoBounce.isEnabled()) {
-              this.props.iNoBounce.disable();
+          if(this.props.iNoBounce) {
+            if(this.props.iNoBounce.isEnabled()) {
+              this.props.iNoBounce.disable()
             }
           }
-          this.setState({ loading: true });
+          this.setState({ loading: true })
         },
         onPullUpEnd: (data) => {
           loadAllElites(this.state.page + 1).then(res => {
-            this.setState({ loading: false });
-            if (res.msg && res.msg.length !== 0) {
+            this.setState({ loading: false })
+            if(res.msg && res.msg.length !== 0) {
               remove(res.msg.list, (item) => {
-                return findIndex(this.state.elites, item) !== -1;
-              });
+                return findIndex(this.state.elites, item) !== -1
+              })
               this.setState({
                 elites: this.state.elites.concat(res.msg),
                 page: this.state.page + 1,
-                end: res.msg.end,
-              });
+                end: res.msg.end
+              })
             } else {
-              this.setState({ end: res.msg.end });
+              this.setState({ end: res.msg.end })
             }
-          });
-          if (this.props.iNoBounce) {
-            if (!this.props.iNoBounce.isEnabled()) {
-              this.props.iNoBounce.enable();
+          })
+          if(this.props.iNoBounce) {
+            if(!this.props.iNoBounce.isEnabled()) {
+              this.props.iNoBounce.enable()
             }
           }
-        },
-      });
-      this.pullElement.init();
+        }
+      })
+      this.pullElement.init()
     }
-    if (this.pullElement) {
-      if (this.state.end) {
-        this.pullElement.disable();
+    if(this.pullElement) {
+      if(this.state.end) {
+        this.pullElement.disable()
       } else {
-        this.pullElement.enable();
+        this.pullElement.enable()
       }
     }
   }
 
-
-
   render() {
-    const { elites = []} = this.state
+    const { elites = [] } = this.state
     const renderList = () => {
       return (
         <div className="school-friend-list">
@@ -104,12 +102,16 @@ export default class SchoolFriend extends React.Component<any, any> {
                   {item.nickName}
                 </div>
                 <div className="province-industry-container">
-                  <img src="http://static.iqycamp.com/images/school-friend-icon.png"/>
+                  <div className="img-container">
+                    <img src="http://static.iqycamp.com/images/school-friend-icon.png"/>
+                  </div>
+                  <div className="text-container">
                   {item.province} | {item.industry}
+                  </div>
                 </div>
 
                 <div className="company-container">
-                 {item.company}
+                  {item.company}
                 </div>
 
                 <div className="member-container">
