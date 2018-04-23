@@ -13,6 +13,8 @@ import DiscussDistrict from './modules/practice/components/DiscussDistrict/Discu
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 import PageNotFound from './modules/other/pageNotFound/PageNotFound'
+import ProblemPreview from './modules/practice/preview/ProblemPreview';
+import SchoolFriend from './modules/customer/person/SchoolFriend'
 
 const LandingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -338,6 +340,7 @@ const routes = (
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
         <Route path="new/profile" component={NewProfile}/>
+        <Route path="school/friend" component={SchoolFriend} />
       </Route>
 
       <Route path="guest/inter/questions" component={InterlocutionQuestion}/>

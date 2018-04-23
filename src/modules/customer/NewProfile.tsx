@@ -193,6 +193,11 @@ export default class NewProfile extends React.Component<any, any> {
       dispatch(alertMsg('个人简介内容过长'))
       return
     }
+    if(!_.isEmpty(company) && company.length>=30){
+      dispatch(alertMsg('公司名称最长不能超过30字哦'))
+      return
+    }
+
 
     if(this.checkCanSubmit()) {
       let param = {
