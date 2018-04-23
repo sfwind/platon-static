@@ -261,25 +261,25 @@ export default class Personal extends React.Component<any, any> {
             <div className="amount">{userInfo.couponSum}元</div>
             <div className="arrow"></div>
           </MarkBlock>
-          {/*<MarkBlock module={'打点'} func={'个人中心'} action={'点击校友录'} onClick={()=> this.goSchoolFriend()}*/}
-          {/*className="friend-container">*/}
-          {/*<div className="img-container">*/}
-          {/*<img src='http://static.iqycamp.com/images/icon_friend.png'/>*/}
-          {/*<div className="arrow">*/}
-          {/*</div>*/}
-          {/*</div>*/}
-          {/*<div className="content">我的校友录</div>*/}
-          {/*<div className="arrow"></div>*/}
-          {/*</MarkBlock>*/}
+          <MarkBlock module={'打点'} func={'个人中心'} action={'点击校友录'} onClick={()=> this.goSchoolFriend()}
+          className="friend-container">
+          <div className="img-container">
+          <img src='http://static.iqycamp.com/images/icon_friend.png'/>
+          <div className="arrow">
+          </div>
+          </div>
+          <div className="content">我的校友录</div>
+          <div className="arrow"></div>
+          </MarkBlock>
 
-          {/*<div className="project-container">*/}
-          {/*<div className="img-container">*/}
-          {/*<img src='http://static.iqycamp.com/images/icon_huiyuan.png'/>*/}
-          {/*</div>*/}
-          {/*<div className="content">我的学习项目</div>*/}
-          {/*</div>*/}
+          <div className="project-container">
+          <div className="img-container">
+          <img src='http://static.iqycamp.com/images/icon_huiyuan.png'/>
+          </div>
+          <div className="content">我的学习项目</div>
+          </div>
 
-          {/*{renderProject()}*/}
+          {renderProject()}
 
           <MarkBlock module={'打点'}
                      func={'个人中心'}
