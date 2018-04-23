@@ -5,6 +5,7 @@ import { alertMsg } from 'reduxutil/actions'
 import { loadAllElites } from './async'
 import PullElement from 'pull-element';
 import { isEmpty,remove} from 'lodash';
+import WXHeadImg from '../components/WXHeadImg'
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
  1. 项目名称：platon-static
@@ -98,7 +99,7 @@ export default class SchoolFriend extends React.Component<any, any> {
             return (
               <div className="school-friend-item">
                 <div className="head-image-container">
-                  <img src={item.headImgUrl}/>
+                  <WXHeadImg src={item.headImgUrl}/>
                 </div>
                 <div className="nickname-container">
                   {item.nickName}
