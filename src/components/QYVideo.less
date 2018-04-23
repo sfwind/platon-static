@@ -1,7 +1,7 @@
 @import "../style/variable";
 
-.video-container{
-  video{
+.video-container {
+  video {
     width: 100%;
     height: auto;
   }
@@ -10,6 +10,10 @@
     height: 10.5rem;
     overflow: hidden;
     margin: 2rem 0;
+
+    * {
+      user-select: none;
+    }
 
     .video-words {
       border-radius: 3px;
@@ -61,4 +65,3 @@
     }
   }
 }
-
