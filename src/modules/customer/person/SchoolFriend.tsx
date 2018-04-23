@@ -110,7 +110,7 @@ export default class SchoolFriend extends React.Component<any, any> {
                 </div>
 
                 <div className="company-container">
-                  所在公司/机构：{item.company}
+                 {item.company}
                 </div>
 
                 <div className="member-container">
