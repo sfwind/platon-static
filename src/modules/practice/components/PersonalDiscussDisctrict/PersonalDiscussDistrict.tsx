@@ -211,7 +211,12 @@ export default class PersonalDiscussDistrict extends React.Component {
                                 url="https://static.iqycamp.com/asst-gh4skljm.png"></AssetImg>
                     }
                   </div>
-                  <div className={`comment ${item.showCommentAll ? '' : 'hidden'}`}>{item.showCommentAll ? item.content : removeHtmlTags(item.content)}</div>
+                  {
+                    item.showCommentAll ?
+                      <pre
+                        className={'comment'}>{item.content}</pre> :
+                      <div className={'comment hidden'}>{removeHtmlTags(item.content)}</div>
+                  }
                   {
                     getRealLength(removeHtmlTags(item.content)) > 75 &&
                     <div className="show-tips"
