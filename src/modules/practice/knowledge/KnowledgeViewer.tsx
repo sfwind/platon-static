@@ -236,8 +236,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
               </div>
             }
 
-
-
             {pic && <div className="context-img"><img src={pic}/></div>}
             {
               analysis &&

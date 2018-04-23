@@ -1,55 +1,62 @@
-import * as React from 'react'
-import './PersonalDiscussDistrict.less'
-import AssetImg from '../../../../components/AssetImg'
-import { formatDate, getRealLength, removeHtmlTags } from '../../../../utils/helpers'
-import { Dialog } from 'react-weui'
-import { requestApplicationComment } from '../../../message/async'
+import * as React from 'react';
+import './PersonalDiscussDistrict.less';
+import AssetImg from '../../../../components/AssetImg';
+import { formatDate, getRealLength, removeHtmlTags } from '../../../../utils/helpers';
+import { Dialog } from 'react-weui';
+import { requestApplicationComment } from '../../../message/async';
 
-const { Alert } = Dialog
+const { Alert } = Dialog;
 
 export default class PersonalDiscussDistrict extends React.Component {
 
   constructor () {
-    super()
+    super();
     this.state = {
       confirmParams: {},
       showConfirm: false,
       confirmContent: '',
-    }
+    };
   }
 
   componentWillMount () {
     let {
       discuss = {},
       comments = [],
-    } = this.props
-    comments.map(comment => comment.showCommentAll = false)
+    } = this.props;
+    comments.map(comment => comment.showCommentAll = false);
     this.setState({
       discuss: discuss,
       comments: comments,
-    })
+    });
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+      this.props = nextProps;
+      this.componentWillMount();
+    }
   }
 
   handleClickToggleDiscussShow () {
     this.setState({
       showDiscussAll: !this.state.showDiscussAll,
-    })
+    });
   }
 
   handleClickToggleCommentsShow (index) {
-    let targetCommenst = JSON.parse(JSON.stringify(this.state.comments))
+    let targetCommenst = JSON.parse(JSON.stringify(this.state.comments));
     targetCommenst.map((comment, seq) => {
       if (seq === index) {
-        comment.showCommentAll = !comment.showCommentAll
+        comment.showCommentAll = !comment.showCommentAll;
       }
-    })
+    });
     this.setState({
       comments: targetCommenst,
-    })
+    });
   }
 
   handleClickDeleteComment (id) {
-    const { deleteFunc, } = this.props
+    const { deleteFunc, } = this.props;
     this.setState({
       confirmParams: {
         buttons: [
@@ -59,19 +66,19 @@ export default class PersonalDiscussDistrict extends React.Component {
             onClick: () => {
               this.setState({
                 showConfirm: false,
-              })
-              deleteFunc(id)
+              });
+              deleteFunc(id);
             },
           },
         ],
       },
       showConfirm: true,
       confirmContent: '确认删除此评论？',
-    })
+    });
   }
 
   async handleRequestApplicationComment (id) {
-    let res = await requestApplicationComment(id)
+    let res = await requestApplicationComment(id);
     if (res.code === 200) {
       this.setState({
         confirmParams: {
@@ -81,7 +88,7 @@ export default class PersonalDiscussDistrict extends React.Component {
         },
         showConfirm: true,
         confirmContent: '求点评成功',
-      })
+      });
     } else {
       this.setState({
         confirmParams: {
@@ -91,26 +98,26 @@ export default class PersonalDiscussDistrict extends React.Component {
         },
         showConfirm: true,
         confirmContent: '本课程求点评次数已用完',
-      })
+      });
     }
   }
 
   async handleClickVote (discuss) {
-    const { id, selfVoted } = discuss
+    const { id, selfVoted } = discuss;
     if (selfVoted) {
-      return
+      return;
     }
     const {
       voteFunc = () => {
       },
-    } = this.props
-    let targetDiscuss = JSON.parse(JSON.stringify(this.state.discuss))
-    targetDiscuss.selfVoted = true
-    targetDiscuss.voteCount = targetDiscuss.voteCount + 1
+    } = this.props;
+    let targetDiscuss = JSON.parse(JSON.stringify(this.state.discuss));
+    targetDiscuss.selfVoted = true;
+    targetDiscuss.voteCount = targetDiscuss.voteCount + 1;
     this.setState({
       discuss: targetDiscuss,
-    })
-    voteFunc(id)
+    });
+    voteFunc(id);
   }
 
   render () {
@@ -128,12 +135,12 @@ export default class PersonalDiscussDistrict extends React.Component {
       confirmParams = {},
       showConfirm = false,
       confirmContent = '',
-    } = this.state
+    } = this.state;
     const {
       deleteFunc,
       showVote = false,
       showRequestComment = false,
-    } = this.props
+    } = this.props;
 
     return (
       <div className="personal-discuss-district-component">
@@ -217,7 +224,7 @@ export default class PersonalDiscussDistrict extends React.Component {
                   </div>
                 </div>
               </div>
-            )
+            );
           })
         }
 
@@ -225,7 +232,7 @@ export default class PersonalDiscussDistrict extends React.Component {
           <p>{confirmContent}</p>
         </Alert>
       </div>
-    )
+    );
   }
 
 }
