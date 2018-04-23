@@ -207,6 +207,11 @@ export default class Profile extends React.Component<any, any> {
         return
       }
 
+      if(!_.isEmpty(company) && company.length>=30){
+        dispatch(alertMsg('公司名称最长不能超过30字哦'))
+        return
+      }
+
       _.merge(param, {
         realName, address, receiver, married, company,
         college,

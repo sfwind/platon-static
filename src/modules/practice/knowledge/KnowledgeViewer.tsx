@@ -1,9 +1,9 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import './KnowledgeViewer.less'
-import AssetImg from '../../../components/AssetImg'
-import Audio from '../../../components/Audio'
-import WordUnfold from '../../../components/WordUnfold'
+import * as React from 'react';
+import { connect } from 'react-redux';
+import './KnowledgeViewer.less';
+import AssetImg from '../../../components/AssetImg';
+import Audio from '../../../components/Audio';
+import WordUnfold from '../../../components/WordUnfold';
 import {
   loadDiscuss,
   discussKnowledge,
@@ -11,17 +11,17 @@ import {
   loadKnowledges,
   deleteKnowledgeDiscuss,
   learnKnowledge, loadKnowledgePriorityDiscuss,
-} from './async'
-import _ from 'lodash'
-import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions'
-import { scroll } from '../../../utils/helpers'
-import { mark } from '../../../utils/request'
-import QYVideo from '../../../components/QYVideo'
-import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { Block } from '../../../components/Block'
-import { SectionProgressHeader } from '../components/SectionProgressHeader'
-import { ColumnSpan } from '../../../components/ColumnSpan'
-import KnowledgeDiscussDistrict from './KnowledgeDiscussDistrict/KnowledgeDiscussDistrict'
+} from './async';
+import _ from 'lodash';
+import { startLoad, endLoad, alertMsg, set } from '../../../redux/actions';
+import { scroll } from '../../../utils/helpers';
+import { mark } from '../../../utils/request';
+import QYVideo from '../../../components/QYVideo';
+import { FooterButton } from '../../../components/submitbutton/FooterButton';
+import { Block } from '../../../components/Block';
+import { SectionProgressHeader } from '../components/SectionProgressHeader';
+import { ColumnSpan } from '../../../components/ColumnSpan';
+import KnowledgeDiscussDistrict from './KnowledgeDiscussDistrict/KnowledgeDiscussDistrict';
 
 const sequenceMap = {
   0: 'A',
@@ -31,7 +31,7 @@ const sequenceMap = {
   4: 'E',
   5: 'F',
   6: 'G',
-}
+};
 
 @connect(state => state)
 export default class KnowledgeViewer extends React.Component<any, any> {
@@ -70,15 +70,16 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 
       if (complete == 'false') {
         // 完成练习动效
-        dispatch(set('completePracticePlanId', practicePlanId))
+        dispatch(set('completePracticePlanId', practicePlanId));
       }
     } else if (id) {
       let knowledge = await loadKnowledge(id); // 加载知识点
       this.setState({ knowledge: knowledge.msg });
       let discussRes = await loadKnowledgePriorityDiscuss(id);
-      this.setState({ discussData: discussRes.msg })
+      this.setState({ discussData: discussRes.msg });
     }
   }
+
   reply (item) {
     this.setState({
       showDiscuss: true,
@@ -87,7 +88,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       content: '',
       repliedId: item.id,
       referenceId: item.knowledgeId,
-    })
+    });
   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 评论之后的重新加载
@@ -100,17 +101,17 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
           placeholder: '提出你的疑问或意见吧（限1000字）', content: '',
         });
-        scroll('.discuss', '.container')
+        scroll('.discuss', '.container');
       }
-    })
+    });
   }
 
   onChange (value) {
-    this.setState({ content: value })
+    this.setState({ content: value });
   }
 
   cancel () {
-    this.setState({ placeholder: '提出你的疑问或意见吧（限1000字）', isReply: false, showDiscuss: false, repliedId: 0 })
+    this.setState({ placeholder: '提出你的疑问或意见吧（限1000字）', isReply: false, showDiscuss: false, repliedId: 0 });
   }
 
   onSubmit () {
@@ -123,26 +124,26 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { referenceId, repliedId, content } = this.state;
     if (content.length == 0) {
       dispatch(alertMsg('请填写评论'));
-      return
+      return;
     }
 
-    let discussBody = { comment: content, referenceId: this.state.knowledge.id }
+    let discussBody = { comment: content, referenceId: this.state.knowledge.id };
 
     if (repliedId) {
-      _.merge(discussBody, { repliedId: repliedId })
+      _.merge(discussBody, { repliedId: repliedId });
     }
 
-    discussKnowledge(discussBody).then(res => {  // 提交知识点评论
+    discussKnowledge(discussBody).then(res => {
       const { code, msg } = res;
       if (code === 200) {
-        this.reload()
+        this.reload();
       }
       else {
-        dispatch(alertMsg(msg))
+        dispatch(alertMsg(msg));
       }
     }).catch(ex => {
-      dispatch(alertMsg(ex))
-    })
+      dispatch(alertMsg(ex));
+    });
   }
 
   onDelete (id) {
@@ -156,13 +157,13 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           this.setState({
             discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
             placeholder: '提出你的疑问或意见吧（限1000字）', content: '',
-          })
+          });
         }
-      })
+      });
     }).catch(ex => {
       dispatch(endLoad());
-      dispatch(alertMsg(ex))
-    })
+      dispatch(alertMsg(ex));
+    });
   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 去往练习题
@@ -174,11 +175,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     learnKnowledge(practicePlanId).then(res => {    // 学习知识点
       dispatch(endLoad());
       if (res.code === 200) {
-        this.refs.sectionProgress.goNextPage()
+        this.refs.sectionProgress.goNextPage();
       } else {
-        dispatch(alertMsg(res.msg))
+        dispatch(alertMsg(res.msg));
       }
-    }).catch(er => alertMsg(er))
+    }).catch(er => alertMsg(er));
   }
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -199,8 +200,8 @@ export default class KnowledgeViewer extends React.Component<any, any> {
   render () {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state;
     const {
-      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
-      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords,description,keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords,
+      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic, fileId,
+      analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, description, keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords,
     } = knowledge;
     const { location } = this.props;
     const { practicePlanId, planId, complete } = location.query;
@@ -216,12 +217,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           <span className={`subject`}>{subject}</span>
         </div>
       )
-    };
+    }
 
     const rightAnswerRender = (choice, idx) => {
       return (choice.isRight ? sequenceMap[idx] + ' ' : '')
-    };
-   let flag = true;
+    }
+
     return (
       <Block>
         <div className={`knowledge-view-container`}>
@@ -232,10 +233,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           }
           {
             videoUrl &&
-              <div style={{marginTop:'20px',marginBottom:'20px'}}>
-            <QYVideo videoUrl={videoUrl}
-                                 videoPoster={videoPoster}
-                     videoWords={videoWords}/></div>
+            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+              <QYVideo videoUrl={videoUrl}
+                       videoPoster={videoPoster}
+                       videoWords={videoWords}
+                       fileId={fileId}/></div>
           }
           {/*-----  音频的渲染   -----*/}
           <div className="intro-container">
@@ -339,7 +341,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                                             referenceId: this.state.knowledge.id,
                                             type: 1,
                                           },
-                                        })
+                                        });
                                       }}/>
           </div>
           {
@@ -352,6 +354,6 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           }
         </div>
       </Block>
-    )
+    );
   }
 }

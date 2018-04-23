@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import './ProblemPreview.less';
-import Audio from '../../../components/Audio';
 import {
   learnPreview, loadPreview,
 } from './async';
 import { set } from '../../../redux/actions';
 import { mark } from '../../../utils/request';
-import QYVideo from '../../../components/QYVideo';
 import { FooterButton } from '../../../components/submitbutton/FooterButton';
 import { Block } from '../../../components/Block';
 import { SectionProgressHeader } from '../components/SectionProgressHeader';
@@ -64,21 +62,8 @@ export default class ProblemPreview extends React.Component<any, any> {
                                    practicePlanId={practicePlanId}
                                    planId={planId}/>
           }
-          {
-            videoUrl && <QYVideo videoUrl={videoUrl}
-                                 videoPoster={videoPoster}
-                                 videoWords={videoWords}/>
-          }
           <div className="intro-container">
-            {
-              audio &&
-              <div className="context-audio">
-                <Audio url={audio}
-                       words={audioWords}/>
-              </div>
-            }
-            <div className="description">
-              <pre dangerouslySetInnerHTML={{ __html: description }}/>
+            <div className="description" dangerouslySetInnerHTML={{ __html: description }}>
             </div>
           </div>
           {
