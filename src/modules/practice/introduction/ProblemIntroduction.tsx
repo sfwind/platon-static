@@ -167,7 +167,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
     } = this.state
     const { show } = this.props.location.query
     const {
-      difficultyScore, catalog, subCatalog, pic, why, how, what, who,
+      difficultyScore, catalog, subCatalog, pic, why, how, what, who, fileId,
       descPic, audio, chapterList, problem, categoryPic, authorPic, audioWords, videoUrl, videoPoster, videoWords
     } = data
 
@@ -301,7 +301,7 @@ export default class ProblemIntroduction extends React.Component<any, any> {
           <div className="pi-c-foreword white-content">
             <Header icon="rise_icon_lamp" title="课程介绍" width={24} height={29}/>
             <div>
-              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>}
+              {videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords} fileId={fileId}/>}
             </div>
             <div className="pi-c-f-content">
               {audio &&

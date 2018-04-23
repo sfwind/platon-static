@@ -9,16 +9,14 @@ import Loadable from 'react-loadable'
 import DailyTalk from './modules/daily/DailyTalk'
 import { sa } from './utils/helpers'
 
-import GlobalRequest from './components/globalalert/GlobalRequest'
 import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
-import ProblemPreview from './modules/practice/preview/ProblemPreview'
 import PageNotFound from './modules/other/pageNotFound/PageNotFound'
 import ProblemPreview from './modules/practice/preview/ProblemPreview';
 import SchoolFriend from './modules/customer/person/SchoolFriend'
 
-const LangdingPage = Loadable({
+const LandingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
   loading: Loading,
 })
@@ -32,10 +30,6 @@ const ActivityListPage = Loadable({
 })
 const ProblemDesc = Loadable({
   loader: () => import('./modules/home/problemdesc/ProblemDesc'),
-  loading: Loading,
-})
-const PlanList = Loadable({
-  loader: () => import('./modules/plan/PlanList'),
   loading: Loading,
 })
 const Explore = Loadable({
@@ -168,18 +162,6 @@ const HeadImage = Loadable({
   loader: () => import('./modules/customer/account/components/HeadImage'),
   loading: Loading,
 })
-const PointTip = Loadable({
-  loader: () => import('./modules/customer/PointTip'),
-  loading: Loading,
-})
-const ProblemGallery = Loadable({
-  loader: () => import('./modules/customer/ProblemGallery'),
-  loading: Loading,
-})
-const RiseMember = Loadable({
-  loader: () => import('./modules/customer/RiseMember'),
-  loading: Loading,
-})
 const FeedBack = Loadable({
   loader: () => import('./modules/customer/faq/Feedback'),
   loading: Loading,
@@ -210,34 +192,6 @@ const MineCard = Loadable({
 })
 const MessageCenter = Loadable({
   loader: () => import('./modules/message/MessageCenter'),
-  loading: Loading,
-})
-const EventWall = Loadable({
-  loader: () => import('./modules/plan/EventWall'),
-  loading: Loading,
-})
-const ForumBase = Loadable({
-  loader: () => import('./modules/forum/ForumBase'),
-  loading: Loading,
-})
-const QuestionAnswer = Loadable({
-  loader: () => import('./modules/forum/question/QuestionAnswer'),
-  loading: Loading,
-})
-const AnswerComment = Loadable({
-  loader: () => import('./modules/forum/question/AnswerComment'),
-  loading: Loading,
-})
-const Question = Loadable({
-  loader: () => import('./modules/forum/question/Question'),
-  loading: Loading,
-})
-const SubmitQuestionInit = Loadable({
-  loader: () => import('./modules/forum/question/SubmitQuestionInit'),
-  loading: Loading,
-})
-const SubmitQuestionDetail = Loadable({
-  loader: () => import('./modules/forum/question/SubmitQuestionDetail'),
   loading: Loading,
 })
 const InterlocutionQuestion = Loadable({
@@ -321,7 +275,7 @@ const routes = (
       sa.quick('autoTrackSinglePage');
     }}>
       <Route path={'demo'} component={DiscussDistrict}/>
-      <Route path="home" component={LangdingPage}/>
+      <Route path="home" component={LandingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
       <Route path="home/problem" component={ProblemDesc}/>
@@ -381,27 +335,12 @@ const routes = (
         <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
         <Route path="modify/headImg" component={HeadImage}/>
-        <Route path="point/tip" component={PointTip}/>
-        <Route path="problem" component={ProblemGallery}/>
-        <Route path="member" component={RiseMember}/>
         <Route path="mobile/check" component={MobileBind}/>
         <Route path="certificate/profile" component={CertificateProfile}/>
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
         <Route path="new/profile" component={NewProfile}/>
         <Route path="school/friend" component={SchoolFriend} />
-      </Route>
-
-      <Route path="event/wall" component={EventWall}/>
-
-      <Route component={ForumBase}>
-        <Route path="/rise/static/message/question/answer" component={QuestionAnswer}/>
-        <Route path="/rise/static/message/answer/comment" component={AnswerComment}/>
-        <Route path="/forum/static/question" component={Question}/>
-        <Route path="/forum/static/answer" component={QuestionAnswer}/>
-        <Route path="/forum/static/answer/comment" component={AnswerComment}/>
-        <Route path="/forum/static/question/init" component={SubmitQuestionInit}/>
-        <Route path="/forum/static/question/detail" component={SubmitQuestionDetail}/>
       </Route>
 
       <Route path="guest/inter/questions" component={InterlocutionQuestion}/>
