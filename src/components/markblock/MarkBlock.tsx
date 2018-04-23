@@ -31,13 +31,13 @@ export class MarkBlock extends React.Component<MarkBlockProps, any> {
   }
 
   handleClickMarkBlock (onClickFunc) {
-    const { module, func, action, memo } = this.state
+    const { module, func, action, memo } = this.state;
     let param = {
       module: module,
       function: func,
       action: action,
       memo: memo
-    }
+    };
     mark(param).then(res => {
       if (res.code === 200) {
         onClickFunc()

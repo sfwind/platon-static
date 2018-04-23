@@ -1,11 +1,10 @@
-const webpack = require('webpack')
-const path = require('path')
-const merge = require('webpack-merge')
-const common = require('./webpack.common')
+const webpack = require('webpack');
+const path = require('path');
+const merge = require('webpack-merge');
+const common = require('./webpack.common');
 
-var HtmlWebpackPlugin = require('html-webpack-plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 
 module.exports = merge(common, {
   mode: 'development',
@@ -21,31 +20,31 @@ module.exports = merge(common, {
     openPage: 'rise/static/rise',
     proxy: {
       '/rise/*': {
-        target: 'http://localhost:8080',
+        target: 'http://beta.confucius.mobi',
         secure: false,
-        bypass: function(req) {
-          if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
-            return 'index.html'
+        bypass: function (req) {
+          if (req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
+            return 'index.html';
           }
-        }
+        },
       },
       '/': {
-        target: 'http://localhost:8180',
+        target: 'http://beta.confucius.mobi',
         secure: false,
-        bypass: function(req) {
-          if(req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
-            return 'index.html'
+        bypass: function (req) {
+          if (req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
+            return 'index.html';
           }
-        }
-      }
-    }
+        },
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html'
+      template: 'index.html',
     }),
-    new BundleAnalyzerPlugin(),
+    /*   new BundleAnalyzerPlugin(),*/
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-  ]
-})
+    new webpack.HotModuleReplacementPlugin(),
+  ],
+});

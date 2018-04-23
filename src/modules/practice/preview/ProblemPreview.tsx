@@ -1,69 +1,66 @@
-import * as React from 'react'
-import { connect } from 'react-redux'
-import './ProblemPreview.less'
+import * as React from 'react';
+import { connect } from 'react-redux';
+import './ProblemPreview.less';
 import {
-  learnPreview, loadPreview
-} from './async'
-import { set } from '../../../redux/actions'
-import { mark } from '../../../utils/request'
-import { FooterButton } from '../../../components/submitbutton/FooterButton'
-import { Block } from '../../../components/Block'
-import { SectionProgressHeader } from '../components/SectionProgressHeader'
-
+  learnPreview, loadPreview,
+} from './async';
+import { set } from '../../../redux/actions';
+import { mark } from '../../../utils/request';
+import { FooterButton } from '../../../components/submitbutton/FooterButton';
+import { Block } from '../../../components/Block';
+import { SectionProgressHeader } from '../components/SectionProgressHeader';
 
 @connect(state => state)
 export default class ProblemPreview extends React.Component<any, any> {
   constructor () {
-    super()
+    super();
     this.state = {
       preview: {},
-    }
+    };
   }
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
-  }
+  };
 
   async componentWillMount () {
-    const { dispatch } = this.props
-    mark({ module: '打点', function: '学习', action: '打开知识点页面' })
-    const { id, practicePlanId, complete } = this.props.location.query
+    const { dispatch } = this.props;
+    mark({ module: '打点', function: '学习', action: '打开知识点页面' });
+    const { id, practicePlanId, complete } = this.props.location.query;
 
     if (practicePlanId) {
-      let res = await loadPreview(practicePlanId)
-      this.setState({ preview: res.msg })
+      let res = await loadPreview(practicePlanId);
+      this.setState({ preview: res.msg });
 
       if (complete == 'false') {
         // 完成练习动效
-        dispatch(set('completePracticePlanId', practicePlanId))
+        dispatch(set('completePracticePlanId', practicePlanId));
       }
     }
   }
 
-
-
   async handleClickGoKnowledge (practicePlanId) {
-    const { dispatch } = this.props
-    mark({ module: '打点', function: '课前思考', action: '完成课前思考' })
-    let res = await learnPreview(practicePlanId)
-    this.refs.sectionProgress.goNextPage()
+    const { dispatch } = this.props;
+    mark({ module: '打点', function: '课前思考', action: '完成课前思考' });
+    let res = await learnPreview(practicePlanId);
+    this.refs.sectionProgress.goNextPage();
   }
 
   render () {
-    const { preview } = this.state
+    const { preview } = this.state;
     const {
-      description, audio, audioWords, videoUrl, videoPoster, videoWords, fileId,
-    } = preview
-    const { location } = this.props
-    const { practicePlanId, planId, complete } = location.query
+      description, audio, audioWords, videoUrl, videoPoster, videoWords,
+    } = preview;
+    const { location } = this.props;
+    const { practicePlanId, planId, complete } = location.query;
 
     return (
       <Block>
         <div className="preview-container">
           {
-              <SectionProgressHeader ref={'sectionProgress'}
-                                     practicePlanId={practicePlanId}
-                                     planId={planId}/>
+            <SectionProgressHeader ref={'sectionProgress'}
+                                   practicePlanId={practicePlanId}
+                                   planId={planId}/>
           }
           <div className="intro-container">
             <div className="description" dangerouslySetInnerHTML={{ __html: description }}>
@@ -79,6 +76,6 @@ export default class ProblemPreview extends React.Component<any, any> {
           }
         </div>
       </Block>
-    )
+    );
   }
 }
