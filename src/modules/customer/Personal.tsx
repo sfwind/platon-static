@@ -274,7 +274,7 @@ export default class Personal extends React.Component<any, any> {
 
           <div className="project-container">
             <div className="img-container">
-              <img src='http://static.iqycamp.com/images/icon_friend.png'/>
+              <img src='http://static.iqycamp.com/images/icon_huiyuan.png'/>
             </div>
             <div className="content">我的学习项目</div>
           </div>
