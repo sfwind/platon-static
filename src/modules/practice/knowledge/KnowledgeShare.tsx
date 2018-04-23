@@ -55,7 +55,7 @@ export default class KnowledgeShare extends React.Component<any, any> {
   render() {
     const { knowledge, showTip } = this.state
     const {
-      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic,
+      analysis, means, keynote, audio, audioWords, pic, example, analysisPic, meansPic, keynotePic, fileId,
       analysisAudio, analysisAudioWords, meansAudio, meansAudioWords, keynoteAudio, keynoteAudioWords, videoUrl, videoPoster, videoWords
     } = knowledge
 
@@ -83,7 +83,7 @@ export default class KnowledgeShare extends React.Component<any, any> {
         </div>
         <div className="page-header">{knowledge.knowledge}</div>
         {
-          videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords}/>
+          videoUrl && <QYVideo videoUrl={videoUrl} videoPoster={videoPoster} videoWords={videoWords} fileId={fileId}/>
         }
         <div className="intro-container">
           {

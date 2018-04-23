@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './CommentSubmit.less'
 import EditorTopBar from '../../components/EditorTopBar/EditorTopBar'
-import SimpleEditor from '../../../../components/SimpleEditor/SimpleEditor'
+import SimpleEditor from '../../../../components/simpleEditor/SimpleEditor'
 import { connect } from 'react-redux'
 import { discussKnowledge } from '../../knowledge/async'
 import { discuss } from '../../warmup/async'
