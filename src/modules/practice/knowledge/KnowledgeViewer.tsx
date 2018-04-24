@@ -46,10 +46,11 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       placeholder: '提出你的疑问或意见吧（限1000字）',
       isReply: false,
       content: '',   //评论内容
-      audioPlay:"audioPlay.false", //第一个音频自动播放标识
-      analysisPlay:"analysisPlay.false" ,//第二个音频自动播放标识
-      meansPlay:"meansPlay.false", //第三个音频自动播放标识
-      keynotePlay:"keynotePlay.false", //第四个音频自动播放标识
+      audioPlay:'false', //第一个音频自动播放标识
+      analysisPlay:'false' ,//第二个音频自动播放标识
+      meansPlay:'false', //第三个音频自动播放标识
+      keynotePlay:'false', //第四个音频自动播放标识
+      iosAudoPlay:'false', //为解决ios播放 建立标识
     }
   }
 
@@ -187,15 +188,40 @@ export default class KnowledgeViewer extends React.Component<any, any> {
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   getPlayStation(flag) {
     if (flag === "audioPlay"){
-      this.setState({audioPlay:"audioPlay.false",analysisPlay:"analysisPlay.true" ,meansPlay:"meansPlay.false",keynotePlay:"keynotePlay.false",});
+      this.setState({audioPlay:'false',analysisPlay:'true' ,meansPlay:'false',keynotePlay:'false',});
       window.scrollTo(0,this.refs.analysis.offsetTop);
     }else if (flag === "analysisPlay"){
-      this.setState({audioPlay:"audioPlay.false",analysisPlay:"analysisPlay.false" ,meansPlay:"meansPlay.true",keynotePlay:"keynotePlay.false",});
+      this.setState({audioPlay:'false',analysisPlay:'false' ,meansPlay:'true',keynotePlay:'false',});
      window.scrollTo(0,this.refs.means.offsetTop);
     }else if (flag === "meansPlay"){
-      this.setState({audioPlay:"audioPlay.false",analysisPlay:"analysisPlay.false" ,meansPlay:"meansPlay.false",keynotePlay:"keynotePlay.true",});
+      this.setState({audioPlay:'false',analysisPlay:'false' ,meansPlay:'false',keynotePlay:'true',});
       window.scrollTo(0,this.refs.keynote.offsetTop);
+    }else {
+      this.setState({audioPlay:'false',analysisPlay:'false' ,meansPlay:'false',keynotePlay:'false',});
     }
+  }
+ /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 真实的DOM被渲染出来后调用
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  componentDidMount(){
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    touchstart只事件触发一次函数  让语音全部播放然后暂停   解决ios必须触发才能播放的问题
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    this.listenFun(this.refs.knowledgeAll,'touchstart',()=>{
+      if(!(window.navigator.userAgent.indexOf("Android") > 0)){
+        this.setState({iosAudoPlay:'true'});
+      }
+    })
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  事件监听函数
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  listenFun(dom,event,callBack){
+    let handle = function () {
+      callBack();
+      dom.removeEventListener(event,handle)
+    };
+    dom.addEventListener(event,handle)
   }
   render () {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state;
@@ -217,15 +243,15 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           <span className={`subject`}>{subject}</span>
         </div>
       )
-    }
+    };
 
     const rightAnswerRender = (choice, idx) => {
       return (choice.isRight ? sequenceMap[idx] + ' ' : '')
-    }
+    };
 
     return (
       <Block>
-        <div className={`knowledge-view-container`}>
+        <div className={`knowledge-view-container`} ref='knowledgeAll'>
           {
             practicePlanId ?
               <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} planId={planId}/> :
@@ -244,7 +270,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             {
               audio &&
               <div className="context-audio">
-                <Audio url={audio} words={audioWords} playFlag={this.state.audioPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
+                <Audio url={audio} words={audioWords} iosAudoPlay={this.state.iosAudoPlay} sourceFlag={"audioPlay"} playFlag={this.state.audioPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
               </div>
             }
 
@@ -263,7 +289,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                 </div>
                 {analysisAudio &&
                 <div className="context-audio">
-                  <Audio url={analysisAudio} words={analysisAudioWords} playFlag={ this.state.analysisPlay } getPlayEnd={this.getPlayStation.bind(this)}/>
+                  <Audio url={analysisAudio} words={analysisAudioWords} iosAudoPlay={this.state.iosAudoPlay} sourceFlag={"analysisPlay"} playFlag={ this.state.analysisPlay } getPlayEnd={this.getPlayStation.bind(this)}/>
                 </div>}
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{__html: analysis}}/>
@@ -278,7 +304,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                   <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/means3.png"/>
                 </div>
                 {meansAudio && <div className="context-audio">
-                  <Audio url={meansAudio} words={meansAudioWords} playFlag={this.state.meansPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
+                  <Audio url={meansAudio} words={meansAudioWords} iosAudoPlay={this.state.iosAudoPlay} sourceFlag={"meansPlay"} playFlag={this.state.meansPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
                 </div>
                 }
                 <div className="text">
@@ -296,7 +322,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                 </div>
                 {
                   keynoteAudio &&
-                  <div className="context-audio"><Audio url={keynoteAudio} words={keynoteAudioWords} playFlag={this.state.keynotePlay} getPlayEnd={this.getPlayStation.bind(this)}/></div>
+                  <div className="context-audio">
+                    <Audio url={keynoteAudio}
+                           iosAudoPlay={this.state.iosAudoPlay}
+                           words={keynoteAudioWords}
+                           sourceFlag={"keynotePlay"}
+                           playFlag={this.state.keynotePlay} getPlayEnd={this.getPlayStation.bind(this)}/></div>
                 }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: keynote }}/>
