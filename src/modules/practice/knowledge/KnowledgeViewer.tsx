@@ -197,6 +197,30 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       window.scrollTo(0,this.refs.keynote.offsetTop);
     }
   }
+ /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 真实的DOM被渲染出来后调用
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  componentDidMount(){
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    touchstart只事件触发一次函数  让语音全部播放然后暂停   解决ios必须触发才能播放的问题
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    this.listenFun(this.refs.knowledgeAll,'touchstart',()=>{
+      this.setState({audioPlay:"audioPlay.true",analysisPlay:"analysisPlay.true" ,meansPlay:"meansPlay.true",keynotePlay:"keynotePlay.true",});
+      let audt = setTimeout(()=>{
+        this.setState({audioPlay:"audioPlay.false",analysisPlay:"analysisPlay.false" ,meansPlay:"meansPlay.false",keynotePlay:"keynotePlay.false",});
+      },1000)
+    })
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  事件监听函数
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  listenFun(dom,event,callBack){
+    let handle = function () {
+      callBack();
+      dom.removeEventListener(event,handle)
+    };
+    dom.addEventListener(event,handle)
+  }
   render () {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state;
     const {
@@ -217,15 +241,15 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           <span className={`subject`}>{subject}</span>
         </div>
       )
-    }
+    };
 
     const rightAnswerRender = (choice, idx) => {
       return (choice.isRight ? sequenceMap[idx] + ' ' : '')
-    }
+    };
 
     return (
       <Block>
-        <div className={`knowledge-view-container`}>
+        <div className={`knowledge-view-container`} ref='knowledgeAll'>
           {
             practicePlanId ?
               <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} planId={planId}/> :

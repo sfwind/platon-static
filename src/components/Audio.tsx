@@ -45,10 +45,6 @@ export default class Audio extends React.Component<AudioProps, any> {
     } else {
       this.setState({ device: Device.OTHER })
     }
-    if(this.props.playFlag){
-      let autoPlayFlag = this.props.playFlag.split(".")[0];
-      this.setState({autoPlayFlag:autoPlayFlag});
-    }
   }
 
   componentDidMount() {
@@ -56,13 +52,23 @@ export default class Audio extends React.Component<AudioProps, any> {
     if(device == Device.ANDROID) {
       try {
         //华为某些机型不支持https的语音
-        this.refs[this.state.autoPlayFlag].src = this.refs[this.state.autoPlayFlag].src.replace('https', 'http');
-        this.refs[this.state.autoPlayFlag].load()
+        this.refs.sound.src = this.refs.sound.src.replace('https', 'http');
+        this.refs.sound.load()
       } catch(e) {
         alert(e)
       }
     }
-
+/*    if (this.props.playFlag){
+       let atuoPlayFlag = this.props.playFlag.split(".")[1];
+       this.setState((atuoPlayFlag)=>{if (atuoPlayFlag == 'true'){
+         console.log(3242342342);
+         if (this.state.device == Device.IPHONE){
+           this.start();
+         }else {
+           this.refs.sound.play();
+         }
+       }})
+    }*/
   }
 
   componentWillUnmount() {
@@ -75,11 +81,9 @@ export default class Audio extends React.Component<AudioProps, any> {
   componentWillReceiveProps(nextProps){
     if(nextProps.playFlag){
       if (nextProps.playFlag.split(".")[1]== "true"){
-        if (this.state.device == Device.IPHONE){
-          /*this.start();*/
-        }else {
-          this.refs[this.state.autoPlayFlag].play();
-        }
+        this.state.device == Device.IPHONE ?  this.start():  this.refs.sound.play();
+      }else {
+        this.state.device == Device.IPHONE ?  this.pause():  this.refs.sound.pause();
       }
     }
   }
@@ -97,7 +101,9 @@ export default class Audio extends React.Component<AudioProps, any> {
   onEnd() {
     this.setState({ currentSecond: this.state.duration, playing: false });
     clearInterval(timer);
-    /*this.props.getPlayEnd(this.props.playFlag.split(".")[0])*/
+    if (this.props.playFlag){
+      this.props.getPlayEnd(this.props.playFlag.split(".")[0])
+    }
   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ios音频开始播放点击事件
@@ -178,7 +184,7 @@ ios音频开始播放点击事件
 
   renderOrigin(url) {
     return (
-      <audio ref={this.state.autoPlayFlag}  onPlaying={() => {
+      <audio ref="sound"  onPlaying={() => {
         mark({ module: "打点", function: "语音", action: '播放语音', memo: this.props.url })
       }} src={url} controls="controls"  onEnded={this.androidEndPlay.bind(this)}/>
     )
