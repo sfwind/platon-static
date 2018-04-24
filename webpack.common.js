@@ -41,9 +41,14 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.(gif|jpg|png|woff|woff2|eot|ttf|svg)$/,
+        test: /\.(gif|jpg|png)$/,
         exclude: /node_modules/,
         use: ['url-loader?limit=10000']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)$/,
+        exclude: /node_modules/,
+        use: ['file-loader?name=./fonts/[name].[hash:7].[ext]']
       }
     ]
   }

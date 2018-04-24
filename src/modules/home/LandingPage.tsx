@@ -86,7 +86,6 @@ export default class LandingPage extends React.Component {
             }, 1000)
           }
         });
-        dispatch(alertMsg("成功"))
       },
       otherCallback(data){
         dispatch(alertMsg(data.msg))
@@ -171,7 +170,8 @@ export default class LandingPage extends React.Component {
         {/*-----header模块----*/}
         <div className="header">
           <div className="left-header-box" onClick={() => this.context.router.push('/rise/static/message/center')}>
-            <AssetImg className="message" url="https://static.iqycamp.com/icon_message@2x-8rkrc4h9.png"/>
+            <i className="iconfont icon-message"></i>
+            {/*<AssetImg className="message" url="https://static.iqycamp.com/icon_message@2x-8rkrc4h9.png"/>*/}
             {notify && <div className="notify"></div>}
           </div>
           <MarkBlock module="打点"
