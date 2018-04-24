@@ -89,7 +89,6 @@ export default class SchoolFriend extends React.Component<any, any> {
   }
 
 
-
   render() {
     const { elites = []} = this.state
     const renderList = () => {
@@ -99,7 +98,7 @@ export default class SchoolFriend extends React.Component<any, any> {
             return (
               <div className="school-friend-item">
                 <div className="head-image-container">
-                  <WXHeadImg src={item.headImgUrl}/>
+                  <WXHeadImg src={item.headImgUrl} memberId={item.memberId}/>
                 </div>
                 <div className="nickname-container">
                   {item.nickName}

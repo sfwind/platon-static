@@ -7,3 +7,10 @@ import requestProxy from '../../../components/requestproxy/requestProxy'
 export function getMobileCode(param){
   return requestProxy.postProxy("/rise/customer/send/valid/code",param)
 }
+
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  更新微信头像
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+export function updateWXImg(memberId){
+  requestProxy.getProxy(`/wx/user/update/image?memberId=${memberId}`)
+}
