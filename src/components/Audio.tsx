@@ -45,8 +45,10 @@ export default class Audio extends React.Component<AudioProps, any> {
     } else {
       this.setState({ device: Device.OTHER })
     }
-    let autoPlayFlag = this.props.playFlag.split(".")[0];
-    this.setState({autoPlayFlag:autoPlayFlag});
+    if(this.props.playFlag){
+      let autoPlayFlag = this.props.playFlag.split(".")[0];
+      this.setState({autoPlayFlag:autoPlayFlag});
+    }
   }
 
   componentDidMount() {
@@ -71,11 +73,13 @@ export default class Audio extends React.Component<AudioProps, any> {
   props传值发生改变触发函数
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   componentWillReceiveProps(nextProps){
-    if (nextProps.playFlag.split(".")[1]== "true"){
-      if (this.state.device == Device.IPHONE){
-        /*this.start();*/
-      }else {
-        this.refs[this.state.autoPlayFlag].play();
+    if(nextProps.playFlag){
+      if (nextProps.playFlag.split(".")[1]== "true"){
+        if (this.state.device == Device.IPHONE){
+          /*this.start();*/
+        }else {
+          this.refs[this.state.autoPlayFlag].play();
+        }
       }
     }
   }
@@ -83,7 +87,9 @@ export default class Audio extends React.Component<AudioProps, any> {
 安卓结束播放运行函数
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   androidEndPlay() {
-    this.props.getPlayEnd(this.props.playFlag.split(".")[0])
+    if(this.props.playFlag){
+      this.props.getPlayEnd(this.props.playFlag.split(".")[0])
+    }
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   ios结束播放运行函数
