@@ -17,6 +17,5 @@ export default {
         "common" : {
             "bigData":"rise/b/mark",// 大数据的埋点
         } ,
-
     }
 } ;
