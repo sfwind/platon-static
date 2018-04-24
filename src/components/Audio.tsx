@@ -1,3 +1,14 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能： 语音播放组件
+ 3. 作者： liyang@iquanwai.com
+ 4. 备注： <Audio url={audio} 音频URL
+          words={audioWords}  说明文章
+          iosAudoPlay={this.state.iosAudoPlay}  ios触发自动标识
+           sourceFlag={"audioPlay"}  来源标识
+            playFlag={this.state.audioPlay}   是否自动播放标识
+            getPlayEnd={this.getPlayStation.bind(this)}/>   推给父组件的来源标识
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import * as React from "react";
 import "./Audio.less";
 import Slider from "react-rangeslider";
@@ -58,17 +69,6 @@ export default class Audio extends React.Component<AudioProps, any> {
         alert(e)
       }
     }
-/*    if (this.props.playFlag){
-       let atuoPlayFlag = this.props.playFlag.split(".")[1];
-       this.setState((atuoPlayFlag)=>{if (atuoPlayFlag == 'true'){
-         console.log(3242342342);
-         if (this.state.device == Device.IPHONE){
-           this.start();
-         }else {
-           this.refs.sound.play();
-         }
-       }})
-    }*/
   }
 
   componentWillUnmount() {
@@ -80,19 +80,32 @@ export default class Audio extends React.Component<AudioProps, any> {
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   componentWillReceiveProps(nextProps){
     if(nextProps.playFlag){
-      if (nextProps.playFlag.split(".")[1]== "true"){
-        this.state.device == Device.IPHONE ?  this.start():  this.refs.sound.play();
+      if (nextProps.playFlag == 'true' ){
+       if (this.state.device == Device.IPHONE){
+         this.start()
+       } else {
+        /* console.log(this.refs.sound.autoplay);
+         this.refs.sound.autoplay = true;
+         this.refs.sound.load();*/
+         this.refs.sound.play();
+       }
       }else {
-        this.state.device == Device.IPHONE ?  this.pause():  this.refs.sound.pause();
+        this.state.device == Device.IPHONE ?  this.pause(): this.refs.sound.pause();
       }
+    }
+    if (nextProps.iosAudoPlay){
+       if (nextProps.iosAudoPlay == 'true'){
+         this.refs.sound.play();
+         this.refs.sound.pause();
+       }
     }
   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 安卓结束播放运行函数
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   androidEndPlay() {
-    if(this.props.playFlag){
-      this.props.getPlayEnd(this.props.playFlag.split(".")[0])
+    if(this.props.sourceFlag){
+      this.props.getPlayEnd(this.props.sourceFlag)
     }
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -101,8 +114,8 @@ export default class Audio extends React.Component<AudioProps, any> {
   onEnd() {
     this.setState({ currentSecond: this.state.duration, playing: false });
     clearInterval(timer);
-    if (this.props.playFlag){
-      this.props.getPlayEnd(this.props.playFlag.split(".")[0])
+    if (this.props.sourceFlag){
+      this.props.getPlayEnd(this.props.sourceFlag)
     }
   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -126,10 +139,9 @@ ios音频开始播放点击事件
         //【IOS bug解决方法】先播放，再暂停，获取控件duration
         self.refs.sound.play();
         self.refs.sound.pause();
-        /*alert(self.refs.sound.src);*/
         if(self.refs.sound.duration) {
           self.setState({ duration: Math.floor(self.refs.sound.duration), loading: false });
-          self.play()
+          self.play();
         }
       }, 500)
     } else {
@@ -216,7 +228,7 @@ ios音频开始播放点击事件
           <div className="audio-duration">
             {intToTime(currentSecond)} / {intToTime(duration)}
           </div>
-          <audio ref="sound" id={this.state.autoPlayFlag}  src={url} onEnded={this.onEnd.bind(this)}
+          <audio ref="sound" src={url} onEnded={this.onEnd.bind(this)}
           />
         </div>
       </div>
