@@ -6,16 +6,19 @@ import Base from './modules/base/Base'
 import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
-import DailyTalk from './modules/daily/DailyTalk'
 import { sa } from './utils/helpers'
 
-import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
+import DailyTalk from './modules/daily/DailyTalk'
 import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
 import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
 import PageNotFound from './modules/other/pageNotFound/PageNotFound'
-import ProblemPreview from './modules/practice/preview/ProblemPreview';
 import SchoolFriend from './modules/customer/person/SchoolFriend'
+import LiveOrder from './modules/home/livelist/liveorder/LiveOrder';
 
+const DailyTalk = Loadable({
+  loader: () => import('./modules/daily/DailyTalk'),
+  loading: Loading,
+})
 const LandingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
   loading: Loading,
@@ -144,12 +147,30 @@ const Profile = Loadable({
   loader: () => import('./modules/customer/Profile'),
   loading: Loading,
 })
-
+const CommentSubmit = Loadable({
+  loader: () => import('./modules/practice/common/CommentSubmit/CommentSubmit'),
+  loading: Loading,
+})
+const ApplicationSubmit = Loadable({
+  loader: () => import('./modules/practice/common/ApplicationSubmit/ApplicationSubmit'),
+  loading: Loading,
+})
+const PageNotFound = Loadable({
+  loader: () => import('./modules/other/pageNotFound/PageNotFound'),
+  loading: Loading,
+})
+const SchoolFriend = Loadable({
+  loader: () => import('./modules/customer/person/SchoolFriend'),
+  loading: Loading,
+})
+const LiveOrder = Loadable({
+  loader: () => import('./modules/home/livelist/liveorder/LiveOrder'),
+  loading: Loading,
+})
 const NewProfile = Loadable({
   loader: () => import('./modules/customer/NewProfile'),
   loading: Loading,
 })
-
 const Account = Loadable({
   loader: () => import('./modules/customer/account/Account'),
   loading: Loading,
@@ -250,12 +271,10 @@ const StudyList = Loadable({
   loader: () => import('./modules/customer/person/StudyList'),
   loading: Loading,
 })
-
 const ShowCertificate = Loadable({
   loader: () => import('./modules/customer/person/ShowCertificate'),
   loading: Loading,
 })
-
 const RichTextView = Loadable({
   loader: () => import('./modules/other/richtext/RichTextView'),
   loading: Loading,
@@ -274,9 +293,9 @@ const routes = (
       }
       sa.quick('autoTrackSinglePage');
     }}>
-      <Route path={'demo'} component={DiscussDistrict}/>
       <Route path="home" component={LandingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
+      <Route path="home/live/order" component={LiveOrder}/>
       <Route path="home/activities" component={ActivityListPage}/>
       <Route path="home/problem" component={ProblemDesc}/>
 

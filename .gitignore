@@ -16,3 +16,5 @@ gulpfile.js
 __build__/*.js
 
 stats.json
+
+webpack.local.js
