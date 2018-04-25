@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Swiper from 'swiper'
-import './Banner.less'
+import './swiper.less'
 
-export default class Banner extends React.Component<any, any> {
+export default class BannerSwiper extends React.Component<any, any> {
   constructor (props) {
     super(props)
     this.state = {

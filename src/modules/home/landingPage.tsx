@@ -1,10 +1,14 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能：landingPage  主页
+ 3. 作者： liyang@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
 import * as React from 'react'
-import './LandingPage.less'
+import './landingPage.less'
 import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/helpers'
-import * as FontAwesome from 'react-fontawesome'
-import { loadLandingPageData, loadShuffleArticles } from './async'
 import { ToolBar } from '../base/ToolBar'
-import { mark } from '../../utils/request'
 import { connect } from 'react-redux'
 import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
 import * as _ from 'lodash';
@@ -12,14 +16,9 @@ import * as _ from 'lodash';
 公共组建的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import { Dialog } from 'react-weui'
-import { MarkBlock } from '../../components/markblock/MarkBlock'
-import AssetImg from '../../components/AssetImg'
-import { ProblemHome } from './components/problem/ProblemHome'
-import { LiveHome } from './components/live/LiveHome'
-import { ArticleHome } from './components/article/ArticleHome'
-import { ActivityHome } from './components/activity/ActivityHome'
-import { ColumnSpan } from '../../components/ColumnSpan'
-import Banner from '../../components/Banner'
+import Swiper from '../../components/swiper/swiper'  // Swiper组件
+import ArticleItem from '../../components/articleItem/articleItem' //文章精选组件
+import ActivityItem from '../../components/activityItem/activityItem' //校友活动组件
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共方法的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -171,104 +170,66 @@ export default class LandingPage extends React.Component {
         <div className="header">
           <div className="left-header-box" onClick={() => this.context.router.push('/rise/static/message/center')}>
             <i className="iconfont icon-message"></i>
-            {/*<AssetImg className="message" url="https://static.iqycamp.com/icon_message@2x-8rkrc4h9.png"/>*/}
-            {notify && <div className="notify"></div>}
+            {notify && <span className="notify"></span>}
           </div>
-          <MarkBlock module="打点"
-                     func="着陆页"
-                     action="点击入学咨询"
-                     className="right-header-box"
-                     onClick={() => _MEIQIA('showPanel')}>
+          <div className="right-header-box" onClick={() =>{ _MEIQIA('showPanel'); BigData.sendBigData({module:"打点" ,func:"着陆页",action:"点击入学咨询"})}}>
             <span>入学咨询&nbsp;</span>
-            <AssetImg className="consult-icon" url="https://static.iqycamp.com/icon_goutong @2x-8ww0p3at.png"/>
-          </MarkBlock>
+            <i className="iconfont icon-chat"></i>
+          </div>
         </div>
         {/*-----swiper模块----*/}
         <div className="home-swiper">
           {
             pageBanners.length > 0 &&
-            <Banner height='16rem'>
+            <Swiper height='16rem'>
               {pageBanners.map((banner, index) =>
-                <img key={index} src={banner.imageUrl} onClick={() => {
-                  mark({ module: '打点', function: '着陆页', action: '点击Banner' });
-                  this.handleClickImageBanner(banner)
+                <img key={index} src={banner.imageUrl} onClick={() => { BigData.sendBigData({ module: '打点', function: '着陆页', action: '点击Banner' }); this.handleClickImageBanner(banner)
                 }} className="banner-item swiper-slide swiper-image"/>,
               )}
-            </Banner>
+            </Swiper>
           }
         </div>
-        <ColumnSpan height="10" style={{ margin: '0 -2rem' }}/>
-        {
-          !isBusinessMember &&
-          <MarkBlock module="打点"
-                     func="着陆页"
-                     action="申请加入商学院"
-                     className="business-apply"
-                     onClick={() => window.location.href = `/pay/rise`}></MarkBlock>
-        }
-        <div className="content-box-container">
-          {/*-----   圈外课模块  -----*/}
-          {
-            !isBusinessMember &&
-            <div className="content-box" id="QWClass">
-              <div className="content-header">
-                <div className="content-title">圈外课</div>
-              </div>
-              {problemsFlows.map((problem, index) => {
-                return <ProblemHome data={problem} key={index} subscribeFunc={() => this.subscribeProblem()}/>
-              })}
-            </div>
-          }
-          {/*-----   拓眼界模块  -----*/}
-          <div className="content-box" id="QWEyes">
-            <div className="content-header">
-              <div className="content-title">拓眼界</div>
-              {
-                livesFlows.length > 5 &&
-                <MarkBlock module="打点"
-                           func="着陆页"
-                           action="拓眼界更多"
-                           className="more"
-                           onClick={() => this.context.router.push('/rise/static/home/lives')}>
-                  更多&nbsp;&nbsp;
-                  <FontAwesome name="angle-right"/>
-                </MarkBlock>
-              }
-            </div>
-            {livesFlows.slice(0, 5).map((live, index) => <LiveHome data={live} key={index}/>)}
+        {/*-----  nav导航部分 -----*/}
+        <div className="nav">
+          <ul>
+            <li><i className="iconfont icon-play"></i><p>大咖直播</p></li>
+            <li><i className="iconfont icon-light"></i><p>职场干货</p></li>
+            <li><i className="iconfont icon-group"></i><p>校友活动</p></li>
+          </ul>
+        </div>
+        {/*-----  加入圈外模块  -----*/}
+        <div className="join-qw panel-qw">
+          <div className="panel-header">加入圈外</div>
+          <div className="panel-body">
+
           </div>
-          {/*-----   加油站模块  -----*/}
-          <div className="content-box" id="QWStation">
-            <div className="content-header">
-              <div className="content-title">加油站</div>
-              <MarkBlock module="打点" func="着陆页" action="加油站换一换" className="more" onClick={() => this.shuffleArticles()}>
-                换一换&nbsp;&nbsp;
-                <FontAwesome name="refresh"/>
-              </MarkBlock>
-            </div>
-            {articlesFlows.slice(0, 3).map((article, index) => <ArticleHome data={article} key={index}/>)}
+        </div>
+        {/*-----  大咖直播模块   -----*/}
+        <div className="super-playing panel-qw">
+          <div className="panel-header">大咖直播<span className="more">更多</span></div>
+          <div className="panel-body">
+
           </div>
-          {/*-----   圈柚会模块  -----*/}
-          <div className="content-box" id="QWClassmate">
-            <div className="content-header">
-              <div className="content-title">圈柚会</div>
-              {
-                activitiesFlows.length > 3 &&
-                <MarkBlock module="打点"
-                           func="着陆页"
-                           action="圈柚会更多"
-                           className="more"
-                           onClick={() => this.context.router.push('/rise/static/home/activities')}>
-                  更多&nbsp;&nbsp;
-                  <FontAwesome name="angle-right"/>
-                </MarkBlock>
-              }
-            </div>
-            {activitiesFlows.slice(0, 3).map((activity, index) => <ActivityHome data={activity} key={index}/>)}
+        </div>
+        {/*-----  文章精选模块  -----*/}
+        <div className="article panel-qw">
+          <div className="panel-header">文章精选<span className="more">更多</span></div>
+          <div className="panel-body">
+            <ArticleItem></ArticleItem>
+            <ArticleItem></ArticleItem>
+          </div>
+        </div>
+        {/*-----   校友活动模块  -----*/}
+        <div className="activity panel-qw">
+          <div className="panel-header">校友活动<span className="more">更多</span></div>
+          <div className="panel-body">
+            <ActivityItem></ActivityItem>
+            <ActivityItem></ActivityItem>
           </div>
         </div>
         <div className="bottom-text">我也是有底线的...</div>
         {/*-----   弹框模块  -----*/}
+        https://static.iqycamp.com/661521099827_-7ld21bf1.pic@2x.jpg
         <Alert show={this.state.applySuccess.isShowPassNotify} buttons={this.state.dialogButtons}>
           恭喜你通过{this.state.applySuccess.name}申请！
           <br/>
