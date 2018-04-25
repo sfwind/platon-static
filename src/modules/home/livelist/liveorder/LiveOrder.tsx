@@ -22,7 +22,6 @@ export default class LiveOrder extends React.Component {
       showSuccessTip: false,  // 是否展示预约成功提示
       showShareTip: false,  // 是否展示分享图片提示
       isOrdered: false, // 是否已经预约成功
-      // isRiseMember: false,  // 对该直播是否有查看权限
       data: {
         banner: '//static.iqycamp.com/gexu-hxf8xq4g.jpg',
         name: '如何优雅的践踏商业教条',
@@ -46,7 +45,6 @@ export default class LiveOrder extends React.Component {
       this.setState({
         data: liveOrder.msg,
         isOrdered: liveOrder.msg.isOrdered,
-        // isRiseMember: liveOrder.msg.visibility,
       });
     }
   }
@@ -67,7 +65,7 @@ export default class LiveOrder extends React.Component {
       } else {
         // 直播没有开始
         if (isOrdered) {
-
+          // TODO
         } else {
           this.handleRiseMemberOrderLive();
         }
@@ -81,11 +79,12 @@ export default class LiveOrder extends React.Component {
           window.location.href = linkUrl;
         } else {
           // 尚未预约
+          // TODO
         }
       } else {
         // 直播尚未开始
         if (isOrdered) {
-
+          // TODO
         } else {
           this.handleNormalOrderLive();
         }
@@ -161,12 +160,14 @@ export default class LiveOrder extends React.Component {
       linkUrl,
     } = data;
 
+    // 提示去分享元素
     const renderTransferTip = () => {
       return (
         <div>
-          <section className="order-success-box">
+          <section className="order-transfer-box">
             <div className="icon-box">
-              <div className="icon"></div>
+              <AssetImg className="icon"
+                        url="https://static.iqycamp.com/success-icon-rzfz8mly.png"></AssetImg>
               <span className="icon-tip">预约成功</span>
             </div>
             <ul className="order-tips">
@@ -183,12 +184,15 @@ export default class LiveOrder extends React.Component {
       );
     };
 
+    // 提示预约成功元素
     const renderSuccessTip = () => {
       return (
         <div>
-          <section className="order-success-box">
+          <section className="order-transfer-box"
+                   style={{ width: '18rem' }}>
             <div className="icon-box">
-              <div className="icon"></div>
+              <AssetImg className="icon"
+                        url="https://static.iqycamp.com/success-icon-rzfz8mly.png"></AssetImg>
               <span className="icon-tip">预约成功</span>
             </div>
           </section>
@@ -197,6 +201,7 @@ export default class LiveOrder extends React.Component {
       );
     };
 
+    // 分享提示元素
     const renderShareTip = () => {
       return (
         <div onClick={() => this.setState({ showShareTip: false })}>
