@@ -18,9 +18,11 @@ export default class LiveOrder extends React.Component {
   constructor () {
     super();
     this.state = {
-      showSuccessTip: false,
-      showShareTip: false,
-      isOrdered: false,
+      showTransferTip: false, // 是否展示分享文案提示
+      showSuccessTip: false,  // 是否展示预约成功提示
+      showShareTip: false,  // 是否展示分享图片提示
+      isOrdered: false, // 是否已经预约成功
+      // isRiseMember: false,  // 对该直播是否有查看权限
       data: {
         banner: '//static.iqycamp.com/gexu-hxf8xq4g.jpg',
         name: '如何优雅的践踏商业教条',
@@ -30,12 +32,10 @@ export default class LiveOrder extends React.Component {
         '          光鲜的商业术语是皇帝的新衣\n' +
         '          被低估的哲学思辨力',
         isOrdered: false,
+        visibility: false,
+        linkUrl: '',
       },
     };
-  }
-
-  componentWillMount () {
-
   }
 
   async componentDidMount () {
@@ -46,15 +46,78 @@ export default class LiveOrder extends React.Component {
       this.setState({
         data: liveOrder.msg,
         isOrdered: liveOrder.msg.isOrdered,
+        // isRiseMember: liveOrder.msg.visibility,
       });
     }
   }
 
   async handleClickOrderLive () {
     const { liveId, promotionRiseId } = this.props.location.query;
+    const { isOrdered, data } = this.state;
+    const {
+      visibility,
+      linkUrl,
+    } = data;
+
+    if (visibility) {
+      // 有观看权限
+      if (linkUrl) {
+        // 直播已经开始
+        window.location.href = linkUrl;
+      } else {
+        // 直播没有开始
+        if (isOrdered) {
+
+        } else {
+          this.handleRiseMemberOrderLive();
+        }
+      }
+    } else {
+      // 无观看权限
+      if (linkUrl) {
+        // 直播已经开始
+        if (isOrdered) {
+          // 已预约过
+          window.location.href = linkUrl;
+        } else {
+          // 尚未预约
+        }
+      } else {
+        // 直播尚未开始
+        if (isOrdered) {
+
+        } else {
+          this.handleNormalOrderLive();
+        }
+      }
+    }
+  }
+
+  /**
+   * 会员身份点击预约直播
+   * @returns {Promise<void>}
+   */
+  async handleRiseMemberOrderLive () {
+    const { liveId, promotionRiseId } = this.props.location.query;
     let orderRes = await orderLive(liveId, promotionRiseId);
     if (orderRes.code === 200) {
-      lockWindow()
+      lockWindow();
+      this.setState({
+        showTransferTip: true,
+        isOrdered: true,
+      });
+    }
+  }
+
+  /**
+   * 非会员点击预约直播
+   * @returns {Promise<void>}
+   */
+  async handleNormalOrderLive () {
+    const { liveId, promotionRiseId } = this.props.location.query;
+    let orderRes = await orderLive(liveId, promotionRiseId);
+    if (orderRes.code === 200) {
+      lockWindow();
       this.setState({
         showSuccessTip: true,
         isOrdered: true,
@@ -72,16 +135,17 @@ export default class LiveOrder extends React.Component {
     );
 
     setTimeout(() => {
-      unlockWindow()
+      unlockWindow();
       this.setState({
-        showSuccessTip: false,
+        showTransferTip: false,
         showShareTip: true,
       });
-    }, 200)
+    }, 200);
   }
 
   render () {
     const {
+      showTransferTip,
       showSuccessTip,
       showShareTip,
       isOrdered,
@@ -93,9 +157,11 @@ export default class LiveOrder extends React.Component {
       speakerDesc,
       startTimeStr,
       liveDesc,
+      visibility,
+      linkUrl,
     } = data;
 
-    const renderOrderSuccessTip = () => {
+    const renderTransferTip = () => {
       return (
         <div>
           <section className="order-success-box">
@@ -110,6 +176,20 @@ export default class LiveOrder extends React.Component {
             </ul>
             <div className="order-button"
                  onClick={() => this.handleClickInvite()}>邀请朋友免费看直播
+            </div>
+          </section>
+          <div className="mask"></div>
+        </div>
+      );
+    };
+
+    const renderSuccessTip = () => {
+      return (
+        <div>
+          <section className="order-success-box">
+            <div className="icon-box">
+              <div className="icon"></div>
+              <span className="icon-tip">预约成功</span>
             </div>
           </section>
           <div className="mask"></div>
@@ -144,7 +224,8 @@ export default class LiveOrder extends React.Component {
         </div>
         <div className="live-order-button"
              onClick={() => this.handleClickOrderLive()}>{isOrdered ? '已经预约，点击分享给好友' : '立即预约直播'}</div>
-        {showSuccessTip && renderOrderSuccessTip()}
+        {showTransferTip && renderTransferTip()}
+        {showSuccessTip && renderSuccessTip()}
         {showShareTip && renderShareTip()}
       </div>
     );
