@@ -18,12 +18,13 @@ export default class WXHeadImg extends React.Component<inputProps, any> {
   componentDidMount() {
     let img = this.refs.img
     img.src = this.props.src
-    img.setAttribute('crossOrigin', 'anonymous')
 
-    img.onload = () => {
-      let canvas = document.createElement('canvas')
-      canvas.width = 100
-      canvas.height = 100
+     img.setAttribute('crossOrigin', 'Anonymous');
+     img.onload = () => {
+       console.log("onLoad");
+       let canvas = document.createElement('canvas');
+       canvas.width = 100;
+       canvas.height = 100;
 
       let ctx = canvas.getContext('2d')
       ctx.drawImage(img, 0, 0)
