@@ -66,7 +66,11 @@ export default class LiveOrder extends React.Component {
       // 有观看权限
       if (linkUrl) {
         // 直播已经开始
-        window.location.href = linkUrl;
+        if (isOrdered) {
+          window.location.href = linkUrl;
+        } else {
+          window.location.href = linkUrl;
+        }
       } else {
         // 直播没有开始
         if (isOrdered) {
@@ -227,6 +231,41 @@ export default class LiveOrder extends React.Component {
       );
     };
 
+    // 多种情况计算出按钮展示文案
+    const caclButtonStr = () => {
+      let buttonStr;
+      if (visibility) {
+        if (isOrdered) {
+          if (linkUrl) {
+            buttonStr = '立即观看';
+          } else {
+            buttonStr = '已经预约';
+          }
+        } else {
+          if (linkUrl) {
+            buttonStr = '立即观看';
+          } else {
+            buttonStr = '立即预约';
+          }
+        }
+      } else {
+        if (isOrdered) {
+          if (linkUrl) {
+            buttonStr = '立即观看';
+          } else {
+            buttonStr = '已经预约';
+          }
+        } else {
+          if (linkUrl) {
+            buttonStr = '会员免费看';
+          } else {
+            buttonStr = '会员免费看';
+          }
+        }
+      }
+      return buttonStr;
+    };
+
     return (
       <div className="live-order-container">
         <AssetImg url={banner}
@@ -245,7 +284,7 @@ export default class LiveOrder extends React.Component {
           <pre className="category-content">{liveDesc}</pre>
         </div>
         <div className="live-order-button"
-             onClick={() => this.handleClickOrderLive()}>{isOrdered ? '已经预约' : '立即预约直播'}</div>
+             onClick={() => this.handleClickOrderLive()}>{caclButtonStr()}</div>
         {showTransferTip && renderTransferTip()}
         {showSuccessTip && renderSuccessTip()}
         {showShareTip && renderShareTip()}
