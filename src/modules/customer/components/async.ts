@@ -11,6 +11,6 @@ export function getMobileCode(param){
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   更新微信头像
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-export function updateWXImg(memberId){
-  requestProxy.getProxy(`/wx/user/update/image?memberId=${memberId}`)
+export function updateWXImg(riseId){
+  requestProxy.getProxy(`/wx/user/update/image?riseId=${riseId}`)
 }

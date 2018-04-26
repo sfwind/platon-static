@@ -98,7 +98,7 @@ export default class SchoolFriend extends React.Component<any, any> {
             return (
               <div className="school-friend-item">
                 <div className="head-image-container">
-                  <WXHeadImg src={item.headImgUrl} memberId={item.memberId}/>
+                  <WXHeadImg src={item.headImgUrl} riseId={item.riseId}/>
                 </div>
                 <div className="nickname-container">
                   {item.nickName}
