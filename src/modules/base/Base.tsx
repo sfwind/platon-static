@@ -146,6 +146,7 @@ export default class Main extends React.Component<any, any> {
   }
 
   componentDidUpdate () {
+    // 对内容展示区的图片提供预览功能
     setTimeout(() => {
       let containers = document.querySelectorAll('.intro-container');
       for (let container of containers) {
