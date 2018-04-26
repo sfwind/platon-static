@@ -11,7 +11,6 @@ import ShareGuide from '../../../../components/shareGuide/ShareGuide';
 import AssetImg from '../../../../components/AssetImg';
 import { configShare } from '../../../helpers/JsConfig';
 import { loadLiveOrderById, orderLive } from '../../async';
-import { lockWindow, unlockWindow } from '../../../../utils/helpers';
 import requestProxy from '../../../../components/requestproxy/requestProxy';
 
 export default class LiveOrder extends React.Component {
@@ -25,6 +24,7 @@ export default class LiveOrder extends React.Component {
       isOrdered: false, // 是否已经预约成功
       data: {
         banner: '//static.iqycamp.com/gexu-hxf8xq4g.jpg',
+        thumbnail: 'https://static.iqycamp.com/gexu-hxf8xq4g.jpg',
         name: '如何优雅的践踏商业教条',
         speakerDesc: '葛旭，教书匠，商人，北京大学历史系',
         startTimeStr: '2018年4月19日',
@@ -42,7 +42,6 @@ export default class LiveOrder extends React.Component {
     const { promotionId, liveId } = this.props.location.query;
     if (liveId) {
       let liveOrder = await loadLiveOrderById(liveId);
-      console.log(liveOrder);
       this.setState({
         data: liveOrder.msg,
         isOrdered: liveOrder.msg.isOrdered,
@@ -99,7 +98,9 @@ export default class LiveOrder extends React.Component {
             showTransferTip: true,
           });
         } else {
-          this.handleNormalOrderLive();
+          this.setState({
+            showTransferTip: true,
+          });
         }
       }
     }
@@ -110,14 +111,23 @@ export default class LiveOrder extends React.Component {
    * @returns {Promise<void>}
    */
   async handleRiseMemberOrderLive () {
+    const { isOrdered } = this.state;
     const { liveId, promotionRiseId } = this.props.location.query;
-    let orderRes = await orderLive(liveId, promotionRiseId);
-    if (orderRes.code === 200) {
-      lockWindow();
+    if (isOrdered) {
       this.setState({
-        showTransferTip: true,
+        showSuccessTip: true,
+        showShareTip: false,
         isOrdered: true,
       });
+    } else {
+      let orderRes = await orderLive(liveId, promotionRiseId);
+      if (orderRes.code === 200) {
+        this.setState({
+          showSuccessTip: true,
+          showShareTip: false,
+          isOrdered: true,
+        });
+      }
     }
   }
 
@@ -126,14 +136,23 @@ export default class LiveOrder extends React.Component {
    * @returns {Promise<void>}
    */
   async handleNormalOrderLive () {
+    const { isOrdered } = this.state;
     const { liveId, promotionRiseId } = this.props.location.query;
-    let orderRes = await orderLive(liveId, promotionRiseId);
-    if (orderRes.code === 200) {
-      lockWindow();
+    if (isOrdered) {
       this.setState({
         showSuccessTip: true,
+        showShareTip: false,
         isOrdered: true,
       });
+    } else {
+      let orderRes = await orderLive(liveId, promotionRiseId);
+      if (orderRes.code === 200) {
+        this.setState({
+          showSuccessTip: true,
+          showShareTip: false,
+          isOrdered: true,
+        });
+      }
     }
   }
 
@@ -142,15 +161,21 @@ export default class LiveOrder extends React.Component {
    */
   handleClickInvite () {
     const { liveId } = this.props.location.query;
+    const {
+      thumbnail,
+      name,
+    } = this.state.data;
     configShare(
-      `我刚刚完成了一个专业的职业测评，快来帮我做评价吧`,
+      `大咖直播课`,
       `https://${window.location.hostname}/rise/static/home/live/order?liveId=${liveId}&promotionRiseId=${this.state.data.riseId}`,
-      'https://static.iqycamp.com/images/fragment/value_share.png?imageslim',
-      '测评由华师大教育教练组和圈外同学共同开发，完成对我的评价还可以获得一个免费体验名额',
+      thumbnail,
+      name,
+      () => {
+        this.handleNormalOrderLive();
+      },
     );
 
     setTimeout(() => {
-      unlockWindow();
       this.setState({
         showTransferTip: false,
         showShareTip: true,
@@ -203,7 +228,7 @@ export default class LiveOrder extends React.Component {
     // 提示预约成功元素
     const renderSuccessTip = () => {
       return (
-        <div>
+        <div onClick={() => this.setState({ showSuccessTip: false })}>
           <section className="order-transfer-box"
                    style={{ width: '18rem' }}>
             <div className="icon-box">
@@ -220,12 +245,7 @@ export default class LiveOrder extends React.Component {
     // 分享提示元素
     const renderShareTip = () => {
       return (
-        <div onClick={() => {
-          this.setState({
-            showShareTip: false,
-            showSuccessTip: true,
-          });
-        }}>
+        <div onClick={() => this.setState({ showShareTip: false })}>
           <ShareGuide/>
         </div>
       );
