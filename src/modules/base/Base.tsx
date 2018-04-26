@@ -74,14 +74,12 @@ export default class Main extends React.Component<any, any> {
       window.ENV.roleNames = userInfoResult.msg.roleNames;
       window.ENV.classGroupMaps = userInfoResult.msg.classGroupMaps;
     }
-
     const { dispatch } = this.props;
     setTimeout(()=>{
       let img = this.refs.img;
 
       img.setAttribute('crossOrigin', 'Anonymous');
       img.onload = () => {
-        console.log('onLoad');
         let canvas = document.createElement('canvas');
         canvas.width = 100;
         canvas.height = 100;
