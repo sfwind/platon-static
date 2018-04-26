@@ -50,6 +50,10 @@ export default class LiveOrder extends React.Component {
     }
   }
 
+  /**
+   * 点击预约直播按钮
+   * @returns {Promise<void>}
+   */
   async handleClickOrderLive () {
     const { liveId, promotionRiseId } = this.props.location.query;
     const { isOrdered, data } = this.state;
@@ -66,7 +70,6 @@ export default class LiveOrder extends React.Component {
       } else {
         // 直播没有开始
         if (isOrdered) {
-          // TODO
           this.setState({
             showSuccessTip: true,
           });
@@ -83,13 +86,11 @@ export default class LiveOrder extends React.Component {
           window.location.href = linkUrl;
         } else {
           // 尚未预约
-          // TODO
-          requestProxy.alertMessage('巴莱巴拉');
+          requestProxy.alertMessage('需要加入圈外商学院才能看哦');
         }
       } else {
         // 直播尚未开始
         if (isOrdered) {
-          // TODO
           this.setState({
             showTransferTip: true,
           });
@@ -132,6 +133,9 @@ export default class LiveOrder extends React.Component {
     }
   }
 
+  /**
+   * 点击邀请好友链接按钮
+   */
   handleClickInvite () {
     const { liveId } = this.props.location.query;
     configShare(
@@ -212,7 +216,12 @@ export default class LiveOrder extends React.Component {
     // 分享提示元素
     const renderShareTip = () => {
       return (
-        <div onClick={() => this.setState({ showShareTip: false })}>
+        <div onClick={() => {
+          this.setState({
+            showShareTip: false,
+            showSuccessTip: true,
+          });
+        }}>
           <ShareGuide/>
         </div>
       );
