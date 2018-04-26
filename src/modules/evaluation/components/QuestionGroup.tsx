@@ -36,6 +36,8 @@ enum QuestionType {
   SPECIAL_RADIO = 10
 }
 
+const showEncourageList = [ 3, 15, 30, 40, 50 ];
+
 let QUESTION_GROUP_SAVING = 'question_group_saving';
 
 @connect(state => state)
@@ -865,6 +867,7 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
         )
       }
     }
+    console.log(_.indexOf(showEncourageList, questionCount),showEncourageList,questionCount)
     return (
       <div className="question-group-container">
         <div className="apply-page-header">{header}</div>
@@ -873,7 +876,12 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
                style={{ width: `${(questionDoneCount / questionCount) * 100}%` }}/>
         </div>
         <div
-          className="apply-progress-page-index">{!!questionCount ? (numeral(questionDoneCount / questionCount).format('0%')) : 0}</div>
+          className="apply-progress-page-index">{!!questionCount ? `${questionDoneCount}/${questionCount}` : '0/0'}</div>
+        <div
+          className={classnames('question-encourage', { 'show': _.indexOf(showEncourageList, questionDoneCount) != -1 })}>
+          <div style={{ background: 'red', width: '30px', height: '30px' }}/>
+          厉害呀厉害
+        </div>
         <div className='question-group'>
           {questions && questions.map((item, key) => {
             const { type, preChoiceId } = item;
