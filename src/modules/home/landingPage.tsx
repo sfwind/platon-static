@@ -96,7 +96,9 @@ export default class LandingPage extends React.Component {
   componentWillUnmount() {
     clearInterval(this.countDownTimer)
   }
-
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+swiper 点击进入相应页
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   handleClickImageBanner(banner) {
     if(banner.linkUrl.indexOf('http') >= 0) {
       window.location.href = banner.linkUrl
@@ -141,28 +143,24 @@ export default class LandingPage extends React.Component {
     if(remainSecond <= 0) {
       remainSecond = 0;
     }
-
     return { remainHour, remainMinute, remainSecond };
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
    改变时间显示格式
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   formatDateString(date) {
-    // { remainHour, remainMinute, remainSecond }
     let dateInfo = this.formatSeconds(date / 1000);
     return `${dateInfo.remainHour}时${dateInfo.remainMinute}分${dateInfo.remainSecond}秒`
   }
 
   render() {
-
     const {
       notify = false,
-      isBusinessMember = true,
-      pageBanners = [],
-      problemsFlows = [],
-      livesFlows = [],
-      articlesFlows = [],
-      activitiesFlows = [],
+      pageBanners = [],   //Swiper参数
+      programsFlows = [], // 加入圈外
+      livesFlows = [],    // 大咖直播
+      articlesFlows = [],  // 文章精选
+      activitiesFlows = [], //校友活动
     } = this.state.data;
 
     return (
@@ -216,6 +214,7 @@ export default class LandingPage extends React.Component {
         <div className="article panel-qw">
           <div className="panel-header">文章精选<span className="more">更多</span></div>
           <div className="panel-body">
+
             <ArticleItem></ArticleItem>
             <ArticleItem></ArticleItem>
           </div>
@@ -230,7 +229,7 @@ export default class LandingPage extends React.Component {
         </div>
         <div className="bottom-text">我也是有底线的...</div>
         {/*-----   弹框模块  -----*/}
-        https://static.iqycamp.com/661521099827_-7ld21bf1.pic@2x.jpg
+
         <Alert show={this.state.applySuccess.isShowPassNotify} buttons={this.state.dialogButtons}>
           恭喜你通过{this.state.applySuccess.name}申请！
           <br/>
