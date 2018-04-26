@@ -211,14 +211,17 @@ swiper 点击进入相应页
           </div>
         </div>
         {/*-----  文章精选模块  -----*/}
-        <div className="article panel-qw">
-          <div className="panel-header">文章精选<span className="more">更多</span></div>
-          <div className="panel-body">
-
-            <ArticleItem></ArticleItem>
-            <ArticleItem></ArticleItem>
+        {
+          articlesFlows.length>0 &&
+          <div className="article panel-qw">
+            <div className="panel-header">文章精选<span className="more">更多</span></div>
+            <div className="panel-body">
+              {articlesFlows.map(item,index)=>{<ArticleItem></ArticleItem>}}
+              <ArticleItem></ArticleItem>
+              <ArticleItem></ArticleItem>
+            </div>
           </div>
-        </div>
+        }
         {/*-----   校友活动模块  -----*/}
         <div className="activity panel-qw">
           <div className="panel-header">校友活动<span className="more">更多</span></div>
