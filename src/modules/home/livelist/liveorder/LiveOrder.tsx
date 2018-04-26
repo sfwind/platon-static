@@ -12,6 +12,7 @@ import AssetImg from '../../../../components/AssetImg';
 import { configShare } from '../../../helpers/JsConfig';
 import { loadLiveOrderById, orderLive } from '../../async';
 import { lockWindow, unlockWindow } from '../../../../utils/helpers';
+import requestProxy from '../../../../components/requestproxy/requestProxy';
 
 export default class LiveOrder extends React.Component {
 
@@ -66,6 +67,9 @@ export default class LiveOrder extends React.Component {
         // 直播没有开始
         if (isOrdered) {
           // TODO
+          this.setState({
+            showSuccessTip: true,
+          });
         } else {
           this.handleRiseMemberOrderLive();
         }
@@ -80,11 +84,15 @@ export default class LiveOrder extends React.Component {
         } else {
           // 尚未预约
           // TODO
+          requestProxy.alertMessage('巴莱巴拉');
         }
       } else {
         // 直播尚未开始
         if (isOrdered) {
           // TODO
+          this.setState({
+            showTransferTip: true,
+          });
         } else {
           this.handleNormalOrderLive();
         }
@@ -168,7 +176,7 @@ export default class LiveOrder extends React.Component {
             <div className="icon-box">
               <AssetImg className="icon"
                         url="https://static.iqycamp.com/success-icon-rzfz8mly.png"></AssetImg>
-              <span className="icon-tip">预约成功</span>
+              <span className="icon-tip">去分享</span>
             </div>
             <ul className="order-tips">
               <li>· 分享直播给朋友可以免费观看大咖直播</li>
@@ -228,7 +236,7 @@ export default class LiveOrder extends React.Component {
           <pre className="category-content">{liveDesc}</pre>
         </div>
         <div className="live-order-button"
-             onClick={() => this.handleClickOrderLive()}>{isOrdered ? '已经预约，点击分享给好友' : '立即预约直播'}</div>
+             onClick={() => this.handleClickOrderLive()}>{isOrdered ? '已经预约' : '立即预约直播'}</div>
         {showTransferTip && renderTransferTip()}
         {showSuccessTip && renderSuccessTip()}
         {showShareTip && renderShareTip()}
