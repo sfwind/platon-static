@@ -20,6 +20,8 @@ import RequestComponent from '../../components/requestproxy/RequestComponent'
 
 require('../../components/progress/circle-progress.js')
 import { sa } from '../../utils/helpers'
+import md5 from 'crypto-js/md5'
+
 
 $.fn.extend({
   animateCss: function(animationName, callback) {
@@ -71,8 +73,29 @@ export default class Main extends React.Component<any, any> {
       window.ENV.isAsst = userInfoResult.msg.isAsst;
       window.ENV.roleNames = userInfoResult.msg.roleNames;
       window.ENV.classGroupMaps = userInfoResult.msg.classGroupMaps;
-
     }
+
+    const { dispatch } = this.props;
+    setTimeout(()=>{
+      let img = this.refs.img;
+
+      img.setAttribute('crossOrigin', 'Anonymous');
+      img.onload = () => {
+        console.log('onLoad');
+        let canvas = document.createElement('canvas');
+        canvas.width = 100;
+        canvas.height = 100;
+
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        let dataUrl = canvas.toDataURL('image/png');
+        let  hash_value =md5(dataUrl);
+        dispatch(set('expired_hash_value',hash_value));
+      };
+      img.src = "http://wx.qlogo.cn/mmopen/wbKdib81ny6icYCkibXNWSU2cuokWFLR4uj2rP0eAGZYrfaVhLo48wBToH6Y1RvmGDBa7s4DMcvc70UexuHbkJDkicOX3EU19yQP/0";
+    },100)
+
 
     sa.init({
       heatmap_url: 'https://static.sensorsdata.cn/sdk/1.9.13/heatmap.min.js',
@@ -195,6 +218,9 @@ export default class Main extends React.Component<any, any> {
           this.state.activityMsg && this.state.message &&
           <Activity url={this.state.url} message={this.state.message}/>
         }
+        <div style={{display:'none'}}>
+        <img ref="img"   />
+        </div>
       </div>
     )
   }
