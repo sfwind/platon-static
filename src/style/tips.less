@@ -1,0 +1,44 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能：   tips 弹窗模块
+ 3. 作者： liyang@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+.qw-back-ground{
+  position: fixed;
+  opacity: 0.5;
+  background-color: #000000;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+}
+.qw-tips{
+  min-width: 30%;
+  background-color: #ffffff;
+  border-radius: 4px;
+  position: fixed;
+  z-index: 1000;
+  margin: 0 auto;
+  >.qw-top{
+    padding: 20px;
+  }
+  >p{
+    text-align: center;
+    line-height: 36px;
+    font-size: 18px;
+    position: relative;
+    &:before{
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 1px;
+      border-top: 1px solid #dddddd;
+      -webkit-transform: scaleY(0.5);
+    }
+  }
+}

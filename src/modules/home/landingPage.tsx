@@ -22,7 +22,7 @@ import ActivityItem from '../../components/activityItem/activityItem' //校友�
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共方法的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-import  BigData from  '../../utils/bigData'
+import  commonFun from '../../utils/commonFun'
 import  apiDataFilter from  '../../utils/apiDataFilter';
 const { Alert } = Dialog;
 @connect(state => state)
@@ -64,7 +64,7 @@ export default class LandingPage extends React.Component {
 
   componentWillMount() {
     changeTitle('圈外同学'); // 变更标题
-    BigData.sendBigData({ module: '打点', function: '着陆页', action: '打开着陆页' }); // 页面埋点
+    commonFun.sendBigData({ module: '打点', function: '着陆页', action: '打开着陆页' }); // 页面埋点
     let self =this;
     /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
      接口请求  获取着陆页所有信息
@@ -85,6 +85,7 @@ export default class LandingPage extends React.Component {
             }, 1000)
           }
         });
+
       },
       otherCallback(data){
         dispatch(alertMsg(data.msg))
@@ -172,7 +173,7 @@ export default class LandingPage extends React.Component {
             <i className="iconfont icon-message"></i>
             {notify && <span className="notify"></span>}
           </div>
-          <div className="right-header-box" onClick={() =>{ _MEIQIA('showPanel'); BigData.sendBigData({module:"打点" ,func:"着陆页",action:"点击入学咨询"})}}>
+          <div className="right-header-box" onClick={() =>{ _MEIQIA('showPanel'); commonFun.sendBigData({module:"打点" ,func:"着陆页",action:"点击入学咨询"})}}>
             <span>入学咨询&nbsp;</span>
             <i className="iconfont icon-chat"></i>
           </div>

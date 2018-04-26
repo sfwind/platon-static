@@ -12,7 +12,7 @@
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import ApiDataFilter from './apiDataFilter';
 import sa from 'sa-sdk-javascript'
- class bigData{
+ class CommonFun{
   constructor(){
 
   }
@@ -43,7 +43,29 @@ import sa from 'sa-sdk-javascript'
      -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
      sa.track("frontMark", param);
    }
+   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   tips 弹窗函数
+   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+   tips(insertText){
+     let qwBack = document.createElement("div");  // 背景盒子
+     let divQw  =  document.createElement("div"); // tips 盒子
+     let inside =`<div class="qw-top"><p>${insertText}</p></div><p id="qwConf">确定</p>`;
+     document.body.appendChild(qwBack);
+     document.body.appendChild(divQw);
+     qwBack.setAttribute("class", "qw-back-ground");
+     divQw.setAttribute("class", "qw-tips");
+     divQw.setAttribute("id", "qwTips");
+     document.getElementById('qwTips').innerHTML = inside;
+     let qwTip = document.getElementById('qwTips');
+     let conf =  document.getElementById('qwConf');
+     qwTip.style.left = parseInt((document.body.clientWidth - qwTip.clientWidth) / 2 , 10) + "px";
+     qwTip.style.top = parseInt((window.screen.height - qwTip.clientHeight) / 2, 10) + "px";
+     conf.addEventListener('click',()=>{
+       document.body.removeChild(qwBack);
+       document.body.removeChild(divQw);
+     })
+   }
 }
-const BigData = new bigData();  // new一个实例
+const commonFun = new CommonFun();  // new一个实例
 
-export default BigData
+export default commonFun
