@@ -101,6 +101,7 @@ export class SectionProgressHeader extends React.Component<SectionProgressHeader
         break
       case 11:
       case 12:
+      case 13:
         this.context.router.push({
           pathname: '/rise/static/practice/application',
           query: _.merge(queryParam, {

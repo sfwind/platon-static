@@ -14,7 +14,6 @@ import PullElement from 'pull-element';
 import { merge, findIndex, remove, isEmpty, isBoolean, isUndefined } from 'lodash';
 import { mark } from '../../../utils/request';
 import { randomStr, scroll } from '../../../utils/helpers';
-import { preview } from '../../helpers/JsConfig';
 import { SectionProgressHeader } from '../components/SectionProgressHeader';
 import { FooterButton } from '../../../components/submitbutton/FooterButton';
 import { Dialog } from 'react-weui';
@@ -418,8 +417,7 @@ export default class Application extends React.Component <any, any> {
               <div className="app-image">
                 <AssetImg url={pic}
                           width={'80%'}
-                          style={{ margin: '0 auto' }}
-                          onClick={() => preview(pic, [pic])}/>
+                          style={{ margin: '0 auto' }}/>
               </div>
             }
           </div>
