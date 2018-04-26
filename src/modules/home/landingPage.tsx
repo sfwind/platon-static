@@ -216,9 +216,7 @@ swiper 点击进入相应页
           <div className="article panel-qw">
             <div className="panel-header">文章精选<span className="more">更多</span></div>
             <div className="panel-body">
-              {articlesFlows.map(item,index)=>{<ArticleItem></ArticleItem>}}
-              <ArticleItem></ArticleItem>
-              <ArticleItem></ArticleItem>
+              {articlesFlows.map((item,index)=>{<ArticleItem articles={item} key={index}></ArticleItem>})}
             </div>
           </div>
         }
