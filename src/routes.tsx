@@ -261,9 +261,6 @@ const RichTextView = Loadable({
   loading: Loading,
 })
 
-
-
-
 const routes = (
   <Route>
     <Route path="/rise/static" component={Base} onChange={(before, after) => {
