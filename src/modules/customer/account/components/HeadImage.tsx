@@ -29,9 +29,10 @@ export default class HeadImage extends React.Component {
 
   componentWillMount() {
     mark({
-      module:'打点',
-      function:'个人中心',
-      action:'加载修改头像页面'
+      view: true,
+      module: '打点',
+      function: '个人中心',
+      action: '加载修改头像页面'
     })
     this.dispatch = this.props.dispatch
     this.setState({ headImgUrl: this.props.location.query.headImgUrl })

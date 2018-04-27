@@ -69,7 +69,7 @@ export default class Application extends React.Component <any, any> {
   }
 
   async componentWillMount () {
-    mark({ module: '打点', function: '学习', action: '打开应用题页' });
+    mark({ view: true, module: '打点', function: '学习', action: '打开应用题页' });
     const { dispatch, location, otherApplicationPracticeSubmitId, applicationId } = this.props;
     const { id, planId } = location.query;
     this.loadApplicationData(true);

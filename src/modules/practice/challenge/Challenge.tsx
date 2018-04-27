@@ -32,7 +32,7 @@ export default class Challenge extends React.Component <any, any> {
   };
 
   componentWillMount () {
-    mark({ module: '打点', function: '学习', action: '打开小目标页' });
+    mark({ view: true, module: '打点', function: '学习', action: '打开小目标页' });
 
     const { dispatch, location } = this.props;
     dispatch(startLoad());

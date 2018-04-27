@@ -22,6 +22,7 @@ export default class PersonalModify extends React.Component {
 
   componentWillMount() {
     mark({
+      view: true,
       module: '打点',
       function: '个人中心',
       action: '加载昵称头像修改页'

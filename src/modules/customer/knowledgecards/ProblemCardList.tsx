@@ -20,7 +20,7 @@ export default class ProblemCardList extends React.Component {
 
   async componentWillMount () {
     const { dispatch } = this.props
-    mark({ module: '打点', function: '个人中心', action: '知识卡列表' })
+    mark({view: true,  module: '打点', function: '个人中心', action: '知识卡列表' })
     changeTitle('知识卡')
     let res = await loadCardList()
     if (res.code === 200) {

@@ -33,7 +33,7 @@ export default class SchedulePlan extends React.Component {
   }
 
   async componentWillMount () {
-    mark({ module: '打点', function: '学习', action: '打开学习计划页面' })
+    mark({ view: true, module: '打点', function: '学习', action: '打开学习计划页面' })
     const { dispatch, location } = this.props
 
     let res = await loadPersonSchedulePlan()

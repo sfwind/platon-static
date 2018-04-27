@@ -27,7 +27,7 @@ export default class KnowledgeReview extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '学习', action: '打开知识点回顾页面' })
+    mark({ view: true, module: '打点', function: '学习', action: '打开知识点回顾页面' })
     const { dispatch, location } = this.props
     const { id, practicePlanId, complete } = location.query
     dispatch(startLoad())

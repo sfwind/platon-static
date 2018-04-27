@@ -58,7 +58,7 @@ export default class LandingPage extends React.Component {
 
   async componentWillMount() {
     changeTitle('圈外同学');
-    mark({ module: '打点', function: '着陆页', action: '打开着陆页' });
+    mark({ view: true, module: '打点', function: '着陆页', action: '打开着陆页' });
     let res = await loadLandingPageData();
     if(res.code === 200) {
       this.setState({
