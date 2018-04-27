@@ -357,8 +357,8 @@ const routes = (
 
       <Route path="transfer" component={Transfer}/>
       <Route path="guest/annual/summary" component={AnnualSummary}/>
-      <Route path="/rise/static/guest/value/evaluation/self" component={SelfEvaluate}/>
-      <Route path="/rise/static/guest/value/evaluation/other" component={OtherEvaluate}/>
+      <Route path="/rise/activity/static/guest/value/evaluation/self" component={SelfEvaluate}/>
+      <Route path="/rise/activity/static/guest/value/evaluation/other" component={OtherEvaluate}/>
     </Route>
     <Route path="*" component={PageNotFound}></Route>
   </Route>

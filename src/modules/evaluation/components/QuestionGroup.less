@@ -9,12 +9,26 @@
     background: rgb(243, 243, 243);
     width: ~"calc(100% - 50px)";
     vertical-align: middle;
+    position: relative;
     .apply-progress-bar {
       background: rgb(247, 180, 61);
       background: -webkit-gradient(linear, left center, right center, from(rgb(248, 225, 161)), to(rgb(247, 180, 61)));
       height: .4rem;
       border-radius: 4px;
       transition: width 0.5s;
+    }
+    .question-encourage {
+      position: absolute;
+      text-align: center;
+      left: ~"calc(50% + 25px)";
+      transform: translateX(-50%);
+      top: 10px;
+      font-size: 13px;
+      font-weight: 300;
+      display: none;
+      &.show {
+        display: block;
+      }
     }
   }
   .apply-progress-page-index {
@@ -26,13 +40,7 @@
     color: #666;
     line-height: 0;
   }
-  .question-encourage {
-    display: none;
-    text-align: center;
-    &.show {
-      display: block;
-    }
-  }
+
   .intro-index {
     margin: .5rem 0 0;
     display: block;

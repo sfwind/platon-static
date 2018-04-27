@@ -26,7 +26,8 @@ export class OtherComplete extends React.Component<OtherCompleteProps, any> {
           </div>
           <div className='tips-qrcode-box'>
             <AssetImg className='tips-qrCode'
-                      url='https://static.iqycamp.com/images/fragment/self_evaluation.jpeg?imageslim'/>
+                      url='https://static.iqycamp.com/images/fragment/wangqing_beta.jpeg?imageslim'/>
+            {/*<AssetImg className='tips-qrCode'  url='https://static.iqycamp.com/images/fragment/self_evaluation.jpeg?imageslim'/>*/}
           </div>
         </div>
         <FooterButton btnArray={[ {

@@ -872,16 +872,14 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
       <div className="question-group-container">
         <div className="apply-page-header">{header}</div>
         <div className="apply-progress">
-          <div className="apply-progress-bar"
-               style={{ width: `${(questionDoneCount / questionCount) * 100}%` }}/>
+          <div className="apply-progress-bar" style={{ width: `${(questionDoneCount / questionCount) * 100}%` }}/>
+          <div className={classnames('question-encourage', { 'show': _.indexOf(showEncourageList, questionDoneCount) != -1 })}>
+            <span className="icon-lollipop"><span className="path1"></span><span className="path2"></span><span className="path3"></span><span className="path4"></span><span className="path5"></span></span>
+            厉害呀厉害
+          </div>
         </div>
-        <div
-          className="apply-progress-page-index">{!!questionCount ? `${questionDoneCount}/${questionCount}` : '0/0'}</div>
-        <div
-          className={classnames('question-encourage', { 'show': _.indexOf(showEncourageList, questionDoneCount) != -1 })}>
-          <div style={{ background: 'red', width: '30px', height: '30px' }}/>
-          厉害呀厉害
-        </div>
+        <div className="apply-progress-page-index">{!!questionCount ? `${questionDoneCount}/${questionCount}` : '0/0'}</div>
+
         <div className='question-group'>
           {questions && questions.map((item, key) => {
             const { type, preChoiceId } = item;
