@@ -600,6 +600,12 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
     })
   }
 
+  showEncourage(questionDoneCount) {
+    const { showEncourageList = [] } = this.props;
+
+    return _.indexOf(showEncourageList, questionDoneCount) != -1
+  }
+
   render() {
     const { region, header } = this.props
     const { currentIndex, allGroup = [], showConfirmModal } = this.state;
@@ -867,18 +873,20 @@ export class QuestionGroup extends Component<QuestionGroupProps, any> {
         )
       }
     }
-    console.log(_.indexOf(showEncourageList, questionCount),showEncourageList,questionCount)
+    console.log(_.indexOf(showEncourageList, questionCount), showEncourageList, questionCount)
     return (
       <div className="question-group-container">
         <div className="apply-page-header">{header}</div>
         <div className="apply-progress">
           <div className="apply-progress-bar" style={{ width: `${(questionDoneCount / questionCount) * 100}%` }}/>
-          <div className={classnames('question-encourage', { 'show': _.indexOf(showEncourageList, questionDoneCount) != -1 })}>
-            <span className="icon-lollipop"><span className="path1"></span><span className="path2"></span><span className="path3"></span><span className="path4"></span><span className="path5"></span></span>
+          <div className={classnames('question-encourage', { 'show': this.showEncourage(questionDoneCount) })}>
+            <span className="icon-lollipop"><span className="path1"></span><span className="path2"></span><span
+              className="path3"></span><span className="path4"></span><span className="path5"></span></span>
             厉害呀厉害
           </div>
         </div>
-        <div className="apply-progress-page-index">{!!questionCount ? `${questionDoneCount}/${questionCount}` : '0/0'}</div>
+        <div
+          className="apply-progress-page-index">{!!questionCount ? `${questionDoneCount}/${questionCount}` : '0/0'}</div>
 
         <div className='question-group'>
           {questions && questions.map((item, key) => {
