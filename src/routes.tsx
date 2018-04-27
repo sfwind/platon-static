@@ -15,6 +15,8 @@ import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/Appli
 import PageNotFound from './modules/other/pageNotFound/PageNotFound'
 import ProblemPreview from './modules/practice/preview/ProblemPreview';
 import SchoolFriend from './modules/customer/person/SchoolFriend'
+import BarChart from './components/echarts/bar/BarChart';
+import RadarChart from './components/echarts/radar/RadarChart';
 
 const LandingPage = Loadable({
   loader: () => import('./modules/home/LandingPage'),
@@ -274,7 +276,7 @@ const routes = (
       }
       sa.quick('autoTrackSinglePage');
     }}>
-      <Route path={'demo'} component={DiscussDistrict}/>
+      <Route path={'demo'} component={RadarChart}/>
       <Route path="home" component={LandingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
       <Route path="home/activities" component={ActivityListPage}/>
