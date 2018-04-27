@@ -13,6 +13,7 @@ import * as FontAwesome from 'react-fontawesome'
 import { MarkBlock } from '../../../components/markblock/MarkBlock'
 import { testAlert } from '../../../components/globalalert/GlobalRequest'
 import DailyTalk from './DailyTalk/DailyTalk'
+import WXHeadImg from '../../customer/components/WXHeadImg'
 
 @connect(state => state)
 export default class SchedulePlan extends React.Component {
@@ -89,8 +90,11 @@ export default class SchedulePlan extends React.Component {
         <div className='info-container'>
           <div className="personal-detail">
             <div className="detail-top">
-              <AssetImg className="headimg-url"
-                        url={window.ENV.headImgUrl}/>
+
+              {/*<AssetImg className="headimg-url"*/}
+                        {/*url={window.ENV.headImgUrl}/>*/}
+
+                <WXHeadImg className="headimg-url" src={window.ENV.headImgUrl} riseId={window.ENV.riseId}/>
               <div className="nickname">{window.ENV.userName}</div>
               <div className="personal-icon"
                    onClick={() => this.handleGoPersonalCenter()}></div>
