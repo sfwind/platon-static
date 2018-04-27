@@ -45,8 +45,13 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       discuss: {},
       placeholder: '提出你的疑问或意见吧（限1000字）',
       isReply: false,
-      content: '',
-    };
+      content: '',   //评论内容
+      audioPlay:'false', //第一个音频自动播放标识
+      analysisPlay:'false' ,//第二个音频自动播放标识
+      meansPlay:'false', //第三个音频自动播放标识
+      keynotePlay:'false', //第四个音频自动播放标识
+      iosAudoPlay:'false', //为解决ios播放 建立标识
+    }
   }
 
   static contextTypes = {
@@ -59,17 +64,17 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { id, practicePlanId, complete } = this.props.location.query;
 
     if (practicePlanId) {
-      let knowledge = await loadKnowledges(practicePlanId);
+      let knowledge = await loadKnowledges(practicePlanId);   // 打开知识点
       this.setState({ knowledge: knowledge.msg[0], referenceId: knowledge.msg[0].id });
-      let discussRes = await loadKnowledgePriorityDiscuss(knowledge.msg[0].id);
-      this.setState({ discussData: discussRes.msg });
+      let discussRes = await loadKnowledgePriorityDiscuss(knowledge.msg[0].id);   // 获取当前知识点加精过后的讨论 区域
+      this.setState({ discussData: discussRes.msg });  // 留言数据
 
       if (complete == 'false') {
         // 完成练习动效
         dispatch(set('completePracticePlanId', practicePlanId));
       }
     } else if (id) {
-      let knowledge = await loadKnowledge(id);
+      let knowledge = await loadKnowledge(id); // 加载知识点
       this.setState({ knowledge: knowledge.msg });
       let discussRes = await loadKnowledgePriorityDiscuss(id);
       this.setState({ discussData: discussRes.msg });
@@ -86,10 +91,12 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       referenceId: item.knowledgeId,
     });
   }
-
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+评论之后的重新加载
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   reload () {
     const { knowledge } = this.state;
-    loadDiscuss(knowledge.id, 1).then(res => {
+    loadDiscuss(knowledge.id, 1).then(res => {   // 加载更多讨论
       if (res.code === 200) {
         this.setState({
           discuss: res.msg, showDiscuss: false, repliedId: 0, isReply: false,
@@ -144,7 +151,7 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     const { dispatch } = this.props;
     const { knowledge } = this.state;
     dispatch(startLoad());
-    deleteKnowledgeDiscuss(id).then(res => {
+    deleteKnowledgeDiscuss(id).then(res => {     // 删除知识点评论
       loadDiscuss(knowledge.id, 1).then(res => {
         dispatch(endLoad());
         if (res.code === 200) {
@@ -159,12 +166,14 @@ export default class KnowledgeViewer extends React.Component<any, any> {
       dispatch(alertMsg(ex));
     });
   }
-
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+去往练习题
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   handleClickGoWarmup (practicePlanId) {
     const { dispatch } = this.props;
     dispatch(startLoad());
     mark({ module: '打点', function: '知识点', action: '完成知识点学习' });
-    learnKnowledge(practicePlanId).then(res => {
+    learnKnowledge(practicePlanId).then(res => {    // 学习知识点
       dispatch(endLoad());
       if (res.code === 200) {
         this.refs.sectionProgress.goNextPage();
@@ -174,6 +183,46 @@ export default class KnowledgeViewer extends React.Component<any, any> {
     }).catch(er => alertMsg(er));
   }
 
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+完成播放后得到的标识  重新赋值
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  getPlayStation(flag) {
+    if (flag === "audioPlay"){
+      this.setState({audioPlay:'false',analysisPlay:'true' ,meansPlay:'false',keynotePlay:'false',});
+      window.scrollTo(0,this.refs.analysis.offsetTop);
+    }else if (flag === "analysisPlay"){
+      this.setState({audioPlay:'false',analysisPlay:'false' ,meansPlay:'true',keynotePlay:'false',});
+     window.scrollTo(0,this.refs.means.offsetTop);
+    }else if (flag === "meansPlay"){
+      this.setState({audioPlay:'false',analysisPlay:'false' ,meansPlay:'false',keynotePlay:'true',});
+      window.scrollTo(0,this.refs.keynote.offsetTop);
+    }else {
+      this.setState({audioPlay:'false',analysisPlay:'false' ,meansPlay:'false',keynotePlay:'false',});
+    }
+  }
+ /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 真实的DOM被渲染出来后调用
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  componentDidMount(){
+    /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    touchstart只事件触发一次函数  让语音全部播放然后暂停   解决ios必须触发才能播放的问题
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+    this.listenFun(this.refs.knowledgeAll,'touchstart',()=>{
+      if(!(window.navigator.userAgent.indexOf("Android") > 0)){
+        this.setState({iosAudoPlay:'true'});
+      }
+    })
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  事件监听函数
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  listenFun(dom,event,callBack){
+    let handle = function () {
+      callBack();
+      dom.removeEventListener(event,handle)
+    };
+    dom.addEventListener(event,handle)
+  }
   render () {
     const { showTip, showDiscuss, knowledge, discuss = [], isReply, placeholder } = this.state;
     const {
@@ -193,21 +242,19 @@ export default class KnowledgeViewer extends React.Component<any, any> {
           </span>
           <span className={`subject`}>{subject}</span>
         </div>
-      );
+      )
     };
 
     const rightAnswerRender = (choice, idx) => {
-      return (choice.isRight ? sequenceMap[idx] + ' ' : '');
+      return (choice.isRight ? sequenceMap[idx] + ' ' : '')
     };
 
     return (
       <Block>
-        <div className={`knowledge-view-container`}>
+        <div className={`knowledge-view-container`} ref='knowledgeAll'>
           {
             practicePlanId ?
-              <SectionProgressHeader ref={'sectionProgress'}
-                                     practicePlanId={practicePlanId}
-                                     planId={planId}/> :
+              <SectionProgressHeader ref={'sectionProgress'} practicePlanId={practicePlanId} planId={planId}/> :
               <div className="page-header">{knowledge.knowledge}</div>
           }
           {
@@ -218,45 +265,48 @@ export default class KnowledgeViewer extends React.Component<any, any> {
                        videoWords={videoWords}
                        fileId={fileId}/></div>
           }
+          {/*-----  音频的渲染   -----*/}
           <div className="intro-container">
             {
               audio &&
               <div className="context-audio">
-                <Audio url={audio}
-                       words={audioWords}/>
+                <Audio url={audio} words={audioWords} iosAudoPlay={this.state.iosAudoPlay} sourceFlag={"audioPlay"} playFlag={this.state.audioPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
               </div>
             }
+
             {
               description && <div className="text">
                 <pre dangerouslySetInnerHTML={{ __html: description }}/>
               </div>
             }
+
             {pic && <div className="context-img"><img src={pic}/></div>}
             {
               analysis &&
-              <div>
+              <div ref="analysis">
                 <div className="context-title-img">
-                  <AssetImg height={17}
-                            url="https://static.iqycamp.com/images/fragment/analysis3.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/analysis3.png"/>
                 </div>
                 {analysisAudio &&
-                <div className="context-audio"><Audio url={analysisAudio}
-                                                      words={analysisAudioWords}/></div>}
+                <div className="context-audio">
+                  <Audio url={analysisAudio} words={analysisAudioWords} iosAudoPlay={this.state.iosAudoPlay} sourceFlag={"analysisPlay"} playFlag={ this.state.analysisPlay } getPlayEnd={this.getPlayStation.bind(this)}/>
+                </div>}
                 <div className="text">
-                  <pre dangerouslySetInnerHTML={{ __html: analysis }}/>
+                  <pre dangerouslySetInnerHTML={{__html: analysis}}/>
                 </div>
                 {analysisPic && <div className="context-img"><img src={analysisPic}/></div>}
               </div>
             }
             {
               means &&
-              <div>
+              <div ref="means">
                 <div className="context-title-img">
-                  <AssetImg height={17}
-                            url="https://static.iqycamp.com/images/fragment/means3.png"/>
+                  <AssetImg height={17} url="https://static.iqycamp.com/images/fragment/means3.png"/>
                 </div>
-                {meansAudio && <div className="context-audio"><Audio url={meansAudio}
-                                                                     words={meansAudioWords}/></div>}
+                {meansAudio && <div className="context-audio">
+                  <Audio url={meansAudio} words={meansAudioWords} iosAudoPlay={this.state.iosAudoPlay} sourceFlag={"meansPlay"} playFlag={this.state.meansPlay} getPlayEnd={this.getPlayStation.bind(this)}/>
+                </div>
+                }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: means }}/>
                 </div>
@@ -265,15 +315,19 @@ export default class KnowledgeViewer extends React.Component<any, any> {
             }
             {
               keynote &&
-              <div>
+              <div ref="keynote">
                 <div className="context-title-img">
                   <AssetImg height={17}
                             url="https://static.iqycamp.com/images/fragment/keynote3.png"/>
                 </div>
                 {
                   keynoteAudio &&
-                  <div className="context-audio"><Audio url={keynoteAudio}
-                                                        words={keynoteAudioWords}/></div>
+                  <div className="context-audio">
+                    <Audio url={keynoteAudio}
+                           iosAudoPlay={this.state.iosAudoPlay}
+                           words={keynoteAudioWords}
+                           sourceFlag={"keynotePlay"}
+                           playFlag={this.state.keynotePlay} getPlayEnd={this.getPlayStation.bind(this)}/></div>
                 }
                 <div className="text">
                   <pre dangerouslySetInnerHTML={{ __html: keynote }}/>
