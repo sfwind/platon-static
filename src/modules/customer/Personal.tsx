@@ -245,7 +245,7 @@ export default class Personal extends React.Component<any, any> {
 
     const renderList = () => {
       return (
-        <div className="list-container">
+        <div className="content-list-container">
           <MarkBlock module={'打点'}
                      func={'个人中心'}
                      action={'点击抵用券'}

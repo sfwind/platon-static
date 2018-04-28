@@ -112,9 +112,13 @@
     }
   }
 
-  .list-container {
+  .content-list-container {
     padding: 0px 20px 60px 20px;
     font-size: 15px;
+
+    > * {
+       box-sizing: content-box !important;
+    }
 
     img {
       width: 100%;
