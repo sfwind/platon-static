@@ -6,7 +6,7 @@
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 import * as React from 'react';
-import './LiveOrder.less';
+import './liveOrder.less';
 import ShareGuide from '../../../../components/shareGuide/ShareGuide';
 import AssetImg from '../../../../components/AssetImg';
 import { configShare } from '../../../helpers/JsConfig';
