@@ -6,14 +6,17 @@
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import * as React from 'react'
 import './joinItem.less'
+import  commonFun from '../../utils/commonFun'
 export default class JoinItem extends React.Component {
   constructor() {
     super();
   }
   handleOrder(asstWechat,itemType,itemUrl){
     if (itemType ===1 ){
+      commonFun.sendBigData({ module: '打点', function: '加入商学院', action: '点击预约' }); // 事件埋点
       this.props.handerOrder(asstWechat)
     }else {
+      commonFun.sendBigData({ module: '打点', function: '加入商学院', action: '点击立即报名' }); // 事件埋点
       window.location.href = itemUrl
     }
   }
