@@ -24,7 +24,7 @@ export default class JoinItem extends React.Component {
     const { item } = this.props;
     return (
       <div className="join" onClick={()=>{this.handleOrder(item.asstWechat,item.type,item.url)}}>
-        <div className="join-item" style={{background: `url(${item.pic}) no-repeat`,backgroundSize: `100% 178px` }}>
+        <div className="join-item" style={{background: `url(${item.pic}) no-repeat`,backgroundSize: `100% 100%` }}>
           <div className={item.memberTypeId === 3 ? "description core":(item.memberTypeId === 5 ? 'description':'description business')}>
             {item.month && <p className="join-date"><span className="date">{item.month}月入学</span></p>}
             <p className="type-name"><span className="type">{item.type === 1 ? '抢先预约':"立即报名"}></span></p>
