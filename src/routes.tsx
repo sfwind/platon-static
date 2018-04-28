@@ -164,7 +164,7 @@ const SchoolFriend = Loadable({
   loading: Loading,
 })
 const LiveOrder = Loadable({
-  loader: () => import('./modules/home/livelist/liveorder/LiveOrder'),
+  loader: () => import('./modules/home/livelist/liveorder/liveOrder'),
   loading: Loading,
 })
 const NewProfile = Loadable({
