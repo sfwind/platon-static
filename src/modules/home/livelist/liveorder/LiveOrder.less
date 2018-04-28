@@ -1,0 +1,115 @@
+.live-order-container {
+  box-sizing: border-box;
+  padding-bottom: 6rem;
+  .live-thumbnail {
+    width: 100%;
+    height: 15rem;
+  }
+  .name {
+    display: block;
+    border-bottom: 1px solid #d3d3d3;
+    box-sizing: border-box;
+    font-size: 1.7rem;
+    color: #333333;
+    height: 45px;
+    line-height: 44px;
+    padding-left: 1rem;
+  }
+  .category-block {
+    margin: 1.5rem 0 3.5rem 0;
+    padding: 0 2rem;
+    .category-title {
+      font-size: 1.5rem;
+      color: #333333;
+      position: relative;
+      &::before {
+        content: ' ';
+        position: absolute;
+        display: inline-block;
+        width: 5px;
+        height: 1.5rem;
+        left: -2rem;
+        top: 50%;
+        background-color: #7dbe00;
+        transform: translateY(-50%);
+      }
+    }
+    .category-content {
+      font-size: 1.5rem;
+      color: #666666;
+      line-height: 200%;
+    }
+  }
+  .live-order-button {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    line-height: 45px;
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-align: center;
+    background-color: #7dbe00;
+  }
+  .order-transfer-box {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-65%);
+    width: 26rem;
+    z-index: 10;
+    background: #ffffff;
+    border-radius: 4px;
+    .icon-box {
+      margin: 3rem auto 2rem;
+      width: 6rem;
+      .icon {
+        width: 6rem;
+        height: 6rem;
+        display: block;
+        margin: 0 auto;
+      }
+      .icon-tip {
+        font-size: 1.2rem;
+        text-align: center;
+        color: #7dbe00;
+        width: 100%;
+        display: inline-block;
+        letter-spacing: 2.04px;
+        margin-top: 1rem;
+      }
+    }
+    .order-tips {
+      list-style: none;
+      box-sizing: border-box;
+      margin: 0 2.5rem;
+      padding-left: inherit;
+      li {
+        font-size: 1.2rem;
+        color: #999999;
+        margin: 1rem 0;
+        letter-spacing: 2.04px;
+      }
+    }
+    .order-button {
+      background: #7dbe00;
+      border-radius: 100px;
+      width: 21rem;
+      height: 35px;
+      line-height: 35px;
+      color: #fff;
+      text-align: center;
+      margin: 3.7rem auto 2.3rem;
+      font-size: 1.2rem;
+    }
+  }
+  .mask {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.70);
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

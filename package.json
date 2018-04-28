@@ -7,7 +7,8 @@
     "dist": "webpack --config webpack.prod.js",
     "local": "webpack-dev-server --open --config webpack.mock.js",
     "ftp": "npm run dist; gulp ftp",
-    "beta": "npm run dist; gulp beta"
+    "beta": "npm run dist; gulp beta",
+    "felix": "webpack-dev-server --open --config webpack.local.js"
   },
   "repository": {
     "type": "git",
