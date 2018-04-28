@@ -13,7 +13,7 @@ tags
 .ftppass
 
 gulpfile.js
-__build__/*.js
+__build__
 
 stats.json
 
