@@ -50,9 +50,8 @@ export class SubscribeAlert extends React.Component<SubscribeAlertProps, any> {
             <span className="orange">预约成功！</span>
           </div>
           <div className="add-tip">
-            长按扫码添加
-            <br/>
-            圈外小Y（ID：quanwai666）
+            长按扫码添加招生办老师
+            {/*圈外小Y（ID：quanwai666）*/}
             <br/>
             回复【预购】，领取<span className="orange">课程学习资料包</span>
           </div>
