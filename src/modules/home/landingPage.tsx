@@ -22,7 +22,7 @@ import ActivityItem from '../../components/activityItem/activityItem' //校友�
 import JoinItem from '../../components/joinItem/joinItem' //加入圈外组件
 import LivesItem from '../../components/livesItem/livesItem' //大咖直播组件
 import Layout from '../../components/layout/layout' //弹框罩层
-import {SubscribeAlert} from '../../components/subscribe/subscribeAlert' //加入商学院弹框
+import { SubscribeAlert } from '../../components/subscribe/subscribeAlert' //加入商学院弹框
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共方法的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -71,7 +71,7 @@ export default class LandingPage extends React.Component {
 
   componentWillMount() {
     changeTitle('圈外同学'); // 变更标题
-    commonFun.sendBigData({ module: '打点', function: '着陆页', action: '打开着陆页' }); // 页面埋点
+    commonFun.sendBigData({ view: true,module: '打点', function: '着陆页', action: '打开着陆页' }); // 页面埋点
     let self =this;
     /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
      接口请求  获取着陆页所有信息
