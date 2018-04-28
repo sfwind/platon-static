@@ -20,13 +20,14 @@ export default class LivesItem extends React.Component {
     router: React.PropTypes.object.isRequired,
   };
   componentWillMount() {
-        this.setState({livesItem:this.props.livesItem});
-      if (this.props.livesItem.status === 1 && this.props.livesItem.startTimeStr){
-         let startTimeStr = this.props.livesItem.startTimeStr;
-         let startTimeLong = parseInt(Date.parse(new Date(startTimeStr))/1000);
+    this.setState({livesItem: this.props.livesItem});
+      if (this.state.livesItem.status === 1 && this.state.livesItem.startTimeStr){
+         let startTimeStr = this.state.livesItem.startTime;
+         let startTimeLong = parseInt(startTimeStr)/1000;
          let todayLong = parseInt(new Date().getTime()/1000);
          let rangeTime = startTimeLong - todayLong ;
-        let self =this;
+         let self =this;
+
         if ( rangeTime > 86400){
           this.setState({
             timeNum:rangeTime
@@ -110,8 +111,8 @@ export default class LivesItem extends React.Component {
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
  改变时间显示格式
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  formatDateString(date) {
-    let dateInfo = this.formatTime(date);
+  formatDateString(timeNum) {
+    let dateInfo = this.formatTime(timeNum);
     if (dateInfo.remainDay){
       return `${dateInfo.remainDay}天${dateInfo.remainHour}时${dateInfo.remainMinute}分后开启`
     }else {
@@ -119,7 +120,7 @@ export default class LivesItem extends React.Component {
     }
   }
   render(){
-    const { livesItem } = this.props;
+    const { livesItem } = this.state;
     return (
       <div className="lives-item" onClick={()=>{this.handleClick(livesItem.visibility,livesItem.linkUrl,livesItem.name,livesItem.status,livesItem.id)}}
            style={{background: `url(${livesItem.thumbnail}) no-repeat`,backgroundSize: `100% 217px` }}>
