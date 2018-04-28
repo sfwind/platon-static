@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './SchoolFriend.less'
 import { alertMsg } from 'reduxutil/actions'
 import { loadAllElites } from './async'
+import WXHeadImg from '../components/WXHeadImg'
 import PullElement from 'pull-element'
 import { isEmpty, remove } from 'lodash'
 
@@ -96,7 +97,7 @@ export default class SchoolFriend extends React.Component<any, any> {
             return (
               <div className="school-friend-item">
                 <div className="head-image-container">
-                  <img src={item.headImgUrl}/>
+                  <WXHeadImg src={item.headImgUrl} riseId={item.riseId}/>
                 </div>
                 <div className="nickname-container">
                   {item.nickName}

@@ -20,7 +20,7 @@ module.exports = merge(common, {
     openPage: 'rise/static/rise',
     proxy: {
       '/rise/*': {
-        target: 'http://beta.confucius.mobi',
+        target: 'http://localhost:8080',
         secure: false,
         bypass: function (req) {
           if (req.headers.accept && req.headers.accept.indexOf('html') !== -1) {
@@ -29,7 +29,7 @@ module.exports = merge(common, {
         },
       },
       '/': {
-        target: 'http://beta.confucius.mobi',
+        target: 'http://localhost:8080',
         secure: false,
         bypass: function (req) {
           if (req.headers.accept && req.headers.accept.indexOf('html') !== -1) {

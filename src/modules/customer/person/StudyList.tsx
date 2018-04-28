@@ -22,7 +22,7 @@ export default class StudyList extends React.Component {
 
   async componentWillMount() {
     const { dispatch } = this.props
-    mark({ module: '打点', function: '个人中心', action: '打开我的学习报告页面' })
+    mark({ view: true, module: '打点', function: '个人中心', action: '打开我的学习报告页面' })
     changeTitle('我的学习报告')
     let res = await loadStudyReport()
     if(res.code === 200) {

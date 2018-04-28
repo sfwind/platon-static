@@ -53,7 +53,7 @@ export default class MessageCenter extends React.Component <any, any> {
   }
 
   componentDidMount() {
-    mark({ module: "打点", function: "消息中心", action: "打开消息中心页面" });
+    mark({ view: true, module: "打点", function: "消息中心", action: "打开消息中心页面" });
   }
 
   componentDidUpdate(preProps, preState) {

@@ -28,6 +28,7 @@ export default class SelfEvaluate extends React.Component {
 
   async componentWillMount() {
     mark({
+      view: true,
       module: '打点',
       function: '价值观测评',
       action: '进入测评页'

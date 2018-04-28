@@ -10,6 +10,7 @@ import { CellBody, FormCell, CellFooter, Switch } from 'react-weui'
 import { MarkBlock } from '../../components/markblock/MarkBlock'
 import _ from 'lodash'
 import { ToolBar } from '../base/ToolBar'
+import WXHeadImg from './components/WXHeadImg'
 
 /**
  * 个人中心页
@@ -30,7 +31,7 @@ export default class Personal extends React.Component<any, any> {
 
   componentWillMount() {
     changeTitle('个人中心')
-    mark({ module: '打点', function: '个人中心', action: '打开个人中心' })
+    mark({ view: true, module: '打点', function: '个人中心', action: '打开个人中心' })
     const { dispatch } = this.props
     dispatch(startLoad())
 
@@ -156,7 +157,7 @@ export default class Personal extends React.Component<any, any> {
                      func={'个人中心'}
                      action={'点击修改信息'}
                      onClick={() => this.goProfile()}>
-            <img src={window.ENV.headImgUrl}/>
+            <WXHeadImg src={window.ENV.headImgUrl} riseId={window.ENV.riseId}/>
             <div className="arrow"/>
           </MarkBlock>
           <div className="info-container">

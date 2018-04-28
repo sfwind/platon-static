@@ -36,7 +36,7 @@ export default class KnowledgeShare extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '学习', action: '打开知识点分享页面' })
+    mark({ view: true, module: '打点', function: '学习', action: '打开知识点分享页面' })
 
     const { id, practicePlanId, complete } = this.props.location.query
     const { dispatch } = this.props

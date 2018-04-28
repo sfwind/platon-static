@@ -18,3 +18,4 @@ __build__
 stats.json
 
 webpack.local.js
+webpack.dev.js

@@ -34,6 +34,7 @@ export default class ReplyDiscussMessage extends React.Component <any, any> {
 
   componentWillMount (props) {
     mark({
+      view: true,
       module: '打点',
       function: '学习',
       action: '加载选择题评论页',

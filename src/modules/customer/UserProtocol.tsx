@@ -10,7 +10,7 @@ export default class UserProtocol extends React.Component<any, any> {
 
   componentWillMount() {
     changeTitle("用户协议");
-    mark({ module: "打点", function: "帮助", action: "打开用户协议" })
+    mark({ view: true, module: "打点", function: "帮助", action: "打开用户协议" })
   }
 
   render() {

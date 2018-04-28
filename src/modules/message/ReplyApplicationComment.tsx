@@ -40,7 +40,7 @@ export default class ReplyApplicationComment extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '学习', action: '打开应用题评论页' })
+    mark({ view: true, module: '打点', function: '学习', action: '打开应用题评论页' })
     const { dispatch, location } = this.props
     dispatch(startLoad())
     getApplicationPractice(location.query.submitId).then(res => {

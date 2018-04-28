@@ -21,7 +21,7 @@ export default class ShowCertificate extends React.Component {
   }
 
   async componentWillMount() {
-    mark({ module: '打点', function: '个人中心', action: '打开我的荣誉证书页面' })
+    mark({ view: true, module: '打点', function: '个人中心', action: '打开我的荣誉证书页面' })
     changeTitle('荣誉证书')
     const { dispatch } = this.props
     let res = await loadCertificates()

@@ -31,6 +31,7 @@ export default class OtherEvaluate extends React.Component {
     const { dispatch, location } = this.props;
     const { refer } = location.query;
     mark({
+      view: true,
       module: '打点',
       function: '价值观测评',
       action: '打开其他人页',

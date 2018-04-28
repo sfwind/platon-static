@@ -65,6 +65,7 @@ export default class Profile extends React.Component<any, any> {
 
   componentWillMount() {
     mark({
+      view: true,
       module: '打点',
       function: '生成圈外证书',
       action: '加载生成证书页面'
