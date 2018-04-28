@@ -21,8 +21,8 @@ export default class LivesItem extends React.Component {
   };
   componentWillMount() {
     this.setState({livesItem: this.props.livesItem});
-      if (this.state.livesItem.status === 1 && this.state.livesItem.startTimeStr){
-         let startTimeStr = this.state.livesItem.startTime;
+      if (this.props.livesItem.status === 1 && this.props.livesItem.startTimeStr){
+         let startTimeStr = this.props.livesItem.startTime;
          let startTimeLong = parseInt(startTimeStr)/1000;
          let todayLong = parseInt(new Date().getTime()/1000);
          let rangeTime = startTimeLong - todayLong ;
