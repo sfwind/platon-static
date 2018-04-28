@@ -190,7 +190,7 @@ export default class LandingPage extends React.Component {
             pageBanners.length > 0 &&
             <Swiper height='16rem'>
               {pageBanners.map((banner, index) =>
-                <img key={index} src={banner.imageUrl} onClick={() => { BigData.sendBigData({ module: '打点', function: '着陆页', action: '点击Banner' }); this.handleClickImageBanner(banner)
+                <img key={index} src={banner.imageUrl} onClick={() => { commonFun.sendBigData({ module: '打点', function: '着陆页', action: '点击Banner' }); this.handleClickImageBanner(banner)
                 }} className="banner-item swiper-slide swiper-image"/>,
               )}
             </Swiper>
