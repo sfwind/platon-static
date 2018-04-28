@@ -22,7 +22,7 @@ import ActivityItem from '../../components/activityItem/activityItem' //校友�
 import JoinItem from '../../components/joinItem/joinItem' //加入圈外组件
 import LivesItem from '../../components/livesItem/livesItem' //大咖直播组件
 import Layout from '../../components/layout/layout' //弹框罩层
-import {SubscribeAlert} from './components/subscribe/subscribeAlert' //加入商学院弹框
+import {SubscribeAlert} from '../../components/subscribe/subscribeAlert' //加入商学院弹框
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共方法的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
