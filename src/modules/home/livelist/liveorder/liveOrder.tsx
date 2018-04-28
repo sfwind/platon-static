@@ -288,7 +288,7 @@ export default class LiveOrder extends React.Component {
 
     return (
       <div className="live-order-container">
-        <AssetImg url={banner}
+        <AssetImg url={banner || '//static.iqycamp.com/live_default-0vulijrp.png'}
                   className="live-thumbnail"/>
         <h1 className="name">{name}</h1>
         <div className="category-block">
