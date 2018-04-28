@@ -8,13 +8,6 @@ import Loading from './Loading'
 import Loadable from 'react-loadable'
 import { sa } from './utils/helpers'
 
-import DailyTalk from './modules/daily/DailyTalk'
-import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
-import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
-import PageNotFound from './modules/other/pageNotFound/PageNotFound'
-import SchoolFriend from './modules/customer/person/SchoolFriend'
-import LiveOrder from './modules/home/livelist/liveorder/liveOrder';
-
 const DailyTalk = Loadable({
   loader: () => import('./modules/daily/DailyTalk'),
   loading: Loading,
