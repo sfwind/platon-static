@@ -33,6 +33,7 @@
     position: relative;
     padding-bottom: 0.6rem;
     >.description{
+      padding-bottom: 0.4rem;
       >h3{
         font-size: 1.416rem;
         color: @color_title_black;
@@ -41,9 +42,10 @@
         margin-bottom: 0.5rem;
       }
       >p{
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: @color_title_black;
         line-height: 2rem;
+        font-weight: 300;
         &:last-child{
           .text-ellipsis();
           padding-right: 1rem;
@@ -62,14 +64,14 @@
       display: inline-block;
       line-height: 1.86rem;
       text-align: center;
-      width: 8rem;
+      width: 6rem;
       &.prepare{
         border: 1px solid @color-green;
         color: @color-green;
       }
       &.closed{
-        border: 1px solid #999;
-        color: #999;
+        border: 1px solid #d8d8d8;
+        color: #d8d8d8;
       }
       &.review{
         border: 1px solid #4fd3cd;
