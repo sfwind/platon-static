@@ -5,34 +5,35 @@
  4. 备注：
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-import * as React from 'react'
-import './LandingPage.less'
-import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/helpers'
-import { ToolBar } from '../base/ToolBar'
-import { connect } from 'react-redux'
-import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions'
+import * as React from 'react';
+import './LandingPage.less';
+import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/helpers';
+import { ToolBar } from '../base/ToolBar';
+import { connect } from 'react-redux';
+import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions';
 import * as _ from 'lodash';
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共组建的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-import { Dialog } from 'react-weui'
-import Swiper from '../../components/swiper/swiper'  // Swiper组件
-import ArticleItem from '../../components/articleItem/articleItem' //文章精选组件
-import ActivityItem from '../../components/activityItem/activityItem' //校友活动组件
-import JoinItem from '../../components/joinItem/joinItem' //加入圈外组件
-import LivesItem from '../../components/livesItem/livesItem' //大咖直播组件
-import Layout from '../../components/layout/Layout' //弹框罩层
-import { SubscribeAlert } from '../../components/subscribe/subscribeAlert' //加入商学院弹框
+import { Dialog } from 'react-weui';
+import Swiper from '../../components/swiper/swiper';  // Swiper组件
+import ArticleItem from '../../components/articleItem/articleItem'; //文章精选组件
+import ActivityItem from '../../components/activityItem/activityItem'; //校友活动组件
+import JoinItem from '../../components/joinItem/joinItem'; //加入圈外组件
+import LivesItem from '../../components/livesItem/livesItem'; //大咖直播组件
+import Layout from '../../components/layout/Layout'; //弹框罩层
+import { SubscribeAlert } from '../../components/subscribe/subscribeAlert'; //加入商学院弹框
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共方法的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-import  commonFun from '../../utils/commonFun'
-import  apiDataFilter from  '../../utils/apiDataFilter';
+import commonFun from '../../utils/commonFun';
+import apiDataFilter from '../../utils/apiDataFilter';
+
 const { Alert } = Dialog;
 @connect(state => state)
 export default class LandingPage extends React.Component {
 
-  constructor() {
+  constructor () {
     super();
     this.state = {
       data: {},   //接口参数
@@ -42,7 +43,7 @@ export default class LandingPage extends React.Component {
           onClick: (e) => {
             const { applySuccess = {} } = this.state;
             let newApplySuccess = _.merge(_.cloneDeep(applySuccess), { isShowPassNotify: false });
-            this.setState({ applySuccess: newApplySuccess })
+            this.setState({ applySuccess: newApplySuccess });
           },
         },
         {
@@ -51,16 +52,16 @@ export default class LandingPage extends React.Component {
             const { applySuccess = {} } = this.state;
             let newApplySuccess = _.merge(_.cloneDeep(applySuccess), { isShowPassNotify: false });
             this.setState({ applySuccess: newApplySuccess }, () => {
-              window.location.href = `/pay/apply?goodsId=${applySuccess.goPayMemberTypeId}`
-            })
+              window.location.href = `/pay/apply?goodsId=${applySuccess.goPayMemberTypeId}`;
+            });
           },
         },
       ], // 弹窗需要的参数
       applySuccess: {},    // 申请是否成功
-      layoutDescription:'',  //弹层的描述
+      layoutDescription: '',  //弹层的描述
       showSubscribeAlert: false, // 弹层加入商学院描述
-      asstWechat:'', // 加入商学院 二维码URL
-    }
+      asstWechat: '', // 加入商学院 二维码URL
+    };
   }
 
   countDownTimer;
@@ -69,66 +70,67 @@ export default class LandingPage extends React.Component {
     router: React.PropTypes.object.isRequired,
   };
 
-  componentWillMount() {
+  componentWillMount () {
     changeTitle('圈外同学'); // 变更标题
-    commonFun.sendBigData({ view: true,module: '打点', function: '着陆页', action: '打开着陆页' }); // 页面埋点
-    let self =this;
+    commonFun.sendBigData({ view: true, module: '打点', function: '着陆页', action: '打开着陆页' }); // 页面埋点
+    let self = this;
     /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
      接口请求  获取着陆页所有信息
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
     apiDataFilter.request({
-      apiPath:"home.load",
-      successCallback(data){
+      apiPath: 'home.load',
+      successCallback (data) {
         self.setState({
           data: data.msg,
-          applySuccess: data.msg.applySuccess
+          applySuccess: data.msg.applySuccess,
         }, () => {
-          if(data.msg.applySuccess.isShowPassNotify) {
+          if (data.msg.applySuccess.isShowPassNotify) {
             self.countDownTimer = setInterval(() => {
               const { applySuccess = {} } = self.state;
               let newApplySuccess = _.cloneDeep(applySuccess);
               newApplySuccess = _.merge(newApplySuccess, { remainTime: applySuccess.remainTime - 1000 > 0 ? applySuccess.remainTime - 1000 : 0 });
-              self.setState({ applySuccess: newApplySuccess })
-            }, 1000)
+              self.setState({ applySuccess: newApplySuccess });
+            }, 1000);
           }
         });
 
       },
-      otherCallback(data){
-        dispatch(alertMsg(data.msg))
-      }
+      otherCallback (data) {
+        dispatch(alertMsg(data.msg));
+      },
     });
   }
 
-  componentWillUnmount() {
-    clearInterval(this.countDownTimer)
+  componentWillUnmount () {
+    clearInterval(this.countDownTimer);
   }
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-点击进入相应页
------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  handleClickImageBanner(banner) {
-    if(banner.linkUrl.indexOf('http') >= 0) {
-      window.location.href = banner.linkUrl
+
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  点击进入相应页
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  handleClickImageBanner (banner) {
+    if (banner.linkUrl.indexOf('http') >= 0) {
+      window.location.href = banner.linkUrl;
     } else {
-      this.context.router.push(banner.linkUrl)
+      this.context.router.push(banner.linkUrl);
     }
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
    根据秒 计算时分秒
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
+  formatSeconds (value: number): {remainHour, remainMinute, remainSecond} {
     let remainSecond = parseInt(value);// 秒
     let remainMinute = 0;// 分
     let remainHour = 0;// 小时
-    if(remainSecond > 60) {
+    if (remainSecond > 60) {
       remainMinute = parseInt(remainSecond / 60);
       remainSecond = parseInt(remainSecond % 60);
-      if(remainMinute > 60) {
+      if (remainMinute > 60) {
         remainHour = parseInt(remainMinute / 60);
         remainMinute = parseInt(remainMinute % 60);
       }
     }
-    if(remainSecond <= 0) {
+    if (remainSecond <= 0) {
       remainSecond = 0;
     }
     return { remainHour, remainMinute, remainSecond };
@@ -136,28 +138,31 @@ export default class LandingPage extends React.Component {
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
    改变时间显示格式
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  formatDateString(date) {
+  formatDateString (date) {
     let dateInfo = this.formatSeconds(date / 1000);
-    return `${dateInfo.remainHour}时${dateInfo.remainMinute}分${dateInfo.remainSecond}秒`
+    return `${dateInfo.remainHour}时${dateInfo.remainMinute}分${dateInfo.remainSecond}秒`;
   }
- /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  校友活动结束活动 收到组件点击之后的信息接收
- -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  getActivityInfo(layoutDescription){
+
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   校友活动结束活动 收到组件点击之后的信息接收
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  getActivityInfo (layoutDescription) {
     this.setState({
-      layoutDescription: layoutDescription
-    })
+      layoutDescription: layoutDescription,
+    });
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
   加入商学院弹框获取参数
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  asstWechatData(asstWechat){
+  asstWechatData (asstWechat) {
     this.setState({
-      asstWechat:asstWechat,
-      showSubscribeAlert: true
-    })
+      layoutDescription: '',
+      asstWechat: asstWechat,
+      showSubscribeAlert: true,
+    });
   }
-  render() {
+
+  render () {
     const {
       notify = false,
       pageBanners = [],   //Swiper参数
@@ -172,14 +177,19 @@ export default class LandingPage extends React.Component {
       <div className="landing-page-container">
         {/*-----header模块----*/}
         <div className="header">
-          <div className="left-header-box" onClick={() => {
-            this.context.router.setState({ pageScrollY: window.pageYOffset })
-            this.context.router.push('/rise/static/message/center')
-          }}>
+          <div className="left-header-box"
+               onClick={() => {
+                 this.context.router.setState({ pageScrollY: window.pageYOffset });
+                 this.context.router.push('/rise/static/message/center');
+               }}>
             <i className="iconfont icon-message"></i>
             {notify && <span className="notify"></span>}
           </div>
-          <div className="right-header-box" onClick={() =>{ _MEIQIA('showPanel'); commonFun.sendBigData({module:"打点" ,func:"着陆页",action:"点击入学咨询"})}}>
+          <div className="right-header-box"
+               onClick={() => {
+                 _MEIQIA('showPanel');
+                 commonFun.sendBigData({ module: '打点', func: '着陆页', action: '点击入学咨询' });
+               }}>
             <span>入学咨询&nbsp;</span>
             <i className="iconfont icon-chat"></i>
           </div>
