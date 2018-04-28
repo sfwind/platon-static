@@ -231,7 +231,7 @@ export default class Personal extends React.Component<any, any> {
     const renderProject = () => {
       const { memberExpiredDate } = this.state.userInfo
       return (
-        <div className="project-item-container">
+       !_.isEmpty(memberExpiredDate) && <div className="project-item-container">
           {memberExpiredDate && memberExpiredDate.map((item, index) => {
             return (
               <div className="project-item">
@@ -240,8 +240,6 @@ export default class Personal extends React.Component<any, any> {
             )
           })}
         </div>
-
-
       )
     }
 
@@ -272,12 +270,13 @@ export default class Personal extends React.Component<any, any> {
           <div className="arrow"></div>
           </MarkBlock>
 
-          <div className="project-container">
-          <div className="img-container">
-          <img src='http://static.iqycamp.com/images/icon_huiyuan.png'/>
+          {!_.isEmpty(userInfo.memberExpiredDate) && <div className="project-container">
+            <div className="img-container">
+              <img src='http://static.iqycamp.com/images/icon_huiyuan.png'/>
+            </div>
+            <div className="content">我的学习项目</div>
           </div>
-          <div className="content">我的学习项目</div>
-          </div>
+          }
 
           {renderProject()}
 
