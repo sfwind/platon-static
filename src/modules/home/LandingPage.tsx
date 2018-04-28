@@ -172,7 +172,10 @@ export default class LandingPage extends React.Component {
       <div className="landing-page-container">
         {/*-----header模块----*/}
         <div className="header">
-          <div className="left-header-box" onClick={() => this.context.router.push('/rise/static/message/center')}>
+          <div className="left-header-box" onClick={() => {
+            this.context.router.setState({ pageScrollY: window.pageYOffset })
+            this.context.router.push('/rise/static/message/center')
+          }}>
             <i className="iconfont icon-message"></i>
             {notify && <span className="notify"></span>}
           </div>
@@ -196,9 +199,15 @@ export default class LandingPage extends React.Component {
         {/*-----  nav导航部分 -----*/}
         <div className="nav">
           <ul>
-            <li onClick={()=>{this.context.router.push('/rise/static/home/lives')}}><i className="iconfont icon-play"></i><p>大咖直播</p></li>
-            <li onClick={()=>{this.context.router.push('/rise/static/home/articleList')}}><i className="iconfont icon-light"></i><p>职场干货</p></li>
-            <li onClick={()=>{this.context.router.push('/rise/static/home/activities')}}><i className="iconfont icon-group"></i><p>校友活动</p></li>
+            <li onClick={()=>{
+              this.context.router.setState({ pageScrollY: window.pageYOffset })
+              this.context.router.push('/rise/static/home/lives')}}><i className="iconfont icon-play"></i><p>大咖直播</p></li>
+            <li onClick={()=>{
+              this.context.router.setState({ pageScrollY: window.pageYOffset })
+              this.context.router.push('/rise/static/home/articleList')}}><i className="iconfont icon-light"></i><p>职场干货</p></li>
+            <li onClick={()=>{
+              this.context.router.setState({ pageScrollY: window.pageYOffset })
+              this.context.router.push('/rise/static/home/activities')}}><i className="iconfont icon-group"></i><p>校友活动</p></li>
           </ul>
         </div>
         {/*-----  加入圈外模块  -----*/}
@@ -215,7 +224,10 @@ export default class LandingPage extends React.Component {
         {
           livesFlows.length>0 &&
           <div className="super-playing panel-qw">
-            <div className="panel-header">大咖直播<span className="more" onClick={()=>{this.context.router.push('/rise/static/home/lives')}}>更多</span></div>
+            <div className="panel-header">大咖直播<span className="more" onClick={()=>{
+              this.context.router.setState({ pageScrollY: window.pageYOffset })
+              this.context.router.push('/rise/static/home/lives')}
+            }>更多</span></div>
             <div className="panel-body">
               {livesFlows.map((item,index)=><LivesItem livesItem={item} key={index} handleMess={this.getActivityInfo.bind(this)}></LivesItem>)}
             </div>
@@ -225,7 +237,10 @@ export default class LandingPage extends React.Component {
         {
           articlesFlows.length > 0 &&
           <div className="article panel-qw">
-            <div className="panel-header">文章精选<span className="more" onClick={()=>{this.context.router.push('/rise/static/home/articleList')}}>更多</span></div>
+            <div className="panel-header">文章精选<span className="more" onClick={()=>{
+              this.context.router.setState({ pageScrollY: window.pageYOffset })
+              this.context.router.push('/rise/static/home/articleList')}
+            }>更多</span></div>
             <div className="panel-body">
               {articlesFlows.map((item,index)=><ArticleItem articles={item} key={index}></ArticleItem>)}
             </div>
@@ -234,7 +249,9 @@ export default class LandingPage extends React.Component {
         {/*-----   校友活动模块  -----*/}
         {  activitiesFlows.length > 0 &&
           <div className="activity panel-qw">
-            <div className="panel-header">校友活动<span className="more" onClick={()=>{this.context.router.push('/rise/static/home/activities')}}>更多</span></div>
+            <div className="panel-header">校友活动<span className="more" onClick={()=>{
+              this.context.router.setState({ pageScrollY: window.pageYOffset })
+              this.context.router.push('/rise/static/home/activities')}}>更多</span></div>
             <div className="panel-body">
               {activitiesFlows.map((item,index)=><ActivityItem activity={item} key={index} finishActivity={this.getActivityInfo.bind(this)}></ActivityItem>)}
             </div>
