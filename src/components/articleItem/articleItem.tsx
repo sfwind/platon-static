@@ -35,7 +35,7 @@ export default class ArticleItem extends React.Component {
         </div>
         <div className="right-description">
           <h3 ref='title' style={{ marginBottom: `${parseInt(this.state.titleHeight) >18 ? "0":"0.6rem"}`}}>{articles.title}</h3>
-          <p>{articles.description.slice(0,30)}</p>
+          <p>{articles.description.length > 30 ?  articles.description.slice(0,30)+"...":articles.description}</p>
           <ul>
             {articles.tags &&articles.tags.slice(0,2).map((item,index)=><li key={index}>{item}</li>)}
           </ul>
