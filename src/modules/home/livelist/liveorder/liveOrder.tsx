@@ -23,14 +23,12 @@ export default class LiveOrder extends React.Component {
       showShareTip: false,  // 是否展示分享图片提示
       isOrdered: false, // 是否已经预约成功
       data: {
-        banner: '//static.iqycamp.com/gexu-hxf8xq4g.jpg',
-        thumbnail: 'https://static.iqycamp.com/gexu-hxf8xq4g.jpg',
-        name: '如何优雅的践踏商业教条',
-        speakerDesc: '葛旭，教书匠，商人，北京大学历史系',
-        startTimeStr: '2018年4月19日',
-        liveDesc: '商业赛道领跑者和跟跑者的不同逻辑\n' +
-        '光鲜的商业术语是皇帝的新衣\n' +
-        '被低估的哲学思辨力',
+        banner: '',
+        thumbnail: '',
+        name: '',
+        speakerDesc: '',
+        startTimeStr: '',
+        liveDesc: '',
         isOrdered: false,
         visibility: false,
         linkUrl: '',
