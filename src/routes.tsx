@@ -21,7 +21,7 @@ const LiveListPage = Loadable({
   loading: Loading,
 })
 const ActivityList = Loadable({
-  loader: () => import('./modules/home/activitylist/Activitylist'),
+  loader: () => import('./modules/home/activitylist/ActivityList'),
   loading: Loading,
 })
 const ArticleList = Loadable({
