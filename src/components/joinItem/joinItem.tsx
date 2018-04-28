@@ -32,7 +32,7 @@ export default class JoinItem extends React.Component {
               {item.type === 2 && <span className='delt'>￥{item.initPrice}</span>}
               {item.type === 4 && <span className="number">还剩<span className='num-count'>{item.remainNumber}</span>名额<span className="sale-price"><small>￥</small>{item.price}</span></span>}
               {item.type === 2 && <span className="discount">早鸟价<span><small>￥</small>{item.price}</span></span>}
-              {item.type === 1 && <span className="price">￥{item.price}</span>}
+              {item.type === 1 && <span className="price">{''}</span>}
               {item.type === 3 && <span className="price-big"><small>￥</small>{item.price}</span>}
             </p>
           </div>
