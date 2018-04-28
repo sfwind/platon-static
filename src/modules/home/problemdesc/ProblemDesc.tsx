@@ -34,6 +34,7 @@ export default class ProblemDesc extends React.Component<any, any> {
     const { dispatch, location } = this.props
     const { id, free, practicePlanId } = location.query
     mark({
+      view: true,
       module: '打点',
       function: '打开页面',
       action: '打开首页课程介绍页',

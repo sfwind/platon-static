@@ -17,7 +17,7 @@ export default class ScheduleNotice extends Component {
   }
 
   componentWillMount() {
-    mark({ module: "打点", function: "课程计划", action: "打开开始页面" })
+    mark({ view: true, module: "打点", function: "课程计划", action: "打开开始页面" })
   }
 
   handleClickStart() {

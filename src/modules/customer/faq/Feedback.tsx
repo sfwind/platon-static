@@ -42,7 +42,7 @@ export default class Feedback extends React.Component<any, any> {
 
   componentWillMount() {
     changeTitle('意见反馈')
-    mark({ module: '打点', function: '意见反馈', action: '打开意见反馈' })
+    mark({ view: true, module: '打点', function: '意见反馈', action: '打开意见反馈' })
   }
 
   countWord(value) {

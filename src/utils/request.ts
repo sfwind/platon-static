@@ -45,12 +45,15 @@ function ppost(url: string, body: Object) {
 }
 
 function mark(param) {
-  sa.track("frontMark", {
-    module: param.module + "",
-    function: param.function + "",
-    action: param.action + "",
-    memo: param.memo + ""
-  });
+  if(!param.view) {
+    // 只记录非view打点
+    sa.track("frontMark", {
+      module: param.module + "",
+      function: param.function + "",
+      action: param.action + "",
+      memo: param.memo + ""
+    });
+  }
   return ppost('/rise/b/mark', param)
 }
 

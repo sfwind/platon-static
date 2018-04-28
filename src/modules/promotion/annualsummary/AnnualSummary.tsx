@@ -135,7 +135,7 @@ export default class AnnualSummary extends React.Component {
         if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
         } else {
-          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+          result.push(<TwoStepButton buttons={[ { buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
             { buttonText: '下一步', clickFunc: () => this.handleNextStep() }
           ]}/>)
         }
@@ -145,7 +145,7 @@ export default class AnnualSummary extends React.Component {
         if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
         } else {
-          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+          result.push(<TwoStepButton buttons={[ { buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
             { buttonText: '下一步', clickFunc: () => this.handleNextStep() }
           ]}/>)
         }
@@ -155,7 +155,7 @@ export default class AnnualSummary extends React.Component {
         if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep(isSelf ? 2000 : 4000)}/>)
         } else {
-          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+          result.push(<TwoStepButton buttons={[ { buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
             { buttonText: '下一步', clickFunc: () => this.handleNextStep(isSelf ? 2000 : 4000) }
           ]}/>)
         }
@@ -165,7 +165,7 @@ export default class AnnualSummary extends React.Component {
         if(isSelf) {
           result.push(<NextStepButton buttonText="下一步" clickFunc={() => this.handleNextStep()}/>)
         } else {
-          result.push(<TwoStepButton buttons={[{ buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
+          result.push(<TwoStepButton buttons={[ { buttonText: '领取邀请函', clickFunc: () => this.goLastStep() },
             { buttonText: '下一步', clickFunc: () => this.handleNextStep() }
           ]}/>)
         }

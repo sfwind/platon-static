@@ -18,7 +18,7 @@ export default class ActivityListPage extends React.Component {
   }
 
   async componentWillMount () {
-    mark({ module: '打点', function: '着陆二级页', action: '打开活动列表页' })
+    mark({ view: true, module: '打点', function: '着陆二级页', action: '打开活动列表页' })
     changeTitle('圈柚会')
     let res = await loadAllActivities()
     if (res.code === 200) {

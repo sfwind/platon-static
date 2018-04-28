@@ -53,7 +53,7 @@ export default class ScheduleChoice extends Component {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '课程计划', action: '打开选择题页面' })
+    mark({ view: true, module: '打点', function: '课程计划', action: '打开选择题页面' })
     const { dispatch } = this.props
     dispatch(startLoad())
     loadQuestions().then(res => {
