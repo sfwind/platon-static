@@ -50,24 +50,10 @@ export default class LivesItem extends React.Component {
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 点击判断是否是会员 然后进行弹框 或者会员跳转
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  handleClick (visibility, linkUrl, name,livesItemStatus,id) {
+  handleClick (id) {
     commonFun.sendBigData({ module: '打点', function: '着陆页', action: '点击直播' }); // 事件埋点
-    if (livesItemStatus === 1){
       this.context.router.push(`/rise/static/home/live/order?liveId=${id}`)
-    }else {
-      if (visibility) {
-        if (linkUrl) {
-          window.location.href = linkUrl
-        } else {
-          this.props.handleMess('恭喜你已预约成功！\n直播当天，我们会通过圈外同学服务号提醒你参加直播~');
-          commonFun.sendBigData({ module: '打点', function: '着陆页', action: '点击预约', memo: name }); // 事件埋点
-        }
-      } else {
-        this.props.handleMess('此直播间只对会员开放');
-      }
-    }
-
-  }
+   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 进行事件处理 86400
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -109,7 +95,7 @@ export default class LivesItem extends React.Component {
     }
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 改变时间显示格式
+ 改变时间显示格式   livesItem.speakerIntro ? livesItem.speakerIntro :""
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   formatDateString(timeNum) {
     let dateInfo = this.formatTime(timeNum);
@@ -122,12 +108,12 @@ export default class LivesItem extends React.Component {
   render(){
     const { livesItem } = this.state;
     return (
-      <div className="lives-item" onClick={()=>{this.handleClick(livesItem.visibility,livesItem.linkUrl,livesItem.name,livesItem.status,livesItem.id)}}
+      <div className="lives-item" onClick={()=>{this.handleClick(livesItem.id)}}
            style={{background: `url(${livesItem.thumbnail}) no-repeat`,backgroundSize: `100% 217px` }}>
          <div className="dscr">
            <h2 className="title">{livesItem.name}</h2>
            <h3 className="name">{livesItem.speaker}</h3>
-           <p className="speakerDesc">{livesItem.speakerDesc}</p>
+           <p className="speakerDesc">{livesItem.speakerIntro ? livesItem.speakerIntro :""}</p>
            {livesItem.status === 1 && <p className="appointment">{this.state.timeNum ? this.formatDateString(this.state.timeNum) : ''}</p>}
            {livesItem.status === 2 &&<p className="playing">直播中：{livesItem.startTimeStr}</p>}
            {livesItem.status === 3 &&<p className="play-time">直播时间：{livesItem.startTimeStr}</p>}
