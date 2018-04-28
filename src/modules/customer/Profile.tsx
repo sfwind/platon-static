@@ -71,7 +71,7 @@ export default class Profile extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '个人中心', action: '打开我的信息页面' })
+    mark({ view: true, module: '打点', function: '个人中心', action: '打开我的信息页面' })
     changeTitle('个人信息')
     const { dispatch, region } = this.props
     dispatch(startLoad())

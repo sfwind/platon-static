@@ -36,6 +36,7 @@ export default class CardsCollection extends React.Component<any, CardsCollectio
 
   componentWillMount() {
     mark({
+      view: true,
       module: '打点',
       function: '学习',
       action: '加载学习卡片',

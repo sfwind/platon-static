@@ -24,7 +24,7 @@ export default class Coupon extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({ module: '打点', function: '个人中心', action: '打开优惠券页面' })
+    mark({ view: true, module: '打点', function: '个人中心', action: '打开优惠券页面' })
     changeTitle('我的优惠券')
     const { dispatch } = this.props
     dispatch(startLoad())

@@ -18,6 +18,7 @@ export default class NickName extends React.Component {
 
   componentWillMount() {
     mark({
+      view: true,
       module: '打点',
       function: '个人中心',
       action: '修改昵称页面'

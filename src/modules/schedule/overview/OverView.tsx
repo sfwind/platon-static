@@ -33,6 +33,7 @@ export default class OverView extends React.Component {
 
   componentWillMount() {
     mark({
+      view: true,
       module: '打点',
       function: '学习',
       action: '加载学习计划页'

@@ -16,7 +16,7 @@ export default class Faq extends React.Component<any, any> {
 
   componentWillMount() {
     changeTitle('常见问题')
-    mark({ module: '打点', function: '常见问题', action: '打开常见问题' })
+    mark({ view: true, module: '打点', function: '常见问题', action: '打开常见问题' })
   }
 
   render() {

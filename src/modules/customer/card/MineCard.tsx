@@ -26,7 +26,7 @@ export default class MineCard extends React.Component<any, any> {
   async componentWillMount() {
     changeTitle('学习礼品卡')
     const { dispatch } = this.props
-    mark({ function: '我的礼品卡', action: '礼品卡列表页', module: '打点' })
+    mark({ view: true, function: '我的礼品卡', action: '礼品卡列表页', module: '打点' })
     dispatch(startLoad())
     let res = await loadUnreceivedPrizes()
     dispatch(endLoad())
@@ -39,7 +39,7 @@ export default class MineCard extends React.Component<any, any> {
 
   gotoIntroduction(url, id, expired) {
     const { dispatch } = this.props
-    if(expired){
+    if(expired) {
       dispatch(alertMsg('您的礼品卡已过期'))
       return
     }
@@ -57,28 +57,28 @@ export default class MineCard extends React.Component<any, any> {
       <div className="card-tab-body">
         <div className="card-list">
           {!_.isEmpty(data) && data.map((item, idx) => {
-              return (
-                <div key={idx} className="card-item">
-                  <div className="card-container">
-                    <MarkBlock className="body-container"
-                               onClick={() => this.gotoIntroduction(item.url, item.prizeCardNo, item.expired)}
-                               func="礼品卡" action="点击礼品卡" module="打点"
-                    >
-                      <AssetImg url={`${item.background}`} width={'100%'}/>
-                      <div className="congratulations">{item.description}</div>
-                      {!item.expired && <div className="send-to-friend">有效期：{item.expiredDate}前</div> }
-                    </MarkBlock>
-                    <div className="card-bottom"></div>
-                  </div>
+            return (
+              <div key={idx} className="card-item">
+                <div className="card-container">
+                  <MarkBlock className="body-container"
+                             onClick={() => this.gotoIntroduction(item.url, item.prizeCardNo, item.expired)}
+                             func="礼品卡" action="点击礼品卡" module="打点"
+                  >
+                    <AssetImg url={`${item.background}`} width={'100%'}/>
+                    <div className="congratulations">{item.description}</div>
+                    {!item.expired && <div className="send-to-friend">有效期：{item.expiredDate}前</div>}
+                  </MarkBlock>
+                  <div className="card-bottom"></div>
                 </div>
-              )
-            })
+              </div>
+            )
+          })
           }
 
-          { data && _.isEmpty(data) &&
-              <div className="empty-container">
-                <AssetImg type="no_prize_card" width={139} marginLeft={(window.innerWidth-139)/2} height={111}/>
-              </div>
+          {data && _.isEmpty(data) &&
+          <div className="empty-container">
+            <AssetImg type="no_prize_card" width={139} marginLeft={(window.innerWidth - 139) / 2} height={111}/>
+          </div>
           }
         </div>
       </div>

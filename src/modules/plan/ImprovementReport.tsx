@@ -23,7 +23,7 @@ export default class ImprovementReport extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    mark({module:'打点', function:'学习报告', action:'打开学习报告页'})
+    mark({ view: true, module: '打点', function: '学习报告', action: '打开学习报告页' })
     const { planId, problemId } = this.props.location.query;
     const { dispatch } = this.props;
     dispatch(startLoad());
