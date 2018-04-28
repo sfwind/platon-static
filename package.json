@@ -7,7 +7,8 @@
     "dist": "webpack --config webpack.prod.js",
     "local": "webpack-dev-server --open --config webpack.mock.js",
     "ftp": "npm run dist; gulp ftp",
-    "beta": "npm run dist; gulp beta"
+    "beta": "npm run dist; gulp beta",
+    "felix": "webpack-dev-server --open --config webpack.local.js"
   },
   "repository": {
     "type": "git",
@@ -69,6 +70,7 @@
     "smooth-scrollbar": "^7.2.10",
     "sortablejs": "^1.6.1",
     "swiper": "^3.4.2",
+    "typescript": "^2.8.3",
     "ua-device": "^0.1.10",
     "weui": "^0.4.3"
   },
@@ -85,7 +87,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^0.23.1",
     "es6-promise": "^4.2.2",
-    "file-loader": "^0.9.0",
+    "file-loader": "^1.1.11",
     "grunt": "^1.0.1",
     "grunt-ftpscript": "^0.1.7",
     "gulp": "^3.9.1",

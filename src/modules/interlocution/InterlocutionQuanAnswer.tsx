@@ -4,7 +4,7 @@ import { startLoad, endLoad, alertMsg, set } from "../../redux/actions"
 import { checkSubscribe } from './async'
 import "./InterlocutionQuanAnswer.less"
 import { loadQuanAnswer } from "./async"
-import Audio from "../../components/Audio"
+import Audio from "../../components/audio/audio"
 import AssetImg from '../../components/AssetImg'
 import RenderInBody from '../../components/RenderInBody'
 import { mark } from 'utils/request'
