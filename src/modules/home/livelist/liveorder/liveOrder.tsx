@@ -228,13 +228,15 @@ export default class LiveOrder extends React.Component {
     // 提示预约成功元素
     const renderSuccessTip = () => {
       return (
-        <div onClick={() => this.setState({ showSuccessTip: false })}>
+        <div>
           <section className="order-transfer-box"
                    style={{ width: '18rem' }}>
             <div className="icon-box">
               <AssetImg className="icon"
                         url="https://static.iqycamp.com/success-icon-rzfz8mly.png"></AssetImg>
               <span className="icon-tip">预约成功</span>
+              <i className='iconfont icon-close icon-box-close'
+                 onClick={() => this.setState({ showSuccessTip: false })}></i>
             </div>
           </section>
           <div className="mask"></div>
