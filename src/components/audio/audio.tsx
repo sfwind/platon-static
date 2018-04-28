@@ -10,10 +10,10 @@
             getPlayEnd={this.getPlayStation.bind(this)}/>   推给父组件的来源标识
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import * as React from "react";
-import "./Audio.less";
+import "./audio.less";
 import Slider from "react-rangeslider";
-import AssetImg from "./AssetImg";
-import { mark } from '../utils/request'
+import AssetImg from "../AssetImg";
+import { mark } from '../../utils/request'
 
 let timer;
 let duration_load_timer;

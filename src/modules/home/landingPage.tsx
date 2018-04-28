@@ -19,6 +19,10 @@ import { Dialog } from 'react-weui'
 import Swiper from '../../components/swiper/swiper'  // Swiper组件
 import ArticleItem from '../../components/articleItem/articleItem' //文章精选组件
 import ActivityItem from '../../components/activityItem/activityItem' //校友活动组件
+import JoinItem from '../../components/joinItem/joinItem' //加入圈外组件
+import LivesItem from '../../components/livesItem/livesItem' //大咖直播组件
+import Layout from '../../components/layout/layout' //弹框罩层
+import {SubscribeAlert} from './components/subscribe/subscribeAlert' //加入商学院弹框
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共方法的引入
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -53,6 +57,9 @@ export default class LandingPage extends React.Component {
         },
       ], // 弹窗需要的参数
       applySuccess: {},    // 申请是否成功
+      layoutDescription:'',  //弹层的描述
+      showSubscribeAlert: false, // 弹层加入商学院描述
+      asstWechat:'', // 加入商学院 二维码URL
     }
   }
 
@@ -107,25 +114,6 @@ swiper 点击进入相应页
     }
   }
   /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  接口 点击换文章信息列表内容
-  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  shuffleArticles() {
-    let self = this;
-    apiDataFilter.request({
-      apiPath:"home.articles",
-      successCallback(data){
-        let dataArticles = self.state.data;
-        dataArticles.articlesFlows = data.msg;
-        self.setState({
-          data: dataArticles,
-        })
-      },
-      otherCallback(data){
-        dispatch(alertMsg(data.msg))
-      }
-    });
-  }
-  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
    根据秒 计算时分秒
     -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   formatSeconds(value: number): { remainHour, remainMinute, remainSecond } {
@@ -152,7 +140,23 @@ swiper 点击进入相应页
     let dateInfo = this.formatSeconds(date / 1000);
     return `${dateInfo.remainHour}时${dateInfo.remainMinute}分${dateInfo.remainSecond}秒`
   }
-
+ /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  校友活动结束活动 收到组件点击之后的信息接收
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  getActivityInfo(layoutDescription){
+    this.setState({
+      layoutDescription: layoutDescription
+    })
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  asstWechat 加入商学院弹框获取参数
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  asstWechatData(asstWechat){
+    this.setState({
+      asstWechat:asstWechat,
+      showSubscribeAlert: true
+    })
+  }
   render() {
     const {
       notify = false,
@@ -162,7 +166,8 @@ swiper 点击进入相应页
       articlesFlows = [],  // 文章精选
       activitiesFlows = [], //校友活动
     } = this.state.data;
-
+    let layoutDescription = this.state.layoutDescription;  //弹层的描述
+    let showSubscribeAlert = this.state.showSubscribeAlert; // 加入商学院弹框是否弹出
     return (
       <div className="landing-page-container">
         {/*-----header模块----*/}
@@ -191,43 +196,53 @@ swiper 点击进入相应页
         {/*-----  nav导航部分 -----*/}
         <div className="nav">
           <ul>
-            <li><i className="iconfont icon-play"></i><p>大咖直播</p></li>
-            <li><i className="iconfont icon-light"></i><p>职场干货</p></li>
-            <li><i className="iconfont icon-group"></i><p>校友活动</p></li>
+            <li onClick={()=>{this.context.router.push('/rise/static/home/lives')}}><i className="iconfont icon-play"></i><p>大咖直播</p></li>
+            <li onClick={()=>{this.context.router.push('/rise/static/home/articleList')}}><i className="iconfont icon-light"></i><p>职场干货</p></li>
+            <li onClick={()=>{this.context.router.push('/rise/static/home/activities')}}><i className="iconfont icon-group"></i><p>校友活动</p></li>
           </ul>
         </div>
         {/*-----  加入圈外模块  -----*/}
-        <div className="join-qw panel-qw">
-          <div className="panel-header">加入圈外</div>
-          <div className="panel-body">
-
+        {
+          programsFlows.length >0 &&
+          <div className="join-qw panel-qw">
+            <div className="panel-header">加入圈外</div>
+            <div className="panel-body">
+              {programsFlows.map((item,index)=> <JoinItem item={item} key={index} handerOrder={this.asstWechatData.bind(this)}></JoinItem>)}
+            </div>
           </div>
-        </div>
+        }
         {/*-----  大咖直播模块   -----*/}
-        <div className="super-playing panel-qw">
-          <div className="panel-header">大咖直播<span className="more">更多</span></div>
-          <div className="panel-body">
-
+        {
+          livesFlows.length>0 &&
+          <div className="super-playing panel-qw">
+            <div className="panel-header">大咖直播<span className="more" onClick={()=>{this.context.router.push('/rise/static/home/lives')}}>更多</span></div>
+            <div className="panel-body">
+              {livesFlows.map((item,index)=><LivesItem livesItem={item} key={index} handleMess={this.getActivityInfo.bind(this)}></LivesItem>)}
+            </div>
           </div>
-        </div>
+        }
+
         {/*-----  文章精选模块  -----*/}
         {
-          articlesFlows.length>0 &&
+          articlesFlows.length > 0 &&
           <div className="article panel-qw">
-            <div className="panel-header">文章精选<span className="more">更多</span></div>
+            <div className="panel-header">文章精选<span className="more" onClick={()=>{this.context.router.push('/rise/static/home/articleList')}}>更多</span></div>
             <div className="panel-body">
-              {articlesFlows.map((item,index)=>{<ArticleItem articles={item} key={index}></ArticleItem>})}
+              {articlesFlows.map((item,index)=><ArticleItem articles={item} key={index}></ArticleItem>)}
             </div>
           </div>
         }
         {/*-----   校友活动模块  -----*/}
-        <div className="activity panel-qw">
-          <div className="panel-header">校友活动<span className="more">更多</span></div>
-          <div className="panel-body">
-            <ActivityItem></ActivityItem>
-            <ActivityItem></ActivityItem>
+        {  activitiesFlows.length > 0 &&
+          <div className="activity panel-qw">
+            <div className="panel-header">校友活动<span className="more" onClick={()=>{this.context.router.push('/rise/static/home/activities')}}>更多</span></div>
+            <div className="panel-body">
+              {activitiesFlows.map((item,index)=><ActivityItem activity={item} key={index} finishActivity={this.getActivityInfo.bind(this)}></ActivityItem>)}
+            </div>
           </div>
-        </div>
+        }
+        {showSubscribeAlert && <SubscribeAlert asstWechat={this.state.asstWechat} show={showSubscribeAlert} closeFunc={() => this.setState({ showSubscribeAlert: false })}/>}
+        <Layout description={layoutDescription}></Layout>
         <div className="bottom-text">我也是有底线的...</div>
         {/*-----   弹框模块  -----*/}
 

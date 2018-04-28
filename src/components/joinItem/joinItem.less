@@ -1,0 +1,204 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能：  加入圈外 条目样式
+ 3. 作者： liyang@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@import "../../style/variable.less" ;
+@import "../../style/mixins.less" ;
+@import "../../style/reset.less" ;
+
+.join{
+  >.join-item{
+    width: 100%;
+    height: 178px;
+    > .description {
+      padding-top: 0.666rem;
+      text-align: right;
+      height: 178px;
+      position: relative;
+      >.join-date{
+        font-size: 1rem;
+        line-height: 1.86rem;
+        position: absolute;
+        top: 24px;
+        padding-left: 51%;
+        text-align: left;
+        >span{
+          display: inline-block;
+          padding: 0 0.666rem;
+        }
+      }
+      >.type-name{
+        position: absolute;
+        right: 0;
+        top: 80px;
+        padding-right: 6%;
+        font-size: 1.45rem;
+      }
+      >.price-all{
+        margin-top: 28px;
+        padding-right: 6%;
+        position: absolute;
+        bottom: 30px;
+        right: 0;
+        >.delt{
+          text-decoration:line-through;
+          vertical-align: baseline;
+          font-size: 1.5rem;
+          margin-right: 0.2rem;
+          font-weight: 300;
+        }
+        >.discount{
+          font-size: 1rem;
+          vertical-align: baseline;
+          >span{
+            font-size: 2.33rem;
+            vertical-align: baseline;
+            >small{
+              display: inline-block;
+              font-size: 1rem;
+              vertical-align: baseline;
+            }
+          }
+        }
+        >.price{
+          font-weight: 300;
+          font-size: 1.5rem;
+        }
+        >.number{
+          font-size: 1rem;
+          vertical-align: baseline;
+          font-weight: 300;
+          >.num-count{
+            font-size: 2.33rem;
+            vertical-align: baseline;
+            font-weight: normal;
+          }
+          >.sale-price{
+            font-size: 2.33rem;
+            vertical-align: baseline;
+            font-weight: normal;
+            >small{
+              display: inline-block;
+              font-size: 1rem;
+              vertical-align: baseline;
+              font-weight: 300;
+            }
+          }
+        }
+        >.price-big{
+          font-size: 2.33rem;
+          >small{
+            display: inline-block;
+            font-size: 1rem;
+            vertical-align: baseline;
+            font-weight: 300;
+          }
+        }
+      }
+      &.core{
+        >.join-date{
+          color: @color_white;
+          >span{
+            .pixel-borders(@color_white,100px);
+          }
+        }
+        >.type-name{
+          color: @color-green;
+        }
+        >.price-all{
+          >.price{
+            color: @color_white ;
+          }
+          >.delt{
+            color: @color_white ;
+          }
+          >.discount{
+            color: @color_white
+          }
+          >.number{
+            color: @color_white;
+            >.num-count{
+              color: @color_white;
+            }
+            >.sale-price{
+              color: @color_white;
+            }
+          }
+          >.price-big{
+            color: @color-green ;
+          }
+        }
+      }
+      &.business {
+        >.join-date {
+          color: @color-green;
+          > span {
+            .pixel-borders(@color-green, 100px);
+          }
+        }
+        >.type-name{
+          color: @color_white;
+        }
+        >.price-all{
+          >.price{
+            color: @color_white ;
+          }
+          >.delt{
+            color: @color_white ;
+          }
+          >.discount{
+            color: @color-green
+          }
+          >.number{
+            color: @color_white;
+            >.num-count{
+              color: @color-green;
+            }
+            >.sale-price{
+              color: @color-green;
+            }
+          }
+          >.price-big{
+            color: @color_white ;
+          }
+        }
+      }
+      &.project{
+        >.join-date {
+          color: @color_title_black;
+          > span {
+            .pixel-borders(@color_title_black, 100px);
+          }
+        }
+        >.type-name{
+          color: @color_white;
+        }
+        >.price-all{
+          >.price{
+            color: @color_title_black ;
+          }
+          >.delt{
+            color: @color_title_black ;
+          }
+          >.discount{
+            color: @color_title_black
+          }
+          >.number{
+            color: @color_title_black;
+            >.num-count{
+              color: @color_title_black;
+            }
+            >.sale-price{
+              color: @color_title_black;
+            }
+          }
+        }
+        >.price-big{
+          color: @color_title_black ;
+        }
+      }
+    }
+  }
+}

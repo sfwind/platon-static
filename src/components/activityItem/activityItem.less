@@ -35,7 +35,8 @@
       >h3{
         font-size: 1.416rem;
         color: @color_title_black;
-        margin-bottom: 0.6rem;
+        .text-ellipsis();
+        padding-right: 1rem;
       }
       >p{
         font-size: 1rem;
@@ -43,6 +44,7 @@
         line-height: 2.5rem;
         &:last-child{
           .text-ellipsis();
+          padding-right: 1rem;
         }
         >span{
           vertical-align: baseline;
@@ -53,14 +55,24 @@
       position: absolute;
       right: 1.66rem;
       bottom: 38%;
-      border: 1px solid @color-green;
       border-radius: 4px;
       font-size: 1rem;
       display: inline-block;
-      color: @color-green;
       line-height: 1.86rem;
       text-align: center;
       width: 5.416rem;
+      &.prepare{
+        border: 1px solid @color-green;
+        color: @color-green;
+      }
+      &.closed{
+        border: 1px solid @color_title;
+        color: @color_title;
+      }
+      &.review{
+        border: 1px solid #4fd3cd;
+        color: #4fd3cd;
+      }
     }
   }
 }

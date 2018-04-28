@@ -19,7 +19,9 @@ export default {
       },
       "home": {
         "load": "rise/landing/load", // 获取着陆页所有信息
-        "articles": "rise/landing/load/shuffle/articles"  // 获取活动列表
+        "activitiesList":"rise/landing/load/activities" ,  // 活动列表
+        "livesList":"rise/landing/load/lives" ,   //大咖直播列表
+        "articlesList": "rise/landing/load/articles" , // 文章列表接口
       }
     }
 } ;

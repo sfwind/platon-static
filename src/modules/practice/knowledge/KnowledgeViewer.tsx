@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import './KnowledgeViewer.less';
 import AssetImg from '../../../components/AssetImg';
-import Audio from '../../../components/Audio';
+import Audio from '../../../components/audio/audio';
 import WordUnfold from '../../../components/WordUnfold';
 import {
   loadDiscuss,

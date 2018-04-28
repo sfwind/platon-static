@@ -2,7 +2,7 @@
  * Created by shen on 2017/3/18.
  */
 import React from 'react'
-import './Editor.less'
+import './editor.less'
 
 var $ = require('jquery')
 var Simditor = require('./simditor')

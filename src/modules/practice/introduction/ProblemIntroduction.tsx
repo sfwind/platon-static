@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import './ProblemIntroduction.less'
-import Audio from '../../../components/Audio'
+import Audio from '../../../components/audio/audio'
 import AssetImg from '../../../components/AssetImg'
 import { startLoad, endLoad, alertMsg } from 'reduxutil/actions'
 import { openProblemIntroduction } from '../../problem/async'

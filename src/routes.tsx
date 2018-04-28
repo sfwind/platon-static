@@ -20,18 +20,18 @@ const LandingPage = Loadable({
   loader: () => import('./modules/home/landingPage'),
   loading: Loading,
 })
-/*const LiveListPage = Loadable({
-  loader: () => import('./modules/home/livelist/LiveListPage'),
+const LiveListPage = Loadable({
+  loader: () => import('./modules/home/livelist/liveList'),
   loading: Loading,
-})*/
-/*const ActivityListPage = Loadable({
-  loader: () => import('./modules/home/activitylist/ActivityListPage'),
+})
+const activityList = Loadable({
+  loader: () => import('./modules/home/activitylist/activitylist'),
   loading: Loading,
-})*/
-/*const ProblemDesc = Loadable({
-  loader: () => import('./modules/home/problemdesc/ProblemDesc'),
+})
+const articleList = Loadable({
+  loader: () => import('./modules/home/articleList/articleList'),
   loading: Loading,
-})*/
+})
 const Explore = Loadable({
   loader: () => import('./modules/problem/Explore'),
   loading: Loading,
@@ -276,9 +276,9 @@ const routes = (
     }}>
       <Route path={'demo'} component={DiscussDistrict}/>
       <Route path="home" component={LandingPage}/>
-   {/*   <Route path="home/lives" component={LiveListPage}/>
-      <Route path="home/activities" component={ActivityListPage}/>
-      <Route path="home/problem" component={ProblemDesc}/>*/}
+      <Route path="home/lives" component={LiveListPage}/>
+      <Route path="home/activities" component={activityList}/>
+      <Route path="home/articleList" component={articleList}/>
 
       <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>

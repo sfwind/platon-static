@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./SubmitBox.less";
 import { merge, findIndex, set } from "lodash";
-import Editor from "../../../components/simditor/Editor"
+import Editor from "../../../components/simditor/editor"
 import { startLoad, endLoad, alertMsg } from "../../../redux/actions";
 import { connect } from "react-redux";
 
