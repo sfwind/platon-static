@@ -333,7 +333,7 @@ export default class Personal extends React.Component<any, any> {
     }
 
     return (
-      <div className="person-center-container">
+      <div className="personal-list-container">
         {renderUserInfo()}
         <div className="divider-container"></div>
         {renderCards()}
