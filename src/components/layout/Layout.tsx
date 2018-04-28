@@ -5,7 +5,7 @@
  4. 备注：description : string   接收一个弹窗的描述
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import * as React from 'react'
-import './layout.less'
+import './Layout.less'
 export default class Layout extends React.Component {
   constructor() {
     super();

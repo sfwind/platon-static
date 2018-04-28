@@ -6,7 +6,7 @@
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 import * as React from 'react'
-import './landingPage.less'
+import './LandingPage.less'
 import { changeTitle, formatDate, lockWindow, unlockWindow } from '../../utils/helpers'
 import { ToolBar } from '../base/ToolBar'
 import { connect } from 'react-redux'
@@ -21,7 +21,7 @@ import ArticleItem from '../../components/articleItem/articleItem' //文章精�
 import ActivityItem from '../../components/activityItem/activityItem' //校友活动组件
 import JoinItem from '../../components/joinItem/joinItem' //加入圈外组件
 import LivesItem from '../../components/livesItem/livesItem' //大咖直播组件
-import Layout from '../../components/layout/layout' //弹框罩层
+import Layout from '../../components/layout/Layout' //弹框罩层
 import { SubscribeAlert } from '../../components/subscribe/subscribeAlert' //加入商学院弹框
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 公共方法的引入

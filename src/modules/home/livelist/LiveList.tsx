@@ -5,9 +5,9 @@
  4. 备注：
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import * as React from 'react'
-import './liveList.less'
+import './LiveList.less'
 import LivesItem from '../../../components/livesItem/livesItem' //大咖直播组件
-import Layout from '../../../components/layout/layout' //弹框罩层
+import Layout from '../../../components/layout/Layout' //弹框罩层
 import apiDataFilter from  '../../../utils/apiDataFilter';
 import commonFun from '../../../utils/commonFun'
 

@@ -5,9 +5,9 @@
  4. 备注：
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 import * as React from 'react'
-import './articleList.less'
+import './ArticleList.less'
 import ArticleItem from '../../../components/articleItem/articleItem' //文章组件
-import Layout from '../../../components/layout/layout' //弹框罩层
+import Layout from '../../../components/layout/Layout' //弹框罩层
 import apiDataFilter from  '../../../utils/apiDataFilter'; // api组件
 import commonFun from '../../../utils/commonFun'  // 公共方法函数
 
