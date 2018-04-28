@@ -33,7 +33,7 @@ export default class ActivityItem extends React.Component{
         <div className="bottom-description">
           <div className="description">
             <h3>{activity.name}</h3>
-            <p>举办人：<span>{activity.holder}</span></p>
+            <p>举办方：<span>{activity.holder}</span></p>
             <p>举办时间：<span>{activity.startTimeStr}</span></p>
             <p>举办地点：<span>{activity.location}</span></p>
           </div>

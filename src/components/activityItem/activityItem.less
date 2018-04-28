@@ -36,13 +36,14 @@
       >h3{
         font-size: 1.416rem;
         color: @color_title_black;
-        .text-ellipsis();
+        .paragraph-ellipsis(2);
         padding-right: 1rem;
+        margin-bottom: 0.5rem;
       }
       >p{
-        font-size: 1rem;
+        font-size: 1.2rem;
         color: @color_title_black;
-        line-height: 2.5rem;
+        line-height: 2rem;
         &:last-child{
           .text-ellipsis();
           padding-right: 1rem;
@@ -61,14 +62,14 @@
       display: inline-block;
       line-height: 1.86rem;
       text-align: center;
-      width: 5.416rem;
+      width: 8rem;
       &.prepare{
         border: 1px solid @color-green;
         color: @color-green;
       }
       &.closed{
-        border: 1px solid @color_title;
-        color: @color_title;
+        border: 1px solid #999;
+        color: #999;
       }
       &.review{
         border: 1px solid #4fd3cd;
