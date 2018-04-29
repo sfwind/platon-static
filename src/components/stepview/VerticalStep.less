@@ -1,0 +1,52 @@
+.vertical-step-component {
+  margin: 0 2.8rem;
+  .step-list {
+    color: #999;
+    position: relative;
+    .step-item:nth-last-child(2) {
+      background: #FFF;
+    }
+    .step-item {
+      position: relative;
+      min-height: 9.6rem;
+      z-index: 30;
+      .step-num {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 30;
+        background: #FFF;
+        //#7DBE00;
+        border: .1rem solid #999999;
+        border-radius: 1.7rem;
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 1.7rem;
+        text-align: center;
+        line-height: 2.5rem;
+        color: #999999;
+      }
+      .step-content {
+        margin-left: 3.2rem;
+        .step-title {
+          font-size: 1.5rem;
+          line-height: 2rem;
+          margin-bottom: 1rem;
+        }
+        .step-text {
+          font-size: 1.2rem;
+          line-height: 1.2rem;
+        }
+      }
+    }
+    .step-line {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      top: 0;
+      left: 1.25rem;
+      background: #999;
+      z-index: 1;
+    }
+  }
+}
