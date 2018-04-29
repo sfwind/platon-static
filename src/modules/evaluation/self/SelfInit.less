@@ -1,22 +1,26 @@
 @import "../../../style/variable";
 
 .self-init-component {
-  width: 100vw;
   min-height: 100vh;
-  //background: url("@{imgPathFragment}/self_init_0326_3.png") no-repeat top center / 100vw;
-  .self-init-button {
-    border-radius: 5px;
-    background-color: @color_deep_background;
-    color: #FFF;
-    font-size: 2rem;
+  margin: 0 2.8rem;
+  h2.self-init-title {
+    font-size: 2.2rem;
+    line-height: 3rem;
     text-align: center;
-    width: 20rem;
-    line-height: 5rem;
-    height: 5rem;
-    display: inline-block;
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
+    padding-top: 2.6rem;
+    padding-bottom: 3.4rem;
+  }
+  h4 {
+    font-size: 1.5rem;
+    line-height: 2.6rem;
+  }
+  .self-init-context {
+    font-size: 1.5rem;
+    line-height: 2.6rem;
+    font-weight: 300;
+  }
+  .should-know {
+    padding-bottom: 4.8rem;
+    display: block;
   }
 }

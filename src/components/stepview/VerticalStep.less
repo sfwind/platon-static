@@ -1,5 +1,5 @@
 .vertical-step-component {
-  margin: 0 2.8rem;
+  margin: 0;
   .step-list {
     color: #999;
     position: relative;
@@ -10,13 +10,23 @@
       position: relative;
       min-height: 9.6rem;
       z-index: 30;
+      &.active {
+        .step-num {
+          color: #7DBE00;
+          border-color: #7DBE00;
+        }
+        .step-content {
+          .step-title {
+            color: #333;
+          }
+        }
+      }
       .step-num {
         position: absolute;
         top: 0;
         left: 0;
         z-index: 30;
         background: #FFF;
-        //#7DBE00;
         border: .1rem solid #999999;
         border-radius: 1.7rem;
         width: 2.4rem;

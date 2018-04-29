@@ -6,7 +6,7 @@
  ---------------------------------------------------------------------------------------------------------------------*/
 import React from 'react';
 import './VerticalStep.less';
-import { createTextSpan } from 'typescript'
+import classNames from 'classnames';
 
 /*--------------------------------------------------------------------------------------------------------------------
   steps:数组
@@ -21,32 +21,28 @@ export default class VerticalStep extends React.Component<any, any> {
   }
 
   render() {
-    const { list = [] } = this.props;
+    const { stepArray = [], className, ...others } = this.props;
+    const cls = classNames('vertical-step-component', {
+      [className]: className
+    });
+
     return (
-      <div className="vertical-step-component">
-        <span>{JSON.stringify(list)}</span>
+      <div className={cls}>
         <div className="step-list">
-          <div className="step-item">
-            <div className="step-num">1</div>
-            <div className="step-content">
-              <div className="step-title">自评</div>
-              <div className="step-text">这是一份专业的能力测评，填写大约需要10分钟</div>
-            </div>
-          </div>
-          <div className="step-item">
-            <div className="step-num">2</div>
-            <div className="step-content">
-              <div className="step-title">自评</div>
-              <div className="step-text">这是一份专业的能力测评，填写大约需要10分钟</div>
-            </div>
-          </div>
-          <div className="step-item">
-            <div className="step-num">3</div>
-            <div className="step-content">
-              <div className="step-title">自评</div>
-              <div className="step-text">这是一份专业的能力测评，填写大约需要10分钟</div>
-            </div>
-          </div>
+          {(!!stepArray) && stepArray.map((item, key) => {
+            console.log(item, key);
+            const { title, text, active } = item;
+            const itemCls = classNames('step-item', { 'active': active });
+            return (
+              <div className={itemCls} key={key}>
+                <div className="step-num">{key + 1}</div>
+                <div className="step-content">
+                  <div className="step-title">{title}</div>
+                  <div className="step-text">{text}</div>
+                </div>
+              </div>
+            )
+          })}
           <div className="step-line"/>
         </div>
       </div>
