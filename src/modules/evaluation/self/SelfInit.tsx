@@ -44,7 +44,7 @@ export class SelfInit extends React.Component<SelfInitProps, any> {
         ]}/>
         <div style={{ width: '100%', height: '4.5rem' }}/>
         <FooterButton wrapperClassName='primary' btnArray={[ {
-          click: () => handleStart(), text: '开始'
+          click: () => handleStart(), text: '立即开始测评'
         } ]}/>
         {!!showQrCode ?
           <RenderInBody>
