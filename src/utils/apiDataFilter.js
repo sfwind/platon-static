@@ -10,13 +10,13 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
 import axios from "axios" ;
 import apiConf from "../configs/api" ;
-import { startLoad, endLoad, alertMsg, set } from 'reduxutil/actions';
+import commonFun from './commonFun'
 /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 apiDataFilter的定义
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
 let apiDataFilter =  {
   /*++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  请求数据 , successCallback的唯一参数为：response，返回的json数据应该这样取得：response.body
+  请求数据 , successCallback的唯一参数为：response，返回的json数据应该这样取得：response.data
   @method : get | post | jsonp
   -----------------------------------------------------------------------------------------------------------------------------------------------------------------------++*/
   request({ apiPath , data = {} , method = "get" , contentType , jsonp = "callback" ,path = false, successCallback ,otherCallback, errorCallback}) {
@@ -54,14 +54,14 @@ let apiDataFilter =  {
           window.location.href = decodeURI(`${window.location.protocol}//${window.location.host}/wx/oauth/auth?callbackUrl=${window.location.href}`);
         }
         if (parseInt(res.data.code, 10) === apiConf.successStatusCode) {successCallback(res.data)}
-        else if(parseInt(res.data.code, 10) === apiConf.errStatusCode) alertMsg(data.msg); // 请求返回错误的统一处理
+        else if(parseInt(res.data.code, 10) === apiConf.errStatusCode) commonFun.tips(data.msg); // 请求返回错误的统一处理
         else { otherCallback(res.data);}
       }, errorCallback);
     }
     else if(  method === "jsonp" ||  method === "get" ) {
       axios[method](apiUrl , opts ).then( (res) => {
-        if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data) ;
-        else if(parseInt(res.data.code, 10) === apiConf.errStatusCode) alertMsg(data.msg);
+        if( parseInt(res.data.code , 10) === apiConf.successStatusCode) successCallback(res.data);
+        else if(parseInt(res.data.code, 10) === apiConf.errStatusCode)  commonFun.tips(data.msg);
         else { otherCallback(res.data) ; }
       } , errorCallback) ;
     }

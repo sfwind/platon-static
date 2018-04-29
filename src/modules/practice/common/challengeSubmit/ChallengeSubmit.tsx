@@ -6,7 +6,7 @@
  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 import * as React from 'react';
-import Editor from '../../../../components/simditor/Editor';
+import Editor from '../../../../components/simditor/editor';
 import './ChallengeSubmit.less';
 
 export default class ChallengeSubmit extends React.Component {

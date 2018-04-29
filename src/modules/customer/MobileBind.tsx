@@ -107,10 +107,7 @@ export default class MobileBind extends React.Component<any, any> {
             } else if(location.query.goRise) {
               window.location.href = `/rise/static/rise`
             } else if(location.query.person) {
-              window.location.href = `/rise/static/customer/new/profile`
-            }
-            else {
-              this.context.router.push('/rise/static/customer/account')
+              this.context.router.push(`/rise/static/customer/new/profile`)
             }
           }, 2100)
         }
@@ -132,10 +129,7 @@ export default class MobileBind extends React.Component<any, any> {
             } else if(location.query.goRise) {
               window.location.href = `/rise/static/rise`
             } else if(location.query.person) {
-              window.location.href = `/rise/static/customer/new/profile`
-            }
-            else {
-              this.context.router.push('/rise/static/customer/account')
+              this.context.router.push(`/rise/static/customer/new/profile`)
             }
           }, 2100)
         }

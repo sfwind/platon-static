@@ -48,7 +48,7 @@ const tabItems = {
       label: '我的',
     },
   },
-}
+};
 
 /**
  * 修改方式：
@@ -62,31 +62,30 @@ export class ToolBar extends React.Component<any, any> {
 
   static contextTypes = {
     router: React.PropTypes.object.isRequired,
-  }
+  };
 
   async componentWillMount () {
-    let tabs = []
-    tabs.push(tabItems.home)
-    tabs.push(tabItems.learn)
+    let tabs = [];
+    tabs.push(tabItems.home);
+    tabs.push(tabItems.learn);
     if (window.ENV.showExplore == 'true') {
       tabs.push(tabItems.explore)
     }
-    tabs.push(tabItems.mine)
+    tabs.push(tabItems.mine);
 
     this.state = {
       tabs: tabs,
-    }
+    };
     // check url
-    const { dispatch } = this.props
-    let tabIndex = 0
+    const { dispatch } = this.props;
+    let tabIndex = 0;
 
-    let pathname = window.location.pathname
+    let pathname = window.location.pathname;
 
     if (pathname.indexOf('/rise/static/home') != -1) {
       tabIndex = 0
     } else if (pathname.indexOf('/rise/static/rise') != -1 || pathname.indexOf('/rise/static/camp') != -1
-      || pathname.indexOf('/rise/static/learn') != -1 || pathname.indexOf('/rise/static/course/schedule/plan') != -1
-      || pathname.indexOf('/rise/static/business/count/down') != -1 || pathname.indexOf('/rise/static/camp/count/down') != -1) {
+      || pathname.indexOf('/rise/static/learn') != -1 || pathname.indexOf('/rise/static/course/schedule/plan') != -1) {
       tabIndex = 1
     } else if (pathname.indexOf('/rise/static/problem/explore') != -1) {
       tabIndex = 2
@@ -95,8 +94,8 @@ export class ToolBar extends React.Component<any, any> {
       //消息中心和个人中心
       tabIndex = 3
     }
-    dispatch(set('tabIndex', tabIndex))
-    const { noticeMsgCount } = this.props
+    dispatch(set('tabIndex', tabIndex));
+    const { noticeMsgCount } = this.props;
     loadOldCount().then(res => {
       if (res.code === 200) {
         dispatch(set('noticeMsgCount', res.msg))
@@ -112,8 +111,8 @@ export class ToolBar extends React.Component<any, any> {
   }
 
   handleChangeTab (tabIndex) {
-    const { dispatch } = this.props
-    dispatch(set('tabIndex', tabIndex))
+    const { dispatch } = this.props;
+    dispatch(set('tabIndex', tabIndex));
     if (tabIndex === 0) {
       this.context.router.push('/rise/static/home')
     } else if (tabIndex === 1) {
@@ -126,30 +125,28 @@ export class ToolBar extends React.Component<any, any> {
   }
 
   render () {
-    const { tabIndex = 0, noticeMsgCount } = this.props
+    const { tabIndex = 0, noticeMsgCount } = this.props;
 
     const renderIcon = (item, idx) => {
-      const { bar } = item
+      const { bar } = item;
       return (
         <img src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
       )
-    }
+    };
 
     return (
       this.props.hidden === true ? <div></div> :
         <TabBar id='tool_bar'>
           {this.state.tabs.map((item, idx) => {
-            const { bar } = item
+            const { bar } = item;
             if (item.key === 3) {
               return (
                 <TabBarItem key={idx}
                             active={tabIndex == item.key}
                             onClick={() => this.handleChangeTab(item.key)}>
                   <TabBarIcon>
-                    <img className={`${item.key === 3 ? 'mine_icon' : ''}`}
-                         src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
-                    {noticeMsgCount ?
-                      <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
+                    <img className={`${item.key === 3 ? 'mine_icon' : ''}`} src={tabIndex == item.key ? bar.activeIcon : bar.icon}/>
+                    {noticeMsgCount ? <span className="notify-span">{noticeMsgCount > 99 ? 99 : noticeMsgCount}</span> : null}
                   </TabBarIcon>
                   <TabBarLabel>{bar.label}</TabBarLabel>
                 </TabBarItem>

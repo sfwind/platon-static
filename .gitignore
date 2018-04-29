@@ -13,7 +13,8 @@ tags
 .ftppass
 
 gulpfile.js
-__build__/*.js
+__build__
+__build__/fonts
 
 stats.json
 

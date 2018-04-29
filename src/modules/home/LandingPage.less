@@ -1,7 +1,21 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能： home 页样式
+ 3. 作者： liyang@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@import "../../style/variable.less" ;
+@import "../../style/mixins.less" ;
+@import "../../style/reset.less" ;
+@import "../../style/common.less" ;
+
 .landing-page-container {
   box-sizing: border-box;
-  padding: 5rem 2rem 8rem;
-  background-color: #fff;
+  padding-top: 5rem;
+  background-color: @color_weak_line;
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  头部样式部分
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   > .header {
     position: fixed;
     width: 100%;
@@ -9,104 +23,158 @@
     top: 0;
     left: 0;
     z-index: 10;
-    background-color: #fff;
+    background-color: @color_white;
+    box-shadow: 0 12px 20px -10px rgba(195,200,223,0.58);
+    .clearfix();
     .left-header-box {
-      position: absolute;
       display: inline-block;
-      width: 2rem;
-      height: 2rem;
-      top: 50%;
-      left: 2rem;
-      transform: translateY(-50%);
-      .message {
-        position: absolute;
-        display: inline-block;
-        width: 2rem;
-        height: 2rem;
-        left: 0;
-        top: 0;
-        line-height: 5rem;
+      margin-left: 2rem;
+      height: 5rem;
+      padding-top: 1.5rem;
+      position: relative;
+      >i{
+        font-size: 2.2rem;
+        color: @color-green;
       }
       .notify {
         position: absolute;
         display: inline-block;
         width: 6px;
         height: 6px;
-        top: 1px;
-        right: -1px;
-        background-color: #ff983f;
+        right: 0;
+        top: 1.6rem;
+        background-color: #F74D2B;
         border-radius: 50%;
       }
     }
     .right-header-box {
-      position: absolute;
       display: inline-block;
-      top: 50%;
-      right: 2rem;
-      height: 2rem;
-      transform: translateY(-50%);
+      height: 5rem;
+      float: right;
+      margin-right: 2rem;
+      padding-top: 1.5rem;
       > span {
         display: inline-block;
         font-size: 1.3rem;
         line-height: 2rem;
-        color: #ff8821;
-        float: left;
+        color: @color_context;
       }
-      .consult-icon {
-        width: 2rem;
-        height: 2rem;
+      >i{
         display: inline-block;
-        float: left;
+        vertical-align: baseline;
+        position: relative;
+        top: 2px;
+        color: @color-green;
       }
     }
   }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  banner swiper 部分
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   > .home-swiper {
-    height: 16rem;
     padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-color: @color_white;
     .swiper-image {
       width: 100%;
       height: 16rem;
       border-radius: 4px;
     }
   }
-  > .business-apply {
-    margin-top: 2rem;
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  导航部分
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  > .nav {
     width: 100%;
-    height: 9.4rem;
-    background: url("https://static.iqycamp.com/apply_participate_business_school-4o57ut6m.png?imageslim") no-repeat center center / 100% 9.4rem;
-    border-radius: 4px;
-  }
-  .content-box-container {
-    > .content-box {
-      &:first-of-type {
-        margin-top: 2rem;
-      }
-      margin-top: 6rem;
-      .content-header {
-        position: relative;
-        height: 3rem;
-        .content-title {
-          position: absolute;
-          left: 0;
-          top: 0;
-          font-size: 2.2rem;
-          color: #333333;
-          font-weight: bolder;
+    background-color: @color_white;
+    margin-top: 0.833rem;
+    padding: 0 2rem;
+    >ul{
+      /*height: 10rem;*/
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+      .flex();
+      flex-direction: row;
+      align-items: center;
+      padding-left: 0;
+      >li{
+        .flex(1);
+        text-align: center;
+        vertical-align: middle;
+        align-items: center;
+        padding-top: 0.3rem;
+        > i {
+          color: @color-green;
+          display: block;
+          font-size: 5.4rem;
         }
-        .more {
-          position: absolute;
-          right: 0;
-          top: 0;
-          line-height: 3rem;
-          font-size: 1.5rem;
-          color: #999;
+        >p{
+          font-size: 1.3rem;
+          color: @color_context;
+          text-align: center;
+          line-height: 2.8rem;
+          font-weight: 300;
         }
       }
     }
   }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  加入圈外
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  >.join-qw{
+    margin-top: 0.833rem;
+    &.panel-qw{
+      padding: 0;
+      >.panel-header{
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+      >.panel-body{
+        padding: 17px 1.2rem 28px 1.2rem;
+      }
+    }
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  大咖直播模块
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  >.super-playing{
+    margin-top: 0.833rem;
+    padding-bottom: 40px;
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  文章精选模块
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  > .article {
+    margin-top: 0.833rem;
+    padding-bottom: 40px;
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  校友活动
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  >.activity{
+    margin-top: 0.833rem;
+    padding-bottom: 40px;
+  }
+
   > .bottom-text {
     font-size: 1.3rem;
     color: #666666;
     text-align: center;
+    padding-bottom: 6rem;
+   /* padding-top: 3rem;*/
+    background-color: @color_white;
   }
+}
+
+.subscribe-alert-component .content-box{
+  width: 76% !important;
+  height: 70% !important;
+  >.qrcode{
+    width: 10rem !important;
+    height: 10rem !important;
+  }
+}
+.subscribe-alert-component .close-icon{
+  top: ~'calc(38% + 23.5rem)' !important;
 }

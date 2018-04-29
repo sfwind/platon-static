@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './ApplicationSubmit.less';
-import Editor from '../../../../components/simditor/Editor';
+import Editor from '../../../../components/simditor/editor';
 import requestProxy from '../../../../components/requestproxy/requestProxy';
 import { autoSaveApplicationDraft, loadApplicationPractice, submitApplicationPractice } from '../../application/async';
 

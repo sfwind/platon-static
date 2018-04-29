@@ -1,0 +1,66 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能： layout 弹出层 样式文稿
+ 3. 作者： liyang@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@import "../../style/variable.less" ;
+@import "../../style/mixins.less" ;
+
+.layout{
+  >.layout-back{
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: @color_black;
+    opacity: 0.5;
+    z-index: 1001;
+    display: none;
+    &.layout-back-show{
+      display: block;
+    }
+  }
+  >.layout-tips{
+    max-width: 70%;
+    position: fixed;
+    background-color: @color_white;
+    border-radius: 4px;
+    top: 30%;
+    left: 10%;
+    right: 10%;
+    margin: 0 auto;
+    display: none;
+    z-index: 1002;
+    @-webkit-keyframes sk-bounce {
+      0%{
+        -webkit-transform: scale(0); }
+
+      100%{
+        -webkit-transform: scale(1);
+      }
+    }
+    >.layout-top{
+      padding: 25px;
+      >p{
+        font-size: 16px;
+        text-align: center;
+      }
+    }
+    >p{
+      line-height: 40px;
+      font-size: 18px;
+      text-align: center;
+      position: relative;
+      .pixel-border-top();
+    }
+    &.layout-tips-show{
+      display: block;
+      -webkit-animation: sk-bounce 300ms  ease-in-out;
+      animation: sk-bounce 300ms   ease-in-out;
+    }
+  }
+}
+

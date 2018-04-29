@@ -1,0 +1,71 @@
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 1. 项目名称：platon-static
+ 2. 文件功能：  livesItem 大咖直播的样式
+ 3. 作者： liyang@iquanwai.com
+ 4. 备注：
+ -----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+@import "../../style/variable.less" ;
+@import "../../style/mixins.less" ;
+@import "../../style/reset.less" ;
+.lives-item{
+  width: 100%;
+  height: 217px;
+  margin-top: 1.66rem;
+  background-image: linear-gradient(-131deg, #35383B 4%, #767880 89%);
+  border-radius: 4px;
+  >.dscr{
+    width: 60%;
+    padding-top: 2rem;
+    padding-left: 1.66rem;
+    height: 217px;
+    position: relative;
+    >h2{
+      width: 100%;
+      font-size: 1.7rem;
+      color: @color_white;
+      .paragraph-ellipsis(2);
+      font-weight: 600;
+    }
+    >h3{
+      font-size: 1.33rem;
+      color: @color_white;
+      line-height: 2.5rem;
+      font-weight: 300;
+    }
+    >p.speakerDesc{
+      width: 100%;
+      font-size: 1rem;
+      color: @color_white;
+      font-weight: 300;
+      /*line-height: 2rem;*/
+      .paragraph-ellipsis(3);
+    }
+    >p.playing,>p.play-time{
+      color: @color_white;
+      margin-top: 0.2rem;
+    }
+    >p.appointment{
+      color: @color-green;
+      margin-top: 0.4rem;
+    }
+    >span{
+      position: absolute;
+      bottom: 1.6rem;
+      left: 1.6rem;
+      background: @color-green;
+      border-radius: 4px;
+      width: 8rem;
+      line-height: 2.5rem;
+      display: inline-block;
+      text-align: center;
+      vertical-align: center;
+      color: @color_white;
+      >i{
+        color: @color_white;
+        vertical-align: baseline;
+        position: relative;
+        top: 1px;
+      }
+    }
+  }
+}

@@ -6,16 +6,13 @@ import Base from './modules/base/Base'
 import { config } from './modules/helpers/JsConfig'
 import Loading from './Loading'
 import Loadable from 'react-loadable'
-import DailyTalk from './modules/daily/DailyTalk'
 import { sa } from './utils/helpers'
 
-import DiscussDistrict from './modules/practice/components/DiscussDistrict/DiscussDistrict'
-import CommentSubmit from './modules/practice/common/CommentSubmit/CommentSubmit'
-import ApplicationSubmit from './modules/practice/common/ApplicationSubmit/ApplicationSubmit'
-import PageNotFound from './modules/other/pageNotFound/PageNotFound'
-import ProblemPreview from './modules/practice/preview/ProblemPreview';
-import SchoolFriend from './modules/customer/person/SchoolFriend'
-import BarChart from './components/echarts/bar/BarChart';
+const DailyTalk = Loadable({
+  loader: () => import('./modules/daily/DailyTalk'),
+  loading: Loading,
+})
+
 import RadarChart from './components/echarts/radar/RadarChart';
 
 const LandingPage = Loadable({
@@ -23,15 +20,15 @@ const LandingPage = Loadable({
   loading: Loading,
 })
 const LiveListPage = Loadable({
-  loader: () => import('./modules/home/livelist/LiveListPage'),
+  loader: () => import('./modules/home/livelist/LiveList'),
   loading: Loading,
 })
-const ActivityListPage = Loadable({
-  loader: () => import('./modules/home/activitylist/ActivityListPage'),
+const ActivityList = Loadable({
+  loader: () => import('./modules/home/activitylist/ActivityList'),
   loading: Loading,
 })
-const ProblemDesc = Loadable({
-  loader: () => import('./modules/home/problemdesc/ProblemDesc'),
+const ArticleList = Loadable({
+  loader: () => import('./modules/home/articleList/ArticleList'),
   loading: Loading,
 })
 const Explore = Loadable({
@@ -134,10 +131,6 @@ const Personal = Loadable({
   loader: () => import('./modules/customer/Personal'),
   loading: Loading,
 })
-const PersonalModify = Loadable({
-  loader: () => import('./modules/customer/account/PersonalModify'),
-  loading: Loading,
-})
 const Coupon = Loadable({
   loader: () => import('./modules/customer/Coupon'),
   loading: Loading,
@@ -146,14 +139,28 @@ const Profile = Loadable({
   loader: () => import('./modules/customer/Profile'),
   loading: Loading,
 })
-
-const NewProfile = Loadable({
-  loader: () => import('./modules/customer/NewProfile'),
+const CommentSubmit = Loadable({
+  loader: () => import('./modules/practice/common/CommentSubmit/CommentSubmit'),
   loading: Loading,
 })
-
-const Account = Loadable({
-  loader: () => import('./modules/customer/account/Account'),
+const ApplicationSubmit = Loadable({
+  loader: () => import('./modules/practice/common/ApplicationSubmit/ApplicationSubmit'),
+  loading: Loading,
+})
+const PageNotFound = Loadable({
+  loader: () => import('./modules/other/pageNotFound/PageNotFound'),
+  loading: Loading,
+})
+const SchoolFriend = Loadable({
+  loader: () => import('./modules/customer/person/SchoolFriend'),
+  loading: Loading,
+})
+const LiveOrder = Loadable({
+  loader: () => import('./modules/home/livelist/liveorder/LiveOrder'),
+  loading: Loading,
+})
+const NewProfile = Loadable({
+  loader: () => import('./modules/customer/NewProfile'),
   loading: Loading,
 })
 const NickName = Loadable({
@@ -252,12 +259,10 @@ const StudyList = Loadable({
   loader: () => import('./modules/customer/person/StudyList'),
   loading: Loading,
 })
-
 const ShowCertificate = Loadable({
   loader: () => import('./modules/customer/person/ShowCertificate'),
   loading: Loading,
 })
-
 const RichTextView = Loadable({
   loader: () => import('./modules/other/richtext/RichTextView'),
   loading: Loading,
@@ -279,8 +284,9 @@ const routes = (
       <Route path={'demo'} component={RadarChart}/>
       <Route path="home" component={LandingPage}/>
       <Route path="home/lives" component={LiveListPage}/>
-      <Route path="home/activities" component={ActivityListPage}/>
-      <Route path="home/problem" component={ProblemDesc}/>
+      <Route path="home/live/order" component={LiveOrder}/>
+      <Route path="home/activities" component={ActivityList}/>
+      <Route path="home/articleList" component={ArticleList}/>
 
       <Route path="rise" component={SchedulePlan}/>
       <Route path="camp" component={SchedulePlan}/>
@@ -332,9 +338,7 @@ const routes = (
 
       <Route path="customer">
         <Route path="personal" component={Personal}/>
-        <Route path="personal/modify" component={PersonalModify}/>
         <Route path="profile" component={Profile}/>
-        <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
         <Route path="modify/headImg" component={HeadImage}/>
         <Route path="mobile/check" component={MobileBind}/>
@@ -342,7 +346,7 @@ const routes = (
         <Route path="certificate" component={Certificate}/>
         <Route path="prize/card/list" component={MineCard}/>
         <Route path="new/profile" component={NewProfile}/>
-        <Route path="school/friend" component={SchoolFriend} />
+        <Route path="school/friend" component={SchoolFriend}/>
       </Route>
 
       <Route path="guest/inter/questions" component={InterlocutionQuestion}/>

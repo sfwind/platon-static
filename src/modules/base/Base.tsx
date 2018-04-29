@@ -168,17 +168,17 @@ export default class Main extends React.Component<any, any> {
 
   componentDidUpdate () {
     // 对内容展示区的图片提供预览功能
-    setTimeout(() => {
-      let containers = document.querySelectorAll('.intro-container');
-      for (let container of containers) {
-        let nodes = container.querySelectorAll('img');
-        for (let node of nodes) {
-          node.addEventListener('click', () => {
-            preview(node.src, [node.src]);
-          });
-        }
-      }
-    }, 1500);
+    // setTimeout(() => {
+    //   let containers = document.querySelectorAll('.intro-container');
+    //   for (let container of containers) {
+    //     let nodes = container.querySelectorAll('img');
+    //     for (let node of nodes) {
+    //       node.addEventListener('click', () => {
+    //         preview(node.src, [node.src]);
+    //       });
+    //     }
+    //   }
+    // }, 1500);
   }
 
   closeAnswer () {
