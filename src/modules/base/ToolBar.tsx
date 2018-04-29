@@ -85,8 +85,7 @@ export class ToolBar extends React.Component<any, any> {
     if (pathname.indexOf('/rise/static/home') != -1) {
       tabIndex = 0
     } else if (pathname.indexOf('/rise/static/rise') != -1 || pathname.indexOf('/rise/static/camp') != -1
-      || pathname.indexOf('/rise/static/learn') != -1 || pathname.indexOf('/rise/static/course/schedule/plan') != -1
-      || pathname.indexOf('/rise/static/business/count/down') != -1 || pathname.indexOf('/rise/static/camp/count/down') != -1) {
+      || pathname.indexOf('/rise/static/learn') != -1 || pathname.indexOf('/rise/static/course/schedule/plan') != -1) {
       tabIndex = 1
     } else if (pathname.indexOf('/rise/static/problem/explore') != -1) {
       tabIndex = 2

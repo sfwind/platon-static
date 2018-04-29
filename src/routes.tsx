@@ -128,10 +128,6 @@ const Personal = Loadable({
   loader: () => import('./modules/customer/Personal'),
   loading: Loading,
 })
-const PersonalModify = Loadable({
-  loader: () => import('./modules/customer/account/PersonalModify'),
-  loading: Loading,
-})
 const Coupon = Loadable({
   loader: () => import('./modules/customer/Coupon'),
   loading: Loading,
@@ -162,10 +158,6 @@ const LiveOrder = Loadable({
 })
 const NewProfile = Loadable({
   loader: () => import('./modules/customer/NewProfile'),
-  loading: Loading,
-})
-const Account = Loadable({
-  loader: () => import('./modules/customer/account/Account'),
   loading: Loading,
 })
 const NickName = Loadable({
@@ -342,9 +334,7 @@ const routes = (
 
       <Route path="customer">
         <Route path="personal" component={Personal}/>
-        <Route path="personal/modify" component={PersonalModify}/>
         <Route path="profile" component={Profile}/>
-        <Route path="account" component={Account}/>
         <Route path="modify/nickname" component={NickName}/>
         <Route path="modify/headImg" component={HeadImage}/>
         <Route path="mobile/check" component={MobileBind}/>
